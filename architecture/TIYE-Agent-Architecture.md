@@ -61,8 +61,8 @@ The core service also connects to the outside world:
 | Process | Responsibility | Why it is separate |
 |---|---|---|
 | **UI (renderer)** | Screens only. No file, process, or network access. | Security, and so a UI reload never stops a team. |
-| **Main process** | Windows and tray, notifications, secure key storage, license client, updater. | Owns everything that needs operating-system privileges. |
-| **Core service** | Team engine, harness, file guard, Git, event store, search. | The product's heart must survive UI crashes and keep running when the window closes. |
+| **Main process** | Windows and tray, notifications, secure key storage, license client, updater, and ownership of CLI pseudo-terminals and process trees. | Owns operating-system resources that must survive a core restart. |
+| **Core service** | Team engine, harness control logic, file guard, Git, event store, search. | The product's heart must survive UI crashes and keep running when the window closes. |
 | **Plugin host** | Runs plugin code. | A faulty or hostile plugin cannot reach the core or the user's keys. |
 | **Member processes** | One pseudo-terminal process per CLI member. | Each CLI runs in its own native environment, as the product requires. |
 
@@ -123,26 +123,43 @@ The core service also connects to the outside world:
 |---|---|---|
 | UI ⇄ Main | Renderer and main | Electron IPC through a narrow, typed, validated API. Context isolation on, Node integration off. |
 | Main ⇄ Core | Main and core service | Message channel to a utility process started by the main process. |
-| Core ⇄ CLI member | Core and each CLI | A pseudo-terminal for display and input, plus the team-tools MCP connection for control. |
+| Core ⇄ CLI member | Core, main, and each CLI | Main owns the pseudo-terminal and process tree; core sends input and receives output through main, and hosts the team-tools MCP connection for control. |
 | Core ⇄ API member | Core and provider | HTTPS to the provider, driven by the core's own agent loop. |
 | Core ⇄ Plugin host | Core and plugin host | JSON-RPC over a pipe, with capability checks on every call. |
 | Core ⇄ Git | Core and git | Child processes of the system git. |
 | Main ⇄ TIYE server | Main and the TIYE server | HTTPS, for the license and limit check and the update check only. |
 
-### 2.2 Closing the window while a team works
+### 2.2 Window close, quit, and crash outcomes
 
-- Closing the window closes the **UI only**. Main and core keep running, and the team continues.
-- On close, the app asks the user once: **keep running in the background** (tray icon, with a notification when the team finishes, fails, or needs approval) or **stop the team**. The choice can be remembered.
-- Quitting the app from the tray stops all teams after confirmation.
+Two terms apply everywhere below:
 
-### 2.3 Crash behavior
+- **Intentionally running (owned):** a CLI process tree listed in the main process registry (Section 2.3) whose owner is alive and whose last intent is run/keep-running. It is expected to be alive.
+- **Orphan:** a previously owned CLI (or core) process tree that is still alive after its owner intended it stopped, or that has no live owner left to track and reap it. Only this counts as a leak. An intentionally running tree is never an orphan.
+
+| Situation | Outcome |
+|---|---|
+| Close window, choose **keep running** | The window (UI) closes only. Main, core, and member CLI trees keep running in the tray. Members are intentionally running, not orphans. The tray shows status and raises a notification when the team finishes, fails, or needs approval. |
+| Close window, choose **stop** | The engine stops the team first (Section 4.6: interrupt, then terminate each CLI tree after a short timeout, including child processes). The window then closes. No member process may survive this path: main verifies each owned tree is gone and reports any survivor as an orphan. Main and core themselves may stay alive idle in the tray. |
+| **Quit from tray** | After confirmation, the app stops all teams the same way, then terminates the core, then exits main. No owned CLI or core process may survive. Main performs a registry sweep before exit and reports any survivor as an orphan. |
+| **Renderer (UI) crash** | UI only. Main, core, and members are unaffected. The UI restarts and rebuilds from the event log. Running members stay owned throughout. |
+| **Core crash** | Main retains the member PTYs and CLI trees while restarting the core. The restarted core reconciles members per Section 2.3 (re-subscribe to a surviving owned tree or terminate-then-relaunch, never blindly duplicate). Sessions are rebuilt from the log. |
+| **Whole-app crash (main dies)** | The main process loses its PTY handles. The Windows process-tree owner is configured to terminate its children when main exits; S1 must verify this. On next launch, any survivors are matched against durable process identities before cleanup. An unverified process is never killed by PID alone; recovery pauses that member and alerts the user. Session recovery from the log uses no new quota (Spec 9.3). |
+
+- On window close, the app asks the user once: **keep running in the background** or **stop the team**. The choice can be remembered per the existing decision (C1.4).
+- Quitting from the tray always means the stop-all path above; there is no "quit but leave members running" option.
+
+### 2.3 Process ownership, crash behavior, and core reconciliation
+
+**Owned-process tracking (main process).** Main owns the pseudo-terminal handle and process tree for every CLI member. The core requests launches and terminations through main, which records session/member id, PID, process creation identity, and last intent before the CLI counts as running. A minimal durable registry supports cleanup after a main crash; PID alone is never sufficient to identify a survivor because PIDs can be reused. On Windows, the process tree should also be placed in an OS job that terminates it when the main process exits; S1 verifies that behavior before it becomes a release guarantee. Main monitors liveness, performs interrupt-then-terminate-tree shutdown (Sections 4.6, 5.2), and verifies death. Cleanup targets only verified owned trees, never unrelated user processes. WSL cleanup is verified separately in S6.
 
 | Event | Result |
 |---|---|
 | UI crashes or reloads | Nothing stops. The UI rebuilds from the event log. |
-| Core service crashes | Main restarts it. Sessions are rebuilt from the log, CLI members are relaunched and re-briefed. |
+| Core service crashes | Main restarts it. Sessions are rebuilt from the log. Member processes are reconciled per the rule below, not blindly relaunched. |
 | Plugin host crashes | Only plugin features pause. The core and teams continue. |
-| Whole app crashes | On next launch the session is recovered from the log (Spec 9.3). Crash recovery does not use new quota. |
+| Whole app crashes | On next launch the new main verifies and cleans up any surviving owned trees before relaunching those members. If a survivor cannot be identified safely, that member pauses for user action. The session state is recovered from the log (Spec 9.3) without new quota. |
+
+**Restarted-core reconciliation (no duplicates).** On core restart, main still owns the PTY and any live CLI tree. The core asks main for its member slots, re-subscribes to output, verifies the team-tools channel, and reconciles each in-flight task against the event log before sending new work. If a tree is unreachable, main terminates and verifies it is gone before allowing a relaunch. A second process for a member slot is never started while its previous owned tree remains alive. Recovery after main exits cannot reattach to the old PTY; a verified survivor is cleaned up, then the member is relaunched and re-briefed. The task replay policy must avoid repeating external effects (Section 3).
 
 ### 2.4 Security baseline
 
@@ -388,13 +405,13 @@ A CLI member uses **two channels**:
 
 | Topic | Design |
 |---|---|
-| **Launch** | The adapter starts the CLI in the member's working folder. Environment variables set the Git author to the member's name, so commits made by the CLI are attributed correctly. |
+| **Launch** | The adapter requests main to start the CLI and own its pseudo-terminal in the member's working folder. Environment variables set the Git author to the member's name, so commits made by the CLI are attributed correctly. |
 | **Environment** | Native Windows (PowerShell) or WSL, detected at link time. WSL members are launched through `wsl.exe`, with path translation. |
 | **Completion** | By the member's explicit `report_result` call. If a CLI goes idle without reporting, the engine nudges it once, then marks the task as needing attention and tells the Leader. |
 | **Permissions** | The adapter translates the user's per-member settings into the CLI's own launch options, using its capability data (Section 5.5). The app offers only what that CLI supports. A file watcher is the safety net. |
 | **Approvals** | The CLI's own prompts appear in its terminal, and the user answers there. The adapter marks the member as "needs approval" when it detects a prompt, through the CLI's hook mechanism where it exists, or output patterns otherwise. The member bar and the feed show the badge. |
 | **Resume** | If the CLI supports resuming its own session, the adapter uses it. Otherwise the member is relaunched and re-briefed from the log. |
-| **Shutdown** | Interrupt, then terminate after a timeout, including child processes. |
+| **Shutdown** | The adapter requests main to interrupt, then terminate after a timeout, including child processes, and verify that the owned tree is gone. |
 | **Custom CLIs** | Added by a launch command and an optional capability file. They work with the display channel and the team tools. |
 
 ### 5.3 API adapter

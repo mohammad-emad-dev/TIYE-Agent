@@ -113,11 +113,20 @@ For every test, keep:
 | 6 | Paste a multi-line message. | It arrives intact. |
 | 7 | Press Ctrl+C during work. | The CLI is interrupted as it would be normally. |
 | 8 | Type text with Arabic, Chinese, Japanese, and Korean characters. | Characters display and are not corrupted. |
-| 9 | Close the window while the CLI runs. | Is the process tree cleaned up, with no orphan processes? |
+| 9a | Close the window and choose **keep running** while the CLI runs. | The CLI tree stays alive as intentionally running (owned and tracked, Architecture 2.2/2.3). It is **not** an orphan. |
+| 9b | With the 9a tree still alive, restart the test core while main retains the PTY, then request the member again. | The core re-subscribes to the main-owned PTY; no second CLI process is started for the same member. |
+| 9c | Close the window and choose **stop** while the CLI runs. | The CLI tree is terminated, including child processes. No survivors. |
+| 9d | Relaunch, run the CLI again, then **quit from the tray** (stop-all path). | All CLI trees terminate and the shell exits. No survivors. |
+| 9e | After each of 9c and 9d, enumerate the previous process trees using the recorded PID and process creation identity. | No orphan remains. A keep-running tree from 9a is intentionally owned, not an orphan. Never target an unrelated process that reused a PID. |
+| 9f | Start a fresh member tree, kill main abnormally, and relaunch. | Verify whether the Windows OS job terminates the full tree on main exit. The new main identifies any survivor from the durable registry, cleans up only a verified tree, and pauses recovery with a user alert if identity cannot be verified. |
+
+The minimal shell must implement both window-close choices, tray quit, a main-owned PTY, and process identity tracking for these checks. A small mock core process is sufficient for 9b; no team engine is required.
 
 **Pass criteria:**
 - Steps 1 to 7 behave identically to the Windows terminal.
-- No orphan processes after step 9.
+- After 9a, the CLI tree is alive and reattachable, and is not reported as an orphan; after 9b, no duplicate member process exists.
+- After each of 9c and 9d, no orphan processes remain.
+- Step 9f proves either automatic tree termination on main exit or safe, verified cleanup of a survivor before relaunch. If neither works, S1 is partial or failed and crash recovery must be redesigned before release. Cleanup never kills an unverified PID.
 - Step 8 shows wide characters correctly (right-to-left shaping inside the terminal is not required).
 
 **If it fails:** record the exact difference. Try an alternative terminal setting (for example a different color or terminal-type setting) before concluding. If a specific CLI cannot run reliably, it stays unsupported until its adapter is fixed, and the product still works with the others.
@@ -372,7 +381,7 @@ Providers to cover: Anthropic, OpenAI, Google, and the providers behind OpenCode
 | 5 | Translate paths between Windows and Linux forms for tasks and ownership. | Translation is correct. |
 | 6 | Connect from inside WSL to the team tools server running on Windows. | Does the loopback address work? Try each WSL networking mode that is available. |
 | 7 | Pass environment variables, such as the Git author, into WSL. | They arrive. |
-| 8 | Close the app, and kill the process. | No orphan processes inside WSL. |
+| 8 | In separate runs, (a) quit through the stop-all/quit path and (b) kill main abnormally, then restart. | After quit, no owned WSL process survives. After a crash, verify whether WSL members survive independently of `wsl.exe`; clean up only processes whose identity is verified, and never launch a duplicate. Record any limitation that changes the Windows recovery design. |
 | 9 | Create a worktree with Windows Git, then use it from WSL Git, and the reverse. | Do the two sides understand each other's worktree files? |
 
 **Points to watch:** worktree bookkeeping files store absolute paths, which differ between Windows and Linux. If the two sides cannot share them, the product needs a rule that **all Git operations for one project run on one side**.
