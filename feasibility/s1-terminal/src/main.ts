@@ -1,11 +1,12 @@
-// S1b main process. Main owns ONE member PTY session across BrowserWindow
-// recreation (Architecture 2.3, S1 steps 9a-9d). Window close offers
-// Keep Running (retain PTY, tray with Open/Quit) or Stop (graceful CLI
-// shutdown, then quit). Tray Quit follows the stop-all path. A separate
-// mock-core OS process covers 9b re-subscribe over a narrow stdio
-// JSON-lines IPC with no duplicate spawn; no team engine is included.
-// Lifecycle/process-tree guarantees beyond this (Windows Job Object,
-// crash recovery 9f, orphan enumeration 9e) are NOT implemented here.
+// S1b main process (+ bounded S1 9e probe). Main owns ONE member PTY
+// session across BrowserWindow recreation (Architecture 2.3, S1 steps
+// 9a-9d). Window close offers Keep Running (retain PTY, tray with
+// Open/Quit) or Stop (graceful CLI shutdown, then quit). Tray Quit follows
+// the stop-all path. A separate mock-core OS process covers 9b re-subscribe
+// over a narrow stdio JSON-lines IPC with no duplicate spawn; no team
+// engine is included. Step 9e is a bounded read-only Windows CIM probe
+// (PID + process creation time, never kills) inside the lifecycle smoke.
+// Windows Job Object and crash recovery 9f are NOT implemented here.
 
 import { app, BrowserWindow, Menu, Tray, dialog, ipcMain, nativeImage, type IpcMainEvent } from 'electron';
 import * as child_process from 'node:child_process';
@@ -13,6 +14,13 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as pty from 'node-pty';
 import { CHANNELS, isValidInput, isValidResize } from './shared';
+import {
+  captureProcessTree,
+  formatIdentity,
+  isProcessTreeCheckSupported,
+  verifyIdentitiesGone,
+  type ProcessIdentity,
+} from './process-tree-9e';
 
 const SMOKE_FLAG = '--smoke-test';
 const WINDOW_SMOKE_FLAG = '--window-smoke';
@@ -749,14 +757,19 @@ async function stopMockCore(timeoutMs = 5000): Promise<{ exited: boolean; exitCo
 }
 
 // ---------------------------------------------------------------------------
-// Lifecycle smoke (S1 9a-9d, plus 9b re-subscribe): all steps run inside the
+// Lifecycle smoke (S1 9a-9e, plus 9b re-subscribe): all steps run inside the
 // main process via internal hooks — no dialog clicks, no tray clicks.
 // Proves with the local mock CLI that Keep Running preserves the same PTY
 // PID/session identity through close+reopen (spawn # stays 1), that a
 // separate mock-core OS process restart re-subscribes without a duplicate
 // spawn (core PID changes, member session/PID/spawn # unchanged), and that
 // Stop and Quit each request graceful shutdown (child exits 0 after `exit`).
-// Limitation: PTY exit code 0 is NOT proof that a whole process tree died.
+// Step 9e (Windows only): the member tree rooted at the PTY PID is captured
+// before each Stop/Quit as PID + Windows creation-time identities, then
+// re-enumerated read-only after the stop; any surviving identity fails the
+// smoke. No process is terminated as part of 9e. On non-Windows 9e is
+// skipped without claiming a pass. PTY exit code 0 alone is NOT cited as
+// tree-death proof; only the 9e re-enumeration is.
 // ---------------------------------------------------------------------------
 async function runLifecycleSmoke(): Promise<number> {
   lifecycleTestMode = true;
@@ -888,16 +901,41 @@ async function runLifecycleSmoke(): Promise<number> {
     console.log(`[lifecycle-smoke] ok: 9b core restart re-subscribed as new OS process (corePid ${corePid1} -> ${sub2.corePid}), same session=${sub2.sessionId} pid=${sub2.pid} spawn#${sub2.spawnCount}, no second CLI process`);
 
     // 9c Stop: graceful shutdown requested through the PTY, then session ends.
+    // 9e (Windows only): capture the member tree as PID+creation identities
+    // before Stop, re-enumerate read-only after Stop. Any survivor fails.
     if (win === null) return fail('window missing before Stop');
     win.close();
     await waitForWindowClosed(10000);
+    let tree9c: ProcessIdentity[] | null = null;
+    if (isProcessTreeCheckSupported()) {
+      const rootPid = term?.pid;
+      if (rootPid === undefined) return fail('9e capture before 9c: member PID missing');
+      try {
+        tree9c = await captureProcessTree(rootPid);
+        console.log(`[lifecycle-smoke] ok: 9e captured ${tree9c.length} identit(ies) before 9c Stop (root pid=${rootPid}): ${tree9c.map(formatIdentity).join('; ')}`);
+      } catch (err) {
+        return fail(`9e capture before 9c Stop failed: ${(err as Error).message}`);
+      }
+    } else {
+      console.log(`[lifecycle-smoke] skip: 9e process-tree check unsupported on ${process.platform} (no pass claimed for 9e)`);
+    }
     const stop = await requestStop('window-stop');
     if (!gracefulShutdownRequested) return fail('Stop did not flag a graceful shutdown request');
     if (!stop.exited || stop.exitCode !== 0 || !stop.graceful) {
       return fail(`Stop did not end gracefully (exited=${stop.exited} code=${stop.exitCode} graceful=${stop.graceful})`);
     }
     console.log(`[lifecycle-smoke] ok: 9c Stop requested graceful shutdown, pty exit ${stop.exitCode}`);
-    console.log('[lifecycle-smoke] note: exit code 0 shows the CLI exited on request; it does not prove a whole process tree died (no Job Object in this task)');
+    if (tree9c !== null) {
+      try {
+        const check9c = await verifyIdentitiesGone(tree9c);
+        if (check9c.survivors.length > 0) {
+          return fail(`9e after 9c Stop: ${check9c.survivors.length} survivor(s): ${check9c.survivors.map(formatIdentity).join('; ')}`);
+        }
+        console.log(`[lifecycle-smoke] ok: 9e after 9c Stop all ${tree9c.length} captured identities gone (attempts=${check9c.attempts}, read-only, nothing terminated)`);
+      } catch (err) {
+        return fail(`9e verification after 9c Stop failed: ${(err as Error).message}`);
+      }
+    }
     if (isCoreAlive()) return fail('mock-core-2 still alive after Stop (stop-all must end the core)');
     resetMemberAfterExit();
 
@@ -914,12 +952,36 @@ async function runLifecycleSmoke(): Promise<number> {
     createWindow({ show: false });
     await waitForReady(20000);
     await waitForTap(/mock-cli/i, 15000, 'banner on fresh member');
+    let tree9d: ProcessIdentity[] | null = null;
+    if (isProcessTreeCheckSupported()) {
+      const rootPid = term?.pid;
+      if (rootPid === undefined) return fail('9e capture before 9d: member PID missing');
+      try {
+        tree9d = await captureProcessTree(rootPid);
+        console.log(`[lifecycle-smoke] ok: 9e captured ${tree9d.length} identit(ies) before 9d Quit (root pid=${rootPid}): ${tree9d.map(formatIdentity).join('; ')}`);
+      } catch (err) {
+        return fail(`9e capture before 9d Quit failed: ${(err as Error).message}`);
+      }
+    } else {
+      console.log(`[lifecycle-smoke] skip: 9e process-tree check unsupported on ${process.platform} (no pass claimed for 9e)`);
+    }
     const quit = await requestStop('tray-quit');
     if (!quit.exited || quit.exitCode !== 0 || !quit.graceful) {
       return fail(`Quit path did not end gracefully (exited=${quit.exited} code=${quit.exitCode} graceful=${quit.graceful})`);
     }
     if (isCoreAlive()) return fail('mock-core-3 still alive after tray-Quit (stop-all must end the core)');
     console.log(`[lifecycle-smoke] ok: 9d tray-Quit stop-all requested graceful shutdown, pty exit ${quit.exitCode}`);
+    if (tree9d !== null) {
+      try {
+        const check9d = await verifyIdentitiesGone(tree9d);
+        if (check9d.survivors.length > 0) {
+          return fail(`9e after 9d Quit: ${check9d.survivors.length} survivor(s): ${check9d.survivors.map(formatIdentity).join('; ')}`);
+        }
+        console.log(`[lifecycle-smoke] ok: 9e after 9d Quit all ${tree9d.length} captured identities gone (attempts=${check9d.attempts}, read-only, nothing terminated)`);
+      } catch (err) {
+        return fail(`9e verification after 9d Quit failed: ${(err as Error).message}`);
+      }
+    }
     console.log('[lifecycle-smoke] PASS');
     return 0;
   } catch (err) {

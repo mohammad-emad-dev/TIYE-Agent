@@ -80,20 +80,29 @@ vendor CLI in automated checks.
   preload bridge READY, graceful `exit` driven **through**
   `window.tiyeTerminal.sendInput`, PTY exit 0, non-empty screenshot:
   PASS (see `dist/smoke-shot.png` after a run).
-- `npm run smoke:lifecycle` — S1 9a–9d + 9b against the local mock CLI,
-  driven by internal hooks (no dialog/tray clicks): 9a Keep Running keeps
-  the same PTY PID/session identity through close (spawn # stays 1); Open
-  sends input from the new window's renderer through the preload bridge
-  (`echo: hello reopen` observed at the PTY, still spawn #1); 9b stops
-  `mock-core-1` (SHUTDOWN line, exit 0) and restarts it as a new OS
-  process `mock-core-2` which re-subscribes over stdio JSON-lines IPC to
-  the same session/PID with spawn # still 1 — the smoke asserts the core
-  PID changed while member session ID, member PID and spawn count did not;
-  9c Stop and 9d tray-Quit each request graceful shutdown, observe PTY
-  exit 0, and end the mock-core process: PASS.
-  Exit 0 shows the CLI exited on request; it does **not** prove a whole
-  process tree died (no Job Object in this task).
+- `npm run smoke:lifecycle` — S1 9a–9d + 9b + bounded **9e** against the
+  local mock CLI, driven by internal hooks (no dialog/tray clicks): 9a Keep
+  Running keeps the same PTY PID/session identity through close (spawn #
+  stays 1); Open sends input from the new window's renderer through the
+  preload bridge (`echo: hello reopen` observed at the PTY, still spawn
+  #1); 9b stops `mock-core-1` (SHUTDOWN line, exit 0) and restarts it as a
+  new OS process `mock-core-2` which re-subscribes over stdio JSON-lines
+  IPC to the same session/PID with spawn # still 1 — the smoke asserts the
+  core PID changed while member session ID, member PID and spawn count did
+  not; 9c Stop and 9d tray-Quit each request graceful shutdown, observe PTY
+  exit 0, and end the mock-core process; **9e** captures the member tree
+  rooted at the PTY PID before each Stop/Quit as PID + Windows creation-time
+  identities (`Get-CimInstance Win32_Process`, read-only, never kills) and
+  re-enumerates after the stop — this run captured 1 identity
+  (`node.exe` root, no children for the mock CLI) before 9c and 1 before
+  9d, and verified all gone (`attempts=1` each): PASS.
+  Exit 0 alone is not cited as tree-death proof; only the 9e re-enumeration
+  is. 9e fails the smoke if any captured PID + creation-time identity
+  survives; a PID reused with a different creation time counts as gone, and
+  no unrelated process is ever targeted. On non-Windows 9e logs a clear
+  skip without claiming a pass. No Job Object in this task.
 - No vendor CLI and no network model were used in any automated check.
+- S1 overall remains **partial** (see below).
 
 ## Environment notes (exact failures / workarounds)
 
@@ -127,26 +136,41 @@ vendor CLI in automated checks.
 - Interactive window mode (`npm start`) was built and typechecked but not
   visually verified in this session; S1 steps 1–8 remain manual.
 
-## NOT implemented / NOT passed beyond S1a–S1b
+## NOT implemented / NOT passed beyond S1a–S1b–9e
 
-- S1 steps **9e–9f**: orphan enumeration with PID + process-creation
-  identity after 9c/9d, Windows job ownership / durable
-  process-identity registry, abnormal-main-exit cleanup and crash
-  recovery. A keep-running PTY from 9a is intentionally owned, not an
-  orphan; nothing here proves a whole process tree died.
+- S1 step **9e (bounded, Windows + mock CLI only) is implemented** in
+  `src/process-tree-9e.ts` + the lifecycle smoke: PID + `Win32_Process`
+  `CreationDate` capture before 9c/9d, read-only re-enumeration after, fail
+  on survivor, no kills as part of 9e. **What this proves:** after a
+  graceful `exit` through the PTY, no captured member identity remained in
+  this run (1 root `node.exe` each, no children — the mock CLI spawns no
+  child processes). PID reuse is safe because identity is PID + creation
+  time, and unrelated PIDs are never targeted. **What remains untested:**
+  real vendor CLIs that spawn children (trees >1), grandchildren arriving
+  between capture and stop, non-Windows behavior (9e skips without a pass),
+  and any claim that exit code 0 alone proves tree death.
+- S1 step **9f**: Windows job ownership / durable process-identity registry,
+  abnormal-main-exit cleanup and crash recovery — not implemented. A
+  keep-running PTY from 9a is intentionally owned, not an orphan.
 - Real installed CLIs: lifecycle paths are evidenced with the local
   mock CLI only; vendor-CLI behavior (permission prompts, resume, output
   patterns) is still manual per S1 steps 1–8.
 - **WSL** cases (S6): not implemented or tested.
-- No pass/fail claim for the full S1 test is made by this prototype.
+- No pass/fail claim for the full S1 test is made by this prototype; S1
+  stays **partial** until 9f, vendor-CLI trees, and manual steps 1–8 are
+  recorded.
 
 ## Layout
 
 - `src/main.ts` — window + single main-owned PTY session, launch
   resolution, IPC validation, tray (Open/Quit), graceful stop-all,
   separate mock-core OS process subscribe/stop/restart (`startMockCore` /
-  `stopMockCore` over stdio JSON-lines IPC), `--smoke-test` /
-  `--window-smoke` / `--lifecycle-smoke`.
+  `stopMockCore` over stdio JSON-lines IPC), bounded 9e capture/verify
+  around 9c Stop and 9d Quit, `--smoke-test` / `--window-smoke` /
+  `--lifecycle-smoke`.
+- `src/process-tree-9e.ts` — bounded Windows-only 9e helper (read-only
+  `Get-CimInstance Win32_Process`, PID + `CreationDate` identities,
+  `captureProcessTree` / `verifyIdentitiesGone`, no kills, no extra deps).
 - `mock-core/mock-core.js` — separate mock-core OS process (no deps, no
   network): sends `SUBSCRIBE`, waits for `SUBSCRIBED`, replies `READY`,
   exits 0 on `SHUTDOWN` or closed stdin; protocol on stdout, logs on
