@@ -20,7 +20,7 @@ The architecture rests on a few assumptions about how real tools behave. These t
 |---|---|---|
 | **S1** | Does the display channel work? A real CLI inside Electron, in a pseudo-terminal | 5.2 |
 | **S2** | Does the control channel work? Tasks go in and results come back through team tools | 4.2, 5.2 |
-| **S3** | Is worktree isolation practical? | 6 |
+| **S3** | Is worktree isolation practical, and do the file and Git guarantees hold as the enforcement matrix states them? | 6, 6.11 |
 | **S4** | Which providers can be login members, and how? | 5.4 |
 | **S5** | Does the UI stay responsive with five active members? | 9 |
 | **S6** | Does everything work through WSL? | 5.2 |
@@ -174,8 +174,9 @@ For every test, keep:
 | 3 | Launch with "ask before each command". | Does it ask? |
 | 4 | Launch with the most permissive setup. | Does it act freely? |
 | 5 | Map each option to the product's settings: file access (none, read-only, read and edit) and terminal (off, ask, auto). | Mark which settings this CLI supports and which it cannot. |
+| 6 | If the CLI has no read-only option, record read-only as **unsupported** for it, and check the fallback: point the member at a separate, disposable worktree and verify the watcher detects the edit (Architecture 6.7). |
 
-The result tells the product exactly which permission options to offer for this CLI.
+The result tells the product exactly which permission options to offer for this CLI, and which to label unsupported with the detection fallback named (Spec 4.3).
 
 ### S2.5 Approval, errors, and recovery signals
 
@@ -201,9 +202,9 @@ The result tells the product exactly which permission options to offer for this 
 
 ## S3. Worktree isolation, Git, and checkpoints
 
-**Objective:** confirm that giving each editing member its own Git worktree is practical on Windows, and that attribution, push blocking, and checkpoints work.
+**Objective:** confirm that giving each editing member its own Git worktree is practical on Windows, and that attribution, push approval, the ownership watcher, and checkpoints behave the way the enforcement matrix describes them (Architecture 6.11).
 
-**Setup:** the test project (A4), Git, and each CLI.
+**Setup:** the test project (A4), Git, and each CLI. Use a local disposable bare repository as the remote for push tests; never test bypasses against a user's remote.
 
 ### S3.1 Worktree basics
 
@@ -229,23 +230,30 @@ The result tells the product exactly which permission options to offer for this 
 
 **If a CLI overrides the author:** the engine rewrites the commit's author after the task ends, or commits the work itself on the member's behalf.
 
-### S3.3 Push blocking
+### S3.3 Push approval and its limits
 
 | Step | Action | Observe |
 |---|---|---|
-| 1 | Enable per-worktree configuration, then set a per-worktree hooks folder containing a hook that refuses pushes. | The setting applies only to that worktree. |
-| 2 | Ask the CLI to push. | The push is refused, and the CLI reports it sensibly. |
-| 3 | Check whether the CLI can bypass the hook (for example with a skip-hooks option). | Record the result. |
+| 1 | Request a push for a member from the engine side, without approval. | The engine refuses, and no push runs. |
+| 2 | Approve it, and let the engine run the push. | The push runs, attributed to the member. |
+| 3 | Enable per-worktree configuration, then set a per-worktree hooks folder containing a hook that refuses pushes. | The setting applies only to that worktree. |
+| 4 | Ask the CLI to push. | The push is refused, the attempt is logged, and the CLI reports it sensibly. |
+| 5 | Try the known bypasses: the CLI's own skip-hooks option, and a push of the same branch run from outside the worktree with the user's credentials. | Which bypasses work? Record each one honestly. |
+| 6 | After a successful bypass, check what the engine can see. | Does any local signal reveal the push? A push changes the remote, not the local refs. |
 
-Hooks can be bypassed by anyone who passes a skip option, so this is a best-effort layer alongside the CLI's own permission settings (Architecture 6.6).
+**What this settles:** the engine's own pushes are approval-gated and verifiable (steps 1 and 2). Per-worktree hooks are a best-effort layer for CLIs (steps 3 and 4): they refuse the easy path and log the attempt, but a CLI that runs as the user can bypass them, and the engine may not see a bypass at all (steps 5 and 6). The result fills the push row of the enforcement matrix (Architecture 6.11), and the product never labels CLI push control as a guarantee.
 
 ### S3.4 Ownership watcher
 
 | Step | Action | Observe |
 |---|---|---|
 | 1 | Watch a worktree with a file watcher on Windows. | Do changes arrive reliably, including bursts from a CLI? |
-| 2 | Make a CLI edit a file outside its assigned area. | Detected within a short time? |
-| 3 | Revert the change from the engine. | Reverts only that change. |
+| 2 | Make a CLI edit a file outside its assigned area, inside its own worktree. | Detected **after the fact**, and flagged to the user and the Leader? How long after? |
+| 3 | Propose and apply a revert of that change from the engine. | The diff is reviewed first; only that change is reverted, and the member's other work survives. Record cases where a selective revert is unsafe. |
+| 4 | Make the CLI write **outside its worktree**, into the user's project folder. | Does anything detect it? Record honestly what the app can and cannot see. |
+| 5 | Restore the worktree from a checkpoint after a burst of mixed edits. | The selected changes are undone and the rest survive. |
+
+**What this settles:** for a CLI member, out-of-ownership edits in watched paths are detected, not prevented. Step 3 measures whether a selective revert is safe. Step 4 measures the limit: a CLI running as the user can write outside its worktree where no watcher is looking, including into another member's worktree or the user's folder (Architecture 6.1, 6.11).
 
 ### S3.5 Checkpoints
 
@@ -274,6 +282,8 @@ Check these along the way and write down any problem: very long paths, antivirus
 | Setup is too slow or large | Make shared dependencies the default, or offer a lighter mode with fewer worktrees (only members that edit at the same time). |
 | A CLI overrides authors | Engine-side commit rewrite. |
 | File watching is unreliable | Poll changed files at task end and at intervals. |
+| A CLI cannot be made read-only | Mark read-only unsupported in the capability data and the permissions UI; rely on worktree separation and detection (Architecture 6.7). |
+| A CLI can write outside its worktree undetected | Document the limit. Separate worktrees reduce accidental collisions but do not contain arbitrary CLI writes; consider watching the user's project folder as a best-effort signal. |
 | Worktrees are impractical for a project type | Offer shared-folder mode (Architecture 6.10). |
 
 ---
@@ -405,7 +415,10 @@ Fill one column per CLI after the tests.
 | S2 error patterns | | | | |
 | S2 resume support | | | | |
 | S3 author kept | | | | |
-| S3 push blocked | | | | |
+| S3 push: engine approval works | | | | |
+| S3 push: hook refuses, bypass recorded | | | | |
+| S3 read-only: supported or unsupported | | | | |
+| S3 out-of-worktree write detected? | | | | |
 | S4 login class (A to D) | | | | |
 | S6 through WSL | | | | |
 
@@ -450,6 +463,10 @@ The results become the data file for each CLI (Architecture 5.5):
 | S2 partial | Add the CLI-specific instruction wording and the nudge, and keep the "needs attention" state. |
 | S2 fails | Use the fallbacks in S2, down to display-only members. |
 | S3 passes | Worktrees stay the default (Architecture 6.1). |
+| S3.3 shows hooks refuse the direct path but bypasses work | Keep per-worktree hooks as the best-effort CLI layer, and record push control as best-effort in the capability data and the permissions UI — never as a guarantee (Architecture 6.6). |
+| S3.4 detects out-of-ownership edits and reverts them safely | Keep the watcher as the CLI ownership guarantee, labeled "detected" rather than "blocked" (Spec 4.3). |
+| S3.4 shows edits outside the worktree are undetected | Document the limit: separate worktrees do not contain arbitrary CLI writes, and watching the user's project folder is best-effort only. |
+| S2.4 shows a CLI has no read-only mode | Mark read-only unsupported for that CLI, with the separation-and-detection fallback (Architecture 6.7). |
 | S3 slow or heavy | Make shared dependencies the default, or offer the lighter mode. |
 | S4 gives class D for a provider | Remove it from login members and keep the CLI or API route. |
 | S5 passes | Keep the UI design (Architecture 9). |

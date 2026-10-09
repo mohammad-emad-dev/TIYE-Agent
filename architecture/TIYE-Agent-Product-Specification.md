@@ -221,7 +221,21 @@ The user sees who is talking to whom at every step.
 | Terminal | Off, ask before each command, auto-run |
 | Approvals | Which actions require the user's confirmation |
 
-### 4.3 Example
+### 4.3 How permissions are enforced
+
+The permissions UI offers settings according to each member's capabilities. An **API member** runs its tools through the app, which can refuse built-in file operations before they happen; an approved shell command can have wider effects. A **CLI member** runs as the user, with the user's own credentials, so the app can ask the CLI to limit itself and watch selected paths, but cannot enforce a filesystem boundary. The UI labels each setting per member so the promise matches the real guarantee.
+
+| Guarantee | API member | CLI member |
+|---|---|---|
+| Edit a file outside its ownership | **Blocked through built-in file tools.** Approved shell commands need a separate boundary to guarantee this. | **Detected afterward if watched.** The CLI edits files itself; the watcher flags changes in monitored paths, and the user can review a proposed revert. |
+| Read-only file access | **Blocked before the write.** No edit tool is given to the member. | **Best-effort.** Set at launch through the CLI's own option. Where the CLI has no such option, the setting is **unsupported**, and edits are detected, not prevented. |
+| Terminal commands | **Approval-gated** by the app before the command runs; approval does not confine the command's effects. | **CLI-dependent.** The app requests prompts through supported CLI settings and shows them; it cannot guarantee a prompt before every command. |
+| Push, force-push, or merge into protected branches | **Approval-gated.** The push tool does not exist until the user approves. | **Best-effort.** Per-worktree hooks and the CLI's own settings refuse or log it, but a CLI can bypass them. |
+| The app's final merge into the user's branch | **Approval-gated.** The app performs it after the user approves the diff. | **Approval-gated for the app's merge.** A CLI with the user's Git access may run Git independently. |
+
+A setting the CLI cannot honor is shown as **unsupported** in the permissions UI, with the fallback named. An API member without tool calling cannot edit files or run commands at all, so it joins as an advisor or reviewer (Section 5.3).
+
+### 4.4 Example
 
 | Member | File access | Terminal |
 |---|---|---|
@@ -230,6 +244,8 @@ The user sees who is talking to whom at every step.
 | Leader | Read-only | Auto-run |
 
 Juniors get safe presets. Professionals can tune every setting.
+
+"Read-only" in this table is a hard block for an API member and best-effort for a CLI member (Section 4.3).
 
 ---
 
@@ -329,21 +345,21 @@ Launching and controlling vendor CLIs, and giving members access through the use
 
 ## 7. Files and Git
 
-**In short:** two layers prevent conflicting edits, and Git records who did what.
+**In short:** two layers keep members from overwriting each other, and Git records who did what.
 
 ### 7.1 Conflict protection
 
 | Layer | How it works |
 |---|---|
 | **1. Leader assigns** | After reviewing the request, the Leader decides which member owns which files or areas. |
-| **2. App protects** | If a member tries to edit a file it does not own, or one that another member is editing, the app **blocks the write** and notifies that member and the Leader. The Leader resolves it by reassigning ownership or sequencing the work. This works even if the Leader is not paying attention. |
+| **2. App protects** | Built-in file tools block an API member's out-of-ownership write before it happens. For a CLI member, a watcher detects changes afterward in monitored paths; the user can review and revert a detected change. Shell commands and CLI processes need an OS-enforced boundary for stronger file guarantees (Section 4.3). The Leader resolves conflicts by reassigning ownership or sequencing the work. |
 
 ### 7.2 Git integration
 
 | Feature | Status | Detail |
 |---|---|---|
 | **Commit attribution** | Always on | Every commit is tagged with the member who made it, so history shows who planned, wrote, and reviewed. |
-| **Approval rules** | Always on | No member can push, force-push, or merge without the user's confirmation. The user can loosen this per member. |
+| **Approval rules** | Always on | Push, force-push, and merge into protected branches need the user's confirmation. For the app's own Git operations this is a hard gate: the push tool does not exist until the user approves. A CLI member runs with the user's own Git credentials, which the app cannot take away, so for a CLI this is best-effort: per-worktree hooks and the CLI's own settings refuse or log the push, and a bypass stays possible (Section 4.3). The user can loosen this per member. |
 | **Worktrees per member** | Default for members with edit access | Each editing member works on its own branch in its own worktree, and the Leader merges after review. A shared-folder mode is available as an optional setting. |
 | **No Git repository** | Supported | Projects still work through checkpoints, and the app offers to initialize a repository. |
 
@@ -387,7 +403,7 @@ Launching and controlling vendor CLIs, and giving members access through the use
 | **Team feed** | One feed where every message shows the member's name, color, and role. File edits, commands, and test results appear as compact cards that expand for details. |
 | **Member bar** | A strip showing each member with a live status: working, waiting, idle, needs approval, or failed. |
 | **Member terminals** | Each CLI member has a **real terminal inside the app**, showing what the user would see in the Windows terminal, including approval prompts. The user can type into any terminal. A toggle switches between **focus view** (one terminal) and **grid view** (all side by side). API members get a matching pane. |
-| **Approvals** | All approvals happen **inside the app**, shown as a badge on the member and a card in the feed. |
+| **Approvals** | Approvals are surfaced **inside the app**, as a badge on the member and a card in the feed. API approvals are answered on the card; a CLI's own approval prompt appears in its terminal, which is shown in the app, and the badge tracks it. |
 | **Message box** | A target selector for the Leader (default), all members, or one specific member. |
 
 ---
@@ -671,8 +687,8 @@ The product definition is complete. These technical questions are answered durin
 | Connection types | Login, API (any binding method), CLI |
 | CLI handling | The user installs it. The app detects, launches, and shows a real terminal. |
 | Harness | Purpose-built TIYE Harness for CLI control and login access |
-| File safety | Leader assigns ownership, and the app blocks conflicts |
-| Git | Built in, with attribution and approvals always on |
+| File safety | Leader assigns ownership; the app blocks out-of-ownership writes by API members and detects them for CLI members |
+| Git | Built in, with attribution always on, and push and merge approvals enforced for the app's own Git operations (best-effort for CLIs) |
 | Code viewing | Displayed inside the app, view-only |
 | History | Everything saved and searchable |
 | Restore | Automatic checkpoints and rollback |

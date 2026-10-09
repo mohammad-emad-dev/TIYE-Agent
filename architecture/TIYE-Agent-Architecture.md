@@ -406,7 +406,7 @@ For API members, the core runs the agent loop itself.
 | **Provider layer** | Ready-made formats for OpenAI-style, Anthropic-style, and Gemini-style APIs. A custom connection takes a base URL, an authentication method, and a model name. Local models such as Ollama and LM Studio use the same layer. |
 | **Agent loop** | Send context, receive a response, run any tool calls, repeat until done. Streaming output goes to the member's pane. |
 | **Built-in tools** | Read file, write file, edit file, list and search files, run command. Plus the member tools from Section 4.2. |
-| **Permission gate** | Before every tool call, the core checks the member's permissions and file ownership, and asks the user when the rule requires approval. |
+| **Permission gate** | Before every built-in file tool call, the core checks permissions and ownership. Command execution is separately approval-gated because a shell command can write outside the file guard; a hard filesystem limit would require an OS-enforced boundary. |
 | **Tool-calling support** | A model without tool calling can join as an advisor or reviewer with no file or command tools. |
 | **Context** | Token counting and the 70% summarization rule (Section 4.8). |
 | **Usage** | Tokens and limits from provider responses, shown as information only. |
@@ -452,16 +452,18 @@ Before writing each adapter, a short test confirms:
 
 ### 6.1 Isolation by default
 
-For API members the app can check ownership **before** every write. A CLI member edits files by itself, so the app can only notice afterward. Isolation solves this for both: two members physically cannot overwrite each other.
+For API members the app checks ownership before writes made through its file tools. A command can also write files, so command execution needs separate approval or an OS-enforced boundary. A CLI member edits files by itself, so the app can only notice watched changes afterward. Separate worktrees prevent ordinary edits in each member's assigned working folder from overwriting one another; they do not confine a process that can access other paths.
 
 | Who | Working folder |
 |---|---|
 | **Editing members** (coder and others with edit permission) | Their own **worktree** on their own branch |
 | **Leader** | The **integration worktree**, where merged work lands |
-| **Read-only members** (for example a reviewer) | A worktree they are pointed at, read-only |
-| **The user's own folder** | Untouched until the user approves a final merge (Section 6.4) |
+| **Read-only members** (for example a reviewer) | A worktree they are pointed at. Read-only is enforced where the member type allows it (Section 6.7) |
+| **The user's own folder** | The engine does not write to it until the user approves a final merge (Section 6.4); a CLI running as the user can still access it |
 
 Branches follow a clear pattern: `tiye/<session>/integration` and `tiye/<session>/<member>`. Worktrees live in the app data folder, so the user's project folder stays clean. This makes worktrees the **default** for editing members (a change from the optional setting in Spec 7.2).
+
+**What isolation does and does not guarantee.** Each member has a separate default working folder and branch. This prevents ordinary edits in those folders from colliding. It does not stop a process from writing somewhere else: a CLI runs as the user, so it can write to the user's project folder or another member's worktree. The watcher reports changes only in paths it monitors. The full guarantee per member type is in the enforcement matrix (Section 6.11).
 
 ### 6.2 Worktree lifecycle
 
@@ -480,8 +482,10 @@ The Leader assigns files and areas with `assign_files`. Ownership keeps members 
 
 | Member type | Enforcement |
 |---|---|
-| **API member** | Hard block. The file guard refuses a write outside the member's ownership and tells the member and the Leader. |
-| **CLI member** | A file watcher in the member's worktree detects changes outside its ownership. The change is flagged to the user and the Leader, and the user can revert it. |
+| **API member** | Hard block for built-in file tools. The file guard refuses a write outside the member's ownership and tells the member and the Leader. Shell commands can write files too, so they require separate approval or an OS-enforced boundary. |
+| **CLI member** | A file watcher in the member's worktree detects changes outside its ownership **after the fact**. The change is flagged to the user and the Leader, and the user can revert it from the checkpoint. |
+
+The two rows are different guarantees, not two implementations of one: the API row is prevention, the CLI row is detection. See the enforcement matrix (Section 6.11).
 
 ### 6.4 Merging
 
@@ -506,18 +510,25 @@ History then reads as "Claude planned, OpenCode wrote, GPT reviewed".
 
 ### 6.6 Git safety
 
-Push, force-push, and merge into protected branches always need the user's approval (Spec 7.2).
+Push, force-push, and merge into protected branches need the user's approval (Spec 7.2). What that approval is worth depends on which process runs git.
 
 | Member type | Enforcement |
 |---|---|
-| **API member** | The push tool does not exist without approval. Every push request goes to the approval broker. |
-| **CLI member** | The member's worktree has its own Git hooks, set per worktree, that refuse a push unless the engine has granted it. The CLI's own permission settings add a second layer. |
+| **API member** | Hard gate. The push tool does not exist in the member's toolset without approval. Every push request goes to the approval broker. |
+| **CLI member** | Best-effort. The member's worktree has its own Git hooks, set per worktree, that refuse a push unless the engine has granted it. The CLI's own permission settings add a second layer. |
 
-This is best-effort for CLIs, since they run with the user's credentials. It is combined with CLI permission settings and visible logging.
+**What the engine can and cannot enforce.** For its own Git operations — API member pushes, merges between session branches, and the final merge into the user's branch — approval is a hard gate, because the engine is the process running git and no push happens without it. A CLI member is a different case: it runs as the user, with the user's own Git credentials, and the engine has no credential or operating-system boundary to stand behind. The per-worktree hooks refuse a push launched from that worktree and log the attempt, but they are bypassable — a skip-hooks flag, a push run from outside the worktree, or the CLI's own Git configuration — and a bypassed push changes the remote only, so it leaves no local ref change the engine could detect. So the engine logs every push it can see, and CLI push control is presented as a layer that refuses the easy path and keeps the user's eyes on the terminal — never as a guarantee. A hard CLI guarantee would need an enforceable credential or OS boundary, which TIYE Agent does not have.
 
 ### 6.7 Reviews
 
-A review task names the worktree to read. The reviewer's working folder is set to it, with read-only permission, so it reviews exactly the code under review, without disturbing the author.
+A review task names the revision to read. An API reviewer reads that revision through read-only file tools. A CLI reviewer starts in a separate, disposable worktree at that revision, so ordinary edits in its assigned folder do not alter the author's worktree.
+
+| Member type | Read-only enforcement |
+|---|---|
+| **API member** | Hard within TIYE's toolset. The review toolset contains no write or command tools. |
+| **CLI member** | Read-only is requested through the CLI's own launch option. Where the CLI has no such option, read-only is **unsupported**. The reviewer gets a separate, disposable worktree at the revision under review; the watcher flags edits inside that worktree, which is reset or discarded when the review ends. A CLI can still write outside it. |
+
+The separate worktree protects the author's work from ordinary edits in the reviewer's assigned folder. It is not an OS security boundary for a CLI.
 
 ### 6.8 Checkpoints and restore
 
@@ -543,6 +554,21 @@ A setting lets all members work in the same folder.
 | **Ownership** | API members are blocked before writing. CLI members are watched and flagged. |
 | **Conflicts** | Out-of-ownership edits can be reverted from the latest checkpoint. |
 | **Guarantees** | Weaker than worktrees, so it is a deliberate choice for the user. |
+
+### 6.11 Enforcement matrix
+
+This is the authority for what each permission guarantee is worth, by member type. The permissions UI labels (Spec 4.3) quote it, and the feasibility tests verify it (Test Plan S2.4, S3.3, S3.4).
+
+| Guarantee | API member | CLI member |
+|---|---|---|
+| Edit a file outside its ownership, inside its worktree | **Blocked before action through built-in file tools.** Commands need separate approval or an OS boundary. | **Detected afterward if watched.** The watcher flags it; the user can review a proposed revert. |
+| Write outside its own worktree (the user's folder, another member's worktree) | **Blocked through built-in file tools.** A permitted shell command may still write there without an OS boundary. | **Not preventable, and not always visible.** The CLI runs as the user; watchers cover only the paths they watch. |
+| Read-only file access | **Blocked before action.** No write tool is issued. | **Best-effort, or unsupported.** Set at launch where the CLI supports it; otherwise detected, never prevented (Section 6.7). |
+| Running terminal commands | **Approval-gated before the tool call.** Approval does not confine effects inside the command. | **CLI-dependent.** The app requests prompting through supported CLI settings and shows its prompt; this is not an app-enforced gate. |
+| Push, force-push, or merge into protected branches | **Approval-gated.** No push tool exists without approval. | **Best-effort.** Per-worktree hooks and CLI settings refuse the easy path and log it; bypassable, and a bypass may leave no trace (Section 6.6). |
+| The app's final merge into the user's branch | **Approval-gated.** The engine runs it after the user approves the diff. | **Approval-gated for the engine operation.** A CLI with the user's Git access may run Git independently. |
+
+Two rules follow from the table. The product never describes a CLI row as a hard guarantee, and the permissions UI shows each setting as **blocked**, **approval**, **detected**, or **unsupported**, so the label is the guarantee. An API member without tool calling has no file or command tools at all, and joins as an advisor or reviewer (Spec 5.3).
 
 ---
 
@@ -845,6 +871,7 @@ This is the order of **construction**, not release stages. The product ships com
 | **Windows pseudo-terminal and WSL quirks** | Display or input problems | Early tests S1 and S6, and a Windows matrix in testing |
 | **Plugin security** | Compromise of the user's machine | Declarative-first design, isolated host, permission approval, no key access |
 | **Prompt injection through project content** | A member is tricked into harmful actions | Per-member permissions, approvals, ownership, and tool limits |
+| **A CLI member writes outside its worktree or bypasses hooks** | Work outside ownership, or an unapproved push, that the app cannot prevent | Separate default worktrees reduce accidental collisions; the watcher flags paths it sees; push control for CLIs is documented as best-effort, never as a guarantee (Sections 6.6 and 6.11) |
 | **Token cost with five models and a shared transcript** | High bills for users | Per-member context modes and the 70% summarization |
 | **License bypass** | Lost revenue | Accepted. The goal is fairness, with signed tokens and a minimal check. |
 | **Antivirus and SmartScreen warnings** | Users distrust the installer | Code signing and signed releases |
@@ -869,10 +896,10 @@ This is the order of **construction**, not release stages. The product ships com
 | 9 | CLI members use a display channel and a control channel | Agreed |
 | 10 | Typing into a member's terminal is allowed, logged, and reported to the Leader | Agreed |
 | 11 | Worktrees are the default for editing members | Agreed |
-| 12 | Ownership assigned by the Leader and enforced by the app | Agreed |
+| 12 | Ownership assigned by the Leader; blocked before the write for API members, detected afterward for CLI members | Agreed |
 | 13 | Checkpoints as hidden Git references, with a shadow repository when there is no Git | Architecture decision |
 | 14 | Final merge into the user's branch needs approval and a clean working tree | Architecture decision |
-| 15 | Per-worktree Git hooks refuse pushes unless granted | Architecture decision |
+| 15 | Per-worktree Git hooks refuse pushes unless granted — best-effort for CLIs, which run with the user's own credentials | Architecture decision |
 | 16 | Plugins: declarative-first, code plugins isolated in the plugin host, the core makes provider calls | Architecture decision |
 | 17 | Signed entitlement tokens, with a minimal idempotent session-start check | Architecture decision |
 | 18 | Capability data files per CLI, shipped as signed data updates | Architecture decision |
@@ -882,6 +909,7 @@ This is the order of **construction**, not release stages. The product ships com
 | 22 | Worktrees live in the app data folder, outside the user's repository | Confirmed |
 | 23 | Dependencies in worktrees are handled by a per-project setup command, with optional shared dependencies as a setting | Confirmed |
 | 24 | The license server keeps only license or install ID, session IDs, timestamps, and plan. No project data. | Confirmed |
+| 25 | The enforcement matrix (Section 6.11) is the authority for what each permission guarantee is worth per member type, and the permissions UI labels quote it | Agreed |
 
 ## C2. Items settled by the feasibility tests
 
@@ -900,5 +928,9 @@ No product or design items remain open. The following technical details depend o
 
 | Section | Change |
 |---|---|
-| Spec 7.2 | Worktrees per editing member become the **default**. Shared-folder mode is the optional setting. |
+| Spec 4.3 (new) | New enforcement matrix: what each permission guarantee is worth for an API member versus a CLI member (blocked, approval, detected, unsupported). The example moves to 4.4. |
+| Spec 7.1 | The conflict-protection wording no longer claims the app blocks the write for every member. API members are blocked before the write; CLI members are detected afterward by the watcher, with safe revert. |
+| Spec 7.2 | The approval wording no longer claims no member can push. The engine's own Git operations are a hard gate; for a CLI member push control is best-effort. Worktrees per editing member also become the **default**, with shared-folder mode as the optional setting. |
+| Spec 8.1 | The approvals label reflects that a CLI's own approval prompt is answered in its terminal, shown in the app. |
 | Spec 17 | Several open questions are now answered by this document (harness structure, CLI control, WSL, attribution, plugin sandboxing, license design). |
+| Spec appendix | The file-safety and Git rows now state the real guarantee per member type. |
