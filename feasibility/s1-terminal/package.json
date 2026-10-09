@@ -1,0 +1,28 @@
+{
+  "name": "tiye-s1-terminal",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TIYE Agent S1a feasibility prototype: Electron + xterm.js + node-pty display/input channel with a scripted local mock CLI.",
+  "main": "dist/main.js",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "node scripts/build.js",
+    "check": "npm run typecheck && npm run build",
+    "start": "npm run build && electron dist/main.js",
+    "smoke": "npm run build && node scripts/run-smoke.js",
+    "smoke:window": "npm run build && node scripts/run-smoke.js -- --window-smoke",
+    "rebuild-pty": "electron-rebuild -f -w node-pty"
+  },
+  "dependencies": {
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/xterm": "^5.5.0",
+    "node-pty": "^1.0.0"
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^3.2.3",
+    "@types/node": "^22.0.0",
+    "electron": "^38.0.0",
+    "esbuild": "^0.21.0",
+    "typescript": "^5.5.0"
+  }
+}
