@@ -5,7 +5,7 @@
 | **Product** | TIYE Agent, a desktop application for multi-model coding teams |
 | **Initial platform** | Windows (macOS and Linux planned) |
 | **Business model** | Paid, usage-based plans with a Free tier |
-| **Status** | Product definition complete. Architecture design is next. |
+| **Status** | Product definition complete. Technical architecture defined; feasibility tests pending. |
 | **Date** | October 2026 |
 
 ---
@@ -48,7 +48,7 @@ TIYE Agent is a desktop application for developers who want several AI models to
 | **Providers** | Any: login, API key, installed CLI, or local model |
 | **Visibility** | The user sees every conversation and every action |
 | **Safety** | Per-member permissions, file-conflict protection, checkpoints, Git approvals |
-| **Failures** | The process never stops. The Leader takes over, and a successor steps in if the Leader fails. |
+| **Failures** | The app alerts the user and attempts takeover or succession. A task with an uncertain external action pauses for review. |
 | **Privacy** | Local-first. No account, no telemetry, no project data leaves the device. |
 | **Customization** | Roles, skills, MCP servers, and plugins, all extensible |
 | **Languages** | English, Arabic, French, German, Japanese, Korean, Chinese |
@@ -169,7 +169,7 @@ The user sees who is talking to whom at every step.
 
 | Control | Behavior |
 |---|---|
-| **Stop** | Halts the whole process immediately, even mid-task. |
+| **Stop** | Sends an immediate stop request, even mid-task. The app shows shutdown in progress until member processes have ended and any uncertain action is flagged for review. |
 | **Message the Leader** | The default. The Leader coordinates the rest. |
 | **Message all members** | A broadcast every member receives. |
 | **Message any single member** | Direct contact, for example going straight to the reviewer. |
@@ -183,7 +183,7 @@ The user sees who is talking to whom at every step.
 
 - A message to a member that is mid-task **waits until the member finishes its current task**, then is delivered.
 - The feed marks the message as queued.
-- **Stop** still halts everything immediately.
+- **Stop** still interrupts work immediately; the app confirms completion after the member processes have ended.
 
 ---
 
@@ -445,7 +445,7 @@ If TIYE Agent itself closes unexpectedly, it **recovers the session** on the nex
 
 ## 10. Failure Handling
 
-**In short:** the process never stops because of a failure.
+**In short:** recoverable failures trigger takeover; tasks with uncertain external actions pause for review so work is not repeated blindly.
 
 ### 10.1 Member failure
 

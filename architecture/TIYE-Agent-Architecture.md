@@ -204,6 +204,8 @@ Every event has the same outer shape:
 | `type` | The event type (Section 3.3) |
 | `target` | The member or object it is addressed to, if any |
 | `causation_id` | The event that caused this one, so chains can be traced |
+| `command_id` | Stable identifier for a user or member request; repeated delivery of the same ID has one accepted outcome |
+| `effect_id` | Stable identifier for an external action caused by the command, when applicable |
 | `payload` | Type-specific data, validated by schema |
 | `schema_version` | For safe evolution |
 
@@ -225,6 +227,8 @@ Only the core service writes events, through a single writer with batched transa
 | `usage.*` | reported (where a provider or CLI exposes it) |
 | `context.*` | summarized (older context replaced for a model) |
 | `system.*` | rollback_notice, update_available, offline_session |
+| `command.*` | accepted, rejected, completed; keyed by `command_id` |
+| `effect.*` | planned, completed, failed, needs_attention; keyed by `effect_id` |
 
 ### 3.4 Derived views (projections)
 
@@ -258,6 +262,26 @@ Tables rebuilt from the log, never edited directly:
 | Size | Terminal chunks are the largest item. They are compressed, and the user can set a retention limit that keeps the event log and prunes old terminal chunks. |
 | Export and import | A project's history packs into one archive file for moving between devices. |
 | Schema changes | Versioned events with upcasters that translate old events when read, so old history always opens. |
+
+### 3.8 Durable command and external-effect contract
+
+The event log is the source of truth for **decisions and observed outcomes**. It cannot make an external provider, CLI, filesystem operation, or Git remote part of a SQLite transaction. Recovery therefore distinguishes a known outcome from an action whose outcome is unknown.
+
+1. Every UI command and team-tool call carries a stable `command_id`; the core records acceptance or rejection once. Duplicate delivery returns the recorded result. A task has its own `task_id`, which remains stable across retries and member handoffs.
+2. The core validates the command and appends its state changes and any `effect.planned` records in **one SQLite transaction**. Each effect has an `effect_id`, target, intended operation, preconditions, and enough information to inspect its outcome. The effect runner acts only on a committed plan after any required approval is recorded.
+3. After the external action, the core appends `effect.completed` or `effect.failed` and the resulting task transition in one transaction. A crash between the action and that transaction leaves the effect **uncertain**; replay must not infer success or repeat it blindly.
+4. On restart, projections rebuild from events. The supervisor reconciles each planned effect with the external state and the main-owned processes (Section 2.3) before scheduling new work for the affected task. If the outcome cannot be proved, it records `effect.needs_attention`, pauses the task, and asks the user or Leader to inspect and choose a new action. A new attempt receives a new `effect_id` linked to the original.
+5. Every approval binds to the exact effect, target, and proposed diff or command. An approval is single-use: a changed operation or a retry with a new effect requires a new approval.
+
+| Effect | Recovery evidence | Automatic retry rule |
+|---|---|---|
+| Built-in file edit | Expected old and new content hashes, plus a checkpoint; inspect the target before deciding | Retry only if the old hash still matches and no completed new hash exists; otherwise pause for review |
+| Local Git commit or merge | Recorded input and output refs and commit IDs; inspect refs and worktree state | Retry only when the recorded preconditions still hold and the operation has not already landed |
+| Remote push or provider request | Provider idempotency key and response, if supported; otherwise remote state may be ambiguous | Never repeat automatically when the outcome is unknown |
+| CLI task or command | Main-owned process state, task tool calls, terminal record, and worktree diff | Reattach or inspect partial work; never resend an uncertain instruction automatically |
+| License session start | Stable session ID sent to the license server (Section 8.4) | Retry with the same session ID; the server counts it once |
+
+This contract provides **at-most-once automatic execution for uncertain effects**, not exactly-once execution across external systems. A task can wait for attention rather than risk duplicate edits, charges, pushes, or commands. The affected member's inbox stays paused until reconciliation finishes; unrelated members may continue.
 
 ---
 
@@ -301,9 +325,12 @@ Because every handoff is a tool call, it is recorded as an event and can be vali
 | State | Meaning | Moves to |
 |---|---|---|
 | **queued** | Waiting in the member's inbox | running, cancelled |
-| **running** | The member is working | waiting_approval, blocked, done, failed, cancelled |
-| **waiting_approval** | The member needs the user's approval | running, cancelled |
-| **blocked** | The member asked a question and waits for the answer | running, cancelled |
+| **running** | The member is working | waiting_approval, blocked, reconciling, stopping, done, failed |
+| **waiting_approval** | The member needs the user's approval | running, stopping |
+| **blocked** | The member asked a question and waits for the answer | running, stopping |
+| **reconciling** | A restart or uncertain external effect requires outcome inspection | running, needs_attention, stopping, done, failed |
+| **needs_attention** | The effect outcome cannot be proved; the user or Leader must choose a new action | running, stopping, done, failed |
+| **stopping** | Stop was accepted; process termination and effect reconciliation are pending | cancelled, needs_attention |
 | **done** | The member reported a result | final |
 | **failed** | The member crashed, timed out, or hit a limit | final, then the Leader takes over |
 | **cancelled** | Stopped by the user or reassigned | final |
@@ -325,23 +352,23 @@ Because every handoff is a tool call, it is recorded as an event and can be vali
 
 | Step | Action |
 |---|---|
-| 1 | The engine marks all running tasks as cancelled and writes a stop event. |
+| 1 | The engine accepts Stop immediately, records it, and moves active tasks to **stopping**. The UI shows that shutdown is in progress. |
 | 2 | CLI members receive an interrupt (Ctrl+C) in their terminal. |
 | 3 | After a short timeout, any CLI that is still running is terminated, together with its child processes. |
 | 4 | API members abort their requests and agent loops. |
-| 5 | The team stays idle until the user sends a new message. |
+| 5 | Main verifies member process trees are gone. The engine reconciles any in-flight effects, then marks tasks **cancelled** or **needs_attention** if an outcome is uncertain. The team stays idle until the user sends a new message. |
 
 ### 4.7 Failure supervisor
 
 | Failure | How it is detected | Engine response |
 |---|---|---|
-| **Crash** | Process exit with an error, or a dropped connection | Task fails, member status becomes failed, user alerted, Leader takes over |
+| **Crash** | Process exit with an error, or a dropped connection | Member status becomes failed and the user is alerted. The task enters reconciliation before takeover; an uncertain external effect pauses it for attention (Section 3.8). |
 | **Hang** | No output and no tool activity for a configurable time | Same as a crash, after one automatic nudge |
 | **Rate limit or credits exhausted** | Provider error codes, or CLI-specific output patterns | Same, with the reason shown to the user |
 | **Authentication expired** | Provider error codes, or CLI-specific output patterns | Same, with a prompt to reconnect |
 | **Lost network** | Request failures | Retry briefly, then same as a crash |
 
-**Leader takeover.** The Leader receives a `member.failed` notice naming the member and the interrupted task. It either completes the work itself or reassigns it. The failed member's partial work stays recorded and its worktree stays intact.
+**Leader takeover.** The Leader receives a `member.failed` notice naming the member and the interrupted task. Once the engine has reconciled any in-flight effect, the Leader completes the work or reassigns it. An uncertain effect is surfaced for review first. The failed member's partial work stays recorded and its worktree stays intact.
 
 **Leader failure.** The engine promotes the next member in the user's succession order, or the next capable member if none is set. The interim Leader receives a handover package: the briefing, the task list, the recent conversation, and the interrupted task. The user is alerted, and every member is told the new Leader. When the original Leader returns, the engine asks the user whether to hand leadership back. It never switches on its own.
 
@@ -824,7 +851,7 @@ These are targets to validate in the feasibility tests.
 |---|---|
 | **Unit tests** | Engine rules, state machine, permission checks, event projections, license logic |
 | **Adapter contract tests** | A scripted **mock CLI** that can report results, hang, ask questions, hit rate limits, crash, and write outside its ownership. Every adapter must pass the same contract. |
-| **Replay tests** | Recorded event logs are replayed to check that projections and recovery produce the same state. |
+| **Replay and crash tests** | Replay produces the same projections. Inject crashes before effect execution, after execution but before result logging, and during reconciliation; duplicate commands return one result, uncertain provider/CLI actions never run twice automatically, and Git/file preconditions prevent duplicate application. |
 | **Real-CLI tests** | The feasibility checklist (Section 5.6), run against each supported CLI and re-run when a CLI updates. |
 | **End-to-end tests** | Playwright drives the Electron app through full team scenarios. |
 | **Security tests** | IPC validation, plugin host isolation, and key handling. |
@@ -927,6 +954,8 @@ This is the order of **construction**, not release stages. The product ships com
 | 23 | Dependencies in worktrees are handled by a per-project setup command, with optional shared dependencies as a setting | Confirmed |
 | 24 | The license server keeps only license or install ID, session IDs, timestamps, and plan. No project data. | Confirmed |
 | 25 | The enforcement matrix (Section 6.11) is the authority for what each permission guarantee is worth per member type, and the permissions UI labels quote it | Agreed |
+| 26 | Main owns CLI pseudo-terminals and process trees so a core restart can reconcile them without starting duplicates (Section 2.3) | Architecture decision; S1 and S6 verify teardown |
+| 27 | Commands and external effects use durable IDs and recorded plans; uncertain outcomes are reconciled or paused, never retried blindly (Section 3.8) | Architecture decision |
 
 ## C2. Items settled by the feasibility tests
 
@@ -940,14 +969,16 @@ No product or design items remain open. The following technical details depend o
 | Worktree setup time and disk cost on real projects | Test S3 |
 | Terminal performance with five active members | Test S5 |
 | CLI behavior through WSL | Test S6 |
+| Main-owned PTY survival across core restart and process-tree cleanup after main exit | Tests S1 and S6 |
 
 ## C3. Changes to the Product Specification
 
 | Section | Change |
 |---|---|
 | Spec 4.3 (new) | New enforcement matrix: what each permission guarantee is worth for an API member versus a CLI member (blocked, approval, detected, unsupported). The example moves to 4.4. |
-| Spec 7.1 | The conflict-protection wording no longer claims the app blocks the write for every member. API members are blocked before the write; CLI members are detected afterward by the watcher, with safe revert. |
+| Spec 7.1 | The conflict-protection wording no longer claims the app blocks the write for every member. Built-in API file tools block before the write; watched CLI edits are detected afterward, with a proposed revert for review. |
 | Spec 7.2 | The approval wording no longer claims no member can push. The engine's own Git operations are a hard gate; for a CLI member push control is best-effort. Worktrees per editing member also become the **default**, with shared-folder mode as the optional setting. |
 | Spec 8.1 | The approvals label reflects that a CLI's own approval prompt is answered in its terminal, shown in the app. |
+| Spec 2 | Stop is accepted immediately, with completion shown after process termination and uncertain-effect reconciliation. |
 | Spec 17 | Several open questions are now answered by this document (harness structure, CLI control, WSL, attribution, plugin sandboxing, license design). |
 | Spec appendix | The file-safety and Git rows now state the real guarantee per member type. |
