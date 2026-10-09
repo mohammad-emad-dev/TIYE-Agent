@@ -1,14 +1,15 @@
 // S1b main process. Main owns ONE member PTY session across BrowserWindow
 // recreation (Architecture 2.3, S1 steps 9a-9d). Window close offers
 // Keep Running (retain PTY, tray with Open/Quit) or Stop (graceful CLI
-// shutdown, then quit). Tray Quit follows the stop-all path. A tiny
-// mock-core subscribe/unsubscribe token covers 9b re-subscribe with no
-// duplicate spawn; no team engine is included.
+// shutdown, then quit). Tray Quit follows the stop-all path. A separate
+// mock-core OS process covers 9b re-subscribe over a narrow stdio
+// JSON-lines IPC with no duplicate spawn; no team engine is included.
 // Lifecycle/process-tree guarantees beyond this (Windows Job Object,
 // crash recovery 9f, orphan enumeration 9e) are NOT implemented here.
 
 import { app, BrowserWindow, Menu, Tray, dialog, ipcMain, nativeImage, type IpcMainEvent } from 'electron';
 import * as child_process from 'node:child_process';
+import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as pty from 'node-pty';
 import { CHANNELS, isValidInput, isValidResize } from './shared';
@@ -194,9 +195,14 @@ let lifecycleTestMode = false;
 let tray: Tray | null = null;
 let stopPromise: Promise<ShutdownResult> | null = null;
 
-// Tiny mock-core subscription token for S1 9b only. No team engine: the
-// core merely (re-)subscribes to the main-owned PTY session.
+// Separate mock-core OS process for S1 9b only. No team engine: the core
+// merely (re-)subscribes to the main-owned PTY session over a narrow stdio
+// JSON-lines IPC (SUBSCRIBE/READY out, SUBSCRIBED/SHUTDOWN in). Main keeps
+// owning the single member PTY across core restarts.
+let coreChild: child_process.ChildProcess | null = null;
 let coreId: string | null = null;
+let corePid: number | undefined = undefined;
+let coreExitCode: number | null = null;
 
 function fromWindow(event: IpcMainEvent): boolean {
   return win !== null && event.sender === win.webContents && event.senderFrame === win.webContents.mainFrame;
@@ -446,6 +452,20 @@ function requestStop(reason: 'window-stop' | 'tray-quit'): Promise<ShutdownResul
       }
       return result;
     }
+    // Stop-all also asks the mock-core process to exit itself. A core
+    // that ignores SHUTDOWN + stdin close is a failure, not a stop: stay
+    // open (same as the PTY path above) rather than orphan it silently.
+    // There is deliberately no kill fallback for the core.
+    const coreResult = await stopMockCore(5000);
+    console.log(`[s1] stop (${reason}): mock-core exited=${coreResult.exited} code=${coreResult.exitCode}`);
+    if (!coreResult.exited) {
+      isQuitting = false;
+      stopPromise = null;
+      if (!lifecycleTestMode) {
+        dialog.showErrorBox('TIYE S1: mock core still running', 'The mock core did not exit after SHUTDOWN. The app stays open so the live core process is not orphaned; try stopping again.');
+      }
+      return result;
+    }
     destroyTray();
     if (!lifecycleTestMode) app.quit();
     return result;
@@ -456,6 +476,7 @@ function requestStop(reason: 'window-stop' | 'tray-quit'): Promise<ShutdownResul
 /** Drop the exited member so a fresh session can start (smoke only). */
 function resetMemberAfterExit(): void {
   if (ptyExitCode === null) throw new Error('resetMemberAfterExit: member still alive');
+  if (coreChild !== null) throw new Error('resetMemberAfterExit: mock-core still running (stop it first)');
   term = null;
   sessionId = null;
   pendingOutput = '';
@@ -464,31 +485,277 @@ function resetMemberAfterExit(): void {
   stopPromise = null;
 }
 
-// --- Tiny mock-core subscription (S1 9b) -----------------------------------
-function coreSubscribe(id: string): { coreId: string; sessionId: string | null; pid: number | undefined; spawnCount: number; reused: boolean } {
+// --- Separate mock-core OS process (S1 9b) ----------------------------------
+// Narrow stdio JSON-lines IPC. Main owns the member PTY; the core process
+// only subscribes. No network, no team engine, and no force-kill fallback
+// for the core: shutdown is requested with a SHUTDOWN line plus stdin
+// close (the core exits itself), the actual exit event is observed, and a
+// core that does not exit is reported as a failure with its handle
+// retained — never silently treated as stopped.
+const CORE_ID_RE = /^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/;
+const CORE_LINE_LIMIT = 65536;
+
+export interface CoreSubscribeInfo {
+  coreId: string;
+  corePid: number | undefined;
+  sessionId: string | null;
+  pid: number | undefined;
+  spawnCount: number;
+  reused: boolean;
+}
+
+function isValidCoreId(id: unknown): id is string {
+  return typeof id === 'string' && CORE_ID_RE.test(id);
+}
+
+function coreScriptPath(): string {
+  return path.resolve(__dirname, '..', 'mock-core', 'mock-core.js');
+}
+
+function resolveCoreNode(): string {
+  if (process.versions.electron !== undefined) return resolveOnPath('node');
+  return process.execPath;
+}
+
+function isCoreAlive(): boolean {
+  return coreChild !== null && coreExitCode === null;
+}
+
+function waitForCoreExit(child: child_process.ChildProcess, timeoutMs: number): Promise<number | null> {
+  return new Promise((resolve) => {
+    if (child.exitCode !== null) {
+      resolve(child.exitCode);
+      return;
+    }
+    const start = Date.now();
+    const timer = setInterval(() => {
+      if (child.exitCode !== null) {
+        clearInterval(timer);
+        resolve(child.exitCode);
+      } else if (Date.now() - start > timeoutMs) {
+        clearInterval(timer);
+        resolve(null);
+      }
+    }, 50);
+  });
+}
+
+/**
+ * Start a real separate mock-core OS process and subscribe it to the
+ * current main-owned member session. Resolves after the SUBSCRIBE /
+ * SUBSCRIBED / READY round-trip; rejects without spawning a duplicate
+ * member PTY on any failure.
+ */
+function startMockCore(id: string): Promise<CoreSubscribeInfo> {
+  if (coreChild !== null) throw new Error('startMockCore: a mock-core process is already running (stop it first)');
+  if (!isValidCoreId(id)) throw new Error(`startMockCore: invalid coreId ${JSON.stringify(id)}`);
   const before = spawnCount;
   ensureMember();
   registerIpcOnce();
-  coreId = id;
-  return { coreId: id, sessionId, pid: term?.pid, spawnCount, reused: spawnCount === before };
-}
-
-function coreUnsubscribe(): void {
+  const script = coreScriptPath();
+  if (!fs.existsSync(script)) throw new Error(`mock-core script missing: ${script}`);
+  const nodeBin = resolveCoreNode();
+  console.log(`[s1] starting mock-core ${id}: ${nodeBin} ${script}`);
+  const child = child_process.spawn(nodeBin, [script, id], {
+    stdio: ['pipe', 'pipe', 'pipe'],
+    windowsHide: true,
+  });
+  coreChild = child;
+  coreExitCode = null;
   coreId = null;
+  corePid = undefined;
+  child.stderr?.on('data', (d: Buffer) => {
+    process.stderr.write(d);
+  });
+  child.on('exit', (code) => {
+    coreExitCode = code;
+    if (child === coreChild && coreExitCode !== null) {
+      console.log(`[s1] mock-core exited (code ${coreExitCode})`);
+    }
+  });
+  child.on('error', (err) => {
+    console.error(`[s1] mock-core spawn error: ${(err as Error).message}`);
+  });
+
+  return new Promise<CoreSubscribeInfo>((resolve, reject) => {
+    let settled = false;
+    let outBuf = '';
+    const subscribeTimer = setTimeout(
+      () => failHandshake(`mock-core ${id}: timeout waiting for SUBSCRIBE/READY`),
+      15000,
+    );
+    const cleanupLineListener = (): void => {
+      child.stdout?.removeAllListeners('data');
+    };
+    // Handshake failure: no force-kill (ChildProcess.kill() would target
+    // the child's PID without identity-verified tree cleanup). Close the
+    // stdin pipe so the core exits itself, keep the child handle so later
+    // checks observe the real exit event instead of a pretended stop.
+    const failHandshake = (msg: string): void => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(subscribeTimer);
+      cleanupLineListener();
+      try {
+        child.stdin?.end();
+      } catch {
+        /* pipe already gone */
+      }
+      try {
+        child.stdin?.destroy();
+      } catch {
+        /* ignore */
+      }
+      // coreChild/coreExitCode intentionally retained: isCoreAlive() keeps
+      // reporting the true state until the actual 'exit' event arrives.
+      reject(new Error(msg));
+    };
+    const succeed = (info: CoreSubscribeInfo): void => {
+      if (settled) return;
+      settled = true;
+      coreId = id;
+      corePid = child.pid;
+      resolve(info);
+    };
+    const clearTimer = (): void => {
+      clearTimeout(subscribeTimer);
+    };
+    const onLine = (raw: string): void => {
+      if (settled) return;
+      if (raw.length > CORE_LINE_LIMIT) {
+        console.error(`[s1] mock-core: oversized line dropped (${raw.length} chars)`);
+        return;
+      }
+      if (raw.trim() === '') return;
+      let msg: unknown;
+      try {
+        msg = JSON.parse(raw);
+      } catch {
+        console.error(`[s1] mock-core: invalid JSON dropped: ${raw.slice(0, 120)}`);
+        return;
+      }
+      if (typeof msg !== 'object' || msg === null || (msg as { type?: unknown }).type === undefined) return;
+      const type = (msg as { type: unknown }).type;
+      if (type === 'SUBSCRIBE') {
+        const body = msg as { coreId?: unknown; corePid?: unknown };
+        if (body.coreId !== id) {
+          failHandshake(`mock-core SUBSCRIBE coreId mismatch (got ${JSON.stringify(body.coreId)}, want ${id})`);
+          return;
+        }
+        const payload = JSON.stringify({
+          type: 'SUBSCRIBED',
+          coreId: id,
+          sessionId,
+          memberPid: term?.pid ?? null,
+          spawnCount,
+          reused: spawnCount === before,
+        });
+        try {
+          child.stdin?.write(payload + '\n');
+        } catch (err) {
+          failHandshake(`mock-core SUBSCRIBED write failed: ${(err as Error).message}`);
+        }
+        return;
+      }
+      if (type === 'READY') {
+        const body = msg as { coreId?: unknown };
+        if (body.coreId !== id) {
+          failHandshake(`mock-core READY coreId mismatch (got ${JSON.stringify(body.coreId)}, want ${id})`);
+          return;
+        }
+        clearTimer();
+        cleanupLineListener();
+        // Keep stderr forwarding; drop further stdout protocol lines (BYE).
+        child.stdout?.on('data', (d: Buffer) => {
+          const text = d.toString('utf8');
+          for (const line of text.split('\n')) {
+            if (line.trim() !== '') console.log(`[s1] mock-core stdout: ${line.slice(0, 200)}`);
+          }
+        });
+        succeed({
+          coreId: id,
+          corePid: child.pid,
+          sessionId,
+          pid: term?.pid,
+          spawnCount,
+          reused: spawnCount === before,
+        });
+        return;
+      }
+      if (type === 'BYE') {
+        console.log(`[s1] mock-core BYE: ${raw.slice(0, 200)}`);
+        return;
+      }
+      console.error(`[s1] mock-core: unknown type dropped: ${String(type).slice(0, 40)}`);
+    };
+    child.stdout?.on('data', (d: Buffer) => {
+      outBuf += d.toString('utf8');
+      let idx: number;
+      while ((idx = outBuf.indexOf('\n')) >= 0) {
+        const line = outBuf.slice(0, idx).replace(/\r$/, '');
+        outBuf = outBuf.slice(idx + 1);
+        onLine(line);
+        if (settled) break;
+      }
+    });
+    child.on('exit', (code) => {
+      clearTimer();
+      if (!settled) failHandshake(`mock-core ${id} exited before READY (code ${code})`);
+    });
+  });
 }
 
-function coreRestart(newId: string): { coreId: string; sessionId: string | null; pid: number | undefined; spawnCount: number; reused: boolean } {
-  coreUnsubscribe();
-  return coreSubscribe(newId);
+/**
+ * Ask the mock-core process to exit itself: SHUTDOWN line, then stdin
+ * close (the core exits 0 on either). The actual exit event is observed.
+ * No force-kill fallback: ChildProcess.kill() would target the child's PID
+ * without identity-verified tree cleanup, so on timeout this reports
+ * { exited: false } and retains the child handle — callers must treat the
+ * core as still alive rather than as stopped.
+ */
+async function stopMockCore(timeoutMs = 5000): Promise<{ exited: boolean; exitCode: number | null }> {
+  const child = coreChild;
+  if (child === null) return { exited: true, exitCode: coreExitCode };
+  try {
+    child.stdin?.write(JSON.stringify({ type: 'SHUTDOWN' }) + '\n');
+  } catch (err) {
+    console.error(`[s1] mock-core SHUTDOWN write failed: ${(err as Error).message}`);
+  }
+  try {
+    child.stdin?.end();
+  } catch {
+    /* pipe already gone; the exit event below still decides */
+  }
+  const code = await waitForCoreExit(child, timeoutMs);
+  if (code === null) {
+    // No kill fallback by design (see above). Keep coreChild/coreId so
+    // isCoreAlive() stays true and resetMemberAfterExit() refuses to
+    // pretend the session is clean.
+    console.error('[s1] mock-core did not exit after SHUTDOWN + stdin close; reporting failure, core handle retained (no force-kill)');
+    return { exited: false, exitCode: null };
+  }
+  if (child === coreChild) {
+    coreChild = null;
+    coreId = null;
+    corePid = undefined;
+    coreExitCode = code;
+  }
+  try {
+    child.stdin?.destroy();
+  } catch {
+    /* ignore */
+  }
+  return { exited: true, exitCode: code };
 }
 
 // ---------------------------------------------------------------------------
 // Lifecycle smoke (S1 9a-9d, plus 9b re-subscribe): all steps run inside the
 // main process via internal hooks — no dialog clicks, no tray clicks.
 // Proves with the local mock CLI that Keep Running preserves the same PTY
-// PID/session identity through close+reopen (spawn # stays 1), that a mock
-// core restart re-subscribes without a duplicate spawn, and that Stop and
-// Quit each request graceful shutdown (child exits 0 after `exit`).
+// PID/session identity through close+reopen (spawn # stays 1), that a
+// separate mock-core OS process restart re-subscribes without a duplicate
+// spawn (core PID changes, member session/PID/spawn # unchanged), and that
+// Stop and Quit each request graceful shutdown (child exits 0 after `exit`).
 // Limitation: PTY exit code 0 is NOT proof that a whole process tree died.
 // ---------------------------------------------------------------------------
 async function runLifecycleSmoke(): Promise<number> {
@@ -543,16 +810,20 @@ async function runLifecycleSmoke(): Promise<number> {
     });
 
   try {
-    // 9b setup: mock core subscribes; main spawns the single member session.
-    const sub1 = coreSubscribe('mock-core-1');
+    // 9b setup: start a real separate mock-core OS process; it subscribes
+    // to the current main-owned member session over stdio JSON-lines IPC.
+    const sub1 = await startMockCore('mock-core-1');
     if (term === null) return fail('member PTY not spawned');
     term.onData((d: string) => {
       tap.text += d;
     });
     const pidA = sub1.pid;
     const sessionA = sub1.sessionId;
-    console.log(`[lifecycle-smoke] ok: core subscribed (session=${sessionA} pid=${pidA} spawn#${sub1.spawnCount})`);
+    const corePid1 = sub1.corePid;
+    if (corePid1 === undefined) return fail('mock-core-1 has no OS PID');
+    console.log(`[lifecycle-smoke] ok: core subscribed (core=${sub1.coreId} corePid=${corePid1} session=${sessionA} pid=${pidA} spawn#${sub1.spawnCount})`);
     if (sub1.spawnCount !== 1) return fail(`expected spawn #1, got ${sub1.spawnCount}`);
+    if (!isCoreAlive()) return fail('mock-core-1 not alive after subscribe');
 
     // Open the first hidden window and prove renderer attach.
     createWindow({ show: false });
@@ -591,8 +862,19 @@ async function runLifecycleSmoke(): Promise<number> {
     }
     console.log('[lifecycle-smoke] ok: Open reattached to same PTY, no duplicate spawn');
 
-    // 9b: restart the mock core while main retains the PTY; re-subscribe.
-    const sub2 = coreRestart('mock-core-2');
+    // 9b: stop the mock-core OS process and restart it as a NEW process
+    // while main retains the PTY; the new core re-subscribes to the same
+    // live member session (core PID changes, member identity unchanged).
+    const stopped1 = await stopMockCore(5000);
+    if (!stopped1.exited) return fail('mock-core-1 did not exit on SHUTDOWN');
+    if (isCoreAlive()) return fail('mock-core-1 still alive after stop');
+    console.log(`[lifecycle-smoke] ok: mock-core-1 stopped (exit ${stopped1.exitCode})`);
+    const sub2 = await startMockCore('mock-core-2');
+    if (sub2.corePid === undefined) return fail('mock-core-2 has no OS PID');
+    if (sub2.corePid === corePid1) {
+      return fail(`core process identity did not change across restart (still corePid=${sub2.corePid})`);
+    }
+    if (sub2.coreId === 'mock-core-1') return fail('core id did not change across restart');
     if (sub2.pid !== pidA || sub2.sessionId !== sessionA) {
       return fail(`core re-subscribe landed on a different session (pid=${sub2.pid} session=${sub2.sessionId})`);
     }
@@ -603,7 +885,7 @@ async function runLifecycleSmoke(): Promise<number> {
     if (term === null) return fail('PTY gone after core restart');
     term.write('hello core2\r');
     await waitForTap(/echo: hello core2/, 10000, 'pty alive after core restart');
-    console.log('[lifecycle-smoke] ok: 9b core restart re-subscribed, no second CLI process');
+    console.log(`[lifecycle-smoke] ok: 9b core restart re-subscribed as new OS process (corePid ${corePid1} -> ${sub2.corePid}), same session=${sub2.sessionId} pid=${sub2.pid} spawn#${sub2.spawnCount}, no second CLI process`);
 
     // 9c Stop: graceful shutdown requested through the PTY, then session ends.
     if (win === null) return fail('window missing before Stop');
@@ -616,17 +898,19 @@ async function runLifecycleSmoke(): Promise<number> {
     }
     console.log(`[lifecycle-smoke] ok: 9c Stop requested graceful shutdown, pty exit ${stop.exitCode}`);
     console.log('[lifecycle-smoke] note: exit code 0 shows the CLI exited on request; it does not prove a whole process tree died (no Job Object in this task)');
+    if (isCoreAlive()) return fail('mock-core-2 still alive after Stop (stop-all must end the core)');
     resetMemberAfterExit();
 
     // 9d Quit (stop-all path): fresh member, then tray-quit graceful path.
     tap.text = '';
-    const sub3 = coreSubscribe('mock-core-3');
+    const sub3 = await startMockCore('mock-core-3');
     if (term === null) return fail('fresh member PTY not spawned');
     term.onData((d: string) => {
       tap.text += d;
     });
     const pidB = sub3.pid;
-    console.log(`[lifecycle-smoke] ok: fresh member for Quit path (session=${sub3.sessionId} pid=${pidB} spawn#${sub3.spawnCount})`);
+    if (sub3.corePid === undefined) return fail('mock-core-3 has no OS PID');
+    console.log(`[lifecycle-smoke] ok: fresh member for Quit path (core=${sub3.coreId} corePid=${sub3.corePid} session=${sub3.sessionId} pid=${pidB} spawn#${sub3.spawnCount})`);
     createWindow({ show: false });
     await waitForReady(20000);
     await waitForTap(/mock-cli/i, 15000, 'banner on fresh member');
@@ -634,10 +918,16 @@ async function runLifecycleSmoke(): Promise<number> {
     if (!quit.exited || quit.exitCode !== 0 || !quit.graceful) {
       return fail(`Quit path did not end gracefully (exited=${quit.exited} code=${quit.exitCode} graceful=${quit.graceful})`);
     }
+    if (isCoreAlive()) return fail('mock-core-3 still alive after tray-Quit (stop-all must end the core)');
     console.log(`[lifecycle-smoke] ok: 9d tray-Quit stop-all requested graceful shutdown, pty exit ${quit.exitCode}`);
     console.log('[lifecycle-smoke] PASS');
     return 0;
   } catch (err) {
+    try {
+      await stopMockCore(3000);
+    } catch {
+      /* best-effort core cleanup on failure */
+    }
     return fail((err as Error).message);
   }
 }
@@ -649,7 +939,6 @@ async function runLifecycleSmoke(): Promise<number> {
  * captures a screenshot (proving main→renderer data + xterm painting).
  */
 async function runWindowSmoke(): Promise<number> {
-  const fs = await import('node:fs');
   attachTerminal();
   createWindow({ show: false });
   if (win === null) throw new Error('window not created');
@@ -748,6 +1037,17 @@ async function main(): Promise<void> {
           /* already gone */
         }
         await waitForExit(3000);
+      }
+      if (code !== 0 && isCoreAlive()) {
+        // Best-effort core end so a FAILED run does not leave the separate
+        // mock-core process behind: SHUTDOWN line + stdin close, then
+        // observe. No kill fallback; a core that stays alive is reported
+        // by stopMockCore and the run still fails.
+        try {
+          await stopMockCore(3000);
+        } catch {
+          /* already gone */
+        }
       }
       app.exit(code);
     } catch (err) {

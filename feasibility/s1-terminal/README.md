@@ -13,9 +13,14 @@ alive asks **Keep Running** or **Stop**. Keep Running retains the PTY and
 exposes a tray menu with **Open** (new window, renderer reattaches to the
 same PTY, no duplicate spawn) and **Quit**. Stop, and tray Quit, share one
 stop-all path: graceful CLI shutdown is requested through the PTY (the
-mock CLI's `exit` command — never a PID kill), then the app ends. A tiny
-mock-core subscribe/unsubscribe token simulates 9b re-subscribe with no
-second spawn; a real core process restart remains untested.
+mock CLI's `exit` command — never a PID kill), the mock-core process is
+asked to exit itself with a `SHUTDOWN` line plus stdin close (no
+force-kill fallback: a core that does not exit fails Stop loudly and the
+app stays open rather than orphaning it), then the app ends. A separate
+mock-core OS process (`mock-core/mock-core.js` on Node) covers 9b: it
+subscribes to the main-owned session over a narrow stdio JSON-lines IPC
+(`SUBSCRIBE`/`READY` out, `SUBSCRIBED`/`SHUTDOWN` in) and a core stop +
+restart as a new OS process re-subscribes to the same live session.
 Output produced while no renderer is attached is buffered up to one million
 characters and flushed on reopen; older output is dropped with a notice.
 The prototype does not replay the full terminal history from before close.
@@ -79,9 +84,13 @@ vendor CLI in automated checks.
   driven by internal hooks (no dialog/tray clicks): 9a Keep Running keeps
   the same PTY PID/session identity through close (spawn # stays 1); Open
   sends input from the new window's renderer through the preload bridge
-  (`echo: hello reopen` observed at the PTY, still spawn #1); 9b mock-core restart
-  token re-subscribes to the same session with no second spawn; 9c Stop and 9d
-  tray-Quit each request graceful shutdown and observe PTY exit 0: PASS.
+  (`echo: hello reopen` observed at the PTY, still spawn #1); 9b stops
+  `mock-core-1` (SHUTDOWN line, exit 0) and restarts it as a new OS
+  process `mock-core-2` which re-subscribes over stdio JSON-lines IPC to
+  the same session/PID with spawn # still 1 — the smoke asserts the core
+  PID changed while member session ID, member PID and spawn count did not;
+  9c Stop and 9d tray-Quit each request graceful shutdown, observe PTY
+  exit 0, and end the mock-core process: PASS.
   Exit 0 shows the CLI exited on request; it does **not** prove a whole
   process tree died (no Job Object in this task).
 - No vendor CLI and no network model were used in any automated check.
@@ -135,8 +144,13 @@ vendor CLI in automated checks.
 
 - `src/main.ts` — window + single main-owned PTY session, launch
   resolution, IPC validation, tray (Open/Quit), graceful stop-all,
-  mock-core subscribe token, `--smoke-test` / `--window-smoke` /
-  `--lifecycle-smoke`.
+  separate mock-core OS process subscribe/stop/restart (`startMockCore` /
+  `stopMockCore` over stdio JSON-lines IPC), `--smoke-test` /
+  `--window-smoke` / `--lifecycle-smoke`.
+- `mock-core/mock-core.js` — separate mock-core OS process (no deps, no
+  network): sends `SUBSCRIBE`, waits for `SUBSCRIBED`, replies `READY`,
+  exits 0 on `SHUTDOWN` or closed stdin; protocol on stdout, logs on
+  stderr.
 - `src/preload.ts`, `src/shared.ts` — narrow validated bridge + contract.
 - `src/renderer.ts`, `src/index.html` — xterm.js view, no Node.
 - `scripts/build.js` — esbuild bundles + asset copy.
