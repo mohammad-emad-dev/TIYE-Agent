@@ -2,7 +2,11 @@ const { spawn } = require('node:child_process');
 const path = require('node:path');
 
 const electron = require('electron');
-const flag = process.argv.includes('--window-smoke') ? '--window-smoke' : '--smoke-test';
+const flag = process.argv.includes('--lifecycle-smoke')
+  ? '--lifecycle-smoke'
+  : process.argv.includes('--window-smoke')
+    ? '--window-smoke'
+    : '--smoke-test';
 const env = { ...process.env };
 delete env.ELECTRON_RUN_AS_NODE;
 const child = spawn(electron, [path.resolve(__dirname, '..', 'dist', 'main.js'), flag], {
@@ -12,11 +16,12 @@ const child = spawn(electron, [path.resolve(__dirname, '..', 'dist', 'main.js'),
   windowsHide: true,
 });
 
+const timeoutMs = flag === '--lifecycle-smoke' ? 120000 : 45000;
 const timeout = setTimeout(() => {
   console.error(`[runner] ${flag} timed out`);
   child.kill();
   process.exitCode = 1;
-}, 45000);
+}, timeoutMs);
 
 child.on('error', (error) => {
   clearTimeout(timeout);

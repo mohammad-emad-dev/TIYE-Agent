@@ -11,6 +11,7 @@
     "start": "npm run build && electron dist/main.js",
     "smoke": "npm run build && node scripts/run-smoke.js",
     "smoke:window": "npm run build && node scripts/run-smoke.js -- --window-smoke",
+    "smoke:lifecycle": "npm run build && node scripts/run-smoke.js -- --lifecycle-smoke",
     "rebuild-pty": "electron-rebuild -f -w node-pty"
   },
   "dependencies": {

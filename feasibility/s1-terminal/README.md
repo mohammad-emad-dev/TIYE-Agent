@@ -1,11 +1,24 @@
-# TIYE S1a prototype — terminal display/input channel
+# TIYE S1 terminal prototype — display/input channel + member lifecycle (S1a + S1b)
 
-S1a proves the Electron display/input channel (Architecture 2.1, 5.2) before
-adding lifecycle and process-tree guarantees. Main owns the node-pty PTY; a
-sandboxed renderer (context isolation on, sandbox on, Node integration off)
-shows it with xterm.js through a narrow validated IPC/preload bridge
-(terminal data in, input/resize out). Default child: the scripted local
-`mock-cli` — never a vendor CLI, never a network model.
+S1a proves the Electron display/input channel (Architecture 2.1, 5.2); S1b
+adds a bounded member lifecycle exercise for parts of S1 steps 9a–9d. Main
+owns ONE member PTY session across BrowserWindow recreation; a sandboxed
+renderer (context isolation on, sandbox on, Node integration off) shows it
+with xterm.js through a narrow validated IPC/preload bridge (terminal data
+in, input/resize out). Default child: the scripted local `mock-cli` —
+never a vendor CLI, never a network model.
+
+Lifecycle behavior (interactive): closing the window while the member is
+alive asks **Keep Running** or **Stop**. Keep Running retains the PTY and
+exposes a tray menu with **Open** (new window, renderer reattaches to the
+same PTY, no duplicate spawn) and **Quit**. Stop, and tray Quit, share one
+stop-all path: graceful CLI shutdown is requested through the PTY (the
+mock CLI's `exit` command — never a PID kill), then the app ends. A tiny
+mock-core subscribe/unsubscribe token simulates 9b re-subscribe with no
+second spawn; a real core process restart remains untested.
+Output produced while no renderer is attached is buffered up to one million
+characters and flushed on reopen; older output is dropped with a notice.
+The prototype does not replay the full terminal history from before close.
 
 ## Setup / run
 
@@ -17,6 +30,10 @@ npm run check           &:: typecheck + build
 npm start               &:: visible window with mock-cli (manual S1 steps 1-8)
 npm run smoke           &:: Electron headless PTY check (banner/echo/resize/exit)
 npm run smoke:window    &:: hidden-window render check + dist/smoke-shot.png
+npm run smoke:lifecycle &:: S1 9a-9d lifecycle: Keep Running PID/session
+                        &:: preserved through close+reopen, mock-core
+                        &:: re-subscribe with no duplicate spawn, Stop and
+                        &:: tray-Quit each request graceful shutdown
 ```
 
 Manual S1 launch override (no source edits) — a trusted local command only:
@@ -58,6 +75,15 @@ vendor CLI in automated checks.
   preload bridge READY, graceful `exit` driven **through**
   `window.tiyeTerminal.sendInput`, PTY exit 0, non-empty screenshot:
   PASS (see `dist/smoke-shot.png` after a run).
+- `npm run smoke:lifecycle` — S1 9a–9d + 9b against the local mock CLI,
+  driven by internal hooks (no dialog/tray clicks): 9a Keep Running keeps
+  the same PTY PID/session identity through close (spawn # stays 1); Open
+  sends input from the new window's renderer through the preload bridge
+  (`echo: hello reopen` observed at the PTY, still spawn #1); 9b mock-core restart
+  token re-subscribes to the same session with no second spawn; 9c Stop and 9d
+  tray-Quit each request graceful shutdown and observe PTY exit 0: PASS.
+  Exit 0 shows the CLI exited on request; it does **not** prove a whole
+  process tree died (no Job Object in this task).
 - No vendor CLI and no network model were used in any automated check.
 
 ## Environment notes (exact failures / workarounds)
@@ -77,27 +103,43 @@ vendor CLI in automated checks.
   .NET `ZipFile::ExtractToDirectory` succeeded and `path.txt` was
   written manually. No prototype code depends on this.
 - **node-pty teardown quirk (Windows)**: `term.kill()` on a live PTY, or
-  `app.exit` with a live PTY, can crash the teardown with
+  app exit with a live PTY, can crash the teardown with
   `conpty_console_list_agent.js: AttachConsole failed`. Automated checks
-  exit the child gracefully first; window-close still uses `kill()`.
+  exit the child gracefully first. Interactive Stop/Quit likewise write
+  `exit` through the PTY and wait; `term.kill()` is only a timeout
+  fallback and is never cited as evidence of process-tree death.
+- **Last-window-close ends the process unless handled**: while building
+  the lifecycle smoke, closing the last window with no `window-all-closed`
+  handler exited the app silently (code 0, ~1 s after `win.close()`),
+  before any further smoke step ran. The handler (stay alive when a
+  retained PTY/tray exists, else quit) is therefore registered before all
+  modes, including smoke modes. This is smoke-observed behavior, not a
+  claim about crash recovery.
 - Interactive window mode (`npm start`) was built and typechecked but not
   visually verified in this session; S1 steps 1–8 remain manual.
 
-## NOT implemented / NOT passed in S1a
+## NOT implemented / NOT passed beyond S1a–S1b
 
-- S1 steps **9a–9f**: window-close keep/stop choices, tray quit (stop-all),
-  core-restart re-subscribe without duplicate processes, Windows job
-  ownership / durable process-identity registry, abnormal-main-exit
-  cleanup. Closing the window currently kills the PTY.
+- S1 steps **9e–9f**: orphan enumeration with PID + process-creation
+  identity after 9c/9d, Windows job ownership / durable
+  process-identity registry, abnormal-main-exit cleanup and crash
+  recovery. A keep-running PTY from 9a is intentionally owned, not an
+  orphan; nothing here proves a whole process tree died.
+- Real installed CLIs: lifecycle paths are evidenced with the local
+  mock CLI only; vendor-CLI behavior (permission prompts, resume, output
+  patterns) is still manual per S1 steps 1–8.
 - **WSL** cases (S6): not implemented or tested.
 - No pass/fail claim for the full S1 test is made by this prototype.
 
 ## Layout
 
-- `src/main.ts` — window + PTY ownership, launch resolution, IPC
-  validation, `--smoke-test` / `--window-smoke`.
+- `src/main.ts` — window + single main-owned PTY session, launch
+  resolution, IPC validation, tray (Open/Quit), graceful stop-all,
+  mock-core subscribe token, `--smoke-test` / `--window-smoke` /
+  `--lifecycle-smoke`.
 - `src/preload.ts`, `src/shared.ts` — narrow validated bridge + contract.
 - `src/renderer.ts`, `src/index.html` — xterm.js view, no Node.
 - `scripts/build.js` — esbuild bundles + asset copy.
-- `scripts/run-smoke.js` — headless Electron runner (timeout + logs).
+- `scripts/run-smoke.js` — headless Electron runner (timeout + logs;
+  120 s for the lifecycle flag, 45 s otherwise).
 - `mock-cli/mock-cli.js` — scripted local CLI, zero dependencies.
