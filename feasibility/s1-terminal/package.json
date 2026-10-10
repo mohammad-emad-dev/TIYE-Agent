@@ -13,6 +13,7 @@
     "smoke:window": "npm run build && node scripts/run-smoke.js -- --window-smoke",
     "smoke:lifecycle": "npm run build && node scripts/run-smoke.js -- --lifecycle-smoke",
     "smoke:crash-baseline": "npm run build && node scripts/run-crash-baseline.js",
+    "smoke:job-probe": "node scripts/run-job-probe.js",
     "rebuild-pty": "electron-rebuild -f -w node-pty"
   },
   "dependencies": {

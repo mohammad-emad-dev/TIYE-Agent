@@ -45,6 +45,9 @@ npm run smoke:crash-baseline &:: S1 9f BASELINE only: crash-and-relaunch
                         &:: feasibility probe (durable PID+creation
                         &:: registry, runner-owned kill, read-only
                         &:: recovery check; no job, no 9f pass)
+npm run smoke:job-probe &:: Isolated Windows Job Object API probe only
+                        &:: (PowerShell + C# P/Invoke controller, no
+                        &:: Electron/PTY; mock-child fixture; no 9f pass)
 ```
 
 Manual S1 launch override (no source edits) — a trusted local command only:
@@ -128,6 +131,21 @@ vendor CLI in automated checks.
   No bounded-cleanup wait was needed (nothing survived); no PID kill was used
   at any point. See `RESULTS.md`.
 - No vendor CLI and no network model were used in any automated check.
+- `npm run smoke:job-probe` — isolated Windows Job Object API feasibility
+  observation only (2026-10-10, Windows, `mock-child.js` fixture directly,
+  no Electron, no PTY, no mock-cli parent): control case held a no-job
+  child alive ~2 s on open stdin then exited it via stdin (code 0); job
+  case reached controller `READY` after a same-handle `GetProcessTimes`
+  identity check, read-back of `KILL_ON_JOB_CLOSE` flags (`0x2000`),
+  `AssignProcessToJobObject`, and `IsProcessInJob=true`. Closing the
+  controller-owned job by terminating only the runner-owned controller
+  ended the exact child identity on the first re-enumeration, 2,803 ms
+  after child spawn and far before its 60 s self-expiry: isolated probe
+  **PASS**. The controller uses a one-microsecond bound for the observed
+  CIM/FileTime conversion skew. This host uses an outer job, so this was
+  a nested assignment; Electron/PTY integration remains untested. No
+  captured child PID was targeted for termination. 9f stays **partial**;
+  see `RESULTS.md`.
 - S1 overall remains **partial** (see below).
 
 ## Environment notes (exact failures / workarounds)
@@ -203,6 +221,19 @@ vendor CLI in automated checks.
 - Real installed CLIs: lifecycle paths are evidenced with the local
   mock CLI only; vendor-CLI behavior (permission prompts, resume, output
   patterns) is still manual per S1 steps 1–8.
+- **Job Object probe (isolated API observation only, no 9f pass) lives in
+  `scripts/job-probe-controller.ps1` + `scripts/run-job-probe.js` (`npm
+  run smoke:job-probe`): built-in Windows PowerShell + C# P/Invoke, no new
+  npm dependencies, no Electron/PTY integration. It proves only that the
+  `CreateJobObject` / `SetInformationJobObject(KILL_ON_JOB_CLOSE)` /
+  `AssignProcessToJobObject` / `GetProcessTimes` / `IsProcessInJob` call
+  sequence runs, the `KILL_ON_JOB_CLOSE` flag reads back as `0x2000`, and
+  closing the controller-owned job terminates its assigned fixture. The
+  same-handle creation-identity check allows at most one microsecond of
+  CIM/FileTime conversion skew. Still NOT implemented around it: Electron main-owned PTY
+  assignment, descendant inheritance under a real member tree, crash
+  relaunch, durable registry reconciliation, and vendor CLIs. None of the
+  9f-BASELINE files or the crash fixture behavior were changed by this.
 - **WSL** cases (S6): not implemented or tested.
 - No pass/fail claim for the full S1 test is made by this prototype; S1
   stays **partial** and 9f stays **partial** until job boundary,
@@ -246,3 +277,20 @@ vendor CLI in automated checks.
 - `mock-cli/mock-child.js` — deterministic long-lived descendant fixture
   for the 9f BASELINE only: exits itself on an `exit` stdin
   line, stays alive on stdin close, self-expires after 60 s, no PID kills.
+- `scripts/job-probe-controller.ps1` — isolated Job Object controller
+  (no Electron/PTY): opens the supplied child PID, verifies creation
+  identity with the SAME handle (`GetProcessTimes` vs caller ISO, at most
+  one microsecond of conversion skew), creates an unnamed job, sets and
+  reads back `KILL_ON_JOB_CLOSE`, assigns,
+  confirms `IsProcessInJob`, prints structured `READY`, holds the job
+  handle until its own process exits (normal exit closes it; abnormal
+  termination closes it via the OS).
+- `scripts/run-job-probe.js` — isolated probe runner (`npm run
+  smoke:job-probe`): no-job control case (~2 s alive, stdin `exit`,
+  observed exit) plus the job case above (READY wait, runner-owned
+  controller kill via handle only, PID+creation re-enumeration well
+  before the 60 s bound; setup failure is inconclusive exit 2 with the
+  child asked to exit, surviving closure is FAIL exit 1 after a normal
+  stdin `exit`). Never `taskkill` / `Stop-Process` / PID kill; no fixture
+  orphaned. Reuses `mock-child.js` directly (single-process fixture, no
+  PTY, no mock-cli parent); the fixture itself is unchanged.
