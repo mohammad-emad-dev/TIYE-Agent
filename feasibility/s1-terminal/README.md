@@ -68,21 +68,34 @@ npm run smoke:crash-pty-survivor &:: Mock CLI inside the main-owned PTY
                         &:: survival after main death; if it survives,
                         &:: verified cleanup and a tampered creation-time
                         &:: alert are checked; no 9f pass.
-npm run smoke:startup-recovery-alert &:: Malformed and valid-looking test
-                        &:: registries on ordinary startup each show a
-                        &:: visible paused alert window with no member
-                        &:: spawn or cleanup helper invocation.
+npm run smoke:startup-recovery-alert &:: Invalid, absent, exact, and tampered
+                        &:: creation/name-mismatch registries on ordinary
+                        &:: startup each show a visible per-state paused
+                        &:: alert window with no member spawn, no
+                        &:: recovery call, and no cleanup helper invocation.
 ```
 
 Setting `TIYE_CRASH_PTY_SURVIVOR_REGISTRY_PATH` on ordinary startup opts into
 the mock recovery gate. It reads and parses that registry read-only before
-spawning any member, then always shows the same constant visible paused-alert
-window and keeps the prototype paused. Ordinary startup never calls
-`runCrashPtySurvivorRecovery()` and never invokes
-`verified-identity-stop.ps1`; no cleanup is attempted or verified and the
-registry is never mutated. This test-only gate does not authenticate
-same-user registry changes, resume a member, or provide product crash
-recovery.
+spawning any member, then does one bounded read-only current-process lookup
+for the parsed `childPid` (10 s CIM timeout, `lookupSingleProcess`), then
+always shows a visible paused-alert window and keeps the prototype paused.
+The window and logs distinguish five informational-only statuses: `invalid`
+(registry unreadable/malformed, no lookup), `absent` (saved identity absent),
+`exact` (live PID+creation+case-insensitive name match), `mismatch`
+(live PID present but saved creation and/or name differ, with
+`creation-mismatch` vs `name-mismatch` logged), and `lookup-failed`
+(bounded lookup failed; the window is still shown). Every state stays
+paused: nothing auto-resumes, nothing is inferred as safe relaunch (the
+`exact` text says so explicitly), and ordinary startup never calls
+`runCrashPtySurvivorRecovery()`, never invokes
+`verified-identity-stop.ps1`, never kills, never spawns a PTY/member, and
+never mutates the registry. Each status has static window text; no registry
+data is interpolated into the HTML. No cleanup is attempted or verified in
+any state. The registry is unauthenticated against same-user tampering, so
+every observation is informational only. This test-only gate does not resume
+a member or provide product crash recovery; explicit
+`--crash-pty-survivor-recovery-check` stays the only cleanup path.
 
 Manual S1 launch override (no source edits) — a trusted local command only:
 

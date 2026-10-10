@@ -40,6 +40,7 @@ import {
   runCrashPtySurvivor,
   runCrashPtySurvivorRecovery,
 } from './crash-pty-survivor';
+import { lookupSingleProcess } from './crash-identity';
 
 const SMOKE_FLAG = '--smoke-test';
 const WINDOW_SMOKE_FLAG = '--window-smoke';
@@ -61,29 +62,67 @@ const MAX_PENDING_OUTPUT = 1_000_000;
 // Bounded S1 9f prototype startup recovery gate (mock feasibility only,
 // READ-ONLY). On ORDINARY startup with TIYE_CRASH_PTY_SURVIVOR_REGISTRY_PATH
 // set and no existing crash/smoke experiment flag, read + parse the registry
-// with the existing parser (read-only) BEFORE any member spawn, then ALWAYS
-// show one constant visible recovery-paused ALERT window, launch no member,
+// with the existing parser (read-only) BEFORE any member spawn, then do ONE
+// bounded read-only current-process lookup for the parsed childPid, then
+// ALWAYS show one visible recovery-paused ALERT window, launch no member,
 // invoke NO helper, mutate nothing. Ordinary startup NEVER calls
 // runCrashPtySurvivorRecovery() or verified-identity-stop.ps1 here: the
 // registry is unauthenticated against same-user tampering, so auto cleanup
-// on ordinary launch is unsafe. Explicit --crash-pty-survivor-recovery-check
-// stays the only cleanup path.
+// on ordinary launch is unsafe and the observation below is informational
+// only (never a safe-relaunch proof). Explicit
+// --crash-pty-survivor-recovery-check stays the only cleanup path.
 // ---------------------------------------------------------------------------
 let startupRecoveryGateActive = false;
 let startupRecoveryWindow: BrowserWindow | null = null;
 
-const STARTUP_RECOVERY_ALERT_HTML =
-  '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8" />' +
-  '<meta name="viewport" content="width=device-width, initial-scale=1" />' +
-  '<title>TIYE S1 recovery paused</title>' +
-  '<style>html,body{margin:0;padding:24px;font-family:sans-serif;background:#1e1e1e;color:#f5f5f5}' +
-  'main{max-width:560px;margin:0 auto;border:1px solid #b3261e;border-radius:8px;padding:20px;background:#2a1f1f}' +
-  'h1{font-size:18px;margin:0 0 12px}p{font-size:14px;line-height:1.5;margin:8px 0}</style>' +
-  '</head><body><main id="startup-recovery-status" data-kind="alert">' +
-  '<h1>TIYE S1 startup recovery - paused</h1>' +
-  '<p>A prior session may still be running and must be reviewed. No new member started.</p>' +
-  '<p>No cleanup was attempted or verified. This prototype remains paused. This is a mock feasibility prototype, not production-ready recovery. No member was resumed automatically.</p>' +
-  '</main></body></html>';
+type StartupRecoveryObservation = 'invalid' | 'absent' | 'exact' | 'mismatch' | 'lookup-failed';
+
+function startupRecoveryStatusParagraph(status: StartupRecoveryObservation): string {
+  switch (status) {
+    case 'invalid':
+      return '<p>The saved registry could not be read or parsed, so no process observation was possible. No cleanup was attempted or verified. This prototype remains paused.</p>';
+    case 'absent':
+      return '<p>The saved process identity was absent in the current process list. Nothing was cleaned. This observation is informational only and does not prove safe relaunch. This prototype remains paused.</p>';
+    case 'exact':
+      return '<p>A live process matches the saved process identity exactly. This observation is informational only and does not prove safe relaunch. No cleanup was attempted or verified. This prototype remains paused.</p>';
+    case 'mismatch':
+      return '<p>A live process uses the saved process identifier but its saved identity does not match. This may indicate process identifier reuse or registry tampering. No cleanup was attempted or verified. This prototype remains paused.</p>';
+    case 'lookup-failed':
+      return '<p>The current process observation could not be completed. No cleanup was attempted or verified. This prototype remains paused.</p>';
+  }
+}
+
+function startupRecoveryAlertHtml(status: StartupRecoveryObservation): string {
+  return (
+    '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8" />' +
+    '<meta name="viewport" content="width=device-width, initial-scale=1" />' +
+    '<title>TIYE S1 recovery paused</title>' +
+    '<style>html,body{margin:0;padding:24px;font-family:sans-serif;background:#1e1e1e;color:#f5f5f5}' +
+    'main{max-width:560px;margin:0 auto;border:1px solid #b3261e;border-radius:8px;padding:20px;background:#2a1f1f}' +
+    'h1{font-size:18px;margin:0 0 12px}p{font-size:14px;line-height:1.5;margin:8px 0}</style>' +
+    `</head><body><main id="startup-recovery-status" data-kind="alert" data-status="${status}">` +
+    '<h1>TIYE S1 startup recovery - paused</h1>' +
+    '<p>A prior session may still be running and must be reviewed. No new member started.</p>' +
+    startupRecoveryStatusParagraph(status) +
+    '<p>This is a mock feasibility prototype, not production-ready recovery. No member was resumed automatically.</p>' +
+    '</main></body></html>'
+  );
+}
+
+function startupRecoveryStatusPattern(status: StartupRecoveryObservation): RegExp {
+  switch (status) {
+    case 'invalid':
+      return /could not be read or parsed/i;
+    case 'absent':
+      return /was absent in the current process list/i;
+    case 'exact':
+      return /matches the saved process identity exactly/i;
+    case 'mismatch':
+      return /identifier reuse or registry tampering/i;
+    case 'lookup-failed':
+      return /observation could not be completed/i;
+  }
+}
 
 function hasCrashExperimentFlag(argv: string[]): boolean {
   return (
@@ -108,7 +147,7 @@ function shouldRunStartupRecoveryGate(): boolean {
   return true;
 }
 
-function createStartupRecoveryStatusWindow(): BrowserWindow {
+function createStartupRecoveryStatusWindow(status: StartupRecoveryObservation): BrowserWindow {
   const w = new BrowserWindow({
     width: 640,
     height: 420,
@@ -120,7 +159,7 @@ function createStartupRecoveryStatusWindow(): BrowserWindow {
       nodeIntegration: false,
     },
   });
-  void w.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(STARTUP_RECOVERY_ALERT_HTML)).catch((err: unknown) => {
+  void w.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(startupRecoveryAlertHtml(status))).catch((err: unknown) => {
     console.error(`[startup-recovery] FAIL: status window could not load: ${(err as Error).message}`);
     dialog.showErrorBox('TIYE S1 recovery paused', 'The recovery status window could not load. No new member was started.');
   });
@@ -136,18 +175,55 @@ async function runStartupRecoveryGate(alertSmoke: boolean): Promise<void> {
   startupRecoveryGateActive = true;
   const registryPath = (process.env[CRASH_PTY_SURVIVOR_REGISTRY_ENV] ?? '').trim();
   console.log('[startup-recovery] GATE ordinary-startup read-only (no member spawn, no helper, no registry mutation)');
+  let observation: StartupRecoveryObservation = 'invalid';
+  let parsedChildPid = 0;
+  let parsedChildCreationTime = '';
+  let parsedChildName = '';
   try {
     const raw = fs.readFileSync(registryPath, 'utf8');
-    parseCrashPtySurvivorRegistry(raw, registryPath);
+    const parsed = parseCrashPtySurvivorRegistry(raw, registryPath);
+    parsedChildPid = parsed.childPid;
+    parsedChildCreationTime = parsed.childCreationTime;
+    parsedChildName = parsed.childName;
     console.log('[startup-recovery] PENDING valid-looking registry (read-only, no cleanup attempted, no helper invoked)');
   } catch {
     console.log('[startup-recovery] ALERT malformed-or-missing registry (read-only, no cleanup attempted, no helper invoked)');
   }
+  if (parsedChildPid <= 0) {
+    observation = 'invalid';
+    console.log('[startup-recovery] OBSERVATION status=invalid (registry unreadable or malformed; no process lookup; read-only, no cleanup attempted, no helper invoked, no registry mutation; unauthenticated registry, informational only)');
+  } else {
+    // Bounded read-only current-process observation for the parsed childPid.
+    // Informational only: the registry is same-user writable, so an exact
+    // match is NOT a safe-relaunch proof and never triggers cleanup, spawn,
+    // or mutation. Lookup failure still shows the paused window below.
+    try {
+      const current = await lookupSingleProcess(parsedChildPid, 'startup-recovery', 10000);
+      if (current === null) {
+        observation = 'absent';
+        console.log('[startup-recovery] OBSERVATION status=absent (saved identity absent in current process list; read-only, no cleanup attempted, no helper invoked, no registry mutation; informational only)');
+      } else if (
+        current.creationTime === parsedChildCreationTime &&
+        current.name.toLowerCase() === parsedChildName.toLowerCase()
+      ) {
+        observation = 'exact';
+        console.log('[startup-recovery] OBSERVATION status=exact (live process matches saved PID+creation+name; read-only, no cleanup attempted, no helper invoked, no registry mutation; informational only, not safe-relaunch proof; unauthenticated registry)');
+      } else {
+        observation = 'mismatch';
+        const reason = current.creationTime !== parsedChildCreationTime ? 'creation-mismatch' : 'name-mismatch';
+        console.log(`[startup-recovery] OBSERVATION status=mismatch reason=${reason} (live PID present but saved identity differs; possible PID reuse or tampering; read-only, no cleanup attempted, no helper invoked, no registry mutation; informational only)`);
+      }
+    } catch (err) {
+      observation = 'lookup-failed';
+      console.log('[startup-recovery] OBSERVATION status=lookup-failed (current-process lookup failed; read-only, no cleanup attempted, no helper invoked, no registry mutation; informational only)');
+      console.error(`[startup-recovery] LOOKUP-FAILED bounded read-only CIM lookup failed; window still shown, paused: ${(err as Error).message.slice(0, 200)}`);
+    }
+  }
   console.log('[startup-recovery] ALERT prior session may still be running and must be reviewed - no new member started (read-only, no cleanup attempted, no helper invoked, no registry mutation)');
   console.log(`[startup-recovery] NO-MEMBER no-pty-spawn no-duplicate-launch spawnCount=${spawnCount} (member spawn paused)`);
   console.log('[startup-recovery] NO-HELPER no-verified-stop-invoked no-recovery-call (ordinary gate never calls runCrashPtySurvivorRecovery)');
-  console.log('[startup-recovery] PAUSED no-new-member prototype-paused (mock feasibility prototype, not production-ready)');
-  startupRecoveryWindow = createStartupRecoveryStatusWindow();
+  console.log(`[startup-recovery] PAUSED no-new-member prototype-paused status=${observation} (mock feasibility prototype, not production-ready; all states paused, never auto-resume)`);
+  startupRecoveryWindow = createStartupRecoveryStatusWindow(observation);
   if (!alertSmoke) {
     console.log('[startup-recovery] STATUS-VISIBLE paused alert window shown; close the window to quit; no member will start');
     return;
@@ -196,22 +272,35 @@ async function runStartupRecoveryGate(alertSmoke: boolean): Promise<void> {
     const hasAlertText =
       /may still be running/i.test(domText) && /must be reviewed/i.test(domText) && /no new member started/i.test(domText);
     const noCleanupClaim = !/cleanup was verified/i.test(domText) && !/could not be verified\/cleaned/i.test(domText);
+    let domStatus = '';
+    try {
+      const statusResult: unknown = await w.webContents.executeJavaScript(
+        "(document.getElementById('startup-recovery-status')?.getAttribute('data-status') ?? '')",
+      );
+      domStatus = typeof statusResult === 'string' ? statusResult : String(statusResult ?? '');
+    } catch (err) {
+      console.error(`[startup-recovery-alert-smoke] INCONCLUSIVE: status attribute inspection failed: ${(err as Error).message} (no pass)`);
+      app.exit(2);
+      return;
+    }
+    const hasStatusText = startupRecoveryStatusPattern(observation).test(domText);
+    console.log(`[startup-recovery-alert-smoke] STATUS status=${observation} domStatus=${domStatus} statusText=${hasStatusText}`);
     app.emit('activate');
     await new Promise((r) => setTimeout(r, 100));
     const statusWindowOnly = BrowserWindow.getAllWindows().length === 1 && startupRecoveryWindow === w;
     const noMember = term === null && spawnCount === 0 && statusWindowOnly;
-    console.log(`[startup-recovery-alert-smoke] CHECK alertText=${hasAlertText} noCleanupClaim=${noCleanupClaim} noMember=${noMember} visible=${visible} spawnCount=${spawnCount} statusWindowOnly=${statusWindowOnly}`);
+    console.log(`[startup-recovery-alert-smoke] CHECK alertText=${hasAlertText} noCleanupClaim=${noCleanupClaim} noMember=${noMember} visible=${visible} spawnCount=${spawnCount} statusWindowOnly=${statusWindowOnly} status=${observation} domStatus=${domStatus} statusText=${hasStatusText}`);
     if (!visible) {
       console.error('[startup-recovery-alert-smoke] INCONCLUSIVE: status window not visible on this host (no pass)');
       app.exit(2);
       return;
     }
-    if (!hasAlertText || !noCleanupClaim || !noMember) {
-      console.error('[startup-recovery-alert-smoke] FAIL: expected paused alert text with no-member and no cleanup claim (no pass)');
+    if (!hasAlertText || !noCleanupClaim || !noMember || domStatus !== observation || !hasStatusText) {
+      console.error('[startup-recovery-alert-smoke] FAIL: expected paused alert text with no-member, no cleanup claim, and matching per-state status (no pass)');
       app.exit(1);
       return;
     }
-    console.log('[startup-recovery-alert-smoke] PASS paused alert window visible with no-member and no helper (read-only gate)');
+    console.log(`[startup-recovery-alert-smoke] PASS paused alert window visible with no-member and no helper (read-only gate status=${observation})`);
     app.exit(0);
   } catch (err) {
     console.error(`[startup-recovery-alert-smoke] INCONCLUSIVE: ${(err as Error).message} (no pass)`);
