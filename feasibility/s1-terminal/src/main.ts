@@ -35,6 +35,8 @@ import {
 import {
   CRASH_PTY_SURVIVOR_FLAG,
   CRASH_PTY_SURVIVOR_RECOVERY_FLAG,
+  CRASH_PTY_SURVIVOR_REGISTRY_ENV,
+  parseCrashPtySurvivorRegistry,
   runCrashPtySurvivor,
   runCrashPtySurvivorRecovery,
 } from './crash-pty-survivor';
@@ -52,7 +54,170 @@ const CRASH_JOB_RECOVERY_FLAG = '--crash-job-recovery-check';
 const CRASH_JOB_REGISTRY_ENV = 'TIYE_CRASH_JOB_REGISTRY_PATH';
 const CRASH_JOB_REGISTRY_SCHEMA = 'tiye-crash-job-registry';
 const CRASH_JOB_REGISTRY_VERSION = 1;
+const STARTUP_RECOVERY_ALERT_SMOKE_FLAG = '--startup-recovery-alert-smoke';
 const MAX_PENDING_OUTPUT = 1_000_000;
+
+// ---------------------------------------------------------------------------
+// Bounded S1 9f prototype startup recovery gate (mock feasibility only,
+// READ-ONLY). On ORDINARY startup with TIYE_CRASH_PTY_SURVIVOR_REGISTRY_PATH
+// set and no existing crash/smoke experiment flag, read + parse the registry
+// with the existing parser (read-only) BEFORE any member spawn, then ALWAYS
+// show one constant visible recovery-paused ALERT window, launch no member,
+// invoke NO helper, mutate nothing. Ordinary startup NEVER calls
+// runCrashPtySurvivorRecovery() or verified-identity-stop.ps1 here: the
+// registry is unauthenticated against same-user tampering, so auto cleanup
+// on ordinary launch is unsafe. Explicit --crash-pty-survivor-recovery-check
+// stays the only cleanup path.
+// ---------------------------------------------------------------------------
+let startupRecoveryGateActive = false;
+let startupRecoveryWindow: BrowserWindow | null = null;
+
+const STARTUP_RECOVERY_ALERT_HTML =
+  '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8" />' +
+  '<meta name="viewport" content="width=device-width, initial-scale=1" />' +
+  '<title>TIYE S1 recovery paused</title>' +
+  '<style>html,body{margin:0;padding:24px;font-family:sans-serif;background:#1e1e1e;color:#f5f5f5}' +
+  'main{max-width:560px;margin:0 auto;border:1px solid #b3261e;border-radius:8px;padding:20px;background:#2a1f1f}' +
+  'h1{font-size:18px;margin:0 0 12px}p{font-size:14px;line-height:1.5;margin:8px 0}</style>' +
+  '</head><body><main id="startup-recovery-status" data-kind="alert">' +
+  '<h1>TIYE S1 startup recovery - paused</h1>' +
+  '<p>A prior session may still be running and must be reviewed. No new member started.</p>' +
+  '<p>No cleanup was attempted or verified. This prototype remains paused. This is a mock feasibility prototype, not production-ready recovery. No member was resumed automatically.</p>' +
+  '</main></body></html>';
+
+function hasCrashExperimentFlag(argv: string[]): boolean {
+  return (
+    argv.includes(SMOKE_FLAG) ||
+    argv.includes(WINDOW_SMOKE_FLAG) ||
+    argv.includes(LIFECYCLE_SMOKE_FLAG) ||
+    argv.includes(CRASH_BASELINE_FLAG) ||
+    argv.includes(CRASH_RECOVERY_FLAG) ||
+    argv.includes(CRASH_JOB_FLAG) ||
+    argv.includes(CRASH_JOB_RECOVERY_FLAG) ||
+    argv.includes(CRASH_SURVIVOR_FLAG) ||
+    argv.includes(CRASH_SURVIVOR_RECOVERY_FLAG) ||
+    argv.includes(CRASH_PTY_SURVIVOR_FLAG) ||
+    argv.includes(CRASH_PTY_SURVIVOR_RECOVERY_FLAG)
+  );
+}
+
+function shouldRunStartupRecoveryGate(): boolean {
+  const raw = (process.env[CRASH_PTY_SURVIVOR_REGISTRY_ENV] ?? '').trim();
+  if (raw === '') return false;
+  if (hasCrashExperimentFlag(process.argv)) return false;
+  return true;
+}
+
+function createStartupRecoveryStatusWindow(): BrowserWindow {
+  const w = new BrowserWindow({
+    width: 640,
+    height: 420,
+    show: true,
+    title: 'TIYE S1 recovery paused',
+    webPreferences: {
+      sandbox: true,
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  });
+  void w.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(STARTUP_RECOVERY_ALERT_HTML)).catch((err: unknown) => {
+    console.error(`[startup-recovery] FAIL: status window could not load: ${(err as Error).message}`);
+    dialog.showErrorBox('TIYE S1 recovery paused', 'The recovery status window could not load. No new member was started.');
+  });
+  w.show();
+  w.focus();
+  w.on('closed', () => {
+    if (startupRecoveryWindow === w) startupRecoveryWindow = null;
+  });
+  return w;
+}
+
+async function runStartupRecoveryGate(alertSmoke: boolean): Promise<void> {
+  startupRecoveryGateActive = true;
+  const registryPath = (process.env[CRASH_PTY_SURVIVOR_REGISTRY_ENV] ?? '').trim();
+  console.log('[startup-recovery] GATE ordinary-startup read-only (no member spawn, no helper, no registry mutation)');
+  try {
+    const raw = fs.readFileSync(registryPath, 'utf8');
+    parseCrashPtySurvivorRegistry(raw, registryPath);
+    console.log('[startup-recovery] PENDING valid-looking registry (read-only, no cleanup attempted, no helper invoked)');
+  } catch {
+    console.log('[startup-recovery] ALERT malformed-or-missing registry (read-only, no cleanup attempted, no helper invoked)');
+  }
+  console.log('[startup-recovery] ALERT prior session may still be running and must be reviewed - no new member started (read-only, no cleanup attempted, no helper invoked, no registry mutation)');
+  console.log(`[startup-recovery] NO-MEMBER no-pty-spawn no-duplicate-launch spawnCount=${spawnCount} (member spawn paused)`);
+  console.log('[startup-recovery] NO-HELPER no-verified-stop-invoked no-recovery-call (ordinary gate never calls runCrashPtySurvivorRecovery)');
+  console.log('[startup-recovery] PAUSED no-new-member prototype-paused (mock feasibility prototype, not production-ready)');
+  startupRecoveryWindow = createStartupRecoveryStatusWindow();
+  if (!alertSmoke) {
+    console.log('[startup-recovery] STATUS-VISIBLE paused alert window shown; close the window to quit; no member will start');
+    return;
+  }
+  const w = startupRecoveryWindow;
+  if (w === null) {
+    console.error('[startup-recovery-alert-smoke] FAIL: status window missing (no pass)');
+    app.exit(1);
+    return;
+  }
+  try {
+    await new Promise<void>((resolve, reject) => {
+      const timer = setTimeout(() => reject(new Error('status window load timeout')), 15000);
+      try {
+        if (w.webContents.isLoading()) {
+          w.webContents.once('did-finish-load', () => {
+            clearTimeout(timer);
+            resolve();
+          });
+        } else {
+          setTimeout(() => {
+            clearTimeout(timer);
+            resolve();
+          }, 500);
+        }
+      } catch (err) {
+        clearTimeout(timer);
+        reject(err as Error);
+      }
+    });
+    await new Promise((r) => setTimeout(r, 500));
+    const visible = w.isVisible();
+    console.log(`[startup-recovery-alert-smoke] VISIBLE isVisible=${visible}`);
+    let domText = '';
+    try {
+      const result: unknown = await w.webContents.executeJavaScript(
+        "(document.getElementById('startup-recovery-status')?.innerText ?? document.body.innerText ?? '')",
+      );
+      domText = typeof result === 'string' ? result : String(result ?? '');
+    } catch (err) {
+      console.error(`[startup-recovery-alert-smoke] INCONCLUSIVE: DOM inspection failed: ${(err as Error).message} (no pass)`);
+      app.exit(2);
+      return;
+    }
+    console.log(`[startup-recovery-alert-smoke] DOM length=${domText.length}`);
+    const hasAlertText =
+      /may still be running/i.test(domText) && /must be reviewed/i.test(domText) && /no new member started/i.test(domText);
+    const noCleanupClaim = !/cleanup was verified/i.test(domText) && !/could not be verified\/cleaned/i.test(domText);
+    app.emit('activate');
+    await new Promise((r) => setTimeout(r, 100));
+    const statusWindowOnly = BrowserWindow.getAllWindows().length === 1 && startupRecoveryWindow === w;
+    const noMember = term === null && spawnCount === 0 && statusWindowOnly;
+    console.log(`[startup-recovery-alert-smoke] CHECK alertText=${hasAlertText} noCleanupClaim=${noCleanupClaim} noMember=${noMember} visible=${visible} spawnCount=${spawnCount} statusWindowOnly=${statusWindowOnly}`);
+    if (!visible) {
+      console.error('[startup-recovery-alert-smoke] INCONCLUSIVE: status window not visible on this host (no pass)');
+      app.exit(2);
+      return;
+    }
+    if (!hasAlertText || !noCleanupClaim || !noMember) {
+      console.error('[startup-recovery-alert-smoke] FAIL: expected paused alert text with no-member and no cleanup claim (no pass)');
+      app.exit(1);
+      return;
+    }
+    console.log('[startup-recovery-alert-smoke] PASS paused alert window visible with no-member and no helper (read-only gate)');
+    app.exit(0);
+  } catch (err) {
+    console.error(`[startup-recovery-alert-smoke] INCONCLUSIVE: ${(err as Error).message} (no pass)`);
+    app.exit(2);
+  }
+}
 
 interface LaunchSpec {
   command: string;
@@ -1945,8 +2110,31 @@ async function main(): Promise<void> {
     app.quit();
   });
   app.on('activate', () => {
+    if (startupRecoveryGateActive) {
+      if (startupRecoveryWindow !== null) {
+        if (startupRecoveryWindow.isMinimized()) startupRecoveryWindow.restore();
+        startupRecoveryWindow.focus();
+      }
+      return;
+    }
     if (win === null && !isQuitting && !process.argv.includes(SMOKE_FLAG)) createWindow();
   });
+  const startupRecoveryRequested = shouldRunStartupRecoveryGate();
+  if (process.argv.includes(STARTUP_RECOVERY_ALERT_SMOKE_FLAG) && !startupRecoveryRequested) {
+    console.error('[startup-recovery-alert-smoke] FAIL: registry env missing or incompatible experiment flag (no pass)');
+    app.exit(2);
+    return;
+  }
+  if (startupRecoveryRequested) {
+    const alertSmoke = process.argv.includes(STARTUP_RECOVERY_ALERT_SMOKE_FLAG);
+    try {
+      await runStartupRecoveryGate(alertSmoke);
+    } catch (err) {
+      console.error(`[startup-recovery] FAIL: ${(err as Error).message}`);
+      app.exit(2);
+    }
+    return;
+  }
   if (process.argv.includes(SMOKE_FLAG)) {
     try {
       const code = await runSmokeTest();

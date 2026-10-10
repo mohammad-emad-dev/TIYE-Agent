@@ -63,7 +63,26 @@ npm run smoke:crash-survivor &:: S1 9f crash-survivor experiment only
                         &:: registry, runner-owned kill, relaunched
                         &:: recovery drives verified-identity cleanup;
                         &:: plus wrong-creation fail-closed case; no 9f pass
+npm run smoke:crash-pty-survivor &:: Mock CLI inside the main-owned PTY
+                        &:: launches a detached child. The test checks
+                        &:: survival after main death; if it survives,
+                        &:: verified cleanup and a tampered creation-time
+                        &:: alert are checked; no 9f pass.
+npm run smoke:startup-recovery-alert &:: Malformed and valid-looking test
+                        &:: registries on ordinary startup each show a
+                        &:: visible paused alert window with no member
+                        &:: spawn or cleanup helper invocation.
 ```
+
+Setting `TIYE_CRASH_PTY_SURVIVOR_REGISTRY_PATH` on ordinary startup opts into
+the mock recovery gate. It reads and parses that registry read-only before
+spawning any member, then always shows the same constant visible paused-alert
+window and keeps the prototype paused. Ordinary startup never calls
+`runCrashPtySurvivorRecovery()` and never invokes
+`verified-identity-stop.ps1`; no cleanup is attempted or verified and the
+registry is never mutated. This test-only gate does not authenticate
+same-user registry changes, resume a member, or provide product crash
+recovery.
 
 Manual S1 launch override (no source edits) — a trusted local command only:
 
