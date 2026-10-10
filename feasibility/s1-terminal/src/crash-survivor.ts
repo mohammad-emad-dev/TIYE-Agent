@@ -37,6 +37,15 @@
 import * as child_process from 'node:child_process';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import {
+  captureProcessWithRetry,
+  lookupSingleProcess,
+  resolveVerifiedStopScriptPath,
+  runVerifiedStopHelper,
+  sleepMs,
+  writeRegistryAtomic,
+  type CrashProcessIdentity,
+} from './crash-identity';
 
 export const CRASH_SURVIVOR_FLAG = '--crash-survivor';
 export const CRASH_SURVIVOR_RECOVERY_FLAG = '--crash-survivor-recovery-check';
@@ -60,26 +69,7 @@ export interface CrashSurvivorRegistry {
   createdAt: string;
 }
 
-export interface SurvivorIdentity {
-  pid: number;
-  parentPid: number;
-  creationTime: string;
-  name: string;
-}
-
-function powershellBin(): string {
-  const system = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe';
-  try {
-    if (fs.existsSync(system)) return system;
-  } catch {
-    /* fall through */
-  }
-  return 'powershell.exe';
-}
-
-function verifiedStopScriptPath(): string {
-  return path.resolve(__dirname, '..', 'scripts', 'verified-identity-stop.ps1');
-}
+export type SurvivorIdentity = CrashProcessIdentity;
 
 function sidecarScriptPath(): string {
   return path.resolve(__dirname, '..', 'mock-cli', 'mock-child.js');
@@ -99,100 +89,12 @@ function resolveSidecarNode(): string {
   return process.execPath;
 }
 
-function sleepMs(ms: number): Promise<void> {
-  return new Promise((r) => setTimeout(r, ms));
-}
-
-function lookupSingle(pid: number, timeoutMs = 20000): Promise<SurvivorIdentity | null> {
-  const script =
-    `Get-CimInstance Win32_Process -Filter "ProcessId=${pid}" | ForEach-Object { $_.ProcessId.ToString() + "|" + $_.ParentProcessId.ToString() + "|" + $_.CreationDate.ToString("o") + "|" + $_.Name }`;
-  return new Promise<SurvivorIdentity | null>((resolve, reject) => {
-    let stdout = '';
-    let stderr = '';
-    let child: child_process.ChildProcess;
-    try {
-      child = child_process.spawn(powershellBin(), ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-Command', script], {
-        stdio: ['ignore', 'pipe', 'pipe'],
-        windowsHide: true,
-      });
-    } catch (err) {
-      reject(err as Error);
-      return;
-    }
-    const timer = setTimeout(() => {
-      try {
-        child.kill();
-      } catch {
-        /* helper-owned enumeration only */
-      }
-      reject(new Error(`crash-survivor single CIM lookup for PID ${pid} timed out`));
-    }, timeoutMs);
-    child.stdout?.on('data', (d: Buffer) => {
-      stdout += d.toString('utf8');
-    });
-    child.stderr?.on('data', (d: Buffer) => {
-      stderr += d.toString('utf8');
-    });
-    child.on('error', (err) => {
-      clearTimeout(timer);
-      reject(err);
-    });
-    child.on('close', (code) => {
-      clearTimeout(timer);
-      if (code !== 0) {
-        reject(new Error(`crash-survivor single CIM lookup failed (exit ${code}): ${stderr.slice(0, 200)}`));
-        return;
-      }
-      const line = stdout.split(/\r?\n/).map((s) => s.trim()).filter(Boolean)[0] ?? '';
-      if (line === '') {
-        resolve(null);
-        return;
-      }
-      const first = line.indexOf('|');
-      const second = line.indexOf('|', first + 1);
-      const third = line.indexOf('|', second + 1);
-      if (first < 0 || second < 0 || third < 0) {
-        reject(new Error('crash-survivor: malformed single CIM row'));
-        return;
-      }
-      const gotPid = Number(line.slice(0, first));
-      const parentPid = Number(line.slice(first + 1, second));
-      const creationTime = line.slice(second + 1, third);
-      const name = line.slice(third + 1);
-      if (gotPid !== pid || !Number.isInteger(parentPid) || creationTime === '' || name === '') {
-        reject(new Error(`crash-survivor: invalid single identity for PID ${pid}`));
-        return;
-      }
-      resolve({ pid: gotPid, parentPid, creationTime, name });
-    });
-  });
-}
-
-async function captureWithRetry(pid: number, label: string, timeoutMs = 10000): Promise<SurvivorIdentity> {
-  const deadline = Date.now() + timeoutMs;
-  // biome-ignore lint: bounded capture retry
-  while (true) {
-    const found = await lookupSingle(pid);
-    if (found !== null) return found;
-    if (Date.now() >= deadline) throw new Error(`crash-survivor: ${label} PID ${pid} absent after ${timeoutMs}ms`);
-    await sleepMs(500);
-  }
-}
-
 export function getCrashSurvivorRegistryPath(): string {
   const raw = (process.env[CRASH_SURVIVOR_REGISTRY_ENV] ?? '').trim();
   if (raw === '') {
     throw new Error(`crash-survivor probe: ${CRASH_SURVIVOR_REGISTRY_ENV} is not set (runner must supply a test-specific registry path)`);
   }
   return raw;
-}
-
-function writeRegistryAtomic(finalPath: string, data: CrashSurvivorRegistry): void {
-  const dir = path.dirname(finalPath);
-  fs.mkdirSync(dir, { recursive: true });
-  const tmpPath = `${finalPath}.${process.pid}.tmp`;
-  fs.writeFileSync(tmpPath, JSON.stringify(data, null, 2) + '\n', 'utf8');
-  fs.renameSync(tmpPath, finalPath);
 }
 
 export function parseCrashSurvivorRegistry(rawText: string, source: string): CrashSurvivorRegistry {
@@ -340,7 +242,7 @@ export async function runCrashSurvivor(): Promise<number> {
     // Capture main + child identities via CIM. Retry briefly for CIM lag.
     let mainIdentity: SurvivorIdentity;
     try {
-      mainIdentity = await captureWithRetry(process.pid, 'main');
+      mainIdentity = await captureProcessWithRetry(process.pid, 'main', 'crash-survivor');
       console.log(`[crash-survivor] MAIN ${formatSurvivor(mainIdentity)}`);
     } catch (err) {
       await askSidecarExitBestEffort();
@@ -348,7 +250,7 @@ export async function runCrashSurvivor(): Promise<number> {
     }
     let childIdentity: SurvivorIdentity;
     try {
-      childIdentity = await captureWithRetry(childPid, 'sidecar');
+      childIdentity = await captureProcessWithRetry(childPid, 'sidecar', 'crash-survivor');
       console.log(`[crash-survivor] CHILD ${formatSurvivor(childIdentity)}`);
     } catch (err) {
       await askSidecarExitBestEffort();
@@ -405,61 +307,6 @@ export async function runCrashSurvivor(): Promise<number> {
   }
 }
 
-function runHelperOnce(pid: number, creationISO: string): Promise<{ code: number; output: string }> {
-  const helperPs1 = verifiedStopScriptPath();
-  return new Promise((resolve, reject) => {
-    let output = '';
-    let child: child_process.ChildProcess;
-    try {
-      child = child_process.spawn(
-        powershellBin(),
-        ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', helperPs1, '-TargetPid', String(pid), '-TargetCreationTime', creationISO],
-        { stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true },
-      );
-    } catch (err) {
-      reject(err as Error);
-      return;
-    }
-    let settled = false;
-    const timer = setTimeout(() => {
-      if (settled) return;
-      settled = true;
-      try {
-        child.kill();
-      } catch {
-        /* own helper handle only */
-      }
-      reject(new Error('crash-survivor recovery: verified-identity helper timed out (helper handle killed, no PID kill)'));
-    }, 15000);
-    child.stdout?.on('data', (d: Buffer) => {
-      const text = d.toString('utf8');
-      output += text;
-      for (const line of text.split(/\r?\n/)) {
-        if (line !== '') console.log(`[crash-survivor-recovery] helper: ${line}`);
-      }
-    });
-    child.stderr?.on('data', (d: Buffer) => {
-      const text = d.toString('utf8');
-      output += text;
-      for (const line of text.split(/\r?\n/)) {
-        if (line !== '') console.log(`[crash-survivor-recovery] helper: ${line}`);
-      }
-    });
-    child.on('error', (err) => {
-      if (settled) return;
-      settled = true;
-      clearTimeout(timer);
-      reject(err);
-    });
-    child.on('close', (code) => {
-      if (settled) return;
-      settled = true;
-      clearTimeout(timer);
-      resolve({ code: code ?? 2, output });
-    });
-  });
-}
-
 /**
  * --crash-survivor-recovery-check. Read-only until the exact-survivor path:
  * no PTY, no sidecar spawn, no duplicate. Fail closed with ALERT on absent /
@@ -480,7 +327,7 @@ export async function runCrashSurvivorRecovery(): Promise<number> {
     console.error(`[crash-survivor-recovery] FAIL: crash-survivor recovery is Windows-only (platform=${process.platform}, no pass claimed)`);
     return 2;
   }
-  if (!fs.existsSync(verifiedStopScriptPath())) {
+  if (!fs.existsSync(resolveVerifiedStopScriptPath())) {
     console.error('[crash-survivor-recovery] FAIL: verified-identity-stop.ps1 missing (no pass)');
     return 2;
   }
@@ -513,7 +360,7 @@ export async function runCrashSurvivorRecovery(): Promise<number> {
   // Current-PID lookup by CIM before acting.
   let current: SurvivorIdentity | null;
   try {
-    current = await lookupSingle(registry.childPid, 15000);
+    current = await lookupSingleProcess(registry.childPid, 'crash-survivor', 15000);
   } catch (err) {
     console.error(`[crash-survivor-recovery] FAIL: identity lookup failed: ${(err as Error).message} (no pass)`);
     console.log(`[crash-survivor-recovery] ALERT reason=identity-lookup-failed pid=${registry.childPid} (identity cannot be verified; helper NEVER invoked)`);
@@ -557,7 +404,11 @@ export async function runCrashSurvivorRecovery(): Promise<number> {
   console.log(`[crash-survivor-recovery] HELPER-INVOKED pid=${registry.childPid} (verified-identity-stop.ps1 with saved PID+creation; helper re-checks on its SAME handle)`);
   let helper: { code: number; output: string };
   try {
-    helper = await runHelperOnce(registry.childPid, registry.childCreationTime);
+    helper = await runVerifiedStopHelper(registry.childPid, registry.childCreationTime, {
+      scenarioLabel: 'crash-survivor',
+      recoveryLogPrefix: 'crash-survivor-recovery',
+      helperScriptPath: resolveVerifiedStopScriptPath(),
+    });
   } catch (err) {
     console.log(`[crash-survivor-recovery] ALERT reason=helper-harness-failure detail=${(err as Error).message.slice(0, 200)} (no fallback PID kill)`);
     console.log(`[crash-survivor-recovery] PAUSED member=${registry.memberId} session=${registry.sessionId} no-duplicate-launch no-pty-spawn helper-failed (fail-closed; no PID kill)`);
@@ -579,7 +430,7 @@ export async function runCrashSurvivorRecovery(): Promise<number> {
     attempts += 1;
     let cur: SurvivorIdentity | null = null;
     try {
-      cur = await lookupSingle(registry.childPid, 15000);
+      cur = await lookupSingleProcess(registry.childPid, 'crash-survivor', 15000);
     } catch (err) {
       console.error(`[crash-survivor-recovery] FAIL: post-cleanup lookup failed: ${(err as Error).message} (no pass)`);
       console.log(`[crash-survivor-recovery] ALERT reason=post-cleanup-lookup-failed pid=${registry.childPid} (cleanup outcome unverified; no fallback PID kill)`);
