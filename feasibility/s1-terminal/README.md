@@ -54,6 +54,9 @@ npm run smoke:crash-job &:: S1 9f crash+job experiment only (Windows
                         &:: hold (piped stdin, VERIFY over pipe), durable
                         &:: job registry, runner-owned kill, read-only
                         &:: recovery; no 9f pass, S1 stays partial
+npm run smoke:identity-stop &:: Isolated verified-identity stop slice only
+                        &:: (PowerShell 5.1 + C# P/Invoke helper, no
+                        &:: Electron/PTY/job; mock-child fixture; no 9f pass)
 ```
 
 Manual S1 launch override (no source edits) — a trusted local command only:
@@ -152,6 +155,7 @@ vendor CLI in automated checks.
   a nested assignment; Electron/PTY integration remains untested. No
   captured child PID was targeted for termination. 9f stays **partial**;
   see `RESULTS.md`.
+- `npm run smoke:identity-stop` — isolated verified-identity stop slice only (2026-10-10, Windows, `mock-child.js` fixture directly, no Electron, no PTY, no mock-cli parent, no Job Object, no durable registry): the target stays alive after a deliberately wrong saved creation time is refused (`REFUSED`, exit 1, no termination), then the exact PID+creation identity is terminated via the SAME opened handle (`STOPPED`, exit 0) and found gone on the first read-only re-enumeration, about 2.7 s after spawn and far before its 60 s self-expiry, while an unrelated live control child is untouched until its normal stdin `exit` (code 0): isolated slice **PASS**. The helper requests only terminate, limited query, and synchronize rights and checks `GetProcessTimes` on that handle with at most 10 ticks of CIM/FileTime skew (latest run: 6 ticks on match), refuses on mismatch, terminates only on match on the same handle, waits boundedly (5 s) on that handle, and closes the handle on all paths. Exit contract: 0 STOPPED, 1 REFUSED, 2 FAIL. Never PID-only kill. 9f stays **partial**; see `RESULTS.md`.
 - S1 overall remains **partial** (see below).
 
 ## Environment notes (exact failures / workarounds)
@@ -240,6 +244,7 @@ vendor CLI in automated checks.
   assignment, descendant inheritance under a real member tree, crash
   relaunch, durable registry reconciliation, and vendor CLIs. None of the
   9f-BASELINE files or the crash fixture behavior were changed by this.
+- **Verified-identity stop slice (isolated safety primitive only, no 9f pass) lives in `scripts/verified-identity-stop.ps1` + `scripts/run-identity-stop.js` (`npm run smoke:identity-stop`): built-in Windows PowerShell 5.1 + C# P/Invoke, no new npm dependencies, no Electron/PTY/job integration. It proves only that a controlled surviving mock process is terminated ONLY after its saved PID+creation identity is checked on the SAME opened handle (10-tick bound), and that a wrong creation identity is refused while the process stays alive. Still NOT implemented around it: durable-registry trust, recovery integration, vendor CLIs, trees larger than one target plus one control. None of the 9f-BASELINE/job files or the fixture behavior were changed by this.
 - **WSL** cases (S6): not implemented or tested.
 - No pass/fail claim for the full S1 test is made by this prototype; S1
   stays **partial** and 9f stays **partial** until job boundary,
@@ -289,6 +294,8 @@ vendor CLI in automated checks.
   fixture bound; exit 1 when any captured member identity survives, exit 0
   only for the bounded zero-survivor observation with verified membership
   (9f stays partial). Never `taskkill` / `Stop-Process` / PID kill.
+- `scripts/verified-identity-stop.ps1` — isolated verified-identity stop helper: opens the supplied PID with minimum rights, checks creation identity on the SAME handle (10-tick bound), refuses without termination on mismatch (exit 1), terminates on the same handle and waits boundedly on match (exit 0), closes on all paths (exit 2 otherwise). Never PID-only kill.
+- `scripts/run-identity-stop.js` — isolated slice runner (`npm run smoke:identity-stop`): wrong-identity refusal plus alive proof, then correct-identity stop plus gone proof within the fixture bound, plus an untouched control stopped via stdin. Exit 0/1/2. Reuses `mock-child.js` directly; the fixture itself is unchanged.
 - `mock-cli/mock-cli.js` — scripted local CLI, zero dependencies (`tree`
   spawns the descendant, `tree-stop` stops it via stdin, `exit` drains it
   first; all other commands unchanged; `TIYE_MOCK_CRASH_MODE=1` arms the 9f
