@@ -23,17 +23,27 @@
 //   Scenario 1 (positive): READY + registry match (incl. recorded
 //     childParentPid==rootPid), pre-kill root+detached exact alive,
 //     runner-owned Electron kill via handle, post-kill detached exact still
-//     alive BEFORE recovery (else inconclusive exit 2, never a pass -- e.g.
-//     ConPTY reaping the detached child on some host), recovery CLEANED +
-//     PAUSED/no-duplicate with helper STOPPED, then exact gone well before
-//     60s. The member root is expected gone after main death; its post-kill
-//     state is logged as observation only, never a pass/fail gate.
+//     alive BEFORE the startup gate (else inconclusive exit 2, never a pass
+//     -- e.g. ConPTY reaping the detached child on some host), then a NEW
+//     Electron --startup-recovery-alert-smoke against the SAME real durable
+//     registry must exit 0 with VISIBLE true, STATUS status=exact
+//     domStatus=exact statusText=true, NO-MEMBER spawnCount=0, NO-HELPER,
+//     PAUSED and no explicit-recovery/helper/spawn/duplicate-fixture output,
+//     with the exact survivor independently proven still alive afterward,
+//     then explicit recovery CLEANED + PAUSED/no-duplicate with helper
+//     STOPPED, then exact gone well before 60s. The member root is expected
+//     gone after main death; its post-kill state is logged as observation
+//     only, never a pass/fail gate.
 //   Scenario 2 (tampered creation): fresh member+detached, same kill +
 //     post-kill alive proof, then change ONLY saved childCreationTime by +1h
-//     (original retained separately). Recovery must ALERT/PAUSE with NO helper
-//     invocation and NO duplicate spawn; original exact must remain alive.
-//     Runner then uses the helper with the ORIGINAL trusted identity as
-//     test-only teardown (reported separately), proving exact gone.
+//     (original retained separately), then the SAME startup-gate launch must
+//     exit 0 with status=mismatch reason=creation-mismatch (same
+//     VISIBLE/NO-MEMBER/NO-HELPER/PAUSED/no-recovery contract) with the
+//     ORIGINAL exact survivor proven still alive afterward, then explicit
+//     recovery must ALERT/PAUSE with NO helper invocation and NO duplicate
+//     spawn; original exact must remain alive. Runner then uses the helper
+//     with the ORIGINAL trusted identity as test-only teardown (reported
+//     separately), proving exact gone.
 // Error paths with a known trusted identity use that same verified helper as
 // test-only teardown (reported separately, original outcome preserved) --
 // never a raw PID kill.
@@ -56,6 +66,7 @@ const electron = require('electron');
 
 const READY_TIMEOUT_MS = 60000;
 const RECOVERY_TIMEOUT_MS = 45000;
+const STARTUP_ALERT_TIMEOUT_MS = 45000;
 const HELPER_TIMEOUT_MS = 15000;
 const KILL_WAIT_MS = 10000;
 const CIM_TIMEOUT_MS = 20000;
@@ -81,6 +92,20 @@ const STOPPED_RE = /\[verified-stop\] STOPPED/;
 // A recovery main must never relaunch the PTY fixture: its output must not
 // contain a fixture ready line (no duplicate member/detached launch).
 const DUPLICATE_FIXTURE_RE = /tree-detached ready/i;
+// Ordinary-startup gate contract (same log shapes asserted by
+// scripts/run-startup-recovery-alert.js, plus PAUSED). The gate must never
+// emit explicit-recovery logs, invoke the helper, spawn a member, or
+// relaunch the fixture.
+const STARTUP_ALERT_RE = /\[startup-recovery\] ALERT/;
+const STARTUP_PAUSED_RE = /\[startup-recovery\] PAUSED/;
+const STARTUP_NO_MEMBER_RE = /\[startup-recovery\] NO-MEMBER no-pty-spawn no-duplicate-launch spawnCount=0/;
+const STARTUP_NO_HELPER_RE = /\[startup-recovery\] NO-HELPER/;
+const STARTUP_VISIBLE_RE = /\[startup-recovery-alert-smoke\] VISIBLE isVisible=true/;
+const STARTUP_PASS_RE = /\[startup-recovery-alert-smoke\] PASS/;
+const STARTUP_PENDING_RE = /\[startup-recovery\] PENDING valid-looking registry/;
+const STARTUP_SPAWN_RE = /\[s1\] spawning/;
+const STARTUP_RECOVERY_LOG_RE = /\[crash-pty-survivor-recovery\]/;
+const STARTUP_INCONCLUSIVE_RE = /\[startup-recovery-alert-smoke\] INCONCLUSIVE/;
 
 function log(msg) {
   console.log(`[runner] ${msg}`);
@@ -611,11 +636,171 @@ function launchRecovery(tag, registryPath) {
   return { secondExitPromise: secondExit, getOutput: () => secondOutput };
 }
 
+// Ordinary-startup gate launch against the SAME real durable registry.
+// Read-only by production contract (src/main.ts): no member spawn, no
+// helper, no registry mutation, always paused. Uses the same
+// --startup-recovery-alert-smoke flag as
+// scripts/run-startup-recovery-alert.js; production startup behavior is
+// unchanged (no src/main.ts edit here).
+function launchStartupGate(tag, registryPath) {
+  const distMain = path.resolve(__dirname, '..', 'dist', 'main.js');
+  const env = { ...process.env, TIYE_CRASH_PTY_SURVIVOR_REGISTRY_PATH: registryPath };
+  delete env.ELECTRON_RUN_AS_NODE;
+  delete env.TIYE_MOCK_CRASH_MODE;
+  const child = spawn(electron, [distMain, '--startup-recovery-alert-smoke'], {
+    cwd: path.resolve(__dirname, '..'),
+    env,
+    stdio: ['ignore', 'pipe', 'pipe'],
+    windowsHide: true,
+  });
+  let output = '';
+  child.stdout?.on('data', (d) => {
+    output += d.toString('utf8');
+    logChild(`${tag}-startup-gate`, d);
+  });
+  child.stderr?.on('data', (d) => {
+    output += d.toString('utf8');
+    logChild(`${tag}-startup-gate`, d);
+  });
+  const exitPromise = new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      try {
+        child.kill();
+      } catch {
+        /* runner-owned handle only */
+      }
+      reject(Object.assign(new Error(`startup-gate timeout after ${STARTUP_ALERT_TIMEOUT_MS}ms (harness failure, no pass)`), { code: 2 }));
+    }, STARTUP_ALERT_TIMEOUT_MS);
+    child.on('error', (err) => {
+      clearTimeout(timer);
+      reject(Object.assign(new Error(`startup-gate launch failed: ${err.message}`), { code: 2 }));
+    });
+    child.on('exit', (code, signal) => {
+      clearTimeout(timer);
+      resolve({ code: code ?? 2, signal });
+    });
+  });
+  return { exitPromise, getOutput: () => output };
+}
+
+// Run the ordinary-startup gate and independently prove the trusted exact
+// survivor still alive afterward (gate is read-only and must never stop a
+// process). expected: { status: 'exact' | 'mismatch', observationRe: RegExp }.
+// Throws .code 1 on safety violation (helper/spawn/recovery/duplicate or
+// registry mutation or the exact survivor disappearing inside the fixture
+// safety bound), .code 2 on slow/racy/harness cases (timeout,
+// INCONCLUSIVE, lookup-failed, bound exceeded -- never a pass).
+async function runStartupGateAndProveAlive(tag, registryPath, trustedDetached, expected, scenarioStartedAt) {
+  let preGateRaw;
+  try {
+    preGateRaw = fs.readFileSync(registryPath, 'utf8');
+  } catch (err) {
+    throw Object.assign(new Error(`startup gate: registry unreadable before launch: ${err.message}`), { code: 2 });
+  }
+  log(`${tag}: startup-gate: relaunch NEW Electron --startup-recovery-alert-smoke against the SAME real durable registry (ordinary-startup read-only gate, no member/helper/mutation; expect status=${expected.status})`);
+  const { exitPromise, getOutput } = launchStartupGate(tag, registryPath);
+  let gateExit;
+  try {
+    gateExit = await exitPromise;
+  } catch (err) {
+    const partialOutput = getOutput();
+    if (STARTUP_RECOVERY_LOG_RE.test(partialOutput) || HELPER_INVOKED_RE.test(partialOutput) || STARTUP_SPAWN_RE.test(partialOutput) || DUPLICATE_FIXTURE_RE.test(partialOutput)) {
+      throw Object.assign(new Error('startup gate emitted recovery/helper/spawn output before failing (safety violation)'), { code: 1 });
+    }
+    try {
+      if (fs.readFileSync(registryPath, 'utf8') !== preGateRaw) {
+        throw Object.assign(new Error('startup gate mutated registry before failing (safety violation)'), { code: 1 });
+      }
+    } catch (readErr) {
+      if (readErr.code === 1) throw readErr;
+      // An unreadable registry on the failure path cannot prove mutation.
+    }
+    console.error(`[runner] ${tag} FAIL: ${err.message}`);
+    throw err.code === 1 ? err : Object.assign(err, { code: 2 });
+  }
+  const output = getOutput();
+  const elapsedMs = Date.now() - scenarioStartedAt;
+  const hasAlert = STARTUP_ALERT_RE.test(output);
+  const hasPaused = STARTUP_PAUSED_RE.test(output);
+  const hasNoMember = STARTUP_NO_MEMBER_RE.test(output);
+  const hasNoHelper = STARTUP_NO_HELPER_RE.test(output);
+  const hasVisible = STARTUP_VISIBLE_RE.test(output);
+  const hasPass = STARTUP_PASS_RE.test(output);
+  const hasPending = STARTUP_PENDING_RE.test(output);
+  const hasObservation = expected.observationRe.test(output);
+  const hasStatus = new RegExp(`\\[startup-recovery-alert-smoke\\] STATUS status=${expected.status}\\b`).test(output);
+  const hasDomStatus = new RegExp(`domStatus=${expected.status}\\b`).test(output);
+  const hasStatusText = /statusText=true/.test(output);
+  const hasRecoveryLog = STARTUP_RECOVERY_LOG_RE.test(output);
+  const hasHelper = HELPER_INVOKED_RE.test(output);
+  const hasSpawn = STARTUP_SPAWN_RE.test(output);
+  const hasDuplicateFixture = DUPLICATE_FIXTURE_RE.test(output);
+  const hasInconclusive = STARTUP_INCONCLUSIVE_RE.test(output);
+  const hasLookupFailed = /status=lookup-failed/.test(output);
+  log(`${tag}: startup-gate observation elapsed=${elapsedMs}ms since detached spawn (safety bound <${MAX_RECOVERY_OBSERVATION_MS}ms)`);
+  log(`${tag}: startup-gate outcome: exit=${gateExit.code}${gateExit.signal ? ` signal=${gateExit.signal}` : ''} VISIBLE=${hasVisible} STATUS=${hasStatus} domStatus=${hasDomStatus} statusText=${hasStatusText} NO-MEMBER=${hasNoMember} NO-HELPER=${hasNoHelper} PAUSED=${hasPaused} PASS=${hasPass} PENDING=${hasPending} OBS=${hasObservation} recovery-log=${hasRecoveryLog} helper=${hasHelper} spawn=${hasSpawn} duplicate-fixture=${hasDuplicateFixture}`);
+  if (hasRecoveryLog || hasHelper || hasSpawn || hasDuplicateFixture) {
+    console.error(`[runner] ${tag} FAIL: SAFETY VIOLATION -- startup gate emitted explicit-recovery logs, invoked the helper, spawned a member, or relaunched the fixture (read-only contract broken; no pass)`);
+    throw Object.assign(new Error('startup gate safety violation (recovery/helper/spawn/duplicate)'), { code: 1 });
+  }
+  let postGateRaw;
+  try {
+    postGateRaw = fs.readFileSync(registryPath, 'utf8');
+  } catch (err) {
+    throw Object.assign(new Error(`startup gate: registry unreadable after launch: ${err.message}`), { code: 2 });
+  }
+  if (postGateRaw !== preGateRaw) {
+    console.error(`[runner] ${tag} FAIL: SAFETY VIOLATION -- startup gate mutated the durable registry (read-only contract broken; no pass)`);
+    throw Object.assign(new Error('startup gate mutated registry (safety violation)'), { code: 1 });
+  }
+  if (gateExit.code === 2 || hasInconclusive || elapsedMs >= MAX_RECOVERY_OBSERVATION_MS) {
+    console.error(`[runner] ${tag} INCONCLUSIVE: startup gate harness failure or observation outside the fixture safety bound (no pass)`);
+    throw Object.assign(new Error('startup gate harness failure / bound exceeded'), { code: 2 });
+  }
+  if (hasLookupFailed) {
+    console.error(`[runner] ${tag} INCONCLUSIVE: startup gate reported lookup-failed (bounded CIM race; no pass claimed)`);
+    throw Object.assign(new Error('startup gate lookup-failed (inconclusive)'), { code: 2 });
+  }
+  if (!(gateExit.code === 0 && hasAlert && hasPaused && hasNoMember && hasNoHelper && hasVisible && hasPass && hasPending && hasObservation && hasStatus && hasDomStatus && hasStatusText)) {
+    console.error(`[runner] ${tag} FAIL: startup gate did not meet the read-only contract (want exit 0 + VISIBLE + STATUS status=${expected.status} domStatus=${expected.status} statusText=true + NO-MEMBER spawnCount=0 + NO-HELPER + PAUSED + PENDING/OBS, no recovery/helper/spawn/duplicate; no pass)`);
+    throw Object.assign(new Error(`startup gate contract failed (want status=${expected.status})`), { code: 1 });
+  }
+  log(`${tag}: startup-gate read-only contract met (status=${expected.status}, visible paused, no member/helper/mutation/recovery)`);
+  // Independent runner proof that the EXACT trusted survivor is still alive
+  // AFTER the read-only gate (the gate must never stop a process; no helper
+  // ran, so a gone result is inconclusive, never a verified cleanup).
+  let stillAlive;
+  try {
+    stillAlive = await isExactAlive(trustedDetached);
+  } catch (err) {
+    console.error(`[runner] ${tag} FAIL: post-gate liveness lookup failed: ${err.message} (no pass)`);
+    throw Object.assign(err, { code: 2 });
+  }
+  if (!stillAlive) {
+    const elapsedAfterLookup = Date.now() - scenarioStartedAt;
+    if (elapsedAfterLookup >= MAX_RECOVERY_OBSERVATION_MS) {
+      console.error(`[runner] ${tag} INCONCLUSIVE: exact detached pid=${trustedDetached.pid} is gone after the read-only startup gate outside the fixture safety bound (no pass)`);
+      throw Object.assign(new Error('survivor gone after read-only gate outside safety bound'), { code: 2 });
+    }
+    console.error(`[runner] ${tag} FAIL: SAFETY VIOLATION -- exact detached pid=${trustedDetached.pid} disappeared after the read-only startup gate at ${elapsedAfterLookup}ms, well before fixture self-expiry (no pass)`);
+    throw Object.assign(new Error('survivor disappeared after read-only gate (safety violation)'), { code: 1 });
+  }
+  log(`${tag}: post-gate survivor proof: exact detached pid=${trustedDetached.pid} created=${trustedDetached.creationTime} still alive AFTER the read-only gate (untouched as required)`);
+}
+
 async function scenarioPositive(suiteStartedAt, runDir) {
   const tag = 'positive';
   const registryPath = path.join(runDir, 'positive', 'registry.json');
   const ctx = await startKillAndProveSurvivor(tag, registryPath, suiteStartedAt);
   try {
+    // Bounded integration step: ordinary-startup gate against the SAME real
+    // durable registry BEFORE explicit recovery. The survivor was already
+    // proven exact-alive after main death; the gate must show it as exact
+    // without touching it, then we prove it still alive independently.
+    await runStartupGateAndProveAlive(tag, registryPath, ctx.trustedDetached, {
+      status: 'exact',
+      observationRe: /\[startup-recovery\] OBSERVATION status=exact/,
+    }, ctx.scenarioStartedAt);
     log(`${tag}: phase 3: relaunch NEW Electron --crash-pty-survivor-recovery-check (read-only until verified cleanup; no duplicate, no PID kill)`);
     const { secondExitPromise, getOutput } = launchRecovery(tag, registryPath);
     let secondExit;
@@ -668,7 +853,7 @@ async function scenarioPositive(suiteStartedAt, runDir) {
       console.error(`[runner] ${tag} INCONCLUSIVE: exact gone but ${elapsedSinceSpawn}ms after spawn is too close to the 60s self-expiry to attribute to the helper (no pass claimed)`);
       throw Object.assign(new Error('positive observation near expiry'), { code: 2 });
     }
-    log(`${tag}: PASS: detached PTY descendant survived main death, recovery CLEANED it via the verified helper, and the exact identity is gone well before 60s with no duplicate spawn.`);
+    log(`${tag}: PASS: detached PTY descendant survived main death, ordinary-startup gate showed exact paused with no member/helper, recovery CLEANED it via the verified helper, and the exact identity is gone well before 60s with no duplicate spawn.`);
     return ctx;
   } catch (err) {
     // Error-path test-only teardown with the trusted identity (reported
@@ -698,6 +883,14 @@ async function scenarioTampered(suiteStartedAt, runDir) {
     if (reRead.childPid !== originalDetached.pid || reRead.rootPid !== originalRoot.pid || reRead.childName !== originalDetached.name) {
       throw Object.assign(new Error('tamper changed more than childCreationTime'), { code: 2 });
     }
+    // Bounded integration step: ordinary-startup gate against the TAMPERED
+    // registry BEFORE explicit recovery. Must report mismatch
+    // reason=creation-mismatch read-only with the ORIGINAL exact survivor
+    // proven still alive afterward (gate never cleans).
+    await runStartupGateAndProveAlive(tag, registryPath, originalDetached, {
+      status: 'mismatch',
+      observationRe: /\[startup-recovery\] OBSERVATION status=mismatch reason=creation-mismatch/,
+    }, ctx.scenarioStartedAt);
     log(`${tag}: phase 3: relaunch NEW Electron --crash-pty-survivor-recovery-check against the TAMPERED registry (expect ALERT/PAUSED, no helper, no duplicate)`);
     const { secondExitPromise, getOutput } = launchRecovery(tag, registryPath);
     let secondExit;
@@ -781,7 +974,7 @@ async function scenarioTampered(suiteStartedAt, runDir) {
       console.error(`[runner] ${tag} INCONCLUSIVE: teardown gone but ${elapsedSinceSpawn}ms after spawn is too close to the 60s self-expiry to attribute to the helper (no pass claimed)`);
       throw Object.assign(new Error('teardown observation near expiry'), { code: 2 });
     }
-    log(`${tag}: PASS: wrong creation refused with the survivor untouched (no helper, no duplicate), then test-only teardown with the original identity proved exact-gone separately from recovery.`);
+    log(`${tag}: PASS: startup gate showed mismatch paused with the original survivor untouched, explicit recovery refused with the survivor untouched (no helper, no duplicate), then test-only teardown with the original identity proved exact-gone separately from recovery.`);
     return ctx;
   } catch (err) {
     // Error-path test-only teardown with the ORIGINAL trusted identity only
@@ -841,7 +1034,7 @@ async function main() {
     process.exitCode = 2;
     return;
   }
-  log(`CRASH-PTY-SURVIVOR PASS: detached PTY descendant survived main death and positive recovery CLEANED it via the verified helper with no duplicate, tampered creation ALERTED/PAUSED with no helper and the survivor untouched until separate test-only teardown; suite ${suiteElapsed}ms (well inside 60s); no PID kill used at any point.`);
+  log(`CRASH-PTY-SURVIVOR PASS: detached PTY descendant survived main death, ordinary-startup gate showed exact/mismatch paused read-only with no member/helper and the survivor untouched, positive recovery CLEANED it via the verified helper with no duplicate, tampered creation ALERTED/PAUSED with no helper and the survivor untouched until separate test-only teardown; suite ${suiteElapsed}ms (well inside 60s); no PID kill used at any point.`);
   log('Scope: controlled Windows mock-detached-PTY-descendant feasibility only (one PTY member + one detached mock child, no vendor CLI). Registry schema checks do NOT establish file authenticity against same-user tampering -- the tampered scenario proves fail-closed refusal, not production trust. No HMAC, no vendor CLI, no full 9f pass. S1 9f stays open.');
   process.exitCode = 0;
 }

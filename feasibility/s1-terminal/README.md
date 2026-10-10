@@ -63,11 +63,19 @@ npm run smoke:crash-survivor &:: S1 9f crash-survivor experiment only
                         &:: registry, runner-owned kill, relaunched
                         &:: recovery drives verified-identity cleanup;
                         &:: plus wrong-creation fail-closed case; no 9f pass
-npm run smoke:crash-pty-survivor &:: Mock CLI inside the main-owned PTY
-                        &:: launches a detached child. The test checks
-                        &:: survival after main death; if it survives,
-                        &:: verified cleanup and a tampered creation-time
-                        &:: alert are checked; no 9f pass.
+npm run smoke:crash-pty-survivor &:: End-to-end mock flow: mock CLI inside the
+                        &:: main-owned PTY launches a detached child; the
+                        &:: runner kills only its Electron handle, proves the
+                        &:: exact survivor alive, relaunches ordinary startup
+                        &:: (--startup-recovery-alert-smoke) on the SAME real
+                        &:: durable registry (positive: visible paused exact;
+                        &:: tampered creation: visible paused mismatch
+                        &:: creation-mismatch; both with no member, no
+                        &:: helper, no mutation, no recovery logs), proves the
+                        &:: survivor still alive, then runs the explicit
+                        &:: recovery (positive CLEANED + exact-gone, tampered
+                        &:: ALERT/PAUSED + untouched until separate teardown);
+                        &:: no 9f pass.
 npm run smoke:startup-recovery-alert &:: Invalid, absent, exact, and tampered
                         &:: creation/name-mismatch registries on ordinary
                         &:: startup each show a visible per-state paused
@@ -96,6 +104,16 @@ any state. The registry is unauthenticated against same-user tampering, so
 every observation is informational only. This test-only gate does not resume
 a member or provide product crash recovery; explicit
 `--crash-pty-survivor-recovery-check` stays the only cleanup path.
+`scripts/run-crash-pty-survivor.js` exercises this gate end to end on the
+SAME real durable registry between the post-crash exact-survivor proof and
+the explicit recovery: the positive run requires a visible paused `exact`
+gate with the survivor independently proven still alive afterward, and the
+tampered-creation run requires a visible paused `mismatch`
+(`reason=creation-mismatch`) gate with the ORIGINAL survivor proven still
+alive afterward, before the existing explicit-recovery outcomes and
+test-only teardown. All gate + recovery observations stay well inside the
+60 s fixture bound (35 s per-scenario, 55 s suite); slow/racy cases are
+inconclusive exit 2, safety violations fail exit 1. S1 and 9f stay partial.
 
 Manual S1 launch override (no source edits) — a trusted local command only:
 
