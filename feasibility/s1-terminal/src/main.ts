@@ -1,12 +1,15 @@
-// S1b main process (+ bounded S1 9e probe). Main owns ONE member PTY
-// session across BrowserWindow recreation (Architecture 2.3, S1 steps
-// 9a-9d). Window close offers Keep Running (retain PTY, tray with
-// Open/Quit) or Stop (graceful CLI shutdown, then quit). Tray Quit follows
-// the stop-all path. A separate mock-core OS process covers 9b re-subscribe
-// over a narrow stdio JSON-lines IPC with no duplicate spawn; no team
-// engine is included. Step 9e is a bounded read-only Windows CIM probe
-// (PID + process creation time, never kills) inside the lifecycle smoke.
-// Windows Job Object and crash recovery 9f are NOT implemented here.
+// S1b main process (+ bounded S1 9e probe, + bounded 9f BASELINE probe).
+// Main owns ONE member PTY session across BrowserWindow recreation
+// (Architecture 2.3, S1 steps 9a-9d). Window close offers Keep Running
+// (retain PTY, tray with Open/Quit) or Stop (graceful CLI shutdown, then
+// quit). Tray Quit follows the stop-all path. A separate mock-core OS
+// process covers 9b re-subscribe over a narrow stdio JSON-lines IPC with no
+// duplicate spawn; no team engine is included. Step 9e is a bounded
+// read-only Windows CIM probe (PID + process creation time, never kills)
+// inside the lifecycle smoke. Step 9f BASELINE (--crash-baseline /
+// --crash-recovery-check + runner) only observes crash/relaunch feasibility
+// with a durable PID+creation registry: Windows Job Object, product recovery
+// state machine, and any 9f pass are NOT implemented here.
 
 import { app, BrowserWindow, Menu, Tray, dialog, ipcMain, nativeImage, type IpcMainEvent } from 'electron';
 import * as child_process from 'node:child_process';
@@ -25,6 +28,11 @@ import {
 const SMOKE_FLAG = '--smoke-test';
 const WINDOW_SMOKE_FLAG = '--window-smoke';
 const LIFECYCLE_SMOKE_FLAG = '--lifecycle-smoke';
+const CRASH_BASELINE_FLAG = '--crash-baseline';
+const CRASH_RECOVERY_FLAG = '--crash-recovery-check';
+const CRASH_REGISTRY_ENV = 'TIYE_CRASH_REGISTRY_PATH';
+const CRASH_REGISTRY_SCHEMA = 'tiye-crash-baseline-registry';
+const CRASH_REGISTRY_VERSION = 1;
 const MAX_PENDING_OUTPUT = 1_000_000;
 
 interface LaunchSpec {
@@ -200,6 +208,7 @@ let keepRunning = false;
 let isQuitting = false;
 let allowClose = false;
 let lifecycleTestMode = false;
+let crashBaselineMode = false;
 let tray: Tray | null = null;
 let stopPromise: Promise<ShutdownResult> | null = null;
 
@@ -1052,6 +1061,271 @@ async function runWindowSmoke(): Promise<number> {
   return 0;
 }
 
+// ---------------------------------------------------------------------------
+// Crash-baseline probe (S1 step 9f BASELINE, feasibility only).
+// No Job Object, no recovery state machine, no 9f pass claimed here.
+// --crash-baseline: start the local mock CLI in a main-owned PTY, send its
+// `tree` command, confirm a live root+descendant tree (>=2 distinct
+// PID+CreationDate identities via the existing 9e helper), atomically write
+// a small durable registry to TIYE_CRASH_REGISTRY_PATH, emit a structured
+// READY line, then stay alive until the runner kills this Electron process.
+// --crash-recovery-check: read that registry, re-enumerate by PID+creation
+// identity, report survivors and pause (no duplicate launch, no PID kill).
+// Exit codes for the recovery check: 0 = no survivors (OS already reaped
+// the tree — record honestly, do NOT infer Job behavior), 1 = survivors
+// present (expected without a job), 2 = harness failure (registry missing,
+// malformed, or identity lookup failed — never a pass).
+// The only forced termination in this slice is the runner killing its own
+// runner-owned Electron ChildProcess via the handle (never taskkill /
+// Stop-Process / PID-only kill, never a captured member PID).
+// ---------------------------------------------------------------------------
+interface CrashBaselineRegistry {
+  schema: string;
+  version: number;
+  sessionId: string;
+  memberId: string;
+  rootPid: number;
+  rootCreationTime: string;
+  rootName: string;
+  tree: ProcessIdentity[];
+  lastIntent: string;
+  createdAt: string;
+  mainPid: number;
+}
+
+function getCrashRegistryPath(): string {
+  const raw = (process.env[CRASH_REGISTRY_ENV] ?? '').trim();
+  if (raw === '') throw new Error(`crash probe: ${CRASH_REGISTRY_ENV} is not set (runner must supply a test-specific registry path)`);
+  return raw;
+}
+
+function writeRegistryAtomic(finalPath: string, data: CrashBaselineRegistry): void {
+  const dir = path.dirname(finalPath);
+  fs.mkdirSync(dir, { recursive: true });
+  const tmpPath = `${finalPath}.${process.pid}.tmp`;
+  fs.writeFileSync(tmpPath, JSON.stringify(data, null, 2) + '\n', 'utf8');
+  fs.renameSync(tmpPath, finalPath);
+}
+
+function parseCrashRegistry(rawText: string, source: string): CrashBaselineRegistry {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(rawText);
+  } catch {
+    throw new Error(`crash recovery: registry at ${source} is not valid JSON (no pass)`);
+  }
+  if (typeof parsed !== 'object' || parsed === null) throw new Error(`crash recovery: registry at ${source} is malformed (expected object, no pass)`);
+  const r = parsed as Record<string, unknown>;
+  if (r['schema'] !== CRASH_REGISTRY_SCHEMA) throw new Error(`crash recovery: registry schema mismatch (want ${CRASH_REGISTRY_SCHEMA}, no pass)`);
+  if (r['version'] !== CRASH_REGISTRY_VERSION) throw new Error(`crash recovery: registry version mismatch (want ${CRASH_REGISTRY_VERSION}, no pass)`);
+  if (typeof r['sessionId'] !== 'string' || r['sessionId'] === '') throw new Error('crash recovery: registry sessionId missing/malformed (no pass)');
+  if (typeof r['memberId'] !== 'string' || r['memberId'] === '') throw new Error('crash recovery: registry memberId missing/malformed (no pass)');
+  if (!Number.isInteger(r['rootPid']) || (r['rootPid'] as number) <= 0) throw new Error('crash recovery: registry rootPid missing/malformed (no pass)');
+  if (typeof r['rootCreationTime'] !== 'string' || r['rootCreationTime'] === '') throw new Error('crash recovery: registry rootCreationTime missing/malformed (no pass)');
+  if (r['lastIntent'] !== 'run') throw new Error('crash recovery: registry lastIntent missing/invalid (no pass)');
+  if (!Array.isArray(r['tree']) || r['tree'].length < 2) throw new Error(`crash recovery: registry tree must hold >=2 identities (got ${Array.isArray(r['tree']) ? (r['tree'] as unknown[]).length : 'non-array'}, no pass)`);
+  const tree: ProcessIdentity[] = [];
+  const seen = new Set<string>();
+  for (const entry of r['tree'] as unknown[]) {
+    if (typeof entry !== 'object' || entry === null) throw new Error('crash recovery: registry tree entry malformed (no pass)');
+    const e = entry as Record<string, unknown>;
+    if (!Number.isInteger(e['pid']) || (e['pid'] as number) <= 0) throw new Error('crash recovery: registry tree pid malformed (no pass)');
+    if (!Number.isInteger(e['parentPid']) || (e['parentPid'] as number) < 0) throw new Error('crash recovery: registry tree parentPid malformed (no pass)');
+    if (typeof e['creationTime'] !== 'string' || e['creationTime'] === '') throw new Error('crash recovery: registry tree creationTime malformed (no pass)');
+    if (typeof e['name'] !== 'string' || e['name'] === '') throw new Error('crash recovery: registry tree name malformed (no pass)');
+    const key = `${e['pid'] as number}|${e['creationTime'] as string}`;
+    if (seen.has(key)) throw new Error('crash recovery: registry tree holds duplicate PID+creation identities (no pass)');
+    seen.add(key);
+    tree.push({ pid: e['pid'] as number, parentPid: e['parentPid'] as number, creationTime: e['creationTime'] as string, name: e['name'] as string });
+  }
+  const root = tree.find((id) => id.pid === r['rootPid'] && id.creationTime === r['rootCreationTime']);
+  if (root === undefined) throw new Error('crash recovery: registry root identity is absent from captured tree (no pass)');
+  if (typeof r['rootName'] !== 'string' || r['rootName'] !== root.name) throw new Error('crash recovery: registry root name mismatch (no pass)');
+  if (typeof r['createdAt'] !== 'string' || !Number.isFinite(Date.parse(r['createdAt']))) throw new Error('crash recovery: registry createdAt missing/malformed (no pass)');
+  if (!Number.isInteger(r['mainPid']) || (r['mainPid'] as number) <= 0) throw new Error('crash recovery: registry mainPid missing/malformed (no pass)');
+  return {
+    schema: CRASH_REGISTRY_SCHEMA,
+    version: CRASH_REGISTRY_VERSION,
+    sessionId: r['sessionId'] as string,
+    memberId: r['memberId'] as string,
+    rootPid: r['rootPid'] as number,
+    rootCreationTime: r['rootCreationTime'] as string,
+    rootName: r['rootName'] as string,
+    tree,
+    lastIntent: r['lastIntent'] as string,
+    createdAt: r['createdAt'] as string,
+    mainPid: r['mainPid'] as number,
+  };
+}
+
+function sleepMs(ms: number): Promise<void> {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+async function runCrashBaseline(): Promise<number> {
+  crashBaselineMode = true;
+  const fail = (msg: string): number => {
+    console.error(`[crash-baseline] FAIL: ${msg}`);
+    return 2;
+  };
+  let registryPath: string;
+  try {
+    registryPath = getCrashRegistryPath();
+  } catch (err) {
+    return fail((err as Error).message);
+  }
+  if (!isProcessTreeCheckSupported()) {
+    return fail(`crash baseline is Windows-only (platform=${process.platform}, no pass claimed)`);
+  }
+  try {
+    ensureMember();
+    if (term === null || sessionId === null) return fail('member PTY not spawned');
+    const tap: { text: string } = { text: '' };
+    term.onData((d: string) => {
+      tap.text += d;
+    });
+    const waitForTap = (re: RegExp, timeoutMs: number, label: string): Promise<void> =>
+      new Promise((resolve, reject) => {
+        const start = Date.now();
+        const timer = setInterval(() => {
+          if (re.test(tap.text)) {
+            clearInterval(timer);
+            console.log(`[crash-baseline] ok: ${label}`);
+            resolve();
+          } else if (ptyExitCode !== null) {
+            clearInterval(timer);
+            reject(new Error(`${label}: PTY exited early (code ${ptyExitCode})`));
+          } else if (Date.now() - start > timeoutMs) {
+            clearInterval(timer);
+            reject(new Error(`${label}: timeout waiting for ${re}`));
+          }
+        }, 50);
+      });
+    const mySession = sessionId;
+    const myMember = 'crash-baseline-member';
+    console.log(`[crash-baseline] member session ${mySession} pid=${term.pid} (crash fixture mode, no job, no recovery state machine)`);
+    await waitForTap(/mock-cli/i, 15000, 'banner');
+    // Prove the crash fixture is armed: in TIYE_MOCK_CRASH_MODE=1 the mock
+    // root ignores stdin close and self-expires within 60s, so a 0-survivor
+    // recovery cannot be explained as the fixture exiting on its own.
+    await waitForTap(/crash-mode armed/i, 5000, 'crash fixture armed (stdin-close ignored, 55s self-expire)');
+    term.write('tree\r');
+    await waitForTap(/tree ready pid=/i, 10000, 'tree descendant ready');
+    const rootPid = term.pid;
+    if (rootPid === undefined) return fail('member PID missing after tree command');
+    // The child needs a moment to appear in CIM; retry briefly. Require a
+    // live root+descendant tree (>=2 distinct PID+creation identities).
+    let tree: ProcessIdentity[] | null = null;
+    const deadline = Date.now() + 10000;
+    // biome-ignore lint: bounded capture retry
+    while (true) {
+      const attempt = await captureProcessTree(rootPid);
+      const distinct = new Set(attempt.map((id) => `${id.pid}|${id.creationTime}`));
+      if (attempt.length >= 2 && distinct.size >= 2) {
+        tree = attempt;
+        break;
+      }
+      if (Date.now() >= deadline) {
+        return fail(`live tree too small (got ${attempt.length} identit(ies), want >=2 distinct PID+creation): ${attempt.map(formatIdentity).join('; ')}`);
+      }
+      await sleepMs(500);
+    }
+    const captured = tree as ProcessIdentity[];
+    console.log(`[crash-baseline] ok: live tree ${captured.length} identit(ies): ${captured.map(formatIdentity).join('; ')}`);
+    const root = captured.find((id) => id.pid === rootPid);
+    if (!root) return fail(`root pid=${rootPid} absent from its own captured tree`);
+    const registry: CrashBaselineRegistry = {
+      schema: CRASH_REGISTRY_SCHEMA,
+      version: CRASH_REGISTRY_VERSION,
+      sessionId: mySession,
+      memberId: myMember,
+      rootPid,
+      rootCreationTime: root.creationTime,
+      rootName: root.name,
+      tree: captured,
+      lastIntent: 'run',
+      createdAt: new Date().toISOString(),
+      mainPid: process.pid,
+    };
+    // Atomic durable write BEFORE the structured READY line.
+    writeRegistryAtomic(registryPath, registry);
+    const roundTrip = fs.readFileSync(registryPath, 'utf8');
+    parseCrashRegistry(roundTrip, registryPath);
+    console.log(`[crash-baseline] ok: durable registry written atomically to ${registryPath} (session=${mySession} member=${myMember} rootPid=${rootPid} treeSize=${captured.length} lastIntent=run schema=${CRASH_REGISTRY_SCHEMA} v${CRASH_REGISTRY_VERSION})`);
+    console.log(`[crash-baseline] READY registry=${registryPath} session=${mySession} member=${myMember} rootPid=${rootPid} treeSize=${captured.length}`);
+    console.log('[crash-baseline] alive until runner kills this Electron process (no graceful exit here; fixture self-expires within 60s)');
+    // Stay alive until the runner terminates this runner-owned Electron
+    // ChildProcess via the handle. Never resolve on success.
+    await new Promise<void>(() => {});
+    return 0;
+  } catch (err) {
+    // Failure path: never PID-kill a captured member. Attempt a graceful
+    // `exit` at most (best-effort so a FAILED run does not linger past the
+    // 60s fixture bound), then report harness failure (exit 2).
+    try {
+      if (isMemberAlive()) term?.write('exit\r');
+    } catch {
+      /* already gone */
+    }
+    return fail((err as Error).message);
+  }
+}
+
+async function runCrashRecoveryCheck(): Promise<number> {
+  // Recovery check: read-only. No window, no PTY spawn (no duplicate), no
+  // kill of any PID (verified or not). Pause = do not relaunch the member;
+  // the runner records the outcome and waits for the 60s fixture bound.
+  let registryPath: string;
+  try {
+    registryPath = getCrashRegistryPath();
+  } catch (err) {
+    console.error(`[crash-recovery] FAIL: ${(err as Error).message}`);
+    return 2;
+  }
+  if (!isProcessTreeCheckSupported()) {
+    console.error(`[crash-recovery] FAIL: crash recovery check is Windows-only (platform=${process.platform}, no pass claimed)`);
+    return 2;
+  }
+  let raw: string;
+  try {
+    raw = fs.readFileSync(registryPath, 'utf8');
+  } catch {
+    console.error(`[crash-recovery] FAIL: durable registry missing at ${registryPath} (no pass)`);
+    return 2;
+  }
+  let registry: CrashBaselineRegistry;
+  try {
+    registry = parseCrashRegistry(raw, registryPath);
+  } catch (err) {
+    console.error(`[crash-recovery] FAIL: ${(err as Error).message}`);
+    return 2;
+  }
+  console.log(`[crash-recovery] REGISTRY path=${registryPath} session=${registry.sessionId} member=${registry.memberId} rootPid=${registry.rootPid} treeSize=${registry.tree.length} lastIntent=${registry.lastIntent} schema=${registry.schema} v${registry.version}`);
+  for (const id of registry.tree) {
+    console.log(`[crash-recovery] IDENTITY ${formatIdentity(id)} parentPid=${id.parentPid}`);
+  }
+  // Immediate re-enumeration by PID+creation identity. Short bounded poll
+  // tolerates CIM lag; the 60s fixture bound means survivors are still
+  // present if no OS job reaped them. Never terminates anything.
+  let check: { gone: ProcessIdentity[]; survivors: ProcessIdentity[]; attempts: number };
+  try {
+    check = await verifyIdentitiesGone(registry.tree, 3000, 500);
+  } catch (err) {
+    console.error(`[crash-recovery] FAIL: identity lookup failed: ${(err as Error).message} (no pass)`);
+    return 2;
+  }
+  console.log(`[crash-recovery] GONE count=${check.gone.length}${check.gone.length > 0 ? `: ${check.gone.map(formatIdentity).join('; ')}` : ''}`);
+  console.log(`[crash-recovery] SURVIVORS count=${check.survivors.length}${check.survivors.length > 0 ? `: ${check.survivors.map(formatIdentity).join('; ')}` : ''} (attempts=${check.attempts}, read-only, nothing terminated)`);
+  if (check.survivors.length > 0) {
+    console.log(`[crash-recovery] RESULT survivors=${check.survivors.length} (expected without a Windows Job Object; 9f stays partial, no job inferred)`);
+    console.log(`[crash-recovery] PAUSED member=${registry.memberId} session=${registry.sessionId} no-duplicate-launch no-pid-kill (recovery paused, awaiting user; runner now waits for the 60s fixture bound without PID kill)`);
+    return 1;
+  }
+  console.log('[crash-recovery] RESULT survivors=0 (Windows already reaped the tree; record honestly — no Job Object exists here, so no job behavior is inferred; 9f stays partial)');
+  console.log(`[crash-recovery] PAUSED member=${registry.memberId} session=${registry.sessionId} no-duplicate-launch no-pid-kill (nothing to clean; 9f stays partial)`);
+  return 0;
+}
+
 async function main(): Promise<void> {
   await app.whenReady();
   // Registered before any branch: without this, the last window closing
@@ -1059,6 +1333,7 @@ async function main(): Promise<void> {
   // which would make Keep Running impossible in every mode.
   app.on('window-all-closed', () => {
     if (lifecycleTestMode) return;
+    if (crashBaselineMode) return; // crash-baseline has no window; it lives until the runner kills it.
     if (keepRunning && !isQuitting) return; // retained PTY lives in the tray.
     app.quit();
   });
@@ -1114,6 +1389,28 @@ async function main(): Promise<void> {
       app.exit(code);
     } catch (err) {
       console.error(`[lifecycle-smoke] FAIL: ${(err as Error).message}`);
+      app.exit(2);
+    }
+    return;
+  }
+  if (process.argv.includes(CRASH_BASELINE_FLAG)) {
+    try {
+      const code = await runCrashBaseline();
+      // Success never returns (stays alive until runner kill); a return is
+      // always a harness failure.
+      app.exit(code);
+    } catch (err) {
+      console.error(`[crash-baseline] FAIL: ${(err as Error).message}`);
+      app.exit(2);
+    }
+    return;
+  }
+  if (process.argv.includes(CRASH_RECOVERY_FLAG)) {
+    try {
+      const code = await runCrashRecoveryCheck();
+      app.exit(code);
+    } catch (err) {
+      console.error(`[crash-recovery] FAIL: ${(err as Error).message}`);
       app.exit(2);
     }
     return;

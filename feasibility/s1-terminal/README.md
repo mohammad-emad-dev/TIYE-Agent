@@ -1,7 +1,9 @@
-# TIYE S1 terminal prototype — display/input channel + member lifecycle (S1a + S1b)
+# TIYE S1 terminal prototype — display/input channel + member lifecycle (S1a + S1b + 9f BASELINE)
 
 S1a proves the Electron display/input channel (Architecture 2.1, 5.2); S1b
-adds a bounded member lifecycle exercise for parts of S1 steps 9a–9d. Main
+adds a bounded member lifecycle exercise for parts of S1 steps 9a–9d plus a
+read-only 9e probe; the 9f BASELINE adds a crash-and-relaunch feasibility
+observation only (no job, no recovery state machine, no 9f pass). Main
 owns ONE member PTY session across BrowserWindow recreation; a sandboxed
 renderer (context isolation on, sandbox on, Node integration off) shows it
 with xterm.js through a narrow validated IPC/preload bridge (terminal data
@@ -39,6 +41,10 @@ npm run smoke:lifecycle &:: S1 9a-9d lifecycle: Keep Running PID/session
                         &:: preserved through close+reopen, mock-core
                         &:: re-subscribe with no duplicate spawn, Stop and
                         &:: tray-Quit each request graceful shutdown
+npm run smoke:crash-baseline &:: S1 9f BASELINE only: crash-and-relaunch
+                        &:: feasibility probe (durable PID+creation
+                        &:: registry, runner-owned kill, read-only
+                        &:: recovery check; no job, no 9f pass)
 ```
 
 Manual S1 launch override (no source edits) — a trusted local command only:
@@ -72,7 +78,7 @@ vendor CLI in automated checks.
 
 `fast 200` gives a quick flood sanity check (not the S5 five-member test).
 
-## Automated evidence (this machine, 2026-10-09)
+## Automated evidence (this machine, 2026-10-09 through 2026-10-10)
 
 - `npm run check` — `tsc --noEmit` + esbuild bundles: PASS.
 - `npm run smoke` — Electron-hosted real ConPTY, same assertions: PASS.
@@ -101,6 +107,26 @@ vendor CLI in automated checks.
   survives; a PID reused with a different creation time counts as gone, and
   no unrelated process is ever targeted. On non-Windows 9e logs a clear
   skip without claiming a pass. No Job Object in this task.
+- `npm run smoke:crash-baseline` — S1 **9f BASELINE** crash-and-relaunch
+  feasibility probe only (2026-10-10, Windows, mock CLI + descendant
+  fixture): `--crash-baseline` main starts the mock CLI in a main-owned PTY,
+  proves the crash fixture armed (`crash-mode armed`), sends `tree`, confirms
+  a live 3-identity tree (root `node.exe` + child `node.exe` + `conhost.exe`,
+  each PID + `CreationDate`), atomically writes the durable registry
+  (`schema=tiye-crash-baseline-registry v1`, session/member ID, root
+  PID+creation, tree, `lastIntent=run`) before `READY`, and stays alive; the
+  runner kills ONLY its runner-owned Electron `ChildProcess` via the handle
+  (`SIGTERM`, no `taskkill`/PID kill) and relaunches `--crash-recovery-check`,
+  which read-only re-enumerates by PID+creation with no duplicate launch and
+  no captured-member PID kill. All 3 identities were verified alive just
+  before the kill. Observed outcome on this kill path: `GONE count=3`,
+  `SURVIVORS count=0 (attempts=1)`, `RESULT survivors=0`, exit 0 at 3,982 ms
+  after fixture launch, far before the 55 s/60 s fixture bound. The cause
+  of disappearance is not isolated by this baseline. No Job
+  Object exists, so no job behavior is inferred; 9f stays **partial**; exit 1
+  is reserved for a survivor-present baseline, exit 2 for harness failure.
+  No bounded-cleanup wait was needed (nothing survived); no PID kill was used
+  at any point. See `RESULTS.md`.
 - No vendor CLI and no network model were used in any automated check.
 - S1 overall remains **partial** (see below).
 
@@ -136,7 +162,7 @@ vendor CLI in automated checks.
 - Interactive window mode (`npm start`) was built and typechecked but not
   visually verified in this session; S1 steps 1–8 remain manual.
 
-## NOT implemented / NOT passed beyond S1a–S1b–9e
+## NOT implemented / NOT passed beyond S1a–S1b–9e–9f-BASELINE
 
 - S1 step **9e (bounded, Windows + mock CLI only) is implemented** in
   `src/process-tree-9e.ts` + the lifecycle smoke: PID + `Win32_Process`
@@ -149,23 +175,38 @@ vendor CLI in automated checks.
   real vendor CLIs that spawn children (trees >1), grandchildren arriving
   between capture and stop, non-Windows behavior (9e skips without a pass),
   and any claim that exit code 0 alone proves tree death.
-- S1 step **9f**: Windows job ownership / durable process-identity registry,
-  abnormal-main-exit cleanup and crash recovery — not implemented. A
-  keep-running PTY from 9a is intentionally owned, not an orphan. A
-  deterministic descendant fixture exists for the upcoming 9f experiment
-  (`tree` spawns `mock-child.js` and prints `tree ready pid=…`; the child
-  self-expires after 60 s; `tree-stop` writes `exit` through the child
-  stdin and observes exit with no PID kill; ordinary `exit` drains the
-  child the same way first) but it is not wired into Electron main and
-  9f still passes nothing. A closed stdin after a parent crash deliberately
-  leaves the child alive until its 60 s safety expiry, so it cannot create
-  a false job-cleanup pass.
+- S1 step **9f BASELINE (feasibility probe only, no pass) is implemented**
+  as `--crash-baseline` / `--crash-recovery-check` in `src/main.ts` plus
+  `scripts/run-crash-baseline.js` (`npm run smoke:crash-baseline`): the
+  baseline main starts the mock CLI in a main-owned PTY, proves the crash
+  fixture armed, sends `tree`, confirms a live ≥2-identity tree via the 9e
+  helper, atomically writes the durable registry
+  (`schema=tiye-crash-baseline-registry v1`: session/member ID, root
+  PID+creation, tree, `lastIntent=run`) before `READY`, and stays alive; the
+  runner kills ONLY its runner-owned Electron `ChildProcess` via the handle
+  and relaunches a read-only recovery check (no duplicate, no PID kill).
+  **Observed 2026-10-10:** 3-identity mock tree, then `GONE=3` /
+  `SURVIVORS=0 (attempts=1)`, exit 0 — all 3 identities were alive immediately
+  before the kill and gone at recovery, 3,982 ms after fixture launch, far
+  before the 55 s root / 60 s child fixture bound. No cause is inferred:
+  no Job Object exists here. Exit 1 is
+  reserved for a survivor-present baseline and exit 2 for harness failure.
+  **Still NOT implemented:** any Windows Job Object, any product recovery
+  state machine, any verified-identity cleanup of real survivors (the runner
+  only waits for bounded self-expiry), and any 9f pass. Crash-mode fixture
+  changes are env-gated (`TIYE_MOCK_CRASH_MODE=1`): the root ignores stdin
+  close and self-expires in 55 s; the child ignores stdin close and
+  self-expires in 60 s; ordinary `tree`/`tree-stop`/`exit` paths are
+  unchanged. Never `taskkill` / `Stop-Process` / PID-only kill; never a
+  captured member PID. A keep-running PTY from 9a remains intentionally
+  owned, not an orphan. S1 and 9f stay **partial**.
 - Real installed CLIs: lifecycle paths are evidenced with the local
   mock CLI only; vendor-CLI behavior (permission prompts, resume, output
   patterns) is still manual per S1 steps 1–8.
 - **WSL** cases (S6): not implemented or tested.
 - No pass/fail claim for the full S1 test is made by this prototype; S1
-  stays **partial** until 9f, vendor-CLI trees, and manual steps 1–8 are
+  stays **partial** and 9f stays **partial** until job boundary,
+  survivor-present recovery, vendor-CLI trees, and manual steps 1–8 are
   recorded.
 
 ## Layout
@@ -175,7 +216,10 @@ vendor CLI in automated checks.
   separate mock-core OS process subscribe/stop/restart (`startMockCore` /
   `stopMockCore` over stdio JSON-lines IPC), bounded 9e capture/verify
   around 9c Stop and 9d Quit, `--smoke-test` / `--window-smoke` /
-  `--lifecycle-smoke`.
+  `--lifecycle-smoke`, plus 9f BASELINE `--crash-baseline` (main-owned PTY +
+  `tree` + ≥2-identity capture + atomic durable registry before `READY`,
+  stays alive) and `--crash-recovery-check` (read-only registry +
+  re-enumeration, no duplicate, no PID kill; exit 0/1/2).
 - `src/process-tree-9e.ts` — bounded Windows-only 9e helper (read-only
   `Get-CimInstance Win32_Process`, PID + `CreationDate` identities,
   `captureProcessTree` / `verifyIdentitiesGone`, no kills, no extra deps).
@@ -188,9 +232,17 @@ vendor CLI in automated checks.
 - `scripts/build.js` — esbuild bundles + asset copy.
 - `scripts/run-smoke.js` — headless Electron runner (timeout + logs;
   120 s for the lifecycle flag, 45 s otherwise).
+- `scripts/run-crash-baseline.js` — 9f BASELINE runner only: test-specific
+  registry path, waits for `READY` + registry, kills ONLY its runner-owned
+  Electron `ChildProcess` via the handle, relaunches `--crash-recovery-check`,
+  records the immediate outcome (exit 1 survivors / 0 none / 2 harness
+  failure), then read-only waits for the exact identities to self-expire
+  within the bound (no PID kill; bound-exceeded is loud exit 2, no cleanup
+  claimed). Never `taskkill` / `Stop-Process` / PID kill.
 - `mock-cli/mock-cli.js` — scripted local CLI, zero dependencies (`tree`
   spawns the descendant, `tree-stop` stops it via stdin, `exit` drains it
-  first; all other commands unchanged).
+  first; all other commands unchanged; `TIYE_MOCK_CRASH_MODE=1` arms the 9f
+  BASELINE fixture: stdin-close ignored, 55 s self-expire).
 - `mock-cli/mock-child.js` — deterministic long-lived descendant fixture
-  for the upcoming 9f experiment only: exits itself on an `exit` stdin
+  for the 9f BASELINE only: exits itself on an `exit` stdin
   line, stays alive on stdin close, self-expires after 60 s, no PID kills.

@@ -21,6 +21,15 @@ const C = {
 let hangTimer = null;
 let treeChild = null;
 
+// Crash-baseline mode (S1 9f feasibility probe only): when
+// TIYE_MOCK_CRASH_MODE=1, the root stays alive until a bounded self-expire
+// (≈55s) even if its stdin/PTY closes, so an immediate post-crash
+// re-enumeration can observe survivors without a PID kill. Normal
+// smoke/lifecycle paths (env unset) are unchanged: `exit` drains the child,
+// readline `close` exits 0.
+const CRASH_MODE = process.env.TIYE_MOCK_CRASH_MODE === '1';
+const CRASH_SELF_EXPIRE_MS = 55 * 1000;
+
 // Deterministic descendant fixture for the upcoming S1 9f crash
 // experiment (mock-cli/mock-child.js). `tree` spawns it, `tree-stop`
 // asks it to exit through its stdin and observes the exit event, and
@@ -290,9 +299,44 @@ rl.on('SIGINT', () => {
   }
 });
 rl.on('close', () => {
+  if (CRASH_MODE) {
+    // Crash-baseline fixture: a closed stdin after an abnormal parent exit
+    // must NOT stop the root on its own — disappearance must come from the
+    // OS job (absent in this baseline) or the bounded self-expire below.
+    // Stay alive until the timer; the runner never PID-kills this process.
+    try {
+      console.error(`[mock-cli pid=${process.pid}] crash-mode: stdin closed, staying alive until self-expire (no PID kill)`);
+    } catch {
+      /* stderr gone */
+    }
+    return;
+  }
   console.log('bye');
   process.exit(0);
 });
 
+if (CRASH_MODE) {
+  setTimeout(() => {
+    try {
+      console.error(`[mock-cli pid=${process.pid}] crash-mode self-expire ${CRASH_SELF_EXPIRE_MS}ms, exiting 0 (no PID kill)`);
+    } catch {
+      /* stderr gone */
+    }
+    try {
+      treeChild?.stdin?.end();
+    } catch {
+      /* pipe already gone */
+    }
+    process.exit(0);
+  }, CRASH_SELF_EXPIRE_MS);
+}
+
 banner();
+if (CRASH_MODE) {
+  try {
+    console.error(`[mock-cli pid=${process.pid}] crash-mode armed: stdin-close ignored, self-expire ${CRASH_SELF_EXPIRE_MS}ms (no PID kill)`);
+  } catch {
+    /* stderr gone */
+  }
+}
 rl.prompt();
