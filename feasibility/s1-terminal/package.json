@@ -14,6 +14,7 @@
     "smoke:lifecycle": "npm run build && node scripts/run-smoke.js -- --lifecycle-smoke",
     "smoke:crash-baseline": "npm run build && node scripts/run-crash-baseline.js",
     "smoke:crash-job": "npm run build && node scripts/run-crash-job.js",
+    "smoke:crash-survivor": "npm run build && node scripts/run-crash-survivor.js",
     "smoke:job-probe": "node scripts/run-job-probe.js",
     "smoke:identity-stop": "node scripts/run-identity-stop.js",
     "rebuild-pty": "electron-rebuild -f -w node-pty"

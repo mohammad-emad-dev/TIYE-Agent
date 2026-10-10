@@ -1,4 +1,4 @@
-# TIYE S1 terminal prototype — display/input channel + member lifecycle (S1a + S1b + 9f BASELINE)
+# TIYE S1 terminal prototype — display/input channel + member lifecycle (S1a + S1b + 9f BASELINE + crash-survivor)
 
 S1a proves the Electron display/input channel (Architecture 2.1, 5.2); S1b
 adds a bounded member lifecycle exercise for parts of S1 steps 9a–9d plus a
@@ -57,6 +57,12 @@ npm run smoke:crash-job &:: S1 9f crash+job experiment only (Windows
 npm run smoke:identity-stop &:: Isolated verified-identity stop slice only
                         &:: (PowerShell 5.1 + C# P/Invoke helper, no
                         &:: Electron/PTY/job; mock-child fixture; no 9f pass)
+npm run smoke:crash-survivor &:: S1 9f crash-survivor experiment only
+                        &:: (Windows mock sidecar): Electron main direct
+                        &:: child OUTSIDE PTY/job + durable survivor
+                        &:: registry, runner-owned kill, relaunched
+                        &:: recovery drives verified-identity cleanup;
+                        &:: plus wrong-creation fail-closed case; no 9f pass
 ```
 
 Manual S1 launch override (no source edits) — a trusted local command only:
@@ -156,6 +162,7 @@ vendor CLI in automated checks.
   captured child PID was targeted for termination. 9f stays **partial**;
   see `RESULTS.md`.
 - `npm run smoke:identity-stop` — isolated verified-identity stop slice only (2026-10-10, Windows, `mock-child.js` fixture directly, no Electron, no PTY, no mock-cli parent, no Job Object, no durable registry): the target stays alive after a deliberately wrong saved creation time is refused (`REFUSED`, exit 1, no termination), then the exact PID+creation identity is terminated via the SAME opened handle (`STOPPED`, exit 0) and found gone on the first read-only re-enumeration, about 2.7 s after spawn and far before its 60 s self-expiry, while an unrelated live control child is untouched until its normal stdin `exit` (code 0): isolated slice **PASS**. The helper requests only terminate, limited query, and synchronize rights and checks `GetProcessTimes` on that handle with at most 10 ticks of CIM/FileTime skew (latest run: 6 ticks on match), refuses on mismatch, terminates only on match on the same handle, waits boundedly (5 s) on that handle, and closes the handle on all paths. Exit contract: 0 STOPPED, 1 REFUSED, 2 FAIL. Never PID-only kill. 9f stays **partial**; see `RESULTS.md`.
+- `npm run smoke:crash-survivor` — S1 9f crash-survivor feasibility experiment only (2026-10-10, Windows, `mock-child.js` as a controlled Electron-main direct sidecar OUTSIDE PTY/job, `detached:true` so it survives main death on this host; a non-detached direct child was observed gone after the same kill and would be inconclusive, not pass): positive path proves post-kill survivor alive BEFORE recovery, then relaunched recovery invokes `verified-identity-stop.ps1` with the SAVED identity (`STOPPED` exit 0, 9 ticks) and re-enumerates exact-gone on the first attempt (~5.5 s after spawn, suite ~10.9 s, far before 60 s); tampered path (+1 h saved creation) proves `ALERT`/`PAUSED` with NO helper invocation and the original survivor untouched until a SEPARATE test-only teardown with the original identity (also `STOPPED`, exact-gone): experiment **PASS** (bounded feasibility, no 9f pass). Registry schema checks do NOT establish file authenticity against same-user tampering — the tampered case proves fail-closed refusal, not production trust; no HMAC secret is stored beside the registry. Never PID-only kill. 9f stays **partial**; see `RESULTS.md`.
 - S1 overall remains **partial** (see below).
 
 ## Environment notes (exact failures / workarounds)
@@ -244,7 +251,8 @@ vendor CLI in automated checks.
   assignment, descendant inheritance under a real member tree, crash
   relaunch, durable registry reconciliation, and vendor CLIs. None of the
   9f-BASELINE files or the crash fixture behavior were changed by this.
-- **Verified-identity stop slice (isolated safety primitive only, no 9f pass) lives in `scripts/verified-identity-stop.ps1` + `scripts/run-identity-stop.js` (`npm run smoke:identity-stop`): built-in Windows PowerShell 5.1 + C# P/Invoke, no new npm dependencies, no Electron/PTY/job integration. It proves only that a controlled surviving mock process is terminated ONLY after its saved PID+creation identity is checked on the SAME opened handle (10-tick bound), and that a wrong creation identity is refused while the process stays alive. Still NOT implemented around it: durable-registry trust, recovery integration, vendor CLIs, trees larger than one target plus one control. None of the 9f-BASELINE/job files or the fixture behavior were changed by this.
+- **Verified-identity stop slice (isolated safety primitive only, no 9f pass) lives in `scripts/verified-identity-stop.ps1` + `scripts/run-identity-stop.js` (`npm run smoke:identity-stop`): built-in Windows PowerShell 5.1 + C# P/Invoke, no new npm dependencies, no Electron/PTY/job integration in this gate. It proves only that a controlled surviving mock process is terminated ONLY after its saved PID+creation identity is checked on the SAME opened handle (10-tick bound), and that a wrong creation identity is refused while the process stays alive. The separate crash-survivor experiment below exercises this helper from relaunched recovery; durable-registry authenticity, vendor CLIs, and real PTY trees remain unproven. None of the 9f-BASELINE/job files or the fixture behavior were changed by this.
+- **Crash-survivor experiment (bounded feasibility only, no 9f pass) lives in `src/crash-survivor.ts` + `--crash-survivor` / `--crash-survivor-recovery-check` in `src/main.ts` + `scripts/run-crash-survivor.js` (`npm run smoke:crash-survivor`): Electron main spawns `mock-child.js` as a direct detached sidecar OUTSIDE PTY/job (controlled sidecar, not a CLI member tree; stdin held open, ignores EOF, 60 s self-expire unchanged), requires `parentPid==mainPid` + `name==node.exe`, writes a distinct atomic registry (`schema=tiye-crash-survivor-registry v1`, session/member ID, `lastIntent=run`, main+child identities, `createdAt`) before `READY`, and stays alive; the runner kills ONLY its runner-owned Electron handle, proves the exact sidecar alive AFTER main death BEFORE recovery (else inconclusive exit 2), then relaunches recovery which strictly validates the registry (no PTY/duplicate), fails closed with `ALERT`/`PAUSED` on absent/mismatched/inconsistent identities without invoking the helper, otherwise invokes `verified-identity-stop.ps1` with the SAVED identity and requires `STOPPED` exit 0 plus exact-gone re-enumeration (no fallback PID kill). The tampered-creation scenario (+1 h, original retained separately) must `ALERT`/`PAUSE` with no helper and leave the original alive until a SEPARATE test-only teardown with the original identity. **Registry authenticity limit (explicit):** schema/version/`lastIntent` checks prove only that the file parses as this experiment's registry; they do NOT establish authenticity against same-user tampering (any same-user process can rewrite the file), so this is a controlled feasibility experiment, not a production cleanup guarantee — no HMAC secret is invented beside the registry. Observed host note: a non-detached direct child was gone after the same runner-owned kill (inconclusive path, not pass); `detached:true` (+`unref`) is what lets the controlled sidecar survive for cleanup on this host. Exit contract: recovery 0 CLEANED / 1 ALERT-PAUSED / 2 harness; runner 0 PASS / 1 safety-FAIL / 2 inconclusive. S1/9f stay **partial**.
 - **WSL** cases (S6): not implemented or tested.
 - No pass/fail claim for the full S1 test is made by this prototype; S1
   stays **partial** and 9f stays **partial** until job boundary,
@@ -265,10 +273,18 @@ vendor CLI in automated checks.
   9f job experiment `--crash-job` (PTY + `-HoldUntilStdinClose` controller +
   `VERIFY` root/child + job registry before `READY`, stays alive) and
   `--crash-job-recovery-check` (read-only job registry + re-enumeration;
-  exit 0/1/2).
+  exit 0/1/2), plus the bounded 9f crash-survivor experiment
+  `--crash-survivor` / `--crash-survivor-recovery-check` (delegated to
+  `src/crash-survivor.ts`; no PTY/job in survivor modes).
 - `src/process-tree-9e.ts` — bounded Windows-only 9e helper (read-only
   `Get-CimInstance Win32_Process`, PID + `CreationDate` identities,
   `captureProcessTree` / `verifyIdentitiesGone`, no kills, no extra deps).
+- `src/crash-survivor.ts` — bounded 9f crash-survivor logic (separate
+  module, not further bloating `src/main.ts`): direct detached sidecar
+  spawn OUTSIDE PTY/job + CIM main/child capture + distinct atomic registry
+  (`tiye-crash-survivor-registry v1`) + strict recovery validation +
+  verified-identity helper invocation + exact-gone re-enumeration; see the
+  module header for the registry-authenticity limit (no HMAC).
 - `mock-core/mock-core.js` — separate mock-core OS process (no deps, no
   network): sends `SUBSCRIBE`, waits for `SUBSCRIBED`, replies `READY`,
   exits 0 on `SHUTDOWN` or closed stdin; protocol on stdout, logs on
@@ -328,6 +344,14 @@ vendor CLI in automated checks.
   stdin `exit`). Never `taskkill` / `Stop-Process` / PID kill; no fixture
   orphaned. Reuses `mock-child.js` directly (single-process fixture, no
   PTY, no mock-cli parent); the fixture itself is unchanged.
+- `scripts/run-crash-survivor.js` — crash-survivor runner only (`npm run
+  smoke:crash-survivor`): two fresh-sidecar scenarios (positive CLEANED +
+  tampered-creation ALERT/PAUSED) with handle-only Electron kills,
+  post-kill survivor proof BEFORE recovery, strict CLEANED/PAUSED/no-helper
+  assertions, and a SEPARATE test-only teardown with the original identity
+  for the tampered case; exit 0 PASS / 1 safety-FAIL / 2 inconclusive.
+  Bounds the suite well inside 60 s; near-expiry is inconclusive, never
+  pass. Never `taskkill` / `Stop-Process` / PID kill.
 - `src/main.ts` (`--crash-job` / `--crash-job-recovery-check`, `npm run
   smoke:crash-job` via `scripts/run-crash-job.js`) — bounded S1 9f
   crash+job experiment only (Windows mock-tree, no 9f pass): main-owned PTY
