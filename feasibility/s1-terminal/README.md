@@ -151,7 +151,15 @@ vendor CLI in automated checks.
   and any claim that exit code 0 alone proves tree death.
 - S1 step **9f**: Windows job ownership / durable process-identity registry,
   abnormal-main-exit cleanup and crash recovery — not implemented. A
-  keep-running PTY from 9a is intentionally owned, not an orphan.
+  keep-running PTY from 9a is intentionally owned, not an orphan. A
+  deterministic descendant fixture exists for the upcoming 9f experiment
+  (`tree` spawns `mock-child.js` and prints `tree ready pid=…`; the child
+  self-expires after 60 s; `tree-stop` writes `exit` through the child
+  stdin and observes exit with no PID kill; ordinary `exit` drains the
+  child the same way first) but it is not wired into Electron main and
+  9f still passes nothing. A closed stdin after a parent crash deliberately
+  leaves the child alive until its 60 s safety expiry, so it cannot create
+  a false job-cleanup pass.
 - Real installed CLIs: lifecycle paths are evidenced with the local
   mock CLI only; vendor-CLI behavior (permission prompts, resume, output
   patterns) is still manual per S1 steps 1–8.
@@ -180,4 +188,9 @@ vendor CLI in automated checks.
 - `scripts/build.js` — esbuild bundles + asset copy.
 - `scripts/run-smoke.js` — headless Electron runner (timeout + logs;
   120 s for the lifecycle flag, 45 s otherwise).
-- `mock-cli/mock-cli.js` — scripted local CLI, zero dependencies.
+- `mock-cli/mock-cli.js` — scripted local CLI, zero dependencies (`tree`
+  spawns the descendant, `tree-stop` stops it via stdin, `exit` drains it
+  first; all other commands unchanged).
+- `mock-cli/mock-child.js` — deterministic long-lived descendant fixture
+  for the upcoming 9f experiment only: exits itself on an `exit` stdin
+  line, stays alive on stdin close, self-expires after 60 s, no PID kills.

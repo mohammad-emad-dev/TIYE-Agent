@@ -5,6 +5,8 @@
 // prompt + editing/history (readline), permission prompt, resize reflow,
 // multi-line paste, Ctrl+C interrupt, unicode echo, fast output, crash.
 const readline = require('node:readline');
+const { spawn } = require('node:child_process');
+const path = require('node:path');
 
 const C = {
   reset: '\x1b[0m',
@@ -17,6 +19,145 @@ const C = {
 };
 
 let hangTimer = null;
+let treeChild = null;
+
+// Deterministic descendant fixture for the upcoming S1 9f crash
+// experiment (mock-cli/mock-child.js). `tree` spawns it, `tree-stop`
+// asks it to exit through its stdin and observes the exit event, and
+// ordinary `exit` drains it the same way before closing. No PID
+// targeting anywhere here: no child.kill(), no process.kill().
+function isTreeChildAlive() {
+  return treeChild !== null && treeChild.exitCode === null;
+}
+
+function drainTreeChild(child) {
+  // Drain pipes so a silent long-lived child never blocks on a full
+  // buffer. Child output is intentionally not echoed: the
+  // `tree ready pid=…` / `tree stopped …` lines below are the fixture
+  // contract for the future 9f experiment.
+  if (child.stdout) {
+    child.stdout.on('data', () => {});
+    child.stdout.on('error', () => {});
+  }
+  if (child.stderr) {
+    child.stderr.on('data', () => {});
+    child.stderr.on('error', () => {});
+  }
+  if (child.stdin) {
+    child.stdin.on('error', () => {});
+  }
+  child.on('error', (err) => {
+    console.error(`tree child error: ${err.message}`);
+  });
+  child.on('exit', (code) => {
+    if (treeChild === child) {
+      console.log(`tree child exited pid=${child.pid} code=${code}`);
+      treeChild = null;
+    }
+  });
+}
+
+function startTreeChild() {
+  if (isTreeChildAlive()) {
+    console.log(`tree already running pid=${treeChild.pid}`);
+    return;
+  }
+  treeChild = null; // drop a stale exited handle, if any
+  const script = path.join(__dirname, 'mock-child.js');
+  const child = spawn(process.execPath, [script], {
+    stdio: ['pipe', 'pipe', 'pipe'],
+    windowsHide: true,
+  });
+  treeChild = child;
+  drainTreeChild(child);
+  console.log(`tree ready pid=${child.pid}`);
+}
+
+function requestTreeChildExit(timeoutMs) {
+  return new Promise((resolve) => {
+    const child = treeChild;
+    if (child === null || child.exitCode !== null) {
+      resolve({ exited: true, code: child?.exitCode ?? null, pid: child?.pid ?? null });
+      return;
+    }
+    const pid = child.pid;
+    let settled = false;
+    const timer = setTimeout(() => {
+      if (!settled) {
+        settled = true;
+        resolve({ exited: false, code: null, pid });
+      }
+    }, Math.max(1000, Math.min(timeoutMs || 5000, 10000)));
+    child.once('exit', (code) => {
+      if (!settled) {
+        settled = true;
+        clearTimeout(timer);
+        resolve({ exited: true, code, pid });
+      }
+    });
+    try {
+      child.stdin?.write('exit\n');
+    } catch {
+      /* pipe gone; the exit event or the timeout below decides */
+    }
+  });
+}
+
+function stopTreeChildForCommand() {
+  if (!isTreeChildAlive()) {
+    console.log('tree not running');
+    rl.prompt();
+    return;
+  }
+  const pid = treeChild.pid;
+  console.log(`tree stopping pid=${pid} …`);
+  requestTreeChildExit(5000).then(({ exited, code }) => {
+    if (exited) {
+      if (treeChild !== null) {
+        // Raced the shared exit handler: report here so the stop line
+        // is still deterministic.
+        console.log(`tree child exited pid=${pid} code=${code}`);
+        treeChild = null;
+      }
+      console.log(`tree stopped pid=${pid} exit=${code}`);
+    } else {
+      console.log(`tree stop timeout pid=${pid}; leaving to self-expire (no PID kill)`);
+      try {
+        treeChild?.stdin?.end();
+      } catch {
+        /* pipe already gone */
+      }
+    }
+    rl.prompt();
+  });
+}
+
+function exitWithTreeDrain() {
+  if (!isTreeChildAlive()) {
+    rl.close();
+    return;
+  }
+  const pid = treeChild.pid;
+  console.log(`stopping tree child pid=${pid} …`);
+  requestTreeChildExit(5000).then(({ exited, code }) => {
+    if (exited) {
+      if (treeChild !== null) {
+        // Raced the shared exit handler: report here so the exit path
+        // still shows one deterministic child-exit line.
+        console.log(`tree child exited pid=${pid} code=${code}`);
+        treeChild = null;
+      }
+    } else {
+      console.log(`tree child pid=${pid} did not exit on request; leaving to self-expire (no PID kill)`);
+      try {
+        treeChild?.stdin?.end();
+      } catch {
+        /* pipe already gone */
+      }
+    }
+    rl.close();
+  });
+}
 
 function banner() {
   console.log(`${C.cyan}╔════════════════════════════════════════════╗${C.reset}`);
@@ -27,7 +168,7 @@ function banner() {
 }
 
 function help() {
-  console.log('commands: help | fast [n] | spinner [ms] | ask | multi | unicode | hang [ms] | crash | exit');
+  console.log('commands: help | fast [n] | spinner [ms] | ask | multi | unicode | hang [ms] | tree | tree-stop | crash | exit');
   console.log('anything else is echoed back (unicode-safe).');
 }
 
@@ -121,12 +262,14 @@ function onLine(raw) {
       }, ms);
       return;
     }
+    case 'tree': startTreeChild(); break;
+    case 'tree-stop': stopTreeChildForCommand(); return;
     case 'crash':
       console.error('mock-cli: simulated crash');
       process.exit(3);
       break;
     case 'exit':
-      rl.close();
+      exitWithTreeDrain();
       return;
     default:
       console.log(`echo: ${raw}`);
