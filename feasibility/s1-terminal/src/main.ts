@@ -33,6 +33,11 @@ const CRASH_RECOVERY_FLAG = '--crash-recovery-check';
 const CRASH_REGISTRY_ENV = 'TIYE_CRASH_REGISTRY_PATH';
 const CRASH_REGISTRY_SCHEMA = 'tiye-crash-baseline-registry';
 const CRASH_REGISTRY_VERSION = 1;
+const CRASH_JOB_FLAG = '--crash-job';
+const CRASH_JOB_RECOVERY_FLAG = '--crash-job-recovery-check';
+const CRASH_JOB_REGISTRY_ENV = 'TIYE_CRASH_JOB_REGISTRY_PATH';
+const CRASH_JOB_REGISTRY_SCHEMA = 'tiye-crash-job-registry';
+const CRASH_JOB_REGISTRY_VERSION = 1;
 const MAX_PENDING_OUTPUT = 1_000_000;
 
 interface LaunchSpec {
@@ -209,6 +214,7 @@ let isQuitting = false;
 let allowClose = false;
 let lifecycleTestMode = false;
 let crashBaselineMode = false;
+let crashJobMode = false;
 let tray: Tray | null = null;
 let stopPromise: Promise<ShutdownResult> | null = null;
 
@@ -1093,13 +1099,40 @@ interface CrashBaselineRegistry {
   mainPid: number;
 }
 
+// Bounded S1 9f crash+job experiment (Windows mock-tree only, not the
+// product guarantee). Same durable shape as the baseline plus explicit
+// jobMode/controller identity fields and the recorded job-membership
+// evidence (root + mock child must be VERIFIED inJob=true before READY).
+// conhost.exe is best-effort: if it cannot be verified or sits outside the
+// job, the run records a jobConhostNote and still proceeds, because ConPTY
+// hosts have been observed outside the assigned job on some hosts.
+interface CrashJobRegistry {
+  schema: string;
+  version: number;
+  sessionId: string;
+  memberId: string;
+  rootPid: number;
+  rootCreationTime: string;
+  rootName: string;
+  tree: ProcessIdentity[];
+  lastIntent: string;
+  createdAt: string;
+  mainPid: number;
+  jobMode: string;
+  controllerPid: number;
+  controllerCreationTime: string;
+  jobFlags: string;
+  jobVerified: ProcessIdentity[];
+  jobConhostNote: string;
+}
+
 function getCrashRegistryPath(): string {
   const raw = (process.env[CRASH_REGISTRY_ENV] ?? '').trim();
   if (raw === '') throw new Error(`crash probe: ${CRASH_REGISTRY_ENV} is not set (runner must supply a test-specific registry path)`);
   return raw;
 }
 
-function writeRegistryAtomic(finalPath: string, data: CrashBaselineRegistry): void {
+function writeRegistryAtomic(finalPath: string, data: CrashBaselineRegistry | CrashJobRegistry): void {
   const dir = path.dirname(finalPath);
   fs.mkdirSync(dir, { recursive: true });
   const tmpPath = `${finalPath}.${process.pid}.tmp`;
@@ -1156,6 +1189,109 @@ function parseCrashRegistry(rawText: string, source: string): CrashBaselineRegis
     createdAt: r['createdAt'] as string,
     mainPid: r['mainPid'] as number,
   };
+}
+
+function getCrashJobRegistryPath(): string {
+  const raw = (process.env[CRASH_JOB_REGISTRY_ENV] ?? '').trim();
+  if (raw !== '') return raw;
+  const fallback = (process.env[CRASH_REGISTRY_ENV] ?? '').trim();
+  if (fallback !== '') return fallback;
+  throw new Error(`crash-job probe: ${CRASH_JOB_REGISTRY_ENV} is not set (runner must supply a test-specific registry path)`);
+}
+
+function parseCrashJobRegistry(rawText: string, source: string): CrashJobRegistry {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(rawText);
+  } catch {
+    throw new Error(`crash-job recovery: registry at ${source} is not valid JSON (no pass)`);
+  }
+  if (typeof parsed !== 'object' || parsed === null) throw new Error(`crash-job recovery: registry at ${source} is malformed (expected object, no pass)`);
+  const r = parsed as Record<string, unknown>;
+  if (r['schema'] !== CRASH_JOB_REGISTRY_SCHEMA) throw new Error(`crash-job recovery: registry schema mismatch (want ${CRASH_JOB_REGISTRY_SCHEMA}, no pass)`);
+  if (r['version'] !== CRASH_JOB_REGISTRY_VERSION) throw new Error(`crash-job recovery: registry version mismatch (want ${CRASH_JOB_REGISTRY_VERSION}, no pass)`);
+  if (typeof r['sessionId'] !== 'string' || r['sessionId'] === '') throw new Error('crash-job recovery: registry sessionId missing/malformed (no pass)');
+  if (typeof r['memberId'] !== 'string' || r['memberId'] === '') throw new Error('crash-job recovery: registry memberId missing/malformed (no pass)');
+  if (!Number.isInteger(r['rootPid']) || (r['rootPid'] as number) <= 0) throw new Error('crash-job recovery: registry rootPid missing/malformed (no pass)');
+  if (typeof r['rootCreationTime'] !== 'string' || r['rootCreationTime'] === '') throw new Error('crash-job recovery: registry rootCreationTime missing/malformed (no pass)');
+  if (r['lastIntent'] !== 'run') throw new Error('crash-job recovery: registry lastIntent missing/invalid (no pass)');
+  if (!Array.isArray(r['tree']) || r['tree'].length < 2) throw new Error(`crash-job recovery: registry tree must hold >=2 identities (got ${Array.isArray(r['tree']) ? (r['tree'] as unknown[]).length : 'non-array'}, no pass)`);
+  const tree: ProcessIdentity[] = [];
+  const seen = new Set<string>();
+  for (const entry of r['tree'] as unknown[]) {
+    if (typeof entry !== 'object' || entry === null) throw new Error('crash-job recovery: registry tree entry malformed (no pass)');
+    const e = entry as Record<string, unknown>;
+    if (!Number.isInteger(e['pid']) || (e['pid'] as number) <= 0) throw new Error('crash-job recovery: registry tree pid malformed (no pass)');
+    if (!Number.isInteger(e['parentPid']) || (e['parentPid'] as number) < 0) throw new Error('crash-job recovery: registry tree parentPid malformed (no pass)');
+    if (typeof e['creationTime'] !== 'string' || e['creationTime'] === '') throw new Error('crash-job recovery: registry tree creationTime malformed (no pass)');
+    if (typeof e['name'] !== 'string' || e['name'] === '') throw new Error('crash-job recovery: registry tree name malformed (no pass)');
+    const key = `${e['pid'] as number}|${e['creationTime'] as string}`;
+    if (seen.has(key)) throw new Error('crash-job recovery: registry tree holds duplicate PID+creation identities (no pass)');
+    seen.add(key);
+    tree.push({ pid: e['pid'] as number, parentPid: e['parentPid'] as number, creationTime: e['creationTime'] as string, name: e['name'] as string });
+  }
+  const root = tree.find((id) => id.pid === r['rootPid'] && id.creationTime === r['rootCreationTime']);
+  if (root === undefined) throw new Error('crash-job recovery: registry root identity is absent from captured tree (no pass)');
+  if (typeof r['rootName'] !== 'string' || r['rootName'] !== root.name) throw new Error('crash-job recovery: registry root name mismatch (no pass)');
+  if (typeof r['createdAt'] !== 'string' || !Number.isFinite(Date.parse(r['createdAt']))) throw new Error('crash-job recovery: registry createdAt missing/malformed (no pass)');
+  if (!Number.isInteger(r['mainPid']) || (r['mainPid'] as number) <= 0) throw new Error('crash-job recovery: registry mainPid missing/malformed (no pass)');
+  if (r['jobMode'] !== 'job') throw new Error('crash-job recovery: registry jobMode missing/invalid (want "job", no pass)');
+  if (!Number.isInteger(r['controllerPid']) || (r['controllerPid'] as number) <= 0) throw new Error('crash-job recovery: registry controllerPid missing/malformed (no pass)');
+  if (typeof r['controllerCreationTime'] !== 'string' || !Number.isFinite(Date.parse(r['controllerCreationTime']))) throw new Error('crash-job recovery: registry controllerCreationTime missing/malformed (no pass)');
+  if (r['jobFlags'] !== '0x2000') throw new Error('crash-job recovery: registry jobFlags must be 0x2000 (no pass)');
+  if (!Array.isArray(r['jobVerified']) || (r['jobVerified'] as unknown[]).length < 2) throw new Error('crash-job recovery: registry jobVerified must hold >=2 verified job members (root+child, no pass)');
+  const jobVerified: ProcessIdentity[] = [];
+  const vseen = new Set<string>();
+  for (const entry of r['jobVerified'] as unknown[]) {
+    if (typeof entry !== 'object' || entry === null) throw new Error('crash-job recovery: registry jobVerified entry malformed (no pass)');
+    const e = entry as Record<string, unknown>;
+    if (!Number.isInteger(e['pid']) || (e['pid'] as number) <= 0) throw new Error('crash-job recovery: registry jobVerified pid malformed (no pass)');
+    if (!Number.isInteger(e['parentPid']) || (e['parentPid'] as number) < 0) throw new Error('crash-job recovery: registry jobVerified parentPid malformed (no pass)');
+    if (typeof e['creationTime'] !== 'string' || e['creationTime'] === '') throw new Error('crash-job recovery: registry jobVerified creationTime malformed (no pass)');
+    if (typeof e['name'] !== 'string' || e['name'] === '') throw new Error('crash-job recovery: registry jobVerified name malformed (no pass)');
+    const key = `${e['pid'] as number}|${e['creationTime'] as string}`;
+    if (vseen.has(key)) throw new Error('crash-job recovery: registry jobVerified holds duplicate identities (no pass)');
+    if (!seen.has(key)) throw new Error('crash-job recovery: verified job member absent from captured tree (no pass)');
+    vseen.add(key);
+    jobVerified.push({ pid: e['pid'] as number, parentPid: e['parentPid'] as number, creationTime: e['creationTime'] as string, name: e['name'] as string });
+  }
+  const vroot = jobVerified.find((id) => id.pid === r['rootPid'] && id.creationTime === r['rootCreationTime']);
+  if (vroot === undefined) throw new Error('crash-job recovery: registry jobVerified lacks the verified root identity (no pass)');
+  if (!jobVerified.some((id) => id.pid !== r['rootPid'] && id.name.toLowerCase() === 'node.exe')) throw new Error('crash-job recovery: registry jobVerified lacks a mock child identity (no pass)');
+  if (typeof r['jobConhostNote'] !== 'string') throw new Error('crash-job recovery: registry jobConhostNote missing/malformed (no pass)');
+  return {
+    schema: CRASH_JOB_REGISTRY_SCHEMA,
+    version: CRASH_JOB_REGISTRY_VERSION,
+    sessionId: r['sessionId'] as string,
+    memberId: r['memberId'] as string,
+    rootPid: r['rootPid'] as number,
+    rootCreationTime: r['rootCreationTime'] as string,
+    rootName: r['rootName'] as string,
+    tree,
+    lastIntent: r['lastIntent'] as string,
+    createdAt: r['createdAt'] as string,
+    mainPid: r['mainPid'] as number,
+    jobMode: 'job',
+    controllerPid: r['controllerPid'] as number,
+    controllerCreationTime: r['controllerCreationTime'] as string,
+    jobFlags: r['jobFlags'] as string,
+    jobVerified,
+    jobConhostNote: r['jobConhostNote'] as string,
+  };
+}
+
+function crashJobPowershellBin(): string {
+  const system = 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe';
+  try {
+    if (fs.existsSync(system)) return system;
+  } catch {
+    /* fall through */
+  }
+  return 'powershell.exe';
+}
+
+function crashJobControllerPath(): string {
+  return path.resolve(__dirname, '..', 'scripts', 'job-probe-controller.ps1');
 }
 
 function sleepMs(ms: number): Promise<void> {
@@ -1326,6 +1462,458 @@ async function runCrashRecoveryCheck(): Promise<number> {
   return 0;
 }
 
+async function crashJobLookupSingle(pid: number): Promise<ProcessIdentity> {
+  const script =
+    `Get-CimInstance Win32_Process -Filter "ProcessId=${pid}" | ForEach-Object { $_.ProcessId.ToString() + "|" + $_.ParentProcessId.ToString() + "|" + $_.CreationDate.ToString("o") + "|" + $_.Name }`;
+  const out = await new Promise<string>((resolve, reject) => {
+    let stdout = '';
+    let stderr = '';
+    let child: child_process.ChildProcess;
+    try {
+      child = child_process.spawn(crashJobPowershellBin(), ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-Command', script], {
+        stdio: ['ignore', 'pipe', 'pipe'],
+        windowsHide: true,
+      });
+    } catch (err) {
+      reject(err as Error);
+      return;
+    }
+    const timer = setTimeout(() => {
+      try {
+        child.kill();
+      } catch {
+        /* helper-owned enumeration only */
+      }
+      reject(new Error('crash-job single CIM lookup timed out'));
+    }, 20000);
+    child.stdout?.on('data', (d: Buffer) => {
+      stdout += d.toString('utf8');
+    });
+    child.stderr?.on('data', (d: Buffer) => {
+      stderr += d.toString('utf8');
+    });
+    child.on('error', (err) => {
+      clearTimeout(timer);
+      reject(err);
+    });
+    child.on('close', (code) => {
+      clearTimeout(timer);
+      if (code !== 0) {
+        reject(new Error(`crash-job single CIM lookup failed (exit ${code}): ${stderr.slice(0, 200)}`));
+        return;
+      }
+      resolve(stdout);
+    });
+  });
+  const line = out.split(/\r?\n/).map((s) => s.trim()).filter(Boolean)[0] ?? '';
+  if (line === '') throw new Error(`crash-job: PID ${pid} not present in CIM (member not alive?)`);
+  const first = line.indexOf('|');
+  const second = line.indexOf('|', first + 1);
+  const third = line.indexOf('|', second + 1);
+  if (first < 0 || second < 0 || third < 0) throw new Error('crash-job: malformed single CIM row');
+  const gotPid = Number(line.slice(0, first));
+  const parentPid = Number(line.slice(first + 1, second));
+  const creationTime = line.slice(second + 1, third);
+  const name = line.slice(third + 1);
+  if (gotPid !== pid || !Number.isInteger(parentPid) || creationTime === '' || name === '') {
+    throw new Error(`crash-job: invalid single identity for PID ${pid}`);
+  }
+  return { pid: gotPid, parentPid, creationTime, name };
+}
+
+// ---------------------------------------------------------------------------
+// Crash+job probe (S1 step 9f job experiment, feasibility only, Windows
+// mock-tree only). No recovery state machine, no 9f pass claimed here.
+// --crash-job: main-owned PTY mock CLI + proven Job Object controller with
+// the NEW opt-in -HoldUntilStdinClose hold (piped stdin from main). Order:
+// spawn PTY, prove fixture armed, capture root PID+creation identity, launch
+// the controller, wait for controller READY (queried KILL_ON_JOB_CLOSE
+// 0x2000 + same-handle creation check + assignment + IsProcessInJob=true)
+// BEFORE sending `tree`; then capture the root+descendant tree, VERIFY root
+// and at least the mock child as job members over the controller pipe,
+// atomically write the durable registry (schema tiye-crash-job-registry v1
+// with explicit jobMode/controller identity + jobVerified evidence) BEFORE
+// the structured READY line, and stay alive until the runner kills this
+// Electron process. When main dies, its stdin pipe to the controller closes
+// (EOF); the controller exits and closes the last job handle.
+// --crash-job-recovery-check: read-only registry + PID+creation
+// re-enumeration, no duplicate launch, no PID kill. Exit 0 = no survivors
+  // with verified membership recorded (bounded observation, not a product
+  // guarantee); 1 = survivors present (captured tree not fully gone — FAIL for
+// this experiment); 2 = harness failure (never a pass).
+// The no-job baseline (--crash-baseline) never uses this controller.
+// ---------------------------------------------------------------------------
+async function runCrashJobBaseline(): Promise<number> {
+  crashJobMode = true;
+  const fail = (msg: string): number => {
+    console.error(`[crash-job] FAIL: ${msg}`);
+    return 2;
+  };
+  let registryPath: string;
+  try {
+    registryPath = getCrashJobRegistryPath();
+  } catch (err) {
+    return fail((err as Error).message);
+  }
+  if (!isProcessTreeCheckSupported()) {
+    return fail(`crash-job is Windows-only (platform=${process.platform}, no pass claimed)`);
+  }
+  let controller: child_process.ChildProcess | null = null;
+  let controllerOutput = '';
+  let controllerExited: { code: number | null; signal: NodeJS.Signals | null } | null = null;
+  const getControllerExit = (): typeof controllerExited => controllerExited;
+  const cleanupController = (): void => {
+    if (controller !== null) {
+      try {
+        controller.stdin?.end();
+      } catch {
+        /* pipe already gone */
+      }
+      try {
+        controller.stdin?.destroy();
+      } catch {
+        /* ignore */
+      }
+      // Electron-owned handle only (never a captured member PID). Best-effort
+      // so a FAILED run does not linger; the success path never reaches here
+      // because it stays alive until the runner kills Electron itself.
+      try {
+        if (controller.exitCode === null) controller.kill();
+      } catch {
+        /* already gone */
+      }
+    }
+  };
+  try {
+    ensureMember();
+    if (term === null || sessionId === null) return fail('member PTY not spawned');
+    const tap: { text: string } = { text: '' };
+    term.onData((d: string) => {
+      tap.text += d;
+    });
+    const waitForTap = (re: RegExp, timeoutMs: number, label: string): Promise<void> =>
+      new Promise((resolve, reject) => {
+        const start = Date.now();
+        const timer = setInterval(() => {
+          if (re.test(tap.text)) {
+            clearInterval(timer);
+            console.log(`[crash-job] ok: ${label}`);
+            resolve();
+          } else if (ptyExitCode !== null) {
+            clearInterval(timer);
+            reject(new Error(`${label}: PTY exited early (code ${ptyExitCode})`));
+          } else if (Date.now() - start > timeoutMs) {
+            clearInterval(timer);
+            reject(new Error(`${label}: timeout waiting for ${re}`));
+          }
+        }, 50);
+      });
+    const mySession = sessionId;
+    const myMember = 'crash-job-member';
+    console.log(`[crash-job] member session ${mySession} pid=${term.pid} (crash fixture mode + job controller, no recovery state machine)`);
+    await waitForTap(/mock-cli/i, 15000, 'banner');
+    await waitForTap(/crash-mode armed/i, 5000, 'crash fixture armed (stdin-close ignored, 55s self-expire)');
+    const rootPid = term.pid;
+    if (rootPid === undefined) return fail('member PID missing before job assignment');
+    // Capture the root PID+creation identity BEFORE assigning the job.
+    let rootIdentity: ProcessIdentity;
+    try {
+      const preTree = await captureProcessTree(rootPid);
+      const preRoot = preTree.find((id) => id.pid === rootPid);
+      if (!preRoot) return fail(`root pid=${rootPid} absent from its own pre-job capture`);
+      rootIdentity = preRoot;
+      console.log(`[crash-job] ok: pre-job root identity ${formatIdentity(rootIdentity)} parentPid=${rootIdentity.parentPid}`);
+    } catch (err) {
+      cleanupController();
+      return fail(`pre-job root capture failed: ${(err as Error).message}`);
+    }
+    const controllerPs1 = crashJobControllerPath();
+    if (!fs.existsSync(controllerPs1)) {
+      return fail(`job controller missing: ${controllerPs1}`);
+    }
+    console.log(`[crash-job] starting job controller for root pid=${rootIdentity.pid} (HoldUntilStdinClose, piped stdin)`);
+    try {
+      controller = child_process.spawn(
+        crashJobPowershellBin(),
+        ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', controllerPs1, '-ChildPid', String(rootIdentity.pid), '-ChildCreationTime', rootIdentity.creationTime, '-HoldUntilStdinClose'],
+        { stdio: ['pipe', 'pipe', 'pipe'], windowsHide: true },
+      );
+    } catch (err) {
+      return fail(`job controller launch failed: ${(err as Error).message}`);
+    }
+    const ctrl: child_process.ChildProcess = controller;
+    ctrl.stdout?.on('data', (d: Buffer) => {
+      controllerOutput += d.toString('utf8');
+    });
+    ctrl.stderr?.on('data', (d: Buffer) => {
+      controllerOutput += d.toString('utf8');
+    });
+    ctrl.on('error', (err) => {
+      controllerOutput += `\n[job-controller] spawn error: ${(err as Error).message}\n`;
+    });
+    ctrl.on('exit', (code, signal) => {
+      controllerExited = { code, signal };
+    });
+    const waitForControllerReady = async (): Promise<void> => {
+      const start = Date.now();
+      const timeoutMs = 20000;
+      while (Date.now() - start < timeoutMs) {
+        if (/\[job-controller\] FAIL:/.test(controllerOutput)) {
+          const m = controllerOutput.match(/\[job-controller\] FAIL:(.*)/);
+          throw new Error(`controller reported FAIL:${m ? m[1].trim() : 'unknown'} (job setup failed, no pass)`);
+        }
+        const ready = controllerOutput.match(/\[job-controller\] READY childPid=(\d+)/);
+        if (ready) {
+          const readyPid = Number(ready[1]);
+          if (readyPid !== rootIdentity.pid) throw new Error(`controller READY pid=${readyPid} does not match root pid=${rootIdentity.pid} (no pass)`);
+          if (!/confirmed JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE read-back flags=0x2000/.test(controllerOutput)) {
+            throw new Error('controller READY without queried KILL_ON_JOB_CLOSE=0x2000 read-back (no pass)');
+          }
+          if (!new RegExp(`confirmed IsProcessInJob\\(pid=${rootIdentity.pid}\\)=true`).test(controllerOutput)) {
+            throw new Error(`controller READY without IsProcessInJob(pid=${rootIdentity.pid})=true (no pass)`);
+          }
+          return;
+        }
+        const exit = getControllerExit();
+        if (exit !== null) {
+          const f = controllerOutput.match(/\[job-controller\] FAIL:(.*)/);
+          throw new Error(`controller exited before READY (code=${exit.code} signal=${exit.signal}${f ? ` FAIL:${f[1].trim()}` : ''}; no pass)`);
+        }
+        await sleepMs(100);
+      }
+      throw new Error(`controller READY timeout after ${timeoutMs}ms (job setup failed, no pass; output tail: ${controllerOutput.slice(-400)})`);
+    };
+    try {
+      await waitForControllerReady();
+    } catch (err) {
+      cleanupController();
+      return fail((err as Error).message);
+    }
+    const preTreeExit = getControllerExit();
+    if (preTreeExit !== null) {
+      cleanupController();
+      return fail(`controller exited before tree fixture (code=${preTreeExit.code}, no pass)`);
+    }
+    const controllerPid = ctrl.pid;
+    if (controllerPid === undefined) {
+      cleanupController();
+      return fail('job controller has no OS PID (no pass)');
+    }
+    console.log(`[crash-job] ok: controller READY for root pid=${rootIdentity.pid} (KILL_ON_JOB_CLOSE=0x2000, IsProcessInJob=true) controllerPid=${controllerPid}`);
+    let controllerIdentity: ProcessIdentity;
+    try {
+      controllerIdentity = await crashJobLookupSingle(controllerPid);
+      console.log(`[crash-job] ok: controller identity ${formatIdentity(controllerIdentity)} parentPid=${controllerIdentity.parentPid}`);
+    } catch (err) {
+      cleanupController();
+      return fail(`controller identity lookup failed: ${(err as Error).message} (no pass)`);
+    }
+    // Controller holds the job. Now arm the descendant fixture.
+    term.write('tree\r');
+    await waitForTap(/tree ready pid=/i, 10000, 'tree descendant ready');
+    const liveRootPid = term.pid;
+    if (liveRootPid === undefined || liveRootPid !== rootPid) return fail('member PID changed across tree command');
+    let tree: ProcessIdentity[] | null = null;
+    const deadline = Date.now() + 10000;
+    while (true) {
+      const attempt = await captureProcessTree(liveRootPid);
+      const distinct = new Set(attempt.map((id) => `${id.pid}|${id.creationTime}`));
+      if (attempt.length >= 2 && distinct.size >= 2) {
+        tree = attempt;
+        break;
+      }
+      if (Date.now() >= deadline) {
+        cleanupController();
+        return fail(`live tree too small (got ${attempt.length} identit(ies), want >=2 distinct PID+creation): ${attempt.map(formatIdentity).join('; ')}`);
+      }
+      await sleepMs(500);
+    }
+    const captured = tree as ProcessIdentity[];
+    console.log(`[crash-job] ok: live tree ${captured.length} identit(ies): ${captured.map(formatIdentity).join('; ')}`);
+    const verifyInJob = async (id: ProcessIdentity): Promise<{ inJob: boolean; raw: string }> => {
+      const marker = controllerOutput.length;
+      try {
+        ctrl.stdin?.write(`VERIFY ${id.pid} ${id.creationTime}\n`);
+      } catch (err) {
+        throw new Error(`VERIFY write failed for pid=${id.pid}: ${(err as Error).message}`);
+      }
+      const start = Date.now();
+      const timeoutMs = 10000;
+      while (Date.now() - start < timeoutMs) {
+        const slice = controllerOutput.slice(marker);
+        const ok = slice.match(/\[job-controller\] VERIFIED pid=(\d+) inJob=(True|False)/i);
+        if (ok && Number(ok[1]) === id.pid) {
+          return { inJob: /^true$/i.test(ok[2]), raw: ok[0] };
+        }
+        const bad = slice.match(/\[job-controller\] VERIFY-FAIL pid=(\d+)(.*)/);
+        if (bad && Number(bad[1]) === id.pid) {
+          throw new Error(`controller VERIFY-FAIL for pid=${id.pid}${bad[2] ?? ''} (no pass)`);
+        }
+        const exit = getControllerExit();
+        if (exit !== null) throw new Error(`controller exited during VERIFY pid=${id.pid} (code=${exit.code}, no pass)`);
+        await sleepMs(100);
+      }
+      throw new Error(`VERIFY timeout for pid=${id.pid} (no pass; output tail: ${controllerOutput.slice(-400)})`);
+    };
+    // Require root + at least the mock child (node.exe non-root) verified.
+    const mockChildren = captured.filter((id) => id.pid !== rootPid && id.name.toLowerCase() === 'node.exe');
+    if (mockChildren.length < 1) {
+      cleanupController();
+      return fail(`no mock child (node.exe non-root) in captured tree: ${captured.map(formatIdentity).join('; ')} (no pass)`);
+    }
+    const jobVerified: ProcessIdentity[] = [];
+    try {
+      const rootCheck = await verifyInJob(rootIdentity);
+      console.log(`[crash-job] ok: VERIFY root pid=${rootIdentity.pid} inJob=${rootCheck.inJob}`);
+      if (!rootCheck.inJob) {
+        cleanupController();
+        return fail(`root pid=${rootIdentity.pid} not in job (inJob=False, no pass)`);
+      }
+      jobVerified.push(rootIdentity);
+      for (const child of mockChildren) {
+        const childCheck = await verifyInJob(child);
+        console.log(`[crash-job] ok: VERIFY mock child pid=${child.pid} inJob=${childCheck.inJob}`);
+        if (!childCheck.inJob) {
+          cleanupController();
+          return fail(`mock child pid=${child.pid} not in job (inJob=False, no pass)`);
+        }
+        jobVerified.push(child);
+      }
+    } catch (err) {
+      cleanupController();
+      return fail((err as Error).message);
+    }
+    // conhost.exe is best-effort: record, do not fail. ConPTY hosts have been
+    // observed outside the assigned job on some hosts; that layout is
+    // documented here rather than treated as job failure.
+    let jobConhostNote = 'no conhost in captured tree';
+    const conhosts = captured.filter((id) => id.name.toLowerCase() === 'conhost.exe');
+    if (conhosts.length > 0) {
+      const notes: string[] = [];
+      for (const ch of conhosts) {
+        try {
+          const res = await verifyInJob(ch);
+          notes.push(`conhost pid=${ch.pid} inJob=${res.inJob}`);
+          console.log(`[crash-job] note: VERIFY ${notes[notes.length - 1]} (best-effort; outside-job conhost is documented, not a failure)`);
+        } catch (err) {
+          notes.push(`conhost pid=${ch.pid} unverifiable (${(err as Error).message.slice(0, 160)})`);
+          console.log(`[crash-job] note: ${notes[notes.length - 1]} (best-effort; documented, not a failure)`);
+        }
+      }
+      jobConhostNote = notes.join('; ');
+    } else {
+      console.log('[crash-job] note: no conhost in captured tree (jobConhostNote records absence)');
+    }
+    const liveRoot = captured.find((id) => id.pid === rootPid);
+    if (!liveRoot) {
+      cleanupController();
+      return fail(`root pid=${rootPid} absent from post-tree capture`);
+    }
+    const registry: CrashJobRegistry = {
+      schema: CRASH_JOB_REGISTRY_SCHEMA,
+      version: CRASH_JOB_REGISTRY_VERSION,
+      sessionId: mySession,
+      memberId: myMember,
+      rootPid,
+      rootCreationTime: liveRoot.creationTime,
+      rootName: liveRoot.name,
+      tree: captured,
+      lastIntent: 'run',
+      createdAt: new Date().toISOString(),
+      mainPid: process.pid,
+      jobMode: 'job',
+      controllerPid,
+      controllerCreationTime: controllerIdentity.creationTime,
+      jobFlags: '0x2000',
+      jobVerified,
+      jobConhostNote,
+    };
+    writeRegistryAtomic(registryPath, registry);
+    const roundTrip = fs.readFileSync(registryPath, 'utf8');
+    parseCrashJobRegistry(roundTrip, registryPath);
+    console.log(`[crash-job] ok: durable registry written atomically to ${registryPath} (session=${mySession} member=${myMember} rootPid=${rootPid} treeSize=${captured.length} jobMode=job controllerPid=${controllerPid} jobVerified=${jobVerified.length} flags=0x2000 schema=${CRASH_JOB_REGISTRY_SCHEMA} v${CRASH_JOB_REGISTRY_VERSION})`);
+    for (const v of jobVerified) {
+      console.log(`[crash-job] JOB-MEMBER ${formatIdentity(v)} parentPid=${v.parentPid} inJob=true`);
+    }
+    console.log(`[crash-job] note: ${jobConhostNote}`);
+    console.log(`[crash-job] READY registry=${registryPath} session=${mySession} member=${myMember} rootPid=${rootPid} treeSize=${captured.length} jobControllerPid=${controllerPid} jobVerified=${jobVerified.length}`);
+    console.log('[crash-job] alive until runner kills this Electron process (controller stdin held open; EOF on main death closes the last job handle; fixture self-expires within 60s)');
+    // Fail closed if the controller dies first: the job handle would close
+    // early and the experiment could not attribute any later disappearance.
+    ctrl.on('exit', (code, signal) => {
+      console.error(`[crash-job] FAIL: controller exited before main kill (code=${code} signal=${signal}, no pass)`);
+      try {
+        app.exit(2);
+      } catch {
+        /* already exiting */
+      }
+    });
+    await new Promise<void>(() => {});
+    return 0;
+  } catch (err) {
+    cleanupController();
+    try {
+      if (isMemberAlive()) term?.write('exit\r');
+    } catch {
+      /* already gone */
+    }
+    return fail((err as Error).message);
+  }
+}
+
+async function runCrashJobRecoveryCheck(): Promise<number> {
+  let registryPath: string;
+  try {
+    registryPath = getCrashJobRegistryPath();
+  } catch (err) {
+    console.error(`[crash-job-recovery] FAIL: ${(err as Error).message}`);
+    return 2;
+  }
+  if (!isProcessTreeCheckSupported()) {
+    console.error(`[crash-job-recovery] FAIL: crash-job recovery check is Windows-only (platform=${process.platform}, no pass claimed)`);
+    return 2;
+  }
+  let raw: string;
+  try {
+    raw = fs.readFileSync(registryPath, 'utf8');
+  } catch {
+    console.error(`[crash-job-recovery] FAIL: durable registry missing at ${registryPath} (no pass)`);
+    return 2;
+  }
+  let registry: CrashJobRegistry;
+  try {
+    registry = parseCrashJobRegistry(raw, registryPath);
+  } catch (err) {
+    console.error(`[crash-job-recovery] FAIL: ${(err as Error).message}`);
+    return 2;
+  }
+  console.log(`[crash-job-recovery] REGISTRY path=${registryPath} session=${registry.sessionId} member=${registry.memberId} rootPid=${registry.rootPid} treeSize=${registry.tree.length} lastIntent=${registry.lastIntent} schema=${registry.schema} v${registry.version} jobMode=${registry.jobMode} controllerPid=${registry.controllerPid} jobFlags=${registry.jobFlags}`);
+  for (const id of registry.tree) {
+    console.log(`[crash-job-recovery] IDENTITY ${formatIdentity(id)} parentPid=${id.parentPid}`);
+  }
+  for (const v of registry.jobVerified) {
+    console.log(`[crash-job-recovery] JOB-MEMBER ${formatIdentity(v)} parentPid=${v.parentPid} inJob=true(at-capture)`);
+  }
+  console.log(`[crash-job-recovery] CONHOST-NOTE ${registry.jobConhostNote}`);
+  let check: { gone: ProcessIdentity[]; survivors: ProcessIdentity[]; attempts: number };
+  try {
+    check = await verifyIdentitiesGone(registry.tree, 3000, 500);
+  } catch (err) {
+    console.error(`[crash-job-recovery] FAIL: identity lookup failed: ${(err as Error).message} (no pass)`);
+    return 2;
+  }
+  console.log(`[crash-job-recovery] GONE count=${check.gone.length}${check.gone.length > 0 ? `: ${check.gone.map(formatIdentity).join('; ')}` : ''}`);
+  console.log(`[crash-job-recovery] SURVIVORS count=${check.survivors.length}${check.survivors.length > 0 ? `: ${check.survivors.map(formatIdentity).join('; ')}` : ''} (attempts=${check.attempts}, read-only, nothing terminated)`);
+  if (check.survivors.length > 0) {
+    console.log(`[crash-job-recovery] RESULT survivors=${check.survivors.length} (FAIL for this job experiment: captured tree not fully gone; job coverage may be incomplete; 9f stays partial)`);
+    console.log(`[crash-job-recovery] PAUSED member=${registry.memberId} session=${registry.sessionId} no-duplicate-launch no-pid-kill (recovery paused; fixture self-expire bounds orphans, never a PID kill)`);
+    return 1;
+  }
+  console.log('[crash-job-recovery] RESULT survivors=0 (bounded observation with verified job membership at capture; 9f stays partial — zero survivors alone do not prove job cause, the recorded VERIFIED membership is the added evidence; fixture bound respected)');
+  console.log(`[crash-job-recovery] PAUSED member=${registry.memberId} session=${registry.sessionId} no-duplicate-launch no-pid-kill (nothing to clean; 9f stays partial)`);
+  return 0;
+}
+
 async function main(): Promise<void> {
   await app.whenReady();
   // Registered before any branch: without this, the last window closing
@@ -1334,6 +1922,7 @@ async function main(): Promise<void> {
   app.on('window-all-closed', () => {
     if (lifecycleTestMode) return;
     if (crashBaselineMode) return; // crash-baseline has no window; it lives until the runner kills it.
+    if (crashJobMode) return; // crash-job has no window; it lives until the runner kills it.
     if (keepRunning && !isQuitting) return; // retained PTY lives in the tray.
     app.quit();
   });
@@ -1411,6 +2000,28 @@ async function main(): Promise<void> {
       app.exit(code);
     } catch (err) {
       console.error(`[crash-recovery] FAIL: ${(err as Error).message}`);
+      app.exit(2);
+    }
+    return;
+  }
+  if (process.argv.includes(CRASH_JOB_FLAG)) {
+    try {
+      const code = await runCrashJobBaseline();
+      // Success never returns (stays alive until runner kill); a return is
+      // always a harness failure.
+      app.exit(code);
+    } catch (err) {
+      console.error(`[crash-job] FAIL: ${(err as Error).message}`);
+      app.exit(2);
+    }
+    return;
+  }
+  if (process.argv.includes(CRASH_JOB_RECOVERY_FLAG)) {
+    try {
+      const code = await runCrashJobRecoveryCheck();
+      app.exit(code);
+    } catch (err) {
+      console.error(`[crash-job-recovery] FAIL: ${(err as Error).message}`);
       app.exit(2);
     }
     return;

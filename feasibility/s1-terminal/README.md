@@ -48,6 +48,12 @@ npm run smoke:crash-baseline &:: S1 9f BASELINE only: crash-and-relaunch
 npm run smoke:job-probe &:: Isolated Windows Job Object API probe only
                         &:: (PowerShell + C# P/Invoke controller, no
                         &:: Electron/PTY; mock-child fixture; no 9f pass)
+npm run smoke:crash-job &:: S1 9f crash+job experiment only (Windows
+                        &:: mock-tree): Electron main-owned PTY + proven
+                        &:: Job controller with opt-in -HoldUntilStdinClose
+                        &:: hold (piped stdin, VERIFY over pipe), durable
+                        &:: job registry, runner-owned kill, read-only
+                        &:: recovery; no 9f pass, S1 stays partial
 ```
 
 Manual S1 launch override (no source edits) — a trusted local command only:
@@ -250,7 +256,11 @@ vendor CLI in automated checks.
   `--lifecycle-smoke`, plus 9f BASELINE `--crash-baseline` (main-owned PTY +
   `tree` + ≥2-identity capture + atomic durable registry before `READY`,
   stays alive) and `--crash-recovery-check` (read-only registry +
-  re-enumeration, no duplicate, no PID kill; exit 0/1/2).
+  re-enumeration, no duplicate, no PID kill; exit 0/1/2), plus the bounded
+  9f job experiment `--crash-job` (PTY + `-HoldUntilStdinClose` controller +
+  `VERIFY` root/child + job registry before `READY`, stays alive) and
+  `--crash-job-recovery-check` (read-only job registry + re-enumeration;
+  exit 0/1/2).
 - `src/process-tree-9e.ts` — bounded Windows-only 9e helper (read-only
   `Get-CimInstance Win32_Process`, PID + `CreationDate` identities,
   `captureProcessTree` / `verifyIdentitiesGone`, no kills, no extra deps).
@@ -270,6 +280,15 @@ vendor CLI in automated checks.
   failure), then read-only waits for the exact identities to self-expire
   within the bound (no PID kill; bound-exceeded is loud exit 2, no cleanup
   claimed). Never `taskkill` / `Stop-Process` / PID kill.
+- `scripts/run-crash-job.js` — 9f crash+job runner only (`npm run
+  smoke:crash-job`): same safety bounds and handle-only kill, but for
+  `--crash-job` / `--crash-job-recovery-check` with the job registry
+  (`tiye-crash-job-registry v1`, `jobMode` + controller identity +
+  `jobVerified`); fails closed (exit 2) on missing/malformed registry,
+  READY mismatch, controller exited early, or observation outside the
+  fixture bound; exit 1 when any captured member identity survives, exit 0
+  only for the bounded zero-survivor observation with verified membership
+  (9f stays partial). Never `taskkill` / `Stop-Process` / PID kill.
 - `mock-cli/mock-cli.js` — scripted local CLI, zero dependencies (`tree`
   spawns the descendant, `tree-stop` stops it via stdin, `exit` drains it
   first; all other commands unchanged; `TIYE_MOCK_CRASH_MODE=1` arms the 9f
@@ -278,13 +297,21 @@ vendor CLI in automated checks.
   for the 9f BASELINE only: exits itself on an `exit` stdin
   line, stays alive on stdin close, self-expires after 60 s, no PID kills.
 - `scripts/job-probe-controller.ps1` — isolated Job Object controller
-  (no Electron/PTY): opens the supplied child PID, verifies creation
+  plus the opt-in `-HoldUntilStdinClose` hold for the crash+job experiment:
+  opens the supplied child PID, verifies creation
   identity with the SAME handle (`GetProcessTimes` vs caller ISO, at most
   one microsecond of conversion skew), creates an unnamed job, sets and
   reads back `KILL_ON_JOB_CLOSE`, assigns,
   confirms `IsProcessInJob`, prints structured `READY`, holds the job
   handle until its own process exits (normal exit closes it; abnormal
-  termination closes it via the OS).
+  termination closes it via the OS). Without the switch the hold is the
+  original infinite sleep (standalone `smoke:job-probe` unchanged). With
+  `-HoldUntilStdinClose` (piped stdin from Electron main only) it reads
+  stdin until EOF — EOF means main died, so it exits and the OS closes the
+  last job handle — and answers the narrow `VERIFY <pid> <creationISO>`
+  command (`VERIFIED pid=… inJob=True/False` or `VERIFY-FAIL`, same-handle
+  check + `IsProcessInJob` vs the held job, verify handle closed). The
+  no-job baseline never launches this controller.
 - `scripts/run-job-probe.js` — isolated probe runner (`npm run
   smoke:job-probe`): no-job control case (~2 s alive, stdin `exit`,
   observed exit) plus the job case above (READY wait, runner-owned
@@ -294,3 +321,24 @@ vendor CLI in automated checks.
   stdin `exit`). Never `taskkill` / `Stop-Process` / PID kill; no fixture
   orphaned. Reuses `mock-child.js` directly (single-process fixture, no
   PTY, no mock-cli parent); the fixture itself is unchanged.
+- `src/main.ts` (`--crash-job` / `--crash-job-recovery-check`, `npm run
+  smoke:crash-job` via `scripts/run-crash-job.js`) — bounded S1 9f
+  crash+job experiment only (Windows mock-tree, no 9f pass): main-owned PTY
+  mock CLI, pre-job root PID+creation capture, controller launch with
+  `-HoldUntilStdinClose` + piped stdin, controller `READY` (queried
+  `0x2000` + same-handle check + assignment + `IsProcessInJob=true`)
+  BEFORE `tree`, post-`tree` capture, `VERIFY` of root + at least the mock
+  child (`node.exe` non-root) as `inJob=true` before Electron `READY`,
+  atomic durable registry (`schema=tiye-crash-job-registry v1` with
+  `jobMode=job`, controller PID+creation, `jobFlags=0x2000`,
+  `jobVerified`, `jobConhostNote`) before `READY`, then alive until the
+  runner kills ONLY its runner-owned Electron handle; main death closes
+  the controller stdin pipe (EOF) so the controller exits and closes the
+  last job handle. `conhost.exe` is best-effort: if it cannot be verified
+  or sits outside the job, the run records `jobConhostNote` and still
+  proceeds (ConPTY hosts have been observed outside the assigned job).
+  Recovery is read-only (no duplicate, no PID kill): exit 0 = no survivors
+  with verified membership recorded, 1 = survivors (FAIL for this
+  experiment), 2 = harness failure (missing/malformed registry, READY
+  mismatch, controller exited early, lookup failure, or observation
+  outside the 55 s/60 s safety bound — never a pass). S1/9f stay partial.

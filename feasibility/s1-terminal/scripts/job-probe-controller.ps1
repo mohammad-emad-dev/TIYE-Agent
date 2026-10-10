@@ -23,7 +23,8 @@
 
 param(
   [Parameter(Mandatory = $true)][int]$ChildPid,
-  [Parameter(Mandatory = $true)][string]$ChildCreationTime
+  [Parameter(Mandatory = $true)][string]$ChildCreationTime,
+  [switch]$HoldUntilStdinClose
 )
 
 $ErrorActionPreference = 'Stop'
@@ -223,8 +224,111 @@ if (-not $result) {
   Fail "IsProcessInJob(pid=$ChildPid) returned false after assignment"
 }
 Write-Output "[job-controller] confirmed IsProcessInJob(pid=$ChildPid)=true"
-Write-Output "[job-controller] READY childPid=$ChildPid childCreation=$ChildCreationTime killOnJobClose=1"
+if ($HoldUntilStdinClose) {
+  Write-Output "[job-controller] READY childPid=$ChildPid childCreation=$ChildCreationTime killOnJobClose=1 holdMode=stdin"
+} else {
+  Write-Output "[job-controller] READY childPid=$ChildPid childCreation=$ChildCreationTime killOnJobClose=1"
+}
 
+# Hold mode selection (opt-in only for the Electron crash-job experiment):
+# - Absent (standalone smoke:job-probe): infinite sleep hold; the runner kills
+#   only its runner-owned controller ChildProcess handle; behavior unchanged.
+# - Present (-HoldUntilStdinClose, piped stdin from Electron main): read stdin
+#   lines until EOF; EOF means Electron main died (its pipe closed), so exit
+#   and let the OS close the last job handle (KILL_ON_JOB_CLOSE fires).
+#   Narrow VERIFY command: "VERIFY <pid> <creationTimeISO>" opens that PID,
+#   checks creation identity on the same handle (<=10 ticks skew), runs
+#   IsProcessInJob against the held job, replies VERIFIED/VERIFY-FAIL, and
+#   closes only the verify handle. Unknown lines reply UNKNOWN (never fail).
+if ($HoldUntilStdinClose) {
+  try {
+    while ($true) {
+      $line = $null
+      try {
+        $line = [Console]::In.ReadLine()
+      } catch {
+        Write-Output "[job-controller] FAIL: stdin read failed ($($_.Exception.Message))"
+        exit 2
+      }
+      if ($null -eq $line) {
+        Write-Output "[job-controller] stdin-closed closing job handle (main pipe EOF)"
+        break
+      }
+      $trim = $line.Trim()
+      if ($trim -eq '') { continue }
+      if ($trim -eq 'EXIT') {
+        Write-Output "[job-controller] EXIT requested, closing job handle"
+        break
+      }
+      if ($trim.StartsWith('VERIFY ')) {
+        $parts = $trim.Split(' ', 3, [System.StringSplitOptions]::RemoveEmptyEntries)
+        if ($parts.Count -ne 3) {
+          Write-Output "[job-controller] VERIFY-FAIL malformed (want 'VERIFY <pid> <creationTimeISO>')"
+          continue
+        }
+        $vPid = 0
+        if (-not [int]::TryParse($parts[1], [ref]$vPid) -or $vPid -le 0) {
+          Write-Output "[job-controller] VERIFY-FAIL pid=$($parts[1]) malformed pid"
+          continue
+        }
+        $vCreationRaw = $parts[2]
+        try {
+          $vExpectedUtc = ([DateTime]::Parse($vCreationRaw)).ToUniversalTime()
+        } catch {
+          Write-Output "[job-controller] VERIFY-FAIL pid=$vPid unparseable creation time '$vCreationRaw'"
+          continue
+        }
+        $hVerify = [JobApi]::OpenProcess($desiredAccess, $false, [uint32]$vPid)
+        if ($hVerify -eq [IntPtr]::Zero) {
+          $werr = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+          Write-Output "[job-controller] VERIFY-FAIL pid=$vPid OpenProcess failed (Win32=$werr)"
+          continue
+        }
+        try {
+          $vCreate = New-Object JobApi+FILETIME
+          $vExit = New-Object JobApi+FILETIME
+          $vKernel = New-Object JobApi+FILETIME
+          $vUser = New-Object JobApi+FILETIME
+          if (-not [JobApi]::GetProcessTimes($hVerify, [ref]$vCreate, [ref]$vExit, [ref]$vKernel, [ref]$vUser)) {
+            $werr = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+            Write-Output "[job-controller] VERIFY-FAIL pid=$vPid GetProcessTimes failed (Win32=$werr)"
+            continue
+          }
+          $vTicks = ([uint64]$vCreate.dwHighDateTime -shl 32) -bor [uint64]$vCreate.dwLowDateTime
+          try {
+            $vActualUtc = [DateTime]::FromFileTimeUtc([int64]$vTicks)
+          } catch {
+            Write-Output "[job-controller] VERIFY-FAIL pid=$vPid FromFileTimeUtc failed"
+            continue
+          }
+          $vSkewTicks = [Math]::Abs($vActualUtc.Ticks - $vExpectedUtc.Ticks)
+          if ($vSkewTicks -gt 10) {
+            Write-Output "[job-controller] VERIFY-FAIL pid=$vPid creation-identity mismatch (skewTicks=$vSkewTicks > 10)"
+            continue
+          }
+          $vInJob = $false
+          if (-not [JobApi]::IsProcessInJob($hVerify, $hJob, [ref]$vInJob)) {
+            $werr = [Runtime.InteropServices.Marshal]::GetLastWin32Error()
+            Write-Output "[job-controller] VERIFY-FAIL pid=$vPid IsProcessInJob failed (Win32=$werr)"
+            continue
+          }
+          Write-Output "[job-controller] VERIFIED pid=$vPid inJob=$vInJob skewTicks=$vSkewTicks"
+        } finally {
+          try { [void][JobApi]::CloseHandle($hVerify) } catch {}
+        }
+        continue
+      }
+      Write-Output "[job-controller] UNKNOWN command: $trim"
+    }
+  } finally {
+    try { [void][JobApi]::CloseHandle($hJob) } catch {}
+    try { [void][JobApi]::CloseHandle($hProcess) } catch {}
+    Write-Output "[job-controller] closing job handle (stdin-hold exit path)"
+  }
+  exit 0
+}
+
+# Standalone hold (smoke:job-probe unchanged): hold until killed.
 # Hold the job handle until this process exits. Normal exit closes it in
 # finally; abnormal termination (runner kills this controller process via
 # its handle) closes it via the OS -- either way KILL_ON_JOB_CLOSE fires.
