@@ -1,5 +1,6 @@
 // S1b main process (+ bounded S1 9e probe, + bounded 9f BASELINE probe,
-// + bounded 9f crash+job experiment, + bounded 9f crash-survivor experiment).
+// + bounded 9f crash+job experiment, + bounded 9f crash-survivor experiment,
+// + bounded 9f crash-pty-survivor experiment).
 // Main owns ONE member PTY session across BrowserWindow recreation
 // (Architecture 2.3, S1 steps 9a-9d). Window close offers Keep Running
 // (retain PTY, tray with Open/Quit) or Stop (graceful CLI shutdown, then
@@ -31,6 +32,12 @@ import {
   runCrashSurvivor,
   runCrashSurvivorRecovery,
 } from './crash-survivor';
+import {
+  CRASH_PTY_SURVIVOR_FLAG,
+  CRASH_PTY_SURVIVOR_RECOVERY_FLAG,
+  runCrashPtySurvivor,
+  runCrashPtySurvivorRecovery,
+} from './crash-pty-survivor';
 
 const SMOKE_FLAG = '--smoke-test';
 const WINDOW_SMOKE_FLAG = '--window-smoke';
@@ -223,6 +230,7 @@ let lifecycleTestMode = false;
 let crashBaselineMode = false;
 let crashJobMode = false;
 let crashSurvivorMode = false;
+let crashPtySurvivorMode = false;
 let tray: Tray | null = null;
 let stopPromise: Promise<ShutdownResult> | null = null;
 
@@ -1932,6 +1940,7 @@ async function main(): Promise<void> {
     if (crashBaselineMode) return; // crash-baseline has no window; it lives until the runner kills it.
     if (crashJobMode) return; // crash-job has no window; it lives until the runner kills it.
     if (crashSurvivorMode) return; // crash-survivor has no window/PTY; it lives until the runner kills it.
+    if (crashPtySurvivorMode) return; // crash-pty-survivor has no window; it lives until the runner kills it.
     if (keepRunning && !isQuitting) return; // retained PTY lives in the tray.
     app.quit();
   });
@@ -2055,6 +2064,30 @@ async function main(): Promise<void> {
       app.exit(code);
     } catch (err) {
       console.error(`[crash-survivor-recovery] FAIL: ${(err as Error).message}`);
+      app.exit(2);
+    }
+    return;
+  }
+  if (process.argv.includes(CRASH_PTY_SURVIVOR_FLAG)) {
+    crashPtySurvivorMode = true;
+    try {
+      const code = await runCrashPtySurvivor();
+      // Success never returns (stays alive until runner kill); a return is
+      // always a harness failure.
+      app.exit(code);
+    } catch (err) {
+      console.error(`[crash-pty-survivor] FAIL: ${(err as Error).message}`);
+      app.exit(2);
+    }
+    return;
+  }
+  if (process.argv.includes(CRASH_PTY_SURVIVOR_RECOVERY_FLAG)) {
+    crashPtySurvivorMode = true;
+    try {
+      const code = await runCrashPtySurvivorRecovery();
+      app.exit(code);
+    } catch (err) {
+      console.error(`[crash-pty-survivor-recovery] FAIL: ${(err as Error).message}`);
       app.exit(2);
     }
     return;

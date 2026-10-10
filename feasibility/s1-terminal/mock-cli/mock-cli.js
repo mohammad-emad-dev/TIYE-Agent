@@ -82,6 +82,24 @@ function startTreeChild() {
   console.log(`tree ready pid=${child.pid}`);
 }
 
+function startDetachedTreeChild() {
+  const script = path.join(__dirname, 'mock-detached-child.js');
+  const child = spawn(process.execPath, [script], {
+    detached: true,
+    stdio: 'ignore',
+    windowsHide: true,
+  });
+  child.once('error', (err) => {
+    console.error(`tree-detached spawn failed: ${err.message}`);
+    rl.prompt();
+  });
+  child.once('spawn', () => {
+    child.unref();
+    console.log(`tree-detached ready pid=${child.pid}`);
+    rl.prompt();
+  });
+}
+
 function requestTreeChildExit(timeoutMs) {
   return new Promise((resolve) => {
     const child = treeChild;
@@ -177,7 +195,7 @@ function banner() {
 }
 
 function help() {
-  console.log('commands: help | fast [n] | spinner [ms] | ask | multi | unicode | hang [ms] | tree | tree-stop | crash | exit');
+  console.log('commands: help | fast [n] | spinner [ms] | ask | multi | unicode | hang [ms] | tree | tree-stop | tree-detached | crash | exit');
   console.log('anything else is echoed back (unicode-safe).');
 }
 
@@ -273,6 +291,7 @@ function onLine(raw) {
     }
     case 'tree': startTreeChild(); break;
     case 'tree-stop': stopTreeChildForCommand(); return;
+    case 'tree-detached': startDetachedTreeChild(); return;
     case 'crash':
       console.error('mock-cli: simulated crash');
       process.exit(3);
