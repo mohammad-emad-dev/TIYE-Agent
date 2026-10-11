@@ -38,6 +38,22 @@
 // against the logged EDIT-PLAN expectation). Do NOT cite as command history
 // or S1 step 3 complete.
 //
+// --history-probe mode (same file, distinct Electron flag --cli-history-smoke):
+// bounded real-OpenCode TUI history observation. Same fixed command + empty
+// args, same scrubbed env, same teardown proof below (no copy of the
+// enumeration code). Visible opt-in window only. ONE uninterrupted focused
+// sendInputEvent sequence into the visible xterm and nothing else (no capture
+// between interactions, no mouse input): types literal `/help` (echo
+// required), presses Enter ONCE for the documented built-in help command
+// (textual help marker required, never a free-form prompt), presses Escape,
+// pauses, presses Up exactly once (history_previous), never submits recalled
+// text, then captures ONLY dist/cli-history-up.png. Automated PASS means
+// documented /help marker observed + bounded key sequence delivered + final
+// nonempty screenshot + exact teardown; it does NOT claim command-history
+// recall (orchestrator visually inspects the final screenshot; if it still
+// shows the help dialog or no recalled command, history is documented as
+// unproven; no model-prompt or custom-command workaround).
+//
 // Determinism: the runner OVERWRITES TIYE_S1_COMMAND=opencode and
 // TIYE_S1_ARGS_JSON=[] and DELETES inherited TIYE_S1_CWD plus every
 // crash/crash-survivor registry env and TIYE_MOCK_CRASH_MODE so an outer
@@ -54,9 +70,12 @@
 // processes are never touched. Existing mock smoke behavior is untouched.
 //
 // Exit contract: 0 TUI-STARTUP PASS (or CLI-INPUT PASS in --input-probe mode,
-// or CLI-EDIT PASS in --edit-probe mode),
+// or CLI-EDIT PASS in --edit-probe mode, or CLI-HISTORY PASS in
+// --history-probe mode),
 // 1 FAIL (wrong resolution, missing startup marker, empty screenshot, or — in
-// input/edit mode — unchanged before/after render; no pass), 2 inconclusive/harness
+// input/edit mode — unchanged before/after render; or — in history mode —
+// missing /help sequence marker or unobserved help UI; no pass),
+// 2 inconclusive/harness
 // failure (missing dist, launch/timeout/lookup failure, pre-kill tree not
 // alive, or teardown unproven — never a pass).
 
@@ -67,26 +86,31 @@ const crypto = require('node:crypto');
 
 const electron = require('electron');
 
-const IS_EDIT_PROBE = process.argv.includes('--edit-probe');
-const IS_INPUT_PROBE = process.argv.includes('--input-probe') && !IS_EDIT_PROBE;
-const FLAG = IS_EDIT_PROBE ? '--cli-edit-smoke' : IS_INPUT_PROBE ? '--cli-input-smoke' : '--cli-tui-startup-smoke';
-const SMOKE_TAG = IS_EDIT_PROBE ? 'cli-edit-smoke' : IS_INPUT_PROBE ? 'cli-input-smoke' : 'cli-tui-startup-smoke';
+const IS_HISTORY_PROBE = process.argv.includes('--history-probe');
+const IS_EDIT_PROBE = process.argv.includes('--edit-probe') && !IS_HISTORY_PROBE;
+const IS_INPUT_PROBE = process.argv.includes('--input-probe') && !IS_EDIT_PROBE && !IS_HISTORY_PROBE;
+const FLAG = IS_HISTORY_PROBE ? '--cli-history-smoke' : IS_EDIT_PROBE ? '--cli-edit-smoke' : IS_INPUT_PROBE ? '--cli-input-smoke' : '--cli-tui-startup-smoke';
+const SMOKE_TAG = IS_HISTORY_PROBE ? 'cli-history-smoke' : IS_EDIT_PROBE ? 'cli-edit-smoke' : IS_INPUT_PROBE ? 'cli-input-smoke' : 'cli-tui-startup-smoke';
 const READY_TIMEOUT_MS = 60000;
 const KILL_WAIT_MS = 10000;
 const POST_KILL_SETTLE_MS = 2000;
 const POST_KILL_VERIFY_BOUND_MS = 15000;
 const POST_KILL_POLL_MS = 500;
 
-const READY_RE = IS_EDIT_PROBE
-  ? /\[cli-edit-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
-  : IS_INPUT_PROBE
-    ? /\[cli-input-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
-    : /\[cli-tui-startup-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/;
-const IDENTITY_RE = IS_EDIT_PROBE
-  ? /\[cli-edit-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
-  : IS_INPUT_PROBE
-    ? /\[cli-input-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
-    : /\[cli-tui-startup-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g;
+const READY_RE = IS_HISTORY_PROBE
+  ? /\[cli-history-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
+  : IS_EDIT_PROBE
+    ? /\[cli-edit-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
+    : IS_INPUT_PROBE
+      ? /\[cli-input-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
+      : /\[cli-tui-startup-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/;
+const IDENTITY_RE = IS_HISTORY_PROBE
+  ? /\[cli-history-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
+  : IS_EDIT_PROBE
+    ? /\[cli-edit-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
+    : IS_INPUT_PROBE
+      ? /\[cli-input-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
+      : /\[cli-tui-startup-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g;
 
 function log(msg) {
   console.log(`[runner] ${msg}`);
@@ -224,17 +248,22 @@ async function main() {
     process.exitCode = 2;
     return;
   }
-  const shotPath = IS_EDIT_PROBE
-    ? path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png')
-    : IS_INPUT_PROBE
-      ? path.resolve(__dirname, '..', 'dist', 'cli-input-after.png')
-      : path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
+  const historyUpShotPath = path.resolve(__dirname, '..', 'dist', 'cli-history-up.png');
+  const shotPath = IS_HISTORY_PROBE
+    ? historyUpShotPath
+    : IS_EDIT_PROBE
+      ? path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png')
+      : IS_INPUT_PROBE
+        ? path.resolve(__dirname, '..', 'dist', 'cli-input-after.png')
+        : path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
   const beforeShotPath = IS_EDIT_PROBE
-    ? path.resolve(__dirname, '..', 'dist', 'cli-edit-before.png')
-    : path.resolve(__dirname, '..', 'dist', 'cli-input-before.png');
-  const afterShotPath = IS_EDIT_PROBE
-    ? path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png')
-    : path.resolve(__dirname, '..', 'dist', 'cli-input-after.png');
+      ? path.resolve(__dirname, '..', 'dist', 'cli-edit-before.png')
+      : path.resolve(__dirname, '..', 'dist', 'cli-input-before.png');
+  const afterShotPath = IS_HISTORY_PROBE
+    ? historyUpShotPath
+    : IS_EDIT_PROBE
+      ? path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png')
+      : path.resolve(__dirname, '..', 'dist', 'cli-input-after.png');
 
   // Deterministic probe env: fixed command + empty args, scrubbed S1
   // overrides so inherited values cannot change behavior.
@@ -253,7 +282,7 @@ async function main() {
   log('env: TIYE_S1_COMMAND=opencode TIYE_S1_ARGS_JSON=[] (fixed; no stdin, no prompt, no model request)');
   log('env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)');
 
-  log(`phase 1: spawn runner-owned Electron ${FLAG} ${IS_EDIT_PROBE ? 'visible-window (opt-in keyboard editing)' : IS_INPUT_PROBE ? 'visible-window (opt-in keyboard delivery)' : 'hidden-window'} (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)`);
+  log(`phase 1: spawn runner-owned Electron ${FLAG} ${IS_HISTORY_PROBE ? 'visible-window (opt-in /help history observation)' : IS_EDIT_PROBE ? 'visible-window (opt-in keyboard editing)' : IS_INPUT_PROBE ? 'visible-window (opt-in keyboard delivery)' : 'hidden-window'} (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)`);
   const child = spawn(electron, [distMain, FLAG], {
     cwd: path.resolve(__dirname, '..'),
     env,
@@ -262,7 +291,7 @@ async function main() {
   });
   let output = '';
   let ready = null;
-  const childTag = IS_EDIT_PROBE ? 'cli-edit-main' : IS_INPUT_PROBE ? 'cli-input-main' : 'tui-startup-main';
+  const childTag = IS_HISTORY_PROBE ? 'cli-history-main' : IS_EDIT_PROBE ? 'cli-edit-main' : IS_INPUT_PROBE ? 'cli-input-main' : 'tui-startup-main';
   child.stdout?.on('data', (d) => {
     output += d.toString('utf8');
     logChild(childTag, d);
@@ -334,12 +363,39 @@ async function main() {
     : IS_INPUT_PROBE
       ? /\[cli-input-smoke\] SHOTS before=.* changed=true/i.test(output)
       : true;
+  const historyPlanOk = IS_HISTORY_PROBE
+    ? /\[cli-history-smoke\] HISTORY-PLAN command=\/help steps=type\(\/help\),Enter,Escape,Up,shot\(up\)/i.test(output)
+    : true;
+  const historyTypedOk = IS_HISTORY_PROBE
+    ? /\[cli-history-smoke\] ok: history input typed len=\d+ command=\/help via sendInputEvent/i.test(output)
+    : true;
+  const historyEchoOk = IS_HISTORY_PROBE
+    ? /\[cli-history-smoke\] ok: history typed echo observed command=\/help/i.test(output)
+    : true;
+  const historyEnterOk = IS_HISTORY_PROBE
+    ? /\[cli-history-smoke\] ok: history Enter pressed once via sendInputEvent/i.test(output)
+    : true;
+  const historyHelpObservedOk = IS_HISTORY_PROBE
+    ? /\[cli-history-smoke\] HISTORY-HELP-OBSERVED observed=true/i.test(output)
+    : true;
+  const historyEscapeOk = IS_HISTORY_PROBE
+    ? /\[cli-history-smoke\] ok: history Escape pressed once via sendInputEvent/i.test(output)
+    : true;
+  const historyUpOk = IS_HISTORY_PROBE
+    ? /\[cli-history-smoke\] ok: history Up pressed once via sendInputEvent/i.test(output)
+    : true;
+  const historyUpShotOk = IS_HISTORY_PROBE
+    ? /\[cli-history-smoke\] ok: screenshot up .*cli-history-up\.png/i.test(output)
+    : true;
+  const historyShotsLogOk = IS_HISTORY_PROBE
+    ? /\[cli-history-smoke\] HISTORY-SHOTS up=.*cli-history-up\.png/i.test(output)
+    : true;
   log(`assert: spawning line: ${spawningLine.slice(0, 300)}`);
   log(`assert: resolved line: ${resolvedLine.slice(0, 300)}`);
   log(`assert: markers line: ${markersLine.slice(0, 200)}`);
   log(`assert: version line: ${versionLine.slice(0, 120)}`);
   log(`assert: shot line: ${shotLine.slice(0, 300)}`);
-  log(`assert: mode=${IS_EDIT_PROBE ? 'edit-probe' : IS_INPUT_PROBE ? 'input-probe' : 'tui-startup'} resolvedOpencode=${resolvedOpencode} resolvedCmdShim=${resolvedCmdShim} rendererReady=${rendererReady} ptyData=${ptyData} markersOk=${markersOk} versionOk=${versionOk} inputTypedOk=${inputTypedOk} editKeysOk=${editKeysOk} editPlanOk=${editPlanOk} shotsLogOk=${shotsLogOk}`);
+  log(`assert: mode=${IS_HISTORY_PROBE ? 'history-probe' : IS_EDIT_PROBE ? 'edit-probe' : IS_INPUT_PROBE ? 'input-probe' : 'tui-startup'} resolvedOpencode=${resolvedOpencode} resolvedCmdShim=${resolvedCmdShim} rendererReady=${rendererReady} ptyData=${ptyData} markersOk=${markersOk} versionOk=${versionOk} inputTypedOk=${inputTypedOk} editKeysOk=${editKeysOk} editPlanOk=${editPlanOk} shotsLogOk=${shotsLogOk} historyPlanOk=${historyPlanOk} historyTypedOk=${historyTypedOk} historyEchoOk=${historyEchoOk} historyEnterOk=${historyEnterOk} historyHelpObservedOk=${historyHelpObservedOk} historyEscapeOk=${historyEscapeOk} historyUpOk=${historyUpOk} historyUpShotOk=${historyUpShotOk} historyShotsLogOk=${historyShotsLogOk}`);
 
   const killOwned = async () => {
     try {
@@ -361,8 +417,8 @@ async function main() {
     process.exitCode = 1;
     return;
   }
-  if (!rendererReady || !ptyData || !markersOk || !inputTypedOk || !editKeysOk || !editPlanOk || !shotsLogOk) {
-    console.error(`[runner] FAIL: renderer READY + real CLI PTY data + markers${IS_EDIT_PROBE ? ' + keyboard input + editing keys + EDIT-PLAN + changed SHOTS' : IS_INPUT_PROBE ? ' + keyboard input + changed SHOTS' : ''} not all proven (no pass; not S1 steps 1-8)`);
+  if (!rendererReady || !ptyData || !markersOk || !inputTypedOk || !editKeysOk || !editPlanOk || !shotsLogOk || !historyPlanOk || !historyTypedOk || !historyEchoOk || !historyEnterOk || !historyHelpObservedOk || !historyEscapeOk || !historyUpOk || !historyUpShotOk || !historyShotsLogOk) {
+    console.error(`[runner] FAIL: renderer READY + real CLI PTY data + markers${IS_HISTORY_PROBE ? ' + /help sequence (HISTORY-PLAN + typed /help + echo + Enter once + HELP-OBSERVED + Escape + Up + up shot + HISTORY-SHOTS)' : IS_EDIT_PROBE ? ' + keyboard input + editing keys + EDIT-PLAN + changed SHOTS' : IS_INPUT_PROBE ? ' + keyboard input + changed SHOTS' : ''} not all proven (no pass; not S1 steps 1-8)`);
     await killOwned();
     process.exitCode = 1;
     return;
@@ -375,7 +431,36 @@ async function main() {
   let afterBytes = 0;
   let beforeHash = '';
   let afterHash = '';
-  if (IS_INPUT_PROBE || IS_EDIT_PROBE) {
+  if (IS_HISTORY_PROBE) {
+    let upBytes = 0;
+    let upHash = '';
+    try {
+      upBytes = fs.statSync(historyUpShotPath).size;
+    } catch {
+      console.error(`[runner] FAIL: up screenshot missing at ${historyUpShotPath} (no pass)`);
+      await killOwned();
+      process.exitCode = 1;
+      return;
+    }
+    if (upBytes <= 0) {
+      console.error(`[runner] FAIL: up screenshot empty (up=${upBytes}; rendering not proven; no pass)`);
+      await killOwned();
+      process.exitCode = 1;
+      return;
+    }
+    try {
+      upHash = crypto.createHash('sha256').update(fs.readFileSync(historyUpShotPath)).digest('hex');
+    } catch (err) {
+      console.error(`[runner] FAIL: up screenshot hash failed: ${err.message} (no pass)`);
+      await killOwned();
+      process.exitCode = 1;
+      return;
+    }
+    afterBytes = upBytes;
+    afterHash = upHash;
+    shotBytes = upBytes;
+    log(`screenshots ok: up=${historyUpShotPath} (${upBytes} bytes sha256=${upHash.slice(0, 16)}…) (single final screenshot after uninterrupted type/Enter/Escape/Up; orchestrator visual inspection only; NOT recall proof)`);
+  } else if (IS_INPUT_PROBE || IS_EDIT_PROBE) {
     try {
       beforeBytes = fs.statSync(beforeShotPath).size;
     } catch {
@@ -536,7 +621,9 @@ async function main() {
   }
   const resolvedPath = (resolvedLine.match(/resolved command=(\S+)/) || [])[1] || 'unknown';
   const semverObserved = (versionLine.match(/VERSION (\d+\.\d+\.\d+)/) || [])[1] || 'none';
-  if (IS_EDIT_PROBE) {
+  if (IS_HISTORY_PROBE) {
+    console.log(`[runner] CLI-HISTORY PASS: resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) command=/help up=${historyUpShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) (documented /help marker observed + bounded sendInputEvent type(/help),Enter once,Escape,Up once + final nonempty screenshot + exact teardown, never free-form prompt, never recalled-text submit, no second Enter, no mouse; NOT command-history recall — orchestrator visually inspects the final screenshot, and a still-open help dialog or no recalled command means history unproven; NOT S1 step 3, parity, Unicode, approvals, or model behavior)`);
+  } else if (IS_EDIT_PROBE) {
     const tokenLine = output.split(/\r?\n/).find((l) => /\[cli-edit-smoke\] TOKEN initial=/i.test(l)) ?? '';
     const editPlanLine = output.split(/\r?\n/).find((l) => /\[cli-edit-smoke\] EDIT-PLAN initial=/i.test(l)) ?? '';
     const initialTok = (tokenLine.match(/initial=(\S+)/) || [])[1] || 'unknown';

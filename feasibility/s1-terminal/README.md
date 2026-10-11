@@ -231,6 +231,14 @@ text. Command history and S1 step 3 remain unverified.
 Visible-window focus can be inconsistent on this host; an unchanged screenshot
 fails the probe rather than counting as an editing pass.
 
+`npm run smoke:cli-history` submits only OpenCode's built-in `/help` command,
+then sends Escape and Up without another submission. It captures
+`dist/cli-history-up.png` after the uninterrupted key sequence and uses the
+same exact-tree teardown check. Automated PASS verifies the help marker, sent
+events, screenshot, and teardown; it does not establish recalled history.
+On this host, visual inspection showed an empty composer after Up, so S1
+step 3 remains partial.
+
 ## S1 steps 1–8 checklist (manual, against the window)
 
 | Step | Action in this prototype | Observe |

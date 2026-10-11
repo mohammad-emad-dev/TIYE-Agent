@@ -193,3 +193,14 @@ The first visible-window capture was once empty at 0×0; bounded capture retries
 | Controlled teardown | Pass (bounded) | The captured `cmd.exe` root and `opencode.exe` descendant were alive by PID and creation time before the runner ended its own Electron process. Both exact identities were gone on the first read-only re-enumeration afterward; no saved-PID kill was used. |
 
 An earlier run using `ArrowRight` produced `iyeeditab1z`, which did not match the plan. Changing the key code to Electron's documented `Right` accelerator produced the expected visible text in the delegate's run and independent reruns. The visible-window probe is focus sensitive: subsequent runs also failed closed with identical empty-prompt screenshots despite logging sent events, followed by two passes without a code change. An attempted explicit textarea-focus/always-on-top workaround did not improve those failures and was removed. Command history and prompt submission remain untested, so S1 step 3 and S1 overall remain **partial**. No claim is made about model behavior, network activity, or config changes.
+
+# S1 real CLI local-command history observation — 11 October 2026
+
+**Scope:** `rtk npm run smoke:cli-history` starts installed OpenCode v2.0.22 with empty args in the visible Electron/ConPTY window. It types the documented built-in `/help` command, confirms its echo, presses Enter once, and requires a textual help marker in subsequent PTY output. It then sends Escape and Up without taking an intermediate screenshot or submitting any further text. The runner captures `dist/cli-history-up.png` and verifies the captured PID+creation process tree is gone after ending its own Electron process.
+
+| Check | Result | Evidence |
+|---|---|---|
+| Built-in help and final capture | Observed | The fresh `/help` echo and post-Enter help-dialog text were observed. Independent `smoke:cli-history` runs exited 0 with a nonempty final screenshot. Visual inspection showed the help dialog closed and an empty composer after Up; `/help` was not visibly recalled. |
+| Controlled teardown | Pass (bounded) | The runner captured a `cmd.exe` root and `opencode.exe` descendant alive by PID and creation time before its own Electron kill, then found both exact identities gone by read-only re-enumeration. |
+
+The first design captured the help dialog before Escape; both Escape and a later mouse-click experiment left identical help/dismiss images, so Up was withheld and those runs failed closed. The final probe keeps the input sequence uninterrupted and captures only afterward. Its automated PASS does **not** mean history recall. Slash-command recall was not observed here, and history for submitted model prompts remains untested; S1 step 3 and S1 overall remain **partial**.

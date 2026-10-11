@@ -50,6 +50,7 @@ const CLI_LAUNCH_SMOKE_FLAG = '--cli-launch-smoke';
 const CLI_TUI_STARTUP_SMOKE_FLAG = '--cli-tui-startup-smoke';
 const CLI_INPUT_SMOKE_FLAG = '--cli-input-smoke';
 const CLI_EDIT_SMOKE_FLAG = '--cli-edit-smoke';
+const CLI_HISTORY_SMOKE_FLAG = '--cli-history-smoke';
 const CRASH_BASELINE_FLAG = '--crash-baseline';
 const CRASH_RECOVERY_FLAG = '--crash-recovery-check';
 const CRASH_REGISTRY_ENV = 'TIYE_CRASH_REGISTRY_PATH';
@@ -138,6 +139,7 @@ function hasCrashExperimentFlag(argv: string[]): boolean {
     argv.includes(CLI_TUI_STARTUP_SMOKE_FLAG) ||
     argv.includes(CLI_INPUT_SMOKE_FLAG) ||
     argv.includes(CLI_EDIT_SMOKE_FLAG) ||
+    argv.includes(CLI_HISTORY_SMOKE_FLAG) ||
     argv.includes(CRASH_BASELINE_FLAG) ||
     argv.includes(CRASH_RECOVERY_FLAG) ||
     argv.includes(CRASH_JOB_FLAG) ||
@@ -634,34 +636,38 @@ function stripAnsiForMarkers(raw: string): string {
     .replace(/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/g, '');
 }
 
-type CliTuiProbeMode = 'startup' | 'input' | 'edit';
+type CliTuiProbeMode = 'startup' | 'input' | 'edit' | 'history';
 
-type CliTuiProbeShotKind = 'shot' | 'before' | 'after';
+type CliTuiProbeShotKind = 'shot' | 'before' | 'after' | 'up';
 
 const CLI_INPUT_TOKEN = 'tiyeinprobe7q3z9';
 const CLI_EDIT_INITIAL_TOKEN = 'tiyeeditab12';
 const CLI_EDIT_REPLACEMENT = 'z';
 const CLI_EDIT_EXPECTED_TOKEN = 'tyeeditab1z';
+const CLI_HISTORY_COMMAND = '/help';
 
 function cliTuiProbeTag(mode: CliTuiProbeMode): string {
   if (mode === 'input') return '[cli-input-smoke]';
   if (mode === 'edit') return '[cli-edit-smoke]';
+  if (mode === 'history') return '[cli-history-smoke]';
   return '[cli-tui-startup-smoke]';
 }
 
 function cliTuiProbeMember(mode: CliTuiProbeMode): string {
   if (mode === 'input') return 'cli-input-member';
   if (mode === 'edit') return 'cli-edit-member';
+  if (mode === 'history') return 'cli-history-member';
   return 'cli-tui-startup-member';
 }
 
 /**
  * Capture one probe screenshot and persist it, sharing the retry loop
- * between all three modes. Startup ('shot') captures once with no retry log;
- * input/edit ('before'/'after') retry boundedly because visible-window capture
- * can race first paint (observed 0x0 empty on one run). A persistently empty
- * capture stays FAIL (null), never a pass. Logs the exact per-kind FAIL/ok
- * lines the runner expects; callers return 1 (FAIL) on null.
+ * between all modes. Startup ('shot') captures once with no retry log;
+ * input/edit ('before'/'after') and history ('help'/'up') retry boundedly
+ * because visible-window capture can race first paint (observed 0x0 empty
+ * on one run). A persistently empty capture stays FAIL (null), never a
+ * pass. Logs the exact per-kind FAIL/ok lines the runner expects; callers
+ * return 1 (FAIL) on null.
  */
 async function captureStoreProbeShot(
   tag: string,
@@ -777,7 +783,109 @@ async function sendCliEditSequence(w: BrowserWindow, tag: string): Promise<void>
 }
 
 /**
- * Shared driver for all three real-CLI TUI probes. Mode-specific behavior stays
+ * Textual help-dialog gate for the history probe. Looks only at ANSI-
+ * stripped PTY bytes (never screenshots, never recalled text). Requires a
+ * help-dialog term beyond the typed `/help` echo so the echo alone can
+ * never satisfy the gate. Returns the matched term for logging; callers
+ * fail closed (1) when absent and never press Up.
+ */
+function isHistoryHelpObserved(strippedDelta: string): { observed: boolean; matched: string } {
+  const normalized = strippedDelta.toLowerCase().replace(/\s+/g, ' ');
+  const helpText = 'press ctrl+p to see all available actions and commands';
+  if (normalized.includes(helpText)) return { observed: true, matched: helpText };
+  return { observed: false, matched: '' };
+}
+
+/**
+ * Small named history interaction routine (keeps the shared driver short).
+ * ONE uninterrupted focused sendInputEvent-only sequence into the visible
+ * xterm — no screenshot capture between interactions (capture was observed
+ * to break subsequent input on this host), no mouse input: type literal
+ * `/help` and require its PTY echo before any Enter, press Enter ONCE for
+ * the documented built-in command (never a free-form prompt, no model
+ * request) and require the textual help marker, press Escape, pause, then
+ * press Up exactly once (history_previous). Never submits recalled text
+ * (no second Enter, no free-form prompt, no direct PTY write). The caller
+ * captures the single final screenshot after Up. Any missing delivery or
+ * unobserved help marker fails closed (1) or inconclusive (2), never PASS.
+ */
+async function runCliHistoryInteraction(
+  w: BrowserWindow,
+  tag: string,
+  getPtyBytes: () => string,
+  upPath: string,
+): Promise<{ ok: boolean; code: 1 | 2; upBytes: number }> {
+  const fail = (msg: string): { ok: boolean; code: 1 | 2; upBytes: number } => {
+    console.error(`${tag} FAIL: ${msg} (no pass)`);
+    return { ok: false, code: 1, upBytes: 0 };
+  };
+  const inconclusive = (msg: string): { ok: boolean; code: 1 | 2; upBytes: number } => {
+    console.error(`${tag} INCONCLUSIVE: ${msg} (no pass)`);
+    return { ok: false, code: 2, upBytes: 0 };
+  };
+  try {
+    w.focus();
+  } catch {
+    /* focus best-effort */
+  }
+  try {
+    w.webContents.focus();
+  } catch {
+    /* already focused */
+  }
+  await new Promise((r) => setTimeout(r, 500));
+  if (w.isDestroyed()) return inconclusive('history window destroyed before typing');
+  const preTypeStripped = stripAnsiForMarkers(getPtyBytes());
+  for (const ch of CLI_HISTORY_COMMAND) {
+    w.webContents.sendInputEvent({ type: 'keyDown', keyCode: ch });
+    w.webContents.sendInputEvent({ type: 'char', keyCode: ch });
+    w.webContents.sendInputEvent({ type: 'keyUp', keyCode: ch });
+    await new Promise((r) => setTimeout(r, 60));
+  }
+  console.log(`${tag} ok: history input typed len=${CLI_HISTORY_COMMAND.length} command=${CLI_HISTORY_COMMAND} via sendInputEvent keyDown+char+keyUp per char (documented built-in /help only, never free-form prompt, no model request; renderer keyboard/xterm path)`);
+  await new Promise((r) => setTimeout(r, 800));
+  if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited after typing /help before Enter (code ${ptyExitCode})`);
+  const typedStripped = stripAnsiForMarkers(getPtyBytes());
+  const typedDelta = typedStripped.length > preTypeStripped.length ? typedStripped.slice(preTypeStripped.length) : '';
+  if (!typedDelta.includes(CLI_HISTORY_COMMAND)) {
+    return fail(`typed command ${CLI_HISTORY_COMMAND} not observed in fresh PTY bytes (bytes=${getPtyBytes().length} stripped=${typedStripped.length} delta=${typedDelta.length}; focus delivery unproven, never a history PASS)`);
+  }
+  console.log(`${tag} ok: history typed echo observed command=${CLI_HISTORY_COMMAND} (bytes=${getPtyBytes().length} stripped=${typedStripped.length})`);
+  const preEnterLen = stripAnsiForMarkers(getPtyBytes()).length;
+  w.webContents.sendInputEvent({ type: 'keyDown', keyCode: 'Enter' });
+  await new Promise((r) => setTimeout(r, 120));
+  w.webContents.sendInputEvent({ type: 'keyUp', keyCode: 'Enter' });
+  console.log(`${tag} ok: history Enter pressed once via sendInputEvent keyDown+keyUp (documented /help submit only, never free-form prompt, no second submit; renderer keyboard/xterm path)`);
+  await new Promise((r) => setTimeout(r, 2500));
+  if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited after Enter before help marker (code ${ptyExitCode})`);
+  const postEnterStripped = stripAnsiForMarkers(getPtyBytes());
+  const delta = postEnterStripped.length > preEnterLen ? postEnterStripped.slice(preEnterLen) : '';
+  const gate = isHistoryHelpObserved(delta);
+  console.log(`${tag} HISTORY-HELP-OBSERVED observed=${gate.observed} matched=${gate.matched || 'none'} preType=${preTypeStripped.length} preEnter=${preEnterLen} post=${postEnterStripped.length} delta=${delta.length}`);
+  if (!gate.observed) {
+    return fail(`built-in help UI not textually observed in post-Enter PTY delta (want the documented help-dialog text; bytes=${getPtyBytes().length} stripped=${postEnterStripped.length} delta=${delta.length}; Escape/Up never sent, never a history PASS)`);
+  }
+  console.log(`${tag} ok: help dialog observed matched=${gate.matched} (textual PTY delta; visual confirmation left to orchestrator final screenshot)`);
+  w.webContents.sendInputEvent({ type: 'keyDown', keyCode: 'Escape' });
+  await new Promise((r) => setTimeout(r, 120));
+  w.webContents.sendInputEvent({ type: 'keyUp', keyCode: 'Escape' });
+  console.log(`${tag} ok: history Escape pressed once via sendInputEvent keyDown+keyUp (dialog dismiss attempt; renderer keyboard/xterm path)`);
+  await new Promise((r) => setTimeout(r, 1000));
+  if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited before Up (code ${ptyExitCode})`);
+  w.webContents.sendInputEvent({ type: 'keyDown', keyCode: 'Up' });
+  await new Promise((r) => setTimeout(r, 120));
+  w.webContents.sendInputEvent({ type: 'keyUp', keyCode: 'Up' });
+  console.log(`${tag} ok: history Up pressed once via sendInputEvent keyDown+keyUp (history_previous, never submitted, no recalled-text submit; renderer keyboard/xterm path)`);
+  await new Promise((r) => setTimeout(r, 1500));
+  if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited before up screenshot (code ${ptyExitCode})`);
+  const upShot = await captureStoreProbeShot(tag, 'up', upPath, 5);
+  if (upShot === null) return { ok: false, code: 1, upBytes: 0 };
+  console.log(`${tag} HISTORY-SHOTS up=${upPath} bytes=${upShot.statSize} (single final screenshot after uninterrupted type/Enter/Escape/Up; orchestrator visual inspection only; NOT recall proof)`);
+  return { ok: true, code: 1, upBytes: upShot.statSize };
+}
+
+/**
+ * Shared driver for all four real-CLI TUI probes. Mode-specific behavior stays
  * in explicit branches: window visibility, screenshot path(s) + retries, the
  * input-mode token typing + changed-render gate, the edit-mode token typing +
  * bounded editing keys + changed-render gate, and the per-mode log
@@ -790,10 +898,13 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
   const member = cliTuiProbeMember(mode);
   const isInput = mode === 'input';
   const isEdit = mode === 'edit';
+  const isHistory = mode === 'history';
   if (isInput) {
     cliInputMode = true;
   } else if (isEdit) {
     cliEditMode = true;
+  } else if (isHistory) {
+    cliHistoryMode = true;
   } else {
     cliTuiStartupMode = true;
   }
@@ -806,7 +917,11 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
   }
   console.log(`${tag} resolved command=${spec.command} args=${JSON.stringify(spec.args)} cwd=${spec.cwd}`);
   if (spec.args.length !== 0) {
-    if (isEdit) {
+    if (isHistory) {
+      console.error(
+        `${tag} FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; documented /help only via sendInputEvent, no model, no pass)`,
+      );
+    } else if (isEdit) {
       console.error(
         `${tag} FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no Enter, no submit, no model, no pass)`,
       );
@@ -831,11 +946,13 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     return 2;
   }
   console.log(
-    isEdit
-      ? `${tag} PROBE installed opencode TUI editing keys via main-owned PTY + visible renderer keyboard path (fixed ASCII token then Home,Right,Delete,End,Backspace plus ASCII replacement; no Enter, no submit, no model/prompt request)`
-      : isInput
-        ? `${tag} PROBE installed opencode TUI input via main-owned PTY + visible renderer keyboard path (no Enter, no submit, no model/prompt request)`
-        : `${tag} PROBE installed opencode TUI startup via main-owned PTY + hidden renderer (no stdin written, no model/prompt)`,
+    isHistory
+      ? `${tag} PROBE installed opencode TUI history observation via main-owned PTY + visible renderer keyboard path (literal /help typed via sendInputEvent, Enter once for documented built-in help only, Escape, Up once for history_previous, never free-form prompt, no model/prompt request)`
+      : isEdit
+        ? `${tag} PROBE installed opencode TUI editing keys via main-owned PTY + visible renderer keyboard path (fixed ASCII token then Home,Right,Delete,End,Backspace plus ASCII replacement; no Enter, no submit, no model/prompt request)`
+        : isInput
+          ? `${tag} PROBE installed opencode TUI input via main-owned PTY + visible renderer keyboard path (no Enter, no submit, no model/prompt request)`
+          : `${tag} PROBE installed opencode TUI startup via main-owned PTY + hidden renderer (no stdin written, no model/prompt)`,
   );
   try {
     attachTerminal();
@@ -854,15 +971,15 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     ptyBytes += d;
     if (ptyBytes.length > 200000) ptyBytes = ptyBytes.slice(-200000);
   });
-  // Visible window by design for keyboard delivery in input/edit modes only
-  // (hidden windows cannot reliably receive keyboard focus/sendInputEvent on
-  // Windows); startup mode stays hidden.
-  createWindow({ show: isInput || isEdit });
+  // Visible window by design for keyboard delivery in input/edit/history
+  // modes only (hidden windows cannot reliably receive keyboard
+  // focus/sendInputEvent on Windows); startup mode stays hidden.
+  createWindow({ show: isInput || isEdit || isHistory });
   if (win === null) {
     console.error(`${tag} INCONCLUSIVE: window not created (no pass)`);
     return 2;
   }
-  if (isInput || isEdit) {
+  if (isInput || isEdit || isHistory) {
     try {
       win.show();
     } catch {
@@ -883,11 +1000,13 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
       }, 100);
     });
     console.log(
-      isEdit
-        ? `${tag} ok: renderer READY + preload bridge alive (visible window for keyboard editing; still the existing Electron renderer, not a native terminal)`
-        : isInput
-          ? `${tag} ok: renderer READY + preload bridge alive (visible window for keyboard focus; still the existing Electron renderer, not a native terminal)`
-          : `${tag} ok: renderer READY + preload bridge alive (hidden window; renderer still runs)`,
+      isHistory
+        ? `${tag} ok: renderer READY + preload bridge alive (visible window for /help history observation; still the existing Electron renderer, not a native terminal)`
+        : isEdit
+          ? `${tag} ok: renderer READY + preload bridge alive (visible window for keyboard editing; still the existing Electron renderer, not a native terminal)`
+          : isInput
+            ? `${tag} ok: renderer READY + preload bridge alive (visible window for keyboard focus; still the existing Electron renderer, not a native terminal)`
+            : `${tag} ok: renderer READY + preload bridge alive (hidden window; renderer still runs)`,
     );
     await new Promise<void>((resolve, reject) => {
       const start = Date.now();
@@ -910,11 +1029,13 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     await new Promise((r) => setTimeout(r, 3000));
     if (ptyExitCode !== null) {
       console.error(
-        isEdit
-          ? `${tag} INCONCLUSIVE: real CLI PTY exited before edit before-shot (code ${ptyExitCode}; no pass)`
-          : isInput
-            ? `${tag} INCONCLUSIVE: real CLI PTY exited before before-shot (code ${ptyExitCode}; no pass)`
-            : `${tag} INCONCLUSIVE: real CLI PTY exited before screenshot (code ${ptyExitCode}; no pass)`,
+        isHistory
+          ? `${tag} INCONCLUSIVE: real CLI PTY exited before history interaction (code ${ptyExitCode}; no pass)`
+          : isEdit
+            ? `${tag} INCONCLUSIVE: real CLI PTY exited before edit before-shot (code ${ptyExitCode}; no pass)`
+            : isInput
+              ? `${tag} INCONCLUSIVE: real CLI PTY exited before before-shot (code ${ptyExitCode}; no pass)`
+              : `${tag} INCONCLUSIVE: real CLI PTY exited before screenshot (code ${ptyExitCode}; no pass)`,
       );
       return 2;
     }
@@ -939,7 +1060,9 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     let afterPath = '';
     let beforeStat = 0;
     let afterStat = 0;
-    if (!isInput && !isEdit) {
+    let historyUpPath = '';
+    let historyUpBytes = 0;
+    if (!isInput && !isEdit && !isHistory) {
       shotPath = path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
       const shot = await captureStoreProbeShot(tag, 'shot', shotPath, 1);
       if (shot === null) return 1;
@@ -990,7 +1113,7 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
         console.error(`${tag} FAIL: before/after screenshots identical (no keyboard/render change proven; no pass)`);
         return 1;
       }
-    } else {
+    } else if (isEdit) {
       beforePath = path.resolve(__dirname, '..', 'dist', 'cli-edit-before.png');
       afterPath = path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png');
       // Deterministic edit slice: fixed ASCII initial token (no slash, no
@@ -1030,17 +1153,29 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
         console.error(`${tag} FAIL: before/after screenshots identical (no keyboard/render change proven; no pass)`);
         return 1;
       }
+    } else {
+      // Bounded history observation: documented built-in /help only via the
+      // small named routine (no long inline branch here): one uninterrupted
+      // focused type/Enter/Escape/Up sequence with a single final screenshot.
+      historyUpPath = path.resolve(__dirname, '..', 'dist', 'cli-history-up.png');
+      console.log(`${tag} HISTORY-PLAN command=${CLI_HISTORY_COMMAND} steps=type(${CLI_HISTORY_COMMAND}),Enter,Escape,Up,shot(up) (documented built-in /help only via sendInputEvent, history_previous=Up, never free-form prompt, no model request, no second Enter, no mouse)`);
+      const hist = await runCliHistoryInteraction(win, tag, () => ptyBytes, historyUpPath);
+      if (!hist.ok) return hist.code;
+      historyUpBytes = hist.upBytes;
     }
     if (!logProbeMarkers(tag, ptyBytes)) return 1;
-    if (!isInput && !isEdit) {
+    if (!isInput && !isEdit && !isHistory) {
       console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} shot=${shotPath}`);
       console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; hidden window, no human visual comparison)`);
     } else if (isInput) {
       console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} before=${beforePath} after=${afterPath} inputLen=${CLI_INPUT_TOKEN.length}`);
       console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; keyboard event + changed render, NOT semantic prompt acceptance)`);
-    } else {
+    } else if (isEdit) {
       console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} before=${beforePath} after=${afterPath} initialLen=${CLI_EDIT_INITIAL_TOKEN.length} expected=${CLI_EDIT_EXPECTED_TOKEN}`);
       console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; keyboard events delivered + changed render, NOT semantic editing correctness, NOT command history, NOT S1 step 3)`);
+    } else {
+      console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} up=${historyUpPath} command=${CLI_HISTORY_COMMAND}`);
+      console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; bounded /help interaction + screenshots + teardown only, NOT command-history recall, NOT S1 step 3)`);
     }
     // Success never returns: the runner terminates only its runner-owned
     // Electron handle and proves teardown. Never resolve on success.
@@ -1048,9 +1183,11 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     return 0;
   } catch (err) {
     // Failure path: never term.kill() a captured member and never write to
-    // the PTY (input/edit modes only used sendInputEvent above, never PTY
-    // write/submit, never Enter). Report harness failure; the runner still
-    // ends only its own Electron handle on timeout.
+    // the PTY (input/edit modes only used sendInputEvent without submit;
+    // history mode uses sendInputEvent with a single Enter for the documented
+    // /help built-in only, never a second submit of recalled text). Report
+    // harness failure; the runner still ends only its own Electron handle on
+    // timeout.
     console.error(`${tag} INCONCLUSIVE: ${(err as Error).message} (no pass)`);
     return 2;
   }
@@ -1066,6 +1203,10 @@ async function runCliInputSmoke(): Promise<number> {
 
 async function runCliEditSmoke(): Promise<number> {
   return runRealCliTuiProbe('edit');
+}
+
+async function runCliHistorySmoke(): Promise<number> {
+  return runRealCliTuiProbe('history');
 }
 
 // ---------------------------------------------------------------------------
@@ -1094,6 +1235,7 @@ let lifecycleTestMode = false;
 let cliTuiStartupMode = false;
 let cliInputMode = false;
 let cliEditMode = false;
+let cliHistoryMode = false;
 let crashBaselineMode = false;
 let crashJobMode = false;
 let crashSurvivorMode = false;
@@ -2811,6 +2953,7 @@ async function main(): Promise<void> {
     if (cliTuiStartupMode) return; // cli-tui-startup has a hidden window; it lives until the runner kills it.
     if (cliInputMode) return; // cli-input has a visible opt-in window; it lives until the runner kills it.
     if (cliEditMode) return; // cli-edit has a visible opt-in window; it lives until the runner kills it.
+    if (cliHistoryMode) return; // cli-history has a visible opt-in window; it lives until the runner kills it.
     if (keepRunning && !isQuitting) return; // retained PTY lives in the tray.
     app.quit();
   });
@@ -2822,7 +2965,7 @@ async function main(): Promise<void> {
       }
       return;
     }
-    if (win === null && !isQuitting && !process.argv.includes(SMOKE_FLAG) && !process.argv.includes(CLI_LAUNCH_SMOKE_FLAG) && !process.argv.includes(CLI_TUI_STARTUP_SMOKE_FLAG) && !process.argv.includes(CLI_INPUT_SMOKE_FLAG) && !process.argv.includes(CLI_EDIT_SMOKE_FLAG)) createWindow();
+    if (win === null && !isQuitting && !process.argv.includes(SMOKE_FLAG) && !process.argv.includes(CLI_LAUNCH_SMOKE_FLAG) && !process.argv.includes(CLI_TUI_STARTUP_SMOKE_FLAG) && !process.argv.includes(CLI_INPUT_SMOKE_FLAG) && !process.argv.includes(CLI_EDIT_SMOKE_FLAG) && !process.argv.includes(CLI_HISTORY_SMOKE_FLAG)) createWindow();
   });
   const startupRecoveryRequested = shouldRunStartupRecoveryGate();
   if (process.argv.includes(STARTUP_RECOVERY_ALERT_SMOKE_FLAG) && !startupRecoveryRequested) {
@@ -2903,6 +3046,21 @@ async function main(): Promise<void> {
       app.exit(code);
     } catch (err) {
       console.error(`[cli-edit-smoke] INCONCLUSIVE: ${(err as Error).message} (no pass)`);
+      app.exit(2);
+    }
+    return;
+  }
+  if (process.argv.includes(CLI_HISTORY_SMOKE_FLAG)) {
+    cliHistoryMode = true;
+    try {
+      const code = await runCliHistorySmoke();
+      // Success never returns (stays alive until runner kill); a return is
+      // always a failure or harness inconclusive. No term.kill() here by
+      // design (Windows teardown race); the runner ends only its own
+      // Electron handle and verifies the tree gone read-only.
+      app.exit(code);
+    } catch (err) {
+      console.error(`[cli-history-smoke] INCONCLUSIVE: ${(err as Error).message} (no pass)`);
       app.exit(2);
     }
     return;
