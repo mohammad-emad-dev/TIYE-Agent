@@ -45,6 +45,7 @@ import { lookupSingleProcess } from './crash-identity';
 const SMOKE_FLAG = '--smoke-test';
 const WINDOW_SMOKE_FLAG = '--window-smoke';
 const LIFECYCLE_SMOKE_FLAG = '--lifecycle-smoke';
+const CLI_LAUNCH_SMOKE_FLAG = '--cli-launch-smoke';
 const CRASH_BASELINE_FLAG = '--crash-baseline';
 const CRASH_RECOVERY_FLAG = '--crash-recovery-check';
 const CRASH_REGISTRY_ENV = 'TIYE_CRASH_REGISTRY_PATH';
@@ -129,6 +130,7 @@ function hasCrashExperimentFlag(argv: string[]): boolean {
     argv.includes(SMOKE_FLAG) ||
     argv.includes(WINDOW_SMOKE_FLAG) ||
     argv.includes(LIFECYCLE_SMOKE_FLAG) ||
+    argv.includes(CLI_LAUNCH_SMOKE_FLAG) ||
     argv.includes(CRASH_BASELINE_FLAG) ||
     argv.includes(CRASH_RECOVERY_FLAG) ||
     argv.includes(CRASH_JOB_FLAG) ||
@@ -462,6 +464,106 @@ async function runSmokeTest(): Promise<number> {
     console.error(`[smoke] FAIL: ${(err as Error).message}`);
     try {
       term.kill();
+    } catch {
+      /* already gone */
+    }
+    return 1;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Bounded real-CLI launch smoke: headless Electron + node-pty/ConPTY +
+// installed `opencode --version` ONLY. Proves exactly this and nothing more:
+// the installed OpenCode executable resolves via resolveLaunch (Windows
+// .cmd shim aware), spawns via the main-owned spawnMember() PTY, prints a
+// version line, and exits 0 with no stdin written. Sends NO stdin, invokes
+// NO model/prompt. Headless: no window, no renderer, no display/input proof.
+// Any non-version args are refused without spawn so a misconfigured runner
+// can never trigger a model call. Existing mock smoke behavior unchanged.
+// ---------------------------------------------------------------------------
+async function runCliLaunchSmoke(): Promise<number> {
+  let spec: LaunchSpec;
+  try {
+    spec = resolveLaunch();
+  } catch (err) {
+    console.error(`[cli-launch-smoke] FAIL: launch resolution failed: ${(err as Error).message} (no pass)`);
+    return 2;
+  }
+  console.log(`[cli-launch-smoke] resolved command=${spec.command} args=${JSON.stringify(spec.args)} cwd=${spec.cwd}`);
+  if (spec.args.length !== 1 || spec.args[0] !== '--version') {
+    console.error(
+      `[cli-launch-smoke] FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only ["--version"]; no stdin, no model, no pass)`,
+    );
+    return 1;
+  }
+  const base = path.basename(spec.command).toLowerCase();
+  if (!base.startsWith('opencode')) {
+    console.error(`[cli-launch-smoke] FAIL: expected installed opencode executable, got ${spec.command} (no pass)`);
+    return 1;
+  }
+  console.log('[cli-launch-smoke] PROBE opencode --version via ConPTY (no stdin written, no model/prompt)');
+  let cliTerm: pty.IPty;
+  try {
+    cliTerm = spawnMember();
+  } catch (err) {
+    console.error(`[cli-launch-smoke] FAIL: PTY spawn failed: ${(err as Error).message} (no pass)`);
+    return 2;
+  }
+  let buffer = '';
+  let exited: { exitCode: number } | null = null;
+  cliTerm.onData((d: string) => {
+    buffer += d;
+    if (buffer.length > 200000) buffer = buffer.slice(-200000);
+  });
+  cliTerm.onExit(({ exitCode }) => {
+    exited = { exitCode };
+  });
+
+  const waitFor = (re: RegExp, timeoutMs: number, label: string): Promise<void> =>
+    new Promise((resolve, reject) => {
+      const start = Date.now();
+      const timer = setInterval(() => {
+        if (re.test(buffer)) {
+          clearInterval(timer);
+          console.log(`[cli-launch-smoke] ok: ${label}`);
+          resolve();
+        } else if (exited !== null) {
+          clearInterval(timer);
+          reject(new Error(`${label}: PTY exited early (code ${(exited as { exitCode: number }).exitCode}) before ${re}`));
+        } else if (Date.now() - start > timeoutMs) {
+          clearInterval(timer);
+          reject(new Error(`${label}: timeout waiting for ${re}`));
+        }
+      }, 50);
+    });
+
+  try {
+    // No stdin is ever written here by design (opencode --version exits alone).
+    await waitFor(/opencode[^\r\n]*\d+\.\d+\.\d+/i, 20000, 'version output');
+    const versionLine = buffer.match(/opencode[^\r\n]*\d+\.\d+\.\d+/i)?.[0] ?? '';
+    console.log(`[cli-launch-smoke] VERSION ${versionLine.slice(0, 200)}`);
+    const exitWait = new Promise<void>((resolve, reject) => {
+      const start = Date.now();
+      const timer = setInterval(() => {
+        if (exited !== null) {
+          clearInterval(timer);
+          resolve();
+        } else if (Date.now() - start > 15000) {
+          clearInterval(timer);
+          reject(new Error('exit: timeout waiting for PTY exit'));
+        }
+      }, 50);
+    });
+    await exitWait;
+    const code = (exited as unknown as { exitCode: number }).exitCode;
+    console.log(`[cli-launch-smoke] ok: exit code ${code}`);
+    if (code !== 0) throw new Error(`expected exit code 0, got ${code}`);
+    console.log(`[cli-launch-smoke] PASS resolved=${spec.command} (headless ConPTY launch + --version + clean exit; NOT interactive/display S1 success)`);
+    return 0;
+  } catch (err) {
+    console.error(`[cli-launch-smoke] FAIL: ${(err as Error).message}`);
+    try {
+      cliTerm.kill();
     } catch {
       /* already gone */
     }
@@ -2217,7 +2319,7 @@ async function main(): Promise<void> {
       }
       return;
     }
-    if (win === null && !isQuitting && !process.argv.includes(SMOKE_FLAG)) createWindow();
+    if (win === null && !isQuitting && !process.argv.includes(SMOKE_FLAG) && !process.argv.includes(CLI_LAUNCH_SMOKE_FLAG)) createWindow();
   });
   const startupRecoveryRequested = shouldRunStartupRecoveryGate();
   if (process.argv.includes(STARTUP_RECOVERY_ALERT_SMOKE_FLAG) && !startupRecoveryRequested) {
@@ -2243,6 +2345,16 @@ async function main(): Promise<void> {
       // Spawn failures (e.g. unresolvable command) must fail loudly and
       // exit; never hang with an unhandled rejection.
       console.error(`[smoke] FAIL: ${(err as Error).message}`);
+      app.exit(2);
+    }
+    return;
+  }
+  if (process.argv.includes(CLI_LAUNCH_SMOKE_FLAG)) {
+    try {
+      const code = await runCliLaunchSmoke();
+      app.exit(code);
+    } catch (err) {
+      console.error(`[cli-launch-smoke] FAIL: ${(err as Error).message}`);
       app.exit(2);
     }
     return;

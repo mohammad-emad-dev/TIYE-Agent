@@ -129,3 +129,20 @@
 `rtk npm run smoke:launch-shim` created an extensionless fixture and a same-name `.cmd` in a temporary directory with spaces, then launched the existing mock CLI through Electron and ConPTY with the bare name. The run selected the `.cmd`; banner, echo, resize, fast-output, and graceful-exit checks passed, and the fixture was removed. `rtk npm run check`, `rtk npm run smoke`, and `rtk npm run smoke:window` also passed.
 
 **Limit:** This fixes the local launch-resolution blocker. Interactive S1 steps 1–8 with OpenCode or another real CLI are still unverified; S1 remains **partial**.
+
+# S1 real installed-CLI launch smoke — 11 October 2026
+
+**Scope:** `rtk npm run smoke:cli-launch` (`npm run build && node scripts/run-cli-launch.js`) against the real installed OpenCode v2.0.22 on Windows 11 — the first smoke in this file to run a real CLI rather than the local mock. Headless: no window, no renderer, no display/input claim. The runner fixes args to `["--version"]` with child stdin ignored (no stdin written, no prompt, no model request) and scrubs inherited `TIYE_S1_*` / `TIYE_CRASH_*` / `TIYE_MOCK_CRASH_MODE` env so an outer shell cannot change behavior. It proves exactly: the bare `opencode` name resolves to the installed shim, launches in a main-owned ConPTY, prints a version line, and exits 0 — nothing more.
+
+| Check | Result | Evidence |
+|---|---|---|
+| Existing checks unbroken | Pass | `rtk npm run check` and `rtk npm run smoke` both PASS |
+| Installed CLI resolves and launches in Electron ConPTY | Pass | `rtk npm run smoke:cli-launch` PASS: resolved command `C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd` (bare name → `.cmd` shim, per the launch-resolution fix above) spawned through the main-owned PTY |
+| Version output + clean exit | Pass | Same run: version output `opencode v2.0.22`, `[cli-launch-smoke] ok: exit code 0`, ConPTY exit code 0, with NO stdin written |
+| `rtk npm run smoke:window` | Pass (sequential) | Passed when run sequentially. A simultaneous pair of builds briefly produced `EBUSY` on `dist/index.html`; the window smoke passed on the sequential retry — a parallel-build contention artifact, not a window-smoke failure and not a pass claim for the parallel run |
+
+**What this smoke proves (explicit):** the installed OpenCode CLI launches inside the Electron ConPTY channel, prints its version, and exits cleanly, with no stdin and no model request. It is headless, so it makes no interactive or display claim.
+
+**Limitation (explicit):** interactive display/input and S1 steps 1–8 remain unverified; S1 overall stays **partial**. The smoke did not measure config file changes, so no claim is made that user OpenCode config was untouched. The `EBUSY` was build contention only; the passes above are from sequential runs.
+
+**Versions tested:** Windows 11; installed OpenCode v2.0.22 (resolved to `C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd`).

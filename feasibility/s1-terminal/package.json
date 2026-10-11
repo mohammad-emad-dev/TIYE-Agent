@@ -20,6 +20,7 @@
     "smoke:job-probe": "node scripts/run-job-probe.js",
     "smoke:identity-stop": "node scripts/run-identity-stop.js",
     "smoke:launch-shim": "npm run build && node scripts/run-launch-shim.js",
+    "smoke:cli-launch": "npm run build && node scripts/run-cli-launch.js",
     "rebuild-pty": "electron-rebuild -f -w node-pty"
   },
   "dependencies": {

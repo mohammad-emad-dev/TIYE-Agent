@@ -81,6 +81,11 @@ npm run smoke:startup-recovery-alert &:: Invalid, absent, exact, and tampered
                         &:: startup each show a visible per-state paused
                         &:: alert window with no member spawn, no
                         &:: recovery call, and no cleanup helper invocation.
+npm run smoke:cli-launch &:: Headless real-CLI launch only: installed
+                        &:: `opencode --version` via resolveLaunch /
+                        &:: spawnMember + ConPTY, version line + clean
+                        &:: PTY exit 0, no stdin or model request; NOT
+                        &:: interactive/display S1 success.
 ```
 
 Setting `TIYE_CRASH_PTY_SURVIVOR_REGISTRY_PATH` on ordinary startup opts into
@@ -149,10 +154,14 @@ set TIYE_S1_ARGS_JSON=[]
 npm start
 ```
 
-This resolves bare `opencode` to `opencode.cmd` via the rule above. Real
-vendor S1 steps 1–8 with `opencode` (or any vendor CLI) remain
-manual/unverified: no automated check launches a vendor CLI or model, and S1
-stays partial until those manual observations are recorded.
+This resolves bare `opencode` to `opencode.cmd` via the rule above. Headless
+`npm run smoke:cli-launch` is the only automated vendor-CLI check: it runs
+the installed `opencode --version` via `resolveLaunch` / `spawnMember` in
+headless Electron/ConPTY (`--cli-launch-smoke`), asserts a version line and
+clean PTY exit 0 with no stdin or model request, and reports the resolved path. It proves launch +
+version + exit only — NOT interactive/display S1 success. Real vendor S1
+steps 1–8 with `opencode` (or any vendor CLI) remain manual/unverified, and
+S1 stays partial until those manual observations are recorded.
 
 ## S1 steps 1–8 checklist (manual, against the window)
 
