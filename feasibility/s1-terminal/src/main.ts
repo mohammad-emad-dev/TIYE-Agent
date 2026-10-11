@@ -335,11 +335,22 @@ export function resolveOnPath(cmd: string): string {
   if (process.platform === 'win32') {
     const out = child_process.spawnSync('where.exe', [cmd], { encoding: 'utf8' });
     if (out.error) throw out.error;
-    const first = (out.stdout || '')
+    const lines = (out.stdout || '')
       .split(/\r?\n/)
       .map((s) => s.trim())
-      .filter(Boolean)[0];
-    if (first !== undefined) return first;
+      .filter(Boolean);
+    // where.exe can list an extensionless POSIX shim before a Windows
+    // launcher. ConPTY cannot spawn that shim (error 193). PATHEXT also
+    // includes file-association types such as .JS and .MSC, so accept only
+    // native executables and command scripts in the original where order.
+    const launchable = new Set(['.com', '.exe', '.bat', '.cmd']);
+    const picked = lines.find((p) => launchable.has(path.extname(p).toLowerCase()));
+    if (picked !== undefined) return picked;
+    if (lines.length > 0) {
+      throw new Error(
+        `No launchable Windows executable on PATH for "${cmd}" (where.exe returned ${lines.length} result(s), none with .com/.exe/.bat/.cmd extension): ${lines.join('; ')}`,
+      );
+    }
   }
   throw new Error(`Executable not found on PATH: ${cmd}`);
 }

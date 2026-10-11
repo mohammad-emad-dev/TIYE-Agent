@@ -131,6 +131,29 @@ PATH. `TIYE_S1_ARGS_JSON` is a JSON array, so paths and spaces stay intact.
 Do not point this at a paid
 vendor CLI in automated checks.
 
+Windows launch resolution (bounded fix): for a bare name, `resolveOnPath`
+takes all `where.exe` lines in order and returns the first `.com`, `.exe`,
+`.bat`, or `.cmd` result (case-insensitive). It skips extensionless POSIX
+shell shims and file-association types such as `.js`. For example, npm's
+extensionless `opencode` shell file is skipped in favor of `opencode.cmd`;
+ConPTY cannot spawn the former (error 193). Explicit absolute/relative paths
+(containing `/`, `\`, or a drive root) keep current behavior and are not
+filtered. No vendor path
+is hardcoded and no new dependency was added.
+
+Manual vendor example (interactive, never in automated checks):
+
+```bat
+set TIYE_S1_COMMAND=opencode
+set TIYE_S1_ARGS_JSON=[]
+npm start
+```
+
+This resolves bare `opencode` to `opencode.cmd` via the rule above. Real
+vendor S1 steps 1–8 with `opencode` (or any vendor CLI) remain
+manual/unverified: no automated check launches a vendor CLI or model, and S1
+stays partial until those manual observations are recorded.
+
 ## S1 steps 1–8 checklist (manual, against the window)
 
 | Step | Action in this prototype | Observe |
@@ -154,6 +177,15 @@ vendor CLI in automated checks.
   preload bridge READY, graceful `exit` driven **through**
   `window.tiyeTerminal.sendInput`, PTY exit 0, non-empty screenshot:
   PASS (see `dist/smoke-shot.png` after a run).
+- `npm run smoke:launch-shim` — bounded Windows launch-resolution
+  regression (real ConPTY, mock CLI only, no vendor model): temp dir with
+  spaces holds both an extensionless POSIX shim and a same-name `.cmd` that
+  launches the local mock CLI through Node; temp dir first on PATH, bare
+  `TIYE_S1_COMMAND`, `TIYE_S1_ARGS_JSON=[]`; `where.exe` proves the
+  extensionless file lists before the `.cmd`, Electron resolves/spawns the
+  `.cmd`, and the existing banner/echo/resize/fast/exit assertions pass:
+  PASS. Fixture cleaned; explicit paths unchanged; launchable results keep
+  their `where.exe` order.
 - `npm run smoke:lifecycle` — S1 9a–9d + 9b + bounded **9e** against the
   local mock CLI, driven by internal hooks (no dialog/tray clicks): 9a Keep
   Running keeps the same PTY PID/session identity through close (spawn #

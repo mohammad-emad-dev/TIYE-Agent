@@ -121,3 +121,11 @@
 **Limitation (explicit, crash-survivor):** controlled Windows mock-sidecar feasibility only (one direct child, no PTY tree, no vendor CLI, no real-crash/power-loss path, no non-Windows coverage). `ALERT`/`PAUSED` are structured probe output, not a user-facing notification. **Registry file authenticity against same-user tampering is NOT established by schema checks** — any same-user process can rewrite the file — so the tampered scenario proves fail-closed refusal in a controlled experiment, not a production cleanup guarantee; no HMAC secret is stored beside the registry (it would add no trust). Survival on this host required `detached:true`; other hosts/kill paths may still be inconclusive (never a pass). Observations near the 60 s self-expiry are inconclusive exit 2, never a pass. S1 overall stays **partial** and 9f stays **partial**.
 
 **Versions tested:** Windows 11 build 26300, Node.js 26.7.0, Electron 38.8.6, node-pty 1.1.0, Windows PowerShell 5.1 + .NET C# P/Invoke (kernel32 only).
+
+# S1 Windows bare-command launch resolution — 11 October 2026
+
+**Scope:** Manual vendor CLI preparation, tested with a local mock CLI only. On this host, `where.exe opencode` lists an extensionless npm shell file before `opencode.cmd`. Direct ConPTY launch of the extensionless file failed with Windows error 193; `opencode.cmd --version` printed `opencode v2.0.22` and exited 0. The S1 `resolveOnPath` now selects the first `.com`, `.exe`, `.bat`, or `.cmd` result in `where.exe` order for a bare command name. Explicit paths retain their existing behavior.
+
+`rtk npm run smoke:launch-shim` created an extensionless fixture and a same-name `.cmd` in a temporary directory with spaces, then launched the existing mock CLI through Electron and ConPTY with the bare name. The run selected the `.cmd`; banner, echo, resize, fast-output, and graceful-exit checks passed, and the fixture was removed. `rtk npm run check`, `rtk npm run smoke`, and `rtk npm run smoke:window` also passed.
+
+**Limit:** This fixes the local launch-resolution blocker. Interactive S1 steps 1–8 with OpenCode or another real CLI are still unverified; S1 remains **partial**.

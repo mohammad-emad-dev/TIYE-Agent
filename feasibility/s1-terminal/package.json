@@ -19,6 +19,7 @@
     "smoke:startup-recovery-alert": "npm run build && node scripts/run-startup-recovery-alert.js",
     "smoke:job-probe": "node scripts/run-job-probe.js",
     "smoke:identity-stop": "node scripts/run-identity-stop.js",
+    "smoke:launch-shim": "npm run build && node scripts/run-launch-shim.js",
     "rebuild-pty": "electron-rebuild -f -w node-pty"
   },
   "dependencies": {
