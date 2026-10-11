@@ -118,6 +118,24 @@ npm run smoke:cli-input &:: Bounded real-CLI input probe (opt-in, same runner
                         &:: after-shot); same exact-tree-gone teardown proof,
                         &:: else inconclusive; NOT S1 step 3, parity,
                         &:: Unicode, approvals, or model behavior.
+npm run smoke:cli-resize &:: Bounded real-CLI resize probe (dedicated
+                        &:: scripts/run-cli-resize.js, distinct
+                        &:: --cli-resize-smoke flag): installed `opencode`
+                        &:: with EMPTY args in the existing main-owned PTY +
+                        &:: VISIBLE renderer, NO keyboard input, NO PTY
+                        &:: write, NO submit, NO model request; captures
+                        &:: dist/cli-resize-before.png, resizes the
+                        &:: BrowserWindow content ONCE to 800x500, waits
+                        &:: for a CHANGED valid xterm->IPC->node-pty
+                        &:: cols/rows observation (requested size alone
+                        &:: is never proof), captures
+                        &:: dist/cli-resize-after.png at distinct pixel
+                        &:: dims; automated PASS means observed dims change
+                        &:: + distinct screenshots + teardown only, NOT
+                        &:: visual reflow or S1 step 5 (orchestrator
+                        &:: visually inspects both shots); same
+                        &:: exact-tree-gone teardown proof, else
+                        &:: inconclusive.
 ```
 
 Setting `TIYE_CRASH_PTY_SURVIVOR_REGISTRY_PATH` on ordinary startup opts into
@@ -217,8 +235,10 @@ steps 1–8 with `opencode` (or any vendor CLI) remain manual/unverified, and
 S1 stays partial until those manual observations are recorded.
 Both probes now share the main-process `runRealCliTuiProbe(mode)` driver and
 `captureStoreProbeShot` helper for launch, PTY startup, renderer readiness, and
-screenshot capture. Startup remains hidden; input remains visible and types the
-fixed ASCII token without Enter. The runner still ends its own Electron process
+screenshot capture, with resize-specific steps isolated in the small named
+`runCliResizeInteraction` helper (no long inline resize branch). Startup
+remains hidden; input/edit/history/resize remain visible (resize sends no
+input at all). The runner still ends its own Electron process
 and verifies that the captured process tree is gone before reporting PASS.
 
 `npm run smoke:cli-edit` starts a separate visible real-OpenCode probe. It types
@@ -238,6 +258,18 @@ same exact-tree teardown check. Automated PASS verifies the help marker, sent
 events, screenshot, and teardown; it does not establish recalled history.
 On this host, visual inspection showed an empty composer after Up, so S1
 step 3 remains partial.
+
+`npm run smoke:cli-resize` runs installed OpenCode v2.0.22 with empty args in
+the visible Electron/ConPTY window and sends NO input at all (no
+`sendInputEvent`, no PTY write, no Enter, no model request). It captures
+`dist/cli-resize-before.png`, resizes the BrowserWindow content ONCE to
+800x500, waits for a CHANGED valid xterm→IPC→node-pty cols/rows
+observation (a logged requested size alone fails the probe), then captures
+`dist/cli-resize-after.png`. Automated PASS requires valid changed cols/rows,
+nonempty different screenshots at distinct PNG pixel dimensions (read
+independently from the IHDR, not just logged sizes), and the same
+exact-tree-gone teardown; it does NOT prove visual reflow, S1 step 5, or S1
+pass (orchestrator visually inspects both shots).
 
 ## S1 steps 1–8 checklist (manual, against the window)
 
@@ -457,7 +489,12 @@ step 3 remains partial.
   exits 0 on `SHUTDOWN` or closed stdin; protocol on stdout, logs on
   stderr.
 - `src/preload.ts`, `src/shared.ts` — narrow validated bridge + contract.
-- `src/renderer.ts`, `src/index.html` — xterm.js view, no Node.
+- `src/renderer.ts`, `src/index.html` — xterm.js view, no Node. Renderer
+  reports xterm fit size on window `resize` plus a `ResizeObserver` on
+  `#terminal` (bounded reliability fix for automated BrowserWindow content
+  resizes: window-resize alone proved flaky with no follow-up RESIZE IPC in
+  3 of 4 pre-fix runs; both paths share the existing fit + `api.resize`
+  IPC, no new channel, no synthetic dims).
 - `scripts/build.js` — esbuild bundles + asset copy.
 - `scripts/run-smoke.js` — headless Electron runner (timeout + logs;
   120 s for the lifecycle flag, 45 s otherwise).
@@ -540,3 +577,14 @@ step 3 remains partial.
   experiment), 2 = harness failure (missing/malformed registry, READY
   mismatch, controller exited early, lookup failure, or observation
   outside the 55 s/60 s safety bound — never a pass). S1/9f stay partial.
+- Real-CLI TUI runners (installed `opencode`, empty args, no model request,
+  runner-owned Electron kill + read-only exact-tree-gone proof, exit
+  0 PASS / 1 FAIL / 2 inconclusive, never PID kill):
+  `scripts/run-cli-launch.js` (`smoke:cli-launch`, headless `--version`),
+  `scripts/run-cli-tui-startup.js` (`smoke:cli-tui-startup/input/edit/history`
+  via `--cli-*-smoke` flags sharing `runRealCliTuiProbe`), and
+  `scripts/run-cli-resize.js` (`smoke:cli-resize`, distinct
+  `--cli-resize-smoke` flag, dedicated runner inheriting the same teardown:
+  before/after PNGs at distinct IHDR dims + changed valid
+  xterm→IPC→node-pty cols/rows + no-input check; NOT visual reflow or S1
+  step 5).

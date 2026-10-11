@@ -57,6 +57,17 @@ function reportSize(): void {
   }, 100);
 }
 window.addEventListener('resize', reportSize);
+// Container resize is the actual xterm trigger: window resize alone proved
+// flaky for automated BrowserWindow content resizes (viewport updated but no
+// follow-up RESIZE IPC within 15s in 3 of 4 runs). Observing #terminal
+// covers the same real layout change through the existing fit+api.resize
+// path (no synthetic dims, no new IPC channel).
+try {
+  const ro = new ResizeObserver(() => reportSize());
+  ro.observe(el);
+} catch {
+  /* ResizeObserver unavailable: window resize listener above still applies */
+}
 
 // Initial size once laid out, then signal main to flush buffered output.
 reportSize();

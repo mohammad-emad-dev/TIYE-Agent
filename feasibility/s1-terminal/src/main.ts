@@ -1,7 +1,7 @@
 // S1b main process (+ bounded S1 9e probe, + bounded 9f BASELINE probe,
 // + bounded 9f crash+job experiment, + bounded 9f crash-survivor experiment,
 // + bounded 9f crash-pty-survivor experiment, + bounded real-CLI TUI
-// startup/render probe, + bounded real-CLI input probe).
+// startup/render probe, + bounded real-CLI input/edit/history/resize probes).
 // Main owns ONE member PTY session across BrowserWindow recreation
 // (Architecture 2.3, S1 steps 9a-9d). Window close offers Keep Running
 // (retain PTY, tray with Open/Quit) or Stop (graceful CLI shutdown, then
@@ -51,6 +51,7 @@ const CLI_TUI_STARTUP_SMOKE_FLAG = '--cli-tui-startup-smoke';
 const CLI_INPUT_SMOKE_FLAG = '--cli-input-smoke';
 const CLI_EDIT_SMOKE_FLAG = '--cli-edit-smoke';
 const CLI_HISTORY_SMOKE_FLAG = '--cli-history-smoke';
+const CLI_RESIZE_SMOKE_FLAG = '--cli-resize-smoke';
 const CRASH_BASELINE_FLAG = '--crash-baseline';
 const CRASH_RECOVERY_FLAG = '--crash-recovery-check';
 const CRASH_REGISTRY_ENV = 'TIYE_CRASH_REGISTRY_PATH';
@@ -140,6 +141,7 @@ function hasCrashExperimentFlag(argv: string[]): boolean {
     argv.includes(CLI_INPUT_SMOKE_FLAG) ||
     argv.includes(CLI_EDIT_SMOKE_FLAG) ||
     argv.includes(CLI_HISTORY_SMOKE_FLAG) ||
+    argv.includes(CLI_RESIZE_SMOKE_FLAG) ||
     argv.includes(CRASH_BASELINE_FLAG) ||
     argv.includes(CRASH_RECOVERY_FLAG) ||
     argv.includes(CRASH_JOB_FLAG) ||
@@ -611,15 +613,26 @@ async function runCliLaunchSmoke(): Promise<number> {
 // sequence). Automated edit PASS means
 // keyboard events delivered + changed render + teardown only, NOT semantic
 // editing correctness — the orchestrator visually inspects both shots. Do NOT
-// cite as command history or S1 step 3 complete.
+// cite as command history or S1 step 3 complete. Resize mode (VISIBLE
+// opt-in window, same renderer, distinct --cli-resize-smoke flag) proves
+// the same startup flow plus a SINGLE BrowserWindow resize with NO keyboard
+// input, NO PTY write, NO submit, and NO model request, plus observed
+// xterm->IPC->node-pty cols/rows that CHANGE to valid values and distinct
+// before/after screenshots at distinct pixel dimensions
+// (dist/cli-resize-before.png + dist/cli-resize-after.png). Automated
+// resize PASS means observed dims change + distinct screenshots + teardown
+// only, NOT visual reflow or S1 step 5 — the orchestrator visually inspects
+// both shots. Do NOT cite as S1 pass.
 //
-// Safety (all three modes): args must be exactly [] (empty). Any non-empty args
+// Safety (all five modes): args must be exactly [] (empty). Any non-empty args
 // are refused without spawn so a misconfigured runner can never trigger a
 // model call. Startup mode NEVER writes stdin (no prompt, no input text, no
 // model request) — not even `exit`; input mode writes ONLY the fixed token
 // through sendInputEvent (never term.write, never Enter/submit); edit mode
 // writes ONLY the fixed initial token plus the bounded editing keys through
-// sendInputEvent (never term.write, never Enter/submit). Teardown is
+// sendInputEvent (never term.write, never Enter/submit); resize mode sends
+// NO input at all (no sendInputEvent, no term.write, no Enter/submit).
+// History mode is documented separately. Teardown is
 // deliberately NOT term.kill() inside Electron: node-pty on Windows has a
 // documented teardown race after term.kill() (AttachConsole failure), so the
 // success path stays alive after the screenshot(s) and the RUNNER ends only
@@ -636,7 +649,7 @@ function stripAnsiForMarkers(raw: string): string {
     .replace(/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/g, '');
 }
 
-type CliTuiProbeMode = 'startup' | 'input' | 'edit' | 'history';
+type CliTuiProbeMode = 'startup' | 'input' | 'edit' | 'history' | 'resize';
 
 type CliTuiProbeShotKind = 'shot' | 'before' | 'after' | 'up';
 
@@ -645,11 +658,14 @@ const CLI_EDIT_INITIAL_TOKEN = 'tiyeeditab12';
 const CLI_EDIT_REPLACEMENT = 'z';
 const CLI_EDIT_EXPECTED_TOKEN = 'tyeeditab1z';
 const CLI_HISTORY_COMMAND = '/help';
+const CLI_RESIZE_TARGET_CONTENT_WIDTH = 800;
+const CLI_RESIZE_TARGET_CONTENT_HEIGHT = 500;
 
 function cliTuiProbeTag(mode: CliTuiProbeMode): string {
   if (mode === 'input') return '[cli-input-smoke]';
   if (mode === 'edit') return '[cli-edit-smoke]';
   if (mode === 'history') return '[cli-history-smoke]';
+  if (mode === 'resize') return '[cli-resize-smoke]';
   return '[cli-tui-startup-smoke]';
 }
 
@@ -657,6 +673,7 @@ function cliTuiProbeMember(mode: CliTuiProbeMode): string {
   if (mode === 'input') return 'cli-input-member';
   if (mode === 'edit') return 'cli-edit-member';
   if (mode === 'history') return 'cli-history-member';
+  if (mode === 'resize') return 'cli-resize-member';
   return 'cli-tui-startup-member';
 }
 
@@ -885,7 +902,233 @@ async function runCliHistoryInteraction(
 }
 
 /**
- * Shared driver for all four real-CLI TUI probes. Mode-specific behavior stays
+ * Small named resize interaction routine (keeps the shared driver short).
+ * Bounded real-OpenCode TUI resize slice: NO keyboard input, NO PTY write,
+ * NO prompt submission, NO model request. Captures a before screenshot,
+ * records the initial xterm->IPC->node-pty observed dimensions, resizes the
+ * visible BrowserWindow EXACTLY ONCE, waits for an ACTUAL changed valid
+ * resize observation (not the requested window size), then captures an
+ * after screenshot. Any missing delivery, unchanged dims, identical
+ * screenshots, or same pixel dimensions fails closed (1) or inconclusive
+ * (2), never PASS. Visual reflow is left to orchestrator inspection.
+ */
+async function runCliResizeInteraction(
+  w: BrowserWindow,
+  tag: string,
+  beforePath: string,
+  afterPath: string,
+): Promise<{
+  ok: boolean;
+  code: 1 | 2;
+  beforeBytes: number;
+  afterBytes: number;
+  initialCols: number;
+  initialRows: number;
+  finalCols: number;
+  finalRows: number;
+  beforeW: number;
+  beforeH: number;
+  afterW: number;
+  afterH: number;
+}> {
+  const zero = {
+    ok: false as const,
+    code: 1 as 1 | 2,
+    beforeBytes: 0,
+    afterBytes: 0,
+    initialCols: 0,
+    initialRows: 0,
+    finalCols: 0,
+    finalRows: 0,
+    beforeW: 0,
+    beforeH: 0,
+    afterW: 0,
+    afterH: 0,
+  };
+  const fail = (msg: string): typeof zero => {
+    console.error(`${tag} FAIL: ${msg} (no pass)`);
+    return { ...zero, ok: false, code: 1 };
+  };
+  const inconclusive = (msg: string): typeof zero => {
+    console.error(`${tag} INCONCLUSIVE: ${msg} (no pass)`);
+    return { ...zero, ok: false, code: 2 };
+  };
+  console.log(
+    `${tag} RESIZE-PLAN steps=shot(before),resize-once(content ${CLI_RESIZE_TARGET_CONTENT_WIDTH}x${CLI_RESIZE_TARGET_CONTENT_HEIGHT}),wait-observed-change,shot(after) (visible window, no keyboard input, no PTY write, no Enter, no submit, no model request, single BrowserWindow content resize only)`,
+  );
+  if (w.isDestroyed()) return inconclusive('resize window destroyed before before-shot');
+  const before = await captureStoreProbeShot(tag, 'before', beforePath, 5);
+  if (before === null) return { ...zero, ok: false, code: 1 };
+  const beforeSize = before.image.getSize();
+  const beforePx = { width: beforeSize.width, height: beforeSize.height };
+  // Wait boundedly for the initial xterm->IPC observation (renderer fit
+  // reports on load). A requested window size alone is never proof.
+  let initial = lastResizeObserved;
+  if (initial === null) {
+    const start = Date.now();
+    while (Date.now() - start < 10000) {
+      if (w.isDestroyed()) return inconclusive('resize window destroyed while waiting for initial observed dims');
+      if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited before initial resize observed (code ${ptyExitCode})`);
+      if (lastResizeObserved !== null) break;
+      await new Promise((r) => setTimeout(r, 100));
+    }
+    initial = lastResizeObserved;
+  }
+  if (initial === null) {
+    return inconclusive('no initial xterm->IPC->node-pty resize observed within 10s (requested size alone is not proof)');
+  }
+  const initialCols = initial.cols;
+  const initialRows = initial.rows;
+  if (!(Number.isInteger(initialCols) && Number.isInteger(initialRows) && initialCols >= 2 && initialCols <= 500 && initialRows >= 1 && initialRows <= 200)) {
+    return fail(`initial observed dims invalid cols=${initialCols} rows=${initialRows} (want cols 2..500 rows 1..200)`);
+  }
+  const termAtInitial = term as unknown as { cols?: unknown; rows?: unknown } | null;
+  const initialPtyCols = typeof termAtInitial?.cols === 'number' ? (termAtInitial.cols as number) : initial.cols;
+  const initialPtyRows = typeof termAtInitial?.rows === 'number' ? (termAtInitial.rows as number) : initial.rows;
+  console.log(
+    `${tag} RESIZE-OBSERVED which=initial cols=${initial.cols} rows=${initial.rows} ptyCols=${initialPtyCols} ptyRows=${initialPtyRows} shot=${beforePx.width}x${beforePx.height} (xterm->IPC->node-pty observed, NOT requested size)`,
+  );
+  if (w.isDestroyed()) return inconclusive('resize window destroyed before single resize');
+  if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited before single resize (code ${ptyExitCode})`);
+  let initialOuter: number[] = [];
+  let initialContent: number[] = [];
+  try {
+    initialOuter = w.getSize();
+    initialContent = w.getContentSize();
+  } catch {
+    /* sizes best-effort */
+  }
+  console.log(
+    `${tag} RESIZE-WINDOW-BEFORE outer=${initialOuter.join('x') || 'unknown'} content=${initialContent.join('x') || 'unknown'} (main-side BrowserWindow size before single resize; NOT PTY proof)`,
+  );
+  let mainResizeSeen = false;
+  const onMainResize = (): void => {
+    mainResizeSeen = true;
+  };
+  try {
+    w.once('resize', onMainResize);
+  } catch {
+    /* listener best-effort */
+  }
+  try {
+    w.setContentSize(CLI_RESIZE_TARGET_CONTENT_WIDTH, CLI_RESIZE_TARGET_CONTENT_HEIGHT);
+  } catch (err) {
+    return inconclusive(`single BrowserWindow resize failed: ${(err as Error).message}`);
+  }
+  console.log(
+    `${tag} RESIZE-REQUESTED content=${CLI_RESIZE_TARGET_CONTENT_WIDTH}x${CLI_RESIZE_TARGET_CONTENT_HEIGHT} (requested content size only, NOT proof; waiting for observed xterm->IPC->node-pty change)`,
+  );
+  try {
+    if (!w.isDestroyed()) {
+      const viewport: unknown = await w.webContents.executeJavaScript(
+        "({ w: window.innerWidth, h: window.innerHeight, tw: document.getElementById('terminal')?.getBoundingClientRect()?.width ?? -1, th: document.getElementById('terminal')?.getBoundingClientRect()?.height ?? -1 })",
+      );
+      const v = viewport as { w?: unknown; h?: unknown; tw?: unknown; th?: unknown };
+      console.log(`${tag} RESIZE-VIEWPORT inner=${String(v.w)}x${String(v.h)} termEl=${String(v.tw)}x${String(v.th)} (renderer viewport+terminalEl read-only; NOT PTY proof)`);
+    }
+  } catch (err) {
+    console.log(`${tag} RESIZE-VIEWPORT query failed: ${(err as Error).message.slice(0, 160)} (read-only diagnostic only)`);
+  }
+  const startWait = Date.now();
+  let observed: { cols: number; rows: number } | null = null;
+  while (Date.now() - startWait < 15000) {
+    if (w.isDestroyed()) return inconclusive('resize window destroyed while waiting for observed change');
+    if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited before observed resize change (code ${ptyExitCode})`);
+    const cur = lastResizeObserved;
+    if (cur !== null && (cur.cols !== initial.cols || cur.rows !== initial.rows)) {
+      observed = { ...cur };
+      break;
+    }
+    await new Promise((r) => setTimeout(r, 100));
+  }
+  if (observed === null) {
+    const cur = lastResizeObserved;
+    const curCols = cur?.cols ?? -1;
+    const curRows = cur?.rows ?? -1;
+    let afterOuter: number[] = [];
+    let afterContent: number[] = [];
+    try {
+      if (!w.isDestroyed()) {
+        afterOuter = w.getSize();
+        afterContent = w.getContentSize();
+      }
+    } catch {
+      /* sizes best-effort */
+    }
+    console.log(
+      `${tag} RESIZE-WINDOW-AFTER outer=${afterOuter.join('x') || 'unknown'} content=${afterContent.join('x') || 'unknown'} mainResizeSeen=${mainResizeSeen} (main-side size after wait; requested content was ${CLI_RESIZE_TARGET_CONTENT_WIDTH}x${CLI_RESIZE_TARGET_CONTENT_HEIGHT}; still NOT PTY proof)`,
+    );
+    return fail(
+      `no changed xterm->IPC->node-pty resize observed within 15s after single window resize (initial cols=${initialCols} rows=${initialRows} current cols=${curCols} rows=${curRows}; requested size alone is not proof)`,
+    );
+  }
+  const observedCols = observed.cols;
+  const observedRows = observed.rows;
+  if (!(Number.isInteger(observedCols) && Number.isInteger(observedRows) && observedCols >= 2 && observedCols <= 500 && observedRows >= 1 && observedRows <= 200)) {
+    return fail(`final observed dims invalid cols=${observedCols} rows=${observedRows} (want cols 2..500 rows 1..200)`);
+  }
+  if (observedCols === initialCols && observedRows === initialRows) {
+    return fail(`observed dims unchanged after resize cols=${observedCols} rows=${observedRows} (no resize proof; no pass)`);
+  }
+  const termAtFinal = term as unknown as { cols?: unknown; rows?: unknown } | null;
+  const finalPtyCols = typeof termAtFinal?.cols === 'number' ? (termAtFinal.cols as number) : observed.cols;
+  const finalPtyRows = typeof termAtFinal?.rows === 'number' ? (termAtFinal.rows as number) : observed.rows;
+  let finalOuter: number[] = [];
+  let finalContent: number[] = [];
+  try {
+    if (!w.isDestroyed()) {
+      finalOuter = w.getSize();
+      finalContent = w.getContentSize();
+    }
+  } catch {
+    /* sizes best-effort */
+  }
+  console.log(
+    `${tag} RESIZE-WINDOW-AFTER outer=${finalOuter.join('x') || 'unknown'} content=${finalContent.join('x') || 'unknown'} mainResizeSeen=${mainResizeSeen} (main-side size after observed change; requested content was ${CLI_RESIZE_TARGET_CONTENT_WIDTH}x${CLI_RESIZE_TARGET_CONTENT_HEIGHT}; still NOT PTY proof alone)`,
+  );
+  console.log(
+    `${tag} RESIZE-OBSERVED which=final cols=${observed.cols} rows=${observed.rows} ptyCols=${finalPtyCols} ptyRows=${finalPtyRows} changed=true initial=${initial.cols}x${initial.rows} (xterm->IPC->node-pty observed change, NOT requested size)`,
+  );
+  // Settle so xterm repaints at the new size before the after-shot. No input
+  // is sent during this wait by design.
+  await new Promise((r) => setTimeout(r, 2500));
+  if (w.isDestroyed()) return inconclusive('resize window destroyed before after-shot');
+  if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited before resize after-shot (code ${ptyExitCode})`);
+  const after = await captureStoreProbeShot(tag, 'after', afterPath, 5);
+  if (after === null) return { ...zero, ok: false, code: 1 };
+  const afterSize = after.image.getSize();
+  const afterPx = { width: afterSize.width, height: afterSize.height };
+  const beforeBytes = fs.readFileSync(beforePath);
+  const afterBytes = fs.readFileSync(afterPath);
+  const bytesChanged = !beforeBytes.equals(afterBytes);
+  const dimsChanged = beforePx.width !== afterPx.width || beforePx.height !== afterPx.height;
+  console.log(
+    `${tag} SHOTS before=${beforePath} bytes=${before.statSize} after=${afterPath} bytes=${after.statSize} changed=${bytesChanged} dimsChanged=${dimsChanged} beforePx=${beforePx.width}x${beforePx.height} afterPx=${afterPx.width}x${afterPx.height} initial=${initial.cols}x${initial.rows} final=${observed.cols}x${observed.rows}`,
+  );
+  if (!bytesChanged) {
+    return fail('before/after screenshots identical bytes (no resize/render change proven; no pass)');
+  }
+  if (!dimsChanged) {
+    return fail(`before/after screenshots share pixel dimensions ${beforePx.width}x${beforePx.height} (distinct pixel dims required; no pass)`);
+  }
+  return {
+    ok: true,
+    code: 1,
+    beforeBytes: before.statSize,
+    afterBytes: after.statSize,
+    initialCols: initial.cols,
+    initialRows: initial.rows,
+    finalCols: observed.cols,
+    finalRows: observed.rows,
+    beforeW: beforePx.width,
+    beforeH: beforePx.height,
+    afterW: afterPx.width,
+    afterH: afterPx.height,
+  };
+}
+
+/**
+ * Shared driver for all five real-CLI TUI probes. Mode-specific behavior stays
  * in explicit branches: window visibility, screenshot path(s) + retries, the
  * input-mode token typing + changed-render gate, the edit-mode token typing +
  * bounded editing keys + changed-render gate, and the per-mode log
@@ -899,12 +1142,15 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
   const isInput = mode === 'input';
   const isEdit = mode === 'edit';
   const isHistory = mode === 'history';
+  const isResize = mode === 'resize';
   if (isInput) {
     cliInputMode = true;
   } else if (isEdit) {
     cliEditMode = true;
   } else if (isHistory) {
     cliHistoryMode = true;
+  } else if (isResize) {
+    cliResizeMode = true;
   } else {
     cliTuiStartupMode = true;
   }
@@ -929,6 +1175,10 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
       console.error(
         `${tag} FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no model, no pass)`,
       );
+    } else if (isResize) {
+      console.error(
+        `${tag} FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no keyboard input, no submit, no model, no pass)`,
+      );
     } else {
       console.error(
         `${tag} FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no stdin, no model, no pass)`,
@@ -952,7 +1202,9 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
         ? `${tag} PROBE installed opencode TUI editing keys via main-owned PTY + visible renderer keyboard path (fixed ASCII token then Home,Right,Delete,End,Backspace plus ASCII replacement; no Enter, no submit, no model/prompt request)`
         : isInput
           ? `${tag} PROBE installed opencode TUI input via main-owned PTY + visible renderer keyboard path (no Enter, no submit, no model/prompt request)`
-          : `${tag} PROBE installed opencode TUI startup via main-owned PTY + hidden renderer (no stdin written, no model/prompt)`,
+          : isResize
+            ? `${tag} PROBE installed opencode TUI resize via main-owned PTY + visible renderer (single BrowserWindow resize, no keyboard input, no PTY write, no Enter, no submit, no model/prompt request)`
+            : `${tag} PROBE installed opencode TUI startup via main-owned PTY + hidden renderer (no stdin written, no model/prompt)`,
   );
   try {
     attachTerminal();
@@ -972,14 +1224,15 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     if (ptyBytes.length > 200000) ptyBytes = ptyBytes.slice(-200000);
   });
   // Visible window by design for keyboard delivery in input/edit/history
-  // modes only (hidden windows cannot reliably receive keyboard
-  // focus/sendInputEvent on Windows); startup mode stays hidden.
-  createWindow({ show: isInput || isEdit || isHistory });
+  // and resize observation in resize mode only (hidden windows cannot
+  // reliably receive keyboard focus/sendInputEvent on Windows and do not
+  // produce a user-meaningful resize; startup mode stays hidden).
+  createWindow({ show: isInput || isEdit || isHistory || isResize });
   if (win === null) {
     console.error(`${tag} INCONCLUSIVE: window not created (no pass)`);
     return 2;
   }
-  if (isInput || isEdit || isHistory) {
+  if (isInput || isEdit || isHistory || isResize) {
     try {
       win.show();
     } catch {
@@ -1006,7 +1259,9 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
           ? `${tag} ok: renderer READY + preload bridge alive (visible window for keyboard editing; still the existing Electron renderer, not a native terminal)`
           : isInput
             ? `${tag} ok: renderer READY + preload bridge alive (visible window for keyboard focus; still the existing Electron renderer, not a native terminal)`
-            : `${tag} ok: renderer READY + preload bridge alive (hidden window; renderer still runs)`,
+            : isResize
+              ? `${tag} ok: renderer READY + preload bridge alive (visible window for resize observation; still the existing Electron renderer, not a native terminal)`
+              : `${tag} ok: renderer READY + preload bridge alive (hidden window; renderer still runs)`,
     );
     await new Promise<void>((resolve, reject) => {
       const start = Date.now();
@@ -1025,7 +1280,7 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     });
     console.log(`${tag} ok: real CLI PTY data observed (bytes=${ptyBytes.length})`);
     // Settle so xterm paints before capture (startup) / the before-shot
-    // (input/edit). No input is sent during this wait by design.
+    // (input/edit/resize). No input is sent during this wait by design.
     await new Promise((r) => setTimeout(r, 3000));
     if (ptyExitCode !== null) {
       console.error(
@@ -1035,7 +1290,9 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
             ? `${tag} INCONCLUSIVE: real CLI PTY exited before edit before-shot (code ${ptyExitCode}; no pass)`
             : isInput
               ? `${tag} INCONCLUSIVE: real CLI PTY exited before before-shot (code ${ptyExitCode}; no pass)`
-              : `${tag} INCONCLUSIVE: real CLI PTY exited before screenshot (code ${ptyExitCode}; no pass)`,
+              : isResize
+                ? `${tag} INCONCLUSIVE: real CLI PTY exited before resize before-shot (code ${ptyExitCode}; no pass)`
+                : `${tag} INCONCLUSIVE: real CLI PTY exited before screenshot (code ${ptyExitCode}; no pass)`,
       );
       return 2;
     }
@@ -1062,7 +1319,15 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     let afterStat = 0;
     let historyUpPath = '';
     let historyUpBytes = 0;
-    if (!isInput && !isEdit && !isHistory) {
+    let resizeInitialCols = 0;
+    let resizeInitialRows = 0;
+    let resizeFinalCols = 0;
+    let resizeFinalRows = 0;
+    let resizeBeforeW = 0;
+    let resizeBeforeH = 0;
+    let resizeAfterW = 0;
+    let resizeAfterH = 0;
+    if (!isInput && !isEdit && !isHistory && !isResize) {
       shotPath = path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
       const shot = await captureStoreProbeShot(tag, 'shot', shotPath, 1);
       if (shot === null) return 1;
@@ -1157,14 +1422,33 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
       // Bounded history observation: documented built-in /help only via the
       // small named routine (no long inline branch here): one uninterrupted
       // focused type/Enter/Escape/Up sequence with a single final screenshot.
-      historyUpPath = path.resolve(__dirname, '..', 'dist', 'cli-history-up.png');
-      console.log(`${tag} HISTORY-PLAN command=${CLI_HISTORY_COMMAND} steps=type(${CLI_HISTORY_COMMAND}),Enter,Escape,Up,shot(up) (documented built-in /help only via sendInputEvent, history_previous=Up, never free-form prompt, no model request, no second Enter, no mouse)`);
-      const hist = await runCliHistoryInteraction(win, tag, () => ptyBytes, historyUpPath);
-      if (!hist.ok) return hist.code;
-      historyUpBytes = hist.upBytes;
+      // Resize mode uses its own small named routine above (no inline
+      // resize logic here).
+      if (isResize) {
+        beforePath = path.resolve(__dirname, '..', 'dist', 'cli-resize-before.png');
+        afterPath = path.resolve(__dirname, '..', 'dist', 'cli-resize-after.png');
+        const rs = await runCliResizeInteraction(win, tag, beforePath, afterPath);
+        if (!rs.ok) return rs.code;
+        beforeStat = rs.beforeBytes;
+        afterStat = rs.afterBytes;
+        resizeInitialCols = rs.initialCols;
+        resizeInitialRows = rs.initialRows;
+        resizeFinalCols = rs.finalCols;
+        resizeFinalRows = rs.finalRows;
+        resizeBeforeW = rs.beforeW;
+        resizeBeforeH = rs.beforeH;
+        resizeAfterW = rs.afterW;
+        resizeAfterH = rs.afterH;
+      } else {
+        historyUpPath = path.resolve(__dirname, '..', 'dist', 'cli-history-up.png');
+        console.log(`${tag} HISTORY-PLAN command=${CLI_HISTORY_COMMAND} steps=type(${CLI_HISTORY_COMMAND}),Enter,Escape,Up,shot(up) (documented built-in /help only via sendInputEvent, history_previous=Up, never free-form prompt, no model request, no second Enter, no mouse)`);
+        const hist = await runCliHistoryInteraction(win, tag, () => ptyBytes, historyUpPath);
+        if (!hist.ok) return hist.code;
+        historyUpBytes = hist.upBytes;
+      }
     }
     if (!logProbeMarkers(tag, ptyBytes)) return 1;
-    if (!isInput && !isEdit && !isHistory) {
+    if (!isInput && !isEdit && !isHistory && !isResize) {
       console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} shot=${shotPath}`);
       console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; hidden window, no human visual comparison)`);
     } else if (isInput) {
@@ -1173,6 +1457,9 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     } else if (isEdit) {
       console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} before=${beforePath} after=${afterPath} initialLen=${CLI_EDIT_INITIAL_TOKEN.length} expected=${CLI_EDIT_EXPECTED_TOKEN}`);
       console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; keyboard events delivered + changed render, NOT semantic editing correctness, NOT command history, NOT S1 step 3)`);
+    } else if (isResize) {
+      console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} before=${beforePath} after=${afterPath} initial=${resizeInitialCols}x${resizeInitialRows} final=${resizeFinalCols}x${resizeFinalRows} beforePx=${resizeBeforeW}x${resizeBeforeH} afterPx=${resizeAfterW}x${resizeAfterH}`);
+      console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; observed resize dims + distinct screenshots, NOT visual reflow proof, NOT S1 step 5, NOT S1 pass)`);
     } else {
       console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} up=${historyUpPath} command=${CLI_HISTORY_COMMAND}`);
       console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; bounded /help interaction + screenshots + teardown only, NOT command-history recall, NOT S1 step 3)`);
@@ -1185,7 +1472,8 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     // Failure path: never term.kill() a captured member and never write to
     // the PTY (input/edit modes only used sendInputEvent without submit;
     // history mode uses sendInputEvent with a single Enter for the documented
-    // /help built-in only, never a second submit of recalled text). Report
+    // /help built-in only, never a second submit of recalled text; resize
+    // mode never writes to the PTY nor sends input events at all). Report
     // harness failure; the runner still ends only its own Electron handle on
     // timeout.
     console.error(`${tag} INCONCLUSIVE: ${(err as Error).message} (no pass)`);
@@ -1209,6 +1497,10 @@ async function runCliHistorySmoke(): Promise<number> {
   return runRealCliTuiProbe('history');
 }
 
+async function runCliResizeSmoke(): Promise<number> {
+  return runRealCliTuiProbe('resize');
+}
+
 // ---------------------------------------------------------------------------
 // Window + lifecycle mode: ONE main-owned member session across
 // BrowserWindow recreation (S1 9a-9d). The PTY is never tied to a window.
@@ -1220,6 +1512,11 @@ let ptyExitCode: number | null = null;
 let pendingOutput = '';
 let pendingOutputTruncated = false;
 let ipcRegistered = false;
+// Last xterm->IPC->node-pty resize observed via CHANNELS.RESIZE (renderer
+// fit dimensions, validated, applied to the PTY). The resize probe waits
+// for a CHANGED valid observation after its single window resize; a logged
+// requested window size alone is never cited as resize proof.
+let lastResizeObserved: { cols: number; rows: number } | null = null;
 
 // Member-session identity. spawnCount is monotonic: it must stay 1 across
 // Keep Running close + reopen + core re-subscribe (no duplicate spawn).
@@ -1236,6 +1533,7 @@ let cliTuiStartupMode = false;
 let cliInputMode = false;
 let cliEditMode = false;
 let cliHistoryMode = false;
+let cliResizeMode = false;
 let crashBaselineMode = false;
 let crashJobMode = false;
 let crashSurvivorMode = false;
@@ -1309,7 +1607,11 @@ function registerIpcOnce(): void {
     if (fromWindow(event) && term !== null && isValidInput(data)) term.write(data);
   });
   ipcMain.on(CHANNELS.RESIZE, (event, size: unknown) => {
-    if (fromWindow(event) && term !== null && isValidResize(size)) term.resize(size.cols, size.rows);
+    if (fromWindow(event) && term !== null && isValidResize(size)) {
+      term.resize(size.cols, size.rows);
+      lastResizeObserved = { cols: size.cols, rows: size.rows };
+      console.log(`[s1] RESIZE ipc cols=${size.cols} rows=${size.rows} (xterm->IPC->node-pty applied)`);
+    }
   });
 }
 
@@ -2954,6 +3256,7 @@ async function main(): Promise<void> {
     if (cliInputMode) return; // cli-input has a visible opt-in window; it lives until the runner kills it.
     if (cliEditMode) return; // cli-edit has a visible opt-in window; it lives until the runner kills it.
     if (cliHistoryMode) return; // cli-history has a visible opt-in window; it lives until the runner kills it.
+    if (cliResizeMode) return; // cli-resize has a visible opt-in window; it lives until the runner kills it.
     if (keepRunning && !isQuitting) return; // retained PTY lives in the tray.
     app.quit();
   });
@@ -2965,7 +3268,7 @@ async function main(): Promise<void> {
       }
       return;
     }
-    if (win === null && !isQuitting && !process.argv.includes(SMOKE_FLAG) && !process.argv.includes(CLI_LAUNCH_SMOKE_FLAG) && !process.argv.includes(CLI_TUI_STARTUP_SMOKE_FLAG) && !process.argv.includes(CLI_INPUT_SMOKE_FLAG) && !process.argv.includes(CLI_EDIT_SMOKE_FLAG) && !process.argv.includes(CLI_HISTORY_SMOKE_FLAG)) createWindow();
+    if (win === null && !isQuitting && !process.argv.includes(SMOKE_FLAG) && !process.argv.includes(CLI_LAUNCH_SMOKE_FLAG) && !process.argv.includes(CLI_TUI_STARTUP_SMOKE_FLAG) && !process.argv.includes(CLI_INPUT_SMOKE_FLAG) && !process.argv.includes(CLI_EDIT_SMOKE_FLAG) && !process.argv.includes(CLI_HISTORY_SMOKE_FLAG) && !process.argv.includes(CLI_RESIZE_SMOKE_FLAG)) createWindow();
   });
   const startupRecoveryRequested = shouldRunStartupRecoveryGate();
   if (process.argv.includes(STARTUP_RECOVERY_ALERT_SMOKE_FLAG) && !startupRecoveryRequested) {
@@ -3061,6 +3364,21 @@ async function main(): Promise<void> {
       app.exit(code);
     } catch (err) {
       console.error(`[cli-history-smoke] INCONCLUSIVE: ${(err as Error).message} (no pass)`);
+      app.exit(2);
+    }
+    return;
+  }
+  if (process.argv.includes(CLI_RESIZE_SMOKE_FLAG)) {
+    cliResizeMode = true;
+    try {
+      const code = await runCliResizeSmoke();
+      // Success never returns (stays alive until runner kill); a return is
+      // always a failure or harness inconclusive. No term.kill() here by
+      // design (Windows teardown race); the runner ends only its own
+      // Electron handle and verifies the tree gone read-only.
+      app.exit(code);
+    } catch (err) {
+      console.error(`[cli-resize-smoke] INCONCLUSIVE: ${(err as Error).message} (no pass)`);
       app.exit(2);
     }
     return;
