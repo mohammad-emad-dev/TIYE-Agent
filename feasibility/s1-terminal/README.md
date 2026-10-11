@@ -86,6 +86,20 @@ npm run smoke:cli-launch &:: Headless real-CLI launch only: installed
                         &:: spawnMember + ConPTY, version line + clean
                         &:: PTY exit 0, no stdin or model request; NOT
                         &:: interactive/display S1 success.
+npm run smoke:cli-tui-startup &:: Bounded real-CLI TUI startup/render probe:
+                        &:: installed `opencode` with EMPTY args via the
+                        &:: existing resolveLaunch / ensureMember /
+                        &:: hidden BrowserWindow + renderer bridge; waits
+                        &:: for renderer READY + real PTY startup bytes,
+                        &:: captures dist/cli-tui-startup-shot.png, logs
+                        &:: marker booleans + bare semver only (no ANSI
+                        &:: spam, no secrets, no full-buffer dump), submits
+                        &:: NO stdin or prompt text or model request, then the runner
+                        &:: ends ONLY its runner-owned Electron handle and
+                        &:: read-only verifies the exact PID+creation tree
+                        &:: gone (unproven teardown = inconclusive exit 2,
+                        &:: never PASS); hidden window, no human visual
+                        &:: comparison; NOT S1 steps 1-8.
 ```
 
 Setting `TIYE_CRASH_PTY_SURVIVOR_REGISTRY_PATH` on ordinary startup opts into
@@ -155,11 +169,19 @@ npm start
 ```
 
 This resolves bare `opencode` to `opencode.cmd` via the rule above. Headless
-`npm run smoke:cli-launch` is the only automated vendor-CLI check: it runs
+`npm run smoke:cli-launch` is the headless automated vendor-CLI check: it runs
 the installed `opencode --version` via `resolveLaunch` / `spawnMember` in
 headless Electron/ConPTY (`--cli-launch-smoke`), asserts a version line and
 clean PTY exit 0 with no stdin or model request, and reports the resolved path. It proves launch +
-version + exit only — NOT interactive/display S1 success. Real vendor S1
+version + exit only — NOT interactive/display S1 success.
+`npm run smoke:cli-tui-startup` is the bounded TUI startup/render check: installed
+`opencode` with EMPTY args via the existing main-owned PTY + hidden renderer
+(`--cli-tui-startup-smoke`), renderer READY + real PTY startup bytes +
+`dist/cli-tui-startup-shot.png` + marker booleans/bare semver only, no stdin
+or model request, then runner-owned Electron kill + read-only exact-tree-gone
+verification (unproven teardown = inconclusive, never PASS; hidden window, no
+human visual comparison). It proves startup output reaches xterm only — NOT
+S1 steps 1–8, editing keys, approvals, unicode, resize, or lifecycle. Real vendor S1
 steps 1–8 with `opencode` (or any vendor CLI) remain manual/unverified, and
 S1 stays partial until those manual observations are recorded.
 

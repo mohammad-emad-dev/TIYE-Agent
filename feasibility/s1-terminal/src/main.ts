@@ -1,6 +1,7 @@
 // S1b main process (+ bounded S1 9e probe, + bounded 9f BASELINE probe,
 // + bounded 9f crash+job experiment, + bounded 9f crash-survivor experiment,
-// + bounded 9f crash-pty-survivor experiment).
+// + bounded 9f crash-pty-survivor experiment, + bounded real-CLI TUI
+// startup/render probe).
 // Main owns ONE member PTY session across BrowserWindow recreation
 // (Architecture 2.3, S1 steps 9a-9d). Window close offers Keep Running
 // (retain PTY, tray with Open/Quit) or Stop (graceful CLI shutdown, then
@@ -46,6 +47,7 @@ const SMOKE_FLAG = '--smoke-test';
 const WINDOW_SMOKE_FLAG = '--window-smoke';
 const LIFECYCLE_SMOKE_FLAG = '--lifecycle-smoke';
 const CLI_LAUNCH_SMOKE_FLAG = '--cli-launch-smoke';
+const CLI_TUI_STARTUP_SMOKE_FLAG = '--cli-tui-startup-smoke';
 const CRASH_BASELINE_FLAG = '--crash-baseline';
 const CRASH_RECOVERY_FLAG = '--crash-recovery-check';
 const CRASH_REGISTRY_ENV = 'TIYE_CRASH_REGISTRY_PATH';
@@ -131,6 +133,7 @@ function hasCrashExperimentFlag(argv: string[]): boolean {
     argv.includes(WINDOW_SMOKE_FLAG) ||
     argv.includes(LIFECYCLE_SMOKE_FLAG) ||
     argv.includes(CLI_LAUNCH_SMOKE_FLAG) ||
+    argv.includes(CLI_TUI_STARTUP_SMOKE_FLAG) ||
     argv.includes(CRASH_BASELINE_FLAG) ||
     argv.includes(CRASH_RECOVERY_FLAG) ||
     argv.includes(CRASH_JOB_FLAG) ||
@@ -572,6 +575,190 @@ async function runCliLaunchSmoke(): Promise<number> {
 }
 
 // ---------------------------------------------------------------------------
+// Bounded real-CLI TUI startup/render probe: installed `opencode` with EMPTY
+// args inside the existing BrowserWindow renderer (hidden window is accepted:
+// the renderer still runs; NO human visual comparison is performed).
+// Proves exactly this and nothing more: the installed OpenCode executable
+// resolves via resolveLaunch (Windows .cmd shim aware), spawns via the
+// main-owned ensureMember() PTY, its startup bytes reach the PTY, the
+// renderer reports READY through the existing preload bridge, and an xterm
+// screenshot is captured to dist/cli-tui-startup-shot.png (separate from the
+// mock dist/smoke-shot.png).
+//
+// Safety: args must be exactly [] (empty). Any non-empty args are refused
+// without spawn so a misconfigured runner can never trigger a model call.
+// NO stdin is ever written to the PTY here (no prompt, no input text, no
+// model request) — not even `exit`. Teardown is deliberately NOT term.kill()
+// inside Electron: node-pty on Windows has a documented teardown race after
+// term.kill() (AttachConsole failure), so the success path stays alive after
+// the screenshot and the RUNNER ends only its runner-owned Electron
+// ChildProcess via the handle, then read-only verifies the captured
+// PID+creation tree is gone. If teardown cannot be proven the runner exits
+// inconclusive (2), never PASS. Never a PID-only kill; unrelated processes
+// are never touched. Existing mock smoke behavior unchanged.
+// ---------------------------------------------------------------------------
+function stripAnsiForMarkers(raw: string): string {
+  return raw
+    .replace(/\x1b\][^\x07]*\x07/g, '')
+    .replace(/\x1b\[[0-9;?]*[A-Za-z]/g, '')
+    .replace(/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/g, '');
+}
+
+async function runCliTuiStartupSmoke(): Promise<number> {
+  cliTuiStartupMode = true;
+  let spec: LaunchSpec;
+  try {
+    spec = resolveLaunch();
+  } catch (err) {
+    console.error(`[cli-tui-startup-smoke] INCONCLUSIVE: launch resolution failed: ${(err as Error).message} (no pass)`);
+    return 2;
+  }
+  console.log(`[cli-tui-startup-smoke] resolved command=${spec.command} args=${JSON.stringify(spec.args)} cwd=${spec.cwd}`);
+  if (spec.args.length !== 0) {
+    console.error(
+      `[cli-tui-startup-smoke] FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no stdin, no model, no pass)`,
+    );
+    return 1;
+  }
+  const base = path.basename(spec.command).toLowerCase();
+  if (!base.startsWith('opencode')) {
+    console.error(`[cli-tui-startup-smoke] FAIL: expected installed opencode executable, got ${spec.command} (no pass)`);
+    return 1;
+  }
+  if (!isProcessTreeCheckSupported()) {
+    console.error(`[cli-tui-startup-smoke] INCONCLUSIVE: teardown verification is Windows-only (platform=${process.platform}, no pass claimed)`);
+    return 2;
+  }
+  console.log('[cli-tui-startup-smoke] PROBE installed opencode TUI startup via main-owned PTY + hidden renderer (no stdin written, no model/prompt)');
+  try {
+    attachTerminal();
+  } catch (err) {
+    console.error(`[cli-tui-startup-smoke] INCONCLUSIVE: PTY spawn failed: ${(err as Error).message} (no pass)`);
+    return 2;
+  }
+  if (term === null || sessionId === null) {
+    console.error('[cli-tui-startup-smoke] INCONCLUSIVE: member PTY not spawned (no pass)');
+    return 2;
+  }
+  const mySession = sessionId;
+  const myMember = 'cli-tui-startup-member';
+  const rootPid = term.pid;
+  let ptyBytes = '';
+  term.onData((d: string) => {
+    ptyBytes += d;
+    if (ptyBytes.length > 200000) ptyBytes = ptyBytes.slice(-200000);
+  });
+  createWindow({ show: false });
+  if (win === null) {
+    console.error('[cli-tui-startup-smoke] INCONCLUSIVE: window not created (no pass)');
+    return 2;
+  }
+  try {
+    await new Promise<void>((resolve, reject) => {
+      const start = Date.now();
+      const timer = setInterval(() => {
+        if (rendererReady) {
+          clearInterval(timer);
+          resolve();
+        } else if (Date.now() - start > 20000) {
+          clearInterval(timer);
+          reject(new Error('renderer READY not received within 20s'));
+        }
+      }, 100);
+    });
+    console.log('[cli-tui-startup-smoke] ok: renderer READY + preload bridge alive (hidden window; renderer still runs)');
+    await new Promise<void>((resolve, reject) => {
+      const start = Date.now();
+      const timer = setInterval(() => {
+        if (/opencode/i.test(ptyBytes) && ptyBytes.length > 0) {
+          clearInterval(timer);
+          resolve();
+        } else if (ptyExitCode !== null) {
+          clearInterval(timer);
+          reject(new Error(`real CLI PTY exited early (code ${ptyExitCode}) before startup output`));
+        } else if (Date.now() - start > 20000) {
+          clearInterval(timer);
+          reject(new Error(`timeout waiting for real CLI startup output (bytes=${ptyBytes.length})`));
+        }
+      }, 100);
+    });
+    console.log(`[cli-tui-startup-smoke] ok: real CLI PTY data observed (bytes=${ptyBytes.length})`);
+    // Settle so xterm paints before capture. No input is sent during this
+    // wait by design (startup output only).
+    await new Promise((r) => setTimeout(r, 3000));
+    if (ptyExitCode !== null) {
+      console.error(`[cli-tui-startup-smoke] INCONCLUSIVE: real CLI PTY exited before screenshot (code ${ptyExitCode}; no pass)`);
+      return 2;
+    }
+    let tree: ProcessIdentity[];
+    try {
+      tree = await captureProcessTree(rootPid);
+    } catch (err) {
+      console.error(`[cli-tui-startup-smoke] INCONCLUSIVE: member tree capture failed: ${(err as Error).message} (no pass)`);
+      return 2;
+    }
+    if (tree.length < 1) {
+      console.error('[cli-tui-startup-smoke] INCONCLUSIVE: captured tree empty (no pass)');
+      return 2;
+    }
+    console.log(`[cli-tui-startup-smoke] ok: live tree ${tree.length} identit(ies): ${tree.map(formatIdentity).join('; ')}`);
+    for (const id of tree) {
+      console.log(`[cli-tui-startup-smoke] IDENTITY pid=${id.pid} created=${id.creationTime} name=${id.name} parentPid=${id.parentPid}`);
+    }
+    await new Promise((r) => setTimeout(r, 1000));
+    const image = await win.webContents.capturePage();
+    const shotPath = path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
+    fs.writeFileSync(shotPath, image.toPNG());
+    const size = image.getSize();
+    console.log(`[cli-tui-startup-smoke] ok: screenshot ${shotPath} (${size.width}x${size.height})`);
+    if (image.isEmpty()) {
+      console.error('[cli-tui-startup-smoke] FAIL: screenshot is empty (rendering not proven; no pass)');
+      return 1;
+    }
+    let statSize = 0;
+    try {
+      statSize = fs.statSync(shotPath).size;
+    } catch {
+      console.error('[cli-tui-startup-smoke] FAIL: screenshot file missing after capture (no pass)');
+      return 1;
+    }
+    if (statSize <= 0) {
+      console.error('[cli-tui-startup-smoke] FAIL: screenshot file empty (no pass)');
+      return 1;
+    }
+    // Markers only: no ANSI spam, no full-buffer dump, no secrets. Log only
+    // marker booleans, byte counts, and one bare semver when present (never
+    // the surrounding TUI text, which can carry user-specific model/config
+    // strings). The semver is best-effort: this dynamic TUI sometimes shows
+    // update-notice text (e.g. 2.0.26) instead of the installed version, so
+    // installed-version proof stays with smoke:cli-launch, not this line.
+    const stripped = stripAnsiForMarkers(ptyBytes);
+    const hasOpencode = /opencode/i.test(stripped);
+    const semver = stripped.match(/\b\d+\.\d+\.\d+\b/)?.[0] ?? '';
+    const hasVersion = semver !== '';
+    const hasPrompt = /ask anything/i.test(stripped);
+    console.log(`[cli-tui-startup-smoke] MARKERS bytes=${ptyBytes.length} stripped=${stripped.length} opencode=${hasOpencode} version=${hasVersion} prompt=${hasPrompt}`);
+    if (semver !== '') console.log(`[cli-tui-startup-smoke] VERSION ${semver}`);
+    if (!hasOpencode) {
+      console.error('[cli-tui-startup-smoke] FAIL: startup output lacks the installed-CLI marker (want /opencode/i; no pass)');
+      return 1;
+    }
+    console.log(`[cli-tui-startup-smoke] READY session=${mySession} member=${myMember} rootPid=${rootPid} treeSize=${tree.length} shot=${shotPath}`);
+    console.log('[cli-tui-startup-smoke] alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; hidden window, no human visual comparison)');
+    // Success never returns: the runner terminates only its runner-owned
+    // Electron handle and proves teardown. Never resolve on success.
+    await new Promise<void>(() => {});
+    return 0;
+  } catch (err) {
+    // Failure path: never term.kill() a captured member and never write to
+    // the PTY (no input text by design). Report harness failure; the runner
+    // still ends only its own Electron handle on timeout.
+    console.error(`[cli-tui-startup-smoke] INCONCLUSIVE: ${(err as Error).message} (no pass)`);
+    return 2;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Window + lifecycle mode: ONE main-owned member session across
 // BrowserWindow recreation (S1 9a-9d). The PTY is never tied to a window.
 // ---------------------------------------------------------------------------
@@ -594,6 +781,7 @@ let keepRunning = false;
 let isQuitting = false;
 let allowClose = false;
 let lifecycleTestMode = false;
+let cliTuiStartupMode = false;
 let crashBaselineMode = false;
 let crashJobMode = false;
 let crashSurvivorMode = false;
@@ -2308,6 +2496,7 @@ async function main(): Promise<void> {
     if (crashJobMode) return; // crash-job has no window; it lives until the runner kills it.
     if (crashSurvivorMode) return; // crash-survivor has no window/PTY; it lives until the runner kills it.
     if (crashPtySurvivorMode) return; // crash-pty-survivor has no window; it lives until the runner kills it.
+    if (cliTuiStartupMode) return; // cli-tui-startup has a hidden window; it lives until the runner kills it.
     if (keepRunning && !isQuitting) return; // retained PTY lives in the tray.
     app.quit();
   });
@@ -2319,7 +2508,7 @@ async function main(): Promise<void> {
       }
       return;
     }
-    if (win === null && !isQuitting && !process.argv.includes(SMOKE_FLAG) && !process.argv.includes(CLI_LAUNCH_SMOKE_FLAG)) createWindow();
+    if (win === null && !isQuitting && !process.argv.includes(SMOKE_FLAG) && !process.argv.includes(CLI_LAUNCH_SMOKE_FLAG) && !process.argv.includes(CLI_TUI_STARTUP_SMOKE_FLAG)) createWindow();
   });
   const startupRecoveryRequested = shouldRunStartupRecoveryGate();
   if (process.argv.includes(STARTUP_RECOVERY_ALERT_SMOKE_FLAG) && !startupRecoveryRequested) {
@@ -2355,6 +2544,21 @@ async function main(): Promise<void> {
       app.exit(code);
     } catch (err) {
       console.error(`[cli-launch-smoke] FAIL: ${(err as Error).message}`);
+      app.exit(2);
+    }
+    return;
+  }
+  if (process.argv.includes(CLI_TUI_STARTUP_SMOKE_FLAG)) {
+    cliTuiStartupMode = true;
+    try {
+      const code = await runCliTuiStartupSmoke();
+      // Success never returns (stays alive until runner kill); a return is
+      // always a failure or harness inconclusive. No term.kill() here by
+      // design (Windows teardown race); the runner ends only its own
+      // Electron handle and verifies the tree gone read-only.
+      app.exit(code);
+    } catch (err) {
+      console.error(`[cli-tui-startup-smoke] INCONCLUSIVE: ${(err as Error).message} (no pass)`);
       app.exit(2);
     }
     return;

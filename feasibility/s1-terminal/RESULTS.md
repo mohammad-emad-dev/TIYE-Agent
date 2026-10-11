@@ -146,3 +146,24 @@
 **Limitation (explicit):** interactive display/input and S1 steps 1–8 remain unverified; S1 overall stays **partial**. The smoke did not measure config file changes, so no claim is made that user OpenCode config was untouched. The `EBUSY` was build contention only; the passes above are from sequential runs.
 
 **Versions tested:** Windows 11; installed OpenCode v2.0.22 (resolved to `C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd`).
+
+# S1 real installed-CLI TUI startup/render smoke — 11 October 2026
+
+**Scope:** `rtk npm run smoke:cli-tui-startup` (`npm run build && node scripts/run-cli-tui-startup.js`) against the real installed OpenCode on Windows 11 — the second smoke in this file to run a real CLI and the first to render it. The probe fixes args to `[]` (empty) with child stdin ignored (no stdin or prompt text submitted, no model request) and scrubs inherited `TIYE_S1_*` / `TIYE_CRASH_*` / `TIYE_MOCK_CRASH_MODE` env so an outer shell cannot change behavior. It proves exactly: the bare `opencode` name resolves to the installed shim, launches with empty args in the main-owned ConPTY, startup bytes reach the PTY and the hidden renderer reports READY, a non-empty xterm screenshot lands at `dist/cli-tui-startup-shot.png`, and the runner-owned Electron teardown leaves none of the exact captured PID+creation identities alive — nothing more.
+
+| Check | Result | Evidence |
+|---|---|---|
+| Existing checks unbroken | Pass | `rtk npm run check`, `rtk npm run smoke`, and `rtk npm run smoke:window` all PASS (orchestrator-observed on Windows 11, run sequentially) |
+| Installed CLI resolves and launches with empty args in Electron ConPTY | Pass | `rtk npm run smoke:cli-tui-startup` PASS: resolved command `C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd` (bare name → `.cmd` shim, per the launch-resolution fix above), spawning a `treeSize=2` tree — a `cmd.exe` root plus an `opencode.exe` descendant — in the main-owned ConPTY |
+| Startup bytes + renderer READY | Pass | Same run: `[cli-tui-startup-smoke] ok: real CLI PTY data observed (bytes=16225)` and `[cli-tui-startup-smoke] ok: renderer READY + preload bridge alive (hidden window; renderer still runs)`; the startup output carried the `opencode` marker (a FAIL condition if absent) |
+| Screenshot captured | Pass | Same run: `ok: screenshot …\dist\cli-tui-startup-shot.png (1084x685)`, 14,997 bytes on disk (a missing or empty file is a FAIL, no pass) |
+| Visual inspection of the screenshot | Observed (orchestrator, outside the smoke) | The orchestrator visually inspected `dist/cli-tui-startup-shot.png` and saw the OpenCode startup interface rendered inside xterm. The smoke itself runs a hidden window and performs no human visual comparison; no comparison to Windows Terminal was performed |
+| Runner-owned teardown, read-only exact-tree-gone | Pass | Same run: `[runner] pre-kill identity check: all 2 exact PID+creation identities still alive` before the deliberate kill; after the runner-owned `child.kill()` (no `taskkill` / `Stop-Process` / PID kill, no captured member PID targeted), the first read-only CIM re-enumeration found both identities gone (`attempts=1`) — unproven teardown would exit 2, never a pass |
+
+**What this smoke proves (explicit):** the installed OpenCode CLI launches with empty args inside the Electron ConPTY channel, its startup output (16,225 bytes) reaches the PTY and the hidden renderer, a non-empty xterm screenshot is captured, and the runner-owned Electron teardown leaves none of the exact captured PID+creation identities alive on the first read-only re-enumeration. No stdin, prompt text, or model request was sent.
+
+**Version caution (explicit):** no version is claimed from this probe. The startup banner is a dynamic TUI whose update notice can show a version unrelated to the installed version, and one run carried no semver marker at all; the bare semver line is best-effort only. Installed-version proof stays with `smoke:cli-launch` above, which printed `opencode v2.0.22`.
+
+**Limitation (explicit):** S1 steps 1–8, visual parity with Windows Terminal, interactive input, approvals, resize, unicode/CJK handling, and vendor-CLI lifecycle remain unverified; S1 overall stays **partial**. The teardown observation is bounded to this host and this runner-owned kill path — it is not a general crash-recovery guarantee. Config file changes and network calls were not measured, so no claim is made that user config was untouched or that no network calls occurred.
+
+**Versions tested:** Windows 11; installed OpenCode v2.0.22 (resolved to `C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd`; version proven by `smoke:cli-launch`, not by this probe).
