@@ -22,6 +22,7 @@
     "smoke:launch-shim": "npm run build && node scripts/run-launch-shim.js",
     "smoke:cli-launch": "npm run build && node scripts/run-cli-launch.js",
     "smoke:cli-tui-startup": "npm run build && node scripts/run-cli-tui-startup.js",
+    "smoke:cli-input": "npm run build && node scripts/run-cli-tui-startup.js --input-probe",
     "rebuild-pty": "electron-rebuild -f -w node-pty"
   },
   "dependencies": {

@@ -100,6 +100,24 @@ npm run smoke:cli-tui-startup &:: Bounded real-CLI TUI startup/render probe:
                         &:: gone (unproven teardown = inconclusive exit 2,
                         &:: never PASS); hidden window, no human visual
                         &:: comparison; NOT S1 steps 1-8.
+npm run smoke:cli-input &:: Bounded real-CLI input probe (opt-in, same runner
+                        &:: --input-probe, distinct --cli-input-smoke flag):
+                        &:: installed `opencode` with EMPTY args plus a
+                        &:: harmless ASCII token typed via sendInputEvent
+                        &:: keyDown+char+keyUp per char through the xterm
+                        &:: path (no Enter, never submitted, no model
+                        &:: request) in a VISIBLE opt-in BrowserWindow
+                        &:: (hidden windows cannot reliably take keyboard
+                        &:: focus; still the Electron renderer, not a native
+                        &:: terminal); captures distinct before/after shots
+                        &:: dist/cli-input-before.png +
+                        &:: dist/cli-input-after.png and rejects an unchanged
+                        &:: render; automated PASS means keyboard event +
+                        &:: changed render only, NOT semantic prompt
+                        &:: acceptance (orchestrator visually inspects the
+                        &:: after-shot); same exact-tree-gone teardown proof,
+                        &:: else inconclusive; NOT S1 step 3, parity,
+                        &:: Unicode, approvals, or model behavior.
 ```
 
 Setting `TIYE_CRASH_PTY_SURVIVOR_REGISTRY_PATH` on ordinary startup opts into
@@ -181,7 +199,20 @@ version + exit only — NOT interactive/display S1 success.
 or model request, then runner-owned Electron kill + read-only exact-tree-gone
 verification (unproven teardown = inconclusive, never PASS; hidden window, no
 human visual comparison). It proves startup output reaches xterm only — NOT
-S1 steps 1–8, editing keys, approvals, unicode, resize, or lifecycle. Real vendor S1
+S1 steps 1–8, editing keys, approvals, unicode, resize, or lifecycle.
+`npm run smoke:cli-input` is the bounded input check (opt-in `--input-probe`
+mode of the same runner, distinct `--cli-input-smoke` flag): same fixed
+`opencode` + empty args plus a harmless ASCII token (`tiyeinprobe7q3z9`,
+alphanumerics only, no Enter, never submitted, no model request) typed via
+`sendInputEvent` keyDown+char+keyUp per char through the xterm path in a
+VISIBLE opt-in BrowserWindow (hidden windows cannot reliably take keyboard
+focus; still the Electron renderer, not a native terminal), distinct
+`dist/cli-input-before.png` + `dist/cli-input-after.png` with a runner hash
+rejection of an unchanged render, and the same runner-owned kill +
+read-only exact-tree-gone proof (unproven = inconclusive). Automated PASS
+means keyboard event + changed render only — NOT semantic prompt acceptance
+(orchestrator visually inspects the after-shot). This does not complete S1
+step 3 or test visual parity, Unicode, approvals, or model behavior. Real vendor S1
 steps 1–8 with `opencode` (or any vendor CLI) remain manual/unverified, and
 S1 stays partial until those manual observations are recorded.
 

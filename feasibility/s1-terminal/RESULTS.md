@@ -167,3 +167,17 @@
 **Limitation (explicit):** S1 steps 1–8, visual parity with Windows Terminal, interactive input, approvals, resize, unicode/CJK handling, and vendor-CLI lifecycle remain unverified; S1 overall stays **partial**. The teardown observation is bounded to this host and this runner-owned kill path — it is not a general crash-recovery guarantee. Config file changes and network calls were not measured, so no claim is made that user config was untouched or that no network calls occurred.
 
 **Versions tested:** Windows 11; installed OpenCode v2.0.22 (resolved to `C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd`; version proven by `smoke:cli-launch`, not by this probe).
+
+# S1 real CLI keyboard input probe — 11 October 2026
+
+**Scope:** `rtk npm run smoke:cli-input` starts the installed OpenCode TUI in the existing Electron/ConPTY channel with a visible, focused BrowserWindow. It types the ASCII token `tiyeinprobe7q3z9` through Electron keyboard events (`keyDown`, `char`, `keyUp`) without Enter or a direct PTY write. The probe does not submit a prompt or request a model response.
+
+| Check | Result | Evidence |
+|---|---|---|
+| Build and existing behavior | Pass | `rtk npm run check`, `rtk npm run smoke`, `rtk npm run smoke:window`, and `rtk npm run smoke:cli-tui-startup` passed sequentially. |
+| Input display | Observed | The runner saved nonempty, different `dist/cli-input-before.png` and `dist/cli-input-after.png` screenshots. Visual inspection showed only the placeholder before typing and the exact token in OpenCode's input field afterward. The automated image difference alone does not prove which text appeared. |
+| Controlled teardown | Pass (bounded) | The captured `cmd.exe` root and `opencode.exe` descendant were both alive by PID and creation time before the runner ended its own Electron process. Both exact identities were gone on the first read-only re-enumeration afterward. No saved-PID kill was used. |
+
+The first visible-window capture was once empty at 0×0; bounded capture retries were added, and the independently rerun probe passed. A TUI update notice may mention a different version; installed `opencode v2.0.22` was established by `smoke:cli-launch`, not by this input probe.
+
+**Limit:** This establishes display of an unsubmitted ASCII token through the keyboard/xterm path on this host. Editing keys, history, prompt submission, permissions, multiline input, Ctrl+C, resize, Unicode, and visual parity with Windows Terminal remain untested with the real CLI. S1 step 3 and S1 overall remain **partial**. Config changes and network activity were not measured.

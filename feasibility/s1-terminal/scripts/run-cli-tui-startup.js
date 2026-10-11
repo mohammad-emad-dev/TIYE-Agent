@@ -10,6 +10,20 @@
 // Do NOT cite this as S1 steps 1-8, editing keys, approvals, unicode, resize,
 // or lifecycle success.
 //
+// --input-probe mode (same file, distinct Electron flag --cli-input-smoke):
+// bounded real-CLI input feasibility slice. Same fixed command + empty args,
+// same scrubbed env, same teardown proof below (no copy of the enumeration
+// code). Types a harmless ASCII token via the actual Electron keyboard/xterm
+// path (sendInputEvent keyDown+char+keyUp per char, no Enter, never submitted,
+// no model request) in a VISIBLE opt-in BrowserWindow (hidden windows cannot
+// reliably receive keyboard focus on Windows; still the existing Electron
+// renderer, NOT a new native terminal window), captures distinct before/after
+// screenshots (dist/cli-input-before.png + dist/cli-input-after.png), and
+// rejects an unchanged render. Automated PASS means keyboard event + changed
+// render only, NOT semantic prompt acceptance (orchestrator visually inspects
+// the after-shot). Do NOT cite as S1 step 3 (editing keys/history), visual
+// parity, Unicode, approvals, or model behavior.
+//
 // Determinism: the runner OVERWRITES TIYE_S1_COMMAND=opencode and
 // TIYE_S1_ARGS_JSON=[] and DELETES inherited TIYE_S1_CWD plus every
 // crash/crash-survivor registry env and TIYE_MOCK_CRASH_MODE so an outer
@@ -25,26 +39,34 @@
 // Stop-Process / PID-only kill; never a captured member PID; unrelated
 // processes are never touched. Existing mock smoke behavior is untouched.
 //
-// Exit contract: 0 TUI-STARTUP PASS, 1 FAIL (wrong resolution, missing
-// startup marker, or empty screenshot — no pass), 2 inconclusive/harness
+// Exit contract: 0 TUI-STARTUP PASS (or CLI-INPUT PASS in --input-probe mode),
+// 1 FAIL (wrong resolution, missing startup marker, empty screenshot, or — in
+// input mode — unchanged before/after render; no pass), 2 inconclusive/harness
 // failure (missing dist, launch/timeout/lookup failure, pre-kill tree not
 // alive, or teardown unproven — never a pass).
 
 const { spawn } = require('node:child_process');
 const fs = require('node:fs');
 const path = require('node:path');
+const crypto = require('node:crypto');
 
 const electron = require('electron');
 
-const FLAG = '--cli-tui-startup-smoke';
+const IS_INPUT_PROBE = process.argv.includes('--input-probe');
+const FLAG = IS_INPUT_PROBE ? '--cli-input-smoke' : '--cli-tui-startup-smoke';
+const SMOKE_TAG = IS_INPUT_PROBE ? 'cli-input-smoke' : 'cli-tui-startup-smoke';
 const READY_TIMEOUT_MS = 60000;
 const KILL_WAIT_MS = 10000;
 const POST_KILL_SETTLE_MS = 2000;
 const POST_KILL_VERIFY_BOUND_MS = 15000;
 const POST_KILL_POLL_MS = 500;
 
-const READY_RE = /\[cli-tui-startup-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/;
-const IDENTITY_RE = /\[cli-tui-startup-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g;
+const READY_RE = IS_INPUT_PROBE
+  ? /\[cli-input-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
+  : /\[cli-tui-startup-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/;
+const IDENTITY_RE = IS_INPUT_PROBE
+  ? /\[cli-input-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
+  : /\[cli-tui-startup-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g;
 
 function log(msg) {
   console.log(`[runner] ${msg}`);
@@ -182,7 +204,11 @@ async function main() {
     process.exitCode = 2;
     return;
   }
-  const shotPath = path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
+  const shotPath = IS_INPUT_PROBE
+    ? path.resolve(__dirname, '..', 'dist', 'cli-input-after.png')
+    : path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
+  const beforeShotPath = path.resolve(__dirname, '..', 'dist', 'cli-input-before.png');
+  const afterShotPath = path.resolve(__dirname, '..', 'dist', 'cli-input-after.png');
 
   // Deterministic probe env: fixed command + empty args, scrubbed S1
   // overrides so inherited values cannot change behavior.
@@ -201,7 +227,7 @@ async function main() {
   log('env: TIYE_S1_COMMAND=opencode TIYE_S1_ARGS_JSON=[] (fixed; no stdin, no prompt, no model request)');
   log('env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)');
 
-  log(`phase 1: spawn runner-owned Electron ${FLAG} hidden-window (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)`);
+  log(`phase 1: spawn runner-owned Electron ${FLAG} ${IS_INPUT_PROBE ? 'visible-window (opt-in keyboard delivery)' : 'hidden-window'} (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)`);
   const child = spawn(electron, [distMain, FLAG], {
     cwd: path.resolve(__dirname, '..'),
     env,
@@ -210,15 +236,16 @@ async function main() {
   });
   let output = '';
   let ready = null;
+  const childTag = IS_INPUT_PROBE ? 'cli-input-main' : 'tui-startup-main';
   child.stdout?.on('data', (d) => {
     output += d.toString('utf8');
-    logChild('tui-startup-main', d);
+    logChild(childTag, d);
     const m = output.match(READY_RE);
     if (m && !ready) ready = m;
   });
   child.stderr?.on('data', (d) => {
     output += d.toString('utf8');
-    logChild('tui-startup-main', d);
+    logChild(childTag, d);
     const m = output.match(READY_RE);
     if (m && !ready) ready = m;
   });
@@ -252,24 +279,31 @@ async function main() {
   log(`READY observed: session=${sessionId} member=${memberId} rootPid=${rootPidStr} treeSize=${treeSizeStr}`);
 
   const spawningLine = output.split(/\r?\n/).find((l) => /\[s1\] spawning:/i.test(l)) ?? '';
-  const resolvedLine = output.split(/\r?\n/).find((l) => /\[cli-tui-startup-smoke\] resolved command=/i.test(l)) ?? '';
-  const markersLine = output.split(/\r?\n/).find((l) => /\[cli-tui-startup-smoke\] MARKERS /i.test(l)) ?? '';
-  const versionLine = output.split(/\r?\n/).find((l) => /\[cli-tui-startup-smoke\] VERSION \d+\.\d+\.\d+/i.test(l)) ?? '';
-  const shotLine = output.split(/\r?\n/).find((l) => /\[cli-tui-startup-smoke\] ok: screenshot /i.test(l)) ?? '';
+  const tagEsc = SMOKE_TAG.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+  const resolvedLine = output.split(/\r?\n/).find((l) => new RegExp(`\\[${tagEsc}\\] resolved command=`, 'i').test(l)) ?? '';
+  const markersLine = output.split(/\r?\n/).find((l) => new RegExp(`\\[${tagEsc}\\] MARKERS `, 'i').test(l)) ?? '';
+  const versionLine = output.split(/\r?\n/).find((l) => new RegExp(`\\[${tagEsc}\\] VERSION \\d+\\.\\d+\\.\\d+`, 'i').test(l)) ?? '';
+  const shotLine = output.split(/\r?\n/).find((l) => new RegExp(`\\[${tagEsc}\\] ok: screenshot `, 'i').test(l)) ?? '';
   const resolvedOpencode = /opencode/i.test(spawningLine) || /opencode/i.test(resolvedLine);
   const resolvedCmdShim = process.platform === 'win32'
     ? /\.cmd\b/i.test(spawningLine)
     : resolvedOpencode;
-  const rendererReady = /\[cli-tui-startup-smoke\] ok: renderer READY/i.test(output);
-  const ptyData = /\[cli-tui-startup-smoke\] ok: real CLI PTY data observed/i.test(output);
-  const markersOk = /\[cli-tui-startup-smoke\] MARKERS .*opencode=true/i.test(output);
-  const versionOk = /\[cli-tui-startup-smoke\] VERSION \d+\.\d+\.\d+/i.test(output);
+  const rendererReady = new RegExp(`\\[${tagEsc}\\] ok: renderer READY`, 'i').test(output);
+  const ptyData = new RegExp(`\\[${tagEsc}\\] ok: real CLI PTY data observed`, 'i').test(output);
+  const markersOk = new RegExp(`\\[${tagEsc}\\] MARKERS .*opencode=true`, 'i').test(output);
+  const versionOk = new RegExp(`\\[${tagEsc}\\] VERSION \\d+\\.\\d+\\.\\d+`, 'i').test(output);
+  const inputTypedOk = IS_INPUT_PROBE
+    ? /\[cli-input-smoke\] ok: input typed len=\d+ via sendInputEvent/i.test(output)
+    : true;
+  const shotsLogOk = IS_INPUT_PROBE
+    ? /\[cli-input-smoke\] SHOTS before=.* changed=true/i.test(output)
+    : true;
   log(`assert: spawning line: ${spawningLine.slice(0, 300)}`);
   log(`assert: resolved line: ${resolvedLine.slice(0, 300)}`);
   log(`assert: markers line: ${markersLine.slice(0, 200)}`);
   log(`assert: version line: ${versionLine.slice(0, 120)}`);
   log(`assert: shot line: ${shotLine.slice(0, 300)}`);
-  log(`assert: resolvedOpencode=${resolvedOpencode} resolvedCmdShim=${resolvedCmdShim} rendererReady=${rendererReady} ptyData=${ptyData} markersOk=${markersOk} versionOk=${versionOk}`);
+  log(`assert: mode=${IS_INPUT_PROBE ? 'input-probe' : 'tui-startup'} resolvedOpencode=${resolvedOpencode} resolvedCmdShim=${resolvedCmdShim} rendererReady=${rendererReady} ptyData=${ptyData} markersOk=${markersOk} versionOk=${versionOk} inputTypedOk=${inputTypedOk} shotsLogOk=${shotsLogOk}`);
 
   const killOwned = async () => {
     try {
@@ -291,8 +325,8 @@ async function main() {
     process.exitCode = 1;
     return;
   }
-  if (!rendererReady || !ptyData || !markersOk) {
-    console.error('[runner] FAIL: renderer READY + real CLI PTY data + markers not all proven (no pass; not S1 steps 1-8)');
+  if (!rendererReady || !ptyData || !markersOk || !inputTypedOk || !shotsLogOk) {
+    console.error(`[runner] FAIL: renderer READY + real CLI PTY data + markers${IS_INPUT_PROBE ? ' + keyboard input + changed SHOTS' : ''} not all proven (no pass; not S1 steps 1-8)`);
     await killOwned();
     process.exitCode = 1;
     return;
@@ -301,21 +335,67 @@ async function main() {
     log('note: bare semver not present in this startup window (dynamic TUI; best-effort marker only — installed-command proof is the resolved .cmd path + opencode marker, not this line)');
   }
   let shotBytes = 0;
-  try {
-    shotBytes = fs.statSync(shotPath).size;
-  } catch {
-    console.error(`[runner] FAIL: screenshot missing at ${shotPath} (no pass)`);
-    await killOwned();
-    process.exitCode = 1;
-    return;
+  let beforeBytes = 0;
+  let afterBytes = 0;
+  let beforeHash = '';
+  let afterHash = '';
+  if (IS_INPUT_PROBE) {
+    try {
+      beforeBytes = fs.statSync(beforeShotPath).size;
+    } catch {
+      console.error(`[runner] FAIL: before screenshot missing at ${beforeShotPath} (no pass)`);
+      await killOwned();
+      process.exitCode = 1;
+      return;
+    }
+    try {
+      afterBytes = fs.statSync(afterShotPath).size;
+    } catch {
+      console.error(`[runner] FAIL: after screenshot missing at ${afterShotPath} (no pass)`);
+      await killOwned();
+      process.exitCode = 1;
+      return;
+    }
+    if (beforeBytes <= 0 || afterBytes <= 0) {
+      console.error(`[runner] FAIL: before/after screenshot empty (before=${beforeBytes} after=${afterBytes}; rendering not proven; no pass)`);
+      await killOwned();
+      process.exitCode = 1;
+      return;
+    }
+    try {
+      beforeHash = crypto.createHash('sha256').update(fs.readFileSync(beforeShotPath)).digest('hex');
+      afterHash = crypto.createHash('sha256').update(fs.readFileSync(afterShotPath)).digest('hex');
+    } catch (err) {
+      console.error(`[runner] FAIL: before/after screenshot hash failed: ${err.message} (no pass)`);
+      await killOwned();
+      process.exitCode = 1;
+      return;
+    }
+    if (beforeHash === afterHash) {
+      console.error(`[runner] FAIL: before/after screenshots identical sha256=${beforeHash} (no keyboard/render change proven; no pass)`);
+      await killOwned();
+      process.exitCode = 1;
+      return;
+    }
+    shotBytes = afterBytes;
+    log(`screenshots ok: before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (visible opt-in window, orchestrator visual inspection only)`);
+  } else {
+    try {
+      shotBytes = fs.statSync(shotPath).size;
+    } catch {
+      console.error(`[runner] FAIL: screenshot missing at ${shotPath} (no pass)`);
+      await killOwned();
+      process.exitCode = 1;
+      return;
+    }
+    if (shotBytes <= 0) {
+      console.error('[runner] FAIL: screenshot file empty (rendering not proven; no pass)');
+      await killOwned();
+      process.exitCode = 1;
+      return;
+    }
+    log(`screenshot ok: ${shotPath} (${shotBytes} bytes; hidden window, no human visual comparison performed)`);
   }
-  if (shotBytes <= 0) {
-    console.error('[runner] FAIL: screenshot file empty (rendering not proven; no pass)');
-    await killOwned();
-    process.exitCode = 1;
-    return;
-  }
-  log(`screenshot ok: ${shotPath} (${shotBytes} bytes; hidden window, no human visual comparison performed)`);
 
   const captured = parseIdentities(output);
   if (captured.length < 1 || captured.length !== Number(treeSizeStr)) {
@@ -416,7 +496,13 @@ async function main() {
   }
   const resolvedPath = (resolvedLine.match(/resolved command=(\S+)/) || [])[1] || 'unknown';
   const semverObserved = (versionLine.match(/VERSION (\d+\.\d+\.\d+)/) || [])[1] || 'none';
-  console.log(`[runner] TUI-STARTUP PASS: resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) shot=${shotPath} (${shotBytes} bytes; hidden window, no human visual comparison; NOT S1 steps 1-8)`);
+  if (IS_INPUT_PROBE) {
+    const tokenLine = output.split(/\r?\n/).find((l) => /\[cli-input-smoke\] TOKEN len=/i.test(l)) ?? '';
+    const tokenLen = (tokenLine.match(/len=(\d+)/) || [])[1] || 'unknown';
+    console.log(`[runner] CLI-INPUT PASS: resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) inputLen=${tokenLen} before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (keyboard event + changed render via sendInputEvent keyDown+char+keyUp, no Enter, never submitted; NOT semantic prompt acceptance; orchestrator visual inspection only; NOT S1 step 3, parity, Unicode, approvals, or model behavior)`);
+  } else {
+    console.log(`[runner] TUI-STARTUP PASS: resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) shot=${shotPath} (${shotBytes} bytes; hidden window, no human visual comparison; NOT S1 steps 1-8)`);
+  }
   process.exitCode = 0;
 }
 
