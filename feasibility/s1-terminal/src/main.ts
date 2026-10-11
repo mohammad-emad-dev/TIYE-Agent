@@ -577,27 +577,40 @@ async function runCliLaunchSmoke(): Promise<number> {
 }
 
 // ---------------------------------------------------------------------------
-// Bounded real-CLI TUI startup/render probe: installed `opencode` with EMPTY
-// args inside the existing BrowserWindow renderer (hidden window is accepted:
-// the renderer still runs; NO human visual comparison is performed).
-// Proves exactly this and nothing more: the installed OpenCode executable
-// resolves via resolveLaunch (Windows .cmd shim aware), spawns via the
-// main-owned ensureMember() PTY, its startup bytes reach the PTY, the
-// renderer reports READY through the existing preload bridge, and an xterm
-// screenshot is captured to dist/cli-tui-startup-shot.png (separate from the
-// mock dist/smoke-shot.png).
+// Bounded real-CLI TUI probes: installed `opencode` with EMPTY args inside
+// the existing BrowserWindow renderer, sharing one parameterized
+// main-process driver (runRealCliTuiProbe) with mode-specific steps kept in
+// explicit branches. Startup mode (hidden window is accepted: the renderer
+// still runs; NO human visual comparison is performed) proves exactly this
+// and nothing more: the installed OpenCode executable resolves via
+// resolveLaunch (Windows .cmd shim aware), spawns via the main-owned
+// ensureMember() PTY, its startup bytes reach the PTY, the renderer reports
+// READY through the existing preload bridge, and an xterm screenshot is
+// captured to dist/cli-tui-startup-shot.png (separate from the mock
+// dist/smoke-shot.png). Input mode (VISIBLE opt-in window: hidden windows
+// cannot reliably receive keyboard focus/sendInputEvent on Windows; still
+// the existing Electron renderer, NOT a new native terminal window) proves
+// the same startup flow plus a harmless fixed ASCII token typed through the
+// real keyboard/xterm path (sendInputEvent keyDown+char+keyUp per char, no
+// Enter, no control sequence, never submitted, no model request) and a
+// changed render via distinct before/after screenshots
+// (dist/cli-input-before.png + dist/cli-input-after.png). Automated input
+// PASS means keyboard event + changed render only, NOT semantic prompt
+// acceptance — the orchestrator visually inspects the after-shot.
 //
-// Safety: args must be exactly [] (empty). Any non-empty args are refused
-// without spawn so a misconfigured runner can never trigger a model call.
-// NO stdin is ever written to the PTY here (no prompt, no input text, no
-// model request) — not even `exit`. Teardown is deliberately NOT term.kill()
-// inside Electron: node-pty on Windows has a documented teardown race after
-// term.kill() (AttachConsole failure), so the success path stays alive after
-// the screenshot and the RUNNER ends only its runner-owned Electron
-// ChildProcess via the handle, then read-only verifies the captured
-// PID+creation tree is gone. If teardown cannot be proven the runner exits
-// inconclusive (2), never PASS. Never a PID-only kill; unrelated processes
-// are never touched. Existing mock smoke behavior unchanged.
+// Safety (both modes): args must be exactly [] (empty). Any non-empty args
+// are refused without spawn so a misconfigured runner can never trigger a
+// model call. Startup mode NEVER writes stdin (no prompt, no input text, no
+// model request) — not even `exit`; input mode writes ONLY the fixed token
+// through sendInputEvent (never term.write, never Enter/submit). Teardown is
+// deliberately NOT term.kill() inside Electron: node-pty on Windows has a
+// documented teardown race after term.kill() (AttachConsole failure), so the
+// success path stays alive after the screenshot(s) and the RUNNER ends only
+// its runner-owned Electron ChildProcess via the handle, then read-only
+// verifies the captured PID+creation tree is gone. If teardown cannot be
+// proven the runner exits inconclusive (2), never PASS. Never a PID-only
+// kill; unrelated processes are never touched. Existing mock smoke behavior
+// unchanged.
 // ---------------------------------------------------------------------------
 function stripAnsiForMarkers(raw: string): string {
   return raw
@@ -606,54 +619,183 @@ function stripAnsiForMarkers(raw: string): string {
     .replace(/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/g, '');
 }
 
-async function runCliTuiStartupSmoke(): Promise<number> {
-  cliTuiStartupMode = true;
+type CliTuiProbeMode = 'startup' | 'input';
+
+type CliTuiProbeShotKind = 'shot' | 'before' | 'after';
+
+const CLI_INPUT_TOKEN = 'tiyeinprobe7q3z9';
+
+function cliTuiProbeTag(mode: CliTuiProbeMode): string {
+  return mode === 'input' ? '[cli-input-smoke]' : '[cli-tui-startup-smoke]';
+}
+
+function cliTuiProbeMember(mode: CliTuiProbeMode): string {
+  return mode === 'input' ? 'cli-input-member' : 'cli-tui-startup-member';
+}
+
+/**
+ * Capture one probe screenshot and persist it, sharing the retry loop
+ * between both modes. Startup ('shot') captures once with no retry log;
+ * input ('before'/'after') retries boundedly because visible-window capture
+ * can race first paint (observed 0x0 empty on one run). A persistently empty
+ * capture stays FAIL (null), never a pass. Logs the exact per-kind FAIL/ok
+ * lines the runner expects; callers return 1 (FAIL) on null.
+ */
+async function captureStoreProbeShot(
+  tag: string,
+  kind: CliTuiProbeShotKind,
+  shotPath: string,
+  attempts: number,
+): Promise<{ image: Electron.NativeImage; statSize: number } | null> {
+  const label = kind === 'shot' ? 'screenshot' : `${kind} screenshot`;
+  const emptySuffix = kind === 'shot' ? '' : ' after retries';
+  const w = win;
+  if (w === null) {
+    console.error(`${tag} FAIL: ${label} is empty${emptySuffix} (rendering not proven; no pass)`);
+    return null;
+  }
+  let image: Electron.NativeImage | null = null;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    const candidate = await w.webContents.capturePage();
+    const sz = candidate.getSize();
+    if (!candidate.isEmpty() && sz.width > 0 && sz.height > 0) {
+      image = candidate;
+      break;
+    }
+    if (attempts > 1) {
+      console.log(`${tag} retry ${kind}-shot attempt=${attempt} empty (${sz.width}x${sz.height})`);
+      await new Promise((r) => setTimeout(r, 1000));
+    } else {
+      image = candidate;
+      break;
+    }
+  }
+  if (image === null || image.isEmpty()) {
+    console.error(`${tag} FAIL: ${label} is empty${emptySuffix} (rendering not proven; no pass)`);
+    return null;
+  }
+  fs.writeFileSync(shotPath, image.toPNG());
+  const size = image.getSize();
+  const shotNoun = kind === 'shot' ? '' : `${kind} `;
+  console.log(`${tag} ok: screenshot ${shotNoun}${shotPath} (${size.width}x${size.height})`);
+  let statSize = 0;
+  try {
+    statSize = fs.statSync(shotPath).size;
+  } catch {
+    console.error(`${tag} FAIL: ${label} file missing after capture (no pass)`);
+    return null;
+  }
+  if (statSize <= 0) {
+    console.error(`${tag} FAIL: ${label} file empty (no pass)`);
+    return null;
+  }
+  return { image, statSize };
+}
+
+/**
+ * Log the shared PTY output markers both modes must emit (the runner greps
+ * MARKERS with opencode=true plus best-effort VERSION). Returns false when
+ * the installed-CLI marker is absent so the caller can return 1 (FAIL).
+ */
+function logProbeMarkers(tag: string, ptyBytes: string): boolean {
+  // Markers only: no ANSI spam, no full-buffer dump, no secrets. Log only
+  // marker booleans, byte counts, and one bare semver when present (never
+  // the surrounding TUI text, which can carry user-specific model/config
+  // strings). The semver is best-effort: this dynamic TUI sometimes shows
+  // update-notice text (e.g. 2.0.26) instead of the installed version, so
+  // installed-version proof stays with smoke:cli-launch, not this line.
+  const stripped = stripAnsiForMarkers(ptyBytes);
+  const hasOpencode = /opencode/i.test(stripped);
+  const semver = stripped.match(/\b\d+\.\d+\.\d+\b/)?.[0] ?? '';
+  const hasVersion = semver !== '';
+  const hasPrompt = /ask anything/i.test(stripped);
+  console.log(`${tag} MARKERS bytes=${ptyBytes.length} stripped=${stripped.length} opencode=${hasOpencode} version=${hasVersion} prompt=${hasPrompt}`);
+  if (semver !== '') console.log(`${tag} VERSION ${semver}`);
+  if (!hasOpencode) {
+    console.error(`${tag} FAIL: startup output lacks the installed-CLI marker (want /opencode/i; no pass)`);
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Shared driver for both real-CLI TUI probes. Mode-specific behavior stays
+ * in explicit branches: window visibility, screenshot path(s) + retries, the
+ * input-mode token typing + changed-render gate, and the per-mode log
+ * suffixes the runner greps. Everything else (empty-args validation, PTY
+ * spawn, renderer READY wait, startup-marker wait, tree capture + IDENTITY
+ * logs, MARKERS/VERSION logs, READY + park) runs once here.
+ */
+async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
+  const tag = cliTuiProbeTag(mode);
+  const member = cliTuiProbeMember(mode);
+  const isInput = mode === 'input';
+  if (isInput) {
+    cliInputMode = true;
+  } else {
+    cliTuiStartupMode = true;
+  }
   let spec: LaunchSpec;
   try {
     spec = resolveLaunch();
   } catch (err) {
-    console.error(`[cli-tui-startup-smoke] INCONCLUSIVE: launch resolution failed: ${(err as Error).message} (no pass)`);
+    console.error(`${tag} INCONCLUSIVE: launch resolution failed: ${(err as Error).message} (no pass)`);
     return 2;
   }
-  console.log(`[cli-tui-startup-smoke] resolved command=${spec.command} args=${JSON.stringify(spec.args)} cwd=${spec.cwd}`);
+  console.log(`${tag} resolved command=${spec.command} args=${JSON.stringify(spec.args)} cwd=${spec.cwd}`);
   if (spec.args.length !== 0) {
     console.error(
-      `[cli-tui-startup-smoke] FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no stdin, no model, no pass)`,
+      isInput
+        ? `${tag} FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no model, no pass)`
+        : `${tag} FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no stdin, no model, no pass)`,
     );
     return 1;
   }
   const base = path.basename(spec.command).toLowerCase();
   if (!base.startsWith('opencode')) {
-    console.error(`[cli-tui-startup-smoke] FAIL: expected installed opencode executable, got ${spec.command} (no pass)`);
+    console.error(`${tag} FAIL: expected installed opencode executable, got ${spec.command} (no pass)`);
     return 1;
   }
   if (!isProcessTreeCheckSupported()) {
-    console.error(`[cli-tui-startup-smoke] INCONCLUSIVE: teardown verification is Windows-only (platform=${process.platform}, no pass claimed)`);
+    console.error(`${tag} INCONCLUSIVE: teardown verification is Windows-only (platform=${process.platform}, no pass claimed)`);
     return 2;
   }
-  console.log('[cli-tui-startup-smoke] PROBE installed opencode TUI startup via main-owned PTY + hidden renderer (no stdin written, no model/prompt)');
+  console.log(
+    isInput
+      ? `${tag} PROBE installed opencode TUI input via main-owned PTY + visible renderer keyboard path (no Enter, no submit, no model/prompt request)`
+      : `${tag} PROBE installed opencode TUI startup via main-owned PTY + hidden renderer (no stdin written, no model/prompt)`,
+  );
   try {
     attachTerminal();
   } catch (err) {
-    console.error(`[cli-tui-startup-smoke] INCONCLUSIVE: PTY spawn failed: ${(err as Error).message} (no pass)`);
+    console.error(`${tag} INCONCLUSIVE: PTY spawn failed: ${(err as Error).message} (no pass)`);
     return 2;
   }
   if (term === null || sessionId === null) {
-    console.error('[cli-tui-startup-smoke] INCONCLUSIVE: member PTY not spawned (no pass)');
+    console.error(`${tag} INCONCLUSIVE: member PTY not spawned (no pass)`);
     return 2;
   }
   const mySession = sessionId;
-  const myMember = 'cli-tui-startup-member';
   const rootPid = term.pid;
   let ptyBytes = '';
   term.onData((d: string) => {
     ptyBytes += d;
     if (ptyBytes.length > 200000) ptyBytes = ptyBytes.slice(-200000);
   });
-  createWindow({ show: false });
+  // Visible window by design for keyboard delivery in input mode only
+  // (hidden windows cannot reliably receive keyboard focus/sendInputEvent on
+  // Windows); startup mode stays hidden.
+  createWindow({ show: isInput });
   if (win === null) {
-    console.error('[cli-tui-startup-smoke] INCONCLUSIVE: window not created (no pass)');
+    console.error(`${tag} INCONCLUSIVE: window not created (no pass)`);
     return 2;
+  }
+  if (isInput) {
+    try {
+      win.show();
+    } catch {
+      /* show best-effort */
+    }
   }
   try {
     await new Promise<void>((resolve, reject) => {
@@ -668,7 +810,11 @@ async function runCliTuiStartupSmoke(): Promise<number> {
         }
       }, 100);
     });
-    console.log('[cli-tui-startup-smoke] ok: renderer READY + preload bridge alive (hidden window; renderer still runs)');
+    console.log(
+      isInput
+        ? `${tag} ok: renderer READY + preload bridge alive (visible window for keyboard focus; still the existing Electron renderer, not a native terminal)`
+        : `${tag} ok: renderer READY + preload bridge alive (hidden window; renderer still runs)`,
+    );
     await new Promise<void>((resolve, reject) => {
       const start = Date.now();
       const timer = setInterval(() => {
@@ -684,331 +830,119 @@ async function runCliTuiStartupSmoke(): Promise<number> {
         }
       }, 100);
     });
-    console.log(`[cli-tui-startup-smoke] ok: real CLI PTY data observed (bytes=${ptyBytes.length})`);
-    // Settle so xterm paints before capture. No input is sent during this
-    // wait by design (startup output only).
+    console.log(`${tag} ok: real CLI PTY data observed (bytes=${ptyBytes.length})`);
+    // Settle so xterm paints before capture (startup) / the before-shot
+    // (input). No input is sent during this wait by design.
     await new Promise((r) => setTimeout(r, 3000));
     if (ptyExitCode !== null) {
-      console.error(`[cli-tui-startup-smoke] INCONCLUSIVE: real CLI PTY exited before screenshot (code ${ptyExitCode}; no pass)`);
+      console.error(
+        isInput
+          ? `${tag} INCONCLUSIVE: real CLI PTY exited before before-shot (code ${ptyExitCode}; no pass)`
+          : `${tag} INCONCLUSIVE: real CLI PTY exited before screenshot (code ${ptyExitCode}; no pass)`,
+      );
       return 2;
     }
     let tree: ProcessIdentity[];
     try {
       tree = await captureProcessTree(rootPid);
     } catch (err) {
-      console.error(`[cli-tui-startup-smoke] INCONCLUSIVE: member tree capture failed: ${(err as Error).message} (no pass)`);
+      console.error(`${tag} INCONCLUSIVE: member tree capture failed: ${(err as Error).message} (no pass)`);
       return 2;
     }
     if (tree.length < 1) {
-      console.error('[cli-tui-startup-smoke] INCONCLUSIVE: captured tree empty (no pass)');
+      console.error(`${tag} INCONCLUSIVE: captured tree empty (no pass)`);
       return 2;
     }
-    console.log(`[cli-tui-startup-smoke] ok: live tree ${tree.length} identit(ies): ${tree.map(formatIdentity).join('; ')}`);
+    console.log(`${tag} ok: live tree ${tree.length} identit(ies): ${tree.map(formatIdentity).join('; ')}`);
     for (const id of tree) {
-      console.log(`[cli-tui-startup-smoke] IDENTITY pid=${id.pid} created=${id.creationTime} name=${id.name} parentPid=${id.parentPid}`);
+      console.log(`${tag} IDENTITY pid=${id.pid} created=${id.creationTime} name=${id.name} parentPid=${id.parentPid}`);
     }
     await new Promise((r) => setTimeout(r, 1000));
-    const image = await win.webContents.capturePage();
-    const shotPath = path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
-    fs.writeFileSync(shotPath, image.toPNG());
-    const size = image.getSize();
-    console.log(`[cli-tui-startup-smoke] ok: screenshot ${shotPath} (${size.width}x${size.height})`);
-    if (image.isEmpty()) {
-      console.error('[cli-tui-startup-smoke] FAIL: screenshot is empty (rendering not proven; no pass)');
-      return 1;
+    let shotPath = '';
+    let beforePath = '';
+    let afterPath = '';
+    let beforeStat = 0;
+    let afterStat = 0;
+    if (!isInput) {
+      shotPath = path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
+      const shot = await captureStoreProbeShot(tag, 'shot', shotPath, 1);
+      if (shot === null) return 1;
+    } else {
+      beforePath = path.resolve(__dirname, '..', 'dist', 'cli-input-before.png');
+      afterPath = path.resolve(__dirname, '..', 'dist', 'cli-input-after.png');
+      const before = await captureStoreProbeShot(tag, 'before', beforePath, 5);
+      if (before === null) return 1;
+      beforeStat = before.statSize;
+      // Type the harmless token through the real keyboard/xterm path only:
+      // sendInputEvent keyDown+char+keyUp per char. Never Enter, never a
+      // control sequence, never term.write, never executeJavaScript sendInput.
+      console.log(`${tag} TOKEN len=${CLI_INPUT_TOKEN.length} token=${CLI_INPUT_TOKEN} (harmless ASCII alphanumerics only, never submitted, no model request)`);
+      try {
+        win.focus();
+      } catch {
+        /* focus best-effort */
+      }
+      try {
+        win.webContents.focus();
+      } catch {
+        /* already focused */
+      }
+      await new Promise((r) => setTimeout(r, 500));
+      for (const ch of CLI_INPUT_TOKEN) {
+        win.webContents.sendInputEvent({ type: 'keyDown', keyCode: ch });
+        win.webContents.sendInputEvent({ type: 'char', keyCode: ch });
+        win.webContents.sendInputEvent({ type: 'keyUp', keyCode: ch });
+        await new Promise((r) => setTimeout(r, 60));
+      }
+      console.log(`${tag} ok: input typed len=${CLI_INPUT_TOKEN.length} via sendInputEvent keyDown+char+keyUp per char (no Enter, no submit, no control sequence; renderer keyboard/xterm path)`);
+      // Settle so xterm repaints and PTY echoes before the after-shot.
+      await new Promise((r) => setTimeout(r, 2500));
+      if (ptyExitCode !== null) {
+        console.error(`${tag} INCONCLUSIVE: real CLI PTY exited before after-shot (code ${ptyExitCode}; no pass)`);
+        return 2;
+      }
+      const after = await captureStoreProbeShot(tag, 'after', afterPath, 5);
+      if (after === null) return 1;
+      afterStat = after.statSize;
+      // Changed-render gate in main too (runner re-checks independently by
+      // hash): identical bytes mean no keyboard/render proof.
+      const beforeBytes = fs.readFileSync(beforePath);
+      const afterBytes = fs.readFileSync(afterPath);
+      const changed = !beforeBytes.equals(afterBytes);
+      console.log(`${tag} SHOTS before=${beforePath} bytes=${beforeStat} after=${afterPath} bytes=${afterStat} changed=${changed}`);
+      if (!changed) {
+        console.error(`${tag} FAIL: before/after screenshots identical (no keyboard/render change proven; no pass)`);
+        return 1;
+      }
     }
-    let statSize = 0;
-    try {
-      statSize = fs.statSync(shotPath).size;
-    } catch {
-      console.error('[cli-tui-startup-smoke] FAIL: screenshot file missing after capture (no pass)');
-      return 1;
+    if (!logProbeMarkers(tag, ptyBytes)) return 1;
+    if (!isInput) {
+      console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} shot=${shotPath}`);
+      console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; hidden window, no human visual comparison)`);
+    } else {
+      console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} before=${beforePath} after=${afterPath} inputLen=${CLI_INPUT_TOKEN.length}`);
+      console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; keyboard event + changed render, NOT semantic prompt acceptance)`);
     }
-    if (statSize <= 0) {
-      console.error('[cli-tui-startup-smoke] FAIL: screenshot file empty (no pass)');
-      return 1;
-    }
-    // Markers only: no ANSI spam, no full-buffer dump, no secrets. Log only
-    // marker booleans, byte counts, and one bare semver when present (never
-    // the surrounding TUI text, which can carry user-specific model/config
-    // strings). The semver is best-effort: this dynamic TUI sometimes shows
-    // update-notice text (e.g. 2.0.26) instead of the installed version, so
-    // installed-version proof stays with smoke:cli-launch, not this line.
-    const stripped = stripAnsiForMarkers(ptyBytes);
-    const hasOpencode = /opencode/i.test(stripped);
-    const semver = stripped.match(/\b\d+\.\d+\.\d+\b/)?.[0] ?? '';
-    const hasVersion = semver !== '';
-    const hasPrompt = /ask anything/i.test(stripped);
-    console.log(`[cli-tui-startup-smoke] MARKERS bytes=${ptyBytes.length} stripped=${stripped.length} opencode=${hasOpencode} version=${hasVersion} prompt=${hasPrompt}`);
-    if (semver !== '') console.log(`[cli-tui-startup-smoke] VERSION ${semver}`);
-    if (!hasOpencode) {
-      console.error('[cli-tui-startup-smoke] FAIL: startup output lacks the installed-CLI marker (want /opencode/i; no pass)');
-      return 1;
-    }
-    console.log(`[cli-tui-startup-smoke] READY session=${mySession} member=${myMember} rootPid=${rootPid} treeSize=${tree.length} shot=${shotPath}`);
-    console.log('[cli-tui-startup-smoke] alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; hidden window, no human visual comparison)');
     // Success never returns: the runner terminates only its runner-owned
     // Electron handle and proves teardown. Never resolve on success.
     await new Promise<void>(() => {});
     return 0;
   } catch (err) {
     // Failure path: never term.kill() a captured member and never write to
-    // the PTY (no input text by design). Report harness failure; the runner
-    // still ends only its own Electron handle on timeout.
-    console.error(`[cli-tui-startup-smoke] INCONCLUSIVE: ${(err as Error).message} (no pass)`);
+    // the PTY (input mode only used sendInputEvent above, never PTY
+    // write/submit). Report harness failure; the runner still ends only its
+    // own Electron handle on timeout.
+    console.error(`${tag} INCONCLUSIVE: ${(err as Error).message} (no pass)`);
     return 2;
   }
 }
 
-// ---------------------------------------------------------------------------
-// Bounded real-CLI input probe: installed `opencode` with EMPTY args plus a
-// harmless ASCII token typed through the actual Electron keyboard/xterm path.
-// Proves exactly this and nothing more: keyboard events (sendInputEvent
-// keyDown+char+keyUp per char, no Enter, no control sequence) reach xterm,
-// the render changes (before/after screenshots differ), and no prompt is ever
-// submitted (no model request). Automated PASS means keyboard event +
-// changed render only, NOT semantic prompt acceptance — the orchestrator
-// visually inspects the after-shot for the token.
-//
-// Safety: args must be exactly [] (empty). Token is fixed ASCII alphanumerics
-// only (no Enter, no Tab, no Ctrl, no Escape), never followed by submit.
-// NO other stdin is written. Teardown mirrors the startup probe: no
-// term.kill() by design (Windows teardown race); the runner ends only its
-// runner-owned Electron handle and read-only verifies the exact tree gone.
-// Visible BrowserWindow (show:true) in this opt-in mode only: hidden windows
-// cannot reliably receive keyboard focus/sendInputEvent on Windows (focus
-// requires visibility); this is still the existing Electron renderer, NOT a
-// new native terminal window. Existing startup smoke behavior unchanged.
-// ---------------------------------------------------------------------------
-const CLI_INPUT_TOKEN = 'tiyeinprobe7q3z9';
+async function runCliTuiStartupSmoke(): Promise<number> {
+  return runRealCliTuiProbe('startup');
+}
 
 async function runCliInputSmoke(): Promise<number> {
-  cliInputMode = true;
-  let spec: LaunchSpec;
-  try {
-    spec = resolveLaunch();
-  } catch (err) {
-    console.error(`[cli-input-smoke] INCONCLUSIVE: launch resolution failed: ${(err as Error).message} (no pass)`);
-    return 2;
-  }
-  console.log(`[cli-input-smoke] resolved command=${spec.command} args=${JSON.stringify(spec.args)} cwd=${spec.cwd}`);
-  if (spec.args.length !== 0) {
-    console.error(
-      `[cli-input-smoke] FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no model, no pass)`,
-    );
-    return 1;
-  }
-  const base = path.basename(spec.command).toLowerCase();
-  if (!base.startsWith('opencode')) {
-    console.error(`[cli-input-smoke] FAIL: expected installed opencode executable, got ${spec.command} (no pass)`);
-    return 1;
-  }
-  if (!isProcessTreeCheckSupported()) {
-    console.error(`[cli-input-smoke] INCONCLUSIVE: teardown verification is Windows-only (platform=${process.platform}, no pass claimed)`);
-    return 2;
-  }
-  console.log('[cli-input-smoke] PROBE installed opencode TUI input via main-owned PTY + visible renderer keyboard path (no Enter, no submit, no model/prompt request)');
-  try {
-    attachTerminal();
-  } catch (err) {
-    console.error(`[cli-input-smoke] INCONCLUSIVE: PTY spawn failed: ${(err as Error).message} (no pass)`);
-    return 2;
-  }
-  if (term === null || sessionId === null) {
-    console.error('[cli-input-smoke] INCONCLUSIVE: member PTY not spawned (no pass)');
-    return 2;
-  }
-  const mySession = sessionId;
-  const myMember = 'cli-input-member';
-  const rootPid = term.pid;
-  let ptyBytes = '';
-  term.onData((d: string) => {
-    ptyBytes += d;
-    if (ptyBytes.length > 200000) ptyBytes = ptyBytes.slice(-200000);
-  });
-  // Visible window by design for keyboard delivery (opt-in mode only).
-  createWindow({ show: true });
-  if (win === null) {
-    console.error('[cli-input-smoke] INCONCLUSIVE: window not created (no pass)');
-    return 2;
-  }
-  try {
-    win.show();
-  } catch {
-    /* show best-effort */
-  }
-  try {
-    await new Promise<void>((resolve, reject) => {
-      const start = Date.now();
-      const timer = setInterval(() => {
-        if (rendererReady) {
-          clearInterval(timer);
-          resolve();
-        } else if (Date.now() - start > 20000) {
-          clearInterval(timer);
-          reject(new Error('renderer READY not received within 20s'));
-        }
-      }, 100);
-    });
-    console.log('[cli-input-smoke] ok: renderer READY + preload bridge alive (visible window for keyboard focus; still the existing Electron renderer, not a native terminal)');
-    await new Promise<void>((resolve, reject) => {
-      const start = Date.now();
-      const timer = setInterval(() => {
-        if (/opencode/i.test(ptyBytes) && ptyBytes.length > 0) {
-          clearInterval(timer);
-          resolve();
-        } else if (ptyExitCode !== null) {
-          clearInterval(timer);
-          reject(new Error(`real CLI PTY exited early (code ${ptyExitCode}) before startup output`));
-        } else if (Date.now() - start > 20000) {
-          clearInterval(timer);
-          reject(new Error(`timeout waiting for real CLI startup output (bytes=${ptyBytes.length})`));
-        }
-      }, 100);
-    });
-    console.log(`[cli-input-smoke] ok: real CLI PTY data observed (bytes=${ptyBytes.length})`);
-    // Settle so xterm paints before the before-shot. No input during wait.
-    await new Promise((r) => setTimeout(r, 3000));
-    if (ptyExitCode !== null) {
-      console.error(`[cli-input-smoke] INCONCLUSIVE: real CLI PTY exited before before-shot (code ${ptyExitCode}; no pass)`);
-      return 2;
-    }
-    let tree: ProcessIdentity[];
-    try {
-      tree = await captureProcessTree(rootPid);
-    } catch (err) {
-      console.error(`[cli-input-smoke] INCONCLUSIVE: member tree capture failed: ${(err as Error).message} (no pass)`);
-      return 2;
-    }
-    if (tree.length < 1) {
-      console.error('[cli-input-smoke] INCONCLUSIVE: captured tree empty (no pass)');
-      return 2;
-    }
-    console.log(`[cli-input-smoke] ok: live tree ${tree.length} identit(ies): ${tree.map(formatIdentity).join('; ')}`);
-    for (const id of tree) {
-      console.log(`[cli-input-smoke] IDENTITY pid=${id.pid} created=${id.creationTime} name=${id.name} parentPid=${id.parentPid}`);
-    }
-    await new Promise((r) => setTimeout(r, 1000));
-    const beforePath = path.resolve(__dirname, '..', 'dist', 'cli-input-before.png');
-    const afterPath = path.resolve(__dirname, '..', 'dist', 'cli-input-after.png');
-    // Visible-window capture can race first paint (observed 0x0 empty on one
-    // run); retry boundedly so a slow paint is inconclusive-safe, not flaky.
-    // A persistently empty capture stays FAIL (no pass), never a pass.
-    let beforeImage: Electron.NativeImage | null = null;
-    for (let attempt = 1; attempt <= 5; attempt += 1) {
-      const candidate = await win.webContents.capturePage();
-      const sz = candidate.getSize();
-      if (!candidate.isEmpty() && sz.width > 0 && sz.height > 0) {
-        beforeImage = candidate;
-        break;
-      }
-      console.log(`[cli-input-smoke] retry before-shot attempt=${attempt} empty (${sz.width}x${sz.height})`);
-      await new Promise((r) => setTimeout(r, 1000));
-    }
-    if (beforeImage === null) {
-      console.error('[cli-input-smoke] FAIL: before screenshot is empty after retries (rendering not proven; no pass)');
-      return 1;
-    }
-    fs.writeFileSync(beforePath, beforeImage.toPNG());
-    const beforeSize = beforeImage.getSize();
-    console.log(`[cli-input-smoke] ok: screenshot before ${beforePath} (${beforeSize.width}x${beforeSize.height})`);
-    let beforeStat = 0;
-    try {
-      beforeStat = fs.statSync(beforePath).size;
-    } catch {
-      console.error('[cli-input-smoke] FAIL: before screenshot file missing after capture (no pass)');
-      return 1;
-    }
-    if (beforeStat <= 0) {
-      console.error('[cli-input-smoke] FAIL: before screenshot file empty (no pass)');
-      return 1;
-    }
-    // Type the harmless token through the real keyboard/xterm path only:
-    // sendInputEvent keyDown+char+keyUp per char. Never Enter, never a
-    // control sequence, never term.write, never executeJavaScript sendInput.
-    console.log(`[cli-input-smoke] TOKEN len=${CLI_INPUT_TOKEN.length} token=${CLI_INPUT_TOKEN} (harmless ASCII alphanumerics only, never submitted, no model request)`);
-    try {
-      win.focus();
-    } catch {
-      /* focus best-effort */
-    }
-    try {
-      win.webContents.focus();
-    } catch {
-      /* already focused */
-    }
-    await new Promise((r) => setTimeout(r, 500));
-    for (const ch of CLI_INPUT_TOKEN) {
-      win.webContents.sendInputEvent({ type: 'keyDown', keyCode: ch });
-      win.webContents.sendInputEvent({ type: 'char', keyCode: ch });
-      win.webContents.sendInputEvent({ type: 'keyUp', keyCode: ch });
-      await new Promise((r) => setTimeout(r, 60));
-    }
-    console.log(`[cli-input-smoke] ok: input typed len=${CLI_INPUT_TOKEN.length} via sendInputEvent keyDown+char+keyUp per char (no Enter, no submit, no control sequence; renderer keyboard/xterm path)`);
-    // Settle so xterm repaints and PTY echoes before the after-shot.
-    await new Promise((r) => setTimeout(r, 2500));
-    if (ptyExitCode !== null) {
-      console.error(`[cli-input-smoke] INCONCLUSIVE: real CLI PTY exited before after-shot (code ${ptyExitCode}; no pass)`);
-      return 2;
-    }
-    let afterImage: Electron.NativeImage | null = null;
-    for (let attempt = 1; attempt <= 5; attempt += 1) {
-      const candidate = await win.webContents.capturePage();
-      const sz = candidate.getSize();
-      if (!candidate.isEmpty() && sz.width > 0 && sz.height > 0) {
-        afterImage = candidate;
-        break;
-      }
-      console.log(`[cli-input-smoke] retry after-shot attempt=${attempt} empty (${sz.width}x${sz.height})`);
-      await new Promise((r) => setTimeout(r, 1000));
-    }
-    if (afterImage === null) {
-      console.error('[cli-input-smoke] FAIL: after screenshot is empty after retries (rendering not proven; no pass)');
-      return 1;
-    }
-    fs.writeFileSync(afterPath, afterImage.toPNG());
-    const afterSize = afterImage.getSize();
-    console.log(`[cli-input-smoke] ok: screenshot after ${afterPath} (${afterSize.width}x${afterSize.height})`);
-    let afterStat = 0;
-    try {
-      afterStat = fs.statSync(afterPath).size;
-    } catch {
-      console.error('[cli-input-smoke] FAIL: after screenshot file missing after capture (no pass)');
-      return 1;
-    }
-    if (afterStat <= 0) {
-      console.error('[cli-input-smoke] FAIL: after screenshot file empty (no pass)');
-      return 1;
-    }
-    // Changed-render gate in main too (runner re-checks independently by
-    // hash): identical bytes mean no keyboard/render proof.
-    const beforeBytes = fs.readFileSync(beforePath);
-    const afterBytes = fs.readFileSync(afterPath);
-    const changed = !beforeBytes.equals(afterBytes);
-    console.log(`[cli-input-smoke] SHOTS before=${beforePath} bytes=${beforeStat} after=${afterPath} bytes=${afterStat} changed=${changed}`);
-    if (!changed) {
-      console.error('[cli-input-smoke] FAIL: before/after screenshots identical (no keyboard/render change proven; no pass)');
-      return 1;
-    }
-    const stripped = stripAnsiForMarkers(ptyBytes);
-    const hasOpencode = /opencode/i.test(stripped);
-    const semver = stripped.match(/\b\d+\.\d+\.\d+\b/)?.[0] ?? '';
-    const hasVersion = semver !== '';
-    const hasPrompt = /ask anything/i.test(stripped);
-    console.log(`[cli-input-smoke] MARKERS bytes=${ptyBytes.length} stripped=${stripped.length} opencode=${hasOpencode} version=${hasVersion} prompt=${hasPrompt}`);
-    if (semver !== '') console.log(`[cli-input-smoke] VERSION ${semver}`);
-    if (!hasOpencode) {
-      console.error('[cli-input-smoke] FAIL: startup output lacks the installed-CLI marker (want /opencode/i; no pass)');
-      return 1;
-    }
-    console.log(`[cli-input-smoke] READY session=${mySession} member=${myMember} rootPid=${rootPid} treeSize=${tree.length} before=${beforePath} after=${afterPath} inputLen=${CLI_INPUT_TOKEN.length}`);
-    console.log('[cli-input-smoke] alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; keyboard event + changed render, NOT semantic prompt acceptance)');
-    await new Promise<void>(() => {});
-    return 0;
-  } catch (err) {
-    console.error(`[cli-input-smoke] INCONCLUSIVE: ${(err as Error).message} (no pass)`);
-    return 2;
-  }
+  return runRealCliTuiProbe('input');
 }
 
 // ---------------------------------------------------------------------------

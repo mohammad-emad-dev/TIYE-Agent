@@ -215,6 +215,11 @@ means keyboard event + changed render only — NOT semantic prompt acceptance
 step 3 or test visual parity, Unicode, approvals, or model behavior. Real vendor S1
 steps 1–8 with `opencode` (or any vendor CLI) remain manual/unverified, and
 S1 stays partial until those manual observations are recorded.
+Both probes now share the main-process `runRealCliTuiProbe(mode)` driver and
+`captureStoreProbeShot` helper for launch, PTY startup, renderer readiness, and
+screenshot capture. Startup remains hidden; input remains visible and types the
+fixed ASCII token without Enter. The runner still ends its own Electron process
+and verifies that the captured process tree is gone before reporting PASS.
 
 ## S1 steps 1–8 checklist (manual, against the window)
 
