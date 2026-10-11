@@ -49,6 +49,7 @@ const LIFECYCLE_SMOKE_FLAG = '--lifecycle-smoke';
 const CLI_LAUNCH_SMOKE_FLAG = '--cli-launch-smoke';
 const CLI_TUI_STARTUP_SMOKE_FLAG = '--cli-tui-startup-smoke';
 const CLI_INPUT_SMOKE_FLAG = '--cli-input-smoke';
+const CLI_EDIT_SMOKE_FLAG = '--cli-edit-smoke';
 const CRASH_BASELINE_FLAG = '--crash-baseline';
 const CRASH_RECOVERY_FLAG = '--crash-recovery-check';
 const CRASH_REGISTRY_ENV = 'TIYE_CRASH_REGISTRY_PATH';
@@ -136,6 +137,7 @@ function hasCrashExperimentFlag(argv: string[]): boolean {
     argv.includes(CLI_LAUNCH_SMOKE_FLAG) ||
     argv.includes(CLI_TUI_STARTUP_SMOKE_FLAG) ||
     argv.includes(CLI_INPUT_SMOKE_FLAG) ||
+    argv.includes(CLI_EDIT_SMOKE_FLAG) ||
     argv.includes(CRASH_BASELINE_FLAG) ||
     argv.includes(CRASH_RECOVERY_FLAG) ||
     argv.includes(CRASH_JOB_FLAG) ||
@@ -596,13 +598,26 @@ async function runCliLaunchSmoke(): Promise<number> {
 // changed render via distinct before/after screenshots
 // (dist/cli-input-before.png + dist/cli-input-after.png). Automated input
 // PASS means keyboard event + changed render only, NOT semantic prompt
-// acceptance — the orchestrator visually inspects the after-shot.
+// acceptance — the orchestrator visually inspects the after-shot. Edit mode
+// (VISIBLE opt-in window, same renderer, distinct --cli-edit-smoke flag)
+// proves the same startup flow plus a fixed ASCII initial token typed through
+// sendInputEvent, then bounded editing keys (Home, Right, Delete, End,
+// Backspace, plus one ASCII replacement, never Enter/submit) and a changed
+// render via distinct before/after screenshots
+// (dist/cli-edit-before.png + dist/cli-edit-after.png; before is pre-input,
+// after is after the initial token plus the editing keys in one focused
+// sequence). Automated edit PASS means
+// keyboard events delivered + changed render + teardown only, NOT semantic
+// editing correctness — the orchestrator visually inspects both shots. Do NOT
+// cite as command history or S1 step 3 complete.
 //
-// Safety (both modes): args must be exactly [] (empty). Any non-empty args
+// Safety (all three modes): args must be exactly [] (empty). Any non-empty args
 // are refused without spawn so a misconfigured runner can never trigger a
 // model call. Startup mode NEVER writes stdin (no prompt, no input text, no
 // model request) — not even `exit`; input mode writes ONLY the fixed token
-// through sendInputEvent (never term.write, never Enter/submit). Teardown is
+// through sendInputEvent (never term.write, never Enter/submit); edit mode
+// writes ONLY the fixed initial token plus the bounded editing keys through
+// sendInputEvent (never term.write, never Enter/submit). Teardown is
 // deliberately NOT term.kill() inside Electron: node-pty on Windows has a
 // documented teardown race after term.kill() (AttachConsole failure), so the
 // success path stays alive after the screenshot(s) and the RUNNER ends only
@@ -619,24 +634,31 @@ function stripAnsiForMarkers(raw: string): string {
     .replace(/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/g, '');
 }
 
-type CliTuiProbeMode = 'startup' | 'input';
+type CliTuiProbeMode = 'startup' | 'input' | 'edit';
 
 type CliTuiProbeShotKind = 'shot' | 'before' | 'after';
 
 const CLI_INPUT_TOKEN = 'tiyeinprobe7q3z9';
+const CLI_EDIT_INITIAL_TOKEN = 'tiyeeditab12';
+const CLI_EDIT_REPLACEMENT = 'z';
+const CLI_EDIT_EXPECTED_TOKEN = 'tyeeditab1z';
 
 function cliTuiProbeTag(mode: CliTuiProbeMode): string {
-  return mode === 'input' ? '[cli-input-smoke]' : '[cli-tui-startup-smoke]';
+  if (mode === 'input') return '[cli-input-smoke]';
+  if (mode === 'edit') return '[cli-edit-smoke]';
+  return '[cli-tui-startup-smoke]';
 }
 
 function cliTuiProbeMember(mode: CliTuiProbeMode): string {
-  return mode === 'input' ? 'cli-input-member' : 'cli-tui-startup-member';
+  if (mode === 'input') return 'cli-input-member';
+  if (mode === 'edit') return 'cli-edit-member';
+  return 'cli-tui-startup-member';
 }
 
 /**
  * Capture one probe screenshot and persist it, sharing the retry loop
- * between both modes. Startup ('shot') captures once with no retry log;
- * input ('before'/'after') retries boundedly because visible-window capture
+ * between all three modes. Startup ('shot') captures once with no retry log;
+ * input/edit ('before'/'after') retry boundedly because visible-window capture
  * can race first paint (observed 0x0 empty on one run). A persistently empty
  * capture stays FAIL (null), never a pass. Logs the exact per-kind FAIL/ok
  * lines the runner expects; callers return 1 (FAIL) on null.
@@ -718,10 +740,47 @@ function logProbeMarkers(tag: string, ptyBytes: string): boolean {
   return true;
 }
 
+async function sendCliEditSequence(w: BrowserWindow, tag: string): Promise<void> {
+  try {
+    w.focus();
+  } catch {
+    /* focus best-effort */
+  }
+  try {
+    w.webContents.focus();
+  } catch {
+    /* already focused */
+  }
+  await new Promise((r) => setTimeout(r, 500));
+  for (const ch of CLI_EDIT_INITIAL_TOKEN) {
+    w.webContents.sendInputEvent({ type: 'keyDown', keyCode: ch });
+    w.webContents.sendInputEvent({ type: 'char', keyCode: ch });
+    w.webContents.sendInputEvent({ type: 'keyUp', keyCode: ch });
+    await new Promise((r) => setTimeout(r, 60));
+  }
+  console.log(`${tag} ok: input typed len=${CLI_EDIT_INITIAL_TOKEN.length} via sendInputEvent keyDown+char+keyUp per char (no Enter, no submit, no control sequence; renderer keyboard/xterm path)`);
+  await new Promise((r) => setTimeout(r, 400));
+  // Electron keyCode uses Accelerator names; `Right` is the arrow key.
+  for (const key of ['Home', 'Right', 'Delete', 'End', 'Backspace']) {
+    w.webContents.sendInputEvent({ type: 'keyDown', keyCode: key });
+    await new Promise((r) => setTimeout(r, 120));
+    w.webContents.sendInputEvent({ type: 'keyUp', keyCode: key });
+    await new Promise((r) => setTimeout(r, 150));
+  }
+  for (const ch of CLI_EDIT_REPLACEMENT) {
+    w.webContents.sendInputEvent({ type: 'keyDown', keyCode: ch });
+    w.webContents.sendInputEvent({ type: 'char', keyCode: ch });
+    w.webContents.sendInputEvent({ type: 'keyUp', keyCode: ch });
+    await new Promise((r) => setTimeout(r, 60));
+  }
+  console.log(`${tag} ok: edit keys Home,Right,Delete,End,Backspace plus replacement len=${CLI_EDIT_REPLACEMENT.length} via sendInputEvent (no Enter, no submit, no slash/control command; renderer keyboard/xterm path)`);
+}
+
 /**
- * Shared driver for both real-CLI TUI probes. Mode-specific behavior stays
+ * Shared driver for all three real-CLI TUI probes. Mode-specific behavior stays
  * in explicit branches: window visibility, screenshot path(s) + retries, the
- * input-mode token typing + changed-render gate, and the per-mode log
+ * input-mode token typing + changed-render gate, the edit-mode token typing +
+ * bounded editing keys + changed-render gate, and the per-mode log
  * suffixes the runner greps. Everything else (empty-args validation, PTY
  * spawn, renderer READY wait, startup-marker wait, tree capture + IDENTITY
  * logs, MARKERS/VERSION logs, READY + park) runs once here.
@@ -730,8 +789,11 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
   const tag = cliTuiProbeTag(mode);
   const member = cliTuiProbeMember(mode);
   const isInput = mode === 'input';
+  const isEdit = mode === 'edit';
   if (isInput) {
     cliInputMode = true;
+  } else if (isEdit) {
+    cliEditMode = true;
   } else {
     cliTuiStartupMode = true;
   }
@@ -744,11 +806,19 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
   }
   console.log(`${tag} resolved command=${spec.command} args=${JSON.stringify(spec.args)} cwd=${spec.cwd}`);
   if (spec.args.length !== 0) {
-    console.error(
-      isInput
-        ? `${tag} FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no model, no pass)`
-        : `${tag} FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no stdin, no model, no pass)`,
-    );
+    if (isEdit) {
+      console.error(
+        `${tag} FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no Enter, no submit, no model, no pass)`,
+      );
+    } else if (isInput) {
+      console.error(
+        `${tag} FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no model, no pass)`,
+      );
+    } else {
+      console.error(
+        `${tag} FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no stdin, no model, no pass)`,
+      );
+    }
     return 1;
   }
   const base = path.basename(spec.command).toLowerCase();
@@ -761,9 +831,11 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     return 2;
   }
   console.log(
-    isInput
-      ? `${tag} PROBE installed opencode TUI input via main-owned PTY + visible renderer keyboard path (no Enter, no submit, no model/prompt request)`
-      : `${tag} PROBE installed opencode TUI startup via main-owned PTY + hidden renderer (no stdin written, no model/prompt)`,
+    isEdit
+      ? `${tag} PROBE installed opencode TUI editing keys via main-owned PTY + visible renderer keyboard path (fixed ASCII token then Home,Right,Delete,End,Backspace plus ASCII replacement; no Enter, no submit, no model/prompt request)`
+      : isInput
+        ? `${tag} PROBE installed opencode TUI input via main-owned PTY + visible renderer keyboard path (no Enter, no submit, no model/prompt request)`
+        : `${tag} PROBE installed opencode TUI startup via main-owned PTY + hidden renderer (no stdin written, no model/prompt)`,
   );
   try {
     attachTerminal();
@@ -782,15 +854,15 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     ptyBytes += d;
     if (ptyBytes.length > 200000) ptyBytes = ptyBytes.slice(-200000);
   });
-  // Visible window by design for keyboard delivery in input mode only
+  // Visible window by design for keyboard delivery in input/edit modes only
   // (hidden windows cannot reliably receive keyboard focus/sendInputEvent on
   // Windows); startup mode stays hidden.
-  createWindow({ show: isInput });
+  createWindow({ show: isInput || isEdit });
   if (win === null) {
     console.error(`${tag} INCONCLUSIVE: window not created (no pass)`);
     return 2;
   }
-  if (isInput) {
+  if (isInput || isEdit) {
     try {
       win.show();
     } catch {
@@ -811,9 +883,11 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
       }, 100);
     });
     console.log(
-      isInput
-        ? `${tag} ok: renderer READY + preload bridge alive (visible window for keyboard focus; still the existing Electron renderer, not a native terminal)`
-        : `${tag} ok: renderer READY + preload bridge alive (hidden window; renderer still runs)`,
+      isEdit
+        ? `${tag} ok: renderer READY + preload bridge alive (visible window for keyboard editing; still the existing Electron renderer, not a native terminal)`
+        : isInput
+          ? `${tag} ok: renderer READY + preload bridge alive (visible window for keyboard focus; still the existing Electron renderer, not a native terminal)`
+          : `${tag} ok: renderer READY + preload bridge alive (hidden window; renderer still runs)`,
     );
     await new Promise<void>((resolve, reject) => {
       const start = Date.now();
@@ -832,13 +906,15 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     });
     console.log(`${tag} ok: real CLI PTY data observed (bytes=${ptyBytes.length})`);
     // Settle so xterm paints before capture (startup) / the before-shot
-    // (input). No input is sent during this wait by design.
+    // (input/edit). No input is sent during this wait by design.
     await new Promise((r) => setTimeout(r, 3000));
     if (ptyExitCode !== null) {
       console.error(
-        isInput
-          ? `${tag} INCONCLUSIVE: real CLI PTY exited before before-shot (code ${ptyExitCode}; no pass)`
-          : `${tag} INCONCLUSIVE: real CLI PTY exited before screenshot (code ${ptyExitCode}; no pass)`,
+        isEdit
+          ? `${tag} INCONCLUSIVE: real CLI PTY exited before edit before-shot (code ${ptyExitCode}; no pass)`
+          : isInput
+            ? `${tag} INCONCLUSIVE: real CLI PTY exited before before-shot (code ${ptyExitCode}; no pass)`
+            : `${tag} INCONCLUSIVE: real CLI PTY exited before screenshot (code ${ptyExitCode}; no pass)`,
       );
       return 2;
     }
@@ -863,11 +939,11 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     let afterPath = '';
     let beforeStat = 0;
     let afterStat = 0;
-    if (!isInput) {
+    if (!isInput && !isEdit) {
       shotPath = path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
       const shot = await captureStoreProbeShot(tag, 'shot', shotPath, 1);
       if (shot === null) return 1;
-    } else {
+    } else if (isInput) {
       beforePath = path.resolve(__dirname, '..', 'dist', 'cli-input-before.png');
       afterPath = path.resolve(__dirname, '..', 'dist', 'cli-input-after.png');
       const before = await captureStoreProbeShot(tag, 'before', beforePath, 5);
@@ -914,14 +990,57 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
         console.error(`${tag} FAIL: before/after screenshots identical (no keyboard/render change proven; no pass)`);
         return 1;
       }
+    } else {
+      beforePath = path.resolve(__dirname, '..', 'dist', 'cli-edit-before.png');
+      afterPath = path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png');
+      // Deterministic edit slice: fixed ASCII initial token (no slash, no
+      // control, no command word), then bounded editing keys via
+      // sendInputEvent only (Home, Right, Delete, End, Backspace,
+      // plus one ASCII replacement char). Never Enter, never term.write,
+      // never executeJavaScript sendInput, never a prompt submission or model
+      // call. Before-shot is pre-input (like the input probe); after-shot is
+      // after the initial token plus the editing keys in one focused
+      // sequence, so the changed-render gate proves keyboard delivery plus a
+      // render change, NOT which key caused it. The orchestrator visually
+      // inspects before vs after against the EDIT-PLAN expectation.
+      const before = await captureStoreProbeShot(tag, 'before', beforePath, 5);
+      if (before === null) return 1;
+      beforeStat = before.statSize;
+      console.log(`${tag} TOKEN initial=${CLI_EDIT_INITIAL_TOKEN} len=${CLI_EDIT_INITIAL_TOKEN.length} replacement=${CLI_EDIT_REPLACEMENT} expected=${CLI_EDIT_EXPECTED_TOKEN} (harmless ASCII alphanumerics only, no slash, no Enter, never submitted, no model request)`);
+      console.log(`${tag} EDIT-PLAN initial=${CLI_EDIT_INITIAL_TOKEN} expected=${CLI_EDIT_EXPECTED_TOKEN} steps=Home,Right,Delete,End,Backspace,type(${CLI_EDIT_REPLACEMENT}) (Home to line start, Right one cell, Delete removes second char i, End to line end, Backspace removes trailing 2, type z appends; typical line-editor expectation only, NOT proven semantically)`);
+      await sendCliEditSequence(win, tag);
+      // Settle so xterm repaints and PTY echoes before the after-shot.
+      await new Promise((r) => setTimeout(r, 2500));
+      if (ptyExitCode !== null) {
+        console.error(`${tag} INCONCLUSIVE: real CLI PTY exited before edit after-shot (code ${ptyExitCode}; no pass)`);
+        return 2;
+      }
+      const after = await captureStoreProbeShot(tag, 'after', afterPath, 5);
+      if (after === null) return 1;
+      afterStat = after.statSize;
+      // Changed-render gate in main too (runner re-checks independently by
+      // hash): identical bytes mean no keyboard/render proof. This gate alone
+      // never proves semantic editing correctness (orchestrator inspects the
+      // screenshots visually).
+      const beforeBytes = fs.readFileSync(beforePath);
+      const afterBytes = fs.readFileSync(afterPath);
+      const changed = !beforeBytes.equals(afterBytes);
+      console.log(`${tag} SHOTS before=${beforePath} bytes=${beforeStat} after=${afterPath} bytes=${afterStat} changed=${changed} initial=${CLI_EDIT_INITIAL_TOKEN} expected=${CLI_EDIT_EXPECTED_TOKEN}`);
+      if (!changed) {
+        console.error(`${tag} FAIL: before/after screenshots identical (no keyboard/render change proven; no pass)`);
+        return 1;
+      }
     }
     if (!logProbeMarkers(tag, ptyBytes)) return 1;
-    if (!isInput) {
+    if (!isInput && !isEdit) {
       console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} shot=${shotPath}`);
       console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; hidden window, no human visual comparison)`);
-    } else {
+    } else if (isInput) {
       console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} before=${beforePath} after=${afterPath} inputLen=${CLI_INPUT_TOKEN.length}`);
       console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; keyboard event + changed render, NOT semantic prompt acceptance)`);
+    } else {
+      console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} before=${beforePath} after=${afterPath} initialLen=${CLI_EDIT_INITIAL_TOKEN.length} expected=${CLI_EDIT_EXPECTED_TOKEN}`);
+      console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; keyboard events delivered + changed render, NOT semantic editing correctness, NOT command history, NOT S1 step 3)`);
     }
     // Success never returns: the runner terminates only its runner-owned
     // Electron handle and proves teardown. Never resolve on success.
@@ -929,9 +1048,9 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     return 0;
   } catch (err) {
     // Failure path: never term.kill() a captured member and never write to
-    // the PTY (input mode only used sendInputEvent above, never PTY
-    // write/submit). Report harness failure; the runner still ends only its
-    // own Electron handle on timeout.
+    // the PTY (input/edit modes only used sendInputEvent above, never PTY
+    // write/submit, never Enter). Report harness failure; the runner still
+    // ends only its own Electron handle on timeout.
     console.error(`${tag} INCONCLUSIVE: ${(err as Error).message} (no pass)`);
     return 2;
   }
@@ -943,6 +1062,10 @@ async function runCliTuiStartupSmoke(): Promise<number> {
 
 async function runCliInputSmoke(): Promise<number> {
   return runRealCliTuiProbe('input');
+}
+
+async function runCliEditSmoke(): Promise<number> {
+  return runRealCliTuiProbe('edit');
 }
 
 // ---------------------------------------------------------------------------
@@ -970,6 +1093,7 @@ let allowClose = false;
 let lifecycleTestMode = false;
 let cliTuiStartupMode = false;
 let cliInputMode = false;
+let cliEditMode = false;
 let crashBaselineMode = false;
 let crashJobMode = false;
 let crashSurvivorMode = false;
@@ -2686,6 +2810,7 @@ async function main(): Promise<void> {
     if (crashPtySurvivorMode) return; // crash-pty-survivor has no window; it lives until the runner kills it.
     if (cliTuiStartupMode) return; // cli-tui-startup has a hidden window; it lives until the runner kills it.
     if (cliInputMode) return; // cli-input has a visible opt-in window; it lives until the runner kills it.
+    if (cliEditMode) return; // cli-edit has a visible opt-in window; it lives until the runner kills it.
     if (keepRunning && !isQuitting) return; // retained PTY lives in the tray.
     app.quit();
   });
@@ -2697,7 +2822,7 @@ async function main(): Promise<void> {
       }
       return;
     }
-    if (win === null && !isQuitting && !process.argv.includes(SMOKE_FLAG) && !process.argv.includes(CLI_LAUNCH_SMOKE_FLAG) && !process.argv.includes(CLI_TUI_STARTUP_SMOKE_FLAG) && !process.argv.includes(CLI_INPUT_SMOKE_FLAG)) createWindow();
+    if (win === null && !isQuitting && !process.argv.includes(SMOKE_FLAG) && !process.argv.includes(CLI_LAUNCH_SMOKE_FLAG) && !process.argv.includes(CLI_TUI_STARTUP_SMOKE_FLAG) && !process.argv.includes(CLI_INPUT_SMOKE_FLAG) && !process.argv.includes(CLI_EDIT_SMOKE_FLAG)) createWindow();
   });
   const startupRecoveryRequested = shouldRunStartupRecoveryGate();
   if (process.argv.includes(STARTUP_RECOVERY_ALERT_SMOKE_FLAG) && !startupRecoveryRequested) {
@@ -2763,6 +2888,21 @@ async function main(): Promise<void> {
       app.exit(code);
     } catch (err) {
       console.error(`[cli-input-smoke] INCONCLUSIVE: ${(err as Error).message} (no pass)`);
+      app.exit(2);
+    }
+    return;
+  }
+  if (process.argv.includes(CLI_EDIT_SMOKE_FLAG)) {
+    cliEditMode = true;
+    try {
+      const code = await runCliEditSmoke();
+      // Success never returns (stays alive until runner kill); a return is
+      // always a failure or harness inconclusive. No term.kill() here by
+      // design (Windows teardown race); the runner ends only its own
+      // Electron handle and verifies the tree gone read-only.
+      app.exit(code);
+    } catch (err) {
+      console.error(`[cli-edit-smoke] INCONCLUSIVE: ${(err as Error).message} (no pass)`);
       app.exit(2);
     }
     return;

@@ -180,4 +180,16 @@
 
 The first visible-window capture was once empty at 0×0; bounded capture retries were added, and the independently rerun probe passed. A TUI update notice may mention a different version; installed `opencode v2.0.22` was established by `smoke:cli-launch`, not by this input probe.
 
-**Limit:** This establishes display of an unsubmitted ASCII token through the keyboard/xterm path on this host. Editing keys, history, prompt submission, permissions, multiline input, Ctrl+C, resize, Unicode, and visual parity with Windows Terminal remain untested with the real CLI. S1 step 3 and S1 overall remain **partial**. Config changes and network activity were not measured.
+**Limit at this probe:** This establishes display of an unsubmitted ASCII token through the keyboard/xterm path on this host. Editing keys were probed separately below; history, prompt submission, permissions, multiline input, Ctrl+C, resize, Unicode, and visual parity with Windows Terminal remain untested with the real CLI. S1 step 3 and S1 overall remain **partial**. Config changes and network activity were not measured.
+
+# S1 real CLI editing-key probe — 11 October 2026
+
+**Scope:** `rtk npm run smoke:cli-edit` runs installed OpenCode v2.0.22 in the visible Electron/ConPTY window with empty args. Through `sendInputEvent`, it types `tiyeeditab12`, sends Home, Right, Delete, End, and Backspace, then types `z`. It never sends Enter or submits a prompt. The expected final text is `tyeeditab1z`.
+
+| Check | Result | Evidence |
+|---|---|---|
+| Existing checks | Pass | Independent sequential runs of `rtk npm run check`, `smoke`, `smoke:window`, `smoke:cli-launch`, `smoke:cli-tui-startup`, and `smoke:cli-input` passed. |
+| Editing probe and display | Observed | `smoke:cli-edit` exited 0. `dist/cli-edit-before.png` shows the empty prompt; independent visual inspection of `dist/cli-edit-after.png` shows `tyeeditab1z`. The runner also confirmed nonempty, different screenshot hashes. The image difference alone does not prove editing semantics. |
+| Controlled teardown | Pass (bounded) | The captured `cmd.exe` root and `opencode.exe` descendant were alive by PID and creation time before the runner ended its own Electron process. Both exact identities were gone on the first read-only re-enumeration afterward; no saved-PID kill was used. |
+
+An earlier run using `ArrowRight` produced `iyeeditab1z`, which did not match the plan. Changing the key code to Electron's documented `Right` accelerator produced the expected visible text in the delegate's run and independent reruns. The visible-window probe is focus sensitive: subsequent runs also failed closed with identical empty-prompt screenshots despite logging sent events, followed by two passes without a code change. An attempted explicit textarea-focus/always-on-top workaround did not improve those failures and was removed. Command history and prompt submission remain untested, so S1 step 3 and S1 overall remain **partial**. No claim is made about model behavior, network activity, or config changes.

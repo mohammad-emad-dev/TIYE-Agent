@@ -221,6 +221,16 @@ screenshot capture. Startup remains hidden; input remains visible and types the
 fixed ASCII token without Enter. The runner still ends its own Electron process
 and verifies that the captured process tree is gone before reporting PASS.
 
+`npm run smoke:cli-edit` starts a separate visible real-OpenCode probe. It types
+`tiyeeditab12`, sends Home, Right, Delete, End, and Backspace, then types `z`
+without Enter; the expected final text is `tyeeditab1z`. It saves
+`dist/cli-edit-before.png` (empty prompt) and `dist/cli-edit-after.png`, then
+uses the same exact-tree teardown check. Automated PASS verifies sent events,
+changed screenshots, and teardown; visual inspection is needed to check the
+text. Command history and S1 step 3 remain unverified.
+Visible-window focus can be inconsistent on this host; an unchanged screenshot
+fails the probe rather than counting as an editing pass.
+
 ## S1 steps 1–8 checklist (manual, against the window)
 
 | Step | Action in this prototype | Observe |

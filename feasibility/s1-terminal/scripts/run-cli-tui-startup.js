@@ -24,6 +24,20 @@
 // the after-shot). Do NOT cite as S1 step 3 (editing keys/history), visual
 // parity, Unicode, approvals, or model behavior.
 //
+// --edit-probe mode (same file, distinct Electron flag --cli-edit-smoke):
+// bounded real-CLI editing-keys feasibility slice. Same fixed command + empty
+// args, same scrubbed env, same teardown proof below (no copy of the
+// enumeration code). Captures dist/cli-edit-before.png pre-input, then types
+// a fixed harmless ASCII initial token via sendInputEvent (no Enter, never
+// submitted, no model request) plus bounded editing keys (Home, Right,
+// Delete, End, Backspace, plus one ASCII replacement, never Enter/submit)
+// via sendInputEvent in one focused sequence, and captures
+// dist/cli-edit-after.png, rejecting an unchanged render. Automated PASS
+// means keyboard events delivered + changed render + teardown only, NOT
+// semantic editing correctness (orchestrator visually inspects both shots
+// against the logged EDIT-PLAN expectation). Do NOT cite as command history
+// or S1 step 3 complete.
+//
 // Determinism: the runner OVERWRITES TIYE_S1_COMMAND=opencode and
 // TIYE_S1_ARGS_JSON=[] and DELETES inherited TIYE_S1_CWD plus every
 // crash/crash-survivor registry env and TIYE_MOCK_CRASH_MODE so an outer
@@ -39,9 +53,10 @@
 // Stop-Process / PID-only kill; never a captured member PID; unrelated
 // processes are never touched. Existing mock smoke behavior is untouched.
 //
-// Exit contract: 0 TUI-STARTUP PASS (or CLI-INPUT PASS in --input-probe mode),
+// Exit contract: 0 TUI-STARTUP PASS (or CLI-INPUT PASS in --input-probe mode,
+// or CLI-EDIT PASS in --edit-probe mode),
 // 1 FAIL (wrong resolution, missing startup marker, empty screenshot, or — in
-// input mode — unchanged before/after render; no pass), 2 inconclusive/harness
+// input/edit mode — unchanged before/after render; no pass), 2 inconclusive/harness
 // failure (missing dist, launch/timeout/lookup failure, pre-kill tree not
 // alive, or teardown unproven — never a pass).
 
@@ -52,21 +67,26 @@ const crypto = require('node:crypto');
 
 const electron = require('electron');
 
-const IS_INPUT_PROBE = process.argv.includes('--input-probe');
-const FLAG = IS_INPUT_PROBE ? '--cli-input-smoke' : '--cli-tui-startup-smoke';
-const SMOKE_TAG = IS_INPUT_PROBE ? 'cli-input-smoke' : 'cli-tui-startup-smoke';
+const IS_EDIT_PROBE = process.argv.includes('--edit-probe');
+const IS_INPUT_PROBE = process.argv.includes('--input-probe') && !IS_EDIT_PROBE;
+const FLAG = IS_EDIT_PROBE ? '--cli-edit-smoke' : IS_INPUT_PROBE ? '--cli-input-smoke' : '--cli-tui-startup-smoke';
+const SMOKE_TAG = IS_EDIT_PROBE ? 'cli-edit-smoke' : IS_INPUT_PROBE ? 'cli-input-smoke' : 'cli-tui-startup-smoke';
 const READY_TIMEOUT_MS = 60000;
 const KILL_WAIT_MS = 10000;
 const POST_KILL_SETTLE_MS = 2000;
 const POST_KILL_VERIFY_BOUND_MS = 15000;
 const POST_KILL_POLL_MS = 500;
 
-const READY_RE = IS_INPUT_PROBE
-  ? /\[cli-input-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
-  : /\[cli-tui-startup-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/;
-const IDENTITY_RE = IS_INPUT_PROBE
-  ? /\[cli-input-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
-  : /\[cli-tui-startup-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g;
+const READY_RE = IS_EDIT_PROBE
+  ? /\[cli-edit-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
+  : IS_INPUT_PROBE
+    ? /\[cli-input-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
+    : /\[cli-tui-startup-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/;
+const IDENTITY_RE = IS_EDIT_PROBE
+  ? /\[cli-edit-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
+  : IS_INPUT_PROBE
+    ? /\[cli-input-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
+    : /\[cli-tui-startup-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g;
 
 function log(msg) {
   console.log(`[runner] ${msg}`);
@@ -204,11 +224,17 @@ async function main() {
     process.exitCode = 2;
     return;
   }
-  const shotPath = IS_INPUT_PROBE
-    ? path.resolve(__dirname, '..', 'dist', 'cli-input-after.png')
-    : path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
-  const beforeShotPath = path.resolve(__dirname, '..', 'dist', 'cli-input-before.png');
-  const afterShotPath = path.resolve(__dirname, '..', 'dist', 'cli-input-after.png');
+  const shotPath = IS_EDIT_PROBE
+    ? path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png')
+    : IS_INPUT_PROBE
+      ? path.resolve(__dirname, '..', 'dist', 'cli-input-after.png')
+      : path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
+  const beforeShotPath = IS_EDIT_PROBE
+    ? path.resolve(__dirname, '..', 'dist', 'cli-edit-before.png')
+    : path.resolve(__dirname, '..', 'dist', 'cli-input-before.png');
+  const afterShotPath = IS_EDIT_PROBE
+    ? path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png')
+    : path.resolve(__dirname, '..', 'dist', 'cli-input-after.png');
 
   // Deterministic probe env: fixed command + empty args, scrubbed S1
   // overrides so inherited values cannot change behavior.
@@ -227,7 +253,7 @@ async function main() {
   log('env: TIYE_S1_COMMAND=opencode TIYE_S1_ARGS_JSON=[] (fixed; no stdin, no prompt, no model request)');
   log('env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)');
 
-  log(`phase 1: spawn runner-owned Electron ${FLAG} ${IS_INPUT_PROBE ? 'visible-window (opt-in keyboard delivery)' : 'hidden-window'} (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)`);
+  log(`phase 1: spawn runner-owned Electron ${FLAG} ${IS_EDIT_PROBE ? 'visible-window (opt-in keyboard editing)' : IS_INPUT_PROBE ? 'visible-window (opt-in keyboard delivery)' : 'hidden-window'} (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)`);
   const child = spawn(electron, [distMain, FLAG], {
     cwd: path.resolve(__dirname, '..'),
     env,
@@ -236,7 +262,7 @@ async function main() {
   });
   let output = '';
   let ready = null;
-  const childTag = IS_INPUT_PROBE ? 'cli-input-main' : 'tui-startup-main';
+  const childTag = IS_EDIT_PROBE ? 'cli-edit-main' : IS_INPUT_PROBE ? 'cli-input-main' : 'tui-startup-main';
   child.stdout?.on('data', (d) => {
     output += d.toString('utf8');
     logChild(childTag, d);
@@ -292,18 +318,28 @@ async function main() {
   const ptyData = new RegExp(`\\[${tagEsc}\\] ok: real CLI PTY data observed`, 'i').test(output);
   const markersOk = new RegExp(`\\[${tagEsc}\\] MARKERS .*opencode=true`, 'i').test(output);
   const versionOk = new RegExp(`\\[${tagEsc}\\] VERSION \\d+\\.\\d+\\.\\d+`, 'i').test(output);
-  const inputTypedOk = IS_INPUT_PROBE
-    ? /\[cli-input-smoke\] ok: input typed len=\d+ via sendInputEvent/i.test(output)
+  const inputTypedOk = IS_EDIT_PROBE
+    ? /\[cli-edit-smoke\] ok: input typed len=\d+ via sendInputEvent/i.test(output)
+    : IS_INPUT_PROBE
+      ? /\[cli-input-smoke\] ok: input typed len=\d+ via sendInputEvent/i.test(output)
+      : true;
+  const editKeysOk = IS_EDIT_PROBE
+    ? /\[cli-edit-smoke\] ok: edit keys .* via sendInputEvent/i.test(output)
     : true;
-  const shotsLogOk = IS_INPUT_PROBE
-    ? /\[cli-input-smoke\] SHOTS before=.* changed=true/i.test(output)
+  const editPlanOk = IS_EDIT_PROBE
+    ? /\[cli-edit-smoke\] EDIT-PLAN initial=\S+ expected=\S+ steps=Home,Right,Delete,End,Backspace/i.test(output)
     : true;
+  const shotsLogOk = IS_EDIT_PROBE
+    ? /\[cli-edit-smoke\] SHOTS before=.* changed=true/i.test(output)
+    : IS_INPUT_PROBE
+      ? /\[cli-input-smoke\] SHOTS before=.* changed=true/i.test(output)
+      : true;
   log(`assert: spawning line: ${spawningLine.slice(0, 300)}`);
   log(`assert: resolved line: ${resolvedLine.slice(0, 300)}`);
   log(`assert: markers line: ${markersLine.slice(0, 200)}`);
   log(`assert: version line: ${versionLine.slice(0, 120)}`);
   log(`assert: shot line: ${shotLine.slice(0, 300)}`);
-  log(`assert: mode=${IS_INPUT_PROBE ? 'input-probe' : 'tui-startup'} resolvedOpencode=${resolvedOpencode} resolvedCmdShim=${resolvedCmdShim} rendererReady=${rendererReady} ptyData=${ptyData} markersOk=${markersOk} versionOk=${versionOk} inputTypedOk=${inputTypedOk} shotsLogOk=${shotsLogOk}`);
+  log(`assert: mode=${IS_EDIT_PROBE ? 'edit-probe' : IS_INPUT_PROBE ? 'input-probe' : 'tui-startup'} resolvedOpencode=${resolvedOpencode} resolvedCmdShim=${resolvedCmdShim} rendererReady=${rendererReady} ptyData=${ptyData} markersOk=${markersOk} versionOk=${versionOk} inputTypedOk=${inputTypedOk} editKeysOk=${editKeysOk} editPlanOk=${editPlanOk} shotsLogOk=${shotsLogOk}`);
 
   const killOwned = async () => {
     try {
@@ -325,8 +361,8 @@ async function main() {
     process.exitCode = 1;
     return;
   }
-  if (!rendererReady || !ptyData || !markersOk || !inputTypedOk || !shotsLogOk) {
-    console.error(`[runner] FAIL: renderer READY + real CLI PTY data + markers${IS_INPUT_PROBE ? ' + keyboard input + changed SHOTS' : ''} not all proven (no pass; not S1 steps 1-8)`);
+  if (!rendererReady || !ptyData || !markersOk || !inputTypedOk || !editKeysOk || !editPlanOk || !shotsLogOk) {
+    console.error(`[runner] FAIL: renderer READY + real CLI PTY data + markers${IS_EDIT_PROBE ? ' + keyboard input + editing keys + EDIT-PLAN + changed SHOTS' : IS_INPUT_PROBE ? ' + keyboard input + changed SHOTS' : ''} not all proven (no pass; not S1 steps 1-8)`);
     await killOwned();
     process.exitCode = 1;
     return;
@@ -339,7 +375,7 @@ async function main() {
   let afterBytes = 0;
   let beforeHash = '';
   let afterHash = '';
-  if (IS_INPUT_PROBE) {
+  if (IS_INPUT_PROBE || IS_EDIT_PROBE) {
     try {
       beforeBytes = fs.statSync(beforeShotPath).size;
     } catch {
@@ -378,7 +414,11 @@ async function main() {
       return;
     }
     shotBytes = afterBytes;
-    log(`screenshots ok: before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (visible opt-in window, orchestrator visual inspection only)`);
+    if (IS_EDIT_PROBE) {
+      log(`screenshots ok: before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (visible opt-in editing window, keyboard events delivered + changed render only, NOT semantic editing correctness; orchestrator visual inspection only)`);
+    } else {
+      log(`screenshots ok: before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (visible opt-in window, orchestrator visual inspection only)`);
+    }
   } else {
     try {
       shotBytes = fs.statSync(shotPath).size;
@@ -496,7 +536,13 @@ async function main() {
   }
   const resolvedPath = (resolvedLine.match(/resolved command=(\S+)/) || [])[1] || 'unknown';
   const semverObserved = (versionLine.match(/VERSION (\d+\.\d+\.\d+)/) || [])[1] || 'none';
-  if (IS_INPUT_PROBE) {
+  if (IS_EDIT_PROBE) {
+    const tokenLine = output.split(/\r?\n/).find((l) => /\[cli-edit-smoke\] TOKEN initial=/i.test(l)) ?? '';
+    const editPlanLine = output.split(/\r?\n/).find((l) => /\[cli-edit-smoke\] EDIT-PLAN initial=/i.test(l)) ?? '';
+    const initialTok = (tokenLine.match(/initial=(\S+)/) || [])[1] || 'unknown';
+    const expectedTok = (tokenLine.match(/expected=(\S+)/) || [])[1] || (editPlanLine.match(/expected=(\S+)/) || [])[1] || 'unknown';
+    console.log(`[runner] CLI-EDIT PASS: resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) initial=${initialTok} expected=${expectedTok} before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (keyboard events delivered + changed render via sendInputEvent Home,Right,Delete,End,Backspace plus ASCII replacement, no Enter, never submitted; NOT semantic editing correctness, orchestrator visual inspection only; NOT command history, NOT S1 step 3, parity, Unicode, approvals, or model behavior)`);
+  } else if (IS_INPUT_PROBE) {
     const tokenLine = output.split(/\r?\n/).find((l) => /\[cli-input-smoke\] TOKEN len=/i.test(l)) ?? '';
     const tokenLen = (tokenLine.match(/len=(\d+)/) || [])[1] || 'unknown';
     console.log(`[runner] CLI-INPUT PASS: resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) inputLen=${tokenLen} before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (keyboard event + changed render via sendInputEvent keyDown+char+keyUp, no Enter, never submitted; NOT semantic prompt acceptance; orchestrator visual inspection only; NOT S1 step 3, parity, Unicode, approvals, or model behavior)`);
