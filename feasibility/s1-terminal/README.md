@@ -355,14 +355,25 @@ arbitrary text, never the token verbatim) plus `dist/cli-unicode-before.png` +
 semantic `UNICODE-DISPLAY` gate (xterm buffer + `#terminal` DOM must hold all
 four scripts; a hash difference alone is NEVER intact-display proof, the
 orchestrator must still visually inspect the after-shot for intact glyphs, no
-tofu/mojibake). The runner assigns Electron to a Windows kill-on-close Job
+tofu/mojibake). The unicode-only renderer hook also counts xterm `onRender`
+frames and exposes a read-only bounded `getRenderState()` (render count +
+`document.visibilityState` + `document.hasFocus()`, no arbitrary text); main
+logs it before paste and after the 5s settle. When the first after-shot is
+byte-identical to before, main takes at most TWO more `capturePage` shots
+750ms apart with no explicit repaint or input (no `invalidate()`, xterm
+refresh, refocus, or typing; `capturePage` itself may affect page visibility
+or painting). A changed capture is eligible for the same exact-input +
+display gates, else FAIL; the final capture is preserved.
+The runner assigns Electron to a Windows kill-on-close Job
 Object before allowing the PTY to spawn, then releases the job and verifies
 the captured process identities are gone. Automated PASS means bracketed UTF-8
 evidence + semantic display + changed render + teardown only. On this host the
-probe is focus/render-timing intermittent (1 PASS with intact glyphs, then
-3 fail-closed identical-screenshot runs despite exact transport + display-gate
-true; see RESULTS.md): it does NOT prove S1 step 8 complete, NOT Windows
-Terminal parity, NOT model behavior.
+first after-capture was byte-identical to before in all 3 bounded runs on
+2026-10-12 despite exact transport + display-gate true, and the second natural
+recapture (+1500ms, no explicit repaint or input) changed in all 3 with
+identical bytes (see RESULTS.md); the delayed-versus-stale cause remains
+unproven. This does not prove S1 step 8 complete, Windows Terminal parity,
+or model behavior.
 
 `npm run smoke:cli-resize` runs installed OpenCode v2.0.22 with empty args in
 the visible Electron/ConPTY window and sends NO input at all (no

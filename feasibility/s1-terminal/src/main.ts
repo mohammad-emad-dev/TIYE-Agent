@@ -1234,6 +1234,22 @@ async function runCliUnicodeInteraction(
   await new Promise((r) => setTimeout(r, 300));
   if (w.isDestroyed()) return inconclusive('unicode window destroyed before Terminal.paste()');
   if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited before Terminal.paste() (code ${ptyExitCode})`);
+  // Bounded diagnostic (read-only): xterm frame count + visibility + focus
+  // immediately before paste. The count NEVER proves root cause alone:
+  // animations can cause unrelated frames.
+  let renderBefore = -1;
+  try {
+    const st: unknown = await w.webContents.executeJavaScript(
+      'window.__tiyeUnicodeProbe && window.__tiyeUnicodeProbe.getRenderState ? window.__tiyeUnicodeProbe.getRenderState() : null',
+    );
+    const s = st as { renderCount?: unknown; visibility?: unknown; focused?: unknown } | null;
+    renderBefore = typeof s?.renderCount === 'number' ? (s.renderCount as number) : -1;
+    const vis = typeof s?.visibility === 'string' ? (s.visibility as string) : 'unknown';
+    const foc = s?.focused === true;
+    console.log(`${tag} UNICODE-RENDER-STATE which=before-paste renderCount=${renderBefore} visibility=${vis} focused=${foc} (read-only diagnostic; count alone never proves cause)`);
+  } catch (err) {
+    return inconclusive(`unicode render-state inspection failed: ${(err as Error).message}`);
+  }
   try {
     await w.webContents.executeJavaScript(
       `window.__tiyeUnicodeProbe.pasteFixed(window.__tiyeUnicodeProbe.token)`,
@@ -1247,6 +1263,22 @@ async function runCliUnicodeInteraction(
   const ptyAfter = Buffer.byteLength(getPtyBytes(), 'utf8');
   console.log(`${tag} UNICODE-PTY bytesBefore=${ptyBefore} bytesAfter=${ptyAfter} delta=${ptyAfter - ptyBefore} (read-only lengths, not content; NOT arrival or display proof)`);
   if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited before unicode after-shot (code ${ptyExitCode})`);
+  // Bounded diagnostic (read-only) after the 5s settle: same frame count +
+  // visibility + focus. Delta vs before-paste is informational only.
+  let renderSettle = -1;
+  try {
+    const st: unknown = await w.webContents.executeJavaScript(
+      'window.__tiyeUnicodeProbe && window.__tiyeUnicodeProbe.getRenderState ? window.__tiyeUnicodeProbe.getRenderState() : null',
+    );
+    const s = st as { renderCount?: unknown; visibility?: unknown; focused?: unknown } | null;
+    renderSettle = typeof s?.renderCount === 'number' ? (s.renderCount as number) : -1;
+    const vis = typeof s?.visibility === 'string' ? (s.visibility as string) : 'unknown';
+    const foc = s?.focused === true;
+    const delta = renderBefore >= 0 && renderSettle >= 0 ? renderSettle - renderBefore : -9999;
+    console.log(`${tag} UNICODE-RENDER-STATE which=after-settle renderCount=${renderSettle} renderDelta=${delta} visibility=${vis} focused=${foc} (read-only diagnostic; count alone never proves cause)`);
+  } catch (err) {
+    return inconclusive(`unicode render-state inspection failed: ${(err as Error).message}`);
+  }
   // Semantic renderer/TUI display gate (feasible check): the hook scans the
   // xterm buffer + DOM for the four fixed script substrings. Booleans +
   // lengths only; never full text. A hash difference alone is never proof.
@@ -1276,9 +1308,68 @@ async function runCliUnicodeInteraction(
   const after = await captureStoreProbeShot(tag, 'after', afterPath, 5);
   if (after === null) return { ...zero, ok: false, code: 1 };
   const beforeBytes = fs.readFileSync(beforePath);
-  const afterBytes = fs.readFileSync(afterPath);
-  const changed = !beforeBytes.equals(afterBytes);
-  console.log(`${tag} SHOTS before=${beforePath} bytes=${before.statSize} after=${afterPath} bytes=${after.statSize} changed=${changed}`);
+  let afterBytes: Buffer<ArrayBufferLike> = fs.readFileSync(afterPath);
+  let afterStat = after.statSize;
+  let changed = !beforeBytes.equals(afterBytes);
+  console.log(`${tag} SHOTS before=${beforePath} bytes=${before.statSize} after=${afterPath} bytes=${afterStat} changed=${changed}`);
+  // Bounded capture retry for intermittent identical screenshots: if the
+  // first after-shot equals before, take at most two more shots 750ms apart.
+  // The harness does not explicitly repaint, refocus, type, paste, or resize.
+  // capturePage itself may affect page visibility or painting, so this does
+  // not isolate paint timing from stale capture. A changed screenshot is
+  // eligible for the existing exact-input + semantic-display
+  // gates below; if all stay unchanged, FAIL. The final capture is always
+  // preserved at afterPath for inspection. Render deltas are informational
+  // only: animations can cause unrelated frames, so no cause is inferred.
+  if (!changed) {
+    for (let attempt = 1; attempt <= 2; attempt += 1) {
+      if (w.isDestroyed()) return inconclusive('unicode window destroyed during natural-capture retry');
+      await new Promise((r) => setTimeout(r, 750));
+      let rc = -1;
+      let vis = 'unknown';
+      let foc = false;
+      try {
+        const st: unknown = await w.webContents.executeJavaScript(
+          'window.__tiyeUnicodeProbe && window.__tiyeUnicodeProbe.getRenderState ? window.__tiyeUnicodeProbe.getRenderState() : null',
+        );
+        const s = st as { renderCount?: unknown; visibility?: unknown; focused?: unknown } | null;
+        rc = typeof s?.renderCount === 'number' ? (s.renderCount as number) : -1;
+        vis = typeof s?.visibility === 'string' ? (s.visibility as string) : 'unknown';
+        foc = s?.focused === true;
+      } catch (err) {
+        return inconclusive(`unicode render-state inspection failed: ${(err as Error).message}`);
+      }
+      const renderDelta = renderSettle >= 0 && rc >= 0 ? rc - renderSettle : -9999;
+      let candidateChanged = false;
+      let candidateEmpty = false;
+      try {
+        const candidate = await w.webContents.capturePage();
+        const sz = candidate.getSize();
+        candidateEmpty = candidate.isEmpty() || sz.width <= 0 || sz.height <= 0;
+        if (!candidateEmpty) {
+          const png = candidate.toPNG();
+          candidateChanged = !beforeBytes.equals(png);
+          // Preserve every retry capture so the final after-shot on disk is
+          // the last natural observation (changed or not).
+          fs.writeFileSync(afterPath, png);
+          afterBytes = png;
+          try {
+            afterStat = fs.statSync(afterPath).size;
+          } catch {
+            afterStat = png.length;
+          }
+        }
+      } catch (err) {
+        return inconclusive(`unicode natural-capture retry failed: ${(err as Error).message}`);
+      }
+      console.log(`${tag} UNICODE-RECAPTURE attempt=${attempt} changed=${candidateChanged} empty=${candidateEmpty} renderCount=${rc} renderDelta=${renderDelta} visibility=${vis} focused=${foc} afterBytes=${afterStat} (no explicit invalidate, refresh, refocus, or input; capturePage may affect visibility; count alone never proves cause)`);
+      if (candidateChanged) {
+        changed = true;
+        console.log(`${tag} SHOTS before=${beforePath} bytes=${before.statSize} after=${afterPath} bytes=${afterStat} changed=${changed} (natural recapture attempt=${attempt})`);
+        break;
+      }
+    }
+  }
   const count: number = unicodeInputs.length;
   const firstUtf8: number = count > 0 ? Buffer.byteLength(unicodeInputs[0], 'utf8') : 0;
   const match: boolean = count === 1 && unicodeInputs[0] === expectedInput;
@@ -1298,7 +1389,7 @@ async function runCliUnicodeInteraction(
   if (!dispAll) {
     return fail(`semantic renderer display unproven (want ar+zh+ja+ko all=true, got ar=${dispAr} zh=${dispZh} ja=${dispJa} ko=${dispKo}; screenshot change alone is NOT intact-display proof; no pass)`);
   }
-  return { ok: true, code: 1, beforeBytes: before.statSize, afterBytes: after.statSize };
+  return { ok: true, code: 1, beforeBytes: before.statSize, afterBytes: afterStat };
 }
 
 /**

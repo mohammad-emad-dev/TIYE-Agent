@@ -30,6 +30,11 @@ declare global {
         bufLen: number;
         domLen: number;
       };
+      getRenderState(): {
+        renderCount: number;
+        visibility: string;
+        focused: boolean;
+      };
     };
   }
 }
@@ -145,6 +150,16 @@ try {
     const UNI_ZH = '你好';
     const UNI_JA = 'こんにちは';
     const UNI_KO = '안녕';
+    // Bounded diagnostic only: count xterm frames. Animations can cause
+    // unrelated frames, so this count NEVER proves root cause alone.
+    let unicodeRenderCount = 0;
+    try {
+      term.onRender(() => {
+        unicodeRenderCount += 1;
+      });
+    } catch {
+      /* onRender unavailable: count stays 0, still read-only */
+    }
     window.__tiyeUnicodeProbe = {
       token: CLI_UNICODE_PROBE_TOKEN,
       isBracketedPasteEnabled: () => term.modes.bracketedPasteMode,
@@ -184,6 +199,23 @@ try {
         const ja = combined.includes(UNI_JA);
         const ko = combined.includes(UNI_KO);
         return { ar, zh, ja, ko, all: ar && zh && ja && ko, bufLen: bufText.length, domLen: domText.length };
+      },
+      getRenderState: () => {
+        // Read-only bounded diagnostic: frame count + visibility + focus.
+        // No arbitrary text, no buffer/DOM content, no secrets.
+        let visibility = 'unknown';
+        try {
+          visibility = document.visibilityState;
+        } catch {
+          visibility = 'unknown';
+        }
+        let focused = false;
+        try {
+          focused = document.hasFocus();
+        } catch {
+          focused = false;
+        }
+        return { renderCount: unicodeRenderCount, visibility, focused };
       },
     };
   }
