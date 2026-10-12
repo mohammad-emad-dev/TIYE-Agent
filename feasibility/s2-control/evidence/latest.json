@@ -1,0 +1,156 @@
+{
+  "scope": "S2.1 OpenCode MCP attachment without a model request (feasibility slice)",
+  "versions": {
+    "node": "v26.7.0",
+    "sdk": "1.32.1",
+    "opencode": "opencode v2.0.22"
+  },
+  "bind": {
+    "port": 50904,
+    "readyLine": "[mcp] ready host=127.0.0.1 port=50904 tools=report_result,ask_leader,delegate_task",
+    "netstat": {
+      "loopback": true,
+      "wildcard": false,
+      "lines": [
+        "  TCP    127.0.0.1:50904        0.0.0.0:0              LISTENING       16344"
+      ]
+    }
+  },
+  "cli": {
+    "method": "OPENCODE_CONFIG(file-fallback)",
+    "members": {
+      "member-a": {
+        "method": "OPENCODE_CONFIG",
+        "exit": 0,
+        "timedOut": false,
+        "listsServer": false,
+        "noServers": true,
+        "outputHead": "No MCP servers configured\r\n\n",
+        "debugConfigShowsServer": true,
+        "debugConfigHead": "[\n  {\n    \"type\": \"directory\",\n    \"path\": \"C:\\\\Users\\\\Mohammad\\\\.config\\\\opencode\"\n  },\n  {\n    \"type\": \"document\",\n    \"path\": \"C:\\\\Users\\\\Mohammad\\\\AppData\\\\Local\\\\Temp\\\\tiye-s2-yNBCwC\\\\cwd-member-a\\\\opencode.json\",\n    \"info\": {\n      \"mcp\": {\n        \"servers\": {\n          \"tiye-team-tools\": {\n            \"type\": \"remote\",\n            \"url\": \"http://127.0.0.1:50904/mcp\",\n            \"headers\": {\n              \"Authorization\": \"***\"\n            },\n            \"oauth\": false,\n            \"dis",
+        "standalone": {
+          "exit": 0,
+          "named": false,
+          "connection": "absent",
+          "outputHead": "{\"location\":{\"directory\":\"C:\\\\Users\\\\Mohammad\\\\AppData\\\\Local\\\\Temp\\\\tiye-s2-yNBCwC\\\\cwd-member-a\"},\"data\":[]}\r\n"
+        }
+      },
+      "member-b": {
+        "method": "OPENCODE_CONFIG",
+        "exit": 0,
+        "timedOut": false,
+        "listsServer": false,
+        "noServers": true,
+        "outputHead": "No MCP servers configured\r\n\n",
+        "debugConfigShowsServer": true,
+        "debugConfigHead": "[\n  {\n    \"type\": \"directory\",\n    \"path\": \"C:\\\\Users\\\\Mohammad\\\\.config\\\\opencode\"\n  },\n  {\n    \"type\": \"document\",\n    \"path\": \"C:\\\\Users\\\\Mohammad\\\\AppData\\\\Local\\\\Temp\\\\tiye-s2-yNBCwC\\\\cwd-member-b\\\\opencode.json\",\n    \"info\": {\n      \"mcp\": {\n        \"servers\": {\n          \"tiye-team-tools\": {\n            \"type\": \"remote\",\n            \"url\": \"http://127.0.0.1:50904/mcp\",\n            \"headers\": {\n              \"Authorization\": \"***\"\n            },\n            \"oauth\": false,\n            \"dis",
+        "standalone": {
+          "exit": 0,
+          "named": false,
+          "connection": "absent",
+          "outputHead": "{\"location\":{\"directory\":\"C:\\\\Users\\\\Mohammad\\\\AppData\\\\Local\\\\Temp\\\\tiye-s2-yNBCwC\\\\cwd-member-b\"},\"data\":[]}\r\n"
+        }
+      }
+    },
+    "serviceStatus": "http://127.0.0.1:49374\r\n\n",
+    "sessionContact": {
+      "listPhase": {
+        "member-a": 0,
+        "member-b": 0
+      },
+      "apiPhase": {
+        "member-a": 1,
+        "member-b": 1
+      }
+    },
+    "note": "Config files merge (global+custom/project+inline); disposable config adds on top, so total isolation from global settings is NOT claimed. sessionContact counts SDK sessions the fixture server observed per member token during each CLI phase.",
+    "discoversServer": false,
+    "showsExactTools": false,
+    "debugConfigShowsServer": true
+  },
+  "protocol": {
+    "members": {
+      "member-a": {
+        "connected": true,
+        "sessionEstablished": true,
+        "toolNames": [
+          "report_result",
+          "ask_leader",
+          "delegate_task"
+        ],
+        "hasAll": true,
+        "ackOk": true,
+        "sessionClosed": true
+      },
+      "member-b": {
+        "connected": true,
+        "sessionEstablished": true,
+        "toolNames": [
+          "report_result",
+          "ask_leader",
+          "delegate_task"
+        ],
+        "hasAll": true,
+        "ackOk": true,
+        "sessionClosed": true
+      }
+    },
+    "badToken": {
+      "status": 401,
+      "rejected": true
+    },
+    "missingAuth": {
+      "status": 401,
+      "rejected": true
+    },
+    "badGet": {
+      "status": 401,
+      "rejected": true
+    },
+    "crossMember": {
+      "status": 401,
+      "rejected": true
+    }
+  },
+  "configTouched": {
+    "touched": false,
+    "before": {
+      "C:\\Users\\Mohammad\\.config\\opencode\\opencode.json": {
+        "exists": false
+      },
+      "D:\\TIYE Agent\\opencode.json": {
+        "exists": false
+      },
+      "D:\\TIYE Agent\\feasibility\\s2-control\\opencode.json": {
+        "exists": false
+      },
+      "__env": {
+        "hasOPENCODE_CONFIG": false,
+        "hasOPENCODE_CONFIG_CONTENT": false
+      }
+    },
+    "after": {
+      "C:\\Users\\Mohammad\\.config\\opencode\\opencode.json": {
+        "exists": false
+      },
+      "D:\\TIYE Agent\\opencode.json": {
+        "exists": false
+      },
+      "D:\\TIYE Agent\\feasibility\\s2-control\\opencode.json": {
+        "exists": false
+      },
+      "__env": {
+        "hasOPENCODE_CONFIG": false,
+        "hasOPENCODE_CONFIG_CONTENT": false
+      }
+    }
+  },
+  "logs": {
+    "hasToolAndMembers": true,
+    "leaksToken": false,
+    "leaksContent": false,
+    "head": "[mcp] ready host=127.0.0.1 port=50904 tools=report_result,ask_leader,delegate_task\n[mcp] session-open member=member-a sessions=1\n[mcp] session-open member=member-b sessions=2\n[mcp] session-open member=member-a sessions=3\n[mcp] tool-call member=member-a tool=report_result valid=true argumentCount=2\n[mcp] session-ownership-rejected method=POST owner=member-a caller=member-b\n[mcp] session-close member=member-a sessions=2\n[mcp] session-open member=member-b sessions=3\n[mcp] tool-call member=member-b tool=report_result valid=true argumentCount=2\n[mcp] session-close member=member-b sessions=2\n[mcp] auth-rejected method-for-path=/mcp\n[mcp] auth-rejected method-for-path=/mcp\n[mcp] auth-rejected method-for-path=/mcp\n"
+  },
+  "result": "partial",
+  "caveat": "CLI tool exposure unproven: neither `opencode mcp list` nor the private `api --standalone` instance surface the server, while exact tools are proven at the MCP protocol level (SDK stateful sessions). See sessionContact for whether each CLI phase dialed the fixture. No S2.2 model round trip claimed."
+}

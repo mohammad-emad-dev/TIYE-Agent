@@ -1,0 +1,16 @@
+{
+  "name": "tiye-s2-control",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TIYE Agent S2.1 feasibility fixture: loopback team-tools MCP server + disposable-config opencode mcp list probe (no model request).",
+  "type": "commonjs",
+  "scripts": {
+    "probe": "node scripts/run-probe.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1"
+  }
+}
