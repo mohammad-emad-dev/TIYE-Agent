@@ -122,7 +122,7 @@ async function closePrivate(state) {
   let captured = null;
   let inventoryFailed = false;
   try {
-    captured = ownedIdentities(await processInventory(), state.child.pid);
+    captured = state.captured || ownedIdentities(await processInventory(), state.child.pid);
   } catch {
     inventoryFailed = true;
   } finally {
@@ -168,4 +168,63 @@ async function probePersistent({ cwd, serverKey }) {
   return evidence;
 }
 
-module.exports = { probePersistent };
+async function probeStandaloneReport({ cwd, summary, member }) {
+  const model = 'opencode/muse-spark-1.3-contributor-free#xhigh';
+  const env = { ...process.env };
+  delete env.OPENCODE_CONFIG;
+  delete env.OPENCODE_CONFIG_CONTENT;
+  const child = spawn(nativeExecutable(), ['run', '--standalone', '--model', model, '--agent', 'build', '--format', 'json'], {
+    cwd, env, stdio: ['pipe', 'pipe', 'pipe'], windowsHide: true,
+  });
+  const state = { child };
+  let output = '';
+  let truncated = false;
+  child.stdout.on('data', (chunk) => {
+    const next = output + chunk;
+    truncated ||= next.length > 64000;
+    output = next.slice(-64000);
+  });
+  child.stderr.resume();
+  child.on('error', () => { state.error = true; });
+  child.on('close', () => { state.closed = true; });
+  child.stdin.on('error', () => { state.error = true; });
+  const evidence = { model, completedAck: false };
+  try {
+    await attachJob(state);
+    state.captured = ownedIdentities(await processInventory(), child.pid);
+    const startedAt = Date.now();
+    child.stdin.end(`This is a feasibility acknowledgment task. Call tiye-team-tools_report_result exactly once with summary ${JSON.stringify(summary)} and status "done". Do not use other tools. After it returns, finish briefly. Do not simulate the call in prose.`);
+    await waitUntil(() => state.error || state.closed, 120000);
+    evidence.elapsedMs = Date.now() - startedAt;
+    evidence.cliExitCode = child.exitCode;
+    Object.assign(evidence, summarizeToolEvents({ output, summary, member }));
+    evidence.outputTruncated = truncated;
+    evidence.cliSpawnError = state.error === true;
+  } catch {
+    evidence.error = 'standalone CLI lifecycle failed';
+  } finally {
+    evidence.cleanup = await closePrivate(state);
+  }
+  return evidence;
+}
+
+function summarizeToolEvents({ output, summary, member }) {
+  let malformed = false;
+  const events = output.split('\n').filter((line) => line.trim()).flatMap((line) => {
+    try { const event = JSON.parse(line); if (!event || typeof event !== 'object') throw new Error(); return [event]; }
+    catch { malformed = true; return []; }
+  });
+  const failure = events.find((event) => event.type === 'error')?.error;
+  const tools = events.filter((event) => event.type === 'tool_use' && event.part?.type === 'tool').map((event) => event.part);
+  const reports = tools.filter((part) => part.tool === 'tiye-team-tools_report_result' && part.state?.status === 'completed');
+  return {
+    malformedEvents: malformed,
+    ...(failure ? { failure: { category: failure.type === 'provider.auth' ? 'provider.auth' : 'other', httpStatus: Number.isInteger(failure.status) ? failure.status : null } } : {}),
+    completedReports: reports.length,
+    otherToolCalls: tools.filter((part) => part.tool !== 'tiye-team-tools_report_result').length,
+    completedAck: !malformed && reports.length === 1 && reports[0].state.input?.summary === summary && reports[0].state.input?.status === 'done'
+      && reports[0].state.output === `ack report_result for ${member} (feasibility only, no engine effect)`,
+  };
+}
+
+module.exports = { probePersistent, probeStandaloneReport, summarizeToolEvents };

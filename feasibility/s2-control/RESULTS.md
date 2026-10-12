@@ -1,5 +1,49 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## Model invocation slice (13 October 2026)
+
+The new opt-in `npm run probe:tool-call` is implemented, but the actual
+tool invocation gate **fails** with the approved free Muse model.
+OpenCode 2.0.22 returned `provider.auth`, HTTP 403, for both members before
+any tool call. Its diagnostic message was: “OpenCode's free tier can only
+be used from within OpenCode.” Direct API prompt delivery, native
+`run --server` against the private instance, and native `run --standalone`
+all encountered that restriction. The committed runner uses the last,
+simplest native path; it does not change credentials or bypass the check.
+
+[`evidence/tool-call-latest.json`](evidence/tool-call-latest.json) records
+zero server reports and no CLI acknowledgment for each member. The native
+process was assigned to the S1 kill-on-close Job Object before prompt
+delivery. Each run captured four process identities before submission;
+cleanup, selected config fingerprints, fixture shutdown, exact temporary
+directory removal, and log hygiene passed. Startup/provider bodies,
+bearer tokens, summary markers, and session IDs are not persisted.
+
+The runner requires both a matching server call and a structured CLI
+acknowledgment for a future pass. The positive acknowledgment matcher is
+still unverified against a real successful tool call. Local negative
+checks reject prose-only output, malformed events, wrong marker, wrong
+status, wrong tool, and duplicate completed reports. These checks do not
+prove model reliability or production permissions.
+
+The default no-model probe was rerun: private MCP attachment, direct SDK
+tools and acknowledgments, auth/session checks, and cleanup still pass;
+the overall result remains PARTIAL because exact CLI tool exposure is
+unproven. Syntax and diff checks pass.
+
+Requested delegation: Muse Spark free `xhigh` completed its read-only
+evidence review through the existing OpenCode service. MiMo
+`atria/Atria-Dawn-Preview` and Claude `Atria-Dawn-Preview` `xhigh` each
+timed out after four minutes without a review. Claude's read-only
+tripwire observed the orchestrator's concurrent implementation edits;
+those files were independently inspected. No Atria review is claimed.
+
+Next: test a supported service-backed invocation path with interruption
+of only the owned session and disposable member configuration. The
+contrast with the successful Muse review suggests a private-instance
+restriction; its precise cause is not established. S2.2 terminal delivery,
+ten-run reliability, role permissions, and the core team engine remain open.
+
 ## Persistent private CLI slice (12 October 2026)
 
 Verdict remains **PARTIAL**, with private CLI server attachment now proven

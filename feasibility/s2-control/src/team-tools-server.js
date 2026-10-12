@@ -58,6 +58,8 @@ function loadTokens() {
 }
 
 const TOKENS = loadTokens();
+// Optional model-probe correlation. Compare in memory; never log the marker.
+const EXPECTED_SUMMARY = process.env.TIYE_S2_EXPECTED_SUMMARY;
 
 function log(msg) {
   // Single-line, bounded. Callers must never pass tokens, session IDs,
@@ -87,6 +89,9 @@ function createMemberServer(member) {
   const ack = (tool) => async (args) => {
     const count = args && typeof args === 'object' && !Array.isArray(args) ? Object.keys(args).length : 0;
     log(`tool-call member=${member} tool=${tool} valid=true argumentCount=${count}`);
+    if (EXPECTED_SUMMARY && tool === 'report_result') {
+      log(`report-match member=${member} matched=${args.summary === EXPECTED_SUMMARY && args.status === 'done'}`);
+    }
     return { content: [{ type: 'text', text: `ack ${tool} for ${member} (feasibility only, no engine effect)` }] };
   };
   server.tool(

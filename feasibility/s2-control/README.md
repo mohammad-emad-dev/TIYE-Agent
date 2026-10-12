@@ -1,7 +1,8 @@
-# TIYE S2.1 control-channel attachment probe (feasibility slice, no model)
+# TIYE S2 control-channel probes (feasibility slices)
 
 Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
-minimal team-tools MCP server to installed OpenCode without a model request.
+minimal team-tools MCP server to installed OpenCode. The default probe makes
+no model request; the separate invocation probe uses the approved free model.
 
 ## Scope (exact)
 
@@ -56,7 +57,8 @@ minimal team-tools MCP server to installed OpenCode without a model request.
 
 ## Non-scope (explicit)
 
-- No model call, no prompt submission, no S2.2 task round trip.
+- The default `probe` command makes no model call or prompt submission.
+  Neither command completes the terminal T1 task or S2.2 reliability gate.
 - Tool role restrictions are not implemented in this acknowledgment-only
   fixture; `delegate_task` has no engine effect.
 - `opencode mcp list` is a server-status view; if it cannot enumerate exact
@@ -76,3 +78,43 @@ Exit: `0` PASS (CLI lists server + exact tools, protocol confirms),
 `1` FAIL (auth/bind/timeout/safety or incompatible interface).
 
 See `RESULTS.md` for the recorded outcome and caveats.
+
+## Opt-in model invocation
+
+```bat
+cd feasibility\s2-control
+rtk npm run probe:tool-call
+```
+
+`scripts/run-tool-probe.js` launches the native Windows OpenCode CLI with
+`run --standalone --model opencode/muse-spark-1.3-contributor-free#xhigh`
+and JSON output, once per member. Each disposable project attaches the
+same three-tool fixture with its own bearer token and `codemode: false`.
+Ordered permission rules deny all actions and allow only
+`tiye-team-tools_report_result`. These rules are a probe configuration;
+their production permission coverage has not been validated.
+
+The prompt is sent through stdin after Job Object assignment and an
+initial process identity capture. It requests one `report_result` with a
+unique summary marker and `done` status. The server compares that marker
+in memory and logs only a match boolean. A prospective pass requires one
+matching server call, the exact structured CLI acknowledgment, no other
+observed tool calls, successful CLI exit, complete bounded output,
+unchanged selected config fingerprints, and verified cleanup. Prose alone
+cannot pass. The positive acknowledgment matcher has not yet been tested
+against a successful real CLI tool call.
+
+The model phase has a 120-second deadline after setup. The private CLI
+tree is terminated by releasing its owned Job Object, including on a
+timeout; there is no service-owned background session to interrupt.
+Only the exact created temporary project is removed. No global service
+is stopped. Redacted results go to `evidence/tool-call-latest.json`.
+Exit `0` means this invocation slice passed; `1` means it failed.
+`rtk npm run check` runs offline rejection tests for the evidence parser.
+
+Measured on OpenCode 2.0.22: both member runs fail before any tool call
+with `provider.auth`, HTTP 403. The free provider rejects private-instance
+execution. The default no-model attachment probe still reports PARTIAL.
+Config fingerprints cover the home `.config/opencode`, repository root,
+and fixture root `opencode.json`/`opencode.jsonc` files; they do not prove
+that every possible configuration source is isolated or unchanged.

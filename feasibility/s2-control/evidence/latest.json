@@ -6,13 +6,13 @@
     "opencode": "opencode v2.0.22"
   },
   "bind": {
-    "port": 51570,
-    "readyLine": "[mcp] ready host=127.0.0.1 port=51570 tools=report_result,ask_leader,delegate_task",
+    "port": 62717,
+    "readyLine": "[mcp] ready host=127.0.0.1 port=62717 tools=report_result,ask_leader,delegate_task",
     "netstat": {
       "loopback": true,
       "wildcard": false,
       "lines": [
-        "  TCP    127.0.0.1:51570        0.0.0.0:0              LISTENING       7484"
+        "  TCP    127.0.0.1:62717        0.0.0.0:0              LISTENING       7444"
       ]
     }
   },
@@ -27,7 +27,7 @@
         "noServers": true,
         "outputHead": "No MCP servers configured\r\n\n",
         "debugConfigShowsServer": true,
-        "debugConfigHead": "[\n  {\n    \"type\": \"directory\",\n    \"path\": \"C:\\\\Users\\\\Mohammad\\\\.config\\\\opencode\"\n  },\n  {\n    \"type\": \"document\",\n    \"path\": \"C:\\\\Users\\\\Mohammad\\\\AppData\\\\Local\\\\Temp\\\\tiye-s2-P3dhWm\\\\cwd-member-a\\\\opencode.json\",\n    \"info\": {\n      \"mcp\": {\n        \"servers\": {\n          \"tiye-team-tools\": {\n            \"type\": \"remote\",\n            \"url\": \"http://127.0.0.1:51570/mcp\",\n            \"headers\": {\n              \"Authorization\": \"***\"\n            },\n            \"oauth\": false,\n            \"dis",
+        "debugConfigHead": "[\n  {\n    \"type\": \"directory\",\n    \"path\": \"C:\\\\Users\\\\Mohammad\\\\.config\\\\opencode\"\n  },\n  {\n    \"type\": \"document\",\n    \"path\": \"C:\\\\Users\\\\Mohammad\\\\AppData\\\\Local\\\\Temp\\\\tiye-s2-gsDq1B\\\\cwd-member-a\\\\opencode.json\",\n    \"info\": {\n      \"mcp\": {\n        \"servers\": {\n          \"tiye-team-tools\": {\n            \"type\": \"remote\",\n            \"url\": \"http://127.0.0.1:62717/mcp\",\n            \"headers\": {\n              \"Authorization\": \"***\"\n            },\n            \"oauth\": false,\n            \"dis",
         "projectList": {
           "exit": 0,
           "timedOut": false,
@@ -40,7 +40,7 @@
           "exit": 0,
           "named": false,
           "connection": "absent",
-          "outputHead": "{\"location\":{\"directory\":\"C:\\\\Users\\\\Mohammad\\\\AppData\\\\Local\\\\Temp\\\\tiye-s2-P3dhWm\\\\cwd-member-a\"},\"data\":[]}\r\n"
+          "outputHead": "{\"location\":{\"directory\":\"C:\\\\Users\\\\Mohammad\\\\AppData\\\\Local\\\\Temp\\\\tiye-s2-gsDq1B\\\\cwd-member-a\"},\"data\":[]}\r\n"
         }
       },
       "member-b": {
@@ -51,7 +51,7 @@
         "noServers": true,
         "outputHead": "No MCP servers configured\r\n\n",
         "debugConfigShowsServer": true,
-        "debugConfigHead": "[\n  {\n    \"type\": \"directory\",\n    \"path\": \"C:\\\\Users\\\\Mohammad\\\\.config\\\\opencode\"\n  },\n  {\n    \"type\": \"document\",\n    \"path\": \"C:\\\\Users\\\\Mohammad\\\\AppData\\\\Local\\\\Temp\\\\tiye-s2-P3dhWm\\\\cwd-member-b\\\\opencode.json\",\n    \"info\": {\n      \"mcp\": {\n        \"servers\": {\n          \"tiye-team-tools\": {\n            \"type\": \"remote\",\n            \"url\": \"http://127.0.0.1:51570/mcp\",\n            \"headers\": {\n              \"Authorization\": \"***\"\n            },\n            \"oauth\": false,\n            \"dis",
+        "debugConfigHead": "[\n  {\n    \"type\": \"directory\",\n    \"path\": \"C:\\\\Users\\\\Mohammad\\\\.config\\\\opencode\"\n  },\n  {\n    \"type\": \"document\",\n    \"path\": \"C:\\\\Users\\\\Mohammad\\\\AppData\\\\Local\\\\Temp\\\\tiye-s2-gsDq1B\\\\cwd-member-b\\\\opencode.json\",\n    \"info\": {\n      \"mcp\": {\n        \"servers\": {\n          \"tiye-team-tools\": {\n            \"type\": \"remote\",\n            \"url\": \"http://127.0.0.1:62717/mcp\",\n            \"headers\": {\n              \"Authorization\": \"***\"\n            },\n            \"oauth\": false,\n            \"dis",
         "projectList": {
           "exit": 0,
           "timedOut": false,
@@ -64,7 +64,7 @@
           "exit": 0,
           "named": false,
           "connection": "absent",
-          "outputHead": "{\"location\":{\"directory\":\"C:\\\\Users\\\\Mohammad\\\\AppData\\\\Local\\\\Temp\\\\tiye-s2-P3dhWm\\\\cwd-member-b\"},\"data\":[]}\r\n"
+          "outputHead": "{\"location\":{\"directory\":\"C:\\\\Users\\\\Mohammad\\\\AppData\\\\Local\\\\Temp\\\\tiye-s2-gsDq1B\\\\cwd-member-b\"},\"data\":[]}\r\n"
         }
       }
     },
@@ -89,17 +89,17 @@
         "polls": [
           {
             "attempt": 0,
-            "elapsedMs": 1404,
+            "elapsedMs": 1000,
             "connection": "absent"
           },
           {
             "attempt": 1,
-            "elapsedMs": 2550,
+            "elapsedMs": 2005,
             "connection": "pending"
           },
           {
             "attempt": 2,
-            "elapsedMs": 4421,
+            "elapsedMs": 4003,
             "connection": "connected"
           }
         ],
@@ -117,17 +117,17 @@
         "polls": [
           {
             "attempt": 0,
-            "elapsedMs": 1385,
+            "elapsedMs": 980,
             "connection": "absent"
           },
           {
             "attempt": 1,
-            "elapsedMs": 2527,
-            "connection": "pending"
+            "elapsedMs": 1830,
+            "connection": "absent"
           },
           {
             "attempt": 2,
-            "elapsedMs": 4391,
+            "elapsedMs": 4836,
             "connection": "connected"
           }
         ],
@@ -238,7 +238,7 @@
     "hasToolAndMembers": true,
     "leaksToken": false,
     "leaksContent": false,
-    "head": "[mcp] ready host=127.0.0.1 port=51570 tools=report_result,ask_leader,delegate_task\n[mcp] session-open member=member-a sessions=1\n[mcp] protocol-request member=member-a method=initialize\n[mcp] protocol-request member=member-a method=notifications/initialized\n[mcp] protocol-request member=member-a method=tools/list\n[mcp] session-open member=member-b sessions=2\n[mcp] protocol-request member=member-b method=initialize\n[mcp] protocol-request member=member-b method=notifications/initialized\n[mcp] protocol-request member=member-b method=tools/list\n[mcp] session-open member=member-a sessions=3\n[mcp] protocol-request member=member-a method=initialize\n[mcp] protocol-request member=member-a method=notifications/initialized\n[mcp] protocol-request member=member-a method=tools/list\n[mcp] session-open member=member-b sessions=4\n[mcp] protocol-request member=member-b method=initialize\n[mcp] protocol-request member=member-b method=notifications/initialized\n[mcp] protocol-request member=member-b method=tools/list\n[mcp] session-open member=member-a sessions=5\n[mcp] protocol-request member=member-a method=initialize\n[mcp] protocol-request member=member-a method=notifications/initialized\n[mcp] protocol-request member=member-a method=tools/list\n[mcp] tool-call member=member-a tool=report_result valid=true argumentCount=2\n[mcp] session-ownership-rejected method=POST owner=member-a caller=member-b\n[mcp] session-close member=member-a sessions=4\n[mcp] session-open member=member-b sessions=5\n[mcp] protocol-request member=member-b method=initialize\n[mcp] protocol-request member=member-b method=notifications/initialized\n[mcp] protocol-request member=member-b method=tools/list\n[mcp] tool-call member=member-b tool=report_result valid=true argumentCount=2\n[mcp] session-close member=member-b sessions=4\n[mcp] auth-rejected method-for-path=/mcp\n[mcp] auth-rejected method-for-path=/mcp\n[mcp] auth-rejected method-for-path=/mcp\n"
+    "head": "[mcp] ready host=127.0.0.1 port=62717 tools=report_result,ask_leader,delegate_task\n[mcp] session-open member=member-a sessions=1\n[mcp] protocol-request member=member-a method=initialize\n[mcp] protocol-request member=member-a method=notifications/initialized\n[mcp] protocol-request member=member-a method=tools/list\n[mcp] session-open member=member-b sessions=2\n[mcp] protocol-request member=member-b method=initialize\n[mcp] protocol-request member=member-b method=notifications/initialized\n[mcp] protocol-request member=member-b method=tools/list\n[mcp] session-open member=member-a sessions=3\n[mcp] protocol-request member=member-a method=initialize\n[mcp] protocol-request member=member-a method=notifications/initialized\n[mcp] protocol-request member=member-a method=tools/list\n[mcp] session-open member=member-b sessions=4\n[mcp] protocol-request member=member-b method=initialize\n[mcp] protocol-request member=member-b method=notifications/initialized\n[mcp] protocol-request member=member-b method=tools/list\n[mcp] session-open member=member-a sessions=5\n[mcp] protocol-request member=member-a method=initialize\n[mcp] protocol-request member=member-a method=notifications/initialized\n[mcp] protocol-request member=member-a method=tools/list\n[mcp] tool-call member=member-a tool=report_result valid=true argumentCount=2\n[mcp] session-ownership-rejected method=POST owner=member-a caller=member-b\n[mcp] session-close member=member-a sessions=4\n[mcp] session-open member=member-b sessions=5\n[mcp] protocol-request member=member-b method=initialize\n[mcp] protocol-request member=member-b method=notifications/initialized\n[mcp] protocol-request member=member-b method=tools/list\n[mcp] tool-call member=member-b tool=report_result valid=true argumentCount=2\n[mcp] session-close member=member-b sessions=4\n[mcp] auth-rejected method-for-path=/mcp\n[mcp] auth-rejected method-for-path=/mcp\n[mcp] auth-rejected method-for-path=/mcp\n"
   },
   "result": "partial",
   "caveat": "Default mcp list and single-shot standalone listings remain empty. Persistent private API polling measures connected server status separately; this API exposes status, not exact tool names. Exact tools are proven only by the direct SDK client. No S2.2 model round trip claimed."
