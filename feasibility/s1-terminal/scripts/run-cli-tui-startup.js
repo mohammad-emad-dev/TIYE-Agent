@@ -75,6 +75,28 @@
 // shortcut. Do NOT cite as S1 step 3/6, parity, Unicode, approvals, or model
 // behavior.
 //
+// --unicode-probe mode (same file, distinct Electron flag --cli-unicode-smoke):
+// bounded real-CLI single-line Unicode feasibility slice (S1 step 8). Same
+// fixed command + empty args, scrubbed env, and verified kill-on-close Job
+// Object gate. Delivers the fixed harmless SINGLE-LINE token
+// TIYE_U8[AR:مرحبا][ZH:你好][JA:こんにちは][KO:안녕] (Arabic + Chinese +
+// Japanese + Korean with ASCII delimiters, no newline) SOLELY via xterm
+// Terminal.paste() through a query-gated renderer hook
+// (?tiye-unicode-probe=1; no OS clipboard read/overwrite, no Ctrl+V, no
+// sendInputEvent, no term.write from the harness, never Enter/submit, no
+// model request, no global config mutation) in a VISIBLE opt-in
+// BrowserWindow. Requires bracketedPasteMode enabled before sending (fail
+// closed) and exactly one ESC[200~ + fixed Unicode payload + ESC[201~ INPUT
+// in main with no stray input (UTF-8 bytes via Buffer, not JS length);
+// requires the semantic renderer display gate (xterm buffer + DOM hold all
+// four scripts) plus changed before/after screenshots
+// (dist/cli-unicode-before.png + dist/cli-unicode-after.png). A screenshot
+// hash difference alone is NEVER cited as intact-display proof (orchestrator
+// must visually inspect the after-shot for intact glyphs, no tofu/mojibake).
+// Automated PASS means bracketed UTF-8 evidence + semantic display + changed
+// render + teardown only, NOT S1 step 8 complete and NOT Windows Terminal
+// parity.
+//
 // Determinism: the runner OVERWRITES TIYE_S1_COMMAND=opencode and
 // TIYE_S1_ARGS_JSON=[] and DELETES inherited TIYE_S1_CWD plus every
 // crash/crash-survivor registry env and TIYE_MOCK_CRASH_MODE so an outer
@@ -84,8 +106,9 @@
 // Teardown: after the screenshot the Electron side stays alive (no
 // term.kill() by design: node-pty on Windows has a documented teardown race
 // after term.kill / app exit with a live PTY). The runner ends ONLY its
-// runner-owned Electron ChildProcess via the handle. Paste also releases its
-// controller-held Job Object to terminate descendants. The runner then
+// runner-owned Electron ChildProcess via the handle. Paste/unicode also
+// release their controller-held Job Object to terminate descendants. The
+// runner then
 // read-only verifies the exact captured PID+creation tree is gone. If teardown cannot be proven
 // the runner exits inconclusive (2), never PASS. Never taskkill /
 // Stop-Process / PID-only kill; never a captured member PID; unrelated
@@ -93,11 +116,14 @@
 //
 // Exit contract: 0 TUI-STARTUP PASS (or CLI-INPUT PASS in --input-probe mode,
 // or CLI-EDIT PASS in --edit-probe mode, or CLI-HISTORY PASS in
-// --history-probe mode, or CLI-PASTE PASS in --paste-probe mode),
+// --history-probe mode, or CLI-PASTE PASS in --paste-probe mode, or
+// CLI-UNICODE PASS in --unicode-probe mode),
 // 1 FAIL (wrong resolution, missing startup marker, empty screenshot, or — in
-// input/edit/paste mode — unchanged before/after render; or — in paste mode —
+// input/edit/paste/unicode mode — unchanged before/after render; or — in paste mode —
 // missing bracketed evidence / stray input / bracketed mode off / unexpected
-// sendInputEvent/Enter; or — in history mode —
+// sendInputEvent/Enter; or — in unicode mode — missing bracketed UTF-8
+// evidence / stray input / bracketed mode off / semantic display unproven /
+// unexpected sendInputEvent/Enter; or — in history mode —
 // missing /help sequence marker or unobserved help UI; no pass),
 // 2 inconclusive/harness
 // failure (missing dist, launch/timeout/lookup failure, pre-kill tree not
@@ -114,8 +140,9 @@ const IS_HISTORY_PROBE = process.argv.includes('--history-probe');
 const IS_PASTE_PROBE = process.argv.includes('--paste-probe') && !IS_HISTORY_PROBE;
 const IS_EDIT_PROBE = process.argv.includes('--edit-probe') && !IS_HISTORY_PROBE && !IS_PASTE_PROBE;
 const IS_INPUT_PROBE = process.argv.includes('--input-probe') && !IS_EDIT_PROBE && !IS_HISTORY_PROBE && !IS_PASTE_PROBE;
-const FLAG = IS_HISTORY_PROBE ? '--cli-history-smoke' : IS_PASTE_PROBE ? '--cli-paste-smoke' : IS_EDIT_PROBE ? '--cli-edit-smoke' : IS_INPUT_PROBE ? '--cli-input-smoke' : '--cli-tui-startup-smoke';
-const SMOKE_TAG = IS_HISTORY_PROBE ? 'cli-history-smoke' : IS_PASTE_PROBE ? 'cli-paste-smoke' : IS_EDIT_PROBE ? 'cli-edit-smoke' : IS_INPUT_PROBE ? 'cli-input-smoke' : 'cli-tui-startup-smoke';
+const IS_UNICODE_PROBE = process.argv.includes('--unicode-probe') && !IS_HISTORY_PROBE && !IS_PASTE_PROBE && !IS_EDIT_PROBE && !IS_INPUT_PROBE;
+const FLAG = IS_HISTORY_PROBE ? '--cli-history-smoke' : IS_PASTE_PROBE ? '--cli-paste-smoke' : IS_UNICODE_PROBE ? '--cli-unicode-smoke' : IS_EDIT_PROBE ? '--cli-edit-smoke' : IS_INPUT_PROBE ? '--cli-input-smoke' : '--cli-tui-startup-smoke';
+const SMOKE_TAG = IS_HISTORY_PROBE ? 'cli-history-smoke' : IS_PASTE_PROBE ? 'cli-paste-smoke' : IS_UNICODE_PROBE ? 'cli-unicode-smoke' : IS_EDIT_PROBE ? 'cli-edit-smoke' : IS_INPUT_PROBE ? 'cli-input-smoke' : 'cli-tui-startup-smoke';
 const READY_TIMEOUT_MS = 60000;
 const KILL_WAIT_MS = 10000;
 const POST_KILL_SETTLE_MS = 2000;
@@ -126,20 +153,24 @@ const READY_RE = IS_HISTORY_PROBE
   ? /\[cli-history-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
   : IS_PASTE_PROBE
     ? /\[cli-paste-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
-    : IS_EDIT_PROBE
-      ? /\[cli-edit-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
-      : IS_INPUT_PROBE
-        ? /\[cli-input-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
-        : /\[cli-tui-startup-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/;
+    : IS_UNICODE_PROBE
+      ? /\[cli-unicode-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
+      : IS_EDIT_PROBE
+        ? /\[cli-edit-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
+        : IS_INPUT_PROBE
+          ? /\[cli-input-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
+          : /\[cli-tui-startup-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/;
 const IDENTITY_RE = IS_HISTORY_PROBE
   ? /\[cli-history-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
   : IS_PASTE_PROBE
     ? /\[cli-paste-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
-    : IS_EDIT_PROBE
-      ? /\[cli-edit-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
-      : IS_INPUT_PROBE
-        ? /\[cli-input-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
-        : /\[cli-tui-startup-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g;
+    : IS_UNICODE_PROBE
+      ? /\[cli-unicode-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
+      : IS_EDIT_PROBE
+        ? /\[cli-edit-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
+        : IS_INPUT_PROBE
+          ? /\[cli-input-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
+          : /\[cli-tui-startup-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g;
 
 function log(msg) {
   console.log(`[runner] ${msg}`);
@@ -282,23 +313,29 @@ async function main() {
     ? historyUpShotPath
     : IS_PASTE_PROBE
       ? path.resolve(__dirname, '..', 'dist', 'cli-paste-after.png')
-      : IS_EDIT_PROBE
-        ? path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png')
-        : IS_INPUT_PROBE
-          ? path.resolve(__dirname, '..', 'dist', 'cli-input-after.png')
-          : path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
+      : IS_UNICODE_PROBE
+        ? path.resolve(__dirname, '..', 'dist', 'cli-unicode-after.png')
+        : IS_EDIT_PROBE
+          ? path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png')
+          : IS_INPUT_PROBE
+            ? path.resolve(__dirname, '..', 'dist', 'cli-input-after.png')
+            : path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
   const beforeShotPath = IS_PASTE_PROBE
     ? path.resolve(__dirname, '..', 'dist', 'cli-paste-before.png')
-    : IS_EDIT_PROBE
-      ? path.resolve(__dirname, '..', 'dist', 'cli-edit-before.png')
-      : path.resolve(__dirname, '..', 'dist', 'cli-input-before.png');
+    : IS_UNICODE_PROBE
+      ? path.resolve(__dirname, '..', 'dist', 'cli-unicode-before.png')
+      : IS_EDIT_PROBE
+        ? path.resolve(__dirname, '..', 'dist', 'cli-edit-before.png')
+        : path.resolve(__dirname, '..', 'dist', 'cli-input-before.png');
   const afterShotPath = IS_HISTORY_PROBE
     ? historyUpShotPath
     : IS_PASTE_PROBE
       ? path.resolve(__dirname, '..', 'dist', 'cli-paste-after.png')
-      : IS_EDIT_PROBE
-        ? path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png')
-        : path.resolve(__dirname, '..', 'dist', 'cli-input-after.png');
+      : IS_UNICODE_PROBE
+        ? path.resolve(__dirname, '..', 'dist', 'cli-unicode-after.png')
+        : IS_EDIT_PROBE
+          ? path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png')
+          : path.resolve(__dirname, '..', 'dist', 'cli-input-after.png');
 
   // Deterministic probe env: fixed command + empty args, scrubbed S1
   // overrides so inherited values cannot change behavior.
@@ -322,7 +359,7 @@ async function main() {
   log('env: TIYE_S1_COMMAND=opencode TIYE_S1_ARGS_JSON=[] (fixed; no stdin, no prompt, no model request)');
   log('env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)');
 
-  log(`phase 1: spawn runner-owned Electron ${FLAG} ${IS_HISTORY_PROBE ? 'visible-window (opt-in /help history observation)' : IS_PASTE_PROBE ? 'visible-window (opt-in Terminal.paste() multiline observation)' : IS_EDIT_PROBE ? 'visible-window (opt-in keyboard editing)' : IS_INPUT_PROBE ? 'visible-window (opt-in keyboard delivery)' : 'hidden-window'} (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)`);
+  log(`phase 1: spawn runner-owned Electron ${FLAG} ${IS_HISTORY_PROBE ? 'visible-window (opt-in /help history observation)' : IS_PASTE_PROBE ? 'visible-window (opt-in Terminal.paste() multiline observation)' : IS_UNICODE_PROBE ? 'visible-window (opt-in Terminal.paste() single-line Unicode observation)' : IS_EDIT_PROBE ? 'visible-window (opt-in keyboard editing)' : IS_INPUT_PROBE ? 'visible-window (opt-in keyboard delivery)' : 'hidden-window'} (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)`);
   const child = spawn(electron, [distMain, FLAG], {
     cwd: path.resolve(__dirname, '..'),
     env,
@@ -331,7 +368,7 @@ async function main() {
   });
   let output = '';
   let ready = null;
-  const childTag = IS_HISTORY_PROBE ? 'cli-history-main' : IS_PASTE_PROBE ? 'cli-paste-main' : IS_EDIT_PROBE ? 'cli-edit-main' : IS_INPUT_PROBE ? 'cli-input-main' : 'tui-startup-main';
+  const childTag = IS_HISTORY_PROBE ? 'cli-history-main' : IS_PASTE_PROBE ? 'cli-paste-main' : IS_UNICODE_PROBE ? 'cli-unicode-main' : IS_EDIT_PROBE ? 'cli-edit-main' : IS_INPUT_PROBE ? 'cli-input-main' : 'tui-startup-main';
   child.stdout?.on('data', (d) => {
     output += d.toString('utf8');
     logChild(childTag, d);
@@ -489,9 +526,11 @@ async function main() {
     ? /\[cli-edit-smoke\] SHOTS before=.* changed=true/i.test(output)
     : IS_PASTE_PROBE
       ? /\[cli-paste-smoke\] SHOTS before=.* changed=true/i.test(output)
-      : IS_INPUT_PROBE
-        ? /\[cli-input-smoke\] SHOTS before=.* changed=true/i.test(output)
-        : true;
+      : IS_UNICODE_PROBE
+        ? /\[cli-unicode-smoke\] SHOTS before=.* changed=true/i.test(output)
+        : IS_INPUT_PROBE
+          ? /\[cli-input-smoke\] SHOTS before=.* changed=true/i.test(output)
+          : true;
   const pastePlanOk = IS_PASTE_PROBE
     ? /\[cli-paste-smoke\] PASTE-PLAN tokenLines=3 method=Terminal\.paste\(\)/i.test(output)
     : true;
@@ -513,6 +552,31 @@ async function main() {
   // Paste must be Terminal.paste() ONLY: any keyboard-event delivery log or
   // Enter-press log in paste mode is a FAIL (wrong input path / submitted).
   const pasteNoKeyboardOk = IS_PASTE_PROBE
+    ? !/via sendInputEvent/i.test(output) && !/Enter pressed/i.test(output) && !/ok: input typed/i.test(output) && !/ok: edit keys/i.test(output) && !/history input typed/i.test(output)
+    : true;
+  const unicodePlanOk = IS_UNICODE_PROBE
+    ? /\[cli-unicode-smoke\] UNICODE-PLAN tokenLines=1 .* method=Terminal\.paste\(\)/i.test(output)
+    : true;
+  const unicodeHookOk = IS_UNICODE_PROBE
+    ? /\[cli-unicode-smoke\] UNICODE-HOOK present=true/i.test(output) && /\[cli-unicode-smoke\] UNICODE-HOOK tokenJsLenMatch=true/i.test(output)
+    : true;
+  const unicodeBracketedOk = IS_UNICODE_PROBE
+    ? /\[cli-unicode-smoke\] UNICODE-BRACKETED enabled=true/i.test(output)
+    : true;
+  const unicodeDeliveredOk = IS_UNICODE_PROBE
+    ? /\[cli-unicode-smoke\] ok: unicode delivered tokenJsLen=\d+ tokenUtf8Bytes=\d+ expectedUtf8Bytes=\d+ lines=1 via Terminal\.paste\(\)/i.test(output)
+    : true;
+  const unicodeInputOk = IS_UNICODE_PROBE
+    ? /\[cli-unicode-smoke\] UNICODE-INPUT count=1 .* match=true stray=false/i.test(output)
+    : true;
+  const unicodeDisplayOk = IS_UNICODE_PROBE
+    ? /\[cli-unicode-smoke\] UNICODE-DISPLAY ar=true zh=true ja=true ko=true all=true/i.test(output)
+    : true;
+  // Unicode must be Terminal.paste() ONLY: any keyboard-event delivery log or
+  // Enter-press log in unicode mode is a FAIL (wrong input path / submitted).
+  // A screenshot hash difference alone is never display proof: the
+  // UNICODE-DISPLAY semantic gate above is required.
+  const unicodeNoKeyboardOk = IS_UNICODE_PROBE
     ? !/via sendInputEvent/i.test(output) && !/Enter pressed/i.test(output) && !/ok: input typed/i.test(output) && !/ok: edit keys/i.test(output) && !/history input typed/i.test(output)
     : true;
   const historyPlanOk = IS_HISTORY_PROBE
@@ -547,7 +611,7 @@ async function main() {
   log(`assert: markers line: ${markersLine.slice(0, 200)}`);
   log(`assert: version line: ${versionLine.slice(0, 120)}`);
   log(`assert: shot line: ${shotLine.slice(0, 300)}`);
-  log(`assert: mode=${IS_HISTORY_PROBE ? 'history-probe' : IS_PASTE_PROBE ? 'paste-probe' : IS_EDIT_PROBE ? 'edit-probe' : IS_INPUT_PROBE ? 'input-probe' : 'tui-startup'} resolvedOpencode=${resolvedOpencode} resolvedCmdShim=${resolvedCmdShim} rendererReady=${rendererReady} ptyData=${ptyData} markersOk=${markersOk} versionOk=${versionOk} inputTypedOk=${inputTypedOk} editKeysOk=${editKeysOk} editPlanOk=${editPlanOk} shotsLogOk=${shotsLogOk} pastePlanOk=${pastePlanOk} pasteHookOk=${pasteHookOk} pasteBracketedOk=${pasteBracketedOk} pasteDeliveredOk=${pasteDeliveredOk} pasteInputOk=${pasteInputOk} pasteNoKeyboardOk=${pasteNoKeyboardOk} historyPlanOk=${historyPlanOk} historyTypedOk=${historyTypedOk} historyEchoOk=${historyEchoOk} historyEnterOk=${historyEnterOk} historyHelpObservedOk=${historyHelpObservedOk} historyEscapeOk=${historyEscapeOk} historyUpOk=${historyUpOk} historyUpShotOk=${historyUpShotOk} historyShotsLogOk=${historyShotsLogOk}`);
+  log(`assert: mode=${IS_HISTORY_PROBE ? 'history-probe' : IS_PASTE_PROBE ? 'paste-probe' : IS_UNICODE_PROBE ? 'unicode-probe' : IS_EDIT_PROBE ? 'edit-probe' : IS_INPUT_PROBE ? 'input-probe' : 'tui-startup'} resolvedOpencode=${resolvedOpencode} resolvedCmdShim=${resolvedCmdShim} rendererReady=${rendererReady} ptyData=${ptyData} markersOk=${markersOk} versionOk=${versionOk} inputTypedOk=${inputTypedOk} editKeysOk=${editKeysOk} editPlanOk=${editPlanOk} shotsLogOk=${shotsLogOk} pastePlanOk=${pastePlanOk} pasteHookOk=${pasteHookOk} pasteBracketedOk=${pasteBracketedOk} pasteDeliveredOk=${pasteDeliveredOk} pasteInputOk=${pasteInputOk} pasteNoKeyboardOk=${pasteNoKeyboardOk} unicodePlanOk=${unicodePlanOk} unicodeHookOk=${unicodeHookOk} unicodeBracketedOk=${unicodeBracketedOk} unicodeDeliveredOk=${unicodeDeliveredOk} unicodeInputOk=${unicodeInputOk} unicodeDisplayOk=${unicodeDisplayOk} unicodeNoKeyboardOk=${unicodeNoKeyboardOk} historyPlanOk=${historyPlanOk} historyTypedOk=${historyTypedOk} historyEchoOk=${historyEchoOk} historyEnterOk=${historyEnterOk} historyHelpObservedOk=${historyHelpObservedOk} historyEscapeOk=${historyEscapeOk} historyUpOk=${historyUpOk} historyUpShotOk=${historyUpShotOk} historyShotsLogOk=${historyShotsLogOk}`);
 
   const killOwned = async () => {
     try {
@@ -570,8 +634,8 @@ async function main() {
     process.exitCode = 1;
     return;
   }
-  if (!rendererReady || !ptyData || !markersOk || !inputTypedOk || !editKeysOk || !editPlanOk || !shotsLogOk || !pastePlanOk || !pasteHookOk || !pasteBracketedOk || !pasteDeliveredOk || !pasteInputOk || !pastePlaceholderOk || !pasteNoKeyboardOk || !historyPlanOk || !historyTypedOk || !historyEchoOk || !historyEnterOk || !historyHelpObservedOk || !historyEscapeOk || !historyUpOk || !historyUpShotOk || !historyShotsLogOk) {
-    console.error(`[runner] FAIL: renderer READY + real CLI PTY data + markers${IS_HISTORY_PROBE ? ' + /help sequence (HISTORY-PLAN + typed /help + echo + Enter once + HELP-OBSERVED + Escape + Up + up shot + HISTORY-SHOTS)' : IS_PASTE_PROBE ? ' + multiline paste (PASTE-PLAN + PASTE-HOOK + PASTE-BRACKETED enabled=true + paste delivered via Terminal.paste() + PASTE-INPUT count=1 match=true stray=false + changed SHOTS, no sendInputEvent, no Enter)' : IS_EDIT_PROBE ? ' + keyboard input + editing keys + EDIT-PLAN + changed SHOTS' : IS_INPUT_PROBE ? ' + keyboard input + changed SHOTS' : ''} not all proven (no pass; not S1 steps 1-8)`);
+  if (!rendererReady || !ptyData || !markersOk || !inputTypedOk || !editKeysOk || !editPlanOk || !shotsLogOk || !pastePlanOk || !pasteHookOk || !pasteBracketedOk || !pasteDeliveredOk || !pasteInputOk || !pastePlaceholderOk || !pasteNoKeyboardOk || !unicodePlanOk || !unicodeHookOk || !unicodeBracketedOk || !unicodeDeliveredOk || !unicodeInputOk || !unicodeDisplayOk || !unicodeNoKeyboardOk || !historyPlanOk || !historyTypedOk || !historyEchoOk || !historyEnterOk || !historyHelpObservedOk || !historyEscapeOk || !historyUpOk || !historyUpShotOk || !historyShotsLogOk) {
+    console.error(`[runner] FAIL: renderer READY + real CLI PTY data + markers${IS_HISTORY_PROBE ? ' + /help sequence (HISTORY-PLAN + typed /help + echo + Enter once + HELP-OBSERVED + Escape + Up + up shot + HISTORY-SHOTS)' : IS_PASTE_PROBE ? ' + multiline paste (PASTE-PLAN + PASTE-HOOK + PASTE-BRACKETED enabled=true + paste delivered via Terminal.paste() + PASTE-INPUT count=1 match=true stray=false + changed SHOTS, no sendInputEvent, no Enter)' : IS_UNICODE_PROBE ? ' + single-line Unicode (UNICODE-PLAN tokenLines=1 + UNICODE-HOOK + UNICODE-BRACKETED enabled=true + unicode delivered via Terminal.paste() + UNICODE-INPUT count=1 match=true stray=false + UNICODE-DISPLAY all=true + changed SHOTS, no sendInputEvent, no Enter; hash diff alone is NOT display proof)' : IS_EDIT_PROBE ? ' + keyboard input + editing keys + EDIT-PLAN + changed SHOTS' : IS_INPUT_PROBE ? ' + keyboard input + changed SHOTS' : ''} not all proven (no pass; not S1 steps 1-8)`);
     await killOwned();
     process.exitCode = 1;
     return;
@@ -613,7 +677,7 @@ async function main() {
     afterHash = upHash;
     shotBytes = upBytes;
     log(`screenshots ok: up=${historyUpShotPath} (${upBytes} bytes sha256=${upHash.slice(0, 16)}…) (single final screenshot after uninterrupted type/Enter/Escape/Up; orchestrator visual inspection only; NOT recall proof)`);
-  } else if (IS_INPUT_PROBE || IS_EDIT_PROBE || IS_PASTE_PROBE) {
+  } else if (IS_INPUT_PROBE || IS_EDIT_PROBE || IS_PASTE_PROBE || IS_UNICODE_PROBE) {
     try {
       beforeBytes = fs.statSync(beforeShotPath).size;
     } catch {
@@ -656,6 +720,8 @@ async function main() {
       log(`screenshots ok: before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (visible opt-in editing window, keyboard events delivered + changed render only, NOT semantic editing correctness; orchestrator visual inspection only)`);
     } else if (IS_PASTE_PROBE) {
       log(`screenshots ok: before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (visible opt-in Terminal.paste() window, bracketed evidence + changed render only, NOT semantic editor arrival, NOT no-network proof; orchestrator visual inspection only; Terminal.paste() is not the OS clipboard shortcut)`);
+    } else if (IS_UNICODE_PROBE) {
+      log(`screenshots ok: before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (visible opt-in single-line Unicode Terminal.paste() window, bracketed UTF-8 evidence + semantic UNICODE-DISPLAY gate + changed render; hash diff alone is NOT intact-display proof, orchestrator must visually inspect after-shot for intact glyphs; Terminal.paste() is not the OS clipboard shortcut)`);
     } else {
       log(`screenshots ok: before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (visible opt-in window, orchestrator visual inspection only)`);
     }
@@ -790,6 +856,8 @@ async function main() {
     console.log(`[runner] CLI-INPUT PASS: resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) inputLen=${tokenLen} before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (keyboard event + changed render via sendInputEvent keyDown+char+keyUp, no Enter, never submitted; NOT semantic prompt acceptance; orchestrator visual inspection only; NOT S1 step 3, parity, Unicode, approvals, or model behavior)`);
   } else if (IS_PASTE_PROBE) {
     console.log(`[runner] CLI-PASTE PASS: resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) pasteLines=3 before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (fixed multiline ASCII via Terminal.paste() ONLY, bracketedPasteMode required, exactly one ESC[200~ + payload + ESC[201~ INPUT count=1 match=true stray=false, no Enter, never submitted, no clipboard read/overwrite, no sendInputEvent, no term.write from harness; NOT semantic editor arrival, NOT no-network proof, NOT OS-clipboard-shortcut equivalence; orchestrator visual inspection only; NOT S1 step 3/6, parity, Unicode, approvals, or model behavior)`);
+  } else if (IS_UNICODE_PROBE) {
+    console.log(`[runner] CLI-UNICODE PASS: resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) unicodeLines=1 before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (fixed single-line Arabic+Chinese+Japanese+Korean via Terminal.paste() ONLY, bracketedPasteMode required, exactly one ESC[200~ + fixed Unicode payload + ESC[201~ INPUT count=1 match=true stray=false UTF-8 bytes via Buffer, semantic UNICODE-DISPLAY ar+zh+ja+ko all=true + changed render, no Enter, never submitted, no clipboard read/overwrite, no sendInputEvent, no term.write from harness, no global config mutation; hash diff alone is NOT intact-display proof, orchestrator must visually inspect after-shot for intact glyphs; NOT S1 step 8 complete, NOT Windows Terminal parity, NOT model behavior)`);
   } else {
     console.log(`[runner] TUI-STARTUP PASS: resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) shot=${shotPath} (${shotBytes} bytes; hidden window, no human visual comparison; NOT S1 steps 1-8)`);
   }

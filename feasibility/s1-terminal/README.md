@@ -144,6 +144,27 @@ npm run smoke:cli-paste &:: Bounded real-CLI multiline-paste probe (opt-in,
                         &:: exact-tree-gone teardown proof, else inconclusive;
                         &:: NOT S1 step 3/6, parity, Unicode,
                         &:: approvals, or model behavior.
+npm run smoke:cli-unicode &:: Bounded real-CLI single-line Unicode probe
+                        &:: (opt-in, same runner --unicode-probe, distinct
+                        &:: --cli-unicode-smoke flag): installed `opencode`
+                        &:: with EMPTY args plus the fixed harmless
+                        &:: single-line token TIYE_U8[AR:..][ZH:..][JA:..][KO:..]
+                        &:: (Arabic+Chinese+Japanese+Korean, ASCII delimiters,
+                        &:: no newline) SOLELY via xterm Terminal.paste()
+                        &:: through a query-gated renderer hook
+                        &:: (?tiye-unicode-probe=1; no OS clipboard, no Ctrl+V,
+                        &:: no sendInputEvent, no term.write, never Enter,
+                        &:: no model, no config mutation) in a VISIBLE opt-in
+                        &:: window; requires bracketedPasteMode (fail closed);
+                        &:: captures dist/cli-unicode-before.png +
+                        &:: dist/cli-unicode-after.png and requires exactly one
+                        &:: ESC[200~ + payload + ESC[201~ INPUT (UTF-8 bytes via
+                        &:: Buffer) + the semantic UNICODE-DISPLAY gate (xterm
+                        &:: buffer+DOM hold all four scripts) + changed shots;
+                        &:: hash diff alone is NEVER display proof (orchestrator
+                        &:: visually inspects the after-shot for intact glyphs);
+                        &:: same Job containment + exact-tree-gone proof, else
+                        &:: inconclusive; NOT S1 step 8, NOT parity.
 npm run smoke:cli-resize &:: Bounded real-CLI resize probe (dedicated
                         &:: scripts/run-cli-resize.js, distinct
                         &:: --cli-resize-smoke flag): installed `opencode`
@@ -313,6 +334,35 @@ captured process identities are gone. A detached OpenCode service grandchild
 survived an earlier Electron-only teardown; see RESULTS.md. An automated
 PASS also requires OpenCode's three-line paste indicator. It does not prove
 the exact editor contents or the OS clipboard shortcut.
+
+`npm run smoke:cli-unicode` runs installed OpenCode with empty args in the
+visible Electron/ConPTY window and delivers ONLY the fixed harmless
+single-line Unicode token (`TIYE_U8[AR:مرحبا][ZH:你好][JA:こんにちは][KO:안녕]`,
+41 JS chars, 64 UTF-8 bytes, 1 line) SOLELY via xterm `Terminal.paste()`
+through a query-gated renderer hook (`?tiye-unicode-probe=1`; production UI
+has no hook, fixed payload validated in the hook). The OS clipboard is never
+read or overwritten (terminal paste path, NOT Ctrl+V/system clipboard; do NOT
+assume equivalence). Before sending, the real TUI must have enabled
+`term.modes.bracketedPasteMode`, else fail closed with NO paste. NEVER presses
+Enter, NEVER submits a prompt, NEVER calls a model, NEVER writes directly to
+node-pty from the harness (`sendInputEvent` and harness `term.write` absent;
+the only PTY write is the normal renderer→IPC→PTY INPUT handler), NEVER
+mutates global config. Main captures the exact INPUT (exactly one `ESC[200~`
++ fixed Unicode payload + `ESC[201~` sequence, UTF-8 bytes via `Buffer`
+— 76 envelope bytes — no stray; UTF-8 lengths + booleans + sha16 only, never
+arbitrary text, never the token verbatim) plus `dist/cli-unicode-before.png` +
+`dist/cli-unicode-after.png` (nonempty, changed pixels required) plus the
+semantic `UNICODE-DISPLAY` gate (xterm buffer + `#terminal` DOM must hold all
+four scripts; a hash difference alone is NEVER intact-display proof, the
+orchestrator must still visually inspect the after-shot for intact glyphs, no
+tofu/mojibake). The runner assigns Electron to a Windows kill-on-close Job
+Object before allowing the PTY to spawn, then releases the job and verifies
+the captured process identities are gone. Automated PASS means bracketed UTF-8
+evidence + semantic display + changed render + teardown only. On this host the
+probe is focus/render-timing intermittent (1 PASS with intact glyphs, then
+3 fail-closed identical-screenshot runs despite exact transport + display-gate
+true; see RESULTS.md): it does NOT prove S1 step 8 complete, NOT Windows
+Terminal parity, NOT model behavior.
 
 `npm run smoke:cli-resize` runs installed OpenCode v2.0.22 with empty args in
 the visible Electron/ConPTY window and sends NO input at all (no
