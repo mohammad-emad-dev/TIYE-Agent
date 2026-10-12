@@ -1,5 +1,50 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## Follow-up diagnostic slice (12 October 2026)
+
+Verdict remains **PARTIAL**. The current runner uses canonical V2
+`mcp.servers.<name>` with `disabled: false`, checks `mcp list` from each
+temporary member project, and observes only fixed protocol method names.
+The SDK's transport callback chaining was checked in the installed SDK.
+No payload, token, session ID, or argument name is logged by this observer.
+
+Independent runs still returned an empty standalone API server list and
+`No MCP servers configured` from both project listings. The fixture did
+observe CLI `tools/list` requests before the SDK client proof. This
+distinguishes catalog requests from merely completing `initialize`; it
+does not prove that OpenCode retained the catalog or exposed tools to a
+model. The earlier hypothesis that OpenCode never lists tools is therefore
+unsupported. The cause of the empty API result remains unknown.
+
+See `evidence/latest.json` `cli.beforeSdk` for aggregate counts before the
+SDK client starts. Per-phase counts are observation windows; delayed CLI
+activity can cross a boundary. Direct SDK tool listing, acknowledgments,
+auth rejection, session ownership, loopback binding, config snapshots,
+and controlled fixture teardown still pass. Syntax checks and the S1
+typecheck/build pass. S2.2 remains unattempted.
+
+Delegation outcome: both Atria reviews timed out. Muse was interrupted
+after an out-of-scope cleanup of temporary `tiye-*` paths, including older
+diagnostic folders. Committed project files were intact. Its incomplete
+private-server implementation was discarded. The orchestrator implemented
+and verified the smaller diagnostic changes recorded here.
+Stopping the CLI wrapper did not stop service-owned session execution.
+The orchestrator used the session interrupt API; it first reported
+`interrupted=true`, then `interrupted=false` on a second call. A process
+inventory subsequently showed only the pre-existing OpenCode service,
+with no fixture or private OpenCode process remaining. Future delegation
+must stop the service-owned session as well as its CLI wrapper.
+
+The next experiment should keep an owned private OpenCode server alive
+and poll its catalog state, with verified process-tree teardown. A single
+connected status is insufficient to close S2.1; exact tool exposure must
+still be proven. The current fixture adds no such server lifecycle yet.
+
+## Prior baseline (historical)
+
+The remaining sections describe the preceding committed slice at
+`efdf070`; method details and phase counts below are historical.
+
 **Verdict: PARTIAL** (12 October 2026, Windows 11; `npm run probe` →
 `PARTIAL` line, `evidence/latest.json` `result="partial"`; rerun
 reproducible across two consecutive runs).

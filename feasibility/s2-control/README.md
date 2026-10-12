@@ -30,11 +30,16 @@ minimal team-tools MCP server to installed OpenCode without a model request.
   Bounded timeouts, controlled teardown (server SIGTERM + temp-dir
   removal), redacted raw evidence at `evidence/latest.json`.
 - Disposable config: `OPENCODE_CONFIG_CONTENT` inline JSON first
-  (`mcp.<name> = { type: "remote", url, enabled: true, oauth: false,
+  (`mcp.servers.<name> = { type: "remote", url, disabled: false, oauth: false,
   headers: { Authorization: "Bearer <token>" } }`), `OPENCODE_CONFIG`
   temp-file fallback when the CLI listing shows no server; a separate
   temporary project config is used for `debug config` and the private API
-  query. Per official docs, config files **merge**, so total isolation
+  query. It also
+  runs `mcp list` from each temporary member project and records fixed,
+  allowlisted protocol method names. `cli.beforeSdk` counts sessions and
+  `tools/list` requests observed before the SDK client proof starts;
+  per-phase counts are observation windows and may miss delayed activity.
+  Per official docs, config files **merge**, so total isolation
   from global settings is NOT claimed even when global/project files are
   untouched.
 

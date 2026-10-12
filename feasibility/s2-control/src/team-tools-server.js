@@ -37,6 +37,7 @@ const SERVER_NAME = 'tiye-team-tools';
 const SERVER_VERSION = '0.1.0';
 const MAX_STR_LEN = 2000;
 const MAX_SESSIONS = 16;
+const OBSERVED_METHODS = new Set(['initialize', 'notifications/initialized', 'tools/list', 'prompts/list', 'resources/list', 'resources/templates/list']);
 
 function loadTokens() {
   const raw = process.env.TIYE_S2_TOKENS_JSON || '';
@@ -183,6 +184,12 @@ const httpServer = http.createServer(async (req, res) => {
       },
     });
     const server = createMemberServer(member);
+    // SDK connect chains this observer; never record payloads or credentials.
+    transport.onmessage = (message) => {
+      if (OBSERVED_METHODS.has(message.method)) {
+        log(`protocol-request member=${member} method=${message.method}`);
+      }
+    };
     await server.connect(transport);
     await transport.handleRequest(req, res);
   } catch (err) {

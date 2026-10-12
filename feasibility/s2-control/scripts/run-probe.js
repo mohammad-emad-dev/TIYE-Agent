@@ -210,6 +210,12 @@ function countSessionOpens(serverLog, member) {
   return (String(serverLog).match(re) || []).length;
 }
 
+function countToolLists(serverLog, member) {
+  return String(serverLog).split('\n').filter((line) =>
+    line.includes(`protocol-request member=${member} method=tools/list`)
+  ).length;
+}
+
 async function main() {
   const secrets = [];
   const evidence = {
@@ -355,12 +361,14 @@ async function main() {
 
   const buildConfig = (token) => ({
     mcp: {
-      [SERVER_KEY]: {
-        type: 'remote',
-        url: `http://127.0.0.1:${port}/mcp`,
-        enabled: true,
-        oauth: false,
-        headers: { Authorization: `Bearer ${token}` },
+      servers: {
+        [SERVER_KEY]: {
+          type: 'remote',
+          url: `http://127.0.0.1:${port}/mcp`,
+          disabled: false,
+          oauth: false,
+          headers: { Authorization: `Bearer ${token}` },
+        },
       },
     },
   });
@@ -392,10 +400,10 @@ async function main() {
     log(`cli: ${member} via CONTENT exit=${r.code} listsServer=${listsServer} noServers=${noServers}`);
   }
 
-  // If inline config was ignored, try OPENCODE_CONFIG file fallback once per member.
-  const contentIgnored = Object.values(cliResults).every((v) => v.noServers);
-  if (contentIgnored) {
-    warn('OPENCODE_CONFIG_CONTENT appears ignored by this CLI build; trying OPENCODE_CONFIG file fallback (disposable temp file)');
+  // An empty listing does not establish whether configuration was loaded.
+  const contentListingEmpty = Object.values(cliResults).every((v) => v.noServers);
+  if (contentListingEmpty) {
+    warn('Inline-config listing is empty; trying OPENCODE_CONFIG file fallback (disposable temp file)');
     configMethod = 'OPENCODE_CONFIG(file-fallback)';
     for (const [member, token] of [['member-a', tokenA], ['member-b', tokenB]]) {
       const cfgPath = path.join(tmpRoot, `opencode-${member}.json`);
@@ -437,11 +445,26 @@ async function main() {
       entry.debugConfigShowsServer = redDc.toLowerCase().includes(SERVER_KEY.toLowerCase());
       entry.debugConfigHead = redDc.slice(0, 500);
       log(`cli-debug: ${member} debugConfigShows=${entry.debugConfigShowsServer}`);
+      const sessionsBefore = countSessionOpens(serverOut, member);
+      const listsBefore = countToolLists(serverOut, member);
+      const projectList = await runCliMcpList(cleanEnv, memberCwd);
+      const safeList = redact(`${projectList.out}\n${projectList.err}`, secrets);
+      entry.projectList = {
+        exit: projectList.code,
+        timedOut: projectList.timedOut,
+        connected: projectList.code === 0 && !projectList.timedOut && safeList.includes(SERVER_KEY) && /connected/i.test(safeList),
+        outputHead: safeList.slice(0, 1200),
+        sessionOpens: countSessionOpens(serverOut, member) - sessionsBefore,
+        toolListRequests: countToolLists(serverOut, member) - listsBefore,
+      };
+      log(`cli-project: ${member} connected=${entry.projectList.connected} tools/list=${entry.projectList.toolListRequests}`);
     } catch (e) {
       entry.debugError = String(e.message || e).slice(0, 200);
     }
   }
   // Private-instance MCP state per member project (no background service).
+  const beforeApiSessions = Object.fromEntries(['member-a', 'member-b'].map((member) => [member, countSessionOpens(serverOut, member)]));
+  const beforeApiLists = Object.fromEntries(['member-a', 'member-b'].map((member) => [member, countToolLists(serverOut, member)]));
   for (const [member] of [['member-a'], ['member-b']]) {
     const cwd = path.join(tmpRoot, `cwd-${member}`);
     const env = { ...baseCliEnv };
@@ -461,8 +484,8 @@ async function main() {
     log(`cli-standalone: ${member} exit=${status.code} named=${named} connection=${connection}`);
   }
   const apiContact = {
-    'member-a': countSessionOpens(serverOut, 'member-a') - listContact['member-a'],
-    'member-b': countSessionOpens(serverOut, 'member-b') - listContact['member-b'],
+    'member-a': countSessionOpens(serverOut, 'member-a') - beforeApiSessions['member-a'],
+    'member-b': countSessionOpens(serverOut, 'member-b') - beforeApiSessions['member-b'],
   };
   log(`cli-contact: sessions opened during api phase member-a=${apiContact['member-a']} member-b=${apiContact['member-b']}`);
   try {
@@ -476,11 +499,16 @@ async function main() {
     members: cliResults,
     serviceStatus: evidence.cli.serviceStatus,
     sessionContact: { listPhase: listContact, apiPhase: apiContact },
+    apiToolListRequests: Object.fromEntries(['member-a', 'member-b'].map((member) => [member, countToolLists(serverOut, member) - beforeApiLists[member]])),
   };
   evidence.cli.note =
     'Config files merge (global+custom/project+inline); disposable config adds on top, so total isolation from global settings is NOT claimed. sessionContact counts SDK sessions the fixture server observed per member token during each CLI phase.';
 
   // Protocol-level proof with the SDK client (stateful sessions, no model).
+  evidence.cli.beforeSdk = Object.fromEntries(['member-a', 'member-b'].map((member) => [member, {
+    sessionOpens: countSessionOpens(serverOut, member),
+    toolListRequests: countToolLists(serverOut, member),
+  }]));
   const proto = { members: {}, badToken: {}, missingAuth: {}, badGet: {}, crossMember: {} };
   let protoOk = true;
   const memberTokens = [['member-a', tokenA], ['member-b', tokenB]];
@@ -561,7 +589,7 @@ async function main() {
     hasToolAndMembers: logHasTool && logHasMembers,
     leaksToken: logLeaksToken,
     leaksContent: logLeaksContent,
-    head: redact(serverLog, secrets).slice(0, 2000),
+    head: redact(serverLog, secrets).slice(0, 4000),
   };
   log(`serverlog: tool+members=${logHasTool && logHasMembers} leaksToken=${logLeaksToken} leaksContent=${logLeaksContent}`);
   if (logLeaksToken || logLeaksContent) {
