@@ -22,6 +22,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { Client } = require('@modelcontextprotocol/sdk/client/index.js');
 const { StreamableHTTPClientTransport } = require('@modelcontextprotocol/sdk/client/streamableHttp.js');
+const { probePersistent } = require('./persistent-cli');
 
 const SERVER_FILE = path.resolve(__dirname, '..', 'src', 'team-tools-server.js');
 const EVIDENCE_DIR = path.resolve(__dirname, '..', 'evidence');
@@ -505,6 +506,16 @@ async function main() {
     'Config files merge (global+custom/project+inline); disposable config adds on top, so total isolation from global settings is NOT claimed. sessionContact counts SDK sessions the fixture server observed per member token during each CLI phase.';
 
   // Protocol-level proof with the SDK client (stateful sessions, no model).
+  evidence.cli.persistent = {};
+  for (const member of ['member-a', 'member-b']) {
+    const beforeSessions = countSessionOpens(serverOut, member);
+    const beforeLists = countToolLists(serverOut, member);
+    const observed = await probePersistent({ cwd: path.join(tmpRoot, `cwd-${member}`), serverKey: SERVER_KEY });
+    observed.sessionOpens = countSessionOpens(serverOut, member) - beforeSessions;
+    observed.toolListRequests = countToolLists(serverOut, member) - beforeLists;
+    evidence.cli.persistent[member] = observed;
+    log(`cli-persistent: ${member} connected=${observed.connected} tools/list=${observed.toolListRequests} cleanup=${observed.cleanup.verified}`);
+  }
   evidence.cli.beforeSdk = Object.fromEntries(['member-a', 'member-b'].map((member) => [member, {
     sessionOpens: countSessionOpens(serverOut, member),
     toolListRequests: countToolLists(serverOut, member),
@@ -613,11 +624,13 @@ async function main() {
   const cliDiscovers = Object.values(cliResults).every((v) => v.exit === 0 && v.listsServer && /connected/i.test(v.outputHead) && !v.timedOut);
   const cliShowsExactTools = Object.values(cliResults).every((v) => EXPECTED_TOOLS.every((t) => v.outputHead.toLowerCase().includes(t.toLowerCase())));
   evidence.cli.discoversServer = cliDiscovers;
+  evidence.cli.persistentDiscoversServer = Object.values(evidence.cli.persistent).every((entry) => entry.connected && !entry.error);
   evidence.cli.showsExactTools = cliShowsExactTools;
   evidence.cli.debugConfigShowsServer = Object.values(cliResults).every((v) => v.debugConfigShowsServer === true);
 
-  if (!protoOk || touch.touched) {
-    fail(`protocol ok=${protoOk} config untouched=${!touch.touched}; see evidence`);
+  const privateCliFailed = Object.values(evidence.cli.persistent).some((entry) => entry.error || !entry.cleanup.verified || !entry.cleanup.jobVerified);
+  if (!protoOk || touch.touched || privateCliFailed) {
+    fail(`protocol ok=${protoOk} config untouched=${!touch.touched} private CLI failed=${privateCliFailed}; see evidence`);
     evidence.result = 'fail';
     writeEvidence(evidence, secrets);
     process.exitCode = 1;
@@ -632,11 +645,11 @@ async function main() {
   }
   // Honest partial: protocol proves tools; CLI exposure stays UNPROVEN.
   warn(
-    `PARTIAL: SDK protocol proves 3 tools for both members + session ownership + bad-token 401 + ack attribution, but the installed CLI does not surface the server (discoversServer=${cliDiscovers}, showsExactTools=${cliShowsExactTools}). CLI tool exposure UNPROVEN; no model call made.`
+    `PARTIAL: SDK protocol proves 3 tools for both members + auth + ack attribution; persistent CLI server discovery=${evidence.cli.persistentDiscoversServer}, default listing discovery=${cliDiscovers}, exact CLI tools=${cliShowsExactTools}. CLI tool exposure UNPROVEN; no model call made.`
   );
   evidence.result = 'partial';
   evidence.caveat =
-    'CLI tool exposure unproven: neither `opencode mcp list` nor the private `api --standalone` instance surface the server, while exact tools are proven at the MCP protocol level (SDK stateful sessions). See sessionContact for whether each CLI phase dialed the fixture. No S2.2 model round trip claimed.';
+    'Default mcp list and single-shot standalone listings remain empty. Persistent private API polling measures connected server status separately; this API exposes status, not exact tool names. Exact tools are proven only by the direct SDK client. No S2.2 model round trip claimed.';
   writeEvidence(evidence, secrets);
   process.exitCode = 2;
 }

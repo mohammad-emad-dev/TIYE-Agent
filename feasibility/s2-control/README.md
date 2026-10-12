@@ -43,6 +43,17 @@ minimal team-tools MCP server to installed OpenCode without a model request.
   from global settings is NOT claimed even when global/project files are
   untouched.
 
+- Persistent private CLI: `scripts/persistent-cli.js` resolves the native
+  executable beside the installed Windows npm shim, launches
+  `serve --stdio --hostname 127.0.0.1 --port 0`, keeps stdin open, and
+  uses the existing S1 Job Object controller before API polling. It polls
+  `/api/mcp` at most eight times with a four-second bound per request.
+  Results contain status/timing fields, session and `tools/list` request
+  counts, and verified cleanup of captured process identities. Startup
+  output and the generated API password are never persisted. Windows
+  only; S1 files are not modified. A connected status proves attachment,
+  while exact CLI tool exposure remains a separate, unproven gate.
+
 ## Non-scope (explicit)
 
 - No model call, no prompt submission, no S2.2 task round trip.

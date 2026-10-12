@@ -1,6 +1,52 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
-## Follow-up diagnostic slice (12 October 2026)
+## Persistent private CLI slice (12 October 2026)
+
+Verdict remains **PARTIAL**, with private CLI server attachment now proven
+for both members. `scripts/persistent-cli.js` launches the installed native
+OpenCode 2.0.22 executable beside its npm shim with `serve --stdio`, loopback
+hostname, and port zero. It keeps stdin open, assigns the process to the
+existing S1 kill-on-close Job Object controller, then polls `/api/mcp` at
+most eight times. Startup output and its generated API password stay in
+memory; only fixed status fields and timings enter the evidence.
+
+Two independent complete probe runs observed `absent` → `pending` →
+`connected` for each member. Each private instance opened one MCP session
+and requested `tools/list`. Closing stdin and the controller released the
+owned processes; Job Object read-back and exact captured PID/creation
+identity checks passed for both. The fixture server then stopped and its
+owned temporary directories were removed. Auth, session ownership, direct
+SDK tools/acknowledgments, config snapshots, and log hygiene still pass.
+
+This supports a startup/lifetime explanation for the empty single-shot
+API listing; the exact internal cause is not established. The same
+persistent API instance reports different states as it remains alive.
+The [`/api/mcp` response schema](https://opencode.ai/v2/docs/api) returns
+server names and status, without a tool-name catalog. Therefore connected
+status and a received `tools/list` request cannot satisfy the exact-tools
+gate. `cli.persistentDiscoversServer=true` records this narrower result;
+`cli.discoversServer` still describes the original default CLI listing.
+
+The persistent fixture currently requires Windows and the installed npm
+shim/native-executable layout. Job assignment occurs after native launch
+and before API polling. It reuses the S1 controller without modifying S1.
+The eight-request bound includes up to four seconds per API request; it
+is not an overall eight-second timeout. A private startup, API, inventory,
+containment, or cleanup error produces a failure rather than a pass.
+
+All three requested delegates completed read-only diagnoses with no file
+changes: MiMo `atria/Atria-Dawn-Preview`, OpenCode
+`opencode/muse-spark-1.3-contributor-free` with `xhigh`, and Claude
+`Atria-Dawn-Preview` with `xhigh`. The orchestrator implemented and ran
+the fixture independently. Syntax checks and the S1 typecheck/build pass.
+
+Next: prove tool availability through an actual CLI tool invocation with
+the approved free model, then begin S2.2 reliability measurements. No
+model request or task round trip was made by this fixture.
+
+## Prior diagnostic slice (12 October 2026)
+
+This section records the preceding committed slice at `66cba44`.
 
 Verdict remains **PARTIAL**. The current runner uses canonical V2
 `mcp.servers.<name>` with `disabled: false`, checks `mcp list` from each
@@ -38,7 +84,7 @@ must stop the service-owned session as well as its CLI wrapper.
 The next experiment should keep an owned private OpenCode server alive
 and poll its catalog state, with verified process-tree teardown. A single
 connected status is insufficient to close S2.1; exact tool exposure must
-still be proven. The current fixture adds no such server lifecycle yet.
+still be proven. That prior fixture added no such server lifecycle.
 
 ## Prior baseline (historical)
 
