@@ -118,6 +118,32 @@ npm run smoke:cli-input &:: Bounded real-CLI input probe (opt-in, same runner
                         &:: after-shot); same exact-tree-gone teardown proof,
                         &:: else inconclusive; NOT S1 step 3, parity,
                         &:: Unicode, approvals, or model behavior.
+npm run smoke:cli-paste &:: Bounded real-CLI multiline-paste probe (opt-in,
+                        &:: same runner --paste-probe, distinct
+                        &:: --cli-paste-smoke flag): installed `opencode`
+                        &:: with EMPTY args plus the fixed harmless multiline
+                        &:: ASCII token TIYEPASTE_A7 LF TIYEPASTE_B8 LF
+                        &:: TIYEPASTE_C9 delivered SOLELY via xterm
+                        &:: Terminal.paste() through a query-gated renderer
+                        &:: hook (no OS clipboard read/overwrite, no Ctrl+V,
+                        &:: no sendInputEvent, no term.write from the harness,
+                        &:: never Enter/submit, no model request) in a VISIBLE
+                        &:: opt-in BrowserWindow; requires the real TUI to have
+                        &:: enabled term.modes.bracketedPasteMode before sending
+                        &:: (fail closed, no paste otherwise); captures
+                        &:: dist/cli-paste-before.png +
+                        &:: dist/cli-paste-after.png and requires exactly one
+                        &:: ESC[200~ + payload + ESC[201~ INPUT in main with no
+                        &:: stray plus OpenCode's three-line paste indicator
+                        &:: and changed screenshots; automated PASS means
+                        &:: bracketed evidence + indicator + changed render,
+                        &:: NOT semantic editor arrival and NOT no-network proof
+                        &:: (orchestrator visually inspects both shots; do NOT
+                        &:: assume Terminal.paste() equals the OS shortcut);
+                        &:: Job Object containment before PTY spawn and
+                        &:: exact-tree-gone teardown proof, else inconclusive;
+                        &:: NOT S1 step 3/6, parity, Unicode,
+                        &:: approvals, or model behavior.
 npm run smoke:cli-resize &:: Bounded real-CLI resize probe (dedicated
                         &:: scripts/run-cli-resize.js, distinct
                         &:: --cli-resize-smoke flag): installed `opencode`
@@ -235,11 +261,14 @@ steps 1–8 with `opencode` (or any vendor CLI) remain manual/unverified, and
 S1 stays partial until those manual observations are recorded.
 Both probes now share the main-process `runRealCliTuiProbe(mode)` driver and
 `captureStoreProbeShot` helper for launch, PTY startup, renderer readiness, and
-screenshot capture, with resize-specific steps isolated in the small named
-`runCliResizeInteraction` helper (no long inline resize branch). Startup
-remains hidden; input/edit/history/resize remain visible (resize sends no
-input at all). The runner still ends its own Electron process
-and verifies that the captured process tree is gone before reporting PASS.
+screenshot capture, with paste-specific steps isolated in the small named
+`runCliPasteInteraction` helper and resize-specific steps isolated in the small
+named `runCliResizeInteraction` helper (no long inline paste/resize branch).
+Startup remains hidden; input/edit/history/paste/resize remain visible (paste
+sends ONLY Terminal.paste(), resize sends no input at all). The runner still
+requires verified Job Object containment before PTY spawn, then ends its own
+Electron process, releases the job, and verifies that the captured process
+tree is gone before reporting PASS.
 
 `npm run smoke:cli-edit` starts a separate visible real-OpenCode probe. It types
 `tiyeeditab12`, sends Home, Right, Delete, End, and Backspace, then types `z`
@@ -258,6 +287,32 @@ same exact-tree teardown check. Automated PASS verifies the help marker, sent
 events, screenshot, and teardown; it does not establish recalled history.
 On this host, visual inspection showed an empty composer after Up, so S1
 step 3 remains partial.
+
+`npm run smoke:cli-paste` runs installed OpenCode v2.0.22 with empty args in
+the visible Electron/ConPTY window and delivers ONLY the fixed harmless
+multiline ASCII token (`TIYEPASTE_A7` LF `TIYEPASTE_B8` LF `TIYEPASTE_C9`,
+38 chars, 3 lines) SOLELY via xterm `Terminal.paste()` through a
+query-gated renderer hook (`?tiye-paste-probe=1`; production UI has no hook,
+fixed payload validated in the hook). The OS clipboard is never read or
+overwritten (terminal paste path, NOT Ctrl+V/system clipboard; do NOT assume
+equivalence). Before sending, the real TUI must have enabled
+`term.modes.bracketedPasteMode` in the renderer, else fail closed with NO
+paste. NEVER presses Enter, NEVER types a model prompt, NEVER calls a model,
+NEVER writes directly to node-pty from the harness (`sendInputEvent` and
+harness `term.write` absent; the only PTY write is the normal
+renderer→IPC→PTY INPUT handler). Main captures the exact INPUT (exactly one
+`ESC[200~` + normalized payload + `ESC[201~` sequence, xterm normalizes
+`\r?\n` to `\r` before bracketing, no stray input; lengths + booleans only,
+never arbitrary TUI/user data) plus `dist/cli-paste-before.png` +
+`dist/cli-paste-after.png` (nonempty, changed pixels required). Automated PASS
+means bracketed evidence + changed render + teardown only — NOT semantic
+editor arrival and NOT no-network proof (orchestrator visually inspects both
+shots). The runner assigns Electron to a Windows kill-on-close Job Object
+before allowing the PTY to spawn, then releases the job and verifies the
+captured process identities are gone. A detached OpenCode service grandchild
+survived an earlier Electron-only teardown; see RESULTS.md. An automated
+PASS also requires OpenCode's three-line paste indicator. It does not prove
+the exact editor contents or the OS clipboard shortcut.
 
 `npm run smoke:cli-resize` runs installed OpenCode v2.0.22 with empty args in
 the visible Electron/ConPTY window and sends NO input at all (no

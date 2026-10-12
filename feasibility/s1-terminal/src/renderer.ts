@@ -12,6 +12,11 @@ interface TiyeTerminalApi {
 declare global {
   interface Window {
     tiyeTerminal: TiyeTerminalApi;
+    __tiyePasteProbe?: {
+      token: string;
+      isBracketedPasteEnabled(): boolean;
+      pasteFixed(data: string): boolean;
+    };
   }
 }
 
@@ -73,3 +78,35 @@ try {
 reportSize();
 api.ready();
 term.focus();
+
+// Bounded S1 multiline-paste probe hook (test mode ONLY, never production
+// UI). Enabled solely when main loads index.html with
+// `?tiye-paste-probe=1` (see createWindow paste branch). The hook validates
+// the single fixed harmless multiline ASCII token and requires the real TUI
+// to have enabled bracketed paste mode before calling xterm's
+// `Terminal.paste()` — the terminal paste path, NOT the OS clipboard
+// (no clipboard read/overwrite, no Ctrl+V). Any payload mismatch or a
+// disabled bracketed mode throws and never pastes (fail closed).
+const CLI_PASTE_PROBE_TOKEN = 'TIYEPASTE_A7\nTIYEPASTE_B8\nTIYEPASTE_C9';
+try {
+  const pasteProbeEnabled =
+    new URLSearchParams(window.location.search).get('tiye-paste-probe') === '1';
+  if (pasteProbeEnabled) {
+    window.__tiyePasteProbe = {
+      token: CLI_PASTE_PROBE_TOKEN,
+      isBracketedPasteEnabled: () => term.modes.bracketedPasteMode,
+      pasteFixed: (data: string) => {
+        if (data !== CLI_PASTE_PROBE_TOKEN) {
+          throw new Error('paste probe: payload mismatch (fixed token only)');
+        }
+        if (!term.modes.bracketedPasteMode) {
+          throw new Error('paste probe: bracketedPasteMode off (fail closed, no paste)');
+        }
+        term.paste(data);
+        return true;
+      },
+    };
+  }
+} catch {
+  /* probe hook unavailable: paste mode fails closed in main */
+}

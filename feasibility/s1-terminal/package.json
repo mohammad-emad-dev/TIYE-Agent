@@ -25,6 +25,7 @@
     "smoke:cli-input": "npm run build && node scripts/run-cli-tui-startup.js --input-probe",
     "smoke:cli-edit": "npm run build && node scripts/run-cli-tui-startup.js --edit-probe",
     "smoke:cli-history": "npm run build && node scripts/run-cli-tui-startup.js --history-probe",
+    "smoke:cli-paste": "npm run build && node scripts/run-cli-tui-startup.js --paste-probe",
     "smoke:cli-resize": "npm run build && node scripts/run-cli-resize.js",
     "rebuild-pty": "electron-rebuild -f -w node-pty"
   },

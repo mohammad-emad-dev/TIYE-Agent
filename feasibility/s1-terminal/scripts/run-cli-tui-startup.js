@@ -54,6 +54,27 @@
 // shows the help dialog or no recalled command, history is documented as
 // unproven; no model-prompt or custom-command workaround).
 //
+// --paste-probe mode (same file, distinct Electron flag --cli-paste-smoke):
+// bounded real-CLI multiline-paste feasibility slice. Same fixed command +
+// empty args and scrubbed env. It gates PTY spawn on verified kill-on-close
+// Job Object containment because a detached service survived Electron-only
+// teardown. Delivers the fixed harmless multiline ASCII token
+// (TIYEPASTE_A7 LF TIYEPASTE_B8 LF TIYEPASTE_C9) SOLELY via xterm
+// Terminal.paste() through a query-gated renderer hook (no OS clipboard
+// read/overwrite, no Ctrl+V, no sendInputEvent, no term.write from the
+// harness, never Enter/submit, no model request) in a VISIBLE opt-in
+// BrowserWindow. Requires bracketedPasteMode enabled in the renderer before
+// sending (fail closed, no paste otherwise) and exactly one ESC[200~ +
+// normalized payload + ESC[201~ INPUT in main with no stray input; requires
+// OpenCode's three-line paste indicator in PTY output; captures
+// distinct before/after screenshots (dist/cli-paste-before.png +
+// dist/cli-paste-after.png) and rejects an unchanged render. Automated PASS
+// means bracketed evidence + changed render + teardown only, NOT semantic
+// editor arrival and NOT no-network proof (orchestrator visually inspects
+// both shots). Do NOT assume Terminal.paste() equals the OS clipboard
+// shortcut. Do NOT cite as S1 step 3/6, parity, Unicode, approvals, or model
+// behavior.
+//
 // Determinism: the runner OVERWRITES TIYE_S1_COMMAND=opencode and
 // TIYE_S1_ARGS_JSON=[] and DELETES inherited TIYE_S1_CWD plus every
 // crash/crash-survivor registry env and TIYE_MOCK_CRASH_MODE so an outer
@@ -63,17 +84,20 @@
 // Teardown: after the screenshot the Electron side stays alive (no
 // term.kill() by design: node-pty on Windows has a documented teardown race
 // after term.kill / app exit with a live PTY). The runner ends ONLY its
-// runner-owned Electron ChildProcess via the handle, then read-only verifies
-// the exact captured PID+creation tree is gone. If teardown cannot be proven
+// runner-owned Electron ChildProcess via the handle. Paste also releases its
+// controller-held Job Object to terminate descendants. The runner then
+// read-only verifies the exact captured PID+creation tree is gone. If teardown cannot be proven
 // the runner exits inconclusive (2), never PASS. Never taskkill /
 // Stop-Process / PID-only kill; never a captured member PID; unrelated
 // processes are never touched. Existing mock smoke behavior is untouched.
 //
 // Exit contract: 0 TUI-STARTUP PASS (or CLI-INPUT PASS in --input-probe mode,
 // or CLI-EDIT PASS in --edit-probe mode, or CLI-HISTORY PASS in
-// --history-probe mode),
+// --history-probe mode, or CLI-PASTE PASS in --paste-probe mode),
 // 1 FAIL (wrong resolution, missing startup marker, empty screenshot, or — in
-// input/edit mode — unchanged before/after render; or — in history mode —
+// input/edit/paste mode — unchanged before/after render; or — in paste mode —
+// missing bracketed evidence / stray input / bracketed mode off / unexpected
+// sendInputEvent/Enter; or — in history mode —
 // missing /help sequence marker or unobserved help UI; no pass),
 // 2 inconclusive/harness
 // failure (missing dist, launch/timeout/lookup failure, pre-kill tree not
@@ -87,10 +111,11 @@ const crypto = require('node:crypto');
 const electron = require('electron');
 
 const IS_HISTORY_PROBE = process.argv.includes('--history-probe');
-const IS_EDIT_PROBE = process.argv.includes('--edit-probe') && !IS_HISTORY_PROBE;
-const IS_INPUT_PROBE = process.argv.includes('--input-probe') && !IS_EDIT_PROBE && !IS_HISTORY_PROBE;
-const FLAG = IS_HISTORY_PROBE ? '--cli-history-smoke' : IS_EDIT_PROBE ? '--cli-edit-smoke' : IS_INPUT_PROBE ? '--cli-input-smoke' : '--cli-tui-startup-smoke';
-const SMOKE_TAG = IS_HISTORY_PROBE ? 'cli-history-smoke' : IS_EDIT_PROBE ? 'cli-edit-smoke' : IS_INPUT_PROBE ? 'cli-input-smoke' : 'cli-tui-startup-smoke';
+const IS_PASTE_PROBE = process.argv.includes('--paste-probe') && !IS_HISTORY_PROBE;
+const IS_EDIT_PROBE = process.argv.includes('--edit-probe') && !IS_HISTORY_PROBE && !IS_PASTE_PROBE;
+const IS_INPUT_PROBE = process.argv.includes('--input-probe') && !IS_EDIT_PROBE && !IS_HISTORY_PROBE && !IS_PASTE_PROBE;
+const FLAG = IS_HISTORY_PROBE ? '--cli-history-smoke' : IS_PASTE_PROBE ? '--cli-paste-smoke' : IS_EDIT_PROBE ? '--cli-edit-smoke' : IS_INPUT_PROBE ? '--cli-input-smoke' : '--cli-tui-startup-smoke';
+const SMOKE_TAG = IS_HISTORY_PROBE ? 'cli-history-smoke' : IS_PASTE_PROBE ? 'cli-paste-smoke' : IS_EDIT_PROBE ? 'cli-edit-smoke' : IS_INPUT_PROBE ? 'cli-input-smoke' : 'cli-tui-startup-smoke';
 const READY_TIMEOUT_MS = 60000;
 const KILL_WAIT_MS = 10000;
 const POST_KILL_SETTLE_MS = 2000;
@@ -99,18 +124,22 @@ const POST_KILL_POLL_MS = 500;
 
 const READY_RE = IS_HISTORY_PROBE
   ? /\[cli-history-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
-  : IS_EDIT_PROBE
-    ? /\[cli-edit-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
-    : IS_INPUT_PROBE
-      ? /\[cli-input-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
-      : /\[cli-tui-startup-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/;
+  : IS_PASTE_PROBE
+    ? /\[cli-paste-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
+    : IS_EDIT_PROBE
+      ? /\[cli-edit-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
+      : IS_INPUT_PROBE
+        ? /\[cli-input-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/
+        : /\[cli-tui-startup-smoke\] READY session=(\S+) member=(\S+) rootPid=(\d+) treeSize=(\d+)/;
 const IDENTITY_RE = IS_HISTORY_PROBE
   ? /\[cli-history-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
-  : IS_EDIT_PROBE
-    ? /\[cli-edit-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
-    : IS_INPUT_PROBE
-      ? /\[cli-input-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
-      : /\[cli-tui-startup-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g;
+  : IS_PASTE_PROBE
+    ? /\[cli-paste-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
+    : IS_EDIT_PROBE
+      ? /\[cli-edit-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
+      : IS_INPUT_PROBE
+        ? /\[cli-input-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g
+        : /\[cli-tui-startup-smoke\] IDENTITY pid=(\d+) created=(\S+) name=(\S+) parentPid=(\d+)/g;
 
 function log(msg) {
   console.log(`[runner] ${msg}`);
@@ -251,19 +280,25 @@ async function main() {
   const historyUpShotPath = path.resolve(__dirname, '..', 'dist', 'cli-history-up.png');
   const shotPath = IS_HISTORY_PROBE
     ? historyUpShotPath
+    : IS_PASTE_PROBE
+      ? path.resolve(__dirname, '..', 'dist', 'cli-paste-after.png')
+      : IS_EDIT_PROBE
+        ? path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png')
+        : IS_INPUT_PROBE
+          ? path.resolve(__dirname, '..', 'dist', 'cli-input-after.png')
+          : path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
+  const beforeShotPath = IS_PASTE_PROBE
+    ? path.resolve(__dirname, '..', 'dist', 'cli-paste-before.png')
     : IS_EDIT_PROBE
-      ? path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png')
-      : IS_INPUT_PROBE
-        ? path.resolve(__dirname, '..', 'dist', 'cli-input-after.png')
-        : path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
-  const beforeShotPath = IS_EDIT_PROBE
       ? path.resolve(__dirname, '..', 'dist', 'cli-edit-before.png')
       : path.resolve(__dirname, '..', 'dist', 'cli-input-before.png');
   const afterShotPath = IS_HISTORY_PROBE
     ? historyUpShotPath
-    : IS_EDIT_PROBE
-      ? path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png')
-      : path.resolve(__dirname, '..', 'dist', 'cli-input-after.png');
+    : IS_PASTE_PROBE
+      ? path.resolve(__dirname, '..', 'dist', 'cli-paste-after.png')
+      : IS_EDIT_PROBE
+        ? path.resolve(__dirname, '..', 'dist', 'cli-edit-after.png')
+        : path.resolve(__dirname, '..', 'dist', 'cli-input-after.png');
 
   // Deterministic probe env: fixed command + empty args, scrubbed S1
   // overrides so inherited values cannot change behavior.
@@ -272,6 +307,11 @@ async function main() {
     TIYE_S1_COMMAND: 'opencode',
     TIYE_S1_ARGS_JSON: '[]',
   };
+  const gatePath = path.resolve(__dirname, '..', 'dist', `cli-gate-${crypto.randomBytes(8).toString('hex')}.tmp`);
+  const gateToken = crypto.randomBytes(16).toString('hex');
+  process.once('exit', () => { try { fs.unlinkSync(gatePath); } catch { /* already removed */ } });
+  env.TIYE_CLI_CONTAINMENT_GATE = gatePath;
+  env.TIYE_CLI_CONTAINMENT_TOKEN = gateToken;
   delete env.ELECTRON_RUN_AS_NODE;
   delete env.TIYE_S1_CWD;
   delete env.TIYE_CRASH_REGISTRY_PATH;
@@ -282,7 +322,7 @@ async function main() {
   log('env: TIYE_S1_COMMAND=opencode TIYE_S1_ARGS_JSON=[] (fixed; no stdin, no prompt, no model request)');
   log('env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)');
 
-  log(`phase 1: spawn runner-owned Electron ${FLAG} ${IS_HISTORY_PROBE ? 'visible-window (opt-in /help history observation)' : IS_EDIT_PROBE ? 'visible-window (opt-in keyboard editing)' : IS_INPUT_PROBE ? 'visible-window (opt-in keyboard delivery)' : 'hidden-window'} (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)`);
+  log(`phase 1: spawn runner-owned Electron ${FLAG} ${IS_HISTORY_PROBE ? 'visible-window (opt-in /help history observation)' : IS_PASTE_PROBE ? 'visible-window (opt-in Terminal.paste() multiline observation)' : IS_EDIT_PROBE ? 'visible-window (opt-in keyboard editing)' : IS_INPUT_PROBE ? 'visible-window (opt-in keyboard delivery)' : 'hidden-window'} (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)`);
   const child = spawn(electron, [distMain, FLAG], {
     cwd: path.resolve(__dirname, '..'),
     env,
@@ -291,7 +331,7 @@ async function main() {
   });
   let output = '';
   let ready = null;
-  const childTag = IS_HISTORY_PROBE ? 'cli-history-main' : IS_EDIT_PROBE ? 'cli-edit-main' : IS_INPUT_PROBE ? 'cli-input-main' : 'tui-startup-main';
+  const childTag = IS_HISTORY_PROBE ? 'cli-history-main' : IS_PASTE_PROBE ? 'cli-paste-main' : IS_EDIT_PROBE ? 'cli-edit-main' : IS_INPUT_PROBE ? 'cli-input-main' : 'tui-startup-main';
   child.stdout?.on('data', (d) => {
     output += d.toString('utf8');
     logChild(childTag, d);
@@ -309,11 +349,97 @@ async function main() {
     child.on('error', (err) => resolve({ code: 2, signal: null, error: err.message, early: true }));
     child.on('exit', (code, signal) => resolve({ code: code ?? 2, signal, early: !ready }));
   });
+  let cliController = null;
+  const releaseCliJob = () => {
+    try { fs.unlinkSync(gatePath); } catch { /* already removed */ }
+    if (!cliController) return;
+    try { cliController.stdin?.end(); } catch { /* already closed */ }
+  };
+  {
+    const setupDeadline = Date.now() + 10000;
+    const waitingMarker = `[${SMOKE_TAG}] WAITING containment before PTY spawn`;
+    while (!output.includes(waitingMarker) && Date.now() < setupDeadline) {
+      const st = await Promise.race([exitPromise.then(() => true), sleep(100).then(() => false)]);
+      if (st) break;
+    }
+    if (!output.includes(waitingMarker) || !child.pid) {
+      console.error('[runner] INCONCLUSIVE: CLI containment gate not ready; no CLI spawned');
+      child.kill();
+      process.exitCode = 2;
+      return;
+    }
+    try {
+      const identity = (await enumerateAllOnce()).get(child.pid);
+      if (!identity || !/^electron\.exe$/i.test(identity.name)) throw new Error(`Electron identity unavailable: ${JSON.stringify(identity)}`);
+      const controllerPath = path.resolve(__dirname, 'job-probe-controller.ps1');
+      if (!fs.existsSync(controllerPath)) throw new Error('job controller missing');
+      let controllerOutput = '';
+      cliController = spawn(powershellBin(), [
+        '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', controllerPath,
+        '-ChildPid', String(identity.pid), '-ChildCreationTime', identity.creationTime, '-HoldUntilStdinClose',
+      ], { stdio: ['pipe', 'pipe', 'pipe'], windowsHide: true });
+      cliController.stdout?.on('data', (d) => { controllerOutput += d.toString('utf8'); });
+      cliController.stderr?.on('data', (d) => { controllerOutput += d.toString('utf8'); });
+      cliController.on('error', (err) => { controllerOutput += `\nERROR ${err.message}`; });
+      const deadline = Date.now() + 12000;
+      const expectedReady = `[job-controller] READY childPid=${identity.pid} `;
+      while (!controllerOutput.includes(expectedReady) && Date.now() < deadline) {
+        if (/\[job-controller\] FAIL:|ERROR /.test(controllerOutput) || cliController.exitCode !== null) break;
+        await sleep(100);
+      }
+      if (!controllerOutput.includes(expectedReady)
+          || !controllerOutput.includes('confirmed JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE read-back flags=0x2000')
+          || !controllerOutput.includes(`confirmed IsProcessInJob(pid=${identity.pid})=true`)) {
+        throw new Error(`job assignment unverified: ${controllerOutput.slice(-500)}`);
+      }
+      log(`CLI containment READY: Electron pid=${identity.pid} creation=${identity.creationTime} in kill-on-close Job Object`);
+      fs.writeFileSync(gatePath, gateToken, { flag: 'wx' });
+    } catch (err) {
+      console.error(`[runner] INCONCLUSIVE: CLI containment setup failed: ${err.message} (no CLI allowed)`);
+      child.kill();
+      releaseCliJob();
+      process.exitCode = 2;
+      return;
+    }
+  }
   const readyDeadline = Date.now() + READY_TIMEOUT_MS;
   while (!ready && Date.now() < readyDeadline) {
     const st = await Promise.race([exitPromise.then((e) => ({ exited: true, e })), sleep(250).then(() => ({ exited: false }))]);
     if (st.exited) {
       console.error(`[runner] FAIL: Electron exited before READY (code=${st.e.code} signal=${st.e.signal}; no pass)`);
+      releaseCliJob();
+      // A probe can fail after member capture but before READY. Verify the
+      // exact identities are gone even on this fail-closed path.
+      {
+        const identities = parseIdentities(output);
+        if (identities.length === 0) {
+          console.error('[runner] INCONCLUSIVE: probe failed before any process identities were captured (teardown unproven)');
+          process.exitCode = 2;
+          return;
+        }
+        try {
+          const deadline = Date.now() + POST_KILL_VERIFY_BOUND_MS;
+          let survivors = identities;
+          let attempts = 0;
+          while (true) {
+            attempts += 1;
+            const all = await enumerateAllOnce();
+            survivors = identities.filter((id) => all.get(id.pid)?.creationTime === id.creationTime);
+            if (survivors.length === 0 || Date.now() >= deadline) break;
+            await sleep(POST_KILL_POLL_MS);
+          }
+          if (survivors.length > 0) {
+            console.error(`[runner] INCONCLUSIVE: probe failure left ${survivors.length} captured identity/identities alive after ${attempts} checks (teardown unproven; no PID kill)`);
+            process.exitCode = 2;
+            return;
+          }
+          log(`failure teardown: all ${identities.length} exact captured PID+creation identities gone (attempts=${attempts}; read-only verification)`);
+        } catch (err) {
+          console.error(`[runner] INCONCLUSIVE: failure teardown lookup failed: ${err.message} (no pass)`);
+          process.exitCode = 2;
+          return;
+        }
+      }
       process.exitCode = st.e.code === 1 ? 1 : 2;
       return;
     }
@@ -325,6 +451,7 @@ async function main() {
     } catch {
       /* runner-owned handle only */
     }
+    releaseCliJob();
     await sleep(1000);
     process.exitCode = 2;
     return;
@@ -360,9 +487,34 @@ async function main() {
     : true;
   const shotsLogOk = IS_EDIT_PROBE
     ? /\[cli-edit-smoke\] SHOTS before=.* changed=true/i.test(output)
-    : IS_INPUT_PROBE
-      ? /\[cli-input-smoke\] SHOTS before=.* changed=true/i.test(output)
-      : true;
+    : IS_PASTE_PROBE
+      ? /\[cli-paste-smoke\] SHOTS before=.* changed=true/i.test(output)
+      : IS_INPUT_PROBE
+        ? /\[cli-input-smoke\] SHOTS before=.* changed=true/i.test(output)
+        : true;
+  const pastePlanOk = IS_PASTE_PROBE
+    ? /\[cli-paste-smoke\] PASTE-PLAN tokenLines=3 method=Terminal\.paste\(\)/i.test(output)
+    : true;
+  const pasteHookOk = IS_PASTE_PROBE
+    ? /\[cli-paste-smoke\] PASTE-HOOK present=true/i.test(output) && /\[cli-paste-smoke\] PASTE-HOOK tokenMatch=true/i.test(output)
+    : true;
+  const pasteBracketedOk = IS_PASTE_PROBE
+    ? /\[cli-paste-smoke\] PASTE-BRACKETED enabled=true/i.test(output)
+    : true;
+  const pasteDeliveredOk = IS_PASTE_PROBE
+    ? /\[cli-paste-smoke\] ok: paste delivered len=\d+ lines=3 via Terminal\.paste\(\)/i.test(output)
+    : true;
+  const pasteInputOk = IS_PASTE_PROBE
+    ? /\[cli-paste-smoke\] PASTE-INPUT count=1 .* match=true stray=false/i.test(output)
+    : true;
+  const pastePlaceholderOk = IS_PASTE_PROBE
+    ? /\[cli-paste-smoke\] PASTE-PLACEHOLDER observed=true/i.test(output)
+    : true;
+  // Paste must be Terminal.paste() ONLY: any keyboard-event delivery log or
+  // Enter-press log in paste mode is a FAIL (wrong input path / submitted).
+  const pasteNoKeyboardOk = IS_PASTE_PROBE
+    ? !/via sendInputEvent/i.test(output) && !/Enter pressed/i.test(output) && !/ok: input typed/i.test(output) && !/ok: edit keys/i.test(output) && !/history input typed/i.test(output)
+    : true;
   const historyPlanOk = IS_HISTORY_PROBE
     ? /\[cli-history-smoke\] HISTORY-PLAN command=\/help steps=type\(\/help\),Enter,Escape,Up,shot\(up\)/i.test(output)
     : true;
@@ -395,7 +547,7 @@ async function main() {
   log(`assert: markers line: ${markersLine.slice(0, 200)}`);
   log(`assert: version line: ${versionLine.slice(0, 120)}`);
   log(`assert: shot line: ${shotLine.slice(0, 300)}`);
-  log(`assert: mode=${IS_HISTORY_PROBE ? 'history-probe' : IS_EDIT_PROBE ? 'edit-probe' : IS_INPUT_PROBE ? 'input-probe' : 'tui-startup'} resolvedOpencode=${resolvedOpencode} resolvedCmdShim=${resolvedCmdShim} rendererReady=${rendererReady} ptyData=${ptyData} markersOk=${markersOk} versionOk=${versionOk} inputTypedOk=${inputTypedOk} editKeysOk=${editKeysOk} editPlanOk=${editPlanOk} shotsLogOk=${shotsLogOk} historyPlanOk=${historyPlanOk} historyTypedOk=${historyTypedOk} historyEchoOk=${historyEchoOk} historyEnterOk=${historyEnterOk} historyHelpObservedOk=${historyHelpObservedOk} historyEscapeOk=${historyEscapeOk} historyUpOk=${historyUpOk} historyUpShotOk=${historyUpShotOk} historyShotsLogOk=${historyShotsLogOk}`);
+  log(`assert: mode=${IS_HISTORY_PROBE ? 'history-probe' : IS_PASTE_PROBE ? 'paste-probe' : IS_EDIT_PROBE ? 'edit-probe' : IS_INPUT_PROBE ? 'input-probe' : 'tui-startup'} resolvedOpencode=${resolvedOpencode} resolvedCmdShim=${resolvedCmdShim} rendererReady=${rendererReady} ptyData=${ptyData} markersOk=${markersOk} versionOk=${versionOk} inputTypedOk=${inputTypedOk} editKeysOk=${editKeysOk} editPlanOk=${editPlanOk} shotsLogOk=${shotsLogOk} pastePlanOk=${pastePlanOk} pasteHookOk=${pasteHookOk} pasteBracketedOk=${pasteBracketedOk} pasteDeliveredOk=${pasteDeliveredOk} pasteInputOk=${pasteInputOk} pasteNoKeyboardOk=${pasteNoKeyboardOk} historyPlanOk=${historyPlanOk} historyTypedOk=${historyTypedOk} historyEchoOk=${historyEchoOk} historyEnterOk=${historyEnterOk} historyHelpObservedOk=${historyHelpObservedOk} historyEscapeOk=${historyEscapeOk} historyUpOk=${historyUpOk} historyUpShotOk=${historyUpShotOk} historyShotsLogOk=${historyShotsLogOk}`);
 
   const killOwned = async () => {
     try {
@@ -403,6 +555,7 @@ async function main() {
     } catch {
       /* runner-owned handle only */
     }
+    releaseCliJob();
   };
 
   if (spawningLine === '' || resolvedLine === '' || !resolvedOpencode) {
@@ -417,8 +570,8 @@ async function main() {
     process.exitCode = 1;
     return;
   }
-  if (!rendererReady || !ptyData || !markersOk || !inputTypedOk || !editKeysOk || !editPlanOk || !shotsLogOk || !historyPlanOk || !historyTypedOk || !historyEchoOk || !historyEnterOk || !historyHelpObservedOk || !historyEscapeOk || !historyUpOk || !historyUpShotOk || !historyShotsLogOk) {
-    console.error(`[runner] FAIL: renderer READY + real CLI PTY data + markers${IS_HISTORY_PROBE ? ' + /help sequence (HISTORY-PLAN + typed /help + echo + Enter once + HELP-OBSERVED + Escape + Up + up shot + HISTORY-SHOTS)' : IS_EDIT_PROBE ? ' + keyboard input + editing keys + EDIT-PLAN + changed SHOTS' : IS_INPUT_PROBE ? ' + keyboard input + changed SHOTS' : ''} not all proven (no pass; not S1 steps 1-8)`);
+  if (!rendererReady || !ptyData || !markersOk || !inputTypedOk || !editKeysOk || !editPlanOk || !shotsLogOk || !pastePlanOk || !pasteHookOk || !pasteBracketedOk || !pasteDeliveredOk || !pasteInputOk || !pastePlaceholderOk || !pasteNoKeyboardOk || !historyPlanOk || !historyTypedOk || !historyEchoOk || !historyEnterOk || !historyHelpObservedOk || !historyEscapeOk || !historyUpOk || !historyUpShotOk || !historyShotsLogOk) {
+    console.error(`[runner] FAIL: renderer READY + real CLI PTY data + markers${IS_HISTORY_PROBE ? ' + /help sequence (HISTORY-PLAN + typed /help + echo + Enter once + HELP-OBSERVED + Escape + Up + up shot + HISTORY-SHOTS)' : IS_PASTE_PROBE ? ' + multiline paste (PASTE-PLAN + PASTE-HOOK + PASTE-BRACKETED enabled=true + paste delivered via Terminal.paste() + PASTE-INPUT count=1 match=true stray=false + changed SHOTS, no sendInputEvent, no Enter)' : IS_EDIT_PROBE ? ' + keyboard input + editing keys + EDIT-PLAN + changed SHOTS' : IS_INPUT_PROBE ? ' + keyboard input + changed SHOTS' : ''} not all proven (no pass; not S1 steps 1-8)`);
     await killOwned();
     process.exitCode = 1;
     return;
@@ -460,7 +613,7 @@ async function main() {
     afterHash = upHash;
     shotBytes = upBytes;
     log(`screenshots ok: up=${historyUpShotPath} (${upBytes} bytes sha256=${upHash.slice(0, 16)}…) (single final screenshot after uninterrupted type/Enter/Escape/Up; orchestrator visual inspection only; NOT recall proof)`);
-  } else if (IS_INPUT_PROBE || IS_EDIT_PROBE) {
+  } else if (IS_INPUT_PROBE || IS_EDIT_PROBE || IS_PASTE_PROBE) {
     try {
       beforeBytes = fs.statSync(beforeShotPath).size;
     } catch {
@@ -501,6 +654,8 @@ async function main() {
     shotBytes = afterBytes;
     if (IS_EDIT_PROBE) {
       log(`screenshots ok: before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (visible opt-in editing window, keyboard events delivered + changed render only, NOT semantic editing correctness; orchestrator visual inspection only)`);
+    } else if (IS_PASTE_PROBE) {
+      log(`screenshots ok: before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (visible opt-in Terminal.paste() window, bracketed evidence + changed render only, NOT semantic editor arrival, NOT no-network proof; orchestrator visual inspection only; Terminal.paste() is not the OS clipboard shortcut)`);
     } else {
       log(`screenshots ok: before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (visible opt-in window, orchestrator visual inspection only)`);
     }
@@ -633,6 +788,8 @@ async function main() {
     const tokenLine = output.split(/\r?\n/).find((l) => /\[cli-input-smoke\] TOKEN len=/i.test(l)) ?? '';
     const tokenLen = (tokenLine.match(/len=(\d+)/) || [])[1] || 'unknown';
     console.log(`[runner] CLI-INPUT PASS: resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) inputLen=${tokenLen} before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (keyboard event + changed render via sendInputEvent keyDown+char+keyUp, no Enter, never submitted; NOT semantic prompt acceptance; orchestrator visual inspection only; NOT S1 step 3, parity, Unicode, approvals, or model behavior)`);
+  } else if (IS_PASTE_PROBE) {
+    console.log(`[runner] CLI-PASTE PASS: resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) pasteLines=3 before=${beforeShotPath} (${beforeBytes} bytes sha256=${beforeHash.slice(0, 16)}…) after=${afterShotPath} (${afterBytes} bytes sha256=${afterHash.slice(0, 16)}…) changed (fixed multiline ASCII via Terminal.paste() ONLY, bracketedPasteMode required, exactly one ESC[200~ + payload + ESC[201~ INPUT count=1 match=true stray=false, no Enter, never submitted, no clipboard read/overwrite, no sendInputEvent, no term.write from harness; NOT semantic editor arrival, NOT no-network proof, NOT OS-clipboard-shortcut equivalence; orchestrator visual inspection only; NOT S1 step 3/6, parity, Unicode, approvals, or model behavior)`);
   } else {
     console.log(`[runner] TUI-STARTUP PASS: resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) shot=${shotPath} (${shotBytes} bytes; hidden window, no human visual comparison; NOT S1 steps 1-8)`);
   }

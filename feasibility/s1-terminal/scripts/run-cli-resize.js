@@ -235,6 +235,11 @@ async function main() {
     TIYE_S1_COMMAND: 'opencode',
     TIYE_S1_ARGS_JSON: '[]',
   };
+  const gatePath = path.resolve(__dirname, '..', 'dist', `cli-gate-${crypto.randomBytes(8).toString('hex')}.tmp`);
+  const gateToken = crypto.randomBytes(16).toString('hex');
+  process.once('exit', () => { try { fs.unlinkSync(gatePath); } catch { /* already removed */ } });
+  env.TIYE_CLI_CONTAINMENT_GATE = gatePath;
+  env.TIYE_CLI_CONTAINMENT_TOKEN = gateToken;
   delete env.ELECTRON_RUN_AS_NODE;
   delete env.TIYE_S1_CWD;
   delete env.TIYE_CRASH_REGISTRY_PATH;
@@ -272,11 +277,63 @@ async function main() {
     child.on('error', (err) => resolve({ code: 2, signal: null, error: err.message, early: true }));
     child.on('exit', (code, signal) => resolve({ code: code ?? 2, signal, early: !ready }));
   });
+  let cliController = null;
+  const releaseCliJob = () => {
+    try { fs.unlinkSync(gatePath); } catch { /* already removed */ }
+    if (!cliController) return;
+    try { cliController.stdin?.end(); } catch { /* already closed */ }
+  };
+  const setupDeadline = Date.now() + 10000;
+  const waitingMarker = `[${SMOKE_TAG}] WAITING containment before PTY spawn`;
+  while (!output.includes(waitingMarker) && Date.now() < setupDeadline) {
+    const st = await Promise.race([exitPromise.then(() => true), sleep(100).then(() => false)]);
+    if (st) break;
+  }
+  if (!output.includes(waitingMarker) || !child.pid) {
+    console.error('[runner] INCONCLUSIVE: CLI containment gate not ready; no CLI spawned');
+    child.kill();
+    process.exitCode = 2;
+    return;
+  }
+  try {
+    const identity = (await enumerateAllOnce()).get(child.pid);
+    if (!identity || !/^electron\.exe$/i.test(identity.name)) throw new Error(`Electron identity unavailable: ${JSON.stringify(identity)}`);
+    const controllerPath = path.resolve(__dirname, 'job-probe-controller.ps1');
+    if (!fs.existsSync(controllerPath)) throw new Error('job controller missing');
+    let controllerOutput = '';
+    cliController = spawn(powershellBin(), [
+      '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', controllerPath,
+      '-ChildPid', String(identity.pid), '-ChildCreationTime', identity.creationTime, '-HoldUntilStdinClose',
+    ], { stdio: ['pipe', 'pipe', 'pipe'], windowsHide: true });
+    cliController.stdout?.on('data', (d) => { controllerOutput += d.toString('utf8'); });
+    cliController.stderr?.on('data', (d) => { controllerOutput += d.toString('utf8'); });
+    cliController.on('error', (err) => { controllerOutput += `\nERROR ${err.message}`; });
+    const deadline = Date.now() + 12000;
+    const expectedReady = `[job-controller] READY childPid=${identity.pid} `;
+    while (!controllerOutput.includes(expectedReady) && Date.now() < deadline) {
+      if (/\[job-controller\] FAIL:|ERROR /.test(controllerOutput) || cliController.exitCode !== null) break;
+      await sleep(100);
+    }
+    if (!controllerOutput.includes(expectedReady)
+        || !controllerOutput.includes('confirmed JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE read-back flags=0x2000')
+        || !controllerOutput.includes(`confirmed IsProcessInJob(pid=${identity.pid})=true`)) {
+      throw new Error(`job assignment unverified: ${controllerOutput.slice(-500)}`);
+    }
+    log(`CLI containment READY: Electron pid=${identity.pid} creation=${identity.creationTime} in kill-on-close Job Object`);
+    fs.writeFileSync(gatePath, gateToken, { flag: 'wx' });
+  } catch (err) {
+    console.error(`[runner] INCONCLUSIVE: CLI containment setup failed: ${err.message} (no CLI allowed)`);
+    child.kill();
+    releaseCliJob();
+    process.exitCode = 2;
+    return;
+  }
   const readyDeadline = Date.now() + READY_TIMEOUT_MS;
   while (!ready && Date.now() < readyDeadline) {
     const st = await Promise.race([exitPromise.then((e) => ({ exited: true, e })), sleep(250).then(() => ({ exited: false }))]);
     if (st.exited) {
       console.error(`[runner] FAIL: Electron exited before READY (code=${st.e.code} signal=${st.e.signal}; no pass)`);
+      releaseCliJob();
       process.exitCode = st.e.code === 1 ? 1 : 2;
       return;
     }
@@ -288,6 +345,7 @@ async function main() {
     } catch {
       /* runner-owned handle only */
     }
+    releaseCliJob();
     await sleep(1000);
     process.exitCode = 2;
     return;
@@ -343,6 +401,7 @@ async function main() {
     } catch {
       /* runner-owned handle only */
     }
+    releaseCliJob();
   };
 
   if (spawningLine === '' || resolvedLine === '' || !resolvedOpencode) {

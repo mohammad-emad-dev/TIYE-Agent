@@ -1,7 +1,7 @@
 // S1b main process (+ bounded S1 9e probe, + bounded 9f BASELINE probe,
 // + bounded 9f crash+job experiment, + bounded 9f crash-survivor experiment,
 // + bounded 9f crash-pty-survivor experiment, + bounded real-CLI TUI
-// startup/render probe, + bounded real-CLI input/edit/history/resize probes).
+// startup/render probe, + bounded real-CLI input/edit/history/paste/resize probes).
 // Main owns ONE member PTY session across BrowserWindow recreation
 // (Architecture 2.3, S1 steps 9a-9d). Window close offers Keep Running
 // (retain PTY, tray with Open/Quit) or Stop (graceful CLI shutdown, then
@@ -51,6 +51,7 @@ const CLI_TUI_STARTUP_SMOKE_FLAG = '--cli-tui-startup-smoke';
 const CLI_INPUT_SMOKE_FLAG = '--cli-input-smoke';
 const CLI_EDIT_SMOKE_FLAG = '--cli-edit-smoke';
 const CLI_HISTORY_SMOKE_FLAG = '--cli-history-smoke';
+const CLI_PASTE_SMOKE_FLAG = '--cli-paste-smoke';
 const CLI_RESIZE_SMOKE_FLAG = '--cli-resize-smoke';
 const CRASH_BASELINE_FLAG = '--crash-baseline';
 const CRASH_RECOVERY_FLAG = '--crash-recovery-check';
@@ -141,6 +142,7 @@ function hasCrashExperimentFlag(argv: string[]): boolean {
     argv.includes(CLI_INPUT_SMOKE_FLAG) ||
     argv.includes(CLI_EDIT_SMOKE_FLAG) ||
     argv.includes(CLI_HISTORY_SMOKE_FLAG) ||
+    argv.includes(CLI_PASTE_SMOKE_FLAG) ||
     argv.includes(CLI_RESIZE_SMOKE_FLAG) ||
     argv.includes(CRASH_BASELINE_FLAG) ||
     argv.includes(CRASH_RECOVERY_FLAG) ||
@@ -613,7 +615,19 @@ async function runCliLaunchSmoke(): Promise<number> {
 // sequence). Automated edit PASS means
 // keyboard events delivered + changed render + teardown only, NOT semantic
 // editing correctness — the orchestrator visually inspects both shots. Do NOT
-// cite as command history or S1 step 3 complete. Resize mode (VISIBLE
+// cite as command history or S1 step 3 complete. Paste mode (VISIBLE
+// opt-in window, same renderer, distinct --cli-paste-smoke flag) proves the
+// same startup flow plus a fixed harmless multiline ASCII token delivered
+// SOLELY via xterm Terminal.paste() through a query-gated probe hook (no
+// clipboard read/overwrite, no Ctrl+V, no sendInputEvent, no term.write from
+// the harness, never Enter/submit); the real TUI must have enabled
+// bracketedPasteMode or the probe fails closed without sending. Main
+// captures the exact renderer->IPC->PTY INPUT (exactly one ESC[200~ +
+// normalized payload + ESC[201~ sequence, no stray) plus changed
+// before/after screenshots (dist/cli-paste-before.png +
+// dist/cli-paste-after.png). Automated paste PASS means bracketed evidence +
+// changed render + teardown only, NOT semantic editor arrival and NOT
+// no-network proof — the orchestrator visually inspects both shots. Resize mode (VISIBLE
 // opt-in window, same renderer, distinct --cli-resize-smoke flag) proves
 // the same startup flow plus a SINGLE BrowserWindow resize with NO keyboard
 // input, NO PTY write, NO submit, and NO model request, plus observed
@@ -624,13 +638,16 @@ async function runCliLaunchSmoke(): Promise<number> {
 // only, NOT visual reflow or S1 step 5 — the orchestrator visually inspects
 // both shots. Do NOT cite as S1 pass.
 //
-// Safety (all five modes): args must be exactly [] (empty). Any non-empty args
+// Safety (all six modes): args must be exactly [] (empty). Any non-empty args
 // are refused without spawn so a misconfigured runner can never trigger a
 // model call. Startup mode NEVER writes stdin (no prompt, no input text, no
 // model request) — not even `exit`; input mode writes ONLY the fixed token
 // through sendInputEvent (never term.write, never Enter/submit); edit mode
 // writes ONLY the fixed initial token plus the bounded editing keys through
-// sendInputEvent (never term.write, never Enter/submit); resize mode sends
+// sendInputEvent (never term.write, never Enter/submit); paste mode writes
+// ONLY the fixed multiline token through Terminal.paste() (never
+// sendInputEvent, never term.write from the harness, never Enter/submit,
+// never clipboard access); resize mode sends
 // NO input at all (no sendInputEvent, no term.write, no Enter/submit).
 // History mode is documented separately. Teardown is
 // deliberately NOT term.kill() inside Electron: node-pty on Windows has a
@@ -649,7 +666,7 @@ function stripAnsiForMarkers(raw: string): string {
     .replace(/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/g, '');
 }
 
-type CliTuiProbeMode = 'startup' | 'input' | 'edit' | 'history' | 'resize';
+type CliTuiProbeMode = 'startup' | 'input' | 'edit' | 'history' | 'paste' | 'resize';
 
 type CliTuiProbeShotKind = 'shot' | 'before' | 'after' | 'up';
 
@@ -658,13 +675,28 @@ const CLI_EDIT_INITIAL_TOKEN = 'tiyeeditab12';
 const CLI_EDIT_REPLACEMENT = 'z';
 const CLI_EDIT_EXPECTED_TOKEN = 'tyeeditab1z';
 const CLI_HISTORY_COMMAND = '/help';
+// Fixed harmless multiline ASCII paste token (LF in source; xterm's
+// Terminal.paste() normalizes `\r?\n` to `\r` before bracketing — see
+// prepareTextForTerminal — so the expected renderer->IPC->PTY bytes are
+// ESC[200~ + normalized + ESC[201~). Never submitted (no Enter), no model
+// request, no OS clipboard read/overwrite.
+const CLI_PASTE_TOKEN = 'TIYEPASTE_A7\nTIYEPASTE_B8\nTIYEPASTE_C9';
+const CLI_PASTE_BRACKET_START = '\x1b[200~';
+const CLI_PASTE_BRACKET_END = '\x1b[201~';
 const CLI_RESIZE_TARGET_CONTENT_WIDTH = 800;
 const CLI_RESIZE_TARGET_CONTENT_HEIGHT = 500;
+
+function cliTuiExpectedPasteInput(): string {
+  // xterm paste path normalizes line endings before bracketing.
+  const normalized = CLI_PASTE_TOKEN.replace(/\r?\n/g, '\r');
+  return CLI_PASTE_BRACKET_START + normalized + CLI_PASTE_BRACKET_END;
+}
 
 function cliTuiProbeTag(mode: CliTuiProbeMode): string {
   if (mode === 'input') return '[cli-input-smoke]';
   if (mode === 'edit') return '[cli-edit-smoke]';
   if (mode === 'history') return '[cli-history-smoke]';
+  if (mode === 'paste') return '[cli-paste-smoke]';
   if (mode === 'resize') return '[cli-resize-smoke]';
   return '[cli-tui-startup-smoke]';
 }
@@ -673,6 +705,7 @@ function cliTuiProbeMember(mode: CliTuiProbeMode): string {
   if (mode === 'input') return 'cli-input-member';
   if (mode === 'edit') return 'cli-edit-member';
   if (mode === 'history') return 'cli-history-member';
+  if (mode === 'paste') return 'cli-paste-member';
   if (mode === 'resize') return 'cli-resize-member';
   return 'cli-tui-startup-member';
 }
@@ -902,6 +935,159 @@ async function runCliHistoryInteraction(
 }
 
 /**
+ * Small named paste interaction routine (keeps the shared driver short).
+ * Bounded real-OpenCode multiline-paste feasibility slice: fixed empty CLI
+ * args, fixed harmless multiline ASCII token ONLY, delivered SOLELY via
+ * xterm `Terminal.paste()` through a query-gated renderer probe hook
+ * (`?tiye-paste-probe=1`; production UI has no hook). The OS clipboard is
+ * never read or overwritten; this probes the terminal paste path, NOT
+ * Ctrl+V/system clipboard. Before sending, the real TUI must have enabled
+ * `term.modes.bracketedPasteMode` in the renderer — otherwise fail closed
+ * with NO paste. NEVER presses Enter, NEVER types a model prompt, NEVER
+ * calls a model, NEVER writes directly to node-pty from the harness
+ * (no sendInputEvent, no term.write here; the only PTY write is the normal
+ * renderer->IPC->PTY INPUT handler carrying the bracketed sequence).
+ * Captures before/after screenshots (changed render required) and verifies
+ * the exact captured INPUT is exactly one ESC[200~ + normalized payload +
+ * ESC[201~ sequence with no stray input. Any mismatch fails closed (1) or
+ * inconclusive (2), never PASS. Changed screenshots alone never prove
+ * semantic arrival at the OpenCode editor nor absence of vendor network
+ * calls (orchestrator inspects visually; limitations documented).
+ */
+async function runCliPasteInteraction(
+  w: BrowserWindow,
+  tag: string,
+  beforePath: string,
+  afterPath: string,
+  getPtyBytes: () => string,
+): Promise<{ ok: boolean; code: 1 | 2; beforeBytes: number; afterBytes: number }> {
+  const zero = { ok: false as const, code: 1 as 1 | 2, beforeBytes: 0, afterBytes: 0 };
+  const fail = (msg: string): typeof zero => {
+    console.error(`${tag} FAIL: ${msg} (no pass)`);
+    return { ...zero, ok: false, code: 1 };
+  };
+  const inconclusive = (msg: string): typeof zero => {
+    console.error(`${tag} INCONCLUSIVE: ${msg} (no pass)`);
+    return { ...zero, ok: false, code: 2 };
+  };
+  const expectedInput = cliTuiExpectedPasteInput();
+  const tokenLines = CLI_PASTE_TOKEN.split('\n').length;
+  console.log(
+    `${tag} PASTE-PLAN tokenLines=${tokenLines} method=Terminal.paste() bracketed-required no-Enter,no-submit,no-model,no-clipboard-read,no-term-write,no-sendInputEvent (fixed multiline ASCII only via xterm paste path)`,
+  );
+  if (w.isDestroyed()) return inconclusive('paste window destroyed before before-shot');
+  pasteInputs.length = 0;
+  const before = await captureStoreProbeShot(tag, 'before', beforePath, 5);
+  if (before === null) return { ...zero, ok: false, code: 1 };
+  if (pasteInputs.length !== 0) {
+    return fail(`stray renderer->IPC input before paste (count=${pasteInputs.length}; Terminal.paste() must be the only input action)`);
+  }
+  if (w.isDestroyed()) return inconclusive('paste window destroyed before hook check');
+  if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited before paste (code ${ptyExitCode})`);
+  let hookPresent = false;
+  try {
+    const present: unknown = await w.webContents.executeJavaScript('!!window.__tiyePasteProbe');
+    hookPresent = present === true;
+  } catch (err) {
+    return inconclusive(`paste probe hook inspection failed: ${(err as Error).message}`);
+  }
+  console.log(`${tag} PASTE-HOOK present=${hookPresent} (query-gated test hook only, never production UI)`);
+  if (!hookPresent) {
+    return fail('paste probe hook missing (renderer not in test-gated paste mode; no paste sent)');
+  }
+  let hookToken: unknown = null;
+  try {
+    hookToken = await w.webContents.executeJavaScript('window.__tiyePasteProbe ? window.__tiyePasteProbe.token : null');
+  } catch (err) {
+    return inconclusive(`paste hook token inspection failed: ${(err as Error).message}`);
+  }
+  const tokenMatch = hookToken === CLI_PASTE_TOKEN;
+  console.log(`${tag} PASTE-HOOK tokenMatch=${tokenMatch} (fixed payload validation)`);
+  if (!tokenMatch) {
+    return fail('paste hook token mismatch (fixed payload only; no paste sent)');
+  }
+  let bracketed = false;
+  try {
+    const enabled: unknown = await w.webContents.executeJavaScript(
+      'window.__tiyePasteProbe ? window.__tiyePasteProbe.isBracketedPasteEnabled() : false',
+    );
+    bracketed = enabled === true;
+  } catch (err) {
+    return inconclusive(`bracketedPasteMode inspection failed: ${(err as Error).message}`);
+  }
+  console.log(`${tag} PASTE-BRACKETED enabled=${bracketed} (real TUI must enable bracketed paste; fail closed)`);
+  if (!bracketed) {
+    return fail('bracketedPasteMode off in renderer (fail closed, paste NOT sent)');
+  }
+  try {
+    w.focus();
+  } catch {
+    /* focus best-effort */
+  }
+  try {
+    w.webContents.focus();
+  } catch {
+    /* already focused */
+  }
+  await new Promise((r) => setTimeout(r, 300));
+  if (w.isDestroyed()) return inconclusive('paste window destroyed before Terminal.paste()');
+  if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited before Terminal.paste() (code ${ptyExitCode})`);
+  try {
+    await w.webContents.executeJavaScript(
+      `window.__tiyePasteProbe.pasteFixed(${JSON.stringify(CLI_PASTE_TOKEN)})`,
+    );
+  } catch (err) {
+    return fail(`Terminal.paste() invocation failed: ${(err as Error).message.slice(0, 200)}`);
+  }
+  console.log(`${tag} ok: paste delivered len=${CLI_PASTE_TOKEN.length} lines=${tokenLines} via Terminal.paste() (single bracketed sequence, no Enter, no sendInputEvent, no term.write, no clipboard read/overwrite; renderer xterm paste path)`);
+  const ptyBefore = getPtyBytes().length;
+  await new Promise((r) => setTimeout(r, 5000));
+  const ptyAfter = getPtyBytes().length;
+  // Diagnostic only (lengths + fixed-token boolean, never arbitrary content):
+  // did the TUI send anything back after our paste? This NEVER proves
+  // semantic arrival (see limitations).
+  console.log(`${tag} PASTE-PTY bytesBefore=${ptyBefore} bytesAfter=${ptyAfter} delta=${ptyAfter - ptyBefore} (read-only lengths, not content; NOT arrival proof)`);
+  let pasteEcho = false;
+  let pastePlaceholder = false;
+  try {
+    const strippedAfter = stripAnsiForMarkers(getPtyBytes());
+    pasteEcho = strippedAfter.includes('TIYEPASTE_A7') && strippedAfter.includes('TIYEPASTE_B8');
+    pastePlaceholder = /Pasted\s+~3\s+lines/i.test(strippedAfter);
+  } catch {
+    pasteEcho = false;
+    pastePlaceholder = false;
+  }
+  console.log(`${tag} PASTE-ECHO observed=${pasteEcho} (fixed-token presence in PTY output only; NOT semantic arrival proof, NOT display proof)`);
+  console.log(`${tag} PASTE-PLACEHOLDER observed=${pastePlaceholder} (OpenCode's three-line paste indicator in PTY output; not exact-content proof)`);
+  if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited before paste after-shot (code ${ptyExitCode})`);
+  const after = await captureStoreProbeShot(tag, 'after', afterPath, 5);
+  if (after === null) return { ...zero, ok: false, code: 1 };
+  const beforeBytes = fs.readFileSync(beforePath);
+  const afterBytes = fs.readFileSync(afterPath);
+  const changed = !beforeBytes.equals(afterBytes);
+  console.log(`${tag} SHOTS before=${beforePath} bytes=${before.statSize} after=${afterPath} bytes=${after.statSize} changed=${changed}`);
+  const count: number = pasteInputs.length;
+  const firstLen: number = count > 0 ? pasteInputs[0].length : 0;
+  const match: boolean = count === 1 && pasteInputs[0] === expectedInput;
+  const stray: boolean = count !== 1;
+  const allLens = pasteInputs.map((s) => s.length).join(',');
+  // Evidence only: lengths + booleans, never arbitrary TUI/user data.
+  console.log(
+    `${tag} PASTE-INPUT count=${count} bytes=${firstLen} expectedBytes=${expectedInput.length} innerLen=${CLI_PASTE_TOKEN.length} match=${match} stray=${stray} allLens=${allLens} (exact renderer->IPC->PTY bracketed evidence; ESC[200~ + normalized payload + ESC[201~)`,
+  );
+  if (!changed) {
+    return fail(`before/after screenshots identical (no paste/render change proven; no pass) count=${count} match=${match}`);
+  }
+  if (!match || stray) {
+    return fail(
+      `bracketed-paste evidence mismatch (want exactly one ESC[200~ + payload + ESC[201~ sequence count=1 bytes=${expectedInput.length}, got count=${count} bytes=${firstLen}; no stray input allowed)`,
+    );
+  }
+  if (!pastePlaceholder) return fail('OpenCode three-line paste indicator absent from PTY output');
+  return { ok: true, code: 1, beforeBytes: before.statSize, afterBytes: after.statSize };
+}
+
+/**
  * Small named resize interaction routine (keeps the shared driver short).
  * Bounded real-OpenCode TUI resize slice: NO keyboard input, NO PTY write,
  * NO prompt submission, NO model request. Captures a before screenshot,
@@ -1128,10 +1314,11 @@ async function runCliResizeInteraction(
 }
 
 /**
- * Shared driver for all five real-CLI TUI probes. Mode-specific behavior stays
+ * Shared driver for all six real-CLI TUI probes. Mode-specific behavior stays
  * in explicit branches: window visibility, screenshot path(s) + retries, the
  * input-mode token typing + changed-render gate, the edit-mode token typing +
- * bounded editing keys + changed-render gate, and the per-mode log
+ * bounded editing keys + changed-render gate, the paste-mode Terminal.paste()
+ * + bracketed evidence + changed-render gate, and the per-mode log
  * suffixes the runner greps. Everything else (empty-args validation, PTY
  * spawn, renderer READY wait, startup-marker wait, tree capture + IDENTITY
  * logs, MARKERS/VERSION logs, READY + park) runs once here.
@@ -1142,6 +1329,7 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
   const isInput = mode === 'input';
   const isEdit = mode === 'edit';
   const isHistory = mode === 'history';
+  const isPaste = mode === 'paste';
   const isResize = mode === 'resize';
   if (isInput) {
     cliInputMode = true;
@@ -1149,10 +1337,33 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     cliEditMode = true;
   } else if (isHistory) {
     cliHistoryMode = true;
+  } else if (isPaste) {
+    cliPasteMode = true;
   } else if (isResize) {
     cliResizeMode = true;
   } else {
     cliTuiStartupMode = true;
+  }
+  // The real CLI can start a detached `serve --service` descendant. Every
+  // probe using this shared driver waits until the runner has assigned this
+  // Electron process to a kill-on-close Windows Job Object.
+  const gatePath = process.env.TIYE_CLI_CONTAINMENT_GATE;
+  const gateToken = process.env.TIYE_CLI_CONTAINMENT_TOKEN;
+  if (!gatePath || !gateToken) {
+    console.error(`${tag} INCONCLUSIVE: containment gate configuration missing`);
+    return 2;
+  }
+  console.log(`${tag} WAITING containment before PTY spawn`);
+  let gateOpen = false;
+  const gateDeadline = Date.now() + 20000;
+  while (Date.now() < gateDeadline) {
+    try { gateOpen = fs.readFileSync(gatePath, 'utf8') === gateToken; } catch { /* gate not released */ }
+    if (gateOpen) break;
+    await sleepMs(100);
+  }
+  if (!gateOpen) {
+    console.error(`${tag} INCONCLUSIVE: containment gate timed out`);
+    return 2;
   }
   let spec: LaunchSpec;
   try {
@@ -1174,6 +1385,10 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     } else if (isInput) {
       console.error(
         `${tag} FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; no model, no pass)`,
+      );
+    } else if (isPaste) {
+      console.error(
+        `${tag} FAIL: refused args ${JSON.stringify(spec.args)} (this probe allows only empty args; fixed multiline paste only via Terminal.paste(), no Enter, no submit, no model, no pass)`,
       );
     } else if (isResize) {
       console.error(
@@ -1202,9 +1417,11 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
         ? `${tag} PROBE installed opencode TUI editing keys via main-owned PTY + visible renderer keyboard path (fixed ASCII token then Home,Right,Delete,End,Backspace plus ASCII replacement; no Enter, no submit, no model/prompt request)`
         : isInput
           ? `${tag} PROBE installed opencode TUI input via main-owned PTY + visible renderer keyboard path (no Enter, no submit, no model/prompt request)`
-          : isResize
-            ? `${tag} PROBE installed opencode TUI resize via main-owned PTY + visible renderer (single BrowserWindow resize, no keyboard input, no PTY write, no Enter, no submit, no model/prompt request)`
-            : `${tag} PROBE installed opencode TUI startup via main-owned PTY + hidden renderer (no stdin written, no model/prompt)`,
+          : isPaste
+            ? `${tag} PROBE installed opencode TUI multiline paste via main-owned PTY + visible renderer xterm paste path (fixed multiline ASCII token ONLY via Terminal.paste(), bracketedPasteMode required, no Enter, no submit, no model/prompt request, no clipboard read/overwrite, no sendInputEvent, no term.write)`
+            : isResize
+              ? `${tag} PROBE installed opencode TUI resize via main-owned PTY + visible renderer (single BrowserWindow resize, no keyboard input, no PTY write, no Enter, no submit, no model/prompt request)`
+              : `${tag} PROBE installed opencode TUI startup via main-owned PTY + hidden renderer (no stdin written, no model/prompt)`,
   );
   try {
     attachTerminal();
@@ -1223,16 +1440,17 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     ptyBytes += d;
     if (ptyBytes.length > 200000) ptyBytes = ptyBytes.slice(-200000);
   });
-  // Visible window by design for keyboard delivery in input/edit/history
-  // and resize observation in resize mode only (hidden windows cannot
-  // reliably receive keyboard focus/sendInputEvent on Windows and do not
-  // produce a user-meaningful resize; startup mode stays hidden).
-  createWindow({ show: isInput || isEdit || isHistory || isResize });
+  // Visible window by design for keyboard delivery in input/edit/history,
+  // paste observation in paste mode, and resize observation in resize mode
+  // only (hidden windows cannot reliably receive keyboard focus/sendInputEvent
+  // on Windows and do not produce a user-meaningful resize; startup mode
+  // stays hidden).
+  createWindow({ show: isInput || isEdit || isHistory || isPaste || isResize });
   if (win === null) {
     console.error(`${tag} INCONCLUSIVE: window not created (no pass)`);
     return 2;
   }
-  if (isInput || isEdit || isHistory || isResize) {
+  if (isInput || isEdit || isHistory || isPaste || isResize) {
     try {
       win.show();
     } catch {
@@ -1259,9 +1477,11 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
           ? `${tag} ok: renderer READY + preload bridge alive (visible window for keyboard editing; still the existing Electron renderer, not a native terminal)`
           : isInput
             ? `${tag} ok: renderer READY + preload bridge alive (visible window for keyboard focus; still the existing Electron renderer, not a native terminal)`
-            : isResize
-              ? `${tag} ok: renderer READY + preload bridge alive (visible window for resize observation; still the existing Electron renderer, not a native terminal)`
-              : `${tag} ok: renderer READY + preload bridge alive (hidden window; renderer still runs)`,
+            : isPaste
+              ? `${tag} ok: renderer READY + preload bridge alive (visible window for Terminal.paste() observation; still the existing Electron renderer, not a native terminal)`
+              : isResize
+                ? `${tag} ok: renderer READY + preload bridge alive (visible window for resize observation; still the existing Electron renderer, not a native terminal)`
+                : `${tag} ok: renderer READY + preload bridge alive (hidden window; renderer still runs)`,
     );
     await new Promise<void>((resolve, reject) => {
       const start = Date.now();
@@ -1280,7 +1500,7 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     });
     console.log(`${tag} ok: real CLI PTY data observed (bytes=${ptyBytes.length})`);
     // Settle so xterm paints before capture (startup) / the before-shot
-    // (input/edit/resize). No input is sent during this wait by design.
+    // (input/edit/paste/resize). No input is sent during this wait by design.
     await new Promise((r) => setTimeout(r, 3000));
     if (ptyExitCode !== null) {
       console.error(
@@ -1290,9 +1510,11 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
             ? `${tag} INCONCLUSIVE: real CLI PTY exited before edit before-shot (code ${ptyExitCode}; no pass)`
             : isInput
               ? `${tag} INCONCLUSIVE: real CLI PTY exited before before-shot (code ${ptyExitCode}; no pass)`
-              : isResize
-                ? `${tag} INCONCLUSIVE: real CLI PTY exited before resize before-shot (code ${ptyExitCode}; no pass)`
-                : `${tag} INCONCLUSIVE: real CLI PTY exited before screenshot (code ${ptyExitCode}; no pass)`,
+              : isPaste
+                ? `${tag} INCONCLUSIVE: real CLI PTY exited before paste before-shot (code ${ptyExitCode}; no pass)`
+                : isResize
+                  ? `${tag} INCONCLUSIVE: real CLI PTY exited before resize before-shot (code ${ptyExitCode}; no pass)`
+                  : `${tag} INCONCLUSIVE: real CLI PTY exited before screenshot (code ${ptyExitCode}; no pass)`,
       );
       return 2;
     }
@@ -1327,7 +1549,7 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     let resizeBeforeH = 0;
     let resizeAfterW = 0;
     let resizeAfterH = 0;
-    if (!isInput && !isEdit && !isHistory && !isResize) {
+    if (!isInput && !isEdit && !isHistory && !isPaste && !isResize) {
       shotPath = path.resolve(__dirname, '..', 'dist', 'cli-tui-startup-shot.png');
       const shot = await captureStoreProbeShot(tag, 'shot', shotPath, 1);
       if (shot === null) return 1;
@@ -1422,9 +1644,17 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
       // Bounded history observation: documented built-in /help only via the
       // small named routine (no long inline branch here): one uninterrupted
       // focused type/Enter/Escape/Up sequence with a single final screenshot.
-      // Resize mode uses its own small named routine above (no inline
-      // resize logic here).
-      if (isResize) {
+      // Paste mode uses its own small named routine (Terminal.paste() only,
+      // no sendInputEvent, no Enter). Resize mode uses its own small named
+      // routine above (no inline resize logic here).
+      if (isPaste) {
+        beforePath = path.resolve(__dirname, '..', 'dist', 'cli-paste-before.png');
+        afterPath = path.resolve(__dirname, '..', 'dist', 'cli-paste-after.png');
+        const ps = await runCliPasteInteraction(win, tag, beforePath, afterPath, () => ptyBytes);
+        if (!ps.ok) return ps.code;
+        beforeStat = ps.beforeBytes;
+        afterStat = ps.afterBytes;
+      } else if (isResize) {
         beforePath = path.resolve(__dirname, '..', 'dist', 'cli-resize-before.png');
         afterPath = path.resolve(__dirname, '..', 'dist', 'cli-resize-after.png');
         const rs = await runCliResizeInteraction(win, tag, beforePath, afterPath);
@@ -1448,7 +1678,7 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
       }
     }
     if (!logProbeMarkers(tag, ptyBytes)) return 1;
-    if (!isInput && !isEdit && !isHistory && !isResize) {
+    if (!isInput && !isEdit && !isHistory && !isPaste && !isResize) {
       console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} shot=${shotPath}`);
       console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; hidden window, no human visual comparison)`);
     } else if (isInput) {
@@ -1457,6 +1687,9 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     } else if (isEdit) {
       console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} before=${beforePath} after=${afterPath} initialLen=${CLI_EDIT_INITIAL_TOKEN.length} expected=${CLI_EDIT_EXPECTED_TOKEN}`);
       console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; keyboard events delivered + changed render, NOT semantic editing correctness, NOT command history, NOT S1 step 3)`);
+    } else if (isPaste) {
+      console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} before=${beforePath} after=${afterPath} pasteLen=${CLI_PASTE_TOKEN.length} pasteLines=${CLI_PASTE_TOKEN.split('\n').length}`);
+      console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; Terminal.paste() bracketed evidence + changed render, NOT semantic editor arrival, NOT no-network proof, NOT S1 step 3/6)`);
     } else if (isResize) {
       console.log(`${tag} READY session=${mySession} member=${member} rootPid=${rootPid} treeSize=${tree.length} before=${beforePath} after=${afterPath} initial=${resizeInitialCols}x${resizeInitialRows} final=${resizeFinalCols}x${resizeFinalRows} beforePx=${resizeBeforeW}x${resizeBeforeH} afterPx=${resizeAfterW}x${resizeAfterH}`);
       console.log(`${tag} alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; observed resize dims + distinct screenshots, NOT visual reflow proof, NOT S1 step 5, NOT S1 pass)`);
@@ -1471,11 +1704,12 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
   } catch (err) {
     // Failure path: never term.kill() a captured member and never write to
     // the PTY (input/edit modes only used sendInputEvent without submit;
-    // history mode uses sendInputEvent with a single Enter for the documented
-    // /help built-in only, never a second submit of recalled text; resize
-    // mode never writes to the PTY nor sends input events at all). Report
-    // harness failure; the runner still ends only its own Electron handle on
-    // timeout.
+    // paste mode only used Terminal.paste() without submit and never
+    // sendInputEvent/term.write from the harness; history mode uses
+    // sendInputEvent with a single Enter for the documented /help built-in
+    // only, never a second submit of recalled text; resize mode never writes
+    // to the PTY nor sends input events at all). Report harness failure; the
+    // runner still ends only its own Electron handle on timeout.
     console.error(`${tag} INCONCLUSIVE: ${(err as Error).message} (no pass)`);
     return 2;
   }
@@ -1495,6 +1729,10 @@ async function runCliEditSmoke(): Promise<number> {
 
 async function runCliHistorySmoke(): Promise<number> {
   return runRealCliTuiProbe('history');
+}
+
+async function runCliPasteSmoke(): Promise<number> {
+  return runRealCliTuiProbe('paste');
 }
 
 async function runCliResizeSmoke(): Promise<number> {
@@ -1517,6 +1755,11 @@ let ipcRegistered = false;
 // for a CHANGED valid observation after its single window resize; a logged
 // requested window size alone is never cited as resize proof.
 let lastResizeObserved: { cols: number; rows: number } | null = null;
+// Exact renderer->IPC->PTY INPUT data captured in main for the paste probe
+// only (evidence: exactly one bracketed sequence, no stray). Other modes
+// never read this array. Contents are never logged verbatim (lengths +
+// booleans only; no arbitrary TUI/user data in logs).
+const pasteInputs: string[] = [];
 
 // Member-session identity. spawnCount is monotonic: it must stay 1 across
 // Keep Running close + reopen + core re-subscribe (no duplicate spawn).
@@ -1533,6 +1776,7 @@ let cliTuiStartupMode = false;
 let cliInputMode = false;
 let cliEditMode = false;
 let cliHistoryMode = false;
+let cliPasteMode = false;
 let cliResizeMode = false;
 let crashBaselineMode = false;
 let crashJobMode = false;
@@ -1604,7 +1848,12 @@ function registerIpcOnce(): void {
     }
   });
   ipcMain.on(CHANNELS.INPUT, (event, data: unknown) => {
-    if (fromWindow(event) && term !== null && isValidInput(data)) term.write(data);
+    if (fromWindow(event) && term !== null && isValidInput(data)) {
+      // Paste-probe evidence: record the exact renderer->IPC bytes before
+      // the normal PTY write. Never logged verbatim (see PASTE-INPUT).
+      if (cliPasteMode) pasteInputs.push(data);
+      term.write(data);
+    }
   });
   ipcMain.on(CHANNELS.RESIZE, (event, size: unknown) => {
     if (fromWindow(event) && term !== null && isValidResize(size)) {
@@ -1635,7 +1884,15 @@ function createWindow(options?: { show?: boolean }): void {
       nodeIntegration: false,
     },
   });
-  void win.loadFile(path.join(__dirname, 'index.html'));
+  // Paste probe only: explicit test gate via loadFile query enables the
+  // query-gated `window.__tiyePasteProbe` hook in the renderer (production
+  // UI loads without the query and has no hook). All other modes load the
+  // production renderer unchanged.
+  if (cliPasteMode) {
+    void win.loadFile(path.join(__dirname, 'index.html'), { query: { 'tiye-paste-probe': '1' } });
+  } else {
+    void win.loadFile(path.join(__dirname, 'index.html'));
+  }
   win.on('close', (event) => {
     if (isQuitting || allowClose || lifecycleTestMode) return;
     if (!isMemberAlive()) return; // PTY already exited: nothing to keep.
@@ -3256,6 +3513,7 @@ async function main(): Promise<void> {
     if (cliInputMode) return; // cli-input has a visible opt-in window; it lives until the runner kills it.
     if (cliEditMode) return; // cli-edit has a visible opt-in window; it lives until the runner kills it.
     if (cliHistoryMode) return; // cli-history has a visible opt-in window; it lives until the runner kills it.
+    if (cliPasteMode) return; // cli-paste has a visible opt-in window; it lives until the runner kills it.
     if (cliResizeMode) return; // cli-resize has a visible opt-in window; it lives until the runner kills it.
     if (keepRunning && !isQuitting) return; // retained PTY lives in the tray.
     app.quit();
@@ -3268,7 +3526,7 @@ async function main(): Promise<void> {
       }
       return;
     }
-    if (win === null && !isQuitting && !process.argv.includes(SMOKE_FLAG) && !process.argv.includes(CLI_LAUNCH_SMOKE_FLAG) && !process.argv.includes(CLI_TUI_STARTUP_SMOKE_FLAG) && !process.argv.includes(CLI_INPUT_SMOKE_FLAG) && !process.argv.includes(CLI_EDIT_SMOKE_FLAG) && !process.argv.includes(CLI_HISTORY_SMOKE_FLAG) && !process.argv.includes(CLI_RESIZE_SMOKE_FLAG)) createWindow();
+    if (win === null && !isQuitting && !process.argv.includes(SMOKE_FLAG) && !process.argv.includes(CLI_LAUNCH_SMOKE_FLAG) && !process.argv.includes(CLI_TUI_STARTUP_SMOKE_FLAG) && !process.argv.includes(CLI_INPUT_SMOKE_FLAG) && !process.argv.includes(CLI_EDIT_SMOKE_FLAG) && !process.argv.includes(CLI_HISTORY_SMOKE_FLAG) && !process.argv.includes(CLI_PASTE_SMOKE_FLAG) && !process.argv.includes(CLI_RESIZE_SMOKE_FLAG)) createWindow();
   });
   const startupRecoveryRequested = shouldRunStartupRecoveryGate();
   if (process.argv.includes(STARTUP_RECOVERY_ALERT_SMOKE_FLAG) && !startupRecoveryRequested) {
@@ -3364,6 +3622,21 @@ async function main(): Promise<void> {
       app.exit(code);
     } catch (err) {
       console.error(`[cli-history-smoke] INCONCLUSIVE: ${(err as Error).message} (no pass)`);
+      app.exit(2);
+    }
+    return;
+  }
+  if (process.argv.includes(CLI_PASTE_SMOKE_FLAG)) {
+    cliPasteMode = true;
+    try {
+      const code = await runCliPasteSmoke();
+      // Success never returns (stays alive until runner kill); a return is
+      // always a failure or harness inconclusive. No term.kill() here by
+      // design (Windows teardown race); the runner ends only its own
+      // Electron handle and verifies the tree gone read-only.
+      app.exit(code);
+    } catch (err) {
+      console.error(`[cli-paste-smoke] INCONCLUSIVE: ${(err as Error).message} (no pass)`);
       app.exit(2);
     }
     return;
