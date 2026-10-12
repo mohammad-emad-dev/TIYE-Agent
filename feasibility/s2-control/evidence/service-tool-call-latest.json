@@ -1,0 +1,82 @@
+{
+  "scope": "Native service-backed Muse xhigh report_result invocation; not full S2.2 reliability",
+  "recordedAt": "2026-10-12T21:47:55.702Z",
+  "runs": [
+    {
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "elapsedMs": 4769,
+        "cliExitCode": 0,
+        "cliSpawnError": false,
+        "outputTruncated": false,
+        "malformedEvents": false,
+        "completedReports": 1,
+        "otherToolCalls": 0,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 2,
+          "jobVerified": true
+        }
+      },
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": true
+    },
+    {
+      "member": "member-b",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "elapsedMs": 7718,
+        "cliExitCode": 0,
+        "cliSpawnError": false,
+        "outputTruncated": false,
+        "malformedEvents": false,
+        "completedReports": 1,
+        "otherToolCalls": 0,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 2,
+          "jobVerified": true
+        }
+      },
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": true
+    }
+  ],
+  "selectedConfigsUnchanged": true,
+  "passed": true
+}

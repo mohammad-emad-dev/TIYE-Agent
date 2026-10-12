@@ -7,6 +7,8 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const { probeStandaloneReport } = require('./persistent-cli');
+const { probeServiceReport, SERVICE_PERMISSIONS } = require('./service-cli');
+const serviceMode = process.argv.includes('--service');
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function configFingerprints() {
@@ -48,13 +50,13 @@ async function runMember(member) {
     if (failed) throw new Error('fixture startup failed');
     const port = Number(/ready host=127\.0\.0\.1 port=(\d+)/.exec(output)[1]);
     fs.writeFileSync(path.join(cwd, 'opencode.json'), JSON.stringify({
-      permissions: [{ action: '*', resource: '*', effect: 'deny' }, { action: 'tiye-team-tools_report_result', resource: '*', effect: 'allow' }],
+      permissions: serviceMode ? SERVICE_PERMISSIONS : [{ action: '*', resource: '*', effect: 'deny' }, { action: 'tiye-team-tools_report_result', resource: '*', effect: 'allow' }],
       mcp: { servers: { 'tiye-team-tools': {
         type: 'remote', url: `http://127.0.0.1:${port}/mcp`, disabled: false, oauth: false, codemode: false,
         headers: { Authorization: `Bearer ${token}` },
       } } },
     }));
-    evidence.cli = await probeStandaloneReport({ cwd, summary, member });
+    evidence.cli = await (serviceMode ? probeServiceReport : probeStandaloneReport)({ cwd, summary, member });
   } catch {
     evidence.error = 'model fixture failed'; // Never persist response bodies, arguments, or startup output.
   } finally {
@@ -70,7 +72,7 @@ async function runMember(member) {
       if (path.dirname(resolved).toLowerCase() !== fs.realpathSync(os.tmpdir()).toLowerCase() || !path.basename(resolved).startsWith('tiye-s2-model-')) {
         throw new Error('owned temporary project boundary invalid');
       }
-      fs.rmSync(resolved, { recursive: true });
+      if (!serviceMode || (evidence.cli?.sessionStopped && evidence.cli?.sessionRemoved && evidence.cli?.locationEvicted)) fs.rmSync(resolved, { recursive: true });
       evidence.tempRemoved = !fs.existsSync(resolved);
     }
   }
@@ -85,6 +87,7 @@ async function runMember(member) {
   evidence.passed = !evidence.error && !evidence.fixtureErrors && !cli?.error && !cli?.failure
     && cli?.completedAck === true && cli.otherToolCalls === 0 && cli.cliExitCode === 0 && !cli.cliSpawnError && !cli.outputTruncated && !cli.malformedEvents
     && cli.cleanup?.verified === true && cli.cleanup.jobVerified === true
+    && (!serviceMode || (cli.modelConfirmed && cli.executedModelConfirmed && cli.locationConfirmed && cli.connected && cli.sessionStopped && cli.idleVerified && cli.sessionRemoved && cli.locationEvicted && cli.serviceIdentityUnchanged))
     && evidence.serverReportCalls === 1 && evidence.matchingReports === 1 && evidence.otherServerCalls === 0
     && evidence.logHygiene === true && !evidence.serverLogTruncated && evidence.fixtureStopped === true && evidence.tempRemoved === true;
   return evidence;
@@ -92,7 +95,7 @@ async function runMember(member) {
 
 async function main() {
   const beforeConfigs = configFingerprints();
-  const evidence = { scope: 'Native standalone Muse xhigh report_result invocation; not full S2.2 reliability', recordedAt: new Date().toISOString(), runs: [] };
+  const evidence = { scope: `Native ${serviceMode ? 'service-backed' : 'standalone'} Muse xhigh report_result invocation; not full S2.2 reliability`, recordedAt: new Date().toISOString(), runs: [] };
   for (const member of ['member-a', 'member-b']) {
     console.log(`[tool-probe] starting ${member}`);
     evidence.runs.push(await runMember(member));
@@ -100,8 +103,9 @@ async function main() {
   }
   evidence.selectedConfigsUnchanged = JSON.stringify(beforeConfigs) === JSON.stringify(configFingerprints());
   evidence.passed = evidence.runs.every((run) => run.passed) && evidence.selectedConfigsUnchanged;
-  fs.writeFileSync(path.resolve(__dirname, '../evidence/tool-call-latest.json'), JSON.stringify(evidence, null, 2) + '\n');
-  console.log(`[tool-probe] ${evidence.passed ? 'PASS' : 'FAIL'}; evidence/tool-call-latest.json`);
+  const evidenceName = serviceMode ? 'service-tool-call-latest.json' : 'tool-call-latest.json';
+  fs.writeFileSync(path.resolve(__dirname, '../evidence', evidenceName), JSON.stringify(evidence, null, 2) + '\n');
+  console.log(`[tool-probe] ${evidence.passed ? 'PASS' : 'FAIL'}; evidence/${evidenceName}`);
   process.exitCode = evidence.passed ? 0 : 1;
 }
 

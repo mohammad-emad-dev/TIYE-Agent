@@ -1,5 +1,54 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## Service-backed invocation slice (13 October 2026)
+
+**PASS for this invocation slice:** both members called `report_result`
+exactly once through native OpenCode 2.0.22 using
+`opencode/muse-spark-1.3-contributor-free#xhigh`. Each call had the correct
+member, exact unique summary marker, and `done` status. The server recorded
+the match; the CLI emitted a completed tool event with the exact fixture
+acknowledgment. There were no other observed tool calls. Actual assistant
+message models also matched the approved provider, model, and variant.
+See [`service-tool-call-latest.json`](evidence/service-tool-call-latest.json).
+
+The earlier private-instance explanation was too broad. Service-backed
+requests also returned 403 with shell denied. Changing the probe to the
+`plan` agent with edits denied and shell approval required allowed model
+execution. This agrees with an
+[upstream reproduction of the shell-denial/free-tier interaction](https://github.com/anomalyco/opencode/issues/50627).
+No credentials, client-identification headers, or provider checks were
+changed. The private path has not been retested under this profile.
+
+An initial model request sent before catalog readiness completed without
+calling the tool. Waiting for the owned project's `/api/mcp` connected
+status before prompt delivery produced real calls for both members.
+The successful event shape also validates the existing acknowledgment
+matcher against real CLI output.
+
+Cleanup passed: only the created session was interrupted, its idle state
+was checked, deletion was verified in the session listing, and only its
+temporary location was evicted and checked absent. Client Job Object
+assignment and process cleanup, fixture shutdown, exact temporary path
+removal, selected config fingerprints, and log hygiene passed. Shared
+service PID/version were unchanged. Tokens, session IDs, arguments,
+provider bodies, and model text are not persisted in the evidence.
+
+The final profile exposes some default plan tools and requires approval
+for shell actions. No shell action or automatic approval occurred. This
+is not proof that shell-off works with the free model, or that production
+role/file permissions are enforced. The exact full CLI tool catalog,
+terminal-delivered T1, ten-run S2.2 reliability, and ask-leader behavior
+remain separate gates.
+
+Delegation: Muse free `xhigh` and Claude `Atria-Dawn-Preview` `xhigh`
+completed read-only reviews; MiMo `atria/Atria-Dawn-Preview` timed out
+after four minutes. Claude's tripwire recorded the orchestrator's
+concurrent implementation edits, which were inspected independently.
+Offline rejection tests and syntax/diff checks pass.
+
+Next: deliver a real T1 task through the terminal, then run the repeated
+reporting and nudge measurements specified in S2.2.
+
 ## Model invocation slice (13 October 2026)
 
 The new opt-in `npm run probe:tool-call` is implemented, but the actual

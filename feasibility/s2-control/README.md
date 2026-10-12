@@ -101,8 +101,8 @@ in memory and logs only a match boolean. A prospective pass requires one
 matching server call, the exact structured CLI acknowledgment, no other
 observed tool calls, successful CLI exit, complete bounded output,
 unchanged selected config fingerprints, and verified cleanup. Prose alone
-cannot pass. The positive acknowledgment matcher has not yet been tested
-against a successful real CLI tool call.
+cannot pass. The acknowledgment matcher has now been checked against real
+successful service-backed CLI calls; the standalone configuration still fails.
 
 The model phase has a 120-second deadline after setup. The private CLI
 tree is terminated by releasing its owned Job Object, including on a
@@ -112,9 +112,47 @@ is stopped. Redacted results go to `evidence/tool-call-latest.json`.
 Exit `0` means this invocation slice passed; `1` means it failed.
 `rtk npm run check` runs offline rejection tests for the evidence parser.
 
-Measured on OpenCode 2.0.22: both member runs fail before any tool call
-with `provider.auth`, HTTP 403. The free provider rejects private-instance
-execution. The default no-model attachment probe still reports PARTIAL.
+Measured on OpenCode 2.0.22: both standalone member runs fail before any tool
+call with `provider.auth`, HTTP 403, under the deny-all tool configuration.
+The service-backed slice below shows that the earlier attribution to
+private-instance execution was too broad. The default no-model attachment
+probe still reports PARTIAL.
 Config fingerprints cover the home `.config/opencode`, repository root,
 and fixture root `opencode.json`/`opencode.jsonc` files; they do not prove
 that every possible configuration source is isolated or unchanged.
+
+## Service-backed model invocation
+
+```bat
+cd feasibility\s2-control
+rtk npm run probe:service-tool-call
+```
+
+This adds a fresh owned session in each disposable member project through
+the shared OpenCode service. The native CLI resumes that exact session
+with the approved Muse free `xhigh` model and `plan` agent. Both the child
+working directory and `PWD` point to the project. The probe waits for its
+MCP server to report connected before submitting the prompt.
+
+The service configuration denies edits, sets shell access to `ask`, and
+allows the report tool. It does not pass `--auto` or answer approvals.
+Other default plan tools can remain visible. A passing invocation must
+use only the report tool. This profile is not proof of the product's
+terminal-off or full read-only permission guarantees.
+
+In addition to the server match and structured acknowledgment, the probe
+verifies the model on actual assistant messages. Cleanup interrupts only
+the created session, checks an idle timestamp, deletes and checks absence
+of that session, evicts only the owned location, and verifies its absence.
+The model CLI client has its own Job Object; the shared service is not
+assigned to it. The service PID and version must remain unchanged.
+If session or location cleanup cannot be verified, the temporary project
+is retained and the run fails. No broad location reload is issued.
+This controlled teardown does not establish recovery after an orchestrator crash.
+
+Evidence is written to `evidence/service-tool-call-latest.json`. The model
+phase has a 120-second deadline; API calls each have a 12-second bound,
+and catalog polling permits at most twelve calls. Setup and cleanup are
+additional time. The measured result passes for both members. It proves
+the native CLI invocation slice, not ten-run S2.2 reliability or terminal
+delivery of T1.

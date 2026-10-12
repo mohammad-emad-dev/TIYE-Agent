@@ -227,4 +227,4 @@ function summarizeToolEvents({ output, summary, member }) {
   };
 }
 
-module.exports = { probePersistent, probeStandaloneReport, summarizeToolEvents };
+module.exports = { probePersistent, probeStandaloneReport, summarizeToolEvents, nativeExecutable, attachJob, closePrivate, waitUntil, processInventory, ownedIdentities };
