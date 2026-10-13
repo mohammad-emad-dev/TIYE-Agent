@@ -4,6 +4,36 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Terminal T1 harness (experimental)
+
+`npm run probe:terminal-task` prepares a disposable Git project, creates a
+service session with Muse Spark free `xhigh`, and waits for its MCP server
+to connect. The session uses the `build` agent, permits edits, and requires
+approval for shell actions. No automatic approval or shell response is sent.
+These permissions do not provide an OS boundary for edits.
+
+The harness reuses S1's installed Electron, xterm.js, node-pty, esbuild,
+and Windows Job controller. Install and rebuild the S1 dependencies first.
+It assigns Electron to the Job before spawning the native OpenCode TUI,
+then sends the task through xterm bracketed paste and an Enter key event.
+It requires an exact accepted user message, a completed report with the
+fixture acknowledgment, member attribution, and verified owned cleanup.
+Only the created service session and temporary location are removed.
+
+The task adds `clamp.js` and `clamp.test.js`. If generated, these files are
+retained under `evidence/t1-member-a` and `evidence/t1-member-b` for review.
+A verified round trip still returns PARTIAL: inspect that code and run
+independent correctness tests before claiming T1 success. This command
+never claims the ten-run S2.2 reliability threshold.
+
+Current live result: **blocked before session creation**. OpenCode 2.0.22
+reported its service stopped; API automatic startup and an explicit
+`opencode service start` attempt timed out. No T1 prompt or model request
+was delivered. See `evidence/terminal-task-latest.json` and `RESULTS.md`.
+Renderer build, Electron/node-pty module loading, syntax checks, and
+14 offline evidence rejection tests passed. The live terminal path remains
+unverified until OpenCode's service starts successfully.
+
 ## Scope (exact)
 
 - Loopback-only MCP server (`src/team-tools-server.js` on the official

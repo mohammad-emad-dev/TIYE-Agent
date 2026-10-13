@@ -1,5 +1,42 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## Terminal T1 attempt (13 October 2026, later run)
+
+**BLOCKED before session creation.** Both member attempts failed while
+requesting service information. `opencode service status` returned `stopped`;
+the native API command and a separate `opencode service start` attempt
+returned “Timed out waiting for the background service to start.” No
+terminal was launched for T1, no prompt was submitted, and no result tool
+was called. This does not measure reporting reliability or reverse the
+earlier successful marker invocation.
+
+Added an opt-in terminal harness and disposable T1 Git fixture. Its
+completion detector requires actual accepted user input and a completed,
+member-matching tool acknowledgment. A round trip alone remains PARTIAL
+until the retained generated code receives independent review and tests.
+The shared service is not restarted or globally reloaded. The attempted
+start did not establish a running service. All command wrappers finished.
+
+The failed initial attempts retained their temporary projects; both exact
+paths were inspected and removed after confirming failure occurred before
+session creation. The runner now removes its project on that specific
+pre-session failure path. Uncertain session-creation failures still retain
+the project for recovery. The latest attempt records cleanup separately.
+See [`terminal-task-latest.json`](evidence/terminal-task-latest.json).
+
+Verification: 14 offline rejection tests, all S2 JavaScript syntax checks,
+the xterm renderer bundle, and Electron loading the rebuilt node-pty module
+passed. These checks do not prove live terminal input or task correctness.
+
+Delegation: Claude `Atria-Dawn-Preview` `xhigh` completed a read-only design
+review. Its change tripwire saw the parent's concurrent edits; no delegate
+editing tool was available. MiMo `atria/Atria-Dawn-Preview` timed out after
+four minutes. Muse free `xhigh` delegation failed during service startup
+and supplied no review. No model substitution occurred.
+
+Next: restore a working OpenCode service, run terminal T1, inspect and test
+the generated function, then begin the ten-run reporting/nudge measurements.
+
 ## Service-backed invocation slice (13 October 2026)
 
 **PASS for this invocation slice:** both members called `report_result`

@@ -8,7 +8,10 @@ const os = require('node:os');
 const path = require('node:path');
 const { probeStandaloneReport } = require('./persistent-cli');
 const { probeServiceReport, SERVICE_PERMISSIONS } = require('./service-cli');
-const serviceMode = process.argv.includes('--service');
+const { terminalTask, T1_SUMMARY } = require('./terminal-task');
+const { spawnSync } = require('node:child_process');
+const terminalMode = process.argv.includes('--terminal');
+const serviceMode = process.argv.includes('--service') || terminalMode;
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function configFingerprints() {
@@ -30,7 +33,7 @@ async function waitUntil(predicate, timeoutMs) {
 async function runMember(member) {
   const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'tiye-s2-model-'));
   const token = crypto.randomBytes(32).toString('hex');
-  const summary = `tiye-probe-${crypto.randomUUID()}`;
+  const summary = terminalMode ? T1_SUMMARY : `tiye-probe-${crypto.randomUUID()}`;
   let fixture;
   let output = '';
   let truncated = false;
@@ -49,14 +52,31 @@ async function runMember(member) {
     await waitUntil(() => failed || /ready host=127\.0\.0\.1 port=(\d+)/.test(output), 8000);
     if (failed) throw new Error('fixture startup failed');
     const port = Number(/ready host=127\.0\.0\.1 port=(\d+)/.exec(output)[1]);
+    if (terminalMode) {
+      fs.writeFileSync(path.join(cwd, 'package.json'), JSON.stringify({ name: 'tiye-t1-fixture', private: true, scripts: { test: 'node --test' } }));
+      fs.writeFileSync(path.join(cwd, 'README.md'), 'Disposable TIYE T1 project. Add clamp.js and clamp.test.js.\n');
+      for (const args of [['init', '--quiet'], ['add', 'package.json', 'README.md'], ['-c', 'user.name=TIYE Fixture', '-c', 'user.email=fixture@local', 'commit', '--quiet', '-m', 'Initial T1 fixture']]) {
+        if (spawnSync('git', args, { cwd, windowsHide: true }).status !== 0) throw new Error('T1 Git fixture failed');
+      }
+    }
     fs.writeFileSync(path.join(cwd, 'opencode.json'), JSON.stringify({
-      permissions: serviceMode ? SERVICE_PERMISSIONS : [{ action: '*', resource: '*', effect: 'deny' }, { action: 'tiye-team-tools_report_result', resource: '*', effect: 'allow' }],
+      permissions: serviceMode ? SERVICE_PERMISSIONS.map(rule => terminalMode && rule.action === 'edit' ? { ...rule, effect: 'allow' } : rule) : [{ action: '*', resource: '*', effect: 'deny' }, { action: 'tiye-team-tools_report_result', resource: '*', effect: 'allow' }],
       mcp: { servers: { 'tiye-team-tools': {
         type: 'remote', url: `http://127.0.0.1:${port}/mcp`, disabled: false, oauth: false, codemode: false,
         headers: { Authorization: `Bearer ${token}` },
       } } },
     }));
-    evidence.cli = await (serviceMode ? probeServiceReport : probeStandaloneReport)({ cwd, summary, member });
+    evidence.cli = await (serviceMode ? probeServiceReport : probeStandaloneReport)({ cwd, summary, member, ...(terminalMode ? { terminalTask } : {}) });
+    if (terminalMode && evidence.cli.sessionStopped) {
+      const target = path.resolve(__dirname, '../evidence', `t1-${member}`);
+      fs.mkdirSync(target, { recursive: true });
+      for (const name of ['clamp.js', 'clamp.test.js']) fs.copyFileSync(path.join(cwd, name), path.join(target, name));
+      const changed = spawnSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd, windowsHide: true, encoding: 'utf8' });
+      const paths = changed.stdout.trim().split(/\r?\n/).map(line => line.slice(3)).sort();
+      evidence.onlyTaskFilesChanged = changed.status === 0 && JSON.stringify(paths) === JSON.stringify(['clamp.js', 'clamp.test.js', 'opencode.json']);
+      // Code is retained for orchestrator review before running generated tests.
+      evidence.taskFilesCaptured = true;
+    }
   } catch {
     evidence.error = 'model fixture failed'; // Never persist response bodies, arguments, or startup output.
   } finally {
@@ -72,7 +92,7 @@ async function runMember(member) {
       if (path.dirname(resolved).toLowerCase() !== fs.realpathSync(os.tmpdir()).toLowerCase() || !path.basename(resolved).startsWith('tiye-s2-model-')) {
         throw new Error('owned temporary project boundary invalid');
       }
-      if (!serviceMode || (evidence.cli?.sessionStopped && evidence.cli?.sessionRemoved && evidence.cli?.locationEvicted)) fs.rmSync(resolved, { recursive: true });
+      if (!serviceMode || evidence.cli?.locationUntouched || (evidence.cli?.sessionStopped && evidence.cli?.sessionRemoved && evidence.cli?.locationEvicted)) fs.rmSync(resolved, { recursive: true });
       evidence.tempRemoved = !fs.existsSync(resolved);
     }
   }
@@ -85,17 +105,22 @@ async function runMember(member) {
   evidence.serverLogTruncated = truncated;
   const cli = evidence.cli;
   evidence.passed = !evidence.error && !evidence.fixtureErrors && !cli?.error && !cli?.failure
-    && cli?.completedAck === true && cli.otherToolCalls === 0 && cli.cliExitCode === 0 && !cli.cliSpawnError && !cli.outputTruncated && !cli.malformedEvents
+    && cli?.completedAck === true && (terminalMode ? cli.terminalInputMatched && cli.terminalOutputObserved && cli.shellCalls === 0 && evidence.onlyTaskFilesChanged && evidence.taskFilesCaptured : cli.otherToolCalls === 0 && cli.cliExitCode === 0 && !cli.malformedEvents) && !cli.cliSpawnError && !cli.outputTruncated
     && cli.cleanup?.verified === true && cli.cleanup.jobVerified === true
     && (!serviceMode || (cli.modelConfirmed && cli.executedModelConfirmed && cli.locationConfirmed && cli.connected && cli.sessionStopped && cli.idleVerified && cli.sessionRemoved && cli.locationEvicted && cli.serviceIdentityUnchanged))
     && evidence.serverReportCalls === 1 && evidence.matchingReports === 1 && evidence.otherServerCalls === 0
     && evidence.logHygiene === true && !evidence.serverLogTruncated && evidence.fixtureStopped === true && evidence.tempRemoved === true;
+  if (terminalMode) {
+    evidence.roundTripPassed = evidence.passed;
+    evidence.taskCorrectness = 'Not evaluated: review captured code and run independent tests before claiming T1 success';
+    evidence.passed = false;
+  }
   return evidence;
 }
 
 async function main() {
   const beforeConfigs = configFingerprints();
-  const evidence = { scope: `Native ${serviceMode ? 'service-backed' : 'standalone'} Muse xhigh report_result invocation; not full S2.2 reliability`, recordedAt: new Date().toISOString(), runs: [] };
+  const evidence = { scope: terminalMode ? 'Electron xterm/node-pty T1 delivery and report; generated code requires independent review and tests; not ten-run S2.2 reliability' : `Native ${serviceMode ? 'service-backed' : 'standalone'} Muse xhigh report_result invocation; not full S2.2 reliability`, recordedAt: new Date().toISOString(), runs: [] };
   for (const member of ['member-a', 'member-b']) {
     console.log(`[tool-probe] starting ${member}`);
     evidence.runs.push(await runMember(member));
@@ -103,7 +128,8 @@ async function main() {
   }
   evidence.selectedConfigsUnchanged = JSON.stringify(beforeConfigs) === JSON.stringify(configFingerprints());
   evidence.passed = evidence.runs.every((run) => run.passed) && evidence.selectedConfigsUnchanged;
-  const evidenceName = serviceMode ? 'service-tool-call-latest.json' : 'tool-call-latest.json';
+  if (terminalMode) evidence.result = evidence.runs.every(run => run.roundTripPassed) && evidence.selectedConfigsUnchanged ? 'PARTIAL' : 'BLOCKED_OR_FAILED';
+  const evidenceName = terminalMode ? 'terminal-task-latest.json' : serviceMode ? 'service-tool-call-latest.json' : 'tool-call-latest.json';
   fs.writeFileSync(path.resolve(__dirname, '../evidence', evidenceName), JSON.stringify(evidence, null, 2) + '\n');
   console.log(`[tool-probe] ${evidence.passed ? 'PASS' : 'FAIL'}; evidence/${evidenceName}`);
   process.exitCode = evidence.passed ? 0 : 1;

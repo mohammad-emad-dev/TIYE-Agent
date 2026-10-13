@@ -8,7 +8,8 @@
     "probe": "node scripts/run-probe.js",
     "probe:tool-call": "node scripts/run-tool-probe.js",
     "probe:service-tool-call": "node scripts/run-tool-probe.js --service",
-    "check": "node --test test/tool-evidence.test.js"
+    "probe:terminal-task": "node scripts/run-tool-probe.js --terminal",
+    "check": "node --test test/*.test.js"
   },
   "engines": {
     "node": ">=18"
