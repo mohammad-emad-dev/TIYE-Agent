@@ -6,6 +6,7 @@ const { permissionRunPassed } = require('./permission-evidence');
 const { reviewedVersion } = require('./reviewed-version');
 const { sealedBytes } = require('./version-evidence');
 const { deniedProfileMeasurementPassed } = require('./denied-profile-evidence');
+const { terminalApprovalRunPassed } = require('./terminal-approval-evidence');
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 
 function validatedDeniedProfiles(measurement, version) {
@@ -38,7 +39,18 @@ function validatedCases(measurement, expected, version) {
   }
 }
 
-function assessment({ controls, approvals, inventory, deniedProfiles, deniedProfilesHash }) {
+function validatedTerminalApprovals(measurement, version) {
+  const expected = ['reject-shell', 'allow-once-shell'];
+  if (version !== '2.0.28' || measurement?.expectedVersion !== version || !measurement.passed || !measurement.selectedConfigsUnchanged
+    || measurement.stoppedReason || !Array.isArray(measurement.runs) || measurement.runs.length !== expected.length
+    || new Set(measurement.runs.map(run => run.caseID)).size !== expected.length) throw new Error('Terminal approval cohort incomplete or version mismatch');
+  for (const caseID of expected) {
+    const run = measurement.runs.find(candidate => candidate.caseID === caseID);
+    if (!run?.passed || !terminalApprovalRunPassed(run)) throw new Error('Terminal approval evidence gate failed');
+  }
+}
+
+function assessment({ controls, approvals, inventory, deniedProfiles, deniedProfilesHash, terminalApprovals, terminalApprovalsHash }) {
   const version = reviewedVersion(inventory?.version);
   validatedCases(controls, ['allow-edit-control', 'auto-shell'], version);
   validatedCases(approvals, ['deny-edit', 'reject-shell', 'allow-once-shell'], version);
@@ -88,6 +100,17 @@ function assessment({ controls, approvals, inventory, deniedProfiles, deniedProf
       observedControls: targeted.filter(run => run.passed).map(run => run.caseID),
       limitation: 'The combined read/edit/glob/grep deny profile did not qualify complete file none. Targeted denials apply only to the tested resources; shell, attachments, plugins and other access routes need separate controls' };
   }
+  if (terminalApprovals) {
+    validatedTerminalApprovals(terminalApprovals, version);
+    if (terminalApprovalsHash !== undefined && !/^[a-f0-9]{64}$/.test(terminalApprovalsHash)) throw new Error('Terminal approval hash invalid');
+    const terminalReference = terminalApprovalsHash ? `../evidence/supplements/terminal-approvals/${terminalApprovalsHash}/${version}/terminal-approvals.json` : '../evidence/terminal-approvals-latest.json';
+    candidate.terminal.ask = { ...candidate.terminal.ask, evidence: [...candidate.terminal.ask.evidence, terminalReference],
+      nativeTerminalUI: { observedStatus: 'bounded-native-decisions-passed', decisions: ['reject', 'once'],
+        delivery: 'Programmatic Electron keyDown/keyUp through xterm.onData and node-pty; exact input bytes checked; parent observer prohibits API mutations',
+        environment: 'OpenCode 2.0.28 observed palette and 120x38 terminal', evidence: [terminalReference] },
+      limitation: 'API and native terminal reject/once observed for one exact command. Saved always decisions, other layouts/themes, foreground human interaction and accessibility remain untested' };
+    candidate.remaining = candidate.remaining.map(item => item === 'Approval UI and saved approvals' ? 'Other approval UI layouts/themes and saved always approvals' : item);
+  }
   return candidate;
 }
 
@@ -99,7 +122,11 @@ function main() {
   const supplementalPath = path.join(root, 'evidence/denied-profiles-latest.json');
   const supplementalBytes = fs.existsSync(supplementalPath) ? fs.readFileSync(supplementalPath) : null;
   const deniedProfiles = supplementalBytes ? JSON.parse(supplementalBytes) : undefined;
-  const candidate = assessment({ controls, approvals, inventory, deniedProfiles, deniedProfilesHash: supplementalBytes ? digest(supplementalBytes) : undefined });
+  const terminalPath = path.join(root, 'evidence/terminal-approvals-latest.json');
+  const terminalBytes = fs.existsSync(terminalPath) ? fs.readFileSync(terminalPath) : null;
+  const terminalApprovals = terminalBytes ? JSON.parse(terminalBytes) : undefined;
+  const candidate = assessment({ controls, approvals, inventory, deniedProfiles, deniedProfilesHash: supplementalBytes ? digest(supplementalBytes) : undefined,
+    terminalApprovals, terminalApprovalsHash: terminalBytes ? digest(terminalBytes) : undefined });
   for (const [index, name] of names.entries()) {
     const archived = sealedBytes({ root: path.join(root, 'evidence/versions'), version: candidate.testedVersions[0], name });
     if (!archived.equals(sources[index])) throw new Error('Sealed evidence does not match current cohort');
@@ -109,9 +136,14 @@ function main() {
     const archived = sealedBytes({ root: path.join(root, 'evidence/supplements/denied-profiles', hash), version: candidate.testedVersions[0], name: 'denied-profiles.json' });
     if (!archived.equals(supplementalBytes)) throw new Error('Sealed supplemental evidence does not match current cohort');
   }
+  if (terminalBytes) {
+    const archived = sealedBytes({ root: path.join(root, 'evidence/supplements/terminal-approvals', digest(terminalBytes)), version: candidate.testedVersions[0], name: 'terminal-approvals.json' });
+    if (!archived.equals(terminalBytes)) throw new Error('Sealed terminal approval evidence does not match current cohort');
+  }
   candidate.recordedAt = new Date().toISOString();
   candidate.evidenceHashes = Object.fromEntries(names.map((name, index) => [name, crypto.createHash('sha256').update(sources[index]).digest('hex')]));
   if (supplementalBytes) candidate.evidenceHashes['denied-profiles.json'] = digest(supplementalBytes);
+  if (terminalBytes) candidate.evidenceHashes['terminal-approvals.json'] = digest(terminalBytes);
   const target = path.join(root, 'capabilities/opencode-permissions.json');
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.writeFileSync(target, JSON.stringify(candidate, null, 2) + '\n');

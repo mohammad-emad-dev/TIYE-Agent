@@ -57,3 +57,25 @@ process.on('message', async message => {
   } catch { emit({ type: 'input-failed' }); }
 });
 app.on('window-all-closed', () => app.quit());
+
+process.on('message', async message => {
+  if (message?.type !== 'terminal-ui' || !/^[a-z0-9-]{1,40}$/.test(message.requestID) || !win || !terminal) return;
+  const respond = fields => process.send?.({ type: 'terminal-ui-result', requestID: message.requestID, ...fields });
+  try {
+    if (message.action === 'inspect') {
+      const screen = await win.webContents.executeJavaScript('window.terminalScreen()');
+      const choices = await win.webContents.executeJavaScript('window.terminalChoices()');
+      respond({ screen, choices });
+    } else if (message.action === 'keys' && Array.isArray(message.keys) && message.keys.length > 0 && message.keys.length <= 6
+      && message.keys.every(key => ['Return', 'Down', 'Up', 'Left', 'Right', 'Escape'].includes(key))) {
+      input = '';
+      win.webContents.focus();
+      for (const keyCode of message.keys) {
+        win.webContents.sendInputEvent({ type: 'keyDown', keyCode });
+        win.webContents.sendInputEvent({ type: 'keyUp', keyCode });
+        await new Promise(resolve => setTimeout(resolve, 150));
+      }
+      respond({ input });
+    } else respond({ failed: true });
+  } catch { respond({ failed: true }); }
+});

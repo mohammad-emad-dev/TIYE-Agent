@@ -96,9 +96,22 @@
       ],
       "providerCompatibility": "observed-working",
       "evidence": [
-        "../evidence/versions/2.0.28/approval-outcomes-latest.json"
+        "../evidence/versions/2.0.28/approval-outcomes-latest.json",
+        "../evidence/supplements/terminal-approvals/139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e/2.0.28/terminal-approvals.json"
       ],
-      "limitation": "Pending request, reject and once observed through API; approval UI and persistent always decisions untested"
+      "limitation": "API and native terminal reject/once observed for one exact command. Saved always decisions, other layouts/themes, foreground human interaction and accessibility remain untested",
+      "nativeTerminalUI": {
+        "observedStatus": "bounded-native-decisions-passed",
+        "decisions": [
+          "reject",
+          "once"
+        ],
+        "delivery": "Programmatic Electron keyDown/keyUp through xterm.onData and node-pty; exact input bytes checked; parent observer prohibits API mutations",
+        "environment": "OpenCode 2.0.28 observed palette and 120x38 terminal",
+        "evidence": [
+          "../evidence/supplements/terminal-approvals/139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e/2.0.28/terminal-approvals.json"
+        ]
+      }
     },
     "auto": {
       "osEnforcement": "not-established",
@@ -125,15 +138,16 @@
     "File none",
     "Guaranteed read-only isolation",
     "Shell off compatibility",
-    "Approval UI and saved approvals",
+    "Other approval UI layouts/themes and saved always approvals",
     "S2.5 error/crash/hang/resume signals",
     "Other CLIs, models and WSL"
   ],
-  "recordedAt": "2026-10-13T18:46:58.125Z",
+  "recordedAt": "2026-10-13T19:10:54.924Z",
   "evidenceHashes": {
     "permission-controls-latest.json": "bdbd316f029dd3abfc10832ee80b117a8dc8d7cb82bc89aed3dc2a98bd1bf4b3",
     "approval-outcomes-latest.json": "9f8df0a68d060663b17fa5aa4361503fb456d42e414fa377f575d4093ca3b5d2",
     "permission-options-latest.json": "04601f8266569a1216d2ce0c567ca5bbf2eb08cca4d5641bc4154ebb1166dd69",
-    "denied-profiles.json": "c76bec928185266f07395d9d0c19cff7e019408855cac68c874067e4821d654f"
+    "denied-profiles.json": "c76bec928185266f07395d9d0c19cff7e019408855cac68c874067e4821d654f",
+    "terminal-approvals.json": "139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e"
   }
 }

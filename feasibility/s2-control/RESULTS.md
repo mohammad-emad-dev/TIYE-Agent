@@ -1,5 +1,96 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## Native terminal approval decisions (13 October 2026)
+
+**PASS for two bounded native terminal decisions; full S2 remains open.**
+Fresh OpenCode 2.0.28 sessions used Muse Spark free `xhigh`, shell `ask`, edit
+`deny` and the owned MCP fixture. The parent typed each task through the real
+Electron/xterm/node-pty terminal, then delivered the decision with programmatic
+keyboard events. The observer performed only scoped GET requests; OpenCode's
+own TUI handled the reply transport. Session setup and cleanup still use their
+existing scoped management APIs.
+
+| Case | Keyboard input | Backend and file result |
+|---|---|---|
+| Reject | Right twice (six PTY-bound bytes), then Enter (one byte) | One original shell tool ended `aborted`; zero completed commands, zero pending requests, marker absent |
+| Allow once | Enter (one byte) on the observed default choice | First exact shell command completed once; a distinct second request/tool stayed pending twice; marker exactly `approved` at both observations and after cleanup |
+
+The exact command is the harmless local append defined in
+`scripts/run-terminal-approvals.js`. Before confirming, the observer checks
+the accepted fresh prompt, exact original command/input/cwd and pending
+session/action/resource/message/tool correlation. It inspects the native
+permission card and its three labels, positions and selected colors twice.
+Reject navigates first, then rechecks the selected Reject choice twice before
+Enter. Allow once confirms only a twice-observed selected Allow once. No Enter
+was sent on Always allow. Repeated checks are separated by at least one second;
+the overall observation deadline is 90 seconds and each UI IPC request has a
+five-second deadline. No blind keyboard retry or fallback API decision occurs.
+
+`terminal-main.js` sends keyDown/keyUp via Electron `sendInputEvent`; xterm's
+`onData` reaches the existing preload/IPC bridge and PTY write path. The child
+returns the captured input bytes over owned-process IPC; the parent checks
+exact arrow/Enter sequences and ignores only known xterm focus reports. The
+rendered screen and cell styles are read from the xterm buffer. Raw screens,
+model text, errors, session IDs, commands, temp paths and credentials are not
+committed in measurement records; only hashes, counts, fixed categories and
+booleans are retained. Screen hashes can differ during redraws; identity,
+command, choices and selection must continue matching.
+
+Both cases verified the configured and executed model, permission array,
+agent, location, session deletion, client process tree/Windows Job, location
+eviction, MCP fixture and exact temp cleanup. Six captured client processes
+were gone per case. The shared service identity and final version stayed
+2.0.28, and selected config fingerprints were unchanged. There were no MCP
+tool calls. The allow-once repeat request was interrupted during cleanup;
+it did not add another marker append. Reject finished with quiescent completed
+turns, including the expected aborted error, rather than requiring a normal
+idle timestamp.
+
+### Reconnaissance and preserved attempts
+
+Two reconnaissance records preserve a failed optional screenshot path: Electron
+returned no image, so the parent could not proceed. No decision or command ran,
+and precise cleanup passed. Later pending-only reconnaissance confirmed the
+native labels and selection using the xterm buffer. Screenshots are not part
+of the final probe. Two decision cohorts also remain failed because the initial
+screen parser did not accept the native border/warning decoration; zero decision
+inputs were sent. A subsequent two-case run passed, and is preserved as
+`terminal-approvals-pre-refinement.json`. The final fresh cohort adds a scoped
+GET-only observer and two marker reads at the second pending approval. Only
+that final cohort qualifies the current capability assessment.
+
+The supplement has its own content-hash archive and immutable manifest, keeping
+the version and deny-profile archives intact. The prior capability JSON is
+preserved byte for byte and matches the earlier qualification hash. Older
+qualification summaries describe their original builder revisions, not the
+extended current builder. Qualification rejects failed/incomplete/duplicate
+cohorts, missing UI/keystroke evidence, parent API mutations, version drift,
+incomplete marker observations and failed cleanup. `productionEligible` and
+every `productGuarantee` remain false.
+
+- [Final terminal measurement](evidence/supplements/terminal-approvals/139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e/2.0.28/terminal-approvals.json)
+- [Supplement manifest](evidence/supplements/terminal-approvals/139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e/2.0.28/manifest.json)
+- [Qualification and integrity summary](evidence/terminal-approvals-qualification.json)
+- [Current preliminary assessment](capabilities/opencode-permissions.json)
+- [Preserved deny-profile assessment](capabilities/opencode-permissions-denied-profiles-2.0.28.json)
+- [Failed first decision cohort](evidence/terminal-approvals-first.json)
+- [Failed second decision cohort](evidence/terminal-approvals-second.json)
+
+Verification: **82 offline checks**, script syntax, source/evidence/staged-byte
+hashes and diff whitespace checks passed. New coverage rejects malformed cards,
+wrong selection/command/positions, extra or missing input bytes, mutation or
+foreign-session observation, API-only false qualification, missing marker
+samples, version drift and cleanup failure. Muse free `xhigh` and Claude Atria
+`xhigh` completed supplied-facts reviews; the parent verified the concrete
+acceptance details in code and live records. MiMo Atria timed out. Captured
+delegate events contained no tool calls; Claude's changed-file warning matched
+the parent's concurrent edits.
+
+Saved always approvals, other terminal layouts/themes, foreground human
+interaction, accessibility and OS containment remain untested. The two native
+choices align with the [OpenCode V2 approval documentation](https://opencode.ai/v2/docs/permissions),
+but this qualification rests on the observed terminal and backend effects.
+
 ## Supplemental deny-profile observations (13 October 2026)
 
 **OBSERVED_WITH_LIMITS: all five diagnostic measurements completed; three
@@ -58,7 +149,7 @@ commit `acbc066`, rather than this extended builder.
 
 - [Supplemental measurement](evidence/supplements/denied-profiles/c76bec928185266f07395d9d0c19cff7e019408855cac68c874067e4821d654f/2.0.28/denied-profiles.json)
 - [Supplemental manifest](evidence/supplements/denied-profiles/c76bec928185266f07395d9d0c19cff7e019408855cac68c874067e4821d654f/2.0.28/manifest.json)
-- [Current capability assessment](capabilities/opencode-permissions.json)
+- [Deny-profile capability assessment](capabilities/opencode-permissions-denied-profiles-2.0.28.json)
 - [Preserved initial 2.0.28 assessment](capabilities/opencode-permissions-revalidation-2.0.28.json)
 - [Supplement qualification and integrity summary](evidence/denied-profiles-qualification.json)
 

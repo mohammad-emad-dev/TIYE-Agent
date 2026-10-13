@@ -1,0 +1,10 @@
+{
+  "version": "2.0.28",
+  "records": [
+    {
+      "name": "terminal-approvals.json",
+      "originalPath": "feasibility/s2-control/evidence/terminal-approvals-latest.json",
+      "sha256": "139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e"
+    }
+  ]
+}

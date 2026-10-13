@@ -536,7 +536,16 @@ It is marked `productionEligible: false` and is not a runtime adapter registry.
 Individual edit/command controls do not establish every combined file/terminal
 profile. File `none`, guaranteed read-only isolation and shell `off` remain
 unvalidated or blocked for this model. Approval decisions were tested through
-the own-session API; the terminal approval UI is still a separate gate.
+the own-session API and, in a fresh supplement, through the native terminal.
+Programmatic Right/Enter events passed Reject and Allow once on the observed
+2.0.28 palette and 120x38 terminal. Reject prevented the command; Allow once
+completed it exactly once and left a distinct repeat pending, with one marker
+append verified twice and after cleanup. The parent observer permits only
+scoped GET requests and sends no permission replies; OpenCode's TUI handles its
+own transport. Saved always approvals, other layouts/themes, foreground human
+interaction and accessibility remain separate gates. Native terminal records
+are sealed as a separate content-hash supplement; previous assessments remain
+preserved. This evidence does not establish OS containment.
 Five permission cases and native ACP initialization/error recovery/streaming
 cancellation passed again on 2.0.28. The assessment references hash-verified,
 versioned source records; prior 2.0.22 bytes and their original paths are

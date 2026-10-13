@@ -1,0 +1,51 @@
+{
+  "recordedAt": "2026-10-13T19:13:15.387Z",
+  "scope": "Native terminal Reject and Allow once decisions; parent uses read-only scoped API observation, no parent permission API replies",
+  "version": "2.0.28",
+  "result": "PASS",
+  "cases": [
+    {
+      "caseID": "reject-shell",
+      "passed": true,
+      "decision": "reject",
+      "decisionInputBytes": 1,
+      "navigationInputBytes": 6,
+      "shellCalls": 1,
+      "completedShellCalls": 0,
+      "pendingRequestsBeforeCleanup": 0,
+      "apiReadAttempts": 18,
+      "parentPermissionAPIReplies": 0,
+      "markerSamplesAtSecondApproval": 0,
+      "cleanupVerified": true,
+      "tempRemoved": true
+    },
+    {
+      "caseID": "allow-once-shell",
+      "passed": true,
+      "decision": "once",
+      "decisionInputBytes": 1,
+      "navigationInputBytes": 0,
+      "shellCalls": 2,
+      "completedShellCalls": 1,
+      "pendingRequestsBeforeCleanup": 1,
+      "apiReadAttempts": 28,
+      "parentPermissionAPIReplies": 0,
+      "markerSamplesAtSecondApproval": 2,
+      "cleanupVerified": true,
+      "tempRemoved": true
+    }
+  ],
+  "supplementalReference": "supplements/terminal-approvals/139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e/2.0.28/terminal-approvals.json",
+  "supplementalSha256": "139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e",
+  "archiveIntegrityVerified": true,
+  "measuredSourcesUnchanged": true,
+  "priorAssessmentPreserved": true,
+  "currentAssessmentMatchesValidatedInputs": true,
+  "offlineChecksPassed": 82,
+  "productionEligible": false,
+  "sourceHashes": {
+    "capabilities/opencode-permissions.json": "6c8395749c756bcde16fc5c8d42a2e6eb554fd72134b84d92da46d6f884c1256",
+    "capabilities/opencode-permissions-denied-profiles-2.0.28.json": "a4b57446ec6a3122e75d8d56cb12ffff324608cee04168bcb9cdc3556823a3c0",
+    "scripts/build-permission-capabilities.js": "3c9573b4a9ff3ab7fe033e087e6791c8543370756117818e5a5b8cb90578145f"
+  }
+}

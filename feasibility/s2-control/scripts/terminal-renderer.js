@@ -10,4 +10,21 @@ window.pasteTask = text => {
   term.paste(text);
   return true;
 };
+window.terminalScreen = () => {
+  const buffer = term.buffer.active;
+  return Array.from({ length: term.rows }, (_, index) => buffer.getLine(buffer.viewportY + index)?.translateToString(true) || '').join('\n');
+};
+window.terminalChoices = () => {
+  const buffer = term.buffer.active;
+  return Array.from({ length: term.rows }, (_, row) => {
+    const line = buffer.getLine(buffer.viewportY + row);
+    const text = line?.translateToString(true) || '';
+    return ['Allow once', 'Always allow', 'Reject'].flatMap(label => {
+      const column = text.indexOf(label);
+      if (column < 0) return [];
+      const cell = line.getCell(column);
+      return [{ label, row, column, fg: cell.getFgColor(), bg: cell.getBgColor(), fgMode: cell.getFgColorMode(), bgMode: cell.getBgColorMode(), inverse: cell.isInverse() }];
+    });
+  }).flat();
+};
 window.terminalBridge.ready();

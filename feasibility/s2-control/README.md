@@ -4,6 +4,31 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Native terminal approval decisions
+
+`npm run probe:terminal-approvals` passed Reject and Allow once through the
+native OpenCode 2.0.28 terminal with Muse Spark free `xhigh`. The probe sends
+Electron keyDown/keyUp events through xterm and node-pty. It observes the
+correlated pending request and selected choice twice before confirming with
+Enter. Reject uses two Right keys, then Enter; Allow once uses Enter on the
+observed default selection. Actual PTY-bound input bytes must match.
+
+Reject produced one aborted original tool and no command marker. Allow once
+completed one exact command; a distinct second request stayed pending, with
+the marker equal to `approved` at both observations and after cleanup. The
+parent observation API wrapper permits only GETs for its own messages and
+permissions, and sends no permission replies. Native TUI reply transport stays
+inside OpenCode. Both cases verified owned cleanup and unchanged shared service
+identity/version and selected config fingerprints. **82 offline checks pass.**
+
+Qualification is limited to the observed palette and 120x38 terminal. Saved
+always approvals, other layouts/themes, foreground human interaction and
+accessibility remain separate gates. The current preliminary assessment links
+to a separately sealed content-hash supplement; its prior deny-profile
+assessment is preserved in
+`capabilities/opencode-permissions-denied-profiles-2.0.28.json`.
+See [the detailed results](RESULTS.md#native-terminal-approval-decisions-13-october-2026).
+
 ## OpenCode 2.0.28 permission and ACP revalidation
 
 ### Supplemental deny-profile observations
@@ -41,7 +66,7 @@ selected config fingerprints. **71 offline checks pass.**
 
 The preliminary [permission assessment](capabilities/opencode-permissions.json)
 qualifies only its bounded 2.0.28 observations. Complete file `none`, OS containment,
-combined profiles and terminal approval UI remain unverified. The supplemental
+combined profiles and other approval UI layouts/saved approvals remain unverified. The supplemental
 shell `off` observation is blocked for this model; its older provider rejection
 is separately tagged 2.0.22. `productionEligible` and every `productGuarantee` remain false.
 

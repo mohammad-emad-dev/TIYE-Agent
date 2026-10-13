@@ -80,3 +80,34 @@ test('supplemental diagnostics keep blocked profiles distinct from targeted nati
     assert.throws(() => assessment({ ...input, deniedProfiles }), /Denied profile/);
   }
 });
+
+test('terminal UI qualification uses its own complete, version-bound cohort without inventing saved approvals or isolation', () => {
+  const input = {
+    controls: require('../evidence/versions/2.0.28/permission-controls-latest.json'),
+    approvals: require('../evidence/versions/2.0.28/approval-outcomes-latest.json'),
+    inventory: require('../evidence/versions/2.0.28/permission-options-latest.json'),
+    terminalApprovals: require('../evidence/supplements/terminal-approvals/139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e/2.0.28/terminal-approvals.json'),
+  };
+  const qualified = assessment(input);
+  assert.deepEqual(qualified.terminal.ask.nativeTerminalUI.decisions, ['reject', 'once']);
+  assert.equal(qualified.terminal.ask.nativeTerminalUI.observedStatus, 'bounded-native-decisions-passed');
+  assert.equal(qualified.terminal.ask.productGuarantee, false);
+  assert.equal(qualified.terminal.ask.osEnforcement, 'not-established');
+  assert.equal(qualified.productionEligible, false);
+  assert.equal(qualified.terminal.off.observedStatus, 'unverified-for-tested-version');
+  const mutations = [
+    measurement => { measurement.runs[1] = measurement.runs[0]; },
+    measurement => { measurement.runs.pop(); },
+    measurement => { measurement.expectedVersion = '2.0.22'; },
+    measurement => { measurement.passed = false; },
+    measurement => { measurement.selectedConfigsUnchanged = false; },
+    measurement => { measurement.runs[0].cli.uiDecisionInputMatched = false; },
+    measurement => { measurement.runs[0].cli.apiApprovalRepliesSent = 1; },
+    measurement => { measurement.runs[1].cli.markerSamplesAtSecondApproval = 1; },
+    measurement => { measurement.runs[1].cli.serviceVersionAfterCleanup = '2.0.22'; },
+  ];
+  for (const mutate of mutations) {
+    const terminalApprovals = structuredClone(input.terminalApprovals); mutate(terminalApprovals);
+    assert.throws(() => assessment({ ...input, terminalApprovals }), /Terminal approval/);
+  }
+});
