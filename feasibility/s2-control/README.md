@@ -4,6 +4,29 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Idle client crash and resume
+
+`npm run probe:client-recovery` creates an owned service session and sends a
+random checkpoint profile through the real terminal. After exact JSON
+acknowledgment and two idle observations, it matches the native CLI's PTY PID
+and creation time to the owned client tree, rechecks that identity, then
+terminates that CLI process. The PTY exit code is recorded; the old client
+Job is closed and its captured tree verified gone.
+
+The probe verifies unchanged service identity, session identity and message
+history, then opens a fresh terminal with `--session` for that same session.
+A value-free recall query must yield a new completed JSON reply matching
+the checkpoint profile, with no tools/errors and two idle observations.
+Final owned-session/client/location/fixture/temp cleanup and file scope are
+required. It never restarts the shared service.
+
+Both fresh measurements passed; observed PTY exit code was `1`. The first
+record is preserved in `evidence/client-recovery-first.json`; the final
+record is `evidence/client-recovery-latest.json`. The current offline suite
+has 51 passing checks. This proves short-session resume after terminating
+an idle client, not an in-flight model task, service crash, replay of an
+external effect, compaction, authentication failure or hang recovery.
+
 ## Permission probes
 
 `npm run probe:permission-controls` tests an allowed edit to `editable.txt`

@@ -1,5 +1,78 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## S2.5 idle native-client crash and session resume (13 October 2026)
+
+**PASS for two fresh measurements; full S2.5 remains open.** Both used
+OpenCode 2.0.22, Muse Spark free `xhigh`, a disposable project and an owned
+service session. A first terminal prompt supplied member, role and a random
+checkpoint value. Its exact JSON acknowledgment completed without tools,
+followed by two idle observations, before the induced client crash.
+
+| Check | First measurement | Final measurement |
+|---|---|---|
+| Native CLI PID/creation identity matched and rechecked in owned tree | Passed | Passed |
+| PTY exit code after intentional native CLI termination | 1 | 1 |
+| Exit observation plus old-client tree cleanup | 1594 ms | 1501 ms |
+| Shared service and owned-session identity preserved | Yes | Yes |
+| Prior conversation fingerprint unchanged | Yes | Yes |
+| Fresh terminal attached to the same session | Passed | Passed |
+| New value-free query recalled exact checkpoint JSON | Passed | Passed |
+| New recall reply, no tools/errors, two idle observations | Passed | Passed |
+| Both client Jobs and final session/location/fixture/temp cleanup | Passed | Passed |
+| File scope and selected configs | Unchanged | Unchanged |
+
+The exit timings include first-client Job cleanup, not just process exit;
+they are observations from this Windows host, not a performance threshold.
+Only the native CLI process was intentionally terminated. Its PID came from
+node-pty metadata and had to belong to the captured client tree; the PID and
+creation timestamp were checked again immediately before termination. The
+Electron client then observed the native PTY exit before the old Job closed.
+The shared service was outside that tree and kept the same identity.
+
+After the crash, the own-session interrupt API reported no active execution
+and the session remained idle. Its ID, creation time, model, agent, permission
+rules and location were preserved. Conversation fingerprints bind IDs,
+contents, model and turn timestamps; listing order and UI metadata are not
+part of the comparison. The final measurement also binds finish/error/agent
+fields and rejects invalid creation identities or missing exit codes.
+
+The relaunch used a new Electron/xterm/node-pty client and Windows Job,
+with the existing owned session supplied through `--session`. The recall
+query contained field names only, without the checkpoint/member/role values.
+All prior assistant IDs were excluded, and only replies after the accepted
+query could satisfy exact JSON matching. Raw profiles, nonce values, model
+reply text, session IDs, process IDs and credentials are not persisted in
+the evidence. The fixture made zero team-tool calls, and the disposable Git
+project had only its generated OpenCode config beyond its initial files.
+
+- [First measurement](evidence/client-recovery-first.json)
+- [Final measurement and source hashes](evidence/client-recovery-latest.json)
+- Runner: `scripts/run-client-recovery.js`; ownership/integrity gate: `scripts/recovery-evidence.js`
+- Reused terminal startup: `scripts/terminal-client.js`
+- Verification: 51 offline harness checks and all S2 script syntax checks passed.
+
+Terminal startup was extracted from the prior task harness for the real
+relaunch caller. Each startup returns its process state even on failure,
+so the parent retains cleanup ownership. Recovery explicitly transfers that
+ownership to the new client before checking relaunch success. Fixed failure
+records retain completed phase flags and the failing stage; they never turn
+an exception into success. The final live measurement exercised the updated
+ownership, fingerprint and failure-recording code.
+
+Muse free `xhigh` completed its supplied-facts read-only review. MiMo Atria
+and Claude Atria `xhigh` timed out after four minutes without final reviews.
+Claude's tripwire saw the parent's concurrent edits, which were reviewed
+directly. No models were substituted.
+
+Limits: one short checkpoint exchange per fresh session and an idle-client
+termination. This does not prove service/host crash recovery, in-flight
+generation/effect reconciliation, durable TIYE restart journaling, long
+context, compaction, hang detection or recovery from auth/network/rate-limit
+errors. Approval detection/reject behavior remains documented in the earlier
+S2.4 measurements. Next: bounded in-flight client-disconnect and cancellation
+signals, then remaining S2.5 error cases without mutating shared credentials
+or machine-wide network settings. Full S2 remains open.
+
 ## S2.4 allowed controls and preliminary capability mapping (13 October 2026)
 
 **PASS for the final two controls; overall S2.4 remains PARTIAL.** Fresh

@@ -21,6 +21,7 @@
     "probe:permission-controls": "node scripts/run-permission-controls.js",
     "capture:permission-options": "node scripts/capture-permission-options.js",
     "build:permission-capabilities": "node scripts/build-permission-capabilities.js",
+    "probe:client-recovery": "node scripts/run-client-recovery.js",
     "check": "node --test test/*.test.js"
   },
   "engines": {

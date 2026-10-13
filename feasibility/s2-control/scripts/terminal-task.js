@@ -1,9 +1,8 @@
 'use strict';
-const { spawn } = require('node:child_process');
 const fs = require('node:fs');
 const path = require('node:path');
-const { nativeExecutable, attachJob, waitUntil, processInventory, ownedIdentities } = require('./persistent-cli');
-const s1 = path.resolve(__dirname, '../../s1-terminal');
+const { waitUntil } = require('./persistent-cli');
+const { openTerminal, prepareAssets } = require('./terminal-client');
 const { phaseEvidence, recallEvidence } = require('./briefing-evidence');
 const T1_SUMMARY = 'Added clamp(value, min, max) and tests for below, within, and above bounds.';
 const prompt = `T1: Add clamp(value, min, max) in clamp.js as a CommonJS export { clamp }. It returns min when value is below min, max when above max, otherwise value. Add clamp.test.js using node:test and node:assert/strict covering below, within, and above bounds. Only edit clamp.js and clamp.test.js. Do not run shell commands, install anything, commit or push. Finish by calling tiye-team-tools_report_result exactly once with status "done" and summary ${JSON.stringify(T1_SUMMARY)}. Do not merely claim a tool call in prose.`;
@@ -32,15 +31,6 @@ function terminalReportEvidence(messages, summary, member, task = {}) {
     codingToolCalls: tools.filter(part => /edit|write|patch/.test(part.name)).length,
     otherTeamToolCalls: tools.filter(part => part.name.startsWith('tiye-team-tools_') && part.name !== `tiye-team-tools_${expectedTool}`).length,
   };
-}
-
-async function prepareAssets() {
-  const assets = path.resolve(__dirname, '../../../.git/s2-terminal-assets');
-  fs.mkdirSync(assets, { recursive: true });
-  await require(path.join(s1, 'node_modules/esbuild')).build({ entryPoints: [path.join(__dirname, 'terminal-renderer.js')], bundle: true, platform: 'browser', outfile: path.join(assets, 'terminal-renderer.js') });
-  fs.copyFileSync(path.join(__dirname, 'terminal.html'), path.join(assets, 'terminal.html'));
-  fs.copyFileSync(path.join(s1, 'node_modules/@xterm/xterm/css/xterm.css'), path.join(assets, 'xterm.css'));
-  return assets;
 }
 
 async function pollReport({ cwd, sessionID, serviceApi, state, task = {}, taskSubmittedAt }) {
@@ -119,39 +109,21 @@ async function terminalTask({ cwd, sessionID, summary, member, serviceApi, allow
   const evidence = { terminalInputMatched: false, completedAck: false };
   let state;
   try {
-    const assets = await prepareAssets();
-    const env = { ...process.env };
-    delete env.ELECTRON_RUN_AS_NODE;
-    const child = spawn(require(path.join(s1, 'node_modules/electron')), [path.join(__dirname, 'terminal-main.js')], { cwd, env, stdio: ['pipe', 'pipe', 'pipe', 'ipc'], windowsHide: true });
-    state = { child };
-    let events = '';
-    let truncated = false;
-    child.stdout.on('data', data => { events += data; truncated ||= events.length > 32000; events = events.slice(-32000); });
-    child.stderr.resume();
-    child.on('error', () => { state.error = true; });
-    child.on('close', () => { state.closed = true; });
-    await attachJob(state);
-    child.send({ type: 'launch', executable: nativeExecutable(), cwd, sessionID, assets, prompt: task.briefing?.prompt || task.prompt || prompt });
-    await waitUntil(() => events.includes('"type":"ready"') || state.error || state.closed, 20000);
-    if (state.error || state.closed) throw new Error('terminal startup failed');
-    await new Promise(resolve => setTimeout(resolve, 4000));
-    state.captured = ownedIdentities(await processInventory(), child.pid);
-    let taskSubmittedAt = Date.now();
-    child.send({ type: 'submit' });
-    await waitUntil(() => events.includes('"type":"submitted"') || events.includes('"type":"input-failed"') || state.closed, 10000);
-    const submitted = events.split(/\r?\n/).flatMap(line => { try { return [JSON.parse(line)]; } catch { return []; } }).find(event => event.type === 'submitted');
-    evidence.terminalInputMatched = submitted?.matched === true;
-    evidence.terminalOutputObserved = submitted?.outputBytes > 0;
-    evidence.inputDiagnostics = submitted ? { inputBytes: submitted.inputBytes, expectedBytes: submitted.expectedBytes, focusReports: submitted.focusReports, pasteMatched: submitted.pasteMatched, enterObserved: submitted.enterObserved } : null;
-    if (!evidence.terminalInputMatched || !evidence.terminalOutputObserved) throw new Error('terminal input unverified');
+    const client = await openTerminal({ cwd, sessionID, taskPrompt: task.briefing?.prompt || task.prompt || prompt });
+    state = client.state;
+    Object.assign(evidence, client.evidence);
+    if (client.evidence.error) throw new Error('terminal input unverified');
+    const child = state.child;
+    const readEvents = () => client.readEvents().map(event => JSON.stringify(event)).join('\n');
+    let taskSubmittedAt = client.submittedAt;
     if (task.observe) {
-      Object.assign(evidence, await task.observe({ cwd, sessionID, serviceApi, state, taskSubmittedAt }));
-      evidence.outputTruncated = truncated;
+      Object.assign(evidence, await task.observe({ cwd, sessionID, serviceApi, state, taskSubmittedAt, readEvents: client.readEvents, replaceState: next => { state = next; } }));
+      evidence.outputTruncated = client.outputTruncated();
       evidence.cliSpawnError = state.error === true;
       return { state, evidence };
     }
     if (task.briefing) {
-      const briefing = await deliverBriefing({ cwd, sessionID, serviceApi, child, state, readEvents: () => events, task, submittedAt: taskSubmittedAt });
+      const briefing = await deliverBriefing({ cwd, sessionID, serviceApi, child, state, readEvents, task, submittedAt: taskSubmittedAt });
       Object.assign(evidence, briefing.fields);
       taskSubmittedAt = briefing.submittedAt;
     }
@@ -168,10 +140,10 @@ async function terminalTask({ cwd, sessionID, summary, member, serviceApi, allow
       const idleAfterTask = Number.isFinite(ownSession.data?.time?.idle) && ownSession.data.time.idle >= taskSubmittedAt;
       if (idleAfterTask && !tools.some(tool => tool.name === 'tiye-team-tools_report_result') && fs.existsSync(path.join(cwd, 'clamp.js')) && fs.existsSync(path.join(cwd, 'clamp.test.js'))) {
         evidence.nudgeUsed = true;
-        const eventOffset = events.length;
+        const eventOffset = readEvents().length;
         child.send({ type: 'submit', prompt: nudge });
-        await waitUntil(() => events.slice(eventOffset).includes('"type":"submitted"') || events.slice(eventOffset).includes('"type":"input-failed"') || state.closed, 10000);
-        const nudgeInput = events.slice(eventOffset).split(/\r?\n/).flatMap(line => { try { return [JSON.parse(line)]; } catch { return []; } }).find(event => event.type === 'submitted');
+        await waitUntil(() => readEvents().slice(eventOffset).includes('"type":"submitted"') || readEvents().slice(eventOffset).includes('"type":"input-failed"') || state.closed, 10000);
+        const nudgeInput = readEvents().slice(eventOffset).split(/\r?\n/).flatMap(line => { try { return [JSON.parse(line)]; } catch { return []; } }).find(event => event.type === 'submitted');
         evidence.nudgeInputMatched = nudgeInput?.matched === true;
         if (!evidence.nudgeInputMatched) throw new Error('nudge input unverified');
         observed = await pollReport({ cwd, sessionID, serviceApi, state });
@@ -181,12 +153,12 @@ async function terminalTask({ cwd, sessionID, summary, member, serviceApi, allow
     }
     evidence.elapsedMs = Date.now() - initialStartedAt;
     if (task.briefing && evidence.completedAck) {
-      Object.assign(evidence, await verifyRecall({ cwd, sessionID, serviceApi, child, state, readEvents: () => events, task, submittedAt: taskSubmittedAt }));
+      Object.assign(evidence, await verifyRecall({ cwd, sessionID, serviceApi, child, state, readEvents, task, submittedAt: taskSubmittedAt }));
     }
-    evidence.outputTruncated = truncated;
+    evidence.outputTruncated = client.outputTruncated();
     evidence.cliSpawnError = state.error === true;
   } catch { evidence.error = 'terminal task failed'; }
   return { state, evidence };
 }
 
-module.exports = { terminalTask, terminalReportEvidence, prompt, prepareAssets, T1_SUMMARY };
+module.exports = { terminalTask, terminalReportEvidence, prompt, prepareAssets, T1_SUMMARY, pollTextPhase };

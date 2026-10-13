@@ -441,6 +441,16 @@ A CLI member uses **two channels**:
 | **Shutdown** | The adapter requests main to interrupt, then terminate after a timeout, including child processes, and verify that the owned tree is gone. |
 | **Custom CLIs** | Added by a launch command and an optional capability file. They work with the display channel and the team tools. |
 
+**Service-backed CLI lifecycle.** The adapter must track the owned backend
+session separately from its terminal client. A client exit is a display
+failure; it does not establish that backend work stopped. Stop and recovery
+must reconcile that session through the CLI's control channel, verify its
+execution state, and close the owned client tree. Shared vendor services
+must not be terminated as member-owned processes. The
+[OpenCode idle-client probe](../feasibility/s2-control/evidence/client-recovery-latest.json)
+preserved the session/history and recalled context after a fresh terminal
+attached; active-generation and external-effect recovery remain separate gates.
+
 ### 5.3 API adapter
 
 For API members, the core runs the agent loop itself.

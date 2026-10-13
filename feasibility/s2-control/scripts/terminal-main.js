@@ -25,10 +25,10 @@ process.on('message', async settings => {
       cwd: settings.cwd, env: { ...process.env, PWD: settings.cwd }, name: 'xterm-256color', cols: 120, rows: 38,
     });
     terminal.onData(data => { bytes += Buffer.byteLength(data); win.webContents.send('terminal-data', data); });
-    terminal.onExit(() => emit({ type: 'pty-exit' }));
+    terminal.onExit(event => emit({ type: 'pty-exit', exitCode: event.exitCode, signal: event.signal }));
     pending = settings.prompt;
     expected = '\x1b[200~' + pending + '\x1b[201~\r';
-    emit({ type: 'ready' });
+    emit({ type: 'ready', ptyPID: terminal.pid });
   });
   ipcMain.on('terminal-input', (event, data) => {
     if (event.sender !== win.webContents || !terminal || typeof data !== 'string' || data.length > 65536) return;
