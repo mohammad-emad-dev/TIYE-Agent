@@ -29,7 +29,7 @@ async function serviceApi(cwd, method, route, body) {
   }
 }
 
-async function probeServiceReport({ cwd, summary, member, terminalTask }) {
+async function probeServiceReport({ cwd, summary, member, terminalTask, sessionPermissions }) {
   const model = { providerID: 'opencode', id: 'muse-spark-1.3-contributor-free', variant: 'xhigh' };
   const evidence = { completedAck: false, locationUntouched: true };
   let sessionID;
@@ -46,7 +46,7 @@ async function probeServiceReport({ cwd, summary, member, terminalTask }) {
     evidence.locationUntouched = false;
     evidence.stage = 'session-create';
     const created = await serviceApi(cwd, 'POST', '/api/session', { location, agent: terminalTask ? 'build' : 'plan', model,
-      permissions: terminalTask ? SERVICE_PERMISSIONS.map(rule => rule.action === 'edit' ? { ...rule, effect: 'allow' } : rule) : SERVICE_PERMISSIONS,
+      permissions: sessionPermissions || (terminalTask ? SERVICE_PERMISSIONS.map(rule => rule.action === 'edit' ? { ...rule, effect: 'allow' } : rule) : SERVICE_PERMISSIONS),
       title: 'TIYE service report feasibility',
     });
     if (!/^ses_[a-zA-Z0-9]+$/.test(created?.data?.id)) throw new Error('owned session schema unexpected');

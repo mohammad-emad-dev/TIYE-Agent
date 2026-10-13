@@ -12,6 +12,8 @@
     "validate:terminal-task": "node scripts/validate-terminal-task.js",
     "probe:reliability": "node scripts/run-reliability.js",
     "validate:reliability": "node scripts/validate-reliability.js",
+    "probe:instructions": "node scripts/run-instructions.js",
+    "validate:instructions": "node scripts/validate-instructions.js",
     "check": "node --test test/*.test.js"
   },
   "engines": {

@@ -1,0 +1,184 @@
+{
+  "recordedAt": "2026-10-13T11:15:31.814Z",
+  "scope": "Three trials per instruction wording, one ask_leader task, and one induced-omission nudge control; separate from ten-run reliability",
+  "sourceHash": "62cbe7804d0ac4c5aa0e09c3ff96a5acc2160b361623ae29565c8e1dbdf245eb",
+  "wordingResults": [
+    {
+      "id": "wording-a",
+      "trials": 3,
+      "successful": 3
+    },
+    {
+      "id": "wording-b",
+      "trials": 3,
+      "successful": 3
+    },
+    {
+      "id": "wording-c",
+      "trials": 3,
+      "successful": 3
+    }
+  ],
+  "askLeaderPassed": true,
+  "inducedNudgeRecovered": true,
+  "runs": [
+    {
+      "id": "wording-a-1",
+      "index": 1,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "0a869d084858a6910f5bc831939e77bd35f2fdb1f1910260fdd5a744f327fb83",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "wording-a-2",
+      "index": 2,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "6f4a8e557b35d84b059be4e9f38764851ce350eea9be358ba158bb82ee71db12",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "wording-a-3",
+      "index": 3,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "6f4a8e557b35d84b059be4e9f38764851ce350eea9be358ba158bb82ee71db12",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "wording-b-1",
+      "index": 4,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "2058c60c1e1d90b158b1f775173c44f59356aa2350ab7e511d04d85a09a74518",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "wording-b-2",
+      "index": 5,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "00a5515d2ab949fffabc177802bfc5bc54d407df512578753093d2360992ab16",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "wording-b-3",
+      "index": 6,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "00a5515d2ab949fffabc177802bfc5bc54d407df512578753093d2360992ab16",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "wording-c-1",
+      "index": 7,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "25d5f498fdbae971107987bbfabd7c0f395b174f6a471e729659a07bff54e58f",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "wording-c-2",
+      "index": 8,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "25d5f498fdbae971107987bbfabd7c0f395b174f6a471e729659a07bff54e58f",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "wording-c-3",
+      "index": 9,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "00a5515d2ab949fffabc177802bfc5bc54d407df512578753093d2360992ab16",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "ask-leader",
+      "index": 10,
+      "passed": true
+    },
+    {
+      "id": "induced-omission",
+      "index": 11,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "00a5515d2ab949fffabc177802bfc5bc54d407df512578753093d2360992ab16",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    }
+  ],
+  "selectedConfigsUnchanged": true,
+  "unchanged": true,
+  "passed": true
+}

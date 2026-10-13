@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const { test } = require('node:test');
 const { terminalReportEvidence, prompt } = require('../scripts/terminal-task');
 const { terminalInputEvidence } = require('../scripts/terminal-input');
+const { cases, questionCase } = require('../scripts/instruction-cases');
 const summary = 'T1 summary';
 const member = 'member-a';
 const user = { type: 'user', text: prompt };
@@ -37,4 +38,16 @@ for (const [name, input] of [
   ['unrecognized escape reply', '\x1b[6n' + expectedInput],
 ]) test(`${name} cannot pass terminal input evidence`, () => {
   assert.equal(terminalInputEvidence(input, expectedInput).matched, false);
+});
+test('variant evidence requires its own accepted wording', () => {
+  const variant = cases[1];
+  assert.equal(terminalReportEvidence([user, assistant([report])], summary, member, variant).completedAck, false);
+  assert.equal(terminalReportEvidence([{ type: 'user', text: variant.prompt }, assistant([report])], summary, member, variant).completedAck, true);
+});
+test('ask_leader requires its exact question and member acknowledgment', () => {
+  const asked = { type: 'tool', name: 'tiye-team-tools_ask_leader', state: { status: 'completed', input: { question: questionCase.question }, content: [{ type: 'text', text: 'ack ask_leader for member-a (feasibility only, no engine effect)' }] } };
+  const accepted = { type: 'user', text: questionCase.prompt };
+  assert.equal(terminalReportEvidence([accepted, assistant([asked])], summary, member, questionCase).completedAck, true);
+  assert.equal(terminalReportEvidence([accepted, assistant([report])], summary, member, questionCase).completedAck, false);
+  assert.equal(terminalReportEvidence([accepted, assistant([{ ...asked, state: { ...asked.state, input: { question: 'Different question' } } }])], summary, member, questionCase).completedAck, false);
 });

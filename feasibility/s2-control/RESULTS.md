@@ -1,5 +1,70 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## S2.2 wordings, ask-leader, and induced omission (13 October 2026)
+
+**PASS for these bounded probes; full S2 remains open.** This batch is
+separate from the earlier ten-run reliability cohort and preserves its
+evidence. All runs used fresh projects, tokens, and sessions with OpenCode
+2.0.22, Muse Spark free `xhigh`, and `member-a` through the real terminal.
+
+| Case | Observed |
+|---|---|
+| Wording A, original instruction | 3/3 unassisted reports |
+| Wording B, completion protocol | 3/3 unassisted reports |
+| Wording C, deliverable instruction | 3/3 unassisted reports |
+| `ask_leader` ambiguity task | One exact question, correct acknowledgment, no report or coding call, no task-file changes |
+| Induced omission | No initial report, verified idle; one accepted terminal reminder recovered one correct report |
+| Correctness after code review | 30 generated and 80 independent cases passed |
+| Offline harness checks | 30 passed |
+
+The three wordings are tied in this three-trial-per-wording sample. They
+preserve the same function contract, tests, and file/command constraints,
+with slight phrasing changes in the task description as well as the
+reporting instruction. No causal or statistical superiority is claimed.
+The earlier ten-run wording remains the established baseline.
+
+The question asked how `clamp` should behave when min exceeds max. The
+model called `ask_leader` with the prescribed text and correct member.
+The SDK server independently recorded its argument match. The prompt
+explicitly distinguishes the fixture acknowledgment from a real decision.
+The harness stopped the owned session after the call; a real Leader answer,
+continued waiting, and resumed implementation remain untested.
+
+In the induced-omission control, the prompt required completing the files
+but withholding a report until reminded. The model ended its turn and
+two successive session checks showed idle after task submission, without
+an attempted report. Initial reporting remained false. One reminder was
+delivered through xterm paste/Enter and matched in the accepted API user
+message. Exactly one `report_result` then reached the fixture with the
+expected summary/status and acknowledgment. Initial observation took
+12.530 seconds; the whole report/reminder observation took 21.971 seconds
+after submitted-input confirmation. This proves one controlled recovery,
+not recovery rates for natural omissions or crashes.
+
+- [Per-case measurement](evidence/instructions-latest.json)
+- [Correctness and outcome validation](evidence/instructions-validation.json)
+- Exact prompts: `scripts/instruction-cases.js`
+- Captured code: `evidence/instructions`
+
+The parent reviewed all ten generated functions and test files before
+executing the 110 correctness checks. Validation hashes bind the files,
+independent checker, and source evidence. Every case verified model,
+member, input, exact tool arguments and acknowledgment, file scope,
+fixture/log hygiene, and owned cleanup. Selected configs and service
+identity remained unchanged; no T1 temporary project remained. Service
+40900 was not changed or restarted. Older evidence and LinkedIn assets
+were preserved.
+
+Muse free `xhigh` completed the supplied-facts read-only review; its state
+comparison included the pre-existing `output/` assets only. Both MiMo
+Atria and Claude Atria `xhigh` timed out after four minutes without final
+reviews. Claude's tripwire recorded the parent's concurrent edits, which
+were inspected directly. No model was substituted.
+
+Next: S2.3 briefing retention, S2.4 permission behavior, and S2.5 approval,
+error, and recovery signals. S1 display parity and other feasibility gates
+also remain open before building the core event store and team engine.
+
 ## S2.2 ten-run identical-wording measurement (13 October 2026)
 
 **PASS for this reporting measurement; full S2 remains open.** All ten

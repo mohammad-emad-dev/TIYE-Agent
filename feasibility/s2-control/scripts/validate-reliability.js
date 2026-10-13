@@ -11,10 +11,9 @@ const validationPath = path.join(evidenceDir, 'reliability-validation.json');
 const source = path.join(evidenceDir, 'reliability-latest.json');
 const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 
-function validateRun(run) {
+function validateRun(run, expectedRoot = path.join(evidenceDir, 'reliability', `run-${String(run.index).padStart(2, '0')}`)) {
   if (!run.roundTripPassed || !run.taskFilesCaptured) return { index: run.index, passed: false, reason: 'Round trip or code capture failed' };
   const artifactRoot = path.resolve(evidenceDir, run.captureName);
-  const expectedRoot = path.join(evidenceDir, 'reliability', `run-${String(run.index).padStart(2, '0')}`);
   if (artifactRoot !== expectedRoot) throw new Error('Artifact path mismatch');
   const files = [path.join(artifactRoot, 'clamp.js'), path.join(artifactRoot, 'clamp.test.js'), path.join(__dirname, 'reliability-correctness-check.js')];
   const fingerprints = files.map(hash);
@@ -32,7 +31,7 @@ function main() {
   const summary = reliabilitySummary(evidence);
   if (!summary.complete) throw new Error('Complete ten-trial evidence required');
   const sourceHash = hash(source);
-  const runs = evidence.runs.map(validateRun);
+  const runs = evidence.runs.map(run => validateRun(run));
   const verifiedInitialReports = runs.filter(run => run.passed && evidence.runs.find(trial => trial.index === run.index).cli.initialCompletedAck).length;
   const verifiedReportsWithinBudget = runs.filter(run => run.passed).length;
   const unchanged = hash(source) === sourceHash;
@@ -41,4 +40,5 @@ function main() {
   console.log(`[reliability-validation] ${validation.passed ? 'PASS' : 'FAIL'}; initial=${verifiedInitialReports}/10 budget=${verifiedReportsWithinBudget}/10; nudge attempts=${summary.nudgeAttempts}`);
   process.exitCode = validation.passed ? 0 : 1;
 }
-main();
+if (require.main === module) main();
+module.exports = { validateRun };

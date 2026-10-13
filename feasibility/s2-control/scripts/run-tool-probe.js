@@ -29,10 +29,13 @@ async function waitUntil(predicate, timeoutMs) {
   }
 }
 
-async function runMember(member, { terminalMode = false, serviceMode = terminalMode, captureName = `t1-${member}`, allowNudge = false } = {}) {
+async function runMember(member, { terminalMode = false, serviceMode = terminalMode, captureName = `t1-${member}`, allowNudge = false, task = {} } = {}) {
   const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'tiye-s2-model-'));
   const token = crypto.randomBytes(32).toString('hex');
   const summary = terminalMode ? T1_SUMMARY : `tiye-probe-${crypto.randomUUID()}`;
+  const expectedTool = task.tool || 'report_result';
+  const permissions = SERVICE_PERMISSIONS.map(rule => terminalMode && task.kind !== 'question' && rule.action === 'edit' ? { ...rule, effect: 'allow' } : rule);
+  if (expectedTool === 'ask_leader') permissions.push({ action: 'tiye-team-tools_ask_leader', resource: '*', effect: 'allow' });
   let fixture;
   let output = '';
   let truncated = false;
@@ -41,7 +44,7 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
   const evidence = { member, serverReportCalls: 0, matchingReports: 0, otherServerCalls: 0 };
   try {
     fixture = spawn(process.execPath, [path.resolve(__dirname, '../src/team-tools-server.js')], {
-      env: { ...process.env, TIYE_S2_PORT: '0', TIYE_S2_TOKENS_JSON: JSON.stringify({ [member]: token }), TIYE_S2_EXPECTED_SUMMARY: summary },
+      env: { ...process.env, TIYE_S2_PORT: '0', TIYE_S2_TOKENS_JSON: JSON.stringify({ [member]: token }), TIYE_S2_EXPECTED_SUMMARY: summary, TIYE_S2_EXPECTED_QUESTION: task.question || '' },
       stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true,
     });
     fixture.stdout.on('data', (chunk) => { const next = output + chunk; truncated ||= next.length > 32000; output = next.slice(-32000); });
@@ -59,22 +62,24 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
       }
     }
     fs.writeFileSync(path.join(cwd, 'opencode.json'), JSON.stringify({
-      permissions: serviceMode ? SERVICE_PERMISSIONS.map(rule => terminalMode && rule.action === 'edit' ? { ...rule, effect: 'allow' } : rule) : [{ action: '*', resource: '*', effect: 'deny' }, { action: 'tiye-team-tools_report_result', resource: '*', effect: 'allow' }],
+      permissions: serviceMode ? permissions : [{ action: '*', resource: '*', effect: 'deny' }, { action: 'tiye-team-tools_report_result', resource: '*', effect: 'allow' }],
       mcp: { servers: { 'tiye-team-tools': {
         type: 'remote', url: `http://127.0.0.1:${port}/mcp`, disabled: false, oauth: false, codemode: false,
         headers: { Authorization: `Bearer ${token}` },
       } } },
     }));
-    evidence.cli = await (serviceMode ? probeServiceReport : probeStandaloneReport)({ cwd, summary, member, ...(terminalMode ? { terminalTask: parameters => terminalTask({ ...parameters, allowNudge }) } : {}) });
+    evidence.cli = await (serviceMode ? probeServiceReport : probeStandaloneReport)({ cwd, summary, member, ...(terminalMode ? { sessionPermissions: permissions, terminalTask: parameters => terminalTask({ ...parameters, allowNudge, task }) } : {}) });
     if (terminalMode && evidence.cli.completedAck && evidence.cli.idleVerified) {
+      if (task.kind !== 'question') {
       const target = path.resolve(__dirname, '../evidence', captureName);
       fs.mkdirSync(target, { recursive: true });
       for (const name of ['clamp.js', 'clamp.test.js']) fs.copyFileSync(path.join(cwd, name), path.join(target, name));
+      evidence.taskFilesCaptured = true;
+      }
       const changed = spawnSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd, windowsHide: true, encoding: 'utf8' });
       const paths = changed.stdout.trim().split(/\r?\n/).map(line => line.slice(3)).sort();
-      evidence.onlyTaskFilesChanged = changed.status === 0 && JSON.stringify(paths) === JSON.stringify(['clamp.js', 'clamp.test.js', 'opencode.json']);
+      evidence.onlyTaskFilesChanged = changed.status === 0 && JSON.stringify(paths) === JSON.stringify(task.kind === 'question' ? ['opencode.json'] : ['clamp.js', 'clamp.test.js', 'opencode.json']);
       // Code is retained for orchestrator review before running generated tests.
-      evidence.taskFilesCaptured = true;
     }
   } catch {
     evidence.error = 'model fixture failed'; // Never persist response bodies, arguments, or startup output.
@@ -98,16 +103,18 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
   const lines = output.split('\n');
   evidence.serverReportCalls = lines.filter((line) => line.includes(`tool-call member=${member} tool=report_result valid=true argumentCount=2`)).length;
   evidence.matchingReports = lines.filter((line) => line.includes(`report-match member=${member} matched=true`)).length;
-  evidence.otherServerCalls = lines.filter((line) => line.includes('tool-call') && !line.includes('tool=report_result ')).length;
-  evidence.logHygiene = !output.includes(token) && !output.includes(summary) && !output.includes('Authorization') && !output.includes('ses_');
+  evidence.serverQuestionCalls = lines.filter(line => line.includes(`tool-call member=${member} tool=ask_leader valid=true argumentCount=1`)).length;
+  evidence.matchingQuestions = lines.filter(line => line.includes(`question-match member=${member} matched=true`)).length;
+  evidence.otherServerCalls = lines.filter((line) => line.includes('tool-call') && !line.includes(`tool=${expectedTool} `)).length;
+  evidence.logHygiene = !output.includes(token) && !output.includes(summary) && (!task.question || !output.includes(task.question)) && !output.includes('Authorization') && !output.includes('ses_');
   evidence.fixtureErrors = failed;
   evidence.serverLogTruncated = truncated;
   const cli = evidence.cli;
   evidence.passed = !evidence.error && !evidence.fixtureErrors && !cli?.error && !cli?.failure
-    && cli?.completedAck === true && (terminalMode ? cli.terminalInputMatched && cli.terminalOutputObserved && cli.shellCalls === 0 && (!cli.nudgeUsed || (cli.nudgeInputMatched && cli.nudgePromptAccepted)) && evidence.onlyTaskFilesChanged && evidence.taskFilesCaptured : cli.otherToolCalls === 0 && cli.cliExitCode === 0 && !cli.malformedEvents) && !cli.cliSpawnError && !cli.outputTruncated
+    && cli?.completedAck === true && (terminalMode ? cli.terminalInputMatched && cli.terminalOutputObserved && cli.shellCalls === 0 && cli.otherTeamToolCalls === 0 && (!cli.nudgeUsed || (cli.nudgeInputMatched && cli.nudgePromptAccepted)) && evidence.onlyTaskFilesChanged && (task.kind === 'question' ? cli.codingToolCalls === 0 : evidence.taskFilesCaptured) : cli.otherToolCalls === 0 && cli.cliExitCode === 0 && !cli.malformedEvents) && !cli.cliSpawnError && !cli.outputTruncated
     && cli.cleanup?.verified === true && cli.cleanup.jobVerified === true
     && (!serviceMode || (cli.modelConfirmed && cli.executedModelConfirmed && cli.locationConfirmed && cli.connected && cli.sessionStopped && cli.idleVerified && cli.sessionRemoved && cli.locationEvicted && cli.serviceIdentityUnchanged))
-    && evidence.serverReportCalls === 1 && evidence.matchingReports === 1 && evidence.otherServerCalls === 0
+    && (expectedTool === 'ask_leader' ? evidence.serverQuestionCalls === 1 && evidence.matchingQuestions === 1 : evidence.serverReportCalls === 1 && evidence.matchingReports === 1) && evidence.otherServerCalls === 0
     && evidence.logHygiene === true && !evidence.serverLogTruncated && evidence.fixtureStopped === true && evidence.tempRemoved === true;
   if (terminalMode) {
     evidence.roundTripPassed = evidence.passed;

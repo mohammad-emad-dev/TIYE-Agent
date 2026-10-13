@@ -4,6 +4,39 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Instruction, clarification, and nudge probes
+
+`npm run probe:instructions` records a separate batch: three fresh trials
+for each of three T1 wordings, one `ask_leader` ambiguity task, and one
+controlled task that explicitly withholds its report until reminded.
+The function contract, file scope, model, member, and test requirements
+stay the same across reporting wordings; the task descriptions are also
+phrased slightly differently. No nudge is enabled in the nine comparison
+trials. This is a small wording smoke test, not a statistical ranking.
+
+The question case explicitly permits `ask_leader`, denies edits, and
+requires its exact question and member acknowledgment. It checks that no
+coding tool was called and no task files changed. The fixture acknowledgment
+does not answer the question; a real Leader decision and resumed work are
+not implemented or tested.
+
+The controlled omission case requires a completed assistant turn and two
+successive idle observations before the early reminder path. The original
+task must be accepted, files must exist, and no report or provider error
+may precede the reminder. Exactly one reminder goes through terminal paste
+and Enter; its input and accepted API prompt are checked. The initial
+missing report remains recorded. This induced condition does not estimate
+spontaneous omission frequency and is kept outside the ten-run cohort.
+
+Review captured files under `evidence/instructions` before running
+`npm run validate:instructions`. Current result: all three wordings worked
+in 3/3 trials, the question call passed, and one induced omission recovered
+after one reminder. The ten captured functions passed 110 correctness
+checks; 30 offline harness checks passed. See `instructions-latest.json`
+and `instructions-validation.json` under `evidence`, and `RESULTS.md`.
+The next S2 checks cover briefing retention, permission behavior, and
+approval/error/recovery signals. Full S2 remains open.
+
 ## Ten-run reporting measurement
 
 `npm run probe:reliability` runs ten sequential T1 trials with identical

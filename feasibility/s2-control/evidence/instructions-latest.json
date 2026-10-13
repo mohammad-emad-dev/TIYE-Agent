@@ -1,0 +1,920 @@
+{
+  "recordedAt": "2026-10-13T11:06:17.214Z",
+  "scope": "Three trials per instruction wording, one ask_leader task, and one induced-omission nudge control; separate from ten-run reliability",
+  "plans": [
+    {
+      "id": "wording-a-1",
+      "caseId": "wording-a",
+      "trial": 1,
+      "promptHash": "1da10dce213a9cec47ff2068bc67543964c48ac01b47ff961f885d386d866eea"
+    },
+    {
+      "id": "wording-a-2",
+      "caseId": "wording-a",
+      "trial": 2,
+      "promptHash": "1da10dce213a9cec47ff2068bc67543964c48ac01b47ff961f885d386d866eea"
+    },
+    {
+      "id": "wording-a-3",
+      "caseId": "wording-a",
+      "trial": 3,
+      "promptHash": "1da10dce213a9cec47ff2068bc67543964c48ac01b47ff961f885d386d866eea"
+    },
+    {
+      "id": "wording-b-1",
+      "caseId": "wording-b",
+      "trial": 1,
+      "promptHash": "f85d60002ebdbadfce60761d8933d949940abafbd055ff745f26a08698a13e07"
+    },
+    {
+      "id": "wording-b-2",
+      "caseId": "wording-b",
+      "trial": 2,
+      "promptHash": "f85d60002ebdbadfce60761d8933d949940abafbd055ff745f26a08698a13e07"
+    },
+    {
+      "id": "wording-b-3",
+      "caseId": "wording-b",
+      "trial": 3,
+      "promptHash": "f85d60002ebdbadfce60761d8933d949940abafbd055ff745f26a08698a13e07"
+    },
+    {
+      "id": "wording-c-1",
+      "caseId": "wording-c",
+      "trial": 1,
+      "promptHash": "e203b7f836abcd1a46f4461df87f2a2eda462908df177fb04f435116214087b5"
+    },
+    {
+      "id": "wording-c-2",
+      "caseId": "wording-c",
+      "trial": 2,
+      "promptHash": "e203b7f836abcd1a46f4461df87f2a2eda462908df177fb04f435116214087b5"
+    },
+    {
+      "id": "wording-c-3",
+      "caseId": "wording-c",
+      "trial": 3,
+      "promptHash": "e203b7f836abcd1a46f4461df87f2a2eda462908df177fb04f435116214087b5"
+    },
+    {
+      "id": "ask-leader",
+      "caseId": "ask-leader",
+      "trial": 1,
+      "promptHash": "4e6b80988745e2189b04ac6809e20afe0555178cff07cb1e5f679992de4694d5"
+    },
+    {
+      "id": "induced-omission",
+      "caseId": "induced-omission",
+      "trial": 1,
+      "promptHash": "59640666e319e532350ca02741cffc9bd0d5312363b1a1b63493336623a40ebf"
+    }
+  ],
+  "runs": [
+    {
+      "id": "wording-a-1",
+      "caseId": "wording-a",
+      "index": 1,
+      "captureName": "instructions/wording-a-1",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "codingToolCalls": 2,
+        "otherTeamToolCalls": 0,
+        "initialIdleWithoutReport": false,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 8784,
+        "nudgeUsed": false,
+        "elapsedMs": 8784,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "taskFilesCaptured": true,
+      "onlyTaskFilesChanged": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "serverQuestionCalls": 0,
+      "matchingQuestions": 0,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "id": "wording-a-2",
+      "caseId": "wording-a",
+      "index": 2,
+      "captureName": "instructions/wording-a-2",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "codingToolCalls": 2,
+        "otherTeamToolCalls": 0,
+        "initialIdleWithoutReport": false,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 7580,
+        "nudgeUsed": false,
+        "elapsedMs": 7580,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "taskFilesCaptured": true,
+      "onlyTaskFilesChanged": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "serverQuestionCalls": 0,
+      "matchingQuestions": 0,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "id": "wording-a-3",
+      "caseId": "wording-a",
+      "index": 3,
+      "captureName": "instructions/wording-a-3",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "codingToolCalls": 2,
+        "otherTeamToolCalls": 0,
+        "initialIdleWithoutReport": false,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 10028,
+        "nudgeUsed": false,
+        "elapsedMs": 10028,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "taskFilesCaptured": true,
+      "onlyTaskFilesChanged": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "serverQuestionCalls": 0,
+      "matchingQuestions": 0,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "id": "wording-b-1",
+      "caseId": "wording-b",
+      "index": 4,
+      "captureName": "instructions/wording-b-1",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 558,
+          "expectedBytes": 552,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 540,
+              "exact": false,
+              "trimmed": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "codingToolCalls": 2,
+        "otherTeamToolCalls": 0,
+        "initialIdleWithoutReport": false,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 11218,
+        "nudgeUsed": false,
+        "elapsedMs": 11218,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "taskFilesCaptured": true,
+      "onlyTaskFilesChanged": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "serverQuestionCalls": 0,
+      "matchingQuestions": 0,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "id": "wording-b-2",
+      "caseId": "wording-b",
+      "index": 5,
+      "captureName": "instructions/wording-b-2",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 558,
+          "expectedBytes": 552,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 540,
+              "exact": false,
+              "trimmed": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "codingToolCalls": 2,
+        "otherTeamToolCalls": 0,
+        "initialIdleWithoutReport": false,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 11182,
+        "nudgeUsed": false,
+        "elapsedMs": 11182,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "taskFilesCaptured": true,
+      "onlyTaskFilesChanged": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "serverQuestionCalls": 0,
+      "matchingQuestions": 0,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "id": "wording-b-3",
+      "caseId": "wording-b",
+      "index": 6,
+      "captureName": "instructions/wording-b-3",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 558,
+          "expectedBytes": 552,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 540,
+              "exact": false,
+              "trimmed": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "codingToolCalls": 2,
+        "otherTeamToolCalls": 0,
+        "initialIdleWithoutReport": false,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 13684,
+        "nudgeUsed": false,
+        "elapsedMs": 13684,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "taskFilesCaptured": true,
+      "onlyTaskFilesChanged": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "serverQuestionCalls": 0,
+      "matchingQuestions": 0,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "id": "wording-c-1",
+      "caseId": "wording-c",
+      "index": 7,
+      "captureName": "instructions/wording-c-1",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 602,
+          "expectedBytes": 596,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 584,
+              "exact": false,
+              "trimmed": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "codingToolCalls": 2,
+        "otherTeamToolCalls": 0,
+        "initialIdleWithoutReport": false,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 9932,
+        "nudgeUsed": false,
+        "elapsedMs": 9932,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "taskFilesCaptured": true,
+      "onlyTaskFilesChanged": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "serverQuestionCalls": 0,
+      "matchingQuestions": 0,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "id": "wording-c-2",
+      "caseId": "wording-c",
+      "index": 8,
+      "captureName": "instructions/wording-c-2",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 602,
+          "expectedBytes": 596,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 584,
+              "exact": false,
+              "trimmed": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "codingToolCalls": 2,
+        "otherTeamToolCalls": 0,
+        "initialIdleWithoutReport": false,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 43028,
+        "nudgeUsed": false,
+        "elapsedMs": 43028,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "taskFilesCaptured": true,
+      "onlyTaskFilesChanged": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "serverQuestionCalls": 0,
+      "matchingQuestions": 0,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "id": "wording-c-3",
+      "caseId": "wording-c",
+      "index": 9,
+      "captureName": "instructions/wording-c-3",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 602,
+          "expectedBytes": 596,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 584,
+              "exact": false,
+              "trimmed": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "codingToolCalls": 2,
+        "otherTeamToolCalls": 0,
+        "initialIdleWithoutReport": false,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 9996,
+        "nudgeUsed": false,
+        "elapsedMs": 9996,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "taskFilesCaptured": true,
+      "onlyTaskFilesChanged": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "serverQuestionCalls": 0,
+      "matchingQuestions": 0,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "id": "ask-leader",
+      "caseId": "ask-leader",
+      "index": 10,
+      "captureName": "instructions/ask-leader",
+      "member": "member-a",
+      "serverReportCalls": 0,
+      "matchingReports": 0,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 420,
+          "expectedBytes": 414,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 402,
+              "exact": false,
+              "trimmed": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "codingToolCalls": 0,
+        "otherTeamToolCalls": 0,
+        "initialIdleWithoutReport": false,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 3895,
+        "nudgeUsed": false,
+        "elapsedMs": 3895,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "onlyTaskFilesChanged": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "serverQuestionCalls": 1,
+      "matchingQuestions": 1,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "id": "induced-omission",
+      "caseId": "induced-omission",
+      "index": 11,
+      "captureName": "instructions/induced-omission",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 528,
+          "expectedBytes": 522,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user",
+            "idle"
+          ],
+          "users": [
+            {
+              "length": 322,
+              "exact": false,
+              "trimmed": false
+            },
+            {
+              "length": 510,
+              "exact": false,
+              "trimmed": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "codingToolCalls": 2,
+        "otherTeamToolCalls": 0,
+        "initialIdleWithoutReport": true,
+        "initialCompletedAck": false,
+        "initialElapsedMs": 12530,
+        "nudgeUsed": true,
+        "nudgeInputMatched": true,
+        "nudgePromptAccepted": true,
+        "elapsedMs": 21971,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "taskFilesCaptured": true,
+      "onlyTaskFilesChanged": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "serverQuestionCalls": 0,
+      "matchingQuestions": 0,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    }
+  ],
+  "selectedConfigsUnchanged": true,
+  "result": "AWAITING_REVIEW_AND_VALIDATION",
+  "finishedAt": "2026-10-13T11:10:42.487Z"
+}
