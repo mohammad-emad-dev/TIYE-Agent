@@ -1,0 +1,10 @@
+{
+  "recordedAt": "2026-10-13T19:22:04.561Z",
+  "scope": "Exact retained other-project cleanup from second saved-approval attempt; identity proven by time window, random root commit and clean fixture scope",
+  "candidatesMatched": 1,
+  "sessionsEmpty": true,
+  "savedRulesEmpty": true,
+  "locationEvicted": true,
+  "tempRemoved": true,
+  "sharedServiceUnchanged": true
+}

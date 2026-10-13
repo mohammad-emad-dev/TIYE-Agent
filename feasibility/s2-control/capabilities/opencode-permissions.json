@@ -97,9 +97,10 @@
       "providerCompatibility": "observed-working",
       "evidence": [
         "../evidence/versions/2.0.28/approval-outcomes-latest.json",
-        "../evidence/supplements/terminal-approvals/139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e/2.0.28/terminal-approvals.json"
+        "../evidence/supplements/terminal-approvals/139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e/2.0.28/terminal-approvals.json",
+        "../evidence/supplements/saved-approvals/0719a9c02b6d2f879acf5d34f62ceab119d1335e812f6e71df999dea10874342/2.0.28/saved-approvals.json"
       ],
-      "limitation": "API and native terminal reject/once observed for one exact command. Saved always decisions, other layouts/themes, foreground human interaction and accessibility remain untested",
+      "limitation": "Bounded API/native reject/once and native always, project scope, configured deny and revocation observed. Other layouts/themes, foreground interaction, accessibility, backend restart and worktree behavior remain untested",
       "nativeTerminalUI": {
         "observedStatus": "bounded-native-decisions-passed",
         "decisions": [
@@ -111,6 +112,18 @@
         "evidence": [
           "../evidence/supplements/terminal-approvals/139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e/2.0.28/terminal-approvals.json"
         ]
+      },
+      "savedApprovals": {
+        "observedStatus": "bounded-project-scope-and-revocation-passed",
+        "nativeAlways": true,
+        "freshSessionReuse": true,
+        "separateProjectAsked": true,
+        "configuredDenyPrecedence": true,
+        "revocationRestoredAsk": true,
+        "evidence": [
+          "../evidence/supplements/saved-approvals/0719a9c02b6d2f879acf5d34f62ceab119d1335e812f6e71df999dea10874342/2.0.28/saved-approvals.json"
+        ],
+        "limitation": "One tool-proposed shell pattern across fresh sessions in two disposable Git roots. No backend restart/crash durability, worktree scope or general prefix-safety proof"
       }
     },
     "auto": {
@@ -138,16 +151,17 @@
     "File none",
     "Guaranteed read-only isolation",
     "Shell off compatibility",
-    "Other approval UI layouts/themes and saved always approvals",
+    "Other approval UI layouts/themes, saved-rule restart durability and worktree scope",
     "S2.5 error/crash/hang/resume signals",
     "Other CLIs, models and WSL"
   ],
-  "recordedAt": "2026-10-13T19:10:54.924Z",
+  "recordedAt": "2026-10-13T19:24:55.349Z",
   "evidenceHashes": {
     "permission-controls-latest.json": "bdbd316f029dd3abfc10832ee80b117a8dc8d7cb82bc89aed3dc2a98bd1bf4b3",
     "approval-outcomes-latest.json": "9f8df0a68d060663b17fa5aa4361503fb456d42e414fa377f575d4093ca3b5d2",
     "permission-options-latest.json": "04601f8266569a1216d2ce0c567ca5bbf2eb08cca4d5641bc4154ebb1166dd69",
     "denied-profiles.json": "c76bec928185266f07395d9d0c19cff7e019408855cac68c874067e4821d654f",
-    "terminal-approvals.json": "139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e"
+    "terminal-approvals.json": "139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e",
+    "saved-approvals.json": "0719a9c02b6d2f879acf5d34f62ceab119d1335e812f6e71df999dea10874342"
   }
 }

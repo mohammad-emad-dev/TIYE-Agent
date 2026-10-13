@@ -68,7 +68,7 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
       if (task.caseID === 'allow-edit-control') fs.writeFileSync(path.join(cwd, 'editable.txt'), 'original editable bytes\n');
       if (task.kind === 'command-cancel') fs.writeFileSync(path.join(cwd, 'execution-fixture.cjs'), task.executionFixture);
       const initialFiles = ['package.json', 'README.md', ...(task.kind === 'command-cancel' ? ['execution-fixture.cjs'] : []), ...(task.kind === 'denied-profile' ? ['protected.txt'] : [])];
-      for (const args of [['init', '--quiet'], ['add', ...initialFiles], ['-c', 'user.name=TIYE Fixture', '-c', 'user.email=fixture@local', 'commit', '--quiet', '-m', 'Initial T1 fixture']]) {
+      for (const args of [['init', '--quiet'], ['add', ...initialFiles], ['-c', 'user.name=TIYE Fixture', '-c', 'user.email=fixture@local', 'commit', '--quiet', '-m', task.initialCommitMessage || 'Initial T1 fixture']]) {
         if (spawnSync('git', args, { cwd, windowsHide: true }).status !== 0) throw new Error('T1 Git fixture failed');
       }
     }
@@ -135,7 +135,8 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
         throw new Error('owned temporary project boundary invalid');
       }
       const commandCleanupVerified = task.kind !== 'command-cancel' || evidence.commandProcessesGoneAfterCleanup;
-      if (commandCleanupVerified && (!serviceMode || evidence.cli?.locationUntouched || (evidence.cli?.sessionStopped && evidence.cli?.sessionRemoved && evidence.cli?.locationEvicted))) fs.rmSync(resolved, { recursive: true });
+      const taskCleanupVerified = !task.verifyOwnedCleanup || task.verifyOwnedCleanup();
+      if (commandCleanupVerified && taskCleanupVerified && (!serviceMode || evidence.cli?.locationUntouched || (evidence.cli?.sessionStopped && evidence.cli?.sessionRemoved && evidence.cli?.locationEvicted))) fs.rmSync(resolved, { recursive: true });
       evidence.tempRemoved = !fs.existsSync(resolved);
     }
   }

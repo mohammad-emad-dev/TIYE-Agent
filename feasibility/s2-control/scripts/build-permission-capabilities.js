@@ -7,6 +7,7 @@ const { reviewedVersion } = require('./reviewed-version');
 const { sealedBytes } = require('./version-evidence');
 const { deniedProfileMeasurementPassed } = require('./denied-profile-evidence');
 const { terminalApprovalRunPassed } = require('./terminal-approval-evidence');
+const { savedApprovalRunPassed } = require('./saved-approval-evidence');
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 
 function validatedDeniedProfiles(measurement, version) {
@@ -50,7 +51,24 @@ function validatedTerminalApprovals(measurement, version) {
   }
 }
 
-function assessment({ controls, approvals, inventory, deniedProfiles, deniedProfilesHash, terminalApprovals, terminalApprovalsHash }) {
+function validatedSavedApprovals(measurement, version) {
+  const cli = measurement?.run?.cli;
+  if (version !== '2.0.28' || measurement?.expectedVersion !== version || !measurement.passed || !measurement.selectedConfigsUnchanged
+    || !measurement.run?.passed || !savedApprovalRunPassed(measurement.run) || !cli.decisionInput?.matched || !cli.navigationInput?.matched
+    || !Number.isInteger(cli.savedRuleCount) || cli.savedRuleCount < 1 || cli.proposedPatternHashes?.length !== cli.savedRuleCount
+    || !cli.proposedPatternHashes.every(hash => /^[a-f0-9]{64}$/.test(hash)) || !cli.originalClientCleanup?.verified || !cli.originalClientCleanup.jobVerified
+    || cli.savedPhases.some(phase => phase.newSession && (!phase.terminalInputMatched || phase.outputTruncated))) throw new Error('Saved approval evidence gate failed');
+  for (const phase of cli.savedPhases) {
+    const completed = ['seed-always', 'same-project'].includes(phase.name) ? 1 : 0;
+    const denied = phase.name === 'deny-precedence' ? 1 : 0;
+    const pending = ['other-project', 'revoked-ask'].includes(phase.name) ? 1 : 0;
+    if (phase.shellCalls !== 1 || phase.completedShellCalls !== completed || phase.failedShellCalls !== denied || phase.ownPendingRequests !== pending
+      || !phase.exactShellCallsOnly || !phase.noAssistantErrors || (phase.name === 'same-project' && phase.pendingEverObserved)
+      || JSON.stringify(phase.failedShellErrorTypes) !== JSON.stringify(denied ? ['permission.rejected'] : [])) throw new Error('Saved approval phase outcome inconsistent');
+  }
+}
+
+function assessment({ controls, approvals, inventory, deniedProfiles, deniedProfilesHash, terminalApprovals, terminalApprovalsHash, savedApprovals, savedApprovalsHash }) {
   const version = reviewedVersion(inventory?.version);
   validatedCases(controls, ['allow-edit-control', 'auto-shell'], version);
   validatedCases(approvals, ['deny-edit', 'reject-shell', 'allow-once-shell'], version);
@@ -111,6 +129,18 @@ function assessment({ controls, approvals, inventory, deniedProfiles, deniedProf
       limitation: 'API and native terminal reject/once observed for one exact command. Saved always decisions, other layouts/themes, foreground human interaction and accessibility remain untested' };
     candidate.remaining = candidate.remaining.map(item => item === 'Approval UI and saved approvals' ? 'Other approval UI layouts/themes and saved always approvals' : item);
   }
+  if (savedApprovals) {
+    validatedSavedApprovals(savedApprovals, version);
+    if (savedApprovalsHash !== undefined && !/^[a-f0-9]{64}$/.test(savedApprovalsHash)) throw new Error('Saved approval hash invalid');
+    const savedReference = savedApprovalsHash ? `../evidence/supplements/saved-approvals/${savedApprovalsHash}/${version}/saved-approvals.json` : '../evidence/saved-approvals-latest.json';
+    candidate.terminal.ask = { ...candidate.terminal.ask, evidence: [...candidate.terminal.ask.evidence, savedReference],
+      savedApprovals: { observedStatus: 'bounded-project-scope-and-revocation-passed', nativeAlways: true, freshSessionReuse: true,
+        separateProjectAsked: true, configuredDenyPrecedence: true, revocationRestoredAsk: true, evidence: [savedReference],
+        limitation: 'One tool-proposed shell pattern across fresh sessions in two disposable Git roots. No backend restart/crash durability, worktree scope or general prefix-safety proof' },
+      limitation: 'Bounded API/native reject/once and native always, project scope, configured deny and revocation observed. Other layouts/themes, foreground interaction, accessibility, backend restart and worktree behavior remain untested' };
+    candidate.remaining = candidate.remaining.map(item => /Approval UI and saved approvals|Other approval UI layouts\/themes and saved always approvals/.test(item)
+      ? 'Other approval UI layouts/themes, saved-rule restart durability and worktree scope' : item);
+  }
   return candidate;
 }
 
@@ -125,8 +155,11 @@ function main() {
   const terminalPath = path.join(root, 'evidence/terminal-approvals-latest.json');
   const terminalBytes = fs.existsSync(terminalPath) ? fs.readFileSync(terminalPath) : null;
   const terminalApprovals = terminalBytes ? JSON.parse(terminalBytes) : undefined;
+  const savedPath = path.join(root, 'evidence/saved-approvals-latest.json');
+  const savedBytes = fs.existsSync(savedPath) ? fs.readFileSync(savedPath) : null;
+  const savedApprovals = savedBytes ? JSON.parse(savedBytes) : undefined;
   const candidate = assessment({ controls, approvals, inventory, deniedProfiles, deniedProfilesHash: supplementalBytes ? digest(supplementalBytes) : undefined,
-    terminalApprovals, terminalApprovalsHash: terminalBytes ? digest(terminalBytes) : undefined });
+    terminalApprovals, terminalApprovalsHash: terminalBytes ? digest(terminalBytes) : undefined, savedApprovals, savedApprovalsHash: savedBytes ? digest(savedBytes) : undefined });
   for (const [index, name] of names.entries()) {
     const archived = sealedBytes({ root: path.join(root, 'evidence/versions'), version: candidate.testedVersions[0], name });
     if (!archived.equals(sources[index])) throw new Error('Sealed evidence does not match current cohort');
@@ -140,10 +173,15 @@ function main() {
     const archived = sealedBytes({ root: path.join(root, 'evidence/supplements/terminal-approvals', digest(terminalBytes)), version: candidate.testedVersions[0], name: 'terminal-approvals.json' });
     if (!archived.equals(terminalBytes)) throw new Error('Sealed terminal approval evidence does not match current cohort');
   }
+  if (savedBytes) {
+    const archived = sealedBytes({ root: path.join(root, 'evidence/supplements/saved-approvals', digest(savedBytes)), version: candidate.testedVersions[0], name: 'saved-approvals.json' });
+    if (!archived.equals(savedBytes)) throw new Error('Sealed saved approval evidence does not match current cohort');
+  }
   candidate.recordedAt = new Date().toISOString();
   candidate.evidenceHashes = Object.fromEntries(names.map((name, index) => [name, crypto.createHash('sha256').update(sources[index]).digest('hex')]));
   if (supplementalBytes) candidate.evidenceHashes['denied-profiles.json'] = digest(supplementalBytes);
   if (terminalBytes) candidate.evidenceHashes['terminal-approvals.json'] = digest(terminalBytes);
+  if (savedBytes) candidate.evidenceHashes['saved-approvals.json'] = digest(savedBytes);
   const target = path.join(root, 'capabilities/opencode-permissions.json');
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.writeFileSync(target, JSON.stringify(candidate, null, 2) + '\n');

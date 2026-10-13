@@ -4,6 +4,31 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Saved approvals and project scope
+
+`npm run probe:saved-approvals` passed five phases on OpenCode 2.0.28 with
+Muse Spark free `xhigh`: native Always allow, reuse in a fresh same-project
+session, an independent project's pending request, explicit deny precedence,
+and revocation restoring ask. Both Git roots had randomized initial commits,
+distinct verified native project IDs and empty saved-rule baselines.
+
+Always allow switches the native card from the command to proposed saved
+patterns. The probe verifies that pane and its selected choice twice before
+Enter, and checks the created row against the project, proposed pattern and
+creation time. One owned rule was saved and removed by ID. Only two harmless
+marker appends occurred in project A; the other project required approval.
+All five sessions and private client Jobs, both temp projects and the MCP
+fixture were cleaned up. Shared service identity/version and selected configs
+stayed unchanged. **87 offline checks pass.**
+
+The preliminary assessment qualifies this bounded session/project observation.
+Backend restart/crash durability, worktree scope and general command-prefix
+safety remain open. Failed attempts and their precise recovery records are
+preserved; the passing cohort has its own hash-sealed supplement. The previous
+terminal assessment is copied byte for byte in
+`capabilities/opencode-permissions-terminal-approvals-2.0.28.json`.
+See [the detailed results](RESULTS.md#saved-approvals-and-project-scope-13-october-2026).
+
 ## Native terminal approval decisions
 
 `npm run probe:terminal-approvals` passed Reject and Allow once through the
@@ -22,7 +47,7 @@ inside OpenCode. Both cases verified owned cleanup and unchanged shared service
 identity/version and selected config fingerprints. **82 offline checks pass.**
 
 Qualification is limited to the observed palette and 120x38 terminal. Saved
-always approvals, other layouts/themes, foreground human interaction and
+approval restart/worktree behavior, other layouts/themes, foreground human interaction and
 accessibility remain separate gates. The current preliminary assessment links
 to a separately sealed content-hash supplement; its prior deny-profile
 assessment is preserved in
@@ -66,7 +91,7 @@ selected config fingerprints. **71 offline checks pass.**
 
 The preliminary [permission assessment](capabilities/opencode-permissions.json)
 qualifies only its bounded 2.0.28 observations. Complete file `none`, OS containment,
-combined profiles and other approval UI layouts/saved approvals remain unverified. The supplemental
+combined profiles, other approval UI layouts and saved-rule restart/worktree behavior remain unverified. The supplemental
 shell `off` observation is blocked for this model; its older provider rejection
 is separately tagged 2.0.22. `productionEligible` and every `productGuarantee` remain false.
 

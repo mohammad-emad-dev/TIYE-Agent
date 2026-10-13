@@ -29,6 +29,7 @@
     "probe:command-cancel": "node scripts/run-command-cancel.js",
     "probe:denied-profiles": "node scripts/run-denied-profiles.js",
     "probe:terminal-approvals": "node scripts/run-terminal-approvals.js",
+    "probe:saved-approvals": "node scripts/run-saved-approvals.js",
     "check": "node --test test/*.test.js"
   },
   "engines": {

@@ -542,8 +542,15 @@ Programmatic Right/Enter events passed Reject and Allow once on the observed
 completed it exactly once and left a distinct repeat pending, with one marker
 append verified twice and after cleanup. The parent observer permits only
 scoped GET requests and sends no permission replies; OpenCode's TUI handles its
-own transport. Saved always approvals, other layouts/themes, foreground human
-interaction and accessibility remain separate gates. Native terminal records
+own transport. A further five-phase supplement verified native Always allow,
+reuse in a fresh same-project session, a separate Git project's pending request,
+configured deny precedence and revocation restoring ask. Distinct project IDs
+and empty saved-rule baselines were verified before saving; one owned rule was
+created and removed. Only two harmless marker appends occurred in the original
+project, and all owned sessions/clients/rules/locations/temp fixtures were cleaned
+up. This qualifies session reuse and separate-root scope, not backend restart or
+crash durability, worktree behavior or general prefix safety. Other layouts/themes,
+foreground human interaction and accessibility remain separate gates. Native terminal records
 are sealed as a separate content-hash supplement; previous assessments remain
 preserved. This evidence does not establish OS containment.
 Five permission cases and native ACP initialization/error recovery/streaming

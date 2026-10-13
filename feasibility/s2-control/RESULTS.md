@@ -1,5 +1,105 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## Saved approvals and project scope (13 October 2026)
+
+**PASS for this five-phase cohort; full S2 remains open.** OpenCode 2.0.28
+and Muse Spark free `xhigh` were exercised through the real native terminal.
+Two disposable Git roots used randomized initial commit messages, and their
+native project IDs were confirmed distinct before any saved decision. Both
+project-filtered saved-rule lists were initially empty.
+
+| Phase | Observed result |
+|---|---|
+| Native Always allow | One Right key, then verified Always allow selection twice and Enter; one exact command completed, marker `approved`; one owned saved rule appeared |
+| Fresh session, same project | Same command and shell-ask policy; no pending request observed or decision input; command completed, marker `approvedapproved` |
+| Independent project | Same command and shell-ask policy; exact correlated request stayed pending twice, marker absent; no approval delivered |
+| Configured deny precedence | Fresh session in the first project while the saved rule remained; targeted deny produced actual `permission.rejected`; no third append |
+| Revoked rule | Owned saved row removed by ID; fresh same-project session returned to a twice-observed pending request; no third append |
+
+The same-project observation survived deletion of the additional session and
+client. It establishes bounded reuse across sessions; the shared backend was
+not restarted, so disk/crash durability is not qualified. The independent
+project test uses a separate Git root, not a worktree of the first project.
+The resulting assessment does not generalize the proposed shell prefix's safety.
+
+Every phase requires the exact accepted fresh prompt, model/variant, tool
+command/input/current directory, one shell tool and no fallback tools or
+assistant errors. Completed and denied phases require quiescent completed
+turns; pending phases require the exact request/message/tool correlation.
+Two stable snapshots, separated by at least one second, include marker-byte
+checks. Phase deadlines are 90 seconds; UI IPC deadlines are five seconds.
+New sessions verify agent, location, permissions, model and project identity.
+The parent sends no permission-reply API requests; OpenCode's native TUI
+handles the Always decision.
+
+Selecting Always allow changes the card body to the tool's proposed saved
+patterns. The probe first validates the ordinary command pane and its selected
+palette, then checks the proposed-pattern pane with the same palette, native
+heading, choice positions and selected Always allow twice. The `uiInspection`
+fields retain the ordinary command-pane diagnostic: its `visible: false` /
+missing command are expected in this different pane, and are not the saved-pane
+acceptance predicate. Acceptance is recorded separately as
+`uiAlwaysSelectedTwice` and verified by `savedAlwaysScreen` before Enter.
+
+Saved rows must match the owned project, shell action, exact tool-proposed
+pattern set, unique safe IDs and a creation time after the decision began.
+Only those validated rows are removed. The final project-filtered list was
+empty; the second project acquired no saved rule. The scoped APIs were checked
+against the [OpenCode V2 API reference](https://opencode.ai/v2/docs/api), and the
+tested relation to configured deny follows the
+[V2 permission documentation](https://opencode.ai/v2/docs/permissions).
+The observed denial, marker bytes and restored pending request provide the
+qualification evidence.
+
+All five sessions were deleted and their private client trees/Windows Jobs
+verified gone, with six captured processes per client. The original client is
+closed before location eviction so its polling has ended during cleanup.
+Both exact temp paths and the MCP fixture were removed; all fixture file checks
+for the original project passed. Shared service identity and final version
+remained 2.0.28, and selected config fingerprints stayed unchanged. No unrelated
+saved rules, global settings or service lifecycle were changed.
+
+### Preserved failures and evidence
+
+Two earlier attempts stopped after navigating to Always allow, before Enter:
+the original command-pane parser did not recognize the proposed-pattern view.
+No command executed and no saved rule was created. Both failed records remain
+failed. Each retained second-project directory was recovered separately using
+its creation-time window, random root commit and clean fixture scope, then
+verified to have no sessions or saved rules before exact eviction/removal.
+Those recovery records preserve the cleanup result without changing the failed
+measurements. The cause of the earlier other-project retention was not determined.
+The final probe checks session absence before removing the other
+project and permits bounded filesystem retries only for its verified exact path.
+The original-project fixture refuses temp removal if an owned saved rule remains.
+
+The final record is sealed in a separate content-hash archive. Prior version,
+deny-profile and terminal-approval archive bytes are unchanged. The previous
+terminal capability assessment is copied byte for byte and matches its prior
+qualification hash. Historical source hashes describe their original fixture
+revisions; the current shared fixture adds only the custom initial commit and
+an owned-cleanup guard used by this probe.
+
+- [Saved approval measurement](evidence/supplements/saved-approvals/0719a9c02b6d2f879acf5d34f62ceab119d1335e812f6e71df999dea10874342/2.0.28/saved-approvals.json)
+- [Supplement manifest](evidence/supplements/saved-approvals/0719a9c02b6d2f879acf5d34f62ceab119d1335e812f6e71df999dea10874342/2.0.28/manifest.json)
+- [Qualification and integrity summary](evidence/saved-approvals-qualification.json)
+- [Current preliminary assessment](capabilities/opencode-permissions.json)
+- [Preserved terminal assessment](capabilities/opencode-permissions-terminal-approvals-2.0.28.json)
+- [First failed attempt](evidence/saved-approvals-first.json) / [exact recovery](evidence/saved-approvals-recovery-first.json)
+- [Second failed attempt](evidence/saved-approvals-second.json) / [exact recovery](evidence/saved-approvals-recovery.json)
+
+Verification: **87 offline checks**, script syntax, measured source/evidence/staged
+byte hashes and diff whitespace checks passed. Coverage rejects foreign/old/
+duplicate/unproposed saved rows, stale/wrong-model/extra tool phases, wrong
+native pane or pattern, incomplete phases, missing keyboard input, failed
+revocation, version drift and owned cleanup failure. Muse free `xhigh` completed
+a supplied-facts review; the parent checked its identified risks against the
+implementation and live records. MiMo Atria and Claude Atria `xhigh` timed out.
+Captured delegate events contained no tool calls; Claude's changed-file warning
+matched the parent's concurrent edits. `productionEligible` and every
+`productGuarantee` remain false. Other layouts/themes, foreground interaction,
+accessibility, OS containment and backend-restart/worktree behavior remain open.
+
 ## Native terminal approval decisions (13 October 2026)
 
 **PASS for two bounded native terminal decisions; full S2 remains open.**
@@ -71,7 +171,7 @@ every `productGuarantee` remain false.
 - [Final terminal measurement](evidence/supplements/terminal-approvals/139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e/2.0.28/terminal-approvals.json)
 - [Supplement manifest](evidence/supplements/terminal-approvals/139d3d2c62ddf3a556578b62043e9b944bce9347cde9cf350a2f5eb77a7ee01e/2.0.28/manifest.json)
 - [Qualification and integrity summary](evidence/terminal-approvals-qualification.json)
-- [Current preliminary assessment](capabilities/opencode-permissions.json)
+- [Terminal preliminary assessment](capabilities/opencode-permissions-terminal-approvals-2.0.28.json)
 - [Preserved deny-profile assessment](capabilities/opencode-permissions-denied-profiles-2.0.28.json)
 - [Failed first decision cohort](evidence/terminal-approvals-first.json)
 - [Failed second decision cohort](evidence/terminal-approvals-second.json)

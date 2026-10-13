@@ -111,3 +111,37 @@ test('terminal UI qualification uses its own complete, version-bound cohort with
     assert.throws(() => assessment({ ...input, terminalApprovals }), /Terminal approval/);
   }
 });
+
+test('saved approval evidence qualifies session reuse, project scope, deny precedence and revocation without restart or isolation claims', () => {
+  const input = {
+    controls: require('../evidence/versions/2.0.28/permission-controls-latest.json'),
+    approvals: require('../evidence/versions/2.0.28/approval-outcomes-latest.json'),
+    inventory: require('../evidence/versions/2.0.28/permission-options-latest.json'),
+    savedApprovals: require('../evidence/supplements/saved-approvals/0719a9c02b6d2f879acf5d34f62ceab119d1335e812f6e71df999dea10874342/2.0.28/saved-approvals.json'),
+  };
+  const current = assessment(input);
+  assert.equal(current.terminal.ask.savedApprovals.observedStatus, 'bounded-project-scope-and-revocation-passed');
+  assert.equal(current.terminal.ask.savedApprovals.configuredDenyPrecedence, true);
+  assert.equal(current.terminal.ask.savedApprovals.revocationRestoredAsk, true);
+  assert.equal(current.productionEligible, false);
+  assert.equal(current.terminal.ask.productGuarantee, false);
+  assert.equal(current.terminal.ask.osEnforcement, 'not-established');
+  const mutations = [
+    measurement => { measurement.expectedVersion = '2.0.22'; },
+    measurement => { measurement.selectedConfigsUnchanged = false; },
+    measurement => { measurement.run.cli.decisionInput.matched = false; },
+    measurement => { measurement.run.cli.originalClientCleanup.verified = false; },
+    measurement => { measurement.run.cli.proposedPatternHashes[0] = 'invalid'; },
+    measurement => { measurement.run.cli.savedRuleCount++; },
+    measurement => { measurement.run.cli.savedPhases[1].terminalInputMatched = false; },
+    measurement => { measurement.run.cli.savedPhases[1].outputTruncated = true; },
+    measurement => { measurement.run.cli.savedRuleRemoved = false; },
+    measurement => { measurement.run.cli.savedPhases[2].completedShellCalls = 1; },
+    measurement => { measurement.run.cli.savedPhases[1].pendingEverObserved = true; },
+    measurement => { measurement.run.cli.savedPhases[3].failedShellErrorTypes = ['aborted']; },
+  ];
+  for (const mutate of mutations) {
+    const savedApprovals = structuredClone(input.savedApprovals); mutate(savedApprovals);
+    assert.throws(() => assessment({ ...input, savedApprovals }), /Saved approval/);
+  }
+});
