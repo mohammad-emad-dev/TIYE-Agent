@@ -1,0 +1,55 @@
+{
+  "recordedAt": "2026-10-13T20:03:24.254Z",
+  "scope": "Prototype polling detects an owned native saved shell grant and suspends one owned idle session; no active-command prevention or core adapter guarantee",
+  "version": "2.0.28",
+  "result": "PASS",
+  "monitorImplementation": "feasibility-serial-polling",
+  "coreAdapterInputIntegration": "not-implemented",
+  "atomicEnforcement": false,
+  "strictMemberAskGuarantee": false,
+  "productionEligible": false,
+  "initialLaunchAllowed": true,
+  "initialMonitorArmed": true,
+  "detectedStatus": {
+    "status": "suspended",
+    "reason": "saved-shell-allow"
+  },
+  "suspendCalls": 1,
+  "ownedStopVerified": true,
+  "activeCommandPreventionQualified": false,
+  "noAutoResume": true,
+  "monitorClosed": true,
+  "idleSessionRemoved": true,
+  "originalSessionRemoved": true,
+  "savedRuleRemoved": true,
+  "tempRemoved": true,
+  "sharedServiceUnchanged": true,
+  "selectedConfigsUnchanged": true,
+  "supplementalReference": "supplements/strict-ask-monitor/518a7d2d6438bf614830617d2cf50e8456091e5174dafb06244df8541db20fe0/2.0.28/strict-ask-monitor.json",
+  "supplementalSha256": "518a7d2d6438bf614830617d2cf50e8456091e5174dafb06244df8541db20fe0",
+  "failedAttemptReference": "supplements/strict-ask-monitor/1081941951b53275db36c39ae56424cfcb17d44caaff7b1e4015a45d5c6272b4/2.0.28/strict-ask-monitor.json",
+  "failedAttemptRetained": true,
+  "measuredSourcesUnchanged": true,
+  "previousEvidenceAndAssessmentsUnchanged": true,
+  "offlineChecksPassed": 106,
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "toolEvents": 0,
+      "finalCaptured": true
+    },
+    {
+      "lane": "claude",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    }
+  ]
+}

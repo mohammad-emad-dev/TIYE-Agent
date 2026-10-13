@@ -1,0 +1,10 @@
+{
+  "version": "2.0.28",
+  "records": [
+    {
+      "name": "strict-ask-monitor.json",
+      "originalPath": "evidence/strict-ask-monitor-latest.json",
+      "sha256": "518a7d2d6438bf614830617d2cf50e8456091e5174dafb06244df8541db20fe0"
+    }
+  ]
+}

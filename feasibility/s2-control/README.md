@@ -4,6 +4,44 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Permission-change monitoring prototype
+
+`scripts/strict-ask-monitor.js` implements
+`createStrictAskMonitor({ context, suspend })`. The private `context` comes
+from the launch preflight and includes the native project directory as well as
+project ID, active cwd and service PID/version. The adapter must await monitor
+startup before accepting input or sending a model task to its owned session.
+
+The monitor reuses preflight validation and two fresh snapshots for each clear
+check. Checks run serially, with a default 2000 ms delay after a check completes;
+API latency adds to detection time. `check()` provides an immediate adapter
+boundary check and joins an existing check instead of overlapping it.
+Saved shell grants, unverifiable state and changed launch identities latch
+one call to the trusted `suspend` callback.
+
+That callback must close future input and verify ownership before interrupting
+its own session. It returns `{ verified: true }` only after verifying suspension.
+The monitor then reports `suspended`; a thrown error or any other result produces
+`stop-unverified`. Both states remain blocked. Neither revocation nor later
+checks resume the member or retry suspension. The monitor itself does not
+interrupt sessions, remove saved grants or stop the shared service.
+
+`close()` clears the polling timer and awaits any in-flight check/suspension.
+After awaited close no new callback occurs. Close disposes monitoring; it is
+not a session stop. The adapter remains responsible for session cleanup.
+
+`npm run probe:strict-ask-monitor` exercises one native owned idle session with
+a 250 ms delay. A native Always grant created by a separate owned seed session
+is detected by polling. The callback validates ownership and interrupts only
+the idle session, which has never received a model request. Grant revocation
+does not resume monitoring, and close/session/client/location/temp cleanup is
+verified. See [the bounded results](RESULTS.md#permission-change-monitoring-13-october-2026).
+
+Polling leaves a detection window. An original seed command executes once;
+this probe does not establish command prevention or active-command cancellation.
+Production adapter/input integration and atomic permission enforcement remain
+unbuilt. Strict member ask and production eligibility remain false.
+
 ## Strict ask launch preflight prototype
 
 `scripts/strict-ask-preflight.js` implements `strictAskPreflight({ cwd })` and
@@ -38,8 +76,9 @@ request. The owned root is retained if idle-session cleanup is uncertain.
 See [the results](RESULTS.md#strict-ask-launch-preflight-13-october-2026).
 
 This is a feasibility implementation. There is a race between the final read
-and launch, and saved grants can change during an active session. Continuous
-change handling and integration with the core adapter remain unbuilt.
+and launch, and saved grants can change during an active session. The polling
+prototype above detects later conflicts; atomic enforcement and integration
+with the core adapter remain unbuilt.
 `strictMemberAskGuarantee` and production eligibility remain false. The existing
 native capability assessment retains its full-runtime policy requirement.
 
@@ -63,7 +102,7 @@ unchanged. **90 offline checks pass.**
 The current assessment records `strictMemberAskGuarantee: false`. The adapter
 design requires saved-shell-allow conflict checks before strict ask launches
 and on permission changes; the launch prototype above is implemented, while
-continuous monitoring and core runtime integration remain unbuilt. The
+monitoring is now prototyped above and core runtime integration remains unbuilt. The
 passing measurement is separately hash-sealed, and the previous saved-approval
 assessment is preserved in
 `capabilities/opencode-permissions-saved-approvals-2.0.28.json`.

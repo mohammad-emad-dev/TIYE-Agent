@@ -48,15 +48,16 @@ async function snapshot(cwd, api) {
   return { service, location, rules };
 }
 
-async function inspect(cwd, api) {
+async function inspectStrictAsk(cwd, api) {
   try {
     if (!absoluteDirectory(cwd) || typeof api !== 'function') throw new Error('invalid preflight input');
     const first = await snapshot(cwd, api);
     if (first.rules.shellCount > 0) return { evidence: { status: 'blocked', reason: 'saved-shell-allow', conflictingRules: first.rules.shellCount } };
     const second = await snapshot(cwd, api);
+    if (second.rules.shellCount > 0) return { evidence: { status: 'blocked', reason: 'saved-shell-allow', conflictingRules: second.rules.shellCount } };
     if (JSON.stringify(first) !== JSON.stringify(second)) return { evidence: { status: 'blocked', reason: 'permission-snapshot-changed' } };
     return { evidence: { status: 'clear', version: second.service.version, savedRules: second.rules.count, stableReads: 2 },
-      context: Object.freeze({ cwd, projectID: second.location.projectID, servicePID: second.service.pid, version: second.service.version }) };
+      context: Object.freeze({ cwd, projectID: second.location.projectID, projectDirectory: second.location.projectDirectory, servicePID: second.service.pid, version: second.service.version }) };
   } catch {
     // Transport errors may contain paths, credentials or provider output; callers receive only a fixed code.
     return { evidence: { status: 'unavailable', reason: 'permission-state-unverified' } };
@@ -64,12 +65,12 @@ async function inspect(cwd, api) {
 }
 
 async function strictAskPreflight({ cwd, api = serviceApi }) {
-  return (await inspect(cwd, api)).evidence;
+  return (await inspectStrictAsk(cwd, api)).evidence;
 }
 
 async function launchWithStrictAsk({ cwd, launch, api = serviceApi }) {
   if (typeof launch !== 'function') return { status: 'unavailable', reason: 'launch-handler-invalid' };
-  const { evidence, context } = await inspect(cwd, api);
+  const { evidence, context } = await inspectStrictAsk(cwd, api);
   if (evidence.status !== 'clear') return evidence;
   // Trusted adapter callback must configure shell ask. No atomic permission lease exists:
   // this is a launch preflight, not ongoing enforcement. Never retry a failed callback.
@@ -77,4 +78,5 @@ async function launchWithStrictAsk({ cwd, launch, api = serviceApi }) {
   return { status: 'launched', preflight: evidence, value };
 }
 
-module.exports = { strictAskPreflight, launchWithStrictAsk };
+// inspectStrictAsk is the private adapter seam: its context must never enter public logs.
+module.exports = { strictAskPreflight, launchWithStrictAsk, inspectStrictAsk };

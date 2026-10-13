@@ -572,12 +572,25 @@ select a project-wide policy automatically. The launch callback must configure
 shell ask and surface native outcomes. Callback failures propagate without
 retry because execution may already have started.
 
-The final permission read is not atomic with launch. Continuous change handling
-and core adapter integration remain unbuilt, so this prototype does not
-establish strict member ask or production eligibility. The current native
+The final permission read is not atomic with launch. The feasibility prototype
+in `feasibility/s2-control/scripts/strict-ask-monitor.js` now rechecks native
+permission state serially, pinning the launch's service PID/version, native
+project ID/directory and active cwd. The adapter must await its initial check
+before accepting input. It uses a default two-second delay after each check,
+plus API latency. Unsafe state latches one trusted suspension callback; that
+callback must close future input and verify ownership before interrupting its
+own session. A failed stop remains unverified, and revocation never resumes the
+member automatically. Closing the monitor disposes polling and awaits current
+work; session cleanup remains the adapter's responsibility.
+
+The native monitor probe qualified grant detection and one owned idle-session
+callback/interrupt, not active-command prevention. Polling has a detection
+window. Atomic enforcement and core adapter/input integration remain unbuilt,
+so these prototypes do not establish strict member ask or production
+eligibility. The current native
 capability assessment still records the full-runtime requirement and its
 evidence. See the bounded verification in
-[the S2 results](../feasibility/s2-control/RESULTS.md#strict-ask-launch-preflight-13-october-2026).
+[the S2 results](../feasibility/s2-control/RESULTS.md#permission-change-monitoring-13-october-2026).
 Other layouts/themes,
 foreground human interaction and accessibility remain separate gates. Native terminal records
 are sealed as a separate content-hash supplement; previous assessments remain

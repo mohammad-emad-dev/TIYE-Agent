@@ -1,5 +1,68 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## Permission-change monitoring (13 October 2026)
+
+**PASS for the corrected bounded monitor probe on OpenCode 2.0.28; 106 offline
+checks pass.**
+
+The feasibility monitor uses the launch preflight's private context to pin
+service PID/version, native project ID/directory and active cwd. It reuses the
+same saved-rule validation and two stable snapshots for clear checks. Startup
+is awaited before the fixture's owned idle session can be considered monitored.
+Checks are serial, with a default 2000 ms delay after completion; native API
+latency adds to detection time. The native probe uses a 250 ms delay.
+
+A saved shell grant, identity replacement or unverifiable state latches one
+trusted suspension callback. The callback must close future adapter input and
+validate ownership before interrupting its own session. Only verified callback
+results produce `suspended`; errors or unverified results produce
+`stop-unverified`. Both remain blocked, with no stop retry or automatic resume
+after revocation. `check()` joins in-flight work; awaited `close()` clears the
+timer and waits for any current check/callback. Disposing the monitor does not
+stop its session. Status output excludes private IDs, paths and raw errors.
+
+The native probe uses a fresh randomized Git root and empty saved baseline.
+It creates one extra idle shell-ask build session through launch preflight,
+then starts the monitor before choosing Always allow in the separate original
+seed session. The original exact harmless command may execute once while the
+grant becomes visible. This is deliberately a detection probe, not prevention
+proof. The suspension callback validates current service identity, owned
+session location and native project metadata before interrupting only the
+idle session. An idle interrupt reports `false`; empty messages and permissions
+verify that this additional session never received a model task.
+
+| Phase | Observed result |
+|---|---|
+| Empty saved baseline and idle session launch | Preflight clear, exact shell-ask/model/agent selection and initial monitor armed |
+| Original native Always grant appears | Polling reports saved-shell-allow and invokes one verified owned idle-session suspension |
+| Owned grant removed | Monitor remains suspended; no automatic resume or second callback |
+| Disposal and cleanup | Monitor closed, idle and original sessions removed, original client Job verified gone, location evicted, owned temp and MCP fixture removed |
+
+Protected bytes, one marker append, fixture file scope, shared service
+PID/version and selected config fingerprints passed. The first run safely
+suspended but failed qualification because a grant appearing between snapshots
+was reported only as generic snapshot change. Its failed record remains
+[sealed separately](evidence/supplements/strict-ask-monitor/1081941951b53275db36c39ae56424cfcb17d44caaff7b1e4015a45d5c6272b4/2.0.28/strict-ask-monitor.json).
+Preflight now identifies a shell grant seen in either snapshot before considering
+generic drift. A regression test reproduces that transition. The corrected
+[passing native observation](evidence/supplements/strict-ask-monitor/518a7d2d6438bf614830617d2cf50e8456091e5174dafb06244df8541db20fe0/2.0.28/strict-ask-monitor.json)
+and [qualification summary](evidence/strict-ask-monitor-qualification.json)
+bind the new measured source hashes and cleanup; previous evidence and capability
+assessment bytes remain unchanged. Offline tests cover startup conflicts,
+replacement identities, unavailable state, concurrent checks, close races,
+timer disposal, unverified suspension and the latched state after revocation.
+
+Muse completed the supplied-facts review. MiMo Atria and Claude Atria timed out
+at four minutes without final reviews. Recursive event audits found zero tool
+events. Claude's tripwire reported the parent's concurrent implementation edits;
+the parent reviewed the repository diff.
+
+The scope excludes a production input path, active executing-command interruption,
+detached-worktree monitoring, service restarts and atomic saved-permission
+enforcement. The monitor is connected to an owned-session feasibility fixture;
+the core adapter, team engine and full application remain unbuilt.
+`strictMemberAskGuarantee` and production eligibility remain false.
+
 ## Strict ask launch preflight (13 October 2026)
 
 **PASS for a bounded feasibility launch gate on OpenCode 2.0.28.** The new
@@ -57,8 +120,9 @@ that native configuration will ask rather than deny. The trusted callback must
 configure shell ask. The final read is not atomic with launch, and this gate
 does not monitor subsequent permission changes. Callback errors propagate
 because a launch may have started; they must be redacted at the caller's output
-boundary. Continuous change handling, core adapter integration and the full
-application remain unbuilt. Strict member ask and production eligibility remain
+boundary. The polling prototype above now detects later changes. Atomic
+enforcement, core adapter integration and the full application remain unbuilt.
+Strict member ask and production eligibility remain
 false. The earlier native capability assessment remains unchanged and continues
 to describe the full-runtime policy requirement.
 
@@ -107,7 +171,8 @@ per-member ask. The intended runtime policy blocks an affected launch until
 the stored approval conflict is resolved or an explicit project-wide policy
 is selected, and rechecks when permissions change. This preflight/monitoring
 policy was **not implemented at that measurement**. The launch prototype is
-now verified in the section above; monitoring and core integration remain open.
+now verified in the earlier sections, including a bounded polling monitor;
+core integration and atomic enforcement remain open.
 The measurement used the same tested build agent
 and model; it does not qualify other agents, models, backend restarts, arbitrary
 prefix safety or OS containment.
