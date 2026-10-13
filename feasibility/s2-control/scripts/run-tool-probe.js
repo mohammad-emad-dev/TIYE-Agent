@@ -12,6 +12,7 @@ const { terminalTask, T1_SUMMARY } = require('./terminal-task');
 const { permissionRunPassed } = require('./permission-evidence');
 const { recoveryRunPassed } = require('./recovery-evidence');
 const { activeDisconnectRunPassed } = require('./active-disconnect-evidence');
+const { streamCancelRunPassed } = require('./stream-cancel-evidence');
 const terminalMode = process.argv.includes('--terminal');
 const serviceMode = process.argv.includes('--service') || terminalMode;
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -84,12 +85,12 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
       if (task.caseID === 'allow-edit-control') { expectedPaths.push('editable.txt'); expectedPaths.sort(); }
       evidence.onlyFixtureFilesPresent = changed.status === 0 && JSON.stringify(changed.stdout.trim().split(/\r?\n/).map(line => line.slice(3)).sort()) === JSON.stringify(expectedPaths);
     }
-    if (['recovery', 'active-disconnect'].includes(task.kind)) {
+    if (['recovery', 'active-disconnect', 'stream-cancel'].includes(task.kind)) {
       const changed = spawnSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd, windowsHide: true, encoding: 'utf8' });
       evidence.onlyFixtureFilesPresent = changed.status === 0 && changed.stdout.trim() === '?? opencode.json';
       if (task.kind === 'active-disconnect') evidence.commandMarkerAbsent = !fs.existsSync(path.join(cwd, 'approval-marker.txt'));
     }
-    if (terminalMode && !['permission', 'recovery', 'active-disconnect'].includes(task.kind) && evidence.cli.completedAck && evidence.cli.idleVerified) {
+    if (terminalMode && !['permission', 'recovery', 'active-disconnect', 'stream-cancel'].includes(task.kind) && evidence.cli.completedAck && evidence.cli.idleVerified) {
       if (task.kind !== 'question') {
       const target = path.resolve(__dirname, '../evidence', captureName);
       fs.mkdirSync(target, { recursive: true });
@@ -130,6 +131,7 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
   evidence.fixtureErrors = failed;
   evidence.serverLogTruncated = truncated;
   const cli = evidence.cli;
+  if (task.kind === 'stream-cancel') { evidence.passed = streamCancelRunPassed(evidence); return evidence; }
   if (task.kind === 'active-disconnect') { evidence.passed = activeDisconnectRunPassed(evidence); return evidence; }
   if (task.kind === 'recovery') { evidence.passed = recoveryRunPassed(evidence); return evidence; }
   if (task.kind === 'permission') {

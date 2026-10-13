@@ -4,6 +4,32 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Text-stream cancellation through native ACP
+
+`npm run probe:acp-stream-cancel` starts native OpenCode ACP in a fresh
+disposable project. A waiting launcher joins an owned Windows Job before
+starting ACP and its private backend. The probe confirms protocol/version,
+Muse Spark free and `xhigh` through ACP configuration responses before
+submitting a text-only prompt. Two live text chunks from the same owned
+assistant trigger `session/cancel`; reasoning and foreign-session messages
+cannot trigger cancellation.
+
+The final measurement passed: the prompt returned `stopReason: cancelled`,
+and text counters remained stable during a one-second observation after a
+500 ms settling interval. Counters continue tracking late chunks after
+cancellation. No tools or approval requests occurred. Owned-session deletion,
+all six captured processes, exact temp cleanup, unchanged shared service
+identity and selected config fingerprints were verified. Evidence is
+`evidence/acp-stream-cancel-latest.json`; 58 offline harness checks pass.
+
+`npm run probe:stream-cancel` preserves the earlier terminal/shared-session
+API route. Both measurements failed to observe growing text before completion;
+persisted message snapshots did not expose live text deltas in those trials.
+Those failures remain recorded. The ACP result covers its private backend
+and protocol cancellation; terminal Ctrl+C, shared-session streaming
+cancellation, executing-command cancellation and provider billing cessation
+remain unverified. See `RESULTS.md` for all attempts and source references.
+
 ## Client disconnect during approval wait
 
 `npm run probe:active-disconnect` establishes exactly one shell request
@@ -20,10 +46,10 @@ absence and final session/location/fixture/temp cleanup are required.
 
 The live probe passed with PTY exit code `1`; client termination left the
 backend operation pending, and scoped cancellation ended it without command
-execution. Evidence is `evidence/active-disconnect-latest.json`. The current
-offline suite has 54 passing checks. This exercises a turn blocked on approval;
-token streaming, executing commands, service crashes and external effects
-remain separate recovery cases.
+execution. Evidence is `evidence/active-disconnect-latest.json`. The offline
+suite at that milestone had 54 passing checks. This exercises a turn
+blocked on approval. ACP streaming cancellation is measured separately above;
+executing commands, service crashes and external effects remain recovery gates.
 
 ## Idle client crash and resume
 

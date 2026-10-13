@@ -134,4 +134,4 @@ async function probeServiceReport({ cwd, summary, member, terminalTask, sessionP
   return evidence;
 }
 
-module.exports = { probeServiceReport, SERVICE_PERMISSIONS };
+module.exports = { probeServiceReport, SERVICE_PERMISSIONS, serviceApi };

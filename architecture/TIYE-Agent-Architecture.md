@@ -455,8 +455,20 @@ The subsequent [approval-wait disconnect probe](../feasibility/s2-control/eviden
 kept the same pending backend operation after the native client and its tree
 were gone. A scoped session interrupt then ended that operation without command
 execution. The failure supervisor must therefore distinguish client/display
-failure from owned-session execution state. This evidence covers approval wait;
-streaming generation, executing commands and external effects remain untested.
+failure from owned-session execution state. This evidence covers approval wait.
+
+The [native ACP streaming probe](../feasibility/s2-control/evidence/acp-stream-cancel-latest.json)
+observed two live text chunks from the same assistant in an owned private
+backend, sent protocol cancellation and received `stopReason: cancelled`.
+Text counters continued tracking late chunks and stayed stable during the
+bounded follow-up interval; session and process cleanup were verified.
+Persisted shared-session message snapshots did not expose text growth before
+completion in two earlier attempts. Adapters therefore need an actual live
+event channel to identify streaming; reasoning, terminal spinners and stored
+complete text cannot establish that state. This ACP observation does not yet
+verify terminal Ctrl+C or shared-session streaming cancellation. Executing
+commands, provider billing cessation and external-effect reconciliation remain
+separate gates.
 
 ### 5.3 API adapter
 

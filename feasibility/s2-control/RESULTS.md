@@ -1,5 +1,90 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## S2.5 live text-stream cancellation through native ACP (13 October 2026)
+
+**PASS for the final native ACP measurement; full S2.5 remains open.**
+OpenCode 2.0.22 confirmed Muse Spark free and `xhigh` through configuration
+responses before a text-only prompt in a disposable project. Two live
+`agent_message_chunk` notifications from the same owned assistant caused
+one `session/cancel` notification. The prompt returned `stopReason: cancelled`.
+
+| Final measurement check | Observed |
+|---|---|
+| Protocol 1, OpenCode version, selected model and effort | Confirmed |
+| First / second cumulative text code units | 158 / 614 |
+| Own assistant text chunks / total text code units | 2 / 614 |
+| Reasoning or foreign-session updates accepted as text proof | None |
+| Cancellation response | `cancelled` |
+| Late own text chunks during observation | None |
+| Text counters after 500 ms settling, then one second observation | Stable |
+| Tool calls / approval requests | 0 / 0 |
+| Owned session deleted and its project session list empty | Verified |
+| Owned Windows Job and six captured processes gone | Verified |
+| Only owned config file present, exact disposable directory removed | Verified |
+| Shared service PID/version and selected config fingerprints | Unchanged |
+
+The launcher waits for its parent to attach the Windows Job before starting
+native ACP. Its private backend and descendants therefore inherit ownership;
+the existing shared service stays outside that tree. ACP uses the native CLI's
+normal service startup and authentication. This is an additional control-channel
+feasibility route, not a production TIYE adapter implementation.
+
+### Preserved attempts and observation limits
+
+1. [First terminal/API snapshot attempt](evidence/stream-cancel-first.json)
+   failed before observing text growth. Cleanup succeeded.
+2. [Second terminal/API snapshot attempt](evidence/stream-cancel-second.json)
+   also failed: 127 polls ended with 17,197 text code units in a completed
+   response. No pair of growing, unfinished text snapshots was observed.
+   The existing `stream-cancel-latest.json` preserves this failed route.
+3. [First ACP attempt](evidence/acp-stream-cancel-first.json) confirmed the
+   model but did not confirm the effort echo. It sent no generation prompt;
+   owned cleanup succeeded. The cause remains undetermined.
+4. [Second ACP attempt](evidence/acp-stream-cancel-second.json) confirmed
+   `xhigh`, received two same-assistant text chunks and returned `cancelled`.
+   Its original stability check stopped counting after cancellation, so
+   that stability flag alone was insufficient evidence of a quiet stream.
+5. [Final ACP measurement](evidence/acp-stream-cancel-latest.json) reran the
+   probe with counters that keep tracking late chunks. It passed the stronger
+   observation and all ownership/cleanup checks. A regression check exercises
+   a late chunk after cancellation and verifies it is still counted.
+
+Upstream separates live text deltas from stored text-block completion:
+[session event definitions](https://github.com/anomalyco/opencode/blob/dev/packages/schema/src/session-event.ts)
+and [message updater](https://github.com/anomalyco/opencode/blob/dev/packages/core/src/session/message-updater.ts).
+This explains the snapshot route's limitation; the two failed measurements
+do not establish streaming cancellation through that route. The generic
+[native API command](https://github.com/anomalyco/opencode/blob/dev/packages/cli/src/commands/handlers/api.ts)
+buffers response text, so it does not provide a live SSE reader. A bounded
+anonymous loopback event preflight returned HTTP 401. No credential files,
+pairing codes or authentication settings were used or changed for that preflight.
+
+The [native ACP entry point](https://github.com/anomalyco/opencode/blob/dev/packages/cli/src/commands/handlers/acp.ts)
+starts its private backend. Its [configuration implementation](https://github.com/anomalyco/opencode/blob/dev/packages/cli/src/acp/config-option.ts)
+and [stream translation](https://github.com/anomalyco/opencode/blob/dev/packages/cli/src/acp/translate.ts)
+provided the configuration echoes and live chunk channel used by this probe.
+These upstream links are references; recorded native responses and source
+hashes bind the installed-version observations.
+
+Verification: **58 offline harness checks**, all S2 script syntax checks and
+diff whitespace checks passed. Evidence stores fixed outcomes, counts and
+hashes; raw model text, session/message IDs and credentials are excluded.
+The observed quiet interval is bounded and does not prove upstream billing
+cessation or rollback of external effects.
+
+Muse free `xhigh` completed a supplied-facts design review; the parent ran
+and inspected the live probes. MiMo Atria and Claude Atria `xhigh` timed out
+after four minutes without final reviews. MiMo performed 13 workspace reads
+despite its no-read brief; the recorded tool events contain no writes, shell
+calls or subagent calls. Claude's tripwire reported the parent's concurrent
+edits, which were reviewed directly. No model was substituted.
+
+Remaining gates include terminal Ctrl+C, shared-session streaming
+cancellation, executing commands, hangs, auth/network/rate-limit signals,
+service/host crashes and durable external-effect reconciliation. Next:
+bounded hang/error signals. The event store, team engine and full product UI
+remain unbuilt; this result does not close S2 or the later feasibility gates.
+
 ## S2.5 client disconnect while a tool awaits approval (13 October 2026)
 
 **PASS for this bounded live probe; full S2.5 remains open.** OpenCode

@@ -1,0 +1,33 @@
+'use strict';
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const { PassThrough } = require('node:stream');
+const { rpcClient } = require('../scripts/acp-protocol');
+
+test('ACP cancels only two owned assistant text chunks and continues counting late chunks', async () => {
+  const child = { stdin: new PassThrough(), stdout: new PassThrough() };
+  const sent = [];
+  child.stdin.on('data', bytes => sent.push(JSON.parse(bytes.toString())));
+  const evidence = {};
+  const client = rpcClient({ child }, evidence);
+  const prompt = client.prompt('ses_owned', 'write a long answer');
+  const update = (sessionId, sessionUpdate, text, messageId = 'a1') => ({ jsonrpc: '2.0', method: 'session/update', params: { sessionId, update: { sessionUpdate, content: { type: 'text', text }, messageId } } });
+  const receive = packet => child.stdout.write(JSON.stringify(packet) + '\n');
+  receive(update('ses_foreign', 'agent_message_chunk', 'foreign'));
+  receive(update('ses_owned', 'agent_thought_chunk', 'reasoning'));
+  assert.equal(evidence.totalOwnTextChunks, undefined);
+  const frame = JSON.stringify(update('ses_owned', 'agent_message_chunk', 'first')) + '\n';
+  child.stdout.write(frame.slice(0, 30)); child.stdout.write(frame.slice(30));
+  assert.equal(evidence.cancelNotificationSent, undefined);
+  receive(update('ses_owned', 'agent_message_chunk', ' more'));
+  assert.equal(sent.filter(packet => packet.method === 'session/cancel').length, 1);
+  assert.equal(evidence.secondTextCodeUnits, 10);
+  receive(update('ses_owned', 'agent_message_chunk', ' late'));
+  assert.equal(evidence.totalOwnTextCodeUnits, 15);
+  assert.equal(evidence.postCancelTextChunks, 1);
+  receive(update('ses_owned', 'agent_message_chunk', 'different assistant', 'a2'));
+  assert.equal(evidence.assistantChanged, true);
+  receive({ jsonrpc: '2.0', id: sent[0].id, result: { stopReason: 'cancelled' } });
+  assert.equal((await prompt).stopReason, 'cancelled');
+  child.stdin.destroy(); child.stdout.destroy();
+});

@@ -23,6 +23,8 @@
     "build:permission-capabilities": "node scripts/build-permission-capabilities.js",
     "probe:client-recovery": "node scripts/run-client-recovery.js",
     "probe:active-disconnect": "node scripts/run-active-disconnect.js",
+    "probe:stream-cancel": "node scripts/run-stream-cancel.js",
+    "probe:acp-stream-cancel": "node scripts/run-acp-stream-cancel.js",
     "check": "node --test test/*.test.js"
   },
   "engines": {

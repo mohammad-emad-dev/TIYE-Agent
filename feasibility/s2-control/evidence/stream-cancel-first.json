@@ -1,0 +1,70 @@
+{
+  "scope": "Own-session cancellation after same unfinished assistant text grows across two API snapshots; not effect rollback, Ctrl+C or provider-side billing proof",
+  "recordedAt": "2026-10-13T17:01:35.721Z",
+  "sourceHashes": {
+    "run-stream-cancel.js": "7ee2f7d6447786ae937cd737e585a0bd92a0c7612da8bcc5ff6021c531d5ec64",
+    "stream-cancel-evidence.js": "8535bfcf259f90118ac12f5ca6c6259db61710a290a8c8ea0a1a5703499b961f",
+    "session-identity.js": "6680973279e9b9913f89c10061e1b6be0a30e5e65154ad3fb01ccffaed814636",
+    "recovery-evidence.js": "b3909edb1a7352a02cb14bb52eacd03c4191f09e34cd935e81e5895d53417490",
+    "service-quiescence.js": "096594adb7c2b72abeb15d6db70316ae87321790508fe42542c00b63ea37f8d7",
+    "run-tool-probe.js": "b86bcb2a77d3f8a10cc33f431f25d4fcbcd3ee176b02ed43dc50e61eba5d4b4e",
+    "terminal-client.js": "725ecf6fe08cc03de030ca90655e454a06f6fc27b49e0e9b13caf1e0fe86d080",
+    "terminal-task.js": "d666c37fad9165ed018e2762017994a3a4cdfe181101d50b625099a733ea941d",
+    "service-cli.js": "ffdc2b0a2b2af68a94a974da3341cc3a837b8eb121df9ef6cbdc03dbcaf47d4b"
+  },
+  "promptHash": "e9475d900c52de976387ad7ce6063d963ea8339208659a8da391c64c12a786f3",
+  "run": {
+    "member": "member-a",
+    "serverReportCalls": 0,
+    "matchingReports": 0,
+    "otherServerCalls": 0,
+    "cli": {
+      "completedAck": false,
+      "locationUntouched": false,
+      "stage": "model-task",
+      "version": "2.0.22",
+      "modelConfirmed": true,
+      "locationConfirmed": true,
+      "permissionsConfirmed": true,
+      "agentConfirmed": true,
+      "connected": true,
+      "terminalInputMatched": true,
+      "terminalOutputObserved": true,
+      "inputDiagnostics": {
+        "inputBytes": 353,
+        "expectedBytes": 347,
+        "focusReports": 2,
+        "pasteMatched": true,
+        "enterObserved": true
+      },
+      "streamCancelObserved": false,
+      "streamStage": "await-text-growth",
+      "error": "owned text-stream cancellation failed",
+      "outputTruncated": false,
+      "cliSpawnError": false,
+      "executedModelConfirmed": true,
+      "sessionStopped": true,
+      "idleVerified": true,
+      "sessionRemoved": true,
+      "cleanup": {
+        "verified": true,
+        "capturedProcesses": 6,
+        "jobVerified": true
+      },
+      "locationEvicted": true,
+      "serviceIdentityUnchanged": true
+    },
+    "onlyFixtureFilesPresent": true,
+    "fixtureStopped": true,
+    "tempRemoved": true,
+    "serverQuestionCalls": 0,
+    "matchingQuestions": 0,
+    "logHygiene": true,
+    "fixtureErrors": false,
+    "serverLogTruncated": false,
+    "passed": false
+  },
+  "selectedConfigsUnchanged": true,
+  "passed": false,
+  "result": "PARTIAL_OR_FAILED"
+}

@@ -1,0 +1,37 @@
+{
+  "scope": "Native ACP text-chunk cancellation in an owned private backend; not terminal Ctrl+C or shared-session API cancellation",
+  "recordedAt": "2026-10-13T17:13:26.176Z",
+  "stage": "completed",
+  "sourceHashes": {
+    "run-acp-stream-cancel.js": "6469ddd39e06b19d13aa979973f94edf695fd3b41b61b66f0152b5475fde639d",
+    "acp-child.js": "f2ef226fcfa6cb619644c5fc08767a1181677735b6ede53fe9f794d8d47c59b3"
+  },
+  "promptHash": "ffdc7d77fc87045d5ed6bc07ee1eb5de2c55f1a8c09dc5031b3071b163012509",
+  "toolCalls": 0,
+  "permissionRequests": 0,
+  "version": "2.0.22",
+  "protocolConfirmed": true,
+  "modelConfirmed": true,
+  "effortConfirmed": true,
+  "effortOptionPresent": true,
+  "effortValue": "xhigh",
+  "ownedProcesses": 6,
+  "firstTextCodeUnits": 145,
+  "sameAssistantTextChunks": true,
+  "secondTextCodeUnits": 305,
+  "cancelNotificationSent": true,
+  "stopReason": "cancelled",
+  "cancelledStable": true,
+  "sessionRemoved": true,
+  "cleanup": {
+    "verified": true,
+    "capturedProcesses": 6,
+    "jobVerified": true
+  },
+  "onlyFixtureFilesPresent": true,
+  "tempRemoved": true,
+  "sharedServiceUnchanged": true,
+  "selectedConfigsUnchanged": true,
+  "passed": true,
+  "result": "PASS"
+}
