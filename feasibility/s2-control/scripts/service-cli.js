@@ -122,10 +122,13 @@ async function probeServiceReport({ cwd, summary, member, terminalTask, sessionP
         if (!evidence.sessionRemoved) throw new Error('owned session deletion unverified');
         // A live TUI polls its location and can reopen it after eviction.
         if (state) { evidence.cleanup = await closePrivate(state); state = undefined; }
-        await serviceApi(cwd, 'DELETE', `/api/debug/location?location[directory]=${encodeURIComponent(cwd)}`);
-        const remaining = await serviceApi(cwd, 'GET', '/api/debug/location');
+        // Keep management requests outside the location being evicted.
+        const controlCwd = path.resolve(__dirname, '../../..');
+        await serviceApi(controlCwd, 'DELETE', `/api/debug/location?location[directory]=${encodeURIComponent(cwd)}`);
+        const remaining = await serviceApi(controlCwd, 'GET', '/api/debug/location');
         evidence.locationEvicted = Array.isArray(remaining) && !remaining.some(entry => path.resolve(entry.directory).toLowerCase() === path.resolve(cwd).toLowerCase());
-        const afterService = await serviceApi(cwd, 'GET', '/api/info');
+        const afterService = await serviceApi(controlCwd, 'GET', '/api/info');
+        evidence.serviceVersionAfterCleanup = /^\d+\.\d+\.\d+$/.test(afterService.version) ? afterService.version : 'other';
         evidence.serviceIdentityUnchanged = afterService.pid === serviceIdentity.pid && afterService.version === serviceIdentity.version;
       }
     } catch { evidence.error = 'owned service session cleanup failed'; }

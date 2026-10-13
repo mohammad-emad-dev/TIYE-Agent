@@ -1,5 +1,110 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## S2.5 cancellation of an already executing local command (13 October 2026)
+
+**PASS for the fresh OpenCode 2.0.28 / Muse Spark free `xhigh` measurement.
+Full S2.5 remains open.** The native terminal submitted one exact shell command
+to an owned disposable session. After two observations correlating its pending
+request, assistant, tool and command, the parent replied `once`. No persistent
+approval, retry or fallback model tool was requested.
+
+The preinstalled fixture starts a Node root and exactly one Node child. Each
+writes a run nonce, PID/parent metadata and an increasing heartbeat file.
+The script bytes are hashed before model submission and committed into the
+disposable project's baseline. Root/child markers must match that nonce and
+fresh Windows process identities; the child must belong to the root, the root
+to the service tree, and captured descendants must exclude protected service,
+client and orchestrator PIDs. A PID with a different creation time cannot
+establish continued execution of the old process.
+
+| Final measurement check | Observed |
+|---|---|
+| Native version before / after cleanup | 2.0.28 / 2.0.28 |
+| Selected and executed model/effort | Muse Spark free, `xhigh`, confirmed |
+| Exact approval correlated twice / once reply accepted | Passed / 1 reply |
+| Same running original tool, unfinished assistant, no pending approval | Verified twice |
+| Root heartbeat before / at interruption | 2 / 10 |
+| Child heartbeat before / at interruption | 1 / 10 |
+| Captured command-tree process identities | 3 |
+| First / second own-session interrupt | `true` / `false` |
+| Original tool after interruption | `error`, type `aborted` |
+| Completed turns, no pending approvals, stable conversation | Verified twice |
+| Captured command creations gone and heartbeat counts stable | Verified twice |
+| Interrupt through stable cancellation observation | 3318 ms |
+| Root/child normal-completion markers | Absent |
+| Parent fallback termination | Unused |
+| Same marker values and script, stopped heartbeats after client cleanup | Verified |
+| Client Job and six captured client processes gone | Verified |
+| Own session/location/MCP fixture/exact temp directory cleanup | Verified |
+| Shared PID/version and selected config fingerprints | Unchanged |
+
+Execution observation has a 30-second deadline after approval. Samples are
+separated by a one-second wait plus API/inventory overhead. Both counters must
+increase; a pending tool alone is insufficient. Cancellation has a separate
+30-second deadline and requires the original aborted tool, quiescent completed
+turns, absent process identities, unchanged markers/script and stable heartbeat
+counts across two observations. The normal child/root lifetimes are 90/95
+seconds, well outside the final observed cancellation interval. Timings include
+polling overhead and are not a product latency guarantee.
+
+If cancellation leaves captured command processes alive, the probe fails.
+Its cleanup path rechecks each captured PID/creation identity and terminates
+verified descendants before their parents; fallback use cannot satisfy the
+native cancellation gate. That fallback was not exercised in the passing run.
+The shared service and terminal client are excluded from command targets.
+Directory deletion requires separately verified command termination and owned
+session/location cleanup. Unverified cleanup retains the exact directory.
+
+### Failed first run, exact recovery and version change
+
+The [first record](evidence/command-cancel-first.json) remains
+`PARTIAL_OR_FAILED`. It started against OpenCode 2.0.22 and verified executing
+heartbeats, scoped cancellation, the aborted original tool, three command-tree
+creations gone and stopped heartbeat files. Final location eviction and the
+whole-run service identity comparison failed, so the temp directory was retained.
+Later diagnostics reported native CLI/service 2.0.28, an empty owned-session
+list and absent command PIDs. The cause and exact timing of the version change
+are undetermined; the first run cannot qualify the complete lifecycle.
+
+[Exact post-run recovery](evidence/command-cancel-recovery.json) verified
+the retained directory against the first run's fixture hash and creation window,
+checked command absence and heartbeat stability, evicted only its location from
+a separate control directory, confirmed current service identity and removed
+that exact directory. This does not rewrite the failed first record.
+
+The service cleanup helper now makes its location-eviction/list/info management
+requests from the workspace control directory, with only the owned disposable
+directory in the eviction parameter. This avoids using the target as the
+management client's working directory after eviction. The
+[fresh final measurement](evidence/command-cancel-latest.json) on 2.0.28 passed
+all lifecycle gates with this helper. The installed service was accessed through
+the native CLI; no explicit upgrade, global stop or restart command was issued.
+
+Verification: **68 offline harness checks**, all S2 script syntax checks and
+diff whitespace checks passed. New negative cases reject stale or mismatched
+process metadata, PID reuse, invalid ancestry, one-sided heartbeat growth,
+pending-only activity, duplicate/wrong tools, provider errors, normal completion,
+live processes after tool abortion, fallback cleanup and failed service/location
+or final file cleanup. Published records contain hashes, counts and fixed
+outcomes; raw command/nonce/path/process/tool/session identities and model text
+are kept out of them.
+
+Muse free `xhigh` completed its supplied-facts design review, highlighting
+identity correlation, sampling bounds, cleanup and evidence scope. The parent
+implemented and verified the probe. MiMo Atria and Claude Atria `xhigh` timed
+out after four minutes without final reviews. Their recorded events contain
+no tool calls. Claude's Git tripwire observed the parent's concurrent edits;
+the actual changes were reviewed directly. No model was substituted.
+
+Limits: one harmless local fixture and its child on this Windows host, native
+terminal input with API approval/cancellation. This does not prove terminal
+Ctrl+C, arbitrary shell-tree termination, file isolation, provider billing
+cessation, native hang diagnosis or durable external-effect rollback/replay.
+Earlier 2.0.22 permission and ACP observations remain historical evidence;
+they do not automatically qualify 2.0.28. Next: revalidate those controls on
+the current installed version before extending adapter capability data. Full
+S2, later feasibility gates and core implementation remain open.
+
 ## S2.5 ACP request deadlines and error contracts (13 October 2026)
 
 **PASS for three injected process contracts and one native protocol-error

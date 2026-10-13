@@ -13,6 +13,7 @@ const { permissionRunPassed } = require('./permission-evidence');
 const { recoveryRunPassed } = require('./recovery-evidence');
 const { activeDisconnectRunPassed } = require('./active-disconnect-evidence');
 const { streamCancelRunPassed } = require('./stream-cancel-evidence');
+const { commandCancelRunPassed } = require('./command-cancel-evidence');
 const terminalMode = process.argv.includes('--terminal');
 const serviceMode = process.argv.includes('--service') || terminalMode;
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -63,7 +64,9 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
       fs.writeFileSync(path.join(cwd, 'README.md'), 'Disposable TIYE T1 project. Add clamp.js and clamp.test.js.\n');
       if (task.kind === 'permission') fs.writeFileSync(path.join(cwd, 'protected.txt'), 'original protected bytes\n');
       if (task.caseID === 'allow-edit-control') fs.writeFileSync(path.join(cwd, 'editable.txt'), 'original editable bytes\n');
-      for (const args of [['init', '--quiet'], ['add', 'package.json', 'README.md'], ['-c', 'user.name=TIYE Fixture', '-c', 'user.email=fixture@local', 'commit', '--quiet', '-m', 'Initial T1 fixture']]) {
+      if (task.kind === 'command-cancel') fs.writeFileSync(path.join(cwd, 'execution-fixture.cjs'), task.executionFixture);
+      const initialFiles = ['package.json', 'README.md', ...(task.kind === 'command-cancel' ? ['execution-fixture.cjs'] : [])];
+      for (const args of [['init', '--quiet'], ['add', ...initialFiles], ['-c', 'user.name=TIYE Fixture', '-c', 'user.email=fixture@local', 'commit', '--quiet', '-m', 'Initial T1 fixture']]) {
         if (spawnSync('git', args, { cwd, windowsHide: true }).status !== 0) throw new Error('T1 Git fixture failed');
       }
     }
@@ -90,7 +93,13 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
       evidence.onlyFixtureFilesPresent = changed.status === 0 && changed.stdout.trim() === '?? opencode.json';
       if (task.kind === 'active-disconnect') evidence.commandMarkerAbsent = !fs.existsSync(path.join(cwd, 'approval-marker.txt'));
     }
-    if (terminalMode && !['permission', 'recovery', 'active-disconnect', 'stream-cancel'].includes(task.kind) && evidence.cli.completedAck && evidence.cli.idleVerified) {
+    if (task.kind === 'command-cancel') {
+      Object.assign(evidence, await task.verifyAfterStop(cwd));
+      const changed = spawnSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd, windowsHide: true, encoding: 'utf8' });
+      const expected = ['child-heartbeat.txt', 'child-started.json', 'opencode.json', 'root-heartbeat.txt', 'root-started.json'];
+      evidence.onlyFixtureFilesPresent = changed.status === 0 && JSON.stringify(changed.stdout.trim().split(/\r?\n/).map(line => line.slice(3)).sort()) === JSON.stringify(expected);
+    }
+    if (terminalMode && !['permission', 'recovery', 'active-disconnect', 'stream-cancel', 'command-cancel'].includes(task.kind) && evidence.cli.completedAck && evidence.cli.idleVerified) {
       if (task.kind !== 'question') {
       const target = path.resolve(__dirname, '../evidence', captureName);
       fs.mkdirSync(target, { recursive: true });
@@ -117,7 +126,8 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
       if (path.dirname(resolved).toLowerCase() !== fs.realpathSync(os.tmpdir()).toLowerCase() || !path.basename(resolved).startsWith('tiye-s2-model-')) {
         throw new Error('owned temporary project boundary invalid');
       }
-      if (!serviceMode || evidence.cli?.locationUntouched || (evidence.cli?.sessionStopped && evidence.cli?.sessionRemoved && evidence.cli?.locationEvicted)) fs.rmSync(resolved, { recursive: true });
+      const commandCleanupVerified = task.kind !== 'command-cancel' || evidence.commandProcessesGoneAfterCleanup;
+      if (commandCleanupVerified && (!serviceMode || evidence.cli?.locationUntouched || (evidence.cli?.sessionStopped && evidence.cli?.sessionRemoved && evidence.cli?.locationEvicted))) fs.rmSync(resolved, { recursive: true });
       evidence.tempRemoved = !fs.existsSync(resolved);
     }
   }
@@ -131,6 +141,7 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
   evidence.fixtureErrors = failed;
   evidence.serverLogTruncated = truncated;
   const cli = evidence.cli;
+  if (task.kind === 'command-cancel') { evidence.passed = commandCancelRunPassed(evidence); return evidence; }
   if (task.kind === 'stream-cancel') { evidence.passed = streamCancelRunPassed(evidence); return evidence; }
   if (task.kind === 'active-disconnect') { evidence.passed = activeDisconnectRunPassed(evidence); return evidence; }
   if (task.kind === 'recovery') { evidence.passed = recoveryRunPassed(evidence); return evidence; }

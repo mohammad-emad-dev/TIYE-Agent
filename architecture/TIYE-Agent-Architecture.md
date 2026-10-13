@@ -482,6 +482,18 @@ exercises those contracts with owned scripted faults and observes one native
 unsupported-method error followed by a healthy request. Injected fault behavior
 is not a native provider-error or hang-detection capability.
 
+**Executing-command cancellation.** The
+[OpenCode 2.0.28 command probe](../feasibility/s2-control/evidence/command-cancel-latest.json)
+verified growing heartbeats and process identities for an approved harmless
+command and its child before interruption. The original tool then aborted;
+captured command creations disappeared and heartbeat files stayed stable,
+including after client/session cleanup. A control acknowledgment or tool error
+alone therefore cannot establish command termination: the adapter must reconcile
+execution separately. This bounded local result does not establish rollback of
+external effects. Location-management requests should run outside the location
+being evicted; an identity/version change during qualification invalidates the
+whole-run lifecycle result even when individual cancellation phases succeeded.
+
 ### 5.3 API adapter
 
 For API members, the core runs the agent loop itself.
@@ -525,6 +537,11 @@ Individual edit/command controls do not establish every combined file/terminal
 profile. File `none`, guaranteed read-only isolation and shell `off` remain
 unvalidated or blocked for this model. Approval decisions were tested through
 the own-session API; the terminal approval UI is still a separate gate.
+The installed CLI/service later reported 2.0.28 during the executing-command
+probe. That version's bounded command cancellation passed, but the earlier
+2.0.22 permission/ACP assessment requires revalidation before qualifying the
+new version. Capability evidence is matched to the observed version, not
+inherited automatically across CLI updates.
 
 ### 5.6 Per-CLI feasibility checklist
 

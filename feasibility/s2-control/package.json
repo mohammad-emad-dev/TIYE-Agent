@@ -26,6 +26,7 @@
     "probe:stream-cancel": "node scripts/run-stream-cancel.js",
     "probe:acp-stream-cancel": "node scripts/run-acp-stream-cancel.js",
     "probe:acp-faults": "node scripts/run-acp-faults.js",
+    "probe:command-cancel": "node scripts/run-command-cancel.js",
     "check": "node --test test/*.test.js"
   },
   "engines": {

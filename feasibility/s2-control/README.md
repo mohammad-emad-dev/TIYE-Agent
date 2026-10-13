@@ -4,6 +4,36 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Cancellation of an executing command
+
+`npm run probe:command-cancel` sends one exact shell command through the
+native terminal, then answers only its twice-correlated approval with `once`.
+The trusted disposable fixture starts a Node root and one child, each with a
+run-bound marker and increasing heartbeat. Two observations must match their
+PID/creation/parent identities under the shared service and show both heartbeats
+growing before interruption. The fixture has a finite 90/95-second lifetime.
+
+The fresh OpenCode **2.0.28** / Muse Spark free `xhigh` run passed. Scoped
+interrupt returned `true`, then `false`; the original tool became `aborted`.
+Three captured command-tree processes were gone, both heartbeat counts stayed
+stable and no completion markers appeared, across two observations and again
+after session/client cleanup. No fallback termination was used. Script and
+marker integrity, exact file scope, session/location/MCP/temp cleanup, shared
+service identity and selected config fingerprints passed. **68 offline checks
+pass.** See `evidence/command-cancel-latest.json` and `RESULTS.md`.
+
+The first run remains failed in `command-cancel-first.json`: cancellation
+phases passed, but final location/service identity checks failed. It started
+against 2.0.22; later diagnostics reported 2.0.28. The cause of that change is
+undetermined. Exact retained-location cleanup is recorded separately in
+`command-cancel-recovery.json`. Management requests now run from a separate
+control directory while targeting only the owned location for eviction.
+
+This covers one harmless local command and its child. It does not establish
+general shell isolation, terminal Ctrl+C, arbitrary process cancellation or
+external-effect rollback. Earlier permission/ACP results qualify 2.0.22;
+those capabilities require revalidation on the now-installed 2.0.28.
+
 ## ACP request deadlines and error recovery
 
 `npm run probe:acp-faults` checks three injected owned-process faults and

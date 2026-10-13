@@ -1,0 +1,12 @@
+{
+  "recordedAt": "2026-10-13T17:40:11.179Z",
+  "scope": "Exact retained directory and location recovery after failed whole-run service identity gate; original failed record remains unchanged",
+  "currentVersion": "2.0.28",
+  "sessionsEmpty": true,
+  "commandPIDsAbsent": true,
+  "heartbeatsStable": true,
+  "locationEvicted": true,
+  "currentServiceUnchanged": true,
+  "tempRemoved": true,
+  "passed": true
+}
