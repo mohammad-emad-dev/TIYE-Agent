@@ -4,6 +4,45 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Strict ask launch preflight prototype
+
+`scripts/strict-ask-preflight.js` implements `strictAskPreflight({ cwd })` and
+`launchWithStrictAsk({ cwd, launch })` for the reviewed OpenCode 2.0.28 service.
+It resolves the active directory's native project ID, including worktree root
+metadata, and reads only that project's saved approvals. Any saved shell grant
+blocks launch regardless of its command prefix. No grants are deleted by the
+gate and no alternative policy is selected automatically.
+
+Two fresh snapshots must agree before the trusted internal launch callback runs.
+Malformed or foreign rows, duplicate IDs, unsupported actions, transport errors,
+unreviewed versions and identity drift fail closed. Only canonical `shell`,
+`read`, `edit`, `glob` and `grep` saved actions are reviewed here; other actions
+return `unavailable`. Limits are 512 rows, 120-character safe IDs and
+4096-character nonempty resources. Preflight results contain fixed codes and counts,
+without saved command patterns, project paths or raw errors.
+
+`blocked` means a saved shell grant or changed snapshot prevented launch.
+`unavailable` means permission state could not be verified; the caller must
+keep launch blocked. `clear` means the saved-grant check passed; it does not
+predict whether native rules will ask or deny. `launchWithStrictAsk` returns
+`launched` after its callback completes, with the callback's value. The callback
+must configure shell ask and handle native outcomes; it receives private launch
+context. Callback errors propagate without retry because execution may have
+started. Callers must redact those errors before displaying or recording them.
+
+`npm run probe:strict-ask-preflight` is an opt-in native probe. It saves one owned
+grant through the existing Always allow terminal fixture, verifies the gate
+blocks before a session is created, removes only that grant, then creates and
+deletes one fresh idle shell-ask session. The idle session sends no model
+request. The owned root is retained if idle-session cleanup is uncertain.
+See [the results](RESULTS.md#strict-ask-launch-preflight-13-october-2026).
+
+This is a feasibility implementation. There is a race between the final read
+and launch, and saved grants can change during an active session. Continuous
+change handling and integration with the core adapter remain unbuilt.
+`strictMemberAskGuarantee` and production eligibility remain false. The existing
+native capability assessment retains its full-runtime policy requirement.
+
 ## Saved approval scope across worktrees
 
 `npm run probe:worktree-approvals` observed shared project scope on OpenCode
@@ -23,7 +62,8 @@ unchanged. **90 offline checks pass.**
 
 The current assessment records `strictMemberAskGuarantee: false`. The adapter
 design requires saved-shell-allow conflict checks before strict ask launches
-and on permission changes; that runtime policy is not implemented yet. The
+and on permission changes; the launch prototype above is implemented, while
+continuous monitoring and core runtime integration remain unbuilt. The
 passing measurement is separately hash-sealed, and the previous saved-approval
 assessment is preserved in
 `capabilities/opencode-permissions-saved-approvals-2.0.28.json`.

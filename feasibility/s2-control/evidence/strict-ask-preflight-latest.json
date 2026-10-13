@@ -1,0 +1,178 @@
+{
+  "scope": "Prototype strict-ask launch preflight against an owned native saved shell grant, then revocation and one idle session launch; no continuous monitoring or atomic guarantee",
+  "recordedAt": "2026-10-13T19:49:58.510Z",
+  "expectedVersion": "2.0.28",
+  "sourceHashes": {
+    "strict-ask-preflight.js": "1412bcac8b4e78aadc7d190ce247bb7bf5cf558b2750d81625fb320a672ae915",
+    "run-strict-ask-preflight.js": "e9a106576df46a5ab557f0ea8771730e9ce7764998d6f6090c64f5b62f7c618d",
+    "run-saved-approvals.js": "145f355b6c10ca3cce66cc691846b0bb7d987ea415d7f6cfd7cc25fef39a5bf2",
+    "saved-approval-evidence.js": "1c1bba6128c9e798b091ce9ba3618fcadd696416ca0538b17a6901b6a117c6d2",
+    "run-tool-probe.js": "59b1f0b1e4b902d3cbdbccc1b21e940dc3e85ec709210520458d7955499c2ac1",
+    "service-cli.js": "bf4f2e92f0e14b8fd03cc9c7cdec8f2f01bd09f40fe6f8dd0b53a525f101cdef",
+    "terminal-client.js": "725ecf6fe08cc03de030ca90655e454a06f6fc27b49e0e9b13caf1e0fe86d080",
+    "terminal-main.js": "f2f3dc518528a21fc07356df2a83e5ed964939f9e0d3a6e1a867b06efe94b163",
+    "terminal-renderer.js": "bf4740c767b5fd8829daae9d9c9912d32e4317eaeb3050620df5e572136486e4",
+    "terminal-preload.js": "64dd7241eea69ef10419201be641324599422efe0d80426c493c5d978e94aba0",
+    "terminal-ui.js": "1001bef16b6f047f3addc331b5ee6139abdfb48c24240859d5830e16ba063032",
+    "terminal-approval-evidence.js": "dab6b90086ac580937d088f704ec74b95032cfbbf49319dbfe0dfed838d68d08",
+    "approval-evidence.js": "d006315061dd7e26a4ddd1b6be08a7e2215cc286762a7a985af442e6cf23ffc2",
+    "persistent-cli.js": "54072a0884ee80ef5d177338a8e184f51a7f42347f2d78fd40feaf09074cb3b7",
+    "service-quiescence.js": "096594adb7c2b72abeb15d6db70316ae87321790508fe42542c00b63ea37f8d7",
+    "recovery-evidence.js": "b3909edb1a7352a02cb14bb52eacd03c4191f09e34cd935e81e5895d53417490",
+    "terminal-task.js": "d666c37fad9165ed018e2762017994a3a4cdfe181101d50b625099a733ea941d"
+  },
+  "run": {
+    "member": "member-a",
+    "serverReportCalls": 0,
+    "matchingReports": 0,
+    "otherServerCalls": 0,
+    "cli": {
+      "completedAck": false,
+      "locationUntouched": false,
+      "stage": "completed",
+      "version": "2.0.28",
+      "modelConfirmed": true,
+      "locationConfirmed": true,
+      "permissionsConfirmed": true,
+      "agentConfirmed": true,
+      "connected": true,
+      "terminalInputMatched": true,
+      "terminalOutputObserved": true,
+      "inputDiagnostics": {
+        "inputBytes": 282,
+        "expectedBytes": 276,
+        "focusReports": 2,
+        "pasteMatched": true,
+        "enterObserved": true
+      },
+      "parentPermissionReplies": 0,
+      "launchCallbacks": 1,
+      "savedRuleRemoved": true,
+      "savedBaselineEmpty": true,
+      "emptyPreflight": {
+        "status": "clear",
+        "version": "2.0.28",
+        "savedRules": 0,
+        "stableReads": 2
+      },
+      "uiInspection": {
+        "expectedSelected": "always",
+        "visible": false,
+        "selected": null,
+        "choiceColors": [
+          {
+            "label": "Allow once",
+            "fg": 15658734,
+            "bg": 1973790,
+            "fgMode": 50331648,
+            "bgMode": 50331648,
+            "inverse": 0
+          },
+          {
+            "label": "Always allow",
+            "fg": 657930,
+            "bg": 16429699,
+            "fgMode": 50331648,
+            "bgMode": 50331648,
+            "inverse": 0
+          },
+          {
+            "label": "Reject",
+            "fg": 15658734,
+            "bg": 1973790,
+            "fgMode": 50331648,
+            "bgMode": 50331648,
+            "inverse": 0
+          }
+        ],
+        "permissionHeadingPresent": true,
+        "expectedCommandPresent": false,
+        "savedPatternsPresent": true
+      },
+      "navigationInput": {
+        "matched": true,
+        "inputBytes": 3,
+        "focusReports": 0
+      },
+      "uiAlwaysSelectedTwice": true,
+      "screenHashes": [
+        "55082e69db8dbe5ccb914e57b0746db1117923e4e9d93d349d90db3088345be3",
+        "1f8c07219995cf8f04c3165fdd81c9ecd2a58fbbc9fb97e61b7850081465c8ae",
+        "45dd53dd1e350970c10038e32db3cc20974e92db6eab05d02e3f38b32c5ddf86",
+        "4791e64d016e3b2d197fe02eae94fb5437726b6aedeec43ba4276cb2f946ef07"
+      ],
+      "decisionInput": {
+        "matched": true,
+        "inputBytes": 1,
+        "focusReports": 0
+      },
+      "uiAlwaysInputMatched": true,
+      "seed": {
+        "name": "seed-always",
+        "promptAccepted": true,
+        "noAssistantErrors": true,
+        "rejectionErrorsOnly": true,
+        "exactShellCallsOnly": true,
+        "shellCalls": 1,
+        "completedShellCalls": 1,
+        "failedShellCalls": 0,
+        "failedShellErrorTypes": [],
+        "ownPendingRequests": 0,
+        "correlatedPending": false,
+        "freshPromptAndAssistants": true,
+        "executedModelConfirmed": true,
+        "phaseObserved": true,
+        "stableTwice": true,
+        "markerMatched": true,
+        "pendingEverObserved": false,
+        "passed": true
+      },
+      "savedRuleOwned": true,
+      "savedRuleCount": 1,
+      "conflictPreflight": {
+        "status": "blocked",
+        "reason": "saved-shell-allow",
+        "conflictingRules": 1
+      },
+      "blockedSessionSetUnchanged": true,
+      "idleSessionSelectionConfirmed": true,
+      "revokedLaunchStatus": "launched",
+      "idleSessionNeverExecuted": true,
+      "idleSessionRemoved": true,
+      "originalClientCleanup": {
+        "verified": true,
+        "capturedProcesses": 6,
+        "jobVerified": true
+      },
+      "outputTruncated": false,
+      "cliSpawnError": false,
+      "executedModelConfirmed": true,
+      "sessionStopped": true,
+      "idleVerified": true,
+      "sessionRemoved": true,
+      "cleanup": {
+        "verified": true,
+        "capturedProcesses": 6,
+        "jobVerified": true
+      },
+      "locationEvicted": true,
+      "serviceVersionAfterCleanup": "2.0.28",
+      "serviceIdentityUnchanged": true
+    },
+    "protectedFileUnchanged": true,
+    "commandMarkerAbsent": false,
+    "commandMarkerMatched": true,
+    "onlyFixtureFilesPresent": true,
+    "fixtureStopped": true,
+    "tempRemoved": true,
+    "serverQuestionCalls": 0,
+    "matchingQuestions": 0,
+    "logHygiene": true,
+    "fixtureErrors": false,
+    "serverLogTruncated": false,
+    "passed": true
+  },
+  "selectedConfigsUnchanged": true,
+  "passed": true,
+  "result": "PASS"
+}

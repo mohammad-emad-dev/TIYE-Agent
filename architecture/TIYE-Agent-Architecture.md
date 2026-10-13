@@ -562,9 +562,23 @@ strict ask-each-command mode, inspect its native project's saved shell allows.
 Treat those grants as a permissions conflict and block the affected launch
 until the conflict is resolved or the user selects an explicit project-wide
 approval policy. Recheck when saved permissions change. Worktree separation
-does not supply the required per-member approval boundary. This runtime
-preflight/change-handling policy remains unimplemented; the current capability
-assessment records the requirement and its evidence. Other layouts/themes,
+does not supply the required per-member approval boundary. A feasibility
+prototype in `feasibility/s2-control/scripts/strict-ask-preflight.js` now blocks
+launch callbacks on saved shell grants, unverifiable state or snapshot drift.
+It verifies native project/service identity and two fresh saved-rule snapshots
+before a clear launch. Only canonical shell/read/edit/glob/grep saved actions
+are reviewed; unsupported actions fail closed. It does not clear grants or
+select a project-wide policy automatically. The launch callback must configure
+shell ask and surface native outcomes. Callback failures propagate without
+retry because execution may already have started.
+
+The final permission read is not atomic with launch. Continuous change handling
+and core adapter integration remain unbuilt, so this prototype does not
+establish strict member ask or production eligibility. The current native
+capability assessment still records the full-runtime requirement and its
+evidence. See the bounded verification in
+[the S2 results](../feasibility/s2-control/RESULTS.md#strict-ask-launch-preflight-13-october-2026).
+Other layouts/themes,
 foreground human interaction and accessibility remain separate gates. Native terminal records
 are sealed as a separate content-hash supplement; previous assessments remain
 preserved. This evidence does not establish OS containment.

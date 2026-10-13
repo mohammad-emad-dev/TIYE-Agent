@@ -1,5 +1,67 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## Strict ask launch preflight (13 October 2026)
+
+**PASS for a bounded feasibility launch gate on OpenCode 2.0.28.** The new
+`strict-ask-preflight.js` resolves the active directory's native project ID and
+validates project-filtered saved approvals. A shell grant blocks the trusted
+launch callback regardless of resource prefix. Two fresh snapshots must agree
+before launch: service PID/version, native active/project directory metadata,
+project ID and a sorted fingerprint of the validated saved rows. Rows are
+implicit allows under the [native permission API](https://opencode.ai/v2/docs/api).
+The gate performs GET requests only and does not change saved approvals.
+
+| Native phase | Verified result |
+|---|---|
+| Initially empty saved rules | Preflight returned clear after two fresh snapshots |
+| One owned native Always allow grant | Returned blocked; callback count zero and owned session set unchanged |
+| After owned grant revocation | Gate allowed an actual fresh build session with the approved model/variant and shell-ask rules |
+| Fresh idle session | No messages, pending permissions or model request; interrupt reported no execution; session deleted |
+
+The seed ran one exact harmless marker command through the native terminal,
+with the existing twice-checked Always pane and PTY key evidence. Its grant
+was bound to an empty randomized Git project's native ID, proposed pattern
+and creation time before removal by ID. Protected bytes, one marker append,
+fixture file scope, original client Job/process cleanup, both session deletions,
+exact location eviction, root temp cleanup and MCP fixture stop passed. Shared
+service identity/version and selected config fingerprints stayed unchanged.
+The probe retains the root if the additional idle session cannot be confirmed
+removed. A first passing observation was sealed before that cleanup-retention
+edge case was corrected; the corrected probe was run again and sealed separately.
+
+The gate rejects foreign/duplicate/malformed rows, unsupported versions,
+identity drift, transport failures, action patterns and unreviewed action names.
+Reviewed saved action names are shell/read/edit/glob/grep. Limits are 512 rows,
+120-character safe IDs, nonempty resources up to 4096 characters and finite
+nonnegative ordered timestamps. Failures return fixed redacted codes. The
+offline tests exercise blocked/clear transitions, fresh reads, worktree root
+metadata, changing grants and identities, invalid service responses, and callback
+failure without retry. The live probe used one root; its gate was not separately
+run against a detached worktree in this supplement. **98 offline checks pass.**
+The corrected observation is byte-sealed at
+[the passing supplement](evidence/supplements/strict-ask-preflight/b740075158b02e94ebf77be5b11eaf7b7e5ae6ecfd2af312e0a19562fc54c975/2.0.28/strict-ask-preflight.json),
+with [the qualification summary](evidence/strict-ask-preflight-qualification.json)
+binding its hash, cleanup and implementation limits. The earlier passing
+observation is separately retained; previous native evidence and capability
+assessments remain byte-identical.
+
+Muse completed the supplied-facts review. MiMo Atria and Claude Atria timed out
+at four minutes without final reviews. Recursive event audits found zero tool
+events across all three routes. Claude's concurrent-change tripwire saw the
+parent's implementation edits; the repository diff was reviewed by the parent.
+
+### Remaining boundary
+
+`clear` means no reviewed saved shell grant was observed; it does not promise
+that native configuration will ask rather than deny. The trusted callback must
+configure shell ask. The final read is not atomic with launch, and this gate
+does not monitor subsequent permission changes. Callback errors propagate
+because a launch may have started; they must be redacted at the caller's output
+boundary. Continuous change handling, core adapter integration and the full
+application remain unbuilt. Strict member ask and production eligibility remain
+false. The earlier native capability assessment remains unchanged and continues
+to describe the full-runtime policy requirement.
+
 ## Saved approval scope across worktrees (13 October 2026)
 
 **OBSERVED_SHARED_PROJECT_SCOPE: all five diagnostic phases qualified; strict
@@ -44,7 +106,9 @@ worktree session's shell-ask policy. The current assessment therefore records
 per-member ask. The intended runtime policy blocks an affected launch until
 the stored approval conflict is resolved or an explicit project-wide policy
 is selected, and rechecks when permissions change. This preflight/monitoring
-policy is **not implemented**. The measurement used the same tested build agent
+policy was **not implemented at that measurement**. The launch prototype is
+now verified in the section above; monitoring and core integration remain open.
+The measurement used the same tested build agent
 and model; it does not qualify other agents, models, backend restarts, arbitrary
 prefix safety or OS containment.
 

@@ -1,0 +1,49 @@
+{
+  "recordedAt": "2026-10-13T19:52:33.654Z",
+  "scope": "Prototype strict-ask launch preflight against an owned native saved shell grant, then revocation and one idle session launch; no continuous monitoring or atomic guarantee",
+  "version": "2.0.28",
+  "result": "PASS",
+  "launchPreflightImplementation": "feasibility-prototype",
+  "continuousChangeHandling": "not-implemented",
+  "coreAdapterIntegration": "not-implemented",
+  "strictMemberAskGuarantee": false,
+  "productionEligible": false,
+  "initialEmptyClear": true,
+  "savedConflictBlocked": true,
+  "blockedSessionSetUnchanged": true,
+  "revokedIdleLaunchAllowed": true,
+  "idleSessionNeverExecuted": true,
+  "idleSessionRemoved": true,
+  "savedRuleRemoved": true,
+  "originalSessionRemoved": true,
+  "tempRemoved": true,
+  "sharedServiceUnchanged": true,
+  "selectedConfigsUnchanged": true,
+  "parentPermissionReplies": 0,
+  "measuredSourcesUnchanged": true,
+  "previousEvidenceAndAssessmentsUnchanged": true,
+  "supplementalReference": "supplements/strict-ask-preflight/b740075158b02e94ebf77be5b11eaf7b7e5ae6ecfd2af312e0a19562fc54c975/2.0.28/strict-ask-preflight.json",
+  "supplementalSha256": "b740075158b02e94ebf77be5b11eaf7b7e5ae6ecfd2af312e0a19562fc54c975",
+  "earlierPassingObservation": "supplements/strict-ask-preflight/29cf1fb73c559dfa7c993310c6bf50866d405f39f756dbf2d9790d1a22a4d876/2.0.28/strict-ask-preflight.json",
+  "offlineChecksPassed": 98,
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "toolEvents": 0,
+      "finalCaptured": true
+    },
+    {
+      "lane": "claude",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    }
+  ]
+}

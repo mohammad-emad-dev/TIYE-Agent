@@ -31,6 +31,7 @@
     "probe:terminal-approvals": "node scripts/run-terminal-approvals.js",
     "probe:saved-approvals": "node scripts/run-saved-approvals.js",
     "probe:worktree-approvals": "node scripts/run-worktree-approvals.js",
+    "probe:strict-ask-preflight": "node scripts/run-strict-ask-preflight.js",
     "check": "node --test test/*.test.js"
   },
   "engines": {

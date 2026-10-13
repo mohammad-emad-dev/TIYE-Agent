@@ -1,0 +1,10 @@
+{
+  "version": "2.0.28",
+  "records": [
+    {
+      "name": "strict-ask-preflight.json",
+      "originalPath": "evidence/strict-ask-preflight-latest.json",
+      "sha256": "29cf1fb73c559dfa7c993310c6bf50866d405f39f756dbf2d9790d1a22a4d876"
+    }
+  ]
+}
