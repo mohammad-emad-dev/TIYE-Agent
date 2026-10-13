@@ -584,13 +584,24 @@ member automatically. Closing the monitor disposes polling and awaits current
 work; session cleanup remains the adapter's responsibility.
 
 The native monitor probe qualified grant detection and one owned idle-session
-callback/interrupt, not active-command prevention. Polling has a detection
-window. Atomic enforcement and core adapter/input integration remain unbuilt,
+callback/interrupt. The feasibility adapter input gate in
+`feasibility/s2-control/scripts/strict-ask-input.js` now serializes trusted
+submissions, checks permissions and rechecks its latch before send. Suspension
+closes input synchronously before the owned stop callback. Queued/new input is
+blocked, admitted input may finish, and unknown delivery never auto-retries.
+Close closes input and awaits queued work/monitor disposal; it is not a verified
+session stop. An additional native probe verifies root/child command suspension
+after a locally injected permission-read failure and rejection of a later
+adapter prompt. It does not qualify native saved-grant-triggered active
+cancellation or direct native-terminal human input.
+
+Polling has a detection window. Atomic enforcement and production UI/core
+integration remain unbuilt,
 so these prototypes do not establish strict member ask or production
 eligibility. The current native
 capability assessment still records the full-runtime requirement and its
 evidence. See the bounded verification in
-[the S2 results](../feasibility/s2-control/RESULTS.md#permission-change-monitoring-13-october-2026).
+[the S2 results](../feasibility/s2-control/RESULTS.md#adapter-input-gate-and-active-suspension-13-october-2026).
 Other layouts/themes,
 foreground human interaction and accessibility remain separate gates. Native terminal records
 are sealed as a separate content-hash supplement; previous assessments remain

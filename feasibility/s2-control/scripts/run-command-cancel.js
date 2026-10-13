@@ -186,3 +186,4 @@ async function main() {
   console.log(`[command-cancel] ${evidence.result}`); process.exitCode = evidence.passed ? 0 : 2;
 }
 if (require.main === module) main().catch(() => { console.error('[command-cancel] lifecycle failure'); process.exitCode = 1; });
+module.exports = { approveOwnedCommand, executionTwice, cancellationTwice, verifyAfterStop };

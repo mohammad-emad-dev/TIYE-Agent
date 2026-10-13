@@ -1,5 +1,70 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## Adapter input gate and active suspension (13 October 2026)
+
+**PASS on OpenCode 2.0.28 with the approved Muse free xhigh native fixture;
+112 offline checks pass.**
+
+The new `strict-ask-input.js` prototype binds the monitor to trusted adapter
+send/stop callbacks. It serializes submissions, awaits a fresh check and then
+rechecks the local latch before invoking send. Suspension closes input before
+the first asynchronous owned-stop operation. Stop does not wait for the send
+queue. Close closes input first, awaits queued/admitted work and disposes the
+monitor; it does not itself establish session suspension.
+
+Transport failures produce a fixed `delivery-unverified` result, latch further
+input and never retry; delivery may already have occurred and requires owner
+reconciliation. Failed owned stops remain `stop-unverified` and blocked.
+Revocation never reopens the gate. Successful sends already entered before a
+latch may still finish. The native prompt callback uses the documented
+[session input API](https://opencode.ai/v2/docs/api), with `resume: false` for
+the blocked fixture attempt; the gate should prevent that callback entirely.
+
+The native probe starts the existing exact harmless root/child fixture through
+the original terminal, binds the input gate to that owned shell-ask session,
+approves only the original correlated request once and observes execution.
+The cancellation helpers are reused without altering their execution,
+creation-identity or heartbeat rules. The fault is injected only at the
+monitor's project-filtered saved-permission GET boundary after execution proof.
+Actual ownership checks, scoped interruption and quiescence verification use
+the real native API. This is a local read-failure injection, not evidence that
+the native service failed. No saved approval is created, removed or bypassed.
+
+| Phase | Verified result |
+|---|---|
+| Bound gate and original Allow once | Input initially open; one correlated approval accepted |
+| Actual executing command | Original tool running, root/child creation identities captured and both heartbeats grew twice |
+| One injected permission-read failure | Input latched closed before owned stop; one suspension callback |
+| Scoped interruption | Interrupt true, second interrupt false; original tool aborted and quiescence stable twice |
+| Process/fixture proof | Both captured creations gone, heartbeats stable twice, no completion markers or force-kill fallback |
+| Later adapter input | Rejected before transport; zero prompt callback calls and message snapshot unchanged |
+| Cleanup | Gate closed, session deleted, private client Job gone, location evicted, temp and MCP fixture removed |
+
+Final script/marker hashes, post-cleanup process absence and heartbeat stability,
+exact fixture file scope, shared service PID/version and selected configuration
+fingerprints passed. The passing measurement is
+[sealed by content hash](evidence/supplements/strict-ask-active/86f746c8fe81c2e61d6eb5811906b17a989cb77ed2f79b29bbcc20b74cb74e5e/2.0.28/strict-ask-active.json),
+with [qualification and delegation outcomes](evidence/strict-ask-active-qualification.json).
+Previous evidence and capability assessment bytes remain unchanged. Offline
+tests cover queued input vs suspension, independent stop during an admitted send,
+close waiting for admitted work, blocked new/queued sends, delivery uncertainty
+without retry and failed-stop latching. Native evidence rejection checks require
+the verified stop, no delivered blocked input, process proof and full cleanup.
+
+Muse completed its supplied-facts design review. Both Atria routes timed out at
+four minutes. The user-authorized Gemini fallback resolved to the available
+`opencode/gemini-3.8-flash` route, requested `high`, and failed before a final
+review with native `provider.quota` / HTTP 402. No authentication, billing or
+quota setting was changed. Recursive event audits found zero tool events on all
+four routes. Claude's concurrent-change tripwire saw the parent's implementation
+edits, and the parent reviewed the complete diff.
+
+The scope excludes direct human/native-terminal input, the fixture's initial
+terminal task delivery, full production UI/core integration, saved-grant-triggered
+active cancellation, native service failure, atomic permission veto and general
+external-effect rollback. Strict member ask and production eligibility remain
+false.
+
 ## Permission-change monitoring (13 October 2026)
 
 **PASS for the corrected bounded monitor probe on OpenCode 2.0.28; 106 offline
@@ -57,7 +122,8 @@ at four minutes without final reviews. Recursive event audits found zero tool
 events. Claude's tripwire reported the parent's concurrent implementation edits;
 the parent reviewed the repository diff.
 
-The scope excludes a production input path, active executing-command interruption,
+The scope of this earlier monitor cohort excludes a production input path and
+active executing-command interruption, now separately measured in the gate section above,
 detached-worktree monitoring, service restarts and atomic saved-permission
 enforcement. The monitor is connected to an owned-session feasibility fixture;
 the core adapter, team engine and full application remain unbuilt.

@@ -33,6 +33,7 @@
     "probe:worktree-approvals": "node scripts/run-worktree-approvals.js",
     "probe:strict-ask-preflight": "node scripts/run-strict-ask-preflight.js",
     "probe:strict-ask-monitor": "node scripts/run-strict-ask-monitor.js",
+    "probe:strict-ask-active": "node scripts/run-strict-ask-active.js",
     "check": "node --test test/*.test.js"
   },
   "engines": {

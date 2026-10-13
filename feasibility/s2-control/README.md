@@ -4,6 +4,44 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Adapter input gate and active suspension prototype
+
+`scripts/strict-ask-input.js` implements
+`createStrictAskInputGate({ context, send, stop })` around the existing monitor.
+The private context comes from preflight; startup is awaited before the gate is
+returned. `submit(text)` serializes input, performs a fresh monitor check and
+rechecks the local closed/suspended latch before invoking trusted `send`.
+Inputs must be nonempty strings of at most 64000 characters.
+
+Suspension closes adapter input synchronously before the trusted owned `stop`
+callback begins. Stop runs independently of the send queue. Queued and later
+submissions cannot reach the transport after suspension or close; a send already
+admitted may finish. Successful submission returns `submitted` with the trusted
+transport's value. Transport failure returns redacted `delivery-unverified`
+and closes subsequent input without retry. The owner must reconcile possible
+delivery. An internal verification failure returns `input-state-unverified`.
+
+Stop failures retain the monitor's `stop-unverified` state and keep input
+blocked. Grant revocation does not reopen the gate. `close()` closes input first,
+then awaits the queue and monitor disposal. It does not itself stop a session.
+The trusted callbacks remain responsible for native ownership checks, delivery
+and verified suspension. Their values/context must not enter public logs.
+
+`npm run probe:strict-ask-active` approves one owned harmless root/child command
+once, proves both are executing, then injects one local monitor saved-rule read
+failure. The gate closes input and its callback verifies ownership before
+interrupting only that session. Original tool abortion, captured creation
+identities gone and stable root/child heartbeats are independently verified.
+A later attempted prompt is blocked before native transport, with the original
+message snapshot unchanged. No saved grant is created or deleted.
+See [the results](RESULTS.md#adapter-input-gate-and-active-suspension-13-october-2026).
+
+This gate covers trusted adapter submissions. The fixture's initial task is
+sent through the existing native terminal before gate attachment; direct human
+terminal input and the production UI/core input path are not covered. Native
+saved-grant-triggered active cancellation, atomic permission enforcement and
+general external-effect rollback remain unqualified.
+
 ## Permission-change monitoring prototype
 
 `scripts/strict-ask-monitor.js` implements
@@ -39,8 +77,9 @@ verified. See [the bounded results](RESULTS.md#permission-change-monitoring-13-o
 
 Polling leaves a detection window. An original seed command executes once;
 this probe does not establish command prevention or active-command cancellation.
-Production adapter/input integration and atomic permission enforcement remain
-unbuilt. Strict member ask and production eligibility remain false.
+An adapter input gate is now prototyped above. Production UI/core integration
+and atomic permission enforcement remain unbuilt. Strict member ask and
+production eligibility remain false.
 
 ## Strict ask launch preflight prototype
 

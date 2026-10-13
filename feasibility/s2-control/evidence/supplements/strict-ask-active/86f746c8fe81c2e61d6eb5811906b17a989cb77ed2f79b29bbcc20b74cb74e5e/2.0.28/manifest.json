@@ -1,0 +1,10 @@
+{
+  "version": "2.0.28",
+  "records": [
+    {
+      "name": "strict-ask-active.json",
+      "originalPath": "evidence/strict-ask-active-latest.json",
+      "sha256": "86f746c8fe81c2e61d6eb5811906b17a989cb77ed2f79b29bbcc20b74cb74e5e"
+    }
+  ]
+}
