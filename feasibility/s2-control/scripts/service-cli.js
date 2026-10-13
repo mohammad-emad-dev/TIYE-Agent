@@ -45,8 +45,9 @@ async function probeServiceReport({ cwd, summary, member, terminalTask, sessionP
     if (!Array.isArray(existing) || existing.some(entry => path.resolve(entry.directory).toLowerCase() === path.resolve(cwd).toLowerCase())) throw new Error('temporary location ownership unverified');
     evidence.locationUntouched = false;
     evidence.stage = 'session-create';
+    const permissions = sessionPermissions || (terminalTask ? SERVICE_PERMISSIONS.map(rule => rule.action === 'edit' ? { ...rule, effect: 'allow' } : rule) : SERVICE_PERMISSIONS);
     const created = await serviceApi(cwd, 'POST', '/api/session', { location, agent: terminalTask ? 'build' : 'plan', model,
-      permissions: sessionPermissions || (terminalTask ? SERVICE_PERMISSIONS.map(rule => rule.action === 'edit' ? { ...rule, effect: 'allow' } : rule) : SERVICE_PERMISSIONS),
+      permissions,
       title: 'TIYE service report feasibility',
     });
     if (!/^ses_[a-zA-Z0-9]+$/.test(created?.data?.id)) throw new Error('owned session schema unexpected');
@@ -54,7 +55,9 @@ async function probeServiceReport({ cwd, summary, member, terminalTask, sessionP
     createdAt = created.data.time.created;
     evidence.modelConfirmed = Object.entries(model).every(([key, value]) => created.data.model?.[key] === value);
     evidence.locationConfirmed = path.resolve(created.data.location?.directory || '').toLowerCase() === path.resolve(cwd).toLowerCase();
-    if (!evidence.modelConfirmed || !evidence.locationConfirmed) throw new Error('owned session selection unverified');
+    evidence.permissionsConfirmed = JSON.stringify(created.data.permissions) === JSON.stringify(permissions);
+    evidence.agentConfirmed = created.data.agent === (terminalTask ? 'build' : 'plan');
+    if (!evidence.modelConfirmed || !evidence.locationConfirmed || !evidence.permissionsConfirmed || !evidence.agentConfirmed) throw new Error('owned session selection unverified');
     evidence.stage = 'mcp-connect';
     for (let attempt = 0; attempt < 12; attempt++) {
       const catalog = await serviceApi(cwd, 'GET', `/api/mcp?location[directory]=${encodeURIComponent(cwd)}`);

@@ -4,6 +4,33 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Permission probes
+
+`npm run probe:permissions` tests an edit-denied session and a shell-approval
+session in separate disposable projects through the native terminal. It uses
+Muse Spark free `xhigh`, verifies the created session's agent and permission
+array, and never replies to approvals or enables automatic approval.
+
+Current result: **PARTIAL**. The initial run and a second fresh-session run
+both paused the exact shell command for approval without executing it. The
+protected file stayed unchanged in both edit cases, but neither produced
+an edit tool attempt. That is insufficient evidence of a blocked edit.
+
+Pending approval evidence joins session, assistant-message, tool-call and
+exact command identities. The second run requires the same request to remain
+pending across two observations. The parent checks file bytes and absence of
+the command marker after the owned session and client have stopped. Cleanup,
+config fingerprints and the shared service identity are required for a pass.
+Forty offline harness checks pass, including rejection of provider/scanner
+errors, wrong-session approvals, completed commands, timeouts and file changes.
+
+`evidence/permissions-initial.json` preserves the first measurement;
+`evidence/permissions-latest.json` records the repeat and source hashes at its
+start. The final extracted pass classifier was checked against the preserved
+observations after the live runs. Exit 2 means the combined permission gate
+remains incomplete. These checks establish neither OS isolation nor the full
+product permission matrix. See `RESULTS.md` for limits and remaining work.
+
 ## Briefing retention probe
 
 `npm run probe:briefing` runs three fresh sessions. Each receives a team

@@ -9,6 +9,7 @@ const path = require('node:path');
 const { probeStandaloneReport } = require('./persistent-cli');
 const { probeServiceReport, SERVICE_PERMISSIONS } = require('./service-cli');
 const { terminalTask, T1_SUMMARY } = require('./terminal-task');
+const { permissionRunPassed } = require('./permission-evidence');
 const terminalMode = process.argv.includes('--terminal');
 const serviceMode = process.argv.includes('--service') || terminalMode;
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -34,7 +35,7 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
   const token = crypto.randomBytes(32).toString('hex');
   const summary = terminalMode ? T1_SUMMARY : `tiye-probe-${crypto.randomUUID()}`;
   const expectedTool = task.tool || 'report_result';
-  const permissions = SERVICE_PERMISSIONS.map(rule => terminalMode && task.kind !== 'question' && rule.action === 'edit' ? { ...rule, effect: 'allow' } : rule);
+  const permissions = task.permissions || SERVICE_PERMISSIONS.map(rule => terminalMode && task.kind !== 'question' && rule.action === 'edit' ? { ...rule, effect: 'allow' } : rule);
   if (expectedTool === 'ask_leader') permissions.push({ action: 'tiye-team-tools_ask_leader', resource: '*', effect: 'allow' });
   let fixture;
   let output = '';
@@ -57,6 +58,7 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
     if (terminalMode) {
       fs.writeFileSync(path.join(cwd, 'package.json'), JSON.stringify({ name: 'tiye-t1-fixture', private: true, scripts: { test: 'node --test' } }));
       fs.writeFileSync(path.join(cwd, 'README.md'), 'Disposable TIYE T1 project. Add clamp.js and clamp.test.js.\n');
+      if (task.kind === 'permission') fs.writeFileSync(path.join(cwd, 'protected.txt'), 'original protected bytes\n');
       for (const args of [['init', '--quiet'], ['add', 'package.json', 'README.md'], ['-c', 'user.name=TIYE Fixture', '-c', 'user.email=fixture@local', 'commit', '--quiet', '-m', 'Initial T1 fixture']]) {
         if (spawnSync('git', args, { cwd, windowsHide: true }).status !== 0) throw new Error('T1 Git fixture failed');
       }
@@ -69,7 +71,13 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
       } } },
     }));
     evidence.cli = await (serviceMode ? probeServiceReport : probeStandaloneReport)({ cwd, summary, member, ...(terminalMode ? { sessionPermissions: permissions, terminalTask: parameters => terminalTask({ ...parameters, allowNudge, task }) } : {}) });
-    if (terminalMode && evidence.cli.completedAck && evidence.cli.idleVerified) {
+    if (task.kind === 'permission') {
+      evidence.protectedFileUnchanged = fs.readFileSync(path.join(cwd, 'protected.txt')).equals(Buffer.from('original protected bytes\n'));
+      evidence.commandMarkerAbsent = !fs.existsSync(path.join(cwd, 'approval-marker.txt'));
+      const changed = spawnSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd, windowsHide: true, encoding: 'utf8' });
+      evidence.onlyFixtureFilesPresent = changed.status === 0 && JSON.stringify(changed.stdout.trim().split(/\r?\n/).map(line => line.slice(3)).sort()) === JSON.stringify(['opencode.json', 'protected.txt']);
+    }
+    if (terminalMode && task.kind !== 'permission' && evidence.cli.completedAck && evidence.cli.idleVerified) {
       if (task.kind !== 'question') {
       const target = path.resolve(__dirname, '../evidence', captureName);
       fs.mkdirSync(target, { recursive: true });
@@ -110,6 +118,10 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
   evidence.fixtureErrors = failed;
   evidence.serverLogTruncated = truncated;
   const cli = evidence.cli;
+  if (task.kind === 'permission') {
+    evidence.passed = permissionRunPassed({ run: evidence, caseID: task.caseID });
+    return evidence;
+  }
   evidence.passed = !evidence.error && !evidence.fixtureErrors && !cli?.error && !cli?.failure
     && cli?.completedAck === true && (terminalMode ? cli.terminalInputMatched && cli.terminalOutputObserved && cli.shellCalls === 0 && cli.otherTeamToolCalls === 0 && (!cli.nudgeUsed || (cli.nudgeInputMatched && cli.nudgePromptAccepted)) && (!task.briefing || (cli.briefingFirstUserMessage && cli.briefingAccepted && cli.briefingNoTools && cli.briefingStableIdle && cli.codingInputMatched && cli.recallInputMatched && cli.recallAccepted && cli.recallNoTools && cli.recallStableIdle && cli.recall?.matched)) && evidence.onlyTaskFilesChanged && (task.kind === 'question' ? cli.codingToolCalls === 0 : evidence.taskFilesCaptured) : cli.otherToolCalls === 0 && cli.cliExitCode === 0 && !cli.malformedEvents) && !cli.cliSpawnError && !cli.outputTruncated
     && cli.cleanup?.verified === true && cli.cleanup.jobVerified === true

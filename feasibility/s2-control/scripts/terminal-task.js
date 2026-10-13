@@ -144,6 +144,12 @@ async function terminalTask({ cwd, sessionID, summary, member, serviceApi, allow
     evidence.terminalOutputObserved = submitted?.outputBytes > 0;
     evidence.inputDiagnostics = submitted ? { inputBytes: submitted.inputBytes, expectedBytes: submitted.expectedBytes, focusReports: submitted.focusReports, pasteMatched: submitted.pasteMatched, enterObserved: submitted.enterObserved } : null;
     if (!evidence.terminalInputMatched || !evidence.terminalOutputObserved) throw new Error('terminal input unverified');
+    if (task.observe) {
+      Object.assign(evidence, await task.observe({ cwd, sessionID, serviceApi, state, taskSubmittedAt }));
+      evidence.outputTruncated = truncated;
+      evidence.cliSpawnError = state.error === true;
+      return { state, evidence };
+    }
     if (task.briefing) {
       const briefing = await deliverBriefing({ cwd, sessionID, serviceApi, child, state, readEvents: () => events, task, submittedAt: taskSubmittedAt });
       Object.assign(evidence, briefing.fields);

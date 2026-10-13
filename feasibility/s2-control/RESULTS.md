@@ -1,5 +1,62 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## S2.4 shell approval and edit-denied session probes (13 October 2026)
+
+**PARTIAL; S2.4 remains open.** Two sequential measurements each used two
+fresh OpenCode 2.0.22 sessions with Muse Spark free `xhigh` through the native
+Electron/xterm/node-pty terminal. No approval was answered.
+
+| Check | Initial measurement | Repeat |
+|---|---|---|
+| Exact shell tool paused at a correlated own-session approval | Passed | Passed, same request observed twice |
+| Completed shell calls / command marker created | 0 / no | 0 / no |
+| Protected file bytes unchanged in edit-denied case | Yes | Yes |
+| Actual edit attempt / configured-denial tool error | None / none | None / none |
+| Owned session, Job client, location, fixture and temp cleanup | Passed | Passed |
+| Selected configs and shared service identity unchanged | Yes | Yes |
+
+The created sessions returned the requested build agent, model, location
+and permission array. Both edit cases finished without any tool call. The
+file invariance is useful, but it cannot establish enforcement against an
+attempted edit. The harness deliberately leaves this case failed rather
+than counting a prose response or no-op as a denied operation. A controlled
+attempted-edit test remains necessary.
+
+Shell evidence checks the pending request's session, action, exact command,
+source assistant ID and tool-call ID against a running shell tool. The
+second measurement adds two observations of the same pending request. After
+interrupting and deleting the owned session and closing the client Job,
+the parent checks original file bytes, marker absence and fixture file scope.
+No real project files were assigned to either live task.
+
+- [Initial measurement](evidence/permissions-initial.json)
+- [Repeat measurement and source hashes](evidence/permissions-latest.json)
+- Runner: `scripts/run-permissions.js`; classifier: `scripts/permission-evidence.js`
+- Verification: 40 offline harness checks and all S2 script syntax checks passed.
+
+The final pass-classifier extraction and timeout guard were verified against
+the preserved measurement through offline tests. Raw tool inputs, permission
+messages, session IDs, credentials and model reply text are not persisted.
+Typed denial recognition has synthetic boundary coverage; it has not been
+exercised against an actual V2 edit denial in these trials.
+
+Muse free `xhigh` and Claude Atria `xhigh` completed supplied-facts read-only
+reviews. Their concerns about correlation, absent-tool false positives,
+post-stop byte checks and cleanup were addressed. Claude's tripwire detected
+the parent's concurrent edits, which were reviewed directly. MiMo Atria
+timed out after four minutes without a final review. No models were substituted.
+
+The probe uses the permission subset documented by [OpenCode V2](https://opencode.ai/v2/docs/permissions)
+and the own-session permission-list route from its [OpenAPI schema](https://opencode.ai/v2/openapi.json).
+The configured-denial tag is checked against [V2 Core permission source](https://github.com/anomalyco/opencode/blob/dev/packages/core/src/permission.ts);
+an upstream HTTP 403 is not a tool denial. Shell runs with host-user authority,
+so this is an approval behavior observation, not an OS sandbox guarantee.
+
+Next: controlled edit-denial evidence, approval reject/allow-once outcomes
+in disposable projects, and the remaining file/terminal capability matrix.
+The previously observed free-model shell-off 403 remains unresolved. Auth,
+network, rate-limit, crash, hang and resume signals under S2.5 remain open.
+
 ## S2.3 first-message briefing retention (13 October 2026)
 
 **PASS for this short-session probe; full S2 remains open.** Three fresh
