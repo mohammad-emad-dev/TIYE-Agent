@@ -1,5 +1,61 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## S2.3 first-message briefing retention (13 October 2026)
+
+**PASS for this short-session probe; full S2 remains open.** Three fresh
+OpenCode 2.0.22 sessions with Muse Spark free `xhigh` received a briefing
+through the native Electron/xterm/node-pty terminal as their first user
+message. Each completed T1, reported once, and recalled its exact assigned
+profile in a later JSON-only reply.
+
+| Check | Observed |
+|---|---|
+| First-message briefing accepted, then idle without tools | 3/3 |
+| Later T1 report and assigned-file scope | 3/3 |
+| Recall of self, role, leader, teammates, owned files, completion tool | 3/3 exact matches |
+| Recall input accepted; post-query reply completed without tools | 3/3 |
+| Generated test cases | 9 passed |
+| Independent correctness cases | 24 passed |
+| Offline harness checks | 37 passed |
+
+Leader/teammate identifiers differed between trials. Their values and the
+worker role were delivered only in the initial briefing, not the coding
+task or recall question. The task reinforced ownership and completion-tool
+values; the fixture acknowledgment also named the current member. Thus
+those fields do not independently prove unrepeated memory. The profiles
+describe test metadata, not a running multi-member team.
+
+Before recall, the harness verified the coding turn was idle and recorded
+all existing assistant IDs. It checked only later assistant replies after
+the accepted recall message, with two idle observations and a completed
+turn. User echoes and older replies could not satisfy the check. Exact JSON
+field/value matching rejected generic claims, wrong-trial identities,
+missing or extra fields, and unfinished replies. Raw briefing/recall reply
+text, credentials, and session IDs are not persisted in the evidence.
+
+- [Phase and cleanup evidence](evidence/briefing-latest.json)
+- [Independent code validation](evidence/briefing-validation.json)
+- Registered profiles and prompts: `scripts/briefing-cases.js`
+- Reviewed generated code: `evidence/briefing`
+
+The parent reviewed all three functions and test files before the 33
+correctness checks. Model identity, input, report acknowledgment, member,
+file scope, log hygiene, owned session/client/location cleanup, fixture
+shutdown, temporary removal, and unchanged selected configs/service
+identity passed. Service 40900 stayed running; prior evidence was preserved.
+
+Muse free `xhigh` completed its supplied-facts read-only design review.
+Both MiMo Atria and Claude Atria `xhigh` timed out after four minutes without
+final reviews. Claude's tripwire saw the parent's concurrent edits, which
+were reviewed directly. No model was substituted.
+
+Limits: one compatible coding task and short context per session. No
+compaction, long-session retention, resume, conflicting role instruction,
+permission enforcement, or actual team coordination is proven. First
+terminal message is the tested delivery method; persistent config/launch
+role mechanisms are not assessed here. Next: S2.4 permission behavior and
+S2.5 approval, error, and recovery signals.
+
 ## S2.2 wordings, ask-leader, and induced omission (13 October 2026)
 
 **PASS for these bounded probes; full S2 remains open.** This batch is

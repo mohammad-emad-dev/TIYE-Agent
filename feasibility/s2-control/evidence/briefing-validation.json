@@ -1,0 +1,55 @@
+{
+  "recordedAt": "2026-10-13T11:39:56.263Z",
+  "scope": "First terminal briefing, one T1 task, then value-free recall query in three fresh sessions; short-session retention only",
+  "sourceHash": "c2bdab21461dbda90fc89f143e4bb70cff54974eb74ea57f08c59601cf419598",
+  "runs": [
+    {
+      "id": "briefing-1",
+      "index": 1,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "0a869d084858a6910f5bc831939e77bd35f2fdb1f1910260fdd5a744f327fb83",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "briefing-2",
+      "index": 2,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "0a869d084858a6910f5bc831939e77bd35f2fdb1f1910260fdd5a744f327fb83",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "briefing-3",
+      "index": 3,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "6f4a8e557b35d84b059be4e9f38764851ce350eea9be358ba158bb82ee71db12",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    }
+  ],
+  "unchanged": true,
+  "selectedConfigsUnchanged": true,
+  "passed": true
+}

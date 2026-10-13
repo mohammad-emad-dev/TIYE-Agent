@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { nativeExecutable, attachJob, waitUntil, processInventory, ownedIdentities } = require('./persistent-cli');
 const s1 = path.resolve(__dirname, '../../s1-terminal');
+const { phaseEvidence, recallEvidence } = require('./briefing-evidence');
 const T1_SUMMARY = 'Added clamp(value, min, max) and tests for below, within, and above bounds.';
 const prompt = `T1: Add clamp(value, min, max) in clamp.js as a CommonJS export { clamp }. It returns min when value is below min, max when above max, otherwise value. Add clamp.test.js using node:test and node:assert/strict covering below, within, and above bounds. Only edit clamp.js and clamp.test.js. Do not run shell commands, install anything, commit or push. Finish by calling tiye-team-tools_report_result exactly once with status "done" and summary ${JSON.stringify(T1_SUMMARY)}. Do not merely claim a tool call in prose.`;
 const nudge = `If the assigned clamp function and test file are complete, finish by calling tiye-team-tools_report_result exactly once with status "done" and summary ${JSON.stringify(T1_SUMMARY)}. Do not edit files or use any other tools. If the task is incomplete, do not report success.`;
@@ -62,6 +63,58 @@ async function pollReport({ cwd, sessionID, serviceApi, state, task = {}, taskSu
   return { messages: messages?.data || [], elapsedMs: Date.now() - startedAt };
 }
 
+async function pollTextPhase({ cwd, sessionID, serviceApi, state, phasePrompt, submittedAt, priorAssistantIds }) {
+  const deadline = Date.now() + 120000;
+  let stable = 0;
+  while (Date.now() < deadline) {
+    if (state.error || state.closed) throw new Error('terminal closed during text phase');
+    const messages = (await serviceApi(cwd, 'GET', `/api/session/${sessionID}/message?limit=100&order=desc`)).data;
+    const phase = phaseEvidence(messages, phasePrompt, priorAssistantIds);
+    if (!phase.noErrors || !phase.noTools) throw new Error('unexpected activity during text phase');
+    const session = await serviceApi(cwd, 'GET', `/api/session/${sessionID}`);
+    stable = phase.accepted && phase.completed && session.data?.time?.idle >= submittedAt ? stable + 1 : 0;
+    if (stable >= 2) return { messages, phase, stableIdle: true };
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  }
+  throw new Error('text phase did not finish');
+}
+
+async function submitFollowup(child, state, readEvents, text) {
+  const offset = readEvents().length;
+  const submittedAt = Date.now();
+  child.send({ type: 'submit', prompt: text });
+  await waitUntil(() => readEvents().slice(offset).includes('"type":"submitted"') || readEvents().slice(offset).includes('"type":"input-failed"') || state.closed, 10000);
+  const submitted = readEvents().slice(offset).split(/\r?\n/).flatMap(line => { try { return [JSON.parse(line)]; } catch { return []; } }).find(event => event.type === 'submitted');
+  if (submitted?.matched !== true) throw new Error('followup input unverified');
+  return submittedAt;
+}
+
+async function deliverBriefing(request) {
+  const { task, child, state, readEvents } = request;
+  const briefing = await pollTextPhase({ ...request, phasePrompt: task.briefing.prompt });
+  const fields = { briefingInputMatched: true, briefingAccepted: briefing.phase.accepted, briefingFirstUserMessage: briefing.messages.filter(message => message.type === 'user').length === 1, briefingNoTools: briefing.phase.noTools, briefingStableIdle: briefing.stableIdle };
+  if (!fields.briefingFirstUserMessage) throw new Error('briefing was not first');
+  const submittedAt = await submitFollowup(child, state, readEvents, task.prompt || prompt);
+  return { fields: { ...fields, codingInputMatched: true }, submittedAt };
+}
+
+async function verifyRecall(request) {
+  const { cwd, sessionID, serviceApi, child, state, readEvents, task, submittedAt } = request;
+  const deadline = Date.now() + 120000;
+  let stable = 0;
+  while (Date.now() < deadline && stable < 2) {
+    const own = await serviceApi(cwd, 'GET', `/api/session/${sessionID}`);
+    stable = own.data?.time?.idle >= submittedAt ? stable + 1 : 0;
+    if (stable < 2) await new Promise(resolve => setTimeout(resolve, 1000));
+  }
+  if (stable < 2) throw new Error('coding turn not idle');
+  const before = (await serviceApi(cwd, 'GET', `/api/session/${sessionID}/message?limit=100&order=desc`)).data;
+  const priorAssistantIds = new Set(before.filter(message => message.type === 'assistant').map(message => message.id));
+  const recallSubmittedAt = await submitFollowup(child, state, readEvents, task.briefing.recallPrompt);
+  const recalled = await pollTextPhase({ ...request, phasePrompt: task.briefing.recallPrompt, submittedAt: recallSubmittedAt, priorAssistantIds });
+  return { recallInputMatched: true, recallAccepted: recalled.phase.accepted, recallNoTools: recalled.phase.noTools, recallStableIdle: recalled.stableIdle, recall: recallEvidence(recalled.phase.assistants, task.briefing.profile) };
+}
+
 async function terminalTask({ cwd, sessionID, summary, member, serviceApi, allowNudge = false, task = {} }) {
   const evidence = { terminalInputMatched: false, completedAck: false };
   let state;
@@ -78,12 +131,12 @@ async function terminalTask({ cwd, sessionID, summary, member, serviceApi, allow
     child.on('error', () => { state.error = true; });
     child.on('close', () => { state.closed = true; });
     await attachJob(state);
-    child.send({ type: 'launch', executable: nativeExecutable(), cwd, sessionID, assets, prompt: task.prompt || prompt });
+    child.send({ type: 'launch', executable: nativeExecutable(), cwd, sessionID, assets, prompt: task.briefing?.prompt || task.prompt || prompt });
     await waitUntil(() => events.includes('"type":"ready"') || state.error || state.closed, 20000);
     if (state.error || state.closed) throw new Error('terminal startup failed');
     await new Promise(resolve => setTimeout(resolve, 4000));
     state.captured = ownedIdentities(await processInventory(), child.pid);
-    const taskSubmittedAt = Date.now();
+    let taskSubmittedAt = Date.now();
     child.send({ type: 'submit' });
     await waitUntil(() => events.includes('"type":"submitted"') || events.includes('"type":"input-failed"') || state.closed, 10000);
     const submitted = events.split(/\r?\n/).flatMap(line => { try { return [JSON.parse(line)]; } catch { return []; } }).find(event => event.type === 'submitted');
@@ -91,6 +144,11 @@ async function terminalTask({ cwd, sessionID, summary, member, serviceApi, allow
     evidence.terminalOutputObserved = submitted?.outputBytes > 0;
     evidence.inputDiagnostics = submitted ? { inputBytes: submitted.inputBytes, expectedBytes: submitted.expectedBytes, focusReports: submitted.focusReports, pasteMatched: submitted.pasteMatched, enterObserved: submitted.enterObserved } : null;
     if (!evidence.terminalInputMatched || !evidence.terminalOutputObserved) throw new Error('terminal input unverified');
+    if (task.briefing) {
+      const briefing = await deliverBriefing({ cwd, sessionID, serviceApi, child, state, readEvents: () => events, task, submittedAt: taskSubmittedAt });
+      Object.assign(evidence, briefing.fields);
+      taskSubmittedAt = briefing.submittedAt;
+    }
     const initialStartedAt = Date.now();
     let observed = await pollReport({ cwd, sessionID, serviceApi, state, task, taskSubmittedAt });
     Object.assign(evidence, terminalReportEvidence(observed.messages, summary, member, task));
@@ -116,6 +174,9 @@ async function terminalTask({ cwd, sessionID, summary, member, serviceApi, allow
       }
     }
     evidence.elapsedMs = Date.now() - initialStartedAt;
+    if (task.briefing && evidence.completedAck) {
+      Object.assign(evidence, await verifyRecall({ cwd, sessionID, serviceApi, child, state, readEvents: () => events, task, submittedAt: taskSubmittedAt }));
+    }
     evidence.outputTruncated = truncated;
     evidence.cliSpawnError = state.error === true;
   } catch { evidence.error = 'terminal task failed'; }

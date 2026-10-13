@@ -4,6 +4,28 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Briefing retention probe
+
+`npm run probe:briefing` runs three fresh sessions. Each receives a team
+briefing as its first typed terminal message, the normal T1 coding task,
+then a JSON recall query that contains field names without expected values.
+Leader and teammate identifiers differ between trials. All messages use
+the same xterm paste/Enter path with accepted-input and stable-idle checks.
+Briefing acknowledgment and recall must be text-only; stale assistant IDs,
+pre-query messages, user echoes, prose claims, and incorrect profiles fail.
+
+Review captured files under `evidence/briefing` before running
+`npm run validate:briefing`. Current result: **3/3 retained the exact profile
+after one coding task**, with 33 correctness checks and 37 offline harness
+checks passing. The role, leader, and teammate identifiers were not repeated
+in T1 or the recall query. Ownership and completion-tool values were
+reinforced by T1. These are supplied team metadata, not connected teammates.
+
+This measures short-session retention using first-message briefing delivery.
+It does not measure long context, compaction, resume, conflicting instructions,
+or enforcement of the role's permissions. See `briefing-latest.json` and
+`briefing-validation.json` under `evidence`, plus `RESULTS.md`.
+
 ## Instruction, clarification, and nudge probes
 
 `npm run probe:instructions` records a separate batch: three fresh trials

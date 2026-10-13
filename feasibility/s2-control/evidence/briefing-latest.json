@@ -1,0 +1,312 @@
+{
+  "recordedAt": "2026-10-13T11:37:27.765Z",
+  "scope": "First terminal briefing, one T1 task, then value-free recall query in three fresh sessions; short-session retention only",
+  "method": "First typed terminal message; no persistent role config",
+  "plans": [
+    {
+      "id": "briefing-1",
+      "briefingHash": "8391b5b7e6adcc6a03d16043cdec944558f509b167aa643ac1e481afc984eabd",
+      "recallHash": "bc0d18e0140ed515b3166bb65275a093ff50cbe63de32b1c3e0d81bc28269c5c"
+    },
+    {
+      "id": "briefing-2",
+      "briefingHash": "9234a12fa5a16c7bfded6c1dc831b467e63bc5152b8bcd9a792bdbf74cd239cd",
+      "recallHash": "bc0d18e0140ed515b3166bb65275a093ff50cbe63de32b1c3e0d81bc28269c5c"
+    },
+    {
+      "id": "briefing-3",
+      "briefingHash": "dbc3ad545ea0baba6b316261f8704aece156b210ccf2ca0b302a0a8caba300be",
+      "recallHash": "bc0d18e0140ed515b3166bb65275a093ff50cbe63de32b1c3e0d81bc28269c5c"
+    }
+  ],
+  "runs": [
+    {
+      "id": "briefing-1",
+      "index": 1,
+      "captureName": "briefing/briefing-1",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 368,
+          "expectedBytes": 362,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "briefingInputMatched": true,
+        "briefingAccepted": true,
+        "briefingFirstUserMessage": true,
+        "briefingNoTools": true,
+        "briefingStableIdle": true,
+        "codingInputMatched": true,
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user",
+            "idle"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true
+            },
+            {
+              "length": 350,
+              "exact": false,
+              "trimmed": false
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "codingToolCalls": 2,
+        "otherTeamToolCalls": 0,
+        "initialIdleWithoutReport": false,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 7575,
+        "nudgeUsed": false,
+        "elapsedMs": 7576,
+        "recallInputMatched": true,
+        "recallAccepted": true,
+        "recallNoTools": true,
+        "recallStableIdle": true,
+        "recall": {
+          "validJson": true,
+          "matched": true
+        },
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "taskFilesCaptured": true,
+      "onlyTaskFilesChanged": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "serverQuestionCalls": 0,
+      "matchingQuestions": 0,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "id": "briefing-2",
+      "index": 2,
+      "captureName": "briefing/briefing-2",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 367,
+          "expectedBytes": 361,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "briefingInputMatched": true,
+        "briefingAccepted": true,
+        "briefingFirstUserMessage": true,
+        "briefingNoTools": true,
+        "briefingStableIdle": true,
+        "codingInputMatched": true,
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user",
+            "idle"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true
+            },
+            {
+              "length": 349,
+              "exact": false,
+              "trimmed": false
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "codingToolCalls": 2,
+        "otherTeamToolCalls": 0,
+        "initialIdleWithoutReport": false,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 10786,
+        "nudgeUsed": false,
+        "elapsedMs": 10786,
+        "recallInputMatched": true,
+        "recallAccepted": true,
+        "recallNoTools": true,
+        "recallStableIdle": true,
+        "recall": {
+          "validJson": true,
+          "matched": true
+        },
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "taskFilesCaptured": true,
+      "onlyTaskFilesChanged": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "serverQuestionCalls": 0,
+      "matchingQuestions": 0,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "id": "briefing-3",
+      "index": 3,
+      "captureName": "briefing/briefing-3",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 366,
+          "expectedBytes": 360,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "briefingInputMatched": true,
+        "briefingAccepted": true,
+        "briefingFirstUserMessage": true,
+        "briefingNoTools": true,
+        "briefingStableIdle": true,
+        "codingInputMatched": true,
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user",
+            "idle"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true
+            },
+            {
+              "length": 348,
+              "exact": false,
+              "trimmed": false
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "codingToolCalls": 2,
+        "otherTeamToolCalls": 0,
+        "initialIdleWithoutReport": false,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 12299,
+        "nudgeUsed": false,
+        "elapsedMs": 12299,
+        "recallInputMatched": true,
+        "recallAccepted": true,
+        "recallNoTools": true,
+        "recallStableIdle": true,
+        "recall": {
+          "validJson": true,
+          "matched": true
+        },
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "taskFilesCaptured": true,
+      "onlyTaskFilesChanged": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "serverQuestionCalls": 0,
+      "matchingQuestions": 0,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    }
+  ],
+  "selectedConfigsUnchanged": true,
+  "result": "AWAITING_CODE_REVIEW_AND_VALIDATION",
+  "finishedAt": "2026-10-13T11:39:04.134Z"
+}

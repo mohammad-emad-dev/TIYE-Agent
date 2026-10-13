@@ -14,6 +14,8 @@
     "validate:reliability": "node scripts/validate-reliability.js",
     "probe:instructions": "node scripts/run-instructions.js",
     "validate:instructions": "node scripts/validate-instructions.js",
+    "probe:briefing": "node scripts/run-briefing.js",
+    "validate:briefing": "node scripts/validate-briefing.js",
     "check": "node --test test/*.test.js"
   },
   "engines": {
