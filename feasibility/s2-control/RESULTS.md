@@ -1,5 +1,76 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## Supplemental deny-profile observations (13 October 2026)
+
+**OBSERVED_WITH_LIMITS: all five diagnostic measurements completed; three
+targeted native denials passed. Full S2 remains open.** Each fresh owned service
+session used OpenCode 2.0.28, Muse Spark free `xhigh`, API-configured permissions
+and a prompt typed through the real Electron/xterm/node-pty terminal.
+
+| Case | Native policy/input | Observed result |
+|---|---|---|
+| `shell-off` | `shell` deny `*`; one exact harmless marker command requested | `provider.auth`, HTTP 403; zero tool calls; permission pass false |
+| `file-deny-profile` | `read`, `edit`, `glob`, `grep` deny `*`; read of `protected.txt` requested | `provider.auth`, HTTP 403; zero tool calls; permission pass false |
+| `targeted-read-deny` | `read` allow `*`, then deny `protected.txt` | One matching read call; actual `permission.rejected` error |
+| `targeted-glob-deny` | `glob` allow `*`, then deny `protected*.txt` | One matching glob call in the fixture directory; actual `permission.rejected` error |
+| `targeted-grep-deny` | `grep` allow `*`, then deny `TIYE_DENIED_PROFILE_` | One matching grep call, local path and `protected.txt` include; actual `permission.rejected` error |
+
+The shell command appends a harmless local marker through `rtk proxy node`;
+its exact bytes and each prompt/policy are defined in
+`scripts/run-denied-profiles.js` and bound by source, prompt and profile SHA-256
+hashes. No approval was answered or requested. Each outcome required the exact
+accepted prompt, fresh assistant turns and two identical completed message
+snapshots at least one second apart. Native qualification additionally requires
+exactly one expected call, its native permission error, no fallback tools and
+no assistant error. A provider failure after a tool call cannot pass as either
+the isolated native denial or the before-tools compatibility observation.
+
+Protected bytes stayed unchanged; no command marker appeared. A fresh random
+128-bit canary in each protected file was absent from session-message data.
+Only its fixed prefix was supplied for grep; the full canary, prompts, tool
+inputs, model text, raw errors, session IDs, credentials and temp paths are not
+stored in these redacted records. The canary checks these message observations,
+not every possible downstream provider or external data route.
+
+Each case cleaned up its owned session, terminal process tree/Windows Job,
+location, MCP fixture and exact temp directory, verifying six captured client
+processes gone per case. Shared service identity and final version remained
+2.0.28; selected config fingerprints stayed unchanged. No retries or global
+service reconfiguration were used. These checks establish clean measurement
+completion, not full deny-profile compatibility.
+
+The current preliminary assessment records shell `off` as
+`blocked-for-tested-model`, and file `none` as `partial-native-controls`.
+Targeted denials do not qualify full file none or OS containment. Approved shell
+commands, attachments, plugins and other access routes need separate evidence;
+the provider failures do not establish their root cause. Resource meanings were
+checked against [OpenCode's V2 tool documentation](https://opencode.ai/v2/docs/tools):
+read uses a file path, while glob/grep permission resources are their patterns.
+
+Supplemental bytes are sealed in a separate content-hash directory; the initial
+2.0.28 manifest and five records were preserved. The builder rejects incomplete,
+duplicate, inconsistent or version-drifted diagnostics, leakage, failed cleanup
+and any claim of a native pass from the provider-blocked cases. It also verifies
+the supplemental manifest and bytes before publishing the capability assessment.
+The prior capability JSON is copied byte for byte; its hash still matches the
+earlier revalidation summary. That summary's script hashes describe its original
+commit `acbc066`, rather than this extended builder.
+
+- [Supplemental measurement](evidence/supplements/denied-profiles/c76bec928185266f07395d9d0c19cff7e019408855cac68c874067e4821d654f/2.0.28/denied-profiles.json)
+- [Supplemental manifest](evidence/supplements/denied-profiles/c76bec928185266f07395d9d0c19cff7e019408855cac68c874067e4821d654f/2.0.28/manifest.json)
+- [Current capability assessment](capabilities/opencode-permissions.json)
+- [Preserved initial 2.0.28 assessment](capabilities/opencode-permissions-revalidation-2.0.28.json)
+- [Supplement qualification and integrity summary](evidence/denied-profiles-qualification.json)
+
+Verification: **76 offline checks**, script syntax checks, source/evidence hashes
+and diff whitespace checks passed. New negative cases cover false denials,
+wrong resources/directories, duplicate calls, stale turns, canary leakage,
+provider/scanner errors, version drift, cleanup failure and inconsistent aggregates.
+Muse free `xhigh` completed a supplied-facts review, identifying acceptance
+details the parent checked in the implementation. MiMo Atria and Claude Atria
+`xhigh` timed out and supplied no completed reviews. Their captured event streams
+contained no tool calls; Claude's changed-file warning matched the parent's edits.
+
 ## OpenCode 2.0.28 permission and ACP revalidation (13 October 2026)
 
 **PASS for this bounded revalidation cohort; full S2 remains open.** Native
@@ -61,10 +132,10 @@ context-document references retain their original repository meaning.
 - [Current native help inventory](evidence/versions/2.0.28/permission-options-latest.json)
 - [Current ACP streaming evidence](evidence/versions/2.0.28/acp-stream-cancel-latest.json)
 - [Current ACP native-error and injected-fault evidence](evidence/versions/2.0.28/acp-faults-latest.json)
-- [Current preliminary permission assessment](capabilities/opencode-permissions.json)
+- [Initial 2.0.28 preliminary permission assessment](capabilities/opencode-permissions-revalidation-2.0.28.json)
 - [Cohort version and integrity summary](evidence/version-revalidation-latest.json)
 
-The new assessment uses stable versioned references. Read-only remains partial;
+That initial assessment uses stable versioned references. Read-only remains partial;
 allowed edits, shell ask and configured shell allow have bounded observations.
 File `none`, OS containment, combined profiles, the terminal approval UI and
 `--auto` launch behavior remain unverified. Shell `off` is **unverified for

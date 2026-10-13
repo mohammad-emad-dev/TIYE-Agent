@@ -19,16 +19,23 @@
     "none": {
       "osEnforcement": "not-established",
       "productGuarantee": false,
-      "observedStatus": "unverified",
+      "observedStatus": "partial-native-controls",
       "documentedNativeRules": [
         "read deny",
         "edit deny",
         "glob deny",
         "grep deny"
       ],
-      "providerCompatibility": "unverified",
-      "evidence": [],
-      "limitation": "No combined no-file-access profile tested; shell, plugins and other tools require separate controls"
+      "providerCompatibility": "http-403-before-tool-execution",
+      "evidence": [
+        "../evidence/supplements/denied-profiles/c76bec928185266f07395d9d0c19cff7e019408855cac68c874067e4821d654f/2.0.28/denied-profiles.json"
+      ],
+      "limitation": "The combined read/edit/glob/grep deny profile did not qualify complete file none. Targeted denials apply only to the tested resources; shell, attachments, plugins and other access routes need separate controls",
+      "observedControls": [
+        "targeted-read-deny",
+        "targeted-glob-deny",
+        "targeted-grep-deny"
+      ]
     },
     "readOnly": {
       "osEnforcement": "not-established",
@@ -61,12 +68,14 @@
     "off": {
       "osEnforcement": "not-established",
       "productGuarantee": false,
-      "observedStatus": "unverified-for-tested-version",
+      "observedStatus": "blocked-for-tested-model",
       "documentedNativeRules": [
         "shell deny"
       ],
-      "providerCompatibility": "not-revalidated",
-      "evidence": [],
+      "providerCompatibility": "http-403-before-tool-execution",
+      "evidence": [
+        "../evidence/supplements/denied-profiles/c76bec928185266f07395d9d0c19cff7e019408855cac68c874067e4821d654f/2.0.28/denied-profiles.json"
+      ],
       "historicalEvidence": [
         {
           "version": "2.0.22",
@@ -76,7 +85,7 @@
           ]
         }
       ],
-      "limitation": "Historical provider rejection does not establish denial enforcement or shell-off compatibility on another version. No recent shell-off retest"
+      "limitation": "No shell tool attempt occurred. Provider failure or no attempt cannot establish native denial enforcement; shell-off compatibility remains open"
     },
     "ask": {
       "osEnforcement": "not-established",
@@ -120,10 +129,11 @@
     "S2.5 error/crash/hang/resume signals",
     "Other CLIs, models and WSL"
   ],
-  "recordedAt": "2026-10-13T17:57:30.558Z",
+  "recordedAt": "2026-10-13T18:46:58.125Z",
   "evidenceHashes": {
     "permission-controls-latest.json": "bdbd316f029dd3abfc10832ee80b117a8dc8d7cb82bc89aed3dc2a98bd1bf4b3",
     "approval-outcomes-latest.json": "9f8df0a68d060663b17fa5aa4361503fb456d42e414fa377f575d4093ca3b5d2",
-    "permission-options-latest.json": "04601f8266569a1216d2ce0c567ca5bbf2eb08cca4d5641bc4154ebb1166dd69"
+    "permission-options-latest.json": "04601f8266569a1216d2ce0c567ca5bbf2eb08cca4d5641bc4154ebb1166dd69",
+    "denied-profiles.json": "c76bec928185266f07395d9d0c19cff7e019408855cac68c874067e4821d654f"
   }
 }

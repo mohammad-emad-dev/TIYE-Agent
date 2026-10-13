@@ -1,0 +1,10 @@
+{
+  "version": "2.0.28",
+  "records": [
+    {
+      "name": "denied-profiles.json",
+      "originalPath": "feasibility/s2-control/evidence/denied-profiles-latest.json",
+      "sha256": "c76bec928185266f07395d9d0c19cff7e019408855cac68c874067e4821d654f"
+    }
+  ]
+}

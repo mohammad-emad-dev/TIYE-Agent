@@ -6,6 +6,31 @@ no model request; the separate invocation probe uses the approved free model.
 
 ## OpenCode 2.0.28 permission and ACP revalidation
 
+### Supplemental deny-profile observations
+
+`npm run probe:denied-profiles` completed five fresh native-terminal cases on
+2.0.28 with Muse Spark free `xhigh`. Targeted read, glob and grep requests each
+produced one actual `permission.rejected` tool error. The shell deny-all and
+combined read/edit/glob/grep deny-all profiles instead returned provider
+`provider.auth` HTTP 403 before any tool call. The diagnostic cohort is
+`OBSERVED_WITH_LIMITS`, not a five-case permission pass.
+
+Every case verified accepted fresh input, configured and executed model,
+permissions, stable completed turns, no approval replies, unchanged protected
+bytes, absent command marker, no fixture canary in session messages, exact file
+scope and owned cleanup. Shared service identity/version and selected config
+fingerprints stayed unchanged. The full random canary is never in the prompt
+or committed evidence. **76 offline checks pass.**
+
+The current assessment records shell `off` as blocked for this tested model,
+and file `none` as partial native controls. Neither provider failure nor an
+assistant's refusal proves permission enforcement. OS containment and complete
+product profiles remain open. The builder requires this supplemental cohort to
+match its separate byte-hash archive as well as the earlier sealed sources.
+The initial 2.0.28 archive stays intact. Its previous assessment is preserved in
+`capabilities/opencode-permissions-revalidation-2.0.28.json`.
+See [the detailed results](RESULTS.md#supplemental-deny-profile-observations-13-october-2026).
+
 The existing five permission cases passed again on 2.0.28 with Muse Spark
 free `xhigh`: allowed edit, configured shell allow, actual targeted edit denial,
 shell rejection, and approval once followed by a distinct pending repeat.
@@ -15,10 +40,10 @@ All probes verified owned cleanup, unchanged shared service identity and
 selected config fingerprints. **71 offline checks pass.**
 
 The preliminary [permission assessment](capabilities/opencode-permissions.json)
-now qualifies only its bounded 2.0.28 observations. File `none`, OS containment,
-combined profiles and terminal approval UI remain unverified. Shell `off`
-is unverified for 2.0.28; its older provider rejection is explicitly tagged
-2.0.22. `productionEligible` and every `productGuarantee` remain false.
+qualifies only its bounded 2.0.28 observations. Complete file `none`, OS containment,
+combined profiles and terminal approval UI remain unverified. The supplemental
+shell `off` observation is blocked for this model; its older provider rejection
+is separately tagged 2.0.22. `productionEligible` and every `productGuarantee` remain false.
 
 The reviewed-version policy accepts exact 2.0.22 and 2.0.28 labels. ACP compares
 its native initialization version with preflight service info before generation.

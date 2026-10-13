@@ -542,8 +542,17 @@ cancellation passed again on 2.0.28. The assessment references hash-verified,
 versioned source records; prior 2.0.22 bytes and their original paths are
 preserved in a separate archive manifest. Qualification rejects mixed or
 unreviewed versions, failed cohorts and final service-version drift. Shell
-`off` is unverified for 2.0.28; the older provider rejection is tagged as 2.0.22
-history. Capability evidence is matched to the observed version, not inherited
+`off` returned provider HTTP 403 before tools in a fresh 2.0.28 supplemental
+probe; the combined read/edit/glob/grep deny profile did the same. Shell `off`
+is recorded as blocked for this model, with native enforcement unproven.
+Targeted read, glob and grep calls each produced an actual native permission
+denial, leaving file `none` at partial native controls. All five diagnostic
+measurements verified no canary leakage in messages, unchanged files, owned
+cleanup and stable shared service/configs; only the three targeted cases qualify
+as permission passes. Supplemental records are sealed separately by byte hash;
+the initial 2.0.28 archive and prior assessment remain preserved. The older shell
+provider rejection is tagged as 2.0.22 history. Capability evidence is matched to
+the observed version, not inherited
 automatically across updates. Archive integrity is enforced by the feasibility
 helper; signed runtime data updates remain a product implementation task.
 

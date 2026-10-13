@@ -14,6 +14,7 @@ const { recoveryRunPassed } = require('./recovery-evidence');
 const { activeDisconnectRunPassed } = require('./active-disconnect-evidence');
 const { streamCancelRunPassed } = require('./stream-cancel-evidence');
 const { commandCancelRunPassed } = require('./command-cancel-evidence');
+const { deniedProfileMeasurementPassed } = require('./denied-profile-evidence');
 const terminalMode = process.argv.includes('--terminal');
 const serviceMode = process.argv.includes('--service') || terminalMode;
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -63,9 +64,10 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
       fs.writeFileSync(path.join(cwd, 'package.json'), JSON.stringify({ name: 'tiye-t1-fixture', private: true, scripts: { test: 'node --test' } }));
       fs.writeFileSync(path.join(cwd, 'README.md'), 'Disposable TIYE T1 project. Add clamp.js and clamp.test.js.\n');
       if (task.kind === 'permission') fs.writeFileSync(path.join(cwd, 'protected.txt'), 'original protected bytes\n');
+      if (task.kind === 'denied-profile') fs.writeFileSync(path.join(cwd, 'protected.txt'), task.protectedBytes);
       if (task.caseID === 'allow-edit-control') fs.writeFileSync(path.join(cwd, 'editable.txt'), 'original editable bytes\n');
       if (task.kind === 'command-cancel') fs.writeFileSync(path.join(cwd, 'execution-fixture.cjs'), task.executionFixture);
-      const initialFiles = ['package.json', 'README.md', ...(task.kind === 'command-cancel' ? ['execution-fixture.cjs'] : [])];
+      const initialFiles = ['package.json', 'README.md', ...(task.kind === 'command-cancel' ? ['execution-fixture.cjs'] : []), ...(task.kind === 'denied-profile' ? ['protected.txt'] : [])];
       for (const args of [['init', '--quiet'], ['add', ...initialFiles], ['-c', 'user.name=TIYE Fixture', '-c', 'user.email=fixture@local', 'commit', '--quiet', '-m', 'Initial T1 fixture']]) {
         if (spawnSync('git', args, { cwd, windowsHide: true }).status !== 0) throw new Error('T1 Git fixture failed');
       }
@@ -99,7 +101,13 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
       const expected = ['child-heartbeat.txt', 'child-started.json', 'opencode.json', 'root-heartbeat.txt', 'root-started.json'];
       evidence.onlyFixtureFilesPresent = changed.status === 0 && JSON.stringify(changed.stdout.trim().split(/\r?\n/).map(line => line.slice(3)).sort()) === JSON.stringify(expected);
     }
-    if (terminalMode && !['permission', 'recovery', 'active-disconnect', 'stream-cancel', 'command-cancel'].includes(task.kind) && evidence.cli.completedAck && evidence.cli.idleVerified) {
+    if (task.kind === 'denied-profile') {
+      evidence.protectedFileUnchanged = fs.readFileSync(path.join(cwd, 'protected.txt')).equals(task.protectedBytes);
+      evidence.commandMarkerAbsent = !fs.existsSync(path.join(cwd, 'approval-marker.txt'));
+      const changed = spawnSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd, windowsHide: true, encoding: 'utf8' });
+      evidence.onlyFixtureFilesPresent = changed.status === 0 && changed.stdout.trim() === '?? opencode.json';
+    }
+    if (terminalMode && !['permission', 'recovery', 'active-disconnect', 'stream-cancel', 'command-cancel', 'denied-profile'].includes(task.kind) && evidence.cli.completedAck && evidence.cli.idleVerified) {
       if (task.kind !== 'question') {
       const target = path.resolve(__dirname, '../evidence', captureName);
       fs.mkdirSync(target, { recursive: true });
@@ -141,6 +149,11 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
   evidence.fixtureErrors = failed;
   evidence.serverLogTruncated = truncated;
   const cli = evidence.cli;
+  if (task.kind === 'denied-profile') {
+    evidence.measurementPassed = deniedProfileMeasurementPassed(evidence);
+    evidence.passed = evidence.measurementPassed && cli.nativeDenialObserved;
+    return evidence;
+  }
   if (task.kind === 'command-cancel') { evidence.passed = commandCancelRunPassed(evidence); return evidence; }
   if (task.kind === 'stream-cancel') { evidence.passed = streamCancelRunPassed(evidence); return evidence; }
   if (task.kind === 'active-disconnect') { evidence.passed = activeDisconnectRunPassed(evidence); return evidence; }

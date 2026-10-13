@@ -1,0 +1,62 @@
+{
+  "recordedAt": "2026-10-13T18:47:42.053Z",
+  "scope": "Full shell-off and file-deny profile compatibility plus targeted read/glob/grep denial; diagnostic measurement completion is not permission qualification",
+  "version": "2.0.28",
+  "result": "OBSERVED_WITH_LIMITS",
+  "measurementComplete": true,
+  "permissionCasesPassed": 3,
+  "totalCases": 5,
+  "cases": [
+    {
+      "caseID": "shell-off",
+      "outcome": "provider-blocked",
+      "toolCalls": 0,
+      "measurementPassed": true,
+      "permissionPassed": false
+    },
+    {
+      "caseID": "file-deny-profile",
+      "outcome": "provider-blocked",
+      "toolCalls": 0,
+      "measurementPassed": true,
+      "permissionPassed": false
+    },
+    {
+      "caseID": "targeted-read-deny",
+      "outcome": "native-denial",
+      "toolCalls": 1,
+      "measurementPassed": true,
+      "permissionPassed": true
+    },
+    {
+      "caseID": "targeted-glob-deny",
+      "outcome": "native-denial",
+      "toolCalls": 1,
+      "measurementPassed": true,
+      "permissionPassed": true
+    },
+    {
+      "caseID": "targeted-grep-deny",
+      "outcome": "native-denial",
+      "toolCalls": 1,
+      "measurementPassed": true,
+      "permissionPassed": true
+    }
+  ],
+  "supplementalReference": "supplements/denied-profiles/c76bec928185266f07395d9d0c19cff7e019408855cac68c874067e4821d654f/2.0.28/denied-profiles.json",
+  "supplementalSha256": "c76bec928185266f07395d9d0c19cff7e019408855cac68c874067e4821d654f",
+  "archiveIntegrityVerified": true,
+  "initialArchivesUnchanged": true,
+  "priorAssessmentPreserved": true,
+  "measuredSourcesUnchanged": true,
+  "currentAssessmentMatchesValidatedInputs": true,
+  "offlineChecksPassed": 76,
+  "productionEligible": false,
+  "shellOffStatus": "blocked-for-tested-model",
+  "fileNoneStatus": "partial-native-controls",
+  "sourceHashes": {
+    "capabilities/opencode-permissions.json": "a4b57446ec6a3122e75d8d56cb12ffff324608cee04168bcb9cdc3556823a3c0",
+    "capabilities/opencode-permissions-revalidation-2.0.28.json": "74a8da8a27d6a128819fb0ce59ddb6a9f896bade85bf5a924c8b1b682a91b17a",
+    "scripts/build-permission-capabilities.js": "3d2b527be375415e25c00d6f99e802a0b62c79c469c4750127c90b69e5c0e070"
+  }
+}
