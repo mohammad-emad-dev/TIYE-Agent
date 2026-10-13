@@ -7,14 +7,15 @@ const permissionEvidence = (messages, requests, sessionID, task) => evidenceFor(
 test('edit denial requires an actual permission error and rejects prose or scanner failures', () => {
   const task = { caseID: 'deny-edit', prompt: 'edit the protected file' };
   const user = { type: 'user', text: task.prompt };
-  const tool = { type: 'tool', id: 't1', name: 'edit', state: { status: 'error', input: { filePath: 'protected.txt' }, error: { type: 'Permission.BlockedError' } } };
+  const tool = { type: 'tool', id: 't1', name: 'edit', state: { status: 'error', input: { path: 'protected.txt' }, error: { type: 'permission.rejected' } } };
   const assistant = { type: 'assistant', id: 'a1', content: [tool] };
   assert.equal(permissionEvidence([user, assistant], [], 's1', task).permissionObserved, true);
   const rejected = [
     { ...assistant, content: [{ type: 'text', text: 'Permission denied, I cannot edit.' }] },
     { ...assistant, content: [{ ...tool, state: { ...tool.state, error: { type: 'ShellScannerError' } } }] },
     { ...assistant, content: [{ ...tool, state: { ...tool.state, error: { type: 'PermissionDeniedError' } } }] },
-    { ...assistant, content: [{ ...tool, state: { ...tool.state, input: { filePath: 'other.txt' } } }] },
+    { ...assistant, content: [{ ...tool, state: { ...tool.state, input: { path: 'other.txt' } } }] },
+    { ...assistant, content: [{ ...tool, state: { ...tool.state, input: { path: '../other/protected.txt' } } }] },
     { ...assistant, content: [tool, { type: 'tool', name: 'shell', state: { status: 'completed' } }] },
     { ...assistant, error: { type: 'ProviderError', status: 403 } },
     { ...assistant, content: [{ ...tool, state: { status: 'completed' } }] },
@@ -48,6 +49,7 @@ test('a pending approval cannot pass after timeout, incomplete observation, clea
   const runs = require('../evidence/permissions-initial.json').runs;
   const approvedGate = runs.find(run => run.caseID === 'ask-shell');
   assert.equal(permissionRunPassed({ run: approvedGate, caseID: 'ask-shell' }), true);
+  assert.equal(permissionRunPassed({ run: approvedGate, caseID: 'unknown-case' }), false);
   for (const change of [{ observationTimedOut: true }, { pendingObservedTwice: false }, { sessionRemoved: false }, { cleanup: { verified: false, jobVerified: true } }]) {
     assert.equal(permissionRunPassed({ run: { ...approvedGate, cli: { ...approvedGate.cli, ...change } }, caseID: 'ask-shell' }), false);
   }

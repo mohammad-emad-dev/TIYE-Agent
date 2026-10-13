@@ -2,6 +2,7 @@
 
 const { spawn } = require('node:child_process');
 const path = require('node:path');
+const { quiescentMessages } = require('./service-quiescence');
 const { nativeExecutable, attachJob, closePrivate, waitUntil, summarizeToolEvents, processInventory, ownedIdentities } = require('./persistent-cli');
 const SERVICE_PERMISSIONS = [
   { action: 'edit', resource: '*', effect: 'deny' },
@@ -109,7 +110,12 @@ async function probeServiceReport({ cwd, summary, member, terminalTask, sessionP
         if (!evidence.sessionStopped) throw new Error('owned session still running');
         const stopped = await serviceApi(cwd, 'GET', `/api/session/${sessionID}`);
         evidence.idleVerified = Number.isFinite(stopped.data?.time?.idle) && stopped.data.time.idle >= createdAt;
-        if (!evidence.idleVerified) throw new Error('owned session idle state unverified');
+        if (!evidence.idleVerified) {
+          const messages = (await serviceApi(cwd, 'GET', `/api/session/${sessionID}/message?limit=100&order=desc`)).data;
+          const pending = (await serviceApi(cwd, 'GET', `/api/session/${sessionID}/permission`)).data;
+          evidence.quiescentVerified = quiescentMessages({ messages, pending, createdAt });
+          if (!evidence.quiescentVerified) throw new Error('owned session execution state unverified');
+        }
         await serviceApi(cwd, 'DELETE', `/api/session/${sessionID}`);
         const sessions = await serviceApi(cwd, 'GET', `/api/session?directory=${encodeURIComponent(cwd)}`);
         evidence.sessionRemoved = Array.isArray(sessions.data) && !sessions.data.some(session => session.id === sessionID);

@@ -74,8 +74,10 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
     if (task.kind === 'permission') {
       evidence.protectedFileUnchanged = fs.readFileSync(path.join(cwd, 'protected.txt')).equals(Buffer.from('original protected bytes\n'));
       evidence.commandMarkerAbsent = !fs.existsSync(path.join(cwd, 'approval-marker.txt'));
+      evidence.commandMarkerMatched = task.expectedMarker !== undefined && !evidence.commandMarkerAbsent && fs.readFileSync(path.join(cwd, 'approval-marker.txt')).equals(Buffer.from(task.expectedMarker));
       const changed = spawnSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd, windowsHide: true, encoding: 'utf8' });
-      evidence.onlyFixtureFilesPresent = changed.status === 0 && JSON.stringify(changed.stdout.trim().split(/\r?\n/).map(line => line.slice(3)).sort()) === JSON.stringify(['opencode.json', 'protected.txt']);
+      const expectedPaths = task.expectedMarker === undefined ? ['opencode.json', 'protected.txt'] : ['approval-marker.txt', 'opencode.json', 'protected.txt'];
+      evidence.onlyFixtureFilesPresent = changed.status === 0 && JSON.stringify(changed.stdout.trim().split(/\r?\n/).map(line => line.slice(3)).sort()) === JSON.stringify(expectedPaths);
     }
     if (terminalMode && task.kind !== 'permission' && evidence.cli.completedAck && evidence.cli.idleVerified) {
       if (task.kind !== 'question') {

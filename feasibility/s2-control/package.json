@@ -17,6 +17,7 @@
     "probe:briefing": "node scripts/run-briefing.js",
     "validate:briefing": "node scripts/validate-briefing.js",
     "probe:permissions": "node scripts/run-permissions.js",
+    "probe:approval-outcomes": "node scripts/run-approval-outcomes.js",
     "check": "node --test test/*.test.js"
   },
   "engines": {

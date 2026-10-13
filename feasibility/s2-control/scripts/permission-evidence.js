@@ -1,6 +1,7 @@
 'use strict';
+const path = require('node:path');
 
-function permissionEvidence({ messages, requests, sessionID, task }) {
+function permissionEvidence({ messages, requests, sessionID, task, cwd = process.cwd() }) {
   const assistants = messages.filter(message => message.type === 'assistant');
   const tools = assistants.flatMap(message => (message.content || []).filter(part => part.type === 'tool').map(tool => ({ message, tool })));
   const shells = tools.filter(({ tool }) => tool.name === 'shell');
@@ -11,9 +12,10 @@ function permissionEvidence({ messages, requests, sessionID, task }) {
     && Array.isArray(request.resources) && request.resources.includes(task.command)
     && shells.some(({ message, tool }) => request.source.messageID === message.id && request.source.id === tool.id
       && tool.state?.status === 'running' && tool.state.input?.command === task.command));
-  // V2 Core's typed configured-denial error; provider HTTP errors do not count.
-  const denied = edits.filter(({ tool }) => tool.state?.status === 'error' && tool.state.error?.type === 'Permission.BlockedError'
-    && tool.state.input?.filePath?.replace(/\\/g, '/').split('/').at(-1) === 'protected.txt');
+  // V2 serializes the observed configured denial as permission.rejected.
+  const denied = edits.filter(({ tool }) => tool.name === 'edit' && tool.state?.status === 'error' && tool.state.error?.type === 'permission.rejected'
+    && typeof tool.state.input?.path === 'string'
+    && path.resolve(cwd, tool.state.input.path).toLowerCase() === path.resolve(cwd, 'protected.txt').toLowerCase());
   const unexpectedTools = tools.filter(({ tool }) => !['edit', 'write', 'patch', 'shell'].includes(tool.name));
   return {
     promptAccepted: accepted,
@@ -34,14 +36,15 @@ function permissionEvidence({ messages, requests, sessionID, task }) {
 }
 
 function permissionRunPassed({ run, caseID }) {
+  if (!['deny-edit', 'ask-shell', 'reject-shell', 'allow-once-shell'].includes(caseID)) return false;
   const cli = run.cli;
   return Boolean(!run.error && !run.fixtureErrors && !cli?.error && cli?.permissionObserved === true
-    && !cli.observationTimedOut && (caseID === 'ask-shell' ? cli.pendingObservedTwice === true : cli.stableIdle === true)
+    && !cli.observationTimedOut && (['ask-shell', 'allow-once-shell'].includes(caseID) ? cli.pendingObservedTwice === true : caseID === 'reject-shell' ? cli.stableTerminal === true : cli.stableIdle === true)
     && cli.terminalInputMatched && cli.terminalOutputObserved && cli.promptAccepted && cli.permissionsConfirmed && cli.agentConfirmed
     && cli.modelConfirmed && cli.executedModelConfirmed && cli.locationConfirmed && cli.connected
-    && cli.sessionStopped && cli.idleVerified && cli.sessionRemoved && cli.locationEvicted && cli.serviceIdentityUnchanged
+    && cli.sessionStopped && (cli.idleVerified || (['reject-shell', 'allow-once-shell'].includes(caseID) && cli.quiescentVerified)) && cli.sessionRemoved && cli.locationEvicted && cli.serviceIdentityUnchanged
     && cli.cleanup?.verified && cli.cleanup.jobVerified && !cli.cliSpawnError && !cli.outputTruncated
-    && run.protectedFileUnchanged && run.commandMarkerAbsent && run.onlyFixtureFilesPresent
+    && run.protectedFileUnchanged && (caseID === 'allow-once-shell' ? run.commandMarkerMatched === true && cli.markerBeforeStopMatched === true : run.commandMarkerAbsent) && run.onlyFixtureFilesPresent
     && run.serverReportCalls === 0 && run.serverQuestionCalls === 0 && run.otherServerCalls === 0
     && run.logHygiene && !run.serverLogTruncated && run.fixtureStopped && run.tempRemoved);
 }

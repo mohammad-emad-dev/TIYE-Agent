@@ -22,7 +22,7 @@ async function observe(task, { cwd, sessionID, serviceApi, state, taskSubmittedA
     const messages = (await serviceApi(cwd, 'GET', `/api/session/${sessionID}/message?limit=100&order=desc`)).data;
     const requests = (await serviceApi(cwd, 'GET', `/api/session/${sessionID}/permission`)).data;
     if (!Array.isArray(messages) || !Array.isArray(requests)) throw new Error('permission schema invalid');
-    evidence = permissionEvidence({ messages, requests, sessionID, task });
+    evidence = permissionEvidence({ messages, requests, sessionID, task, cwd });
     if (task.caseID === 'ask-shell' && evidence.permissionObserved) {
       // Re-observe the same blocked tool and approval before interrupting it.
       const identity = requests[0].id;

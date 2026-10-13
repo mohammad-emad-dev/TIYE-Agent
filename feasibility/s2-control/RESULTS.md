@@ -1,5 +1,88 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## S2.4 controlled denial and approval outcomes (13 October 2026)
+
+**PASS for the final three-case batch; full S2.4 remains open.** OpenCode
+2.0.22 with Muse Spark free `xhigh` received each task through the native
+terminal in a fresh disposable project and session.
+
+| Final case | Observed |
+|---|---|
+| Targeted edit denial | One `edit` call to protected.txt, `permission.rejected`, original bytes unchanged |
+| Reject shell | Reply `reject` accepted; original tool aborted; zero completed commands and no marker |
+| Approve shell once | Reply `once` accepted; one completed command; distinct second call/request for the identical command pending twice |
+| Marker before stopping / after client cleanup | Exactly `approved` / exactly `approved` |
+| Owned session, client Job, location, MCP fixture and temp cleanup | 3/3 verified |
+| Selected configs and shared service identity | Unchanged |
+
+The controlled edit policy allows `edit` generally and appends a deny for
+`protected.txt`, leaving the tool available for an actual attempt. The
+earlier broad-deny sessions remain inconclusive because they made no attempt.
+The final classifier resolves the input path against the owned project;
+same-basename external files, other tools and provider/scanner errors do not
+establish the denial. This is observed denial under these rules, not proof
+that every other file remains editable or that all permission layers are isolated.
+
+Both shell decisions require two observations of the exact own-session
+request, joined to assistant ID, tool-call ID, command and project working
+directory. Unexpected input fields or commands are not approved. The reply
+decision is recorded as a fixed value; request IDs and raw arguments remain
+in memory. No `always` reply is sent. For approval once, the second request
+is left unanswered and the marker is checked before and after session/client
+shutdown. Rejection requires removal of the pending request, a terminal
+error on the replied-to call, and two observations of a completed turn.
+
+### Failure measurements and recovery
+
+The first batch stopped after rejection. OpenCode serialized the rejected
+shell turn as `aborted` and omitted its normal idle timestamp. The old cleanup
+gate therefore retained the owned session/project. The parent recovered
+only that project after verifying its session identity/location, two scoped
+interrupts with no remaining execution, completed assistant turns, terminal
+tool states, and no pending permissions. It then deleted that session,
+verified an empty own-directory session list, evicted the exact location,
+verified the same service PID and removed the exact verified temp child.
+The client Job and MCP fixture had already stopped. No shared service was restarted.
+
+The cleanup harness now records `quiescentVerified` separately when normal
+idle is absent. That proof requires stopped execution plus completed turns,
+terminal tools and no approvals; running tools, unfinished messages, stale
+completion times and unknown pending lists fail. Rejection remains an
+aborted terminal turn, not a normal idle conversation or proven resumed work.
+
+The first and second edit measurements failed classification because the
+classifier initially checked a V1-style `filePath` field and an internal
+error name. Inspection of the [V2 edit input](https://github.com/anomalyco/opencode/blob/dev/packages/core/src/tool/plugin/edit.ts)
+and [error serialization](https://github.com/anomalyco/opencode/blob/dev/packages/core/src/session/to-session-error.ts)
+confirmed `path` and `permission.rejected`. Both measurements remain unchanged;
+the corrected classifier passed a fresh final attempt. The second batch's
+reject and once cases passed before the additional pre-stop marker check;
+the final batch exercised that check as well.
+
+- [First batch, including cleanup failure](evidence/approval-outcomes-first.json)
+- [Second batch, including classifier failure](evidence/approval-outcomes-second.json)
+- [Final three-case measurement and source hashes](evidence/approval-outcomes-latest.json)
+- Runner: `scripts/run-approval-outcomes.js`
+- Verification: 44 offline harness checks and all S2 script syntax checks passed.
+
+After the final measurement, supported-case and malformed-message guards
+were tightened with offline coverage. The stored source hashes describe
+the versions used for that measurement; these later guards do not turn an
+earlier failed trial into a pass.
+
+Muse free `xhigh` and Claude Atria `xhigh` completed supplied-facts read-only
+reviews. Correlation, reply mode, pre/post-stop marker checks, denial evidence
+and lifecycle distinctions were addressed. Claude's tripwire saw the parent's
+concurrent edits, which were reviewed directly. MiMo Atria timed out after
+four minutes without a final review. No model was substituted.
+
+Limits: these are API-mediated approval decisions following terminal-origin
+tool calls; the approval UI itself is not exercised. Saved approvals,
+allow-always, a paired non-protected edit control, the full file/terminal
+capability matrix, and OS isolation remain unproven. The free-model shell-off
+403 remains unresolved. Next: complete the remaining S2.4 capability mapping
+and the S2.5 error/recovery checks. Full S2 remains open.
+
 ## S2.4 shell approval and edit-denied session probes (13 October 2026)
 
 **PARTIAL; S2.4 remains open.** Two sequential measurements each used two
@@ -37,8 +120,9 @@ No real project files were assigned to either live task.
 The final pass-classifier extraction and timeout guard were verified against
 the preserved measurement through offline tests. Raw tool inputs, permission
 messages, session IDs, credentials and model reply text are not persisted.
-Typed denial recognition has synthetic boundary coverage; it has not been
-exercised against an actual V2 edit denial in these trials.
+Typed denial recognition at this historical measurement had only synthetic
+coverage. Its V1-style path/error assumptions were corrected and exercised
+in the later controlled-denial batch above.
 
 Muse free `xhigh` and Claude Atria `xhigh` completed supplied-facts read-only
 reviews. Their concerns about correlation, absent-tool false positives,

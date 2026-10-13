@@ -6,12 +6,33 @@ no model request; the separate invocation probe uses the approved free model.
 
 ## Permission probes
 
+`npm run probe:approval-outcomes` adds a controlled edit-denial case,
+shell rejection, and approval once. Each uses a fresh disposable project.
+The final batch passed all three cases, with 44 offline harness checks.
+The edit policy allows the tool generally, then denies `protected.txt`;
+the classifier requires an actual `edit` call, its exact V2 `path`, a
+`permission.rejected` error and unchanged protected bytes.
+
+Approval replies use the own-session API after two observations of the
+correlated request. Rejection must leave no completed command or marker.
+Approval once must complete the first call and leave a distinct second
+request for the same command pending twice; marker bytes must equal
+`approved` both before stopping the session and after client cleanup.
+No persistent `always` approval is sent. See `approval-outcomes-latest.json`
+and the preserved `approval-outcomes-first.json` / `approval-outcomes-second.json`.
+
+OpenCode may finish rejection as an aborted turn without an idle timestamp.
+The harness records this separately. Cleanup then requires two own-session
+interrupt checks confirming stopped execution, completed assistant turns,
+terminal tool states and no remaining permission requests. It does not label
+that state normal idle. Prior measurement failures remain recorded.
+
 `npm run probe:permissions` tests an edit-denied session and a shell-approval
 session in separate disposable projects through the native terminal. It uses
 Muse Spark free `xhigh`, verifies the created session's agent and permission
 array, and never replies to approvals or enables automatic approval.
 
-Current result: **PARTIAL**. The initial run and a second fresh-session run
+The earlier broad-deny measurement remains **PARTIAL**. Its initial run and a second fresh-session run
 both paused the exact shell command for approval without executing it. The
 protected file stayed unchanged in both edit cases, but neither produced
 an edit tool attempt. That is insufficient evidence of a blocked edit.
