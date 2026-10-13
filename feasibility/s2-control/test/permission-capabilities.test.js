@@ -145,3 +145,33 @@ test('saved approval evidence qualifies session reuse, project scope, deny prece
     assert.throws(() => assessment({ ...input, savedApprovals }), /Saved approval/);
   }
 });
+
+test('shared approval scope is classified as a strict member-ask conflict, never a worktree isolation guarantee', () => {
+  const input = {
+    controls: require('../evidence/versions/2.0.28/permission-controls-latest.json'),
+    approvals: require('../evidence/versions/2.0.28/approval-outcomes-latest.json'),
+    inventory: require('../evidence/versions/2.0.28/permission-options-latest.json'),
+    worktreeApprovals: require('../evidence/supplements/worktree-approvals/9e8f410baf99420b2fe22ec81b1101a03e5a0f0f0bee199844d98c006fbd8eeb/2.0.28/worktree-approvals.json'),
+  };
+  const classified = assessment(input);
+  const observed = classified.terminal.ask.worktreeApprovals;
+  assert.equal(observed.observedStatus, 'saved-project-allow-shared-across-worktree');
+  assert.equal(observed.sharedNativeProject, true);
+  assert.equal(observed.strictMemberAskGuarantee, false);
+  assert.equal(observed.policyImplementation, 'not-implemented');
+  assert.equal(classified.productionEligible, false);
+  assert.equal(classified.terminal.ask.productGuarantee, false);
+  assert.equal(classified.terminal.ask.osEnforcement, 'not-established');
+  for (const mutate of [
+    measurement => { measurement.result = 'OBSERVED_SEPARATE_PROJECT_SCOPE'; },
+    measurement => { measurement.expectedVersion = '2.0.22'; },
+    measurement => { measurement.selectedConfigsUnchanged = false; },
+    measurement => { measurement.run.cli.registryMatched = false; },
+    measurement => { measurement.run.cli.savedRuleCount++; },
+    measurement => { measurement.run.cli.proposedPatternHashes[0] = 'invalid'; },
+    measurement => { measurement.run.cli.worktreePhases[1].completedShellCalls = 0; },
+  ]) {
+    const worktreeApprovals = structuredClone(input.worktreeApprovals); mutate(worktreeApprovals);
+    assert.throws(() => assessment({ ...input, worktreeApprovals }), /Worktree approval/);
+  }
+});

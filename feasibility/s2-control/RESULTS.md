@@ -1,5 +1,98 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## Saved approval scope across worktrees (13 October 2026)
+
+**OBSERVED_SHARED_PROJECT_SCOPE: all five diagnostic phases qualified; strict
+per-member approval isolation did not.** The OpenCode 2.0.28 / Muse Spark free
+`xhigh` run used one fresh Git root with a randomized initial commit and one
+detached worktree of its HEAD. Their Git common directory, initial HEAD and
+two-entry worktree registry were verified. Native active-location paths were
+distinct, while native project IDs were equal; the worktree's project-directory
+metadata pointed to the root. Saved-rule baselines were empty before approval.
+
+| Phase | Observed result |
+|---|---|
+| Root native Always allow | One correlated command completed after verified Right/Enter input; one owned saved rule appeared; root marker `approved` |
+| Fresh worktree session, shell ask | Same exact command completed without a pending request observed or decision input; worktree marker `approved` |
+| Worktree explicit deny | Saved rule still present; targeted deny produced actual `permission.rejected`; no additional append |
+| Worktree after revocation | Exact correlated request remained pending twice; marker stayed at one append |
+| Root after revocation | Exact correlated request remained pending twice; root marker stayed at one append |
+
+The observer validates fresh prompt/assistant timestamps, configured/executed
+model and variant, agent, permissions, active directory and native project
+identity for each new session. The common shell-phase checker requires one
+exact command, current cwd, no fallback tools or assistant errors, and the
+appropriate running/completed/native-denied tool state. Two stable snapshots
+and marker-byte observations are separated by at least one second, with
+90-second phase deadlines and five-second UI IPC deadlines. The shared-scope
+reuse phase fails if any pending request was observed. Only the root seed
+receives a native approval decision; the parent sends no permission API replies.
+
+Always allow uses the existing twice-checked proposed-pattern pane and exact
+keyboard-input proof. Saved rows are bound to the initially empty owned
+project, shell action, proposed pattern set and creation time. They remain
+present until after the worktree deny phase, then are removed only by their
+validated owned IDs. The result aligns with the project-scoped saved approvals
+described in [OpenCode's V2 permission documentation](https://opencode.ai/v2/docs/permissions),
+and the actual worktree execution supplies the cross-location evidence.
+
+### Consequence for the adapter contract
+
+A saved project shell allow can skip the approval expected from a fresh
+worktree session's shell-ask policy. The current assessment therefore records
+`strictMemberAskGuarantee: false` and requires a conflict check for strict
+per-member ask. The intended runtime policy blocks an affected launch until
+the stored approval conflict is resolved or an explicit project-wide policy
+is selected, and rechecks when permissions change. This preflight/monitoring
+policy is **not implemented**. The measurement used the same tested build agent
+and model; it does not qualify other agents, models, backend restarts, arbitrary
+prefix safety or OS containment.
+
+Worktrees remain a file-ownership mechanism in the architecture. The broader
+S3 ownership-watcher/isolation test and core application remain open. No user
+project's worktree, saved approval, settings or files were changed by this run.
+
+### Cleanup, integrity and verification
+
+All five sessions were deleted, with each private client tree/Windows Job
+verified gone. Worktree protected bytes, exact untracked file scope and the
+marker were checked after the additional clients closed; original-root checks
+also passed. The original client closed before eviction. Worktree cleanup
+verified session absence, exact location eviction, resolved root/worktree temp
+boundaries, common Git ownership and the two-entry registration before
+`git worktree remove --force` targeted only the owned worktree. Its directory
+was gone and the registry contained only the owned root. The root temp and MCP
+fixture then cleaned up. The original fixture retains its root if either
+saved-rule or worktree cleanup is unverified. A private ignored ownership locator
+supports exact recovery; no recovery or broad prune was needed in this run.
+Shared service identity/final version and selected config fingerprints stayed
+unchanged.
+
+The record is sealed in a separate content-hash supplement. Earlier archive
+bytes remain unchanged, and the previous saved-approval assessment is copied
+byte for byte with its prior qualification hash verified. Historical script
+hashes retain their original meaning. The shared saved-probe module now exposes
+only the helpers used here and accepts this caller's validated worktree identity
+lookup; its default root behavior is unchanged.
+
+- [Worktree measurement](evidence/supplements/worktree-approvals/9e8f410baf99420b2fe22ec81b1101a03e5a0f0f0bee199844d98c006fbd8eeb/2.0.28/worktree-approvals.json)
+- [Supplement manifest](evidence/supplements/worktree-approvals/9e8f410baf99420b2fe22ec81b1101a03e5a0f0f0bee199844d98c006fbd8eeb/2.0.28/manifest.json)
+- [Qualification and integrity summary](evidence/worktree-approvals-qualification.json)
+- [Current preliminary assessment](capabilities/opencode-permissions.json)
+- [Preserved saved-approval assessment](capabilities/opencode-permissions-saved-approvals-2.0.28.json)
+
+Verification: **90 offline checks**, script syntax, measured source/archive/
+published/staged-byte integrity and diff whitespace checks passed. Coverage
+rejects wrong active/project locations, topology mismatches, contradictory scope
+classification, wrong phase outcomes, a pending flash during shared reuse,
+missing file/marker checks, failed registry cleanup and version drift. The
+capability record retains `productionEligible: false` and all
+`productGuarantee: false` values. Muse free `xhigh` completed a supplied-facts
+review; the parent verified its identified scope and cleanup risks against
+the implementation and live record. Both Atria routes timed out. Captured
+delegate events had no tool calls; Claude's changed-file warning matched the
+parent's concurrent edits.
+
 ## Saved approvals and project scope (13 October 2026)
 
 **PASS for this five-phase cohort; full S2 remains open.** OpenCode 2.0.28
@@ -83,7 +176,7 @@ an owned-cleanup guard used by this probe.
 - [Saved approval measurement](evidence/supplements/saved-approvals/0719a9c02b6d2f879acf5d34f62ceab119d1335e812f6e71df999dea10874342/2.0.28/saved-approvals.json)
 - [Supplement manifest](evidence/supplements/saved-approvals/0719a9c02b6d2f879acf5d34f62ceab119d1335e812f6e71df999dea10874342/2.0.28/manifest.json)
 - [Qualification and integrity summary](evidence/saved-approvals-qualification.json)
-- [Current preliminary assessment](capabilities/opencode-permissions.json)
+- [Saved-approval preliminary assessment](capabilities/opencode-permissions-saved-approvals-2.0.28.json)
 - [Preserved terminal assessment](capabilities/opencode-permissions-terminal-approvals-2.0.28.json)
 - [First failed attempt](evidence/saved-approvals-first.json) / [exact recovery](evidence/saved-approvals-recovery-first.json)
 - [Second failed attempt](evidence/saved-approvals-second.json) / [exact recovery](evidence/saved-approvals-recovery.json)

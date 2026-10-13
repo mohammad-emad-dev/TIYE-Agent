@@ -129,7 +129,7 @@ async function freshPhase(cwd, projectID, phase) {
     request = { cwd, sessionID: created.id, taskSubmittedAt: created.time.created };
     evidence.sessionSelectionConfirmed = JSON.stringify(created.permissions) === JSON.stringify(permissions) && created.agent === 'build'
       && Object.entries(MODEL).every(([key, expected]) => created.model?.[key] === expected) && path.resolve(created.location.directory).toLowerCase() === path.resolve(cwd).toLowerCase()
-      && await projectIdentity(cwd) === projectID;
+      && await (phase.projectIdentity || projectIdentity)(cwd) === projectID;
     if (!evidence.sessionSelectionConfirmed) throw new Error('saved session selection unverified');
     const terminal = await openTerminal({ cwd, sessionID: request.sessionID, taskPrompt: prompt });
     request.state = terminal.state; request.taskSubmittedAt = terminal.submittedAt;
@@ -233,3 +233,4 @@ async function main() {
   console.log(`[saved-approvals] ${measurement.result}`); process.exitCode = measurement.passed ? 0 : 2;
 }
 if (require.main === module) main().catch(() => { console.error('[saved-approvals] lifecycle failure'); process.exitCode = 1; });
+module.exports = { taskDefinition, projectIdentity, savedRows, observePhase, chooseAlways, freshPhase, removeOwnedRules };

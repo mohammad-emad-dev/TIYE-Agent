@@ -4,6 +4,31 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Saved approval scope across worktrees
+
+`npm run probe:worktree-approvals` observed shared project scope on OpenCode
+2.0.28 with Muse Spark free `xhigh`. A disposable root and detached worktree
+shared a Git common directory/HEAD and the same native project ID. The root's
+native Always allow grant let a fresh shell-ask worktree session execute the
+exact command without an approval. Worktree separation does not establish
+strict per-member approval isolation for this tested route.
+
+An explicit worktree deny produced `permission.rejected`. Removing the owned
+saved rule restored pending approvals in both locations. Protected bytes,
+worktree Git file scope and one marker append per location were verified after
+the fresh clients closed. All five sessions/private Jobs, the saved rule,
+worktree registration/directory, root temp directory and MCP fixture were
+cleaned up. Shared service identity/version and selected configs stayed
+unchanged. **90 offline checks pass.**
+
+The current assessment records `strictMemberAskGuarantee: false`. The adapter
+design requires saved-shell-allow conflict checks before strict ask launches
+and on permission changes; that runtime policy is not implemented yet. The
+passing measurement is separately hash-sealed, and the previous saved-approval
+assessment is preserved in
+`capabilities/opencode-permissions-saved-approvals-2.0.28.json`.
+See [the detailed results](RESULTS.md#saved-approval-scope-across-worktrees-13-october-2026).
+
 ## Saved approvals and project scope
 
 `npm run probe:saved-approvals` passed five phases on OpenCode 2.0.28 with
@@ -22,7 +47,7 @@ fixture were cleaned up. Shared service identity/version and selected configs
 stayed unchanged. **87 offline checks pass.**
 
 The preliminary assessment qualifies this bounded session/project observation.
-Backend restart/crash durability, worktree scope and general command-prefix
+Backend restart/crash durability, strict member-ask conflict handling and general command-prefix
 safety remain open. Failed attempts and their precise recovery records are
 preserved; the passing cohort has its own hash-sealed supplement. The previous
 terminal assessment is copied byte for byte in
@@ -47,7 +72,7 @@ inside OpenCode. Both cases verified owned cleanup and unchanged shared service
 identity/version and selected config fingerprints. **82 offline checks pass.**
 
 Qualification is limited to the observed palette and 120x38 terminal. Saved
-approval restart/worktree behavior, other layouts/themes, foreground human interaction and
+approval restart behavior/strict member-ask conflict handling, other layouts/themes, foreground human interaction and
 accessibility remain separate gates. The current preliminary assessment links
 to a separately sealed content-hash supplement; its prior deny-profile
 assessment is preserved in
@@ -91,7 +116,7 @@ selected config fingerprints. **71 offline checks pass.**
 
 The preliminary [permission assessment](capabilities/opencode-permissions.json)
 qualifies only its bounded 2.0.28 observations. Complete file `none`, OS containment,
-combined profiles, other approval UI layouts and saved-rule restart/worktree behavior remain unverified. The supplemental
+combined profiles, other approval UI layouts, saved-rule restart behavior and strict member-ask conflict handling remain unverified. The supplemental
 shell `off` observation is blocked for this model; its older provider rejection
 is separately tagged 2.0.22. `productionEligible` and every `productGuarantee` remain false.
 

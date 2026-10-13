@@ -549,7 +549,22 @@ and empty saved-rule baselines were verified before saving; one owned rule was
 created and removed. Only two harmless marker appends occurred in the original
 project, and all owned sessions/clients/rules/locations/temp fixtures were cleaned
 up. This qualifies session reuse and separate-root scope, not backend restart or
-crash durability, worktree behavior or general prefix safety. Other layouts/themes,
+crash durability or general prefix safety. A further detached-worktree probe
+observed the same native project ID as the root: its saved shell allow let a
+fresh shell-ask worktree session execute without another approval. Explicit
+worktree deny still blocked the command; revocation restored ask in both
+locations. File scope, markers, all owned sessions/clients/rules, worktree registry
+and temp cleanup passed. This establishes shared approval scope for the tested
+route, with `strictMemberAskGuarantee: false`.
+
+**Adapter requirement from this finding.** Before an OpenCode member starts in
+strict ask-each-command mode, inspect its native project's saved shell allows.
+Treat those grants as a permissions conflict and block the affected launch
+until the conflict is resolved or the user selects an explicit project-wide
+approval policy. Recheck when saved permissions change. Worktree separation
+does not supply the required per-member approval boundary. This runtime
+preflight/change-handling policy remains unimplemented; the current capability
+assessment records the requirement and its evidence. Other layouts/themes,
 foreground human interaction and accessibility remain separate gates. Native terminal records
 are sealed as a separate content-hash supplement; previous assessments remain
 preserved. This evidence does not establish OS containment.

@@ -8,6 +8,7 @@ const { sealedBytes } = require('./version-evidence');
 const { deniedProfileMeasurementPassed } = require('./denied-profile-evidence');
 const { terminalApprovalRunPassed } = require('./terminal-approval-evidence');
 const { savedApprovalRunPassed } = require('./saved-approval-evidence');
+const { worktreeApprovalRunPassed } = require('./worktree-approval-evidence');
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 
 function validatedDeniedProfiles(measurement, version) {
@@ -68,7 +69,16 @@ function validatedSavedApprovals(measurement, version) {
   }
 }
 
-function assessment({ controls, approvals, inventory, deniedProfiles, deniedProfilesHash, terminalApprovals, terminalApprovalsHash, savedApprovals, savedApprovalsHash }) {
+function validatedWorktreeApprovals(measurement, version) {
+  const cli = measurement?.run?.cli;
+  if (version !== '2.0.28' || measurement?.expectedVersion !== version || !measurement.passed || !measurement.selectedConfigsUnchanged
+    || !measurement.run?.passed || !worktreeApprovalRunPassed(measurement.run) || !cli.registryMatched
+    || !Number.isInteger(cli.savedRuleCount) || cli.savedRuleCount < 1 || cli.proposedPatternHashes?.length !== cli.savedRuleCount
+    || !cli.proposedPatternHashes.every(hash => /^[a-f0-9]{64}$/.test(hash))
+    || measurement.result !== (cli.sharedNativeProject ? 'OBSERVED_SHARED_PROJECT_SCOPE' : 'OBSERVED_SEPARATE_PROJECT_SCOPE')) throw new Error('Worktree approval evidence gate failed');
+}
+
+function assessment({ controls, approvals, inventory, deniedProfiles, deniedProfilesHash, terminalApprovals, terminalApprovalsHash, savedApprovals, savedApprovalsHash, worktreeApprovals, worktreeApprovalsHash }) {
   const version = reviewedVersion(inventory?.version);
   validatedCases(controls, ['allow-edit-control', 'auto-shell'], version);
   validatedCases(approvals, ['deny-edit', 'reject-shell', 'allow-once-shell'], version);
@@ -141,6 +151,20 @@ function assessment({ controls, approvals, inventory, deniedProfiles, deniedProf
     candidate.remaining = candidate.remaining.map(item => /Approval UI and saved approvals|Other approval UI layouts\/themes and saved always approvals/.test(item)
       ? 'Other approval UI layouts/themes, saved-rule restart durability and worktree scope' : item);
   }
+  if (worktreeApprovals) {
+    validatedWorktreeApprovals(worktreeApprovals, version);
+    if (worktreeApprovalsHash !== undefined && !/^[a-f0-9]{64}$/.test(worktreeApprovalsHash)) throw new Error('Worktree approval hash invalid');
+    const worktreeReference = worktreeApprovalsHash ? `../evidence/supplements/worktree-approvals/${worktreeApprovalsHash}/${version}/worktree-approvals.json` : '../evidence/worktree-approvals-latest.json';
+    const sharedProject = worktreeApprovals.run.cli.sharedNativeProject;
+    candidate.terminal.ask = { ...candidate.terminal.ask, evidence: [...candidate.terminal.ask.evidence, worktreeReference],
+      worktreeApprovals: { observedStatus: sharedProject ? 'saved-project-allow-shared-across-worktree' : 'separate-native-project-scope-observed',
+        sharedNativeProject: sharedProject, strictMemberAskGuarantee: false, worktreeDenyObserved: true, revocationRestoredBothLocations: true, evidence: [worktreeReference],
+        requiredAdapterPolicy: sharedProject ? 'Treat saved shell allows as conflicts with strict per-member ask; block launch pending resolution and recheck permission changes' : 'Validate native project scope and saved rules before claiming member ask isolation',
+        policyImplementation: 'not-implemented', limitation: 'One root and one detached worktree, tested model/agent and exact command. No other-agent, service-restart, arbitrary-prefix or OS containment qualification' },
+      limitation: 'Bounded approvals and saved-rule behavior observed. Strict per-member ask is not guaranteed by worktree separation; conflict preflight/monitoring, other UI layouts, accessibility and restart durability remain open' };
+    candidate.remaining = candidate.remaining.map(item => item === 'Other approval UI layouts/themes, saved-rule restart durability and worktree scope'
+      ? 'Other approval UI layouts/themes, saved-rule restart durability and strict member-ask conflict handling' : item);
+  }
   return candidate;
 }
 
@@ -158,8 +182,12 @@ function main() {
   const savedPath = path.join(root, 'evidence/saved-approvals-latest.json');
   const savedBytes = fs.existsSync(savedPath) ? fs.readFileSync(savedPath) : null;
   const savedApprovals = savedBytes ? JSON.parse(savedBytes) : undefined;
+  const worktreePath = path.join(root, 'evidence/worktree-approvals-latest.json');
+  const worktreeBytes = fs.existsSync(worktreePath) ? fs.readFileSync(worktreePath) : null;
+  const worktreeApprovals = worktreeBytes ? JSON.parse(worktreeBytes) : undefined;
   const candidate = assessment({ controls, approvals, inventory, deniedProfiles, deniedProfilesHash: supplementalBytes ? digest(supplementalBytes) : undefined,
-    terminalApprovals, terminalApprovalsHash: terminalBytes ? digest(terminalBytes) : undefined, savedApprovals, savedApprovalsHash: savedBytes ? digest(savedBytes) : undefined });
+    terminalApprovals, terminalApprovalsHash: terminalBytes ? digest(terminalBytes) : undefined, savedApprovals, savedApprovalsHash: savedBytes ? digest(savedBytes) : undefined,
+    worktreeApprovals, worktreeApprovalsHash: worktreeBytes ? digest(worktreeBytes) : undefined });
   for (const [index, name] of names.entries()) {
     const archived = sealedBytes({ root: path.join(root, 'evidence/versions'), version: candidate.testedVersions[0], name });
     if (!archived.equals(sources[index])) throw new Error('Sealed evidence does not match current cohort');
@@ -177,11 +205,16 @@ function main() {
     const archived = sealedBytes({ root: path.join(root, 'evidence/supplements/saved-approvals', digest(savedBytes)), version: candidate.testedVersions[0], name: 'saved-approvals.json' });
     if (!archived.equals(savedBytes)) throw new Error('Sealed saved approval evidence does not match current cohort');
   }
+  if (worktreeBytes) {
+    const archived = sealedBytes({ root: path.join(root, 'evidence/supplements/worktree-approvals', digest(worktreeBytes)), version: candidate.testedVersions[0], name: 'worktree-approvals.json' });
+    if (!archived.equals(worktreeBytes)) throw new Error('Sealed worktree approval evidence does not match current cohort');
+  }
   candidate.recordedAt = new Date().toISOString();
   candidate.evidenceHashes = Object.fromEntries(names.map((name, index) => [name, crypto.createHash('sha256').update(sources[index]).digest('hex')]));
   if (supplementalBytes) candidate.evidenceHashes['denied-profiles.json'] = digest(supplementalBytes);
   if (terminalBytes) candidate.evidenceHashes['terminal-approvals.json'] = digest(terminalBytes);
   if (savedBytes) candidate.evidenceHashes['saved-approvals.json'] = digest(savedBytes);
+  if (worktreeBytes) candidate.evidenceHashes['worktree-approvals.json'] = digest(worktreeBytes);
   const target = path.join(root, 'capabilities/opencode-permissions.json');
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.writeFileSync(target, JSON.stringify(candidate, null, 2) + '\n');

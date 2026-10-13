@@ -1,0 +1,10 @@
+{
+  "version": "2.0.28",
+  "records": [
+    {
+      "name": "worktree-approvals.json",
+      "originalPath": "feasibility/s2-control/evidence/worktree-approvals-latest.json",
+      "sha256": "9e8f410baf99420b2fe22ec81b1101a03e5a0f0f0bee199844d98c006fbd8eeb"
+    }
+  ]
+}

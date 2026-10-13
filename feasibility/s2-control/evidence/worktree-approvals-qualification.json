@@ -1,0 +1,74 @@
+{
+  "recordedAt": "2026-10-13T19:40:02.891Z",
+  "scope": "Native saved-approval scope across one root and detached Git worktree, worktree deny and revocation in both locations; not per-member or OS containment qualification",
+  "version": "2.0.28",
+  "result": "OBSERVED_SHARED_PROJECT_SCOPE",
+  "phases": [
+    {
+      "name": "seed-always",
+      "passed": true,
+      "shellCalls": 1,
+      "completedShellCalls": 1,
+      "pendingRequestsBeforeCleanup": 0,
+      "markerMatched": true,
+      "sessionRemoved": true
+    },
+    {
+      "name": "worktree-reuse",
+      "passed": true,
+      "shellCalls": 1,
+      "completedShellCalls": 1,
+      "pendingRequestsBeforeCleanup": 0,
+      "markerMatched": true,
+      "sessionRemoved": true
+    },
+    {
+      "name": "worktree-deny",
+      "passed": true,
+      "shellCalls": 1,
+      "completedShellCalls": 0,
+      "pendingRequestsBeforeCleanup": 0,
+      "markerMatched": true,
+      "sessionRemoved": true
+    },
+    {
+      "name": "worktree-revoked",
+      "passed": true,
+      "shellCalls": 1,
+      "completedShellCalls": 0,
+      "pendingRequestsBeforeCleanup": 1,
+      "markerMatched": true,
+      "sessionRemoved": true
+    },
+    {
+      "name": "root-revoked",
+      "passed": true,
+      "shellCalls": 1,
+      "completedShellCalls": 0,
+      "pendingRequestsBeforeCleanup": 1,
+      "markerMatched": true,
+      "sessionRemoved": true
+    }
+  ],
+  "sharedNativeProject": true,
+  "strictMemberAskGuarantee": false,
+  "savedRuleRemoved": true,
+  "worktreeRemoved": true,
+  "gitRegistryClean": true,
+  "parentPermissionReplies": 0,
+  "sharedServiceUnchanged": true,
+  "selectedConfigsUnchanged": true,
+  "supplementalReference": "supplements/worktree-approvals/9e8f410baf99420b2fe22ec81b1101a03e5a0f0f0bee199844d98c006fbd8eeb/2.0.28/worktree-approvals.json",
+  "supplementalSha256": "9e8f410baf99420b2fe22ec81b1101a03e5a0f0f0bee199844d98c006fbd8eeb",
+  "measuredSourcesUnchanged": true,
+  "previousArchivesUnchanged": true,
+  "priorAssessmentPreserved": true,
+  "currentAssessmentMatchesValidatedInputs": true,
+  "offlineChecksPassed": 90,
+  "productionEligible": false,
+  "sourceHashes": {
+    "capabilities/opencode-permissions.json": "0dcdba664553aaecba9eae27cec16d95bf6672b496d9539e8d58f7695d9a975c",
+    "capabilities/opencode-permissions-saved-approvals-2.0.28.json": "26bdd5dc5700ec61474c4d503802ecf3a9c99d1014069278fb7c317091542bee",
+    "scripts/build-permission-capabilities.js": "8efe6a4822353361136636866e5ca2b06e9ce7ce317bb6dd3f9e314c13470396"
+  }
+}
