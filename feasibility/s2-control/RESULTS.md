@@ -1,5 +1,75 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## S2.4 allowed controls and preliminary capability mapping (13 October 2026)
+
+**PASS for the final two controls; overall S2.4 remains PARTIAL.** Fresh
+OpenCode 2.0.22 sessions with Muse Spark free `xhigh` received tasks through
+the native Electron/xterm/node-pty terminal.
+
+| Final control | Observed |
+|---|---|
+| Allowed edit under wildcard edit allow + protected.txt deny | One exact completed edit to editable.txt; expected changed bytes before/after stopping |
+| Protected file in paired control | Original bytes unchanged |
+| Shell under configured edit/shell allow | One exact completed harmless command |
+| Command marker before/after stopping | Exactly `approved` |
+| Approval replies / pending requests observed | 0 / 0 in both controls |
+| Owned session, client Job, location, MCP fixture and temp cleanup | 2/2 verified |
+| Selected configs / shared service identity | Unchanged |
+
+The first edit control produced the expected bytes but made three completed
+tool calls, so the strict one-call gate failed. The initial classifier did
+not retain tool-kind counts; it cannot identify the two extra tools from
+the preserved record. That failed measurement is unchanged. A stricter
+one-tool-only instruction and fixed tool-kind diagnostics passed a fresh
+edit trial. The shell control passed in both measurements. These are bounded
+controls, not a new reporting-reliability cohort or causal wording comparison.
+
+- [First control measurement](evidence/permission-controls-first.json)
+- [Final control measurement and source hashes](evidence/permission-controls-latest.json)
+- [Installed launch-help inventory](evidence/permission-options-latest.json)
+- [Preliminary permission assessment](capabilities/opencode-permissions.json)
+- Runner: `scripts/run-permission-controls.js`; assessment builder: `scripts/build-permission-capabilities.js`
+- Verification: 48 offline harness checks and all S2 script syntax checks passed.
+
+### Product-setting mapping for this model and host
+
+| Setting | Assessment | Practical limit |
+|---|---|---|
+| File none | Unverified | No complete combined no-file-access profile tested |
+| File read-only | Partial native policy evidence | Denied edit observed; approved shell can write, and OS containment is unproven |
+| File read and edit | Bounded native controls passed | Paired allowed edit and earlier coding tasks; arbitrary access and combined profiles untested |
+| Terminal off | Blocked for tested free model | Historical HTTP 403 precedes tool execution; it cannot establish command-denial enforcement |
+| Terminal ask | Bounded native controls passed | Pending request, reject and once through API; approval UI and saved approvals untested |
+| Terminal auto | Bounded configured-policy control passed | One exact command under shell allow; `--auto` itself and unrestricted commands untested |
+
+The assessment separates documented rules, observed outcomes, provider
+compatibility and OS enforcement. Every mode has `productGuarantee: false`;
+the file has `productionEligible: false`. It is a feasibility assessment,
+not production adapter data. The builder rejects failed, missing, duplicate,
+wrong-version or cleanup-incomplete cohorts and stores hashes of its evidence.
+Worktree separation and an ownership watcher remain the proposed detection
+fallback; S3 has not validated that fallback yet.
+
+Installed interactive and `run` help were captured in full. Permission-relevant
+launch mechanisms include `--auto`, run's `--agent`, an owned `--session`,
+project rules and documented agent-scoped rules. Configured session policy
+was verified in live probes. Agent-scoped config, plan-mode exceptions and
+`--auto` behavior are inventoried without claiming live coverage. The action
+inventory follows [OpenCode V2 permissions](https://opencode.ai/v2/docs/permissions);
+CLI-specific flags come from the captured installed help.
+
+Muse free `xhigh` completed its supplied-facts review. MiMo Atria and Claude
+Atria `xhigh` timed out after four minutes without final reviews. MiMo made
+nine read calls to the workspace despite the no-tools review instruction;
+event inspection showed no write/shell calls. Claude's tripwire detected
+the parent's concurrent changes, which were reviewed directly. No models
+were substituted.
+
+Next: S2.5 error and recovery signals, starting with owned-client crash and
+resume behavior. Full file/terminal profile combinations, file none, shell
+off compatibility, read-only containment and approval UI remain explicit
+permission gaps. Full S2 and production-adapter eligibility remain open.
+
 ## S2.4 controlled denial and approval outcomes (13 October 2026)
 
 **PASS for the final three-case batch; full S2.4 remains open.** OpenCode

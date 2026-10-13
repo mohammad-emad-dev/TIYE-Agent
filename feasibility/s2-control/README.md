@@ -6,6 +6,28 @@ no model request; the separate invocation probe uses the approved free model.
 
 ## Permission probes
 
+`npm run probe:permission-controls` tests an allowed edit to `editable.txt`
+under the same policy that denies `protected.txt`, then one harmless command
+under configured shell `allow`. The final fresh-session controls passed:
+one exact tool call each, expected file bytes before/after stopping, protected
+file unchanged, no approval replies or observed pending requests, and cleanup.
+The first edit control made three completed tool calls and remains failed in
+`permission-controls-first.json`; the stricter wording passed in
+`permission-controls-latest.json`. No earlier failures were replaced.
+
+`npm run capture:permission-options` captures installed 2.0.22 help without a
+model request. `npm run build:permission-capabilities` validates the current
+control and approval cohorts and binds the preliminary assessment to their
+file hashes. The generated [assessment](capabilities/opencode-permissions.json)
+keeps file `none` unverified, read-only partial and shell `off` blocked for the
+tested free model. Read/write, shell ask and shell allow have bounded native
+observations. It is marked `productionEligible: false`, and offers no OS
+enforcement guarantee. The `--auto` launch flag is inventoried but untested;
+the permissive control used a session `shell allow` rule.
+
+The current offline suite has 48 passing checks and makes no model requests.
+See `RESULTS.md` for the capability matrix, model reviews and remaining gates.
+
 `npm run probe:approval-outcomes` adds a controlled edit-denial case,
 shell rejection, and approval once. Each uses a fresh disposable project.
 The final batch passed all three cases, with 44 offline harness checks.

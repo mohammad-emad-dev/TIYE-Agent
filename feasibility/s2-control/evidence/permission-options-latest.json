@@ -1,0 +1,81 @@
+{
+  "scope": "Installed OpenCode permission-relevant launch options, with complete help output; no model request",
+  "recordedAt": "2026-10-13T13:26:29.798Z",
+  "version": "opencode v2.0.22",
+  "launchControls": [
+    {
+      "control": "--auto",
+      "surfaces": [
+        "interactive",
+        "run"
+      ],
+      "meaning": "Auto-approve requests not explicitly denied",
+      "testedInLiveControls": false
+    },
+    {
+      "control": "--agent",
+      "surfaces": [
+        "run"
+      ],
+      "meaning": "Select agent policy",
+      "testedInLiveControls": false
+    },
+    {
+      "control": "--session",
+      "surfaces": [
+        "interactive",
+        "run"
+      ],
+      "meaning": "Use a session whose model, agent and permissions were set by the own-session API",
+      "testedInLiveControls": true
+    },
+    {
+      "control": "permissions",
+      "surfaces": [
+        "config"
+      ],
+      "meaning": "Ordered action/resource/effect rules; live probes additionally supplied and verified session permissions",
+      "testedInLiveControls": true
+    },
+    {
+      "control": "agents.<id>.permissions",
+      "surfaces": [
+        "config"
+      ],
+      "meaning": "Agent-scoped policy rules documented by V2",
+      "testedInLiveControls": false
+    },
+    {
+      "control": "plan agent",
+      "surfaces": [
+        "agent-policy"
+      ],
+      "meaning": "Documented edit restriction with a plan-directory exception",
+      "testedInLiveControls": false
+    }
+  ],
+  "documentedActions": [
+    "read",
+    "edit",
+    "glob",
+    "grep",
+    "shell",
+    "subagent",
+    "skill",
+    "question",
+    "webfetch",
+    "websearch",
+    "external_directory",
+    "<server>_<tool>",
+    "execute"
+  ],
+  "documentation": [
+    "https://opencode.ai/v2/docs/permissions",
+    "https://opencode.ai/v2/openapi.json"
+  ],
+  "help": {
+    "version": "opencode v2.0.22",
+    "interactive": "DESCRIPTION\n  OpenCode command line interface\n\nUSAGE\n  opencode <subcommand> [flags] [<directory>]\n\nARGUMENTS\n  directory string    Directory to start OpenCode in (optional)\n\nFLAGS\n  --standalone            Run with a private server instead of the background service\n  --server string         Connect to a server URL instead of the background service\n  --auto                  Auto-approve permissions that are not explicitly denied\n  --continue, -c          Continue the last session\n  --session, -s string    Session ID to continue, or to create if it does not exist\n  --prompt string         Prompt to use\n\nGLOBAL FLAGS\n  --help, -h                                                          Show help information\n  --version, -v                                                       Show version information\n  --wizard                                                            Start wizard mode for a command\n  --completions <bash|zsh|fish|sh>                                    Print shell completion script (choices: bash, zsh, fish, sh)\n  --log-level <all|trace|debug|info|warn|warning|error|fatal|none>    Sets the minimum log level (choices: all, trace, debug, info, warn, warning, error, fatal, none)\n  --print-logs                                                        Print logs to stderr (server logs require --standalone)\n\nSUBCOMMANDS\n  upgrade, update    Upgrade OpenCode to the latest or a specific version\n  uninstall          Uninstall OpenCode and remove all related files\n  acp                Start an Agent Client Protocol server\n  api                Make a request to the running server\n  debug              Debugging and troubleshooting tools\n  auth               manage integrations and credentials\n  mcp                Manage MCP (Model Context Protocol) servers\n  plugin             Manage plugins\n  models             List all available models\n  stats              Show shareable usage statistics\n  mini               Start the minimal interactive interface\n  run                Run OpenCode with a message\n  session            Manage sessions\n  service            Manage the background server\n  reload             Reload configuration\n  pair               Print one-time links to connect a browser or app\n  serve              Start the v2 API and web server",
+    "run": "DESCRIPTION\n  Run OpenCode with a message\n\nUSAGE\n  opencode run [flags] [<message...>]\n\nARGUMENTS\n  message... string    Message to send (optional)\n\nFLAGS\n  --standalone            Run with a private server instead of the background service\n  --server string         Connect to a server URL instead of the background service\n  --continue, -c          Continue the last session\n  --session, -s string    Session ID to continue, or to create if it does not exist\n  --fork                  Fork the session before continuing\n  --model, -m string      Model to use in the format provider/model#variant\n  --agent string          Agent to use\n  --format choice         Output format (choices: default, json)\n  --file, -f string       File to attach to the message\n  --title string          Session title\n  --thinking              Show thinking blocks\n  --auto                  Auto-approve permissions that are not explicitly denied\n\nGLOBAL FLAGS\n  --help, -h                                                          Show help information\n  --version, -v                                                       Show version information\n  --wizard                                                            Start wizard mode for a command\n  --completions <bash|zsh|fish|sh>                                    Print shell completion script (choices: bash, zsh, fish, sh)\n  --log-level <all|trace|debug|info|warn|warning|error|fatal|none>    Sets the minimum log level (choices: all, trace, debug, info, warn, warning, error, fatal, none)\n  --print-logs                                                        Print logs to stderr (server logs require --standalone)"
+  }
+}

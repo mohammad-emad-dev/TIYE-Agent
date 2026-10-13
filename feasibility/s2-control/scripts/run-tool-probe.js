@@ -59,6 +59,7 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
       fs.writeFileSync(path.join(cwd, 'package.json'), JSON.stringify({ name: 'tiye-t1-fixture', private: true, scripts: { test: 'node --test' } }));
       fs.writeFileSync(path.join(cwd, 'README.md'), 'Disposable TIYE T1 project. Add clamp.js and clamp.test.js.\n');
       if (task.kind === 'permission') fs.writeFileSync(path.join(cwd, 'protected.txt'), 'original protected bytes\n');
+      if (task.caseID === 'allow-edit-control') fs.writeFileSync(path.join(cwd, 'editable.txt'), 'original editable bytes\n');
       for (const args of [['init', '--quiet'], ['add', 'package.json', 'README.md'], ['-c', 'user.name=TIYE Fixture', '-c', 'user.email=fixture@local', 'commit', '--quiet', '-m', 'Initial T1 fixture']]) {
         if (spawnSync('git', args, { cwd, windowsHide: true }).status !== 0) throw new Error('T1 Git fixture failed');
       }
@@ -75,8 +76,10 @@ async function runMember(member, { terminalMode = false, serviceMode = terminalM
       evidence.protectedFileUnchanged = fs.readFileSync(path.join(cwd, 'protected.txt')).equals(Buffer.from('original protected bytes\n'));
       evidence.commandMarkerAbsent = !fs.existsSync(path.join(cwd, 'approval-marker.txt'));
       evidence.commandMarkerMatched = task.expectedMarker !== undefined && !evidence.commandMarkerAbsent && fs.readFileSync(path.join(cwd, 'approval-marker.txt')).equals(Buffer.from(task.expectedMarker));
+      if (task.caseID === 'allow-edit-control') evidence.editableFileMatched = fs.readFileSync(path.join(cwd, 'editable.txt')).equals(Buffer.from('changed editable bytes\n'));
       const changed = spawnSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd, windowsHide: true, encoding: 'utf8' });
       const expectedPaths = task.expectedMarker === undefined ? ['opencode.json', 'protected.txt'] : ['approval-marker.txt', 'opencode.json', 'protected.txt'];
+      if (task.caseID === 'allow-edit-control') { expectedPaths.push('editable.txt'); expectedPaths.sort(); }
       evidence.onlyFixtureFilesPresent = changed.status === 0 && JSON.stringify(changed.stdout.trim().split(/\r?\n/).map(line => line.slice(3)).sort()) === JSON.stringify(expectedPaths);
     }
     if (terminalMode && task.kind !== 'permission' && evidence.cli.completedAck && evidence.cli.idleVerified) {

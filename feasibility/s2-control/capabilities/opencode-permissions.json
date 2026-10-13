@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "id": "opencode",
+  "recordType": "feasibility-permission-assessment",
+  "productionEligible": false,
+  "testedVersions": [
+    "2.0.22"
+  ],
+  "environments": [
+    "windows"
+  ],
+  "testedModel": {
+    "providerID": "opencode",
+    "id": "muse-spark-1.3-contributor-free",
+    "variant": "xhigh"
+  },
+  "delivery": "Owned service session configured by API; prompts typed through Electron/xterm/node-pty; no --auto flag",
+  "fileAccess": {
+    "none": {
+      "osEnforcement": "not-established",
+      "productGuarantee": false,
+      "observedStatus": "unverified",
+      "documentedNativeRules": [
+        "read deny",
+        "edit deny",
+        "glob deny",
+        "grep deny"
+      ],
+      "providerCompatibility": "unverified",
+      "evidence": [],
+      "limitation": "No combined no-file-access profile tested; shell, plugins and other tools require separate controls"
+    },
+    "readOnly": {
+      "osEnforcement": "not-established",
+      "productGuarantee": false,
+      "observedStatus": "partial",
+      "documentedNativeRules": [
+        "edit deny",
+        "plan agent with documented exception"
+      ],
+      "providerCompatibility": "shell-ask profile ran",
+      "evidence": [
+        "../evidence/approval-outcomes-latest.json",
+        "../evidence/permissions-latest.json"
+      ],
+      "limitation": "Edit denial observed; no complete read-only profile or OS write containment proven. Approved shell commands can write files"
+    },
+    "readWrite": {
+      "osEnforcement": "not-established",
+      "productGuarantee": false,
+      "observedStatus": "bounded-native-control-passed",
+      "documentedNativeRules": [
+        "edit allow"
+      ],
+      "providerCompatibility": "observed-working",
+      "evidence": [
+        "../evidence/permission-controls-latest.json",
+        "../evidence/terminal-task-validation.json"
+      ],
+      "limitation": "Paired allowed edit and earlier coding tasks; not arbitrary file access or a combined product profile"
+    }
+  },
+  "terminal": {
+    "off": {
+      "osEnforcement": "not-established",
+      "productGuarantee": false,
+      "observedStatus": "blocked-for-tested-model",
+      "documentedNativeRules": [
+        "shell deny"
+      ],
+      "providerCompatibility": "historical-http-403-before-tool-execution",
+      "evidence": [
+        "../evidence/tool-call-latest.json",
+        "../RESULTS.md"
+      ],
+      "limitation": "Rule is documented; denial enforcement cannot be inferred from a provider rejection. No recent shell-off retest or other model test"
+    },
+    "ask": {
+      "osEnforcement": "not-established",
+      "productGuarantee": false,
+      "observedStatus": "bounded-native-control-passed",
+      "documentedNativeRules": [
+        "shell ask"
+      ],
+      "providerCompatibility": "observed-working",
+      "evidence": [
+        "../evidence/approval-outcomes-latest.json",
+        "../evidence/permissions-latest.json"
+      ],
+      "limitation": "Pending request, reject and once observed through API; approval UI and persistent always decisions untested"
+    },
+    "auto": {
+      "osEnforcement": "not-established",
+      "productGuarantee": false,
+      "observedStatus": "bounded-native-control-passed",
+      "documentedNativeRules": [
+        "shell allow",
+        "--auto for non-denied requests"
+      ],
+      "providerCompatibility": "observed-working",
+      "evidence": [
+        "../evidence/permission-controls-latest.json"
+      ],
+      "limitation": "One exact harmless command under configured shell allow. --auto flag and unrestricted commands not exercised"
+    }
+  },
+  "fallback": {
+    "name": "Separate worktree and ownership watcher",
+    "status": "not-validated-in-S3",
+    "guarantee": "detection, not OS containment"
+  },
+  "remaining": [
+    "Combined file/terminal profiles",
+    "File none",
+    "Guaranteed read-only isolation",
+    "Shell off compatibility",
+    "Approval UI and saved approvals",
+    "S2.5 error/crash/hang/resume signals",
+    "Other CLIs, models and WSL"
+  ],
+  "recordedAt": "2026-10-13T13:26:30.392Z",
+  "evidenceHashes": {
+    "permission-controls-latest.json": "8a4b07b3f5f77cb675039bd8a619bd1d4fcb695213946715a65cd63178f18cac",
+    "approval-outcomes-latest.json": "b2bdce2df2109cd3f58d380397dbe967035cd845390b8c8199692e239f061387",
+    "permission-options-latest.json": "8aafd07eee2f11d709248f9613acbb8f08a95d8e6f433a74d200b149c5ed5eee"
+  }
+}

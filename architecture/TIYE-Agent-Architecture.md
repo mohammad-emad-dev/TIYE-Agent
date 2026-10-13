@@ -475,6 +475,16 @@ Each supported CLI is described by a **data file**, not by code scattered throug
 
 Because CLIs change often, these files can ship as **signed data updates** between full app releases.
 
+**Feasibility evidence (13 October 2026).** The preliminary
+[OpenCode permission assessment](../feasibility/s2-control/capabilities/opencode-permissions.json)
+records native policy observations, provider compatibility and OS enforcement
+separately for OpenCode 2.0.22 and the tested Muse free model on Windows.
+It is marked `productionEligible: false` and is not a runtime adapter registry.
+Individual edit/command controls do not establish every combined file/terminal
+profile. File `none`, guaranteed read-only isolation and shell `off` remain
+unvalidated or blocked for this model. Approval decisions were tested through
+the own-session API; the terminal approval UI is still a separate gate.
+
 ### 5.6 Per-CLI feasibility checklist
 
 Before writing each adapter, a short test confirms:

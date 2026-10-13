@@ -36,7 +36,7 @@ function permissionEvidence({ messages, requests, sessionID, task, cwd = process
 }
 
 function permissionRunPassed({ run, caseID }) {
-  if (!['deny-edit', 'ask-shell', 'reject-shell', 'allow-once-shell'].includes(caseID)) return false;
+  if (!['deny-edit', 'ask-shell', 'reject-shell', 'allow-once-shell', 'allow-edit-control', 'auto-shell'].includes(caseID)) return false;
   const cli = run.cli;
   return Boolean(!run.error && !run.fixtureErrors && !cli?.error && cli?.permissionObserved === true
     && !cli.observationTimedOut && (['ask-shell', 'allow-once-shell'].includes(caseID) ? cli.pendingObservedTwice === true : caseID === 'reject-shell' ? cli.stableTerminal === true : cli.stableIdle === true)
@@ -44,7 +44,9 @@ function permissionRunPassed({ run, caseID }) {
     && cli.modelConfirmed && cli.executedModelConfirmed && cli.locationConfirmed && cli.connected
     && cli.sessionStopped && (cli.idleVerified || (['reject-shell', 'allow-once-shell'].includes(caseID) && cli.quiescentVerified)) && cli.sessionRemoved && cli.locationEvicted && cli.serviceIdentityUnchanged
     && cli.cleanup?.verified && cli.cleanup.jobVerified && !cli.cliSpawnError && !cli.outputTruncated
-    && run.protectedFileUnchanged && (caseID === 'allow-once-shell' ? run.commandMarkerMatched === true && cli.markerBeforeStopMatched === true : run.commandMarkerAbsent) && run.onlyFixtureFilesPresent
+    && run.protectedFileUnchanged && (caseID === 'allow-once-shell' ? run.commandMarkerMatched === true && cli.markerBeforeStopMatched === true : caseID === 'auto-shell' ? run.commandMarkerMatched === true && cli.fileBeforeStopMatched === true : run.commandMarkerAbsent) && run.onlyFixtureFilesPresent
+    && (!['allow-edit-control', 'auto-shell'].includes(caseID) || (cli.approvalRepliesSent === 0 && cli.pendingEverObserved === false && cli.fileBeforeStopMatched === true))
+    && (caseID !== 'allow-edit-control' || run.editableFileMatched === true)
     && run.serverReportCalls === 0 && run.serverQuestionCalls === 0 && run.otherServerCalls === 0
     && run.logHygiene && !run.serverLogTruncated && run.fixtureStopped && run.tempRemoved);
 }
