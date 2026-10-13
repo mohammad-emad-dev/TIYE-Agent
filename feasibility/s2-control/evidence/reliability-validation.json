@@ -1,0 +1,154 @@
+{
+  "recordedAt": "2026-10-13T10:57:01.923Z",
+  "scope": "Ten identical terminal T1 trials on this member/model/Windows host; not full S2",
+  "sourceRecordedAt": "2026-10-13T10:52:31.667Z",
+  "sourceHash": "b416b467e7c1e72e7f944fbe8000a7d0e9544455cdaf4d294d60a1461578b3d9",
+  "runs": [
+    {
+      "index": 1,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "0a869d084858a6910f5bc831939e77bd35f2fdb1f1910260fdd5a744f327fb83",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "index": 2,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "0a869d084858a6910f5bc831939e77bd35f2fdb1f1910260fdd5a744f327fb83",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "index": 3,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "0a869d084858a6910f5bc831939e77bd35f2fdb1f1910260fdd5a744f327fb83",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "index": 4,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "0a869d084858a6910f5bc831939e77bd35f2fdb1f1910260fdd5a744f327fb83",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "index": 5,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "0a869d084858a6910f5bc831939e77bd35f2fdb1f1910260fdd5a744f327fb83",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "index": 6,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "e00ac75163d59f2a0078b748ea66c752e7ae324a316b3c63c0bb261e4a8a53ca",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "index": 7,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "d2b457f1b8a9977752f03fffd1650de12780a19995fc673bc5d8788b992ac17a",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "index": 8,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "04d9f8ec501fc7984690f530c45b9830272191da0cefdd16ca51a37bb33fc46f",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "index": 9,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "0a869d084858a6910f5bc831939e77bd35f2fdb1f1910260fdd5a744f327fb83",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    },
+    {
+      "index": 10,
+      "fingerprints": [
+        "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+        "0a869d084858a6910f5bc831939e77bd35f2fdb1f1910260fdd5a744f327fb83",
+        "338060b2e5b6c4435b1d7228d0efe3e2605ed1e7ea8e44c75a5b2e7f0cdc8a2d"
+      ],
+      "tests": 11,
+      "skipped": 0,
+      "todo": 0,
+      "testExitCode": 0,
+      "unchanged": true,
+      "passed": true
+    }
+  ],
+  "verifiedInitialReports": 10,
+  "verifiedReportsWithinBudget": 10,
+  "nudgeAttempts": 0,
+  "nudgedRecoveryExercised": false,
+  "unchanged": true,
+  "passed": true
+}

@@ -1,6 +1,6 @@
 # TIYE Agent
 
-TIYE Agent is currently in architecture validation. The repository contains product and technical documents, an isolated [S1 terminal prototype](feasibility/s1-terminal/README.md), and an [S2 control-channel fixture](feasibility/s2-control/README.md). The [S1 results](feasibility/s1-terminal/RESULTS.md) and [S2 results](feasibility/s2-control/RESULTS.md) record bounded observations, including two terminal coding tasks with independent correctness checks. Both feasibility gates remain open; repeated reporting reliability is the next S2 measurement.
+TIYE Agent is currently in architecture validation. The repository contains product and technical documents, an isolated [S1 terminal prototype](feasibility/s1-terminal/README.md), and an [S2 control-channel fixture](feasibility/s2-control/README.md). The [S1 results](feasibility/s1-terminal/RESULTS.md) and [S2 results](feasibility/s2-control/RESULTS.md) record bounded observations, including ten identical terminal coding tasks that reported without help and passed independent correctness checks. Both feasibility gates remain open; instruction comparisons, `ask_leader`, and nudge recovery are the next S2 measurements.
 
 ## Document order
 

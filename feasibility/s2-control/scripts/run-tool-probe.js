@@ -1,7 +1,7 @@
 'use strict';
 
 // Explicit opt-in standalone CLI model request; no direct tools/call bypass.
-const { spawn } = require('node:child_process');
+const { spawn, spawnSync } = require('node:child_process');
 const crypto = require('node:crypto');
 const fs = require('node:fs');
 const os = require('node:os');
@@ -9,7 +9,6 @@ const path = require('node:path');
 const { probeStandaloneReport } = require('./persistent-cli');
 const { probeServiceReport, SERVICE_PERMISSIONS } = require('./service-cli');
 const { terminalTask, T1_SUMMARY } = require('./terminal-task');
-const { spawnSync } = require('node:child_process');
 const terminalMode = process.argv.includes('--terminal');
 const serviceMode = process.argv.includes('--service') || terminalMode;
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -30,7 +29,7 @@ async function waitUntil(predicate, timeoutMs) {
   }
 }
 
-async function runMember(member) {
+async function runMember(member, { terminalMode = false, serviceMode = terminalMode, captureName = `t1-${member}`, allowNudge = false } = {}) {
   const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'tiye-s2-model-'));
   const token = crypto.randomBytes(32).toString('hex');
   const summary = terminalMode ? T1_SUMMARY : `tiye-probe-${crypto.randomUUID()}`;
@@ -66,9 +65,9 @@ async function runMember(member) {
         headers: { Authorization: `Bearer ${token}` },
       } } },
     }));
-    evidence.cli = await (serviceMode ? probeServiceReport : probeStandaloneReport)({ cwd, summary, member, ...(terminalMode ? { terminalTask } : {}) });
+    evidence.cli = await (serviceMode ? probeServiceReport : probeStandaloneReport)({ cwd, summary, member, ...(terminalMode ? { terminalTask: parameters => terminalTask({ ...parameters, allowNudge }) } : {}) });
     if (terminalMode && evidence.cli.completedAck && evidence.cli.idleVerified) {
-      const target = path.resolve(__dirname, '../evidence', `t1-${member}`);
+      const target = path.resolve(__dirname, '../evidence', captureName);
       fs.mkdirSync(target, { recursive: true });
       for (const name of ['clamp.js', 'clamp.test.js']) fs.copyFileSync(path.join(cwd, name), path.join(target, name));
       const changed = spawnSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd, windowsHide: true, encoding: 'utf8' });
@@ -105,7 +104,7 @@ async function runMember(member) {
   evidence.serverLogTruncated = truncated;
   const cli = evidence.cli;
   evidence.passed = !evidence.error && !evidence.fixtureErrors && !cli?.error && !cli?.failure
-    && cli?.completedAck === true && (terminalMode ? cli.terminalInputMatched && cli.terminalOutputObserved && cli.shellCalls === 0 && evidence.onlyTaskFilesChanged && evidence.taskFilesCaptured : cli.otherToolCalls === 0 && cli.cliExitCode === 0 && !cli.malformedEvents) && !cli.cliSpawnError && !cli.outputTruncated
+    && cli?.completedAck === true && (terminalMode ? cli.terminalInputMatched && cli.terminalOutputObserved && cli.shellCalls === 0 && (!cli.nudgeUsed || (cli.nudgeInputMatched && cli.nudgePromptAccepted)) && evidence.onlyTaskFilesChanged && evidence.taskFilesCaptured : cli.otherToolCalls === 0 && cli.cliExitCode === 0 && !cli.malformedEvents) && !cli.cliSpawnError && !cli.outputTruncated
     && cli.cleanup?.verified === true && cli.cleanup.jobVerified === true
     && (!serviceMode || (cli.modelConfirmed && cli.executedModelConfirmed && cli.locationConfirmed && cli.connected && cli.sessionStopped && cli.idleVerified && cli.sessionRemoved && cli.locationEvicted && cli.serviceIdentityUnchanged))
     && evidence.serverReportCalls === 1 && evidence.matchingReports === 1 && evidence.otherServerCalls === 0
@@ -123,7 +122,7 @@ async function main() {
   const evidence = { scope: terminalMode ? 'Electron xterm/node-pty T1 delivery and report; generated code requires independent review and tests; not ten-run S2.2 reliability' : `Native ${serviceMode ? 'service-backed' : 'standalone'} Muse xhigh report_result invocation; not full S2.2 reliability`, recordedAt: new Date().toISOString(), runs: [] };
   for (const member of ['member-a', 'member-b']) {
     console.log(`[tool-probe] starting ${member}`);
-    evidence.runs.push(await runMember(member));
+    evidence.runs.push(await runMember(member, { terminalMode, serviceMode }));
     console.log(`[tool-probe] ${member} ${terminalMode ? 'roundTripPassed' : 'passed'}=${terminalMode ? evidence.runs.at(-1).roundTripPassed : evidence.runs.at(-1).passed}`);
   }
   evidence.selectedConfigsUnchanged = JSON.stringify(beforeConfigs) === JSON.stringify(configFingerprints());
@@ -135,4 +134,5 @@ async function main() {
   process.exitCode = evidence.result === 'PARTIAL' ? 2 : evidence.passed ? 0 : 1;
 }
 
-main().catch(() => { console.error('[tool-probe] lifecycle failure; no pass evidence'); process.exitCode = 1; });
+if (require.main === module) main().catch(() => { console.error('[tool-probe] lifecycle failure; no pass evidence'); process.exitCode = 1; });
+module.exports = { runMember, configFingerprints };

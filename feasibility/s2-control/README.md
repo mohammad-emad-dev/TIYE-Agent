@@ -4,6 +4,37 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Ten-run reporting measurement
+
+`npm run probe:reliability` runs ten sequential T1 trials with identical
+wording, `member-a`, and Muse Spark free `xhigh`. Each trial gets a fresh
+Git project, token, and owned service session. It reuses the terminal
+delivery and cleanup path above, saves evidence after each trial, and stops
+if infrastructure, cleanup, or selected config checks cannot be verified.
+Successful reporting leaves correctness validation pending (exit 2).
+
+Captured functions and tests are stored separately under
+`evidence/reliability/run-01` through `run-10`. Review these files before
+running `npm run validate:reliability`. The validator runs each generated
+test file plus independent boundary, fractional, and negative-interval
+examples. Missing trials, duplicate indices, skipped/TODO tests, config
+drift, changed files, and failed task checks cannot satisfy the gate.
+Validation hashes bind the results to the measurement and captured code.
+
+The runner may send one terminal nudge after the 120-second initial window
+only if no report was attempted, the task files exist, and the agent is
+verified idle after the task. It does not nudge a provider error or a
+reported failure, answer approvals, or edit code to obtain a report.
+An initial omission remains an omission even if the nudge recovers it.
+
+Current result: **10/10 without help**, with 110 correctness tests and
+28 offline harness checks passing. There were zero nudge attempts; recovery
+after an omitted report is **unexercised**. These results apply to this
+simple T1, exact instruction wording, model/version, and Windows host.
+Alternative wording, `ask_leader`, briefing, permissions, and error/recovery
+gates remain open. See `evidence/reliability-latest.json`,
+`evidence/reliability-validation.json`, and `RESULTS.md`.
+
 ## Terminal T1 harness (experimental)
 
 `npm run probe:terminal-task` prepares a disposable Git project, creates a

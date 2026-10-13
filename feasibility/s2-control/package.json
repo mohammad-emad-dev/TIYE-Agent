@@ -10,6 +10,8 @@
     "probe:service-tool-call": "node scripts/run-tool-probe.js --service",
     "probe:terminal-task": "node scripts/run-tool-probe.js --terminal",
     "validate:terminal-task": "node scripts/validate-terminal-task.js",
+    "probe:reliability": "node scripts/run-reliability.js",
+    "validate:reliability": "node scripts/validate-reliability.js",
     "check": "node --test test/*.test.js"
   },
   "engines": {

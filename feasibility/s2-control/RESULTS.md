@@ -1,5 +1,61 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## S2.2 ten-run identical-wording measurement (13 October 2026)
+
+**PASS for this reporting measurement; full S2 remains open.** All ten
+fresh terminal T1 trials reported correctly without assistance through
+OpenCode 2.0.22 with `opencode/muse-spark-1.3-contributor-free#xhigh`.
+The caller was `member-a` in every trial; projects, tokens, and sessions
+were recreated for each. The wording was unchanged from the earlier T1
+slice, including the prescribed result summary. No direct SDK tool-call
+or parent-side implementation substituted for the terminal task.
+
+| Measurement | Observed |
+|---|---|
+| Initial reports | 10/10 (threshold: at least 9/10) |
+| Reports within a budget of one nudge per task | 10/10; zero nudges used |
+| Actual nudge recovery | Unexercised |
+| Generated test cases | 30 passed |
+| Independent correctness cases | 80 passed |
+| Offline harness checks | 28 passed |
+| Initial report time, measured after submitted-input confirmation | 7.542–23.280 seconds; median 10.626 seconds |
+
+The parent reviewed all ten captured functions and test files before
+executing them. Each run passed its three generated tests and eight
+independent boundary, fractional, and negative-interval examples. No
+skipped or TODO tests were accepted. Validation fingerprints bind the
+captured code, independent checker, and measurement evidence to these
+results. No failed trial was replaced or removed from the denominator.
+
+- [Per-trial measurement](evidence/reliability-latest.json)
+- [Correctness validation](evidence/reliability-validation.json)
+- Captured code: `evidence/reliability/run-01` through `run-10`
+
+Every trial verified terminal input, accepted prompt, exact acknowledgment,
+model selection and executed model, member attribution, task-file scope,
+fixture/log checks, and controlled owned cleanup. Selected configs and
+service identity remained unchanged. No temporary T1 project remained.
+The service stayed on 40900. The earlier two-task evidence was preserved.
+
+The conditional one-nudge path is implemented but was not exercised by
+this cohort: each initial report arrived successfully. It requires an
+accepted task, no attempted report, no provider error, existing task files,
+and idle state after task delivery. Any nudge uses the same terminal path,
+and an initial miss stays a miss. This is not evidence of successful
+recovery from an actual omitted report.
+
+Delegation: Muse free `xhigh` completed the supplied-facts read-only review.
+Its before/after state included only the pre-existing LinkedIn `output/`
+assets. Both MiMo Atria and Claude Atria `xhigh` timed out after four
+minutes with no final review. Claude's change tripwire reflects the
+parent's concurrent implementation edits, which were reviewed directly.
+No model was substituted.
+
+Limit: a ten-trial cohort on one small task, one wording, one member/model,
+and one host does not establish general production reliability. Next:
+compare three instruction wordings, test `ask_leader`, and exercise nudge
+recovery separately before completing the remaining S2 gates.
+
 ## Terminal T1 validation and startup recovery (13 October 2026)
 
 **PASS for this two-task slice.** Both members completed T1 through the

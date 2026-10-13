@@ -6,6 +6,7 @@ const { nativeExecutable, attachJob, waitUntil, processInventory, ownedIdentitie
 const s1 = path.resolve(__dirname, '../../s1-terminal');
 const T1_SUMMARY = 'Added clamp(value, min, max) and tests for below, within, and above bounds.';
 const prompt = `T1: Add clamp(value, min, max) in clamp.js as a CommonJS export { clamp }. It returns min when value is below min, max when above max, otherwise value. Add clamp.test.js using node:test and node:assert/strict covering below, within, and above bounds. Only edit clamp.js and clamp.test.js. Do not run shell commands, install anything, commit or push. Finish by calling tiye-team-tools_report_result exactly once with status "done" and summary ${JSON.stringify(T1_SUMMARY)}. Do not merely claim a tool call in prose.`;
+const nudge = `If the assigned clamp function and test file are complete, finish by calling tiye-team-tools_report_result exactly once with status "done" and summary ${JSON.stringify(T1_SUMMARY)}. Do not edit files or use any other tools. If the task is incomplete, do not report success.`;
 
 function terminalReportEvidence(messages, summary, member) {
   const assistants = messages.filter(message => message.type === 'assistant');
@@ -36,7 +37,21 @@ async function prepareAssets() {
   return assets;
 }
 
-async function terminalTask({ cwd, sessionID, summary, member, serviceApi }) {
+async function pollReport({ cwd, sessionID, serviceApi, state }) {
+  const startedAt = Date.now();
+  let messages;
+  while (Date.now() - startedAt < 120000) {
+    messages = await serviceApi(cwd, 'GET', `/api/session/${sessionID}/message?limit=100&order=desc`);
+    const assistants = messages?.data?.filter(message => message.type === 'assistant') || [];
+    const reports = assistants.flatMap(message => message.content || []).filter(part => part.type === 'tool' && part.name === 'tiye-team-tools_report_result');
+    if (reports.some(report => ['completed', 'error'].includes(report.state?.status)) || assistants.some(message => message.error)) break;
+    if (state.closed || state.error) throw new Error('terminal stopped before report');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  }
+  return { messages: messages?.data || [], elapsedMs: Date.now() - startedAt };
+}
+
+async function terminalTask({ cwd, sessionID, summary, member, serviceApi, allowNudge = false }) {
   const evidence = { terminalInputMatched: false, completedAck: false };
   let state;
   try {
@@ -57,6 +72,7 @@ async function terminalTask({ cwd, sessionID, summary, member, serviceApi }) {
     if (state.error || state.closed) throw new Error('terminal startup failed');
     await new Promise(resolve => setTimeout(resolve, 4000));
     state.captured = ownedIdentities(await processInventory(), child.pid);
+    const taskSubmittedAt = Date.now();
     child.send({ type: 'submit' });
     await waitUntil(() => events.includes('"type":"submitted"') || events.includes('"type":"input-failed"') || state.closed, 10000);
     const submitted = events.split(/\r?\n/).flatMap(line => { try { return [JSON.parse(line)]; } catch { return []; } }).find(event => event.type === 'submitted');
@@ -64,20 +80,30 @@ async function terminalTask({ cwd, sessionID, summary, member, serviceApi }) {
     evidence.terminalOutputObserved = submitted?.outputBytes > 0;
     evidence.inputDiagnostics = submitted ? { inputBytes: submitted.inputBytes, expectedBytes: submitted.expectedBytes, focusReports: submitted.focusReports, pasteMatched: submitted.pasteMatched, enterObserved: submitted.enterObserved } : null;
     if (!evidence.terminalInputMatched || !evidence.terminalOutputObserved) throw new Error('terminal input unverified');
-    const startedAt = Date.now();
-    let reports = [];
-    let assistants = [];
-    let messages;
-    while (Date.now() - startedAt < 120000) {
-      messages = await serviceApi(cwd, 'GET', `/api/session/${sessionID}/message?limit=100&order=desc`);
-      assistants = messages?.data?.filter(message => message.type === 'assistant') || [];
-      reports = assistants.flatMap(message => message.content || []).filter(part => part.type === 'tool' && part.name === 'tiye-team-tools_report_result');
-      if (reports.some(report => ['completed', 'error'].includes(report.state?.status)) || assistants.some(message => message.error)) break;
-      if (state.closed || state.error) throw new Error('terminal stopped before report');
-      await new Promise(resolve => setTimeout(resolve, 1000));
+    const initialStartedAt = Date.now();
+    let observed = await pollReport({ cwd, sessionID, serviceApi, state });
+    Object.assign(evidence, terminalReportEvidence(observed.messages, summary, member));
+    evidence.initialCompletedAck = evidence.completedAck;
+    evidence.initialElapsedMs = observed.elapsedMs;
+    evidence.nudgeUsed = false;
+    if (allowNudge && !evidence.completedAck && evidence.promptAccepted && evidence.completedReports === 0 && !observed.messages.some(message => message.type === 'assistant' && message.error)) {
+      const ownSession = await serviceApi(cwd, 'GET', `/api/session/${sessionID}`);
+      const tools = observed.messages.filter(message => message.type === 'assistant').flatMap(message => message.content || []).filter(part => part.type === 'tool');
+      const idleAfterTask = Number.isFinite(ownSession.data?.time?.idle) && ownSession.data.time.idle >= taskSubmittedAt;
+      if (idleAfterTask && !tools.some(tool => tool.name === 'tiye-team-tools_report_result') && fs.existsSync(path.join(cwd, 'clamp.js')) && fs.existsSync(path.join(cwd, 'clamp.test.js'))) {
+        evidence.nudgeUsed = true;
+        const eventOffset = events.length;
+        child.send({ type: 'submit', prompt: nudge });
+        await waitUntil(() => events.slice(eventOffset).includes('"type":"submitted"') || events.slice(eventOffset).includes('"type":"input-failed"') || state.closed, 10000);
+        const nudgeInput = events.slice(eventOffset).split(/\r?\n/).flatMap(line => { try { return [JSON.parse(line)]; } catch { return []; } }).find(event => event.type === 'submitted');
+        evidence.nudgeInputMatched = nudgeInput?.matched === true;
+        if (!evidence.nudgeInputMatched) throw new Error('nudge input unverified');
+        observed = await pollReport({ cwd, sessionID, serviceApi, state });
+        Object.assign(evidence, terminalReportEvidence(observed.messages, summary, member));
+        evidence.nudgePromptAccepted = observed.messages.filter(message => message.type === 'user' && message.text?.trim() === nudge).length === 1;
+      }
     }
-    evidence.elapsedMs = Date.now() - startedAt;
-    Object.assign(evidence, terminalReportEvidence(messages?.data || [], summary, member));
+    evidence.elapsedMs = Date.now() - initialStartedAt;
     evidence.outputTruncated = truncated;
     evidence.cliSpawnError = state.error === true;
   } catch { evidence.error = 'terminal task failed'; }

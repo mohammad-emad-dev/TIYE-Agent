@@ -38,6 +38,10 @@ process.on('message', async settings => {
   await win.loadFile(path.join(settings.assets, 'terminal.html'));
 });
 process.on('message', async message => {
+  if (message?.type === 'submit' && typeof message.prompt === 'string' && message.prompt.length <= 65536 && !pending) {
+    pending = message.prompt;
+    expected = '\x1b[200~' + pending + '\x1b[201~\r';
+  }
   if (message?.type !== 'submit' || !win || !terminal || !pending) return;
   try {
     input = ''; // Ignore terminal capability replies sent before task delivery.

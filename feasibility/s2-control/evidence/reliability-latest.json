@@ -1,0 +1,732 @@
+{
+  "recordedAt": "2026-10-13T10:52:31.667Z",
+  "scope": "Ten fresh terminal T1 sessions with identical wording and at most one conditional nudge; single member/model/host",
+  "member": "member-a",
+  "model": "opencode/muse-spark-1.3-contributor-free#xhigh",
+  "promptHash": "1da10dce213a9cec47ff2068bc67543964c48ac01b47ff961f885d386d866eea",
+  "runs": [
+    {
+      "index": 1,
+      "captureName": "reliability/run-01",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true,
+              "contains": true,
+              "normalized": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 19823,
+        "nudgeUsed": false,
+        "elapsedMs": 19824,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "onlyTaskFilesChanged": true,
+      "taskFilesCaptured": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "index": 2,
+      "captureName": "reliability/run-02",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true,
+              "contains": true,
+              "normalized": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 7542,
+        "nudgeUsed": false,
+        "elapsedMs": 7543,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "onlyTaskFilesChanged": true,
+      "taskFilesCaptured": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "index": 3,
+      "captureName": "reliability/run-03",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true,
+              "contains": true,
+              "normalized": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 7564,
+        "nudgeUsed": false,
+        "elapsedMs": 7564,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "onlyTaskFilesChanged": true,
+      "taskFilesCaptured": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "index": 4,
+      "captureName": "reliability/run-04",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true,
+              "contains": true,
+              "normalized": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 10009,
+        "nudgeUsed": false,
+        "elapsedMs": 10009,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "onlyTaskFilesChanged": true,
+      "taskFilesCaptured": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "index": 5,
+      "captureName": "reliability/run-05",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true,
+              "contains": true,
+              "normalized": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 10032,
+        "nudgeUsed": false,
+        "elapsedMs": 10032,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "onlyTaskFilesChanged": true,
+      "taskFilesCaptured": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "index": 6,
+      "captureName": "reliability/run-06",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true,
+              "contains": true,
+              "normalized": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 23280,
+        "nudgeUsed": false,
+        "elapsedMs": 23280,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "onlyTaskFilesChanged": true,
+      "taskFilesCaptured": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "index": 7,
+      "captureName": "reliability/run-07",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true,
+              "contains": true,
+              "normalized": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 10025,
+        "nudgeUsed": false,
+        "elapsedMs": 10026,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "onlyTaskFilesChanged": true,
+      "taskFilesCaptured": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "index": 8,
+      "captureName": "reliability/run-08",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true,
+              "contains": true,
+              "normalized": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 11219,
+        "nudgeUsed": false,
+        "elapsedMs": 11219,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "onlyTaskFilesChanged": true,
+      "taskFilesCaptured": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "index": 9,
+      "captureName": "reliability/run-09",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true,
+              "contains": true,
+              "normalized": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 14869,
+        "nudgeUsed": false,
+        "elapsedMs": 14869,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "onlyTaskFilesChanged": true,
+      "taskFilesCaptured": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    },
+    {
+      "index": 10,
+      "captureName": "reliability/run-10",
+      "member": "member-a",
+      "serverReportCalls": 1,
+      "matchingReports": 1,
+      "otherServerCalls": 0,
+      "cli": {
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true,
+              "contains": true,
+              "normalized": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "initialCompletedAck": true,
+        "initialElapsedMs": 16120,
+        "nudgeUsed": false,
+        "elapsedMs": 16120,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
+      },
+      "onlyTaskFilesChanged": true,
+      "taskFilesCaptured": true,
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false,
+      "roundTripPassed": true,
+      "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
+    }
+  ],
+  "selectedConfigsUnchanged": true,
+  "result": "AWAITING_CODE_REVIEW_AND_CORRECTNESS_TESTS",
+  "summary": {
+    "plannedRuns": 10,
+    "attemptedRuns": 10,
+    "initialReports": 10,
+    "reportsWithinNudgeBudget": 10,
+    "nudgeAttempts": 0,
+    "nudgedRecoveries": 0,
+    "complete": true,
+    "reportingThresholdsMet": true
+  },
+  "finishedAt": "2026-10-13T10:56:24.692Z"
+}
