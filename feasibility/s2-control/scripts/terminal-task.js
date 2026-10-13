@@ -12,9 +12,12 @@ function terminalReportEvidence(messages, summary, member) {
   const tools = assistants.flatMap(message => message.content || []).filter(part => part.type === 'tool');
   const reports = tools.filter(part => part.name === 'tiye-team-tools_report_result');
   const report = reports[0];
-  const promptAccepted = messages.filter(message => message.type === 'user' && message.text === prompt).length === 1;
+  // The observed TUI stores one extra boundary whitespace character. Keep
+  // every internal character exact; trimming is not general prompt rewriting.
+  const promptAccepted = messages.filter(message => message.type === 'user' && message.text?.trim() === prompt).length === 1;
   return {
     promptAccepted,
+    promptDiagnostics: { messageTypes: [...new Set(messages.map(message => message.type))], users: messages.filter(message => message.type === 'user').map(message => ({ length: message.text?.length, exact: message.text === prompt, trimmed: message.text?.trim() === prompt, contains: message.text?.includes(prompt), normalized: message.text?.replace(/\s+/g, ' ').trim() === prompt.replace(/\s+/g, ' ').trim() })) },
     completedReports: reports.filter(entry => entry.state?.status === 'completed').length,
     completedAck: promptAccepted && reports.length === 1 && report.state?.status === 'completed'
       && report.state.input?.summary === summary && report.state.input?.status === 'done'
@@ -59,6 +62,7 @@ async function terminalTask({ cwd, sessionID, summary, member, serviceApi }) {
     const submitted = events.split(/\r?\n/).flatMap(line => { try { return [JSON.parse(line)]; } catch { return []; } }).find(event => event.type === 'submitted');
     evidence.terminalInputMatched = submitted?.matched === true;
     evidence.terminalOutputObserved = submitted?.outputBytes > 0;
+    evidence.inputDiagnostics = submitted ? { inputBytes: submitted.inputBytes, expectedBytes: submitted.expectedBytes, focusReports: submitted.focusReports, pasteMatched: submitted.pasteMatched, enterObserved: submitted.enterObserved } : null;
     if (!evidence.terminalInputMatched || !evidence.terminalOutputObserved) throw new Error('terminal input unverified');
     const startedAt = Date.now();
     let reports = [];

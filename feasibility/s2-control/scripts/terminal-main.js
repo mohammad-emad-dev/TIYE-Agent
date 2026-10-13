@@ -4,6 +4,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const pty = require('../../s1-terminal/node_modules/node-pty');
 const path = require('node:path');
+const { terminalInputEvidence } = require('./terminal-input');
 let win;
 let terminal;
 let pending = '';
@@ -39,6 +40,7 @@ process.on('message', async settings => {
 process.on('message', async message => {
   if (message?.type !== 'submit' || !win || !terminal || !pending) return;
   try {
+    input = ''; // Ignore terminal capability replies sent before task delivery.
     const pasted = await win.webContents.executeJavaScript(`window.pasteTask(${JSON.stringify(pending)})`);
     if (!pasted) { emit({ type: 'input-failed' }); return; }
     await new Promise(resolve => setTimeout(resolve, 250));
@@ -46,7 +48,7 @@ process.on('message', async message => {
     win.webContents.sendInputEvent({ type: 'keyDown', keyCode: 'Return' });
     win.webContents.sendInputEvent({ type: 'keyUp', keyCode: 'Return' });
     await new Promise(resolve => setTimeout(resolve, 250));
-    emit({ type: 'submitted', matched: input === expected, outputBytes: bytes });
+    emit({ type: 'submitted', ...terminalInputEvidence(input, expected), outputBytes: bytes });
     pending = '';
   } catch { emit({ type: 'input-failed' }); }
 });

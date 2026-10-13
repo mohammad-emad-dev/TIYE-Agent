@@ -111,6 +111,8 @@ async function probeServiceReport({ cwd, summary, member, terminalTask }) {
         const sessions = await serviceApi(cwd, 'GET', `/api/session?directory=${encodeURIComponent(cwd)}`);
         evidence.sessionRemoved = Array.isArray(sessions.data) && !sessions.data.some(session => session.id === sessionID);
         if (!evidence.sessionRemoved) throw new Error('owned session deletion unverified');
+        // A live TUI polls its location and can reopen it after eviction.
+        if (state) { evidence.cleanup = await closePrivate(state); state = undefined; }
         await serviceApi(cwd, 'DELETE', `/api/debug/location?location[directory]=${encodeURIComponent(cwd)}`);
         const remaining = await serviceApi(cwd, 'GET', '/api/debug/location');
         evidence.locationEvicted = Array.isArray(remaining) && !remaining.some(entry => path.resolve(entry.directory).toLowerCase() === path.resolve(cwd).toLowerCase());

@@ -16,23 +16,37 @@ The harness reuses S1's installed Electron, xterm.js, node-pty, esbuild,
 and Windows Job controller. Install and rebuild the S1 dependencies first.
 It assigns Electron to the Job before spawning the native OpenCode TUI,
 then sends the task through xterm bracketed paste and an Enter key event.
-It requires an exact accepted user message, a completed report with the
+It requires an accepted user message matching the task after trimming only
+boundary whitespace, a completed report with the
 fixture acknowledgment, member attribution, and verified owned cleanup.
 Only the created service session and temporary location are removed.
 
 The task adds `clamp.js` and `clamp.test.js`. If generated, these files are
 retained under `evidence/t1-member-a` and `evidence/t1-member-b` for review.
-A verified round trip still returns PARTIAL: inspect that code and run
-independent correctness tests before claiming T1 success. This command
+A verified round trip still returns PARTIAL (exit 2): inspect that code, then
+run `npm run validate:terminal-task` before claiming T1 success. The validator
+runs both generated test files and independent boundary/negative/fractional
+examples. It records hashes tying validation to the captured files and the
+round-trip evidence. This command
 never claims the ten-run S2.2 reliability threshold.
 
-Current live result: **blocked before session creation**. OpenCode 2.0.22
-reported its service stopped; API automatic startup and an explicit
-`opencode service start` attempt timed out. No T1 prompt or model request
-was delivered. See `evidence/terminal-task-latest.json` and `RESULTS.md`.
-Renderer build, Electron/node-pty module loading, syntax checks, and
-14 offline evidence rejection tests passed. The live terminal path remains
-unverified until OpenCode's service starts successfully.
+Current live result: **two terminal T1 tasks validated** on OpenCode 2.0.22.
+Both members generated the function and tests and called `report_result`
+once without a nudge. The parent reviewed the code; all 22 generated and
+independent correctness tests passed, together with 21 harness checks.
+See `evidence/terminal-task-latest.json`, `evidence/terminal-task-validation.json`,
+and `RESULTS.md`. This is not a ten-run reliability measurement.
+
+Startup recovery: Windows reserved the configured port 49374. A loopback
+bind check passed for 40900, and `opencode service set port 40900` followed
+by `opencode service start` restored the service. This is a persistent local
+service setting change. No Windows reservation or unrelated process was
+modified. Availability must be checked again if the service fails later.
+
+Input evidence separates xterm's focus reports from task bytes, rejects all
+other extra input, and checks the accepted API prompt independently. Cleanup
+stops the owned model session first, closes the TUI Job, then evicts the
+owned location so the TUI cannot reload it.
 
 ## Scope (exact)
 

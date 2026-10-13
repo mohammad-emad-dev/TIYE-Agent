@@ -9,6 +9,7 @@
     "probe:tool-call": "node scripts/run-tool-probe.js",
     "probe:service-tool-call": "node scripts/run-tool-probe.js --service",
     "probe:terminal-task": "node scripts/run-tool-probe.js --terminal",
+    "validate:terminal-task": "node scripts/validate-terminal-task.js",
     "check": "node --test test/*.test.js"
   },
   "engines": {

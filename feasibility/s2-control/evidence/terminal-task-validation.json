@@ -1,0 +1,17 @@
+{
+  "recordedAt": "2026-10-13T10:19:15.928Z",
+  "scope": "Two terminal T1 coding tasks and independent correctness; not S2.2 ten-run reliability",
+  "sourceRecordedAt": "2026-10-13T10:15:32.162Z",
+  "sourceHash": "935fc2d6aa71613a95637be5e141c423624691678fa711882632da8d48cf53d7",
+  "fingerprints": {
+    "t1-member-a/clamp.js": "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+    "t1-member-a/clamp.test.js": "6f4a8e557b35d84b059be4e9f38764851ce350eea9be358ba158bb82ee71db12",
+    "t1-member-b/clamp.js": "da50ae496757e085b45c4c0bb289276ea027f7b211a664d9157ff54507ab3e0c",
+    "t1-member-b/clamp.test.js": "04d9f8ec501fc7984690f530c45b9830272191da0cefdd16ca51a37bb33fc46f",
+    "t1-correctness.test.js": "9a469d5159f465136fd9c81b16774dcec0740c8c54421979e5a378e638229a95"
+  },
+  "tests": 22,
+  "testExitCode": 0,
+  "unchanged": true,
+  "passed": true
+}

@@ -1,5 +1,57 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## Terminal T1 validation and startup recovery (13 October 2026)
+
+**PASS for this two-task slice.** Both members completed T1 through the
+native OpenCode TUI in Electron/xterm/node-pty with the approved Muse Spark
+free `xhigh` model. Each created `clamp.js` and three `node:test` cases,
+reported once with the correct member and summary, and needed no nudge.
+The parent reviewed both generated functions and test files. The six
+generated tests plus sixteen independent boundary, fractional, and negative
+interval examples passed (22 total). Hashes bind the validation to its
+source evidence and captured files.
+
+- [Terminal round-trip evidence](evidence/terminal-task-latest.json)
+- [Independent correctness validation](evidence/terminal-task-validation.json)
+- [Service startup recovery evidence](evidence/service-startup-latest.json)
+
+The startup blocker was a reserved port: the local log reported managed
+port 49374 unavailable; Windows listed exclusion range 49361–49460.
+A same-user loopback bind check passed on 40900. The documented
+`opencode service set port 40900` and `opencode service start` commands
+restored service availability; `service get port` returned 40900.
+This changes the persistent local service port. No Windows reservation,
+authentication configuration, or unrelated process was modified. This
+matches the failure described in the
+[upstream Windows startup report](https://github.com/anomalyco/opencode/issues/41746).
+
+Two harness corrections were needed before validation: xterm emitted two
+focus reports around input, and the TUI stored one additional boundary
+whitespace character in the user message. Focus replies are classified
+separately; other extra bytes, duplicate paste, and missing Enter fail.
+Prompt comparison trims boundary whitespace only and preserves every
+internal character. Actual accepted prompt and model identity checks passed.
+
+The first live attempt also showed that evicting a location while its TUI
+was open allowed it to remain loaded. Cleanup now interrupts and verifies
+idle for the owned session, removes the session, closes the client Job,
+then evicts the owned location. Both final runs verified six captured
+process identities gone, location/session removal, fixture shutdown,
+temporary project removal, log hygiene, unchanged selected configs, and
+unchanged shared service PID/version. The two retained projects from the
+failed cleanup attempt were subsequently evicted from their own working
+directories and removed after confirming their session lists were empty.
+
+Verification: 21 offline harness checks and 22 task correctness tests pass.
+Muse free `xhigh` completed its supplied-facts review without edits.
+Both MiMo Atria and Claude Atria `xhigh` reviews timed out after four
+minutes; neither supplied a final review. Claude's change tripwire reflects
+the parent's concurrent implementation edits. No model was substituted.
+
+The ten-run S2.2 threshold, alternative wordings, one-nudge behavior, and
+`ask_leader` task remain unmeasured. Full S2 and S1 stay open. Next: begin
+the controlled repeated task/report measurements.
+
 ## Terminal T1 attempt (13 October 2026, later run)
 
 **BLOCKED before session creation.** Both member attempts failed while

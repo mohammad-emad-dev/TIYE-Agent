@@ -1,0 +1,17 @@
+{
+  "recordedDateLocal": "2026-10-13",
+  "scope": "OpenCode 2.0.22 managed service startup recovery on this Windows host",
+  "previousPort": 49374,
+  "previousStatus": "stopped",
+  "localLogFailure": "Managed service port unavailable",
+  "windowsExcludedTcpRange": { "start": 49361, "end": 49460 },
+  "replacementPort": 40900,
+  "replacementLoopbackBindCheck": true,
+  "documentedPortSettingChanged": true,
+  "serviceStartSucceeded": true,
+  "configuredPortVerified": 40900,
+  "apiAvailable": true,
+  "unrelatedProcessesTerminated": false,
+  "windowsReservationsChanged": false,
+  "upstreamReference": "https://github.com/anomalyco/opencode/issues/41746"
+}

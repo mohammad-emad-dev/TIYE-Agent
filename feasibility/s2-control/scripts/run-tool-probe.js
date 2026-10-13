@@ -67,7 +67,7 @@ async function runMember(member) {
       } } },
     }));
     evidence.cli = await (serviceMode ? probeServiceReport : probeStandaloneReport)({ cwd, summary, member, ...(terminalMode ? { terminalTask } : {}) });
-    if (terminalMode && evidence.cli.sessionStopped) {
+    if (terminalMode && evidence.cli.completedAck && evidence.cli.idleVerified) {
       const target = path.resolve(__dirname, '../evidence', `t1-${member}`);
       fs.mkdirSync(target, { recursive: true });
       for (const name of ['clamp.js', 'clamp.test.js']) fs.copyFileSync(path.join(cwd, name), path.join(target, name));
@@ -124,15 +124,15 @@ async function main() {
   for (const member of ['member-a', 'member-b']) {
     console.log(`[tool-probe] starting ${member}`);
     evidence.runs.push(await runMember(member));
-    console.log(`[tool-probe] ${member} passed=${evidence.runs.at(-1).passed}`);
+    console.log(`[tool-probe] ${member} ${terminalMode ? 'roundTripPassed' : 'passed'}=${terminalMode ? evidence.runs.at(-1).roundTripPassed : evidence.runs.at(-1).passed}`);
   }
   evidence.selectedConfigsUnchanged = JSON.stringify(beforeConfigs) === JSON.stringify(configFingerprints());
   evidence.passed = evidence.runs.every((run) => run.passed) && evidence.selectedConfigsUnchanged;
   if (terminalMode) evidence.result = evidence.runs.every(run => run.roundTripPassed) && evidence.selectedConfigsUnchanged ? 'PARTIAL' : 'BLOCKED_OR_FAILED';
   const evidenceName = terminalMode ? 'terminal-task-latest.json' : serviceMode ? 'service-tool-call-latest.json' : 'tool-call-latest.json';
   fs.writeFileSync(path.resolve(__dirname, '../evidence', evidenceName), JSON.stringify(evidence, null, 2) + '\n');
-  console.log(`[tool-probe] ${evidence.passed ? 'PASS' : 'FAIL'}; evidence/${evidenceName}`);
-  process.exitCode = evidence.passed ? 0 : 1;
+  console.log(`[tool-probe] ${evidence.result === 'PARTIAL' ? 'PARTIAL' : evidence.passed ? 'PASS' : 'FAIL'}; evidence/${evidenceName}`);
+  process.exitCode = evidence.result === 'PARTIAL' ? 2 : evidence.passed ? 0 : 1;
 }
 
 main().catch(() => { console.error('[tool-probe] lifecycle failure; no pass evidence'); process.exitCode = 1; });

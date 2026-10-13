@@ -1,49 +1,141 @@
 {
   "scope": "Electron xterm/node-pty T1 delivery and report; generated code requires independent review and tests; not ten-run S2.2 reliability",
-  "recordedAt": "2026-10-13T08:53:47.354Z",
+  "recordedAt": "2026-10-13T10:15:32.162Z",
   "runs": [
     {
       "member": "member-a",
-      "serverReportCalls": 0,
-      "matchingReports": 0,
+      "serverReportCalls": 1,
+      "matchingReports": 1,
       "otherServerCalls": 0,
       "cli": {
-        "completedAck": false,
-        "locationUntouched": true,
-        "stage": "service-info",
-        "error": "service-backed invocation failed"
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "elapsedMs": 9696,
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true,
+              "contains": true,
+              "normalized": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
       },
+      "onlyTaskFilesChanged": true,
+      "taskFilesCaptured": true,
       "fixtureStopped": true,
       "tempRemoved": true,
       "logHygiene": true,
       "fixtureErrors": false,
       "serverLogTruncated": false,
       "passed": false,
-      "roundTripPassed": false,
+      "roundTripPassed": true,
       "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
     },
     {
       "member": "member-b",
-      "serverReportCalls": 0,
-      "matchingReports": 0,
+      "serverReportCalls": 1,
+      "matchingReports": 1,
       "otherServerCalls": 0,
       "cli": {
-        "completedAck": false,
-        "locationUntouched": true,
-        "stage": "service-info",
-        "error": "service-backed invocation failed"
+        "completedAck": true,
+        "locationUntouched": false,
+        "stage": "completed",
+        "version": "2.0.22",
+        "modelConfirmed": true,
+        "locationConfirmed": true,
+        "connected": true,
+        "terminalInputMatched": true,
+        "terminalOutputObserved": true,
+        "inputDiagnostics": {
+          "inputBytes": 581,
+          "expectedBytes": 575,
+          "focusReports": 2,
+          "pasteMatched": true,
+          "enterObserved": true
+        },
+        "elapsedMs": 8589,
+        "promptAccepted": true,
+        "promptDiagnostics": {
+          "messageTypes": [
+            "assistant",
+            "user"
+          ],
+          "users": [
+            {
+              "length": 563,
+              "exact": false,
+              "trimmed": true,
+              "contains": true,
+              "normalized": true
+            }
+          ]
+        },
+        "completedReports": 1,
+        "shellCalls": 0,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "executedModelConfirmed": true,
+        "sessionStopped": true,
+        "idleVerified": true,
+        "sessionRemoved": true,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 6,
+          "jobVerified": true
+        },
+        "locationEvicted": true,
+        "serviceIdentityUnchanged": true
       },
+      "onlyTaskFilesChanged": true,
+      "taskFilesCaptured": true,
       "fixtureStopped": true,
       "tempRemoved": true,
       "logHygiene": true,
       "fixtureErrors": false,
       "serverLogTruncated": false,
       "passed": false,
-      "roundTripPassed": false,
+      "roundTripPassed": true,
       "taskCorrectness": "Not evaluated: review captured code and run independent tests before claiming T1 success"
     }
   ],
   "selectedConfigsUnchanged": true,
   "passed": false,
-  "result": "BLOCKED_OR_FAILED"
+  "result": "PARTIAL"
 }
