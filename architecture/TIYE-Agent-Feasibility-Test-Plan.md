@@ -199,6 +199,14 @@ The result tells the product exactly which permission options to offer for this 
 | **Hang** | Suspend the process. | How long until activity stops |
 | **Resume** | Close and relaunch with the CLI's own resume feature, if it has one. | Does it keep its context? |
 
+**Evidence classes:** label injected fixture contracts separately from native
+CLI observations. The owned-process ACP fault harness verifies deadlines,
+transport/protocol rejection and cleanup; it does not satisfy the native hang,
+authentication, network-loss or rate-limit rows. An unknown execution state
+after a deadline must be reconciled before any effect is retried. Isolated
+fault fixtures can test that contract without changing shared credentials or
+the host's network connection.
+
 **Fallbacks if S2 fails for a CLI:**
 
 | Problem | Fallback |

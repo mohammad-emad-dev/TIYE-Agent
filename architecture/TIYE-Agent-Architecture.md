@@ -470,6 +470,18 @@ verify terminal Ctrl+C or shared-session streaming cancellation. Executing
 commands, provider billing cessation and external-effect reconciliation remain
 separate gates.
 
+**Control-channel failure state.** Request deadlines, transport loss, malformed
+protocol and a remote RPC error are separate observations. A request deadline
+or lost client connection leaves backend execution unknown. The supervisor
+must reconcile the owned session/effect before retrying, following Section 3.8.
+Local client shutdown does not establish backend cancellation. Pending control
+requests must reject promptly on transport closure and release their timers;
+late replies must not satisfy newer requests. The
+[ACP fault probe](../feasibility/s2-control/evidence/acp-faults-latest.json)
+exercises those contracts with owned scripted faults and observes one native
+unsupported-method error followed by a healthy request. Injected fault behavior
+is not a native provider-error or hang-detection capability.
+
 ### 5.3 API adapter
 
 For API members, the core runs the agent loop itself.

@@ -4,6 +4,31 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## ACP request deadlines and error recovery
+
+`npm run probe:acp-faults` checks three injected owned-process faults and
+one native OpenCode 2.0.22 protocol error. The injected process first answers
+a readiness request and joins an owned Windows Job before fault delivery.
+An unanswered request reaches its 500 ms deadline while the process remains
+alive; a deliberate exit and malformed JSON reject outstanding requests
+promptly. The native case sends an unsupported method, observes RPC code
+`-32601`, then successfully lists the empty owned project without a model
+request. All four cases passed with precise process/temp cleanup.
+
+The ACP client exposes fixed failure categories: `acp.deadline`,
+`acp.transport`, `acp.protocol`, and `acp.remote`. Remote failures retain only
+an optional integer RPC code. Closed pipes/processes, explicit client shutdown
+and malformed protocol reject pending calls and clear their timers. A deadline
+expires only its own request; late replies are ignored. Defaults remain 15
+seconds per request and 90 seconds for a prompt. No automatic retry occurs;
+deadline or transport loss leaves execution state unknown until reconciled.
+
+Evidence: `evidence/acp-faults-latest.json`; the first failed observation is
+preserved in `acp-faults-first.json`. **63 offline checks pass**, including
+multiple pending calls, redaction, late replies and split UTF-8 bytes. Streaming
+cancellation also passed again with the updated client. These injected tests
+do not close native hang detection or provider auth/network/rate-limit gates.
+
 ## Text-stream cancellation through native ACP
 
 `npm run probe:acp-stream-cancel` starts native OpenCode ACP in a fresh
@@ -20,7 +45,9 @@ and text counters remained stable during a one-second observation after a
 cancellation. No tools or approval requests occurred. Owned-session deletion,
 all six captured processes, exact temp cleanup, unchanged shared service
 identity and selected config fingerprints were verified. Evidence is
-`evidence/acp-stream-cancel-latest.json`; 58 offline harness checks pass.
+`evidence/acp-stream-cancel-latest.json`. The original stronger-guard
+measurement is preserved in `acp-stream-cancel-strong-guard.json`; that
+milestone had 58 passing offline harness checks.
 
 `npm run probe:stream-cancel` preserves the earlier terminal/shared-session
 API route. Both measurements failed to observe growing text before completion;

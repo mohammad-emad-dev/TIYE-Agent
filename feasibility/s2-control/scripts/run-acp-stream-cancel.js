@@ -1,5 +1,5 @@
 'use strict';
-const { spawn, spawnSync } = require('node:child_process');
+const { spawn } = require('node:child_process');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
@@ -16,7 +16,7 @@ async function main() {
   const beforeConfigs = configFingerprints();
   const shared = await serviceApi(path.resolve(__dirname, '../../..'), 'GET', '/api/info');
   const evidence = { scope: 'Native ACP text-chunk cancellation in an owned private backend; not terminal Ctrl+C or shared-session API cancellation', recordedAt: new Date().toISOString(), stage: 'launch',
-    sourceHashes: Object.fromEntries(['run-acp-stream-cancel.js', 'acp-child.js', 'acp-protocol.js'].map(name => [name, crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname, name))).digest('hex')])),
+    sourceHashes: Object.fromEntries(['run-acp-stream-cancel.js', 'acp-child.js', 'acp-protocol.js', 'acp-failure.js'].map(name => [name, crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname, name))).digest('hex')])),
     promptHash: crypto.createHash('sha256').update(prompt).digest('hex'), toolCalls: 0, permissionRequests: 0 };
   let state, sessionID, client;
   try {
@@ -62,7 +62,7 @@ async function main() {
         evidence.sessionRemoved = Array.isArray(remaining.sessions) && remaining.sessions.length === 0;
       }
     } catch { evidence.cleanupError = 'ACP owned session cleanup failed'; }
-    finally { if (state) evidence.cleanup = await closePrivate(state); }
+    finally { client?.close(); if (state) evidence.cleanup = await closePrivate(state); }
     evidence.onlyFixtureFilesPresent = JSON.stringify(fs.readdirSync(cwd)) === JSON.stringify(['opencode.json']);
     const resolved = fs.realpathSync(cwd);
     if (path.dirname(resolved).toLowerCase() !== fs.realpathSync(os.tmpdir()).toLowerCase() || !path.basename(resolved).startsWith('tiye-s2-acp-')) throw new Error('ACP temp boundary invalid');

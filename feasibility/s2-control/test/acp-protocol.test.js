@@ -2,10 +2,11 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { PassThrough } = require('node:stream');
+const { EventEmitter } = require('node:events');
 const { rpcClient } = require('../scripts/acp-protocol');
 
 test('ACP cancels only two owned assistant text chunks and continues counting late chunks', async () => {
-  const child = { stdin: new PassThrough(), stdout: new PassThrough() };
+  const child = Object.assign(new EventEmitter(), { stdin: new PassThrough(), stdout: new PassThrough() });
   const sent = [];
   child.stdin.on('data', bytes => sent.push(JSON.parse(bytes.toString())));
   const evidence = {};

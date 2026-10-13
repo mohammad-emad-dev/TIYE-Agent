@@ -1,5 +1,77 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## S2.5 ACP request deadlines and error contracts (13 October 2026)
+
+**PASS for three injected process contracts and one native protocol-error
+measurement. Full S2.5 remains open.** The request client now rejects pending
+work on process/pipe closure, explicit local shutdown, malformed JSON or
+invalid response envelopes. It clears pending timers and keeps the first
+terminal client failure. Remote RPC errors are rejected individually and
+leave the transport usable. UTF-8 bytes split between pipe reads are decoded
+without corrupting text counters.
+
+| Case | Evidence source | Final observation |
+|---|---|---|
+| No response to a received request | Owned scripted fixture | `acp.deadline` at 504 ms, process still alive |
+| Deliberate exit with a pending request | Owned scripted fixture | `acp.transport` at 2 ms; exit code 23 confirmed afterward |
+| Malformed JSON with a pending request | Owned scripted fixture | `acp.protocol` at 1 ms |
+| Unsupported RPC method | Native OpenCode 2.0.22 ACP | `acp.remote`, code `-32601`, 1 ms; next project session-list request succeeded |
+
+Each injected fixture joins a Windows Job before launch, answers a readiness
+request and has its process identities captured before fault delivery. Exactly
+one fault request was received per fixture; no retry was sent. The native case
+initialized protocol 1 and created no session or generation request. All four
+cases verified owned process cleanup, expected directory contents, exact temp
+removal, unchanged shared-service PID/version and selected config fingerprints.
+Timings are observations including pipe/event scheduling; the probe's local
+bounds are not product latency guarantees.
+
+The failure categories are `acp.deadline`, `acp.transport`, `acp.protocol` and
+`acp.remote`. Only an integer RPC error code is retained; remote message/data,
+stderr and credentials are excluded. A numeric code such as the injected
+unit-test value 401 is still a remote RPC error, not evidence of provider auth
+failure. Default request/prompt deadlines remain 15/90 seconds. A deadline
+removes only its pending request. Protocol/transport failure makes the client
+unusable and rejects all remaining requests. `client.close()` is local
+shutdown and rejects pending calls as transport failures; it is not a vendor
+cancellation acknowledgment. Execution is recorded as unknown at failure.
+Owned process cleanup provides separate evidence of local termination.
+
+The [first run](evidence/acp-faults-first.json) remains failed. Its crash case
+observed pipe closure before Node exposed the child's exit code; the request
+correctly rejected, but the immediate exit-code gate was inconclusive. The
+corrected runner awaits the bounded exit observation after recording request
+failure. The [final run](evidence/acp-faults-latest.json) passed all four cases.
+Cleanup uncertainty now preserves a failed record and the exact directory,
+and stops further cases rather than continuing with unverified ownership.
+
+The [live streaming regression](evidence/acp-stream-cancel-latest.json) also
+passed on Muse Spark free `xhigh`: two same-assistant chunks, 151/305 cumulative
+text code units, `stopReason: cancelled`, stable late-chunk counters, no tools
+or approvals, deleted session and six captured processes gone. The prior
+stronger-guard record is retained separately below. This rerun verifies the
+normal native path after request-lifecycle changes.
+
+Verification: **63 offline harness checks**, all S2 script syntax checks and
+diff whitespace checks passed. New checks cover error redaction, deadlines,
+late replies, multiple pending requests, process/pipe/local shutdown,
+malformed/oversized protocol and split UTF-8 chunks. No dependency was added.
+
+Muse free `xhigh` completed a supplied-facts design review. It highlighted
+settlement races, exit-observation timing, redaction, ownership and unknown
+execution state; these were checked by the parent. MiMo Atria and Claude
+Atria `xhigh` timed out after four minutes without final reviews. Recorded
+events contain no tool calls. Claude's Git tripwire detected the parent's
+concurrent edits; the actual diff was reviewed directly. No model substitution
+occurred.
+
+This is request-boundary hardening in the feasibility harness. It does not
+prove a suspended native OpenCode process, native hang diagnosis, actual
+provider auth/network/rate-limit patterns, command termination or external
+effect reconciliation. Next: cancellation of an already executing harmless
+command in an owned disposable session. Full S2 and the core implementation
+remain open.
+
 ## S2.5 live text-stream cancellation through native ACP (13 October 2026)
 
 **PASS for the final native ACP measurement; full S2.5 remains open.**
@@ -44,7 +116,7 @@ feasibility route, not a production TIYE adapter implementation.
    `xhigh`, received two same-assistant text chunks and returned `cancelled`.
    Its original stability check stopped counting after cancellation, so
    that stability flag alone was insufficient evidence of a quiet stream.
-5. [Final ACP measurement](evidence/acp-stream-cancel-latest.json) reran the
+5. [Final ACP measurement for this milestone](evidence/acp-stream-cancel-strong-guard.json) reran the
    probe with counters that keep tracking late chunks. It passed the stronger
    observation and all ownership/cleanup checks. A regression check exercises
    a late chunk after cancellation and verifies it is still counted.

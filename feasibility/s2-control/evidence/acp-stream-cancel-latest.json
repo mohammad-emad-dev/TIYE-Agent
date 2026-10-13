@@ -1,11 +1,12 @@
 {
   "scope": "Native ACP text-chunk cancellation in an owned private backend; not terminal Ctrl+C or shared-session API cancellation",
-  "recordedAt": "2026-10-13T17:16:40.311Z",
+  "recordedAt": "2026-10-13T17:27:14.834Z",
   "stage": "completed",
   "sourceHashes": {
-    "run-acp-stream-cancel.js": "32e74a8d9804b21b905e799c33d055f95343092c8c0532c1bdb782e9d512d8e9",
+    "run-acp-stream-cancel.js": "19a0c908ba05cfb87ec7242c8f7a75cbc2881fd1b1fbd592e323347d51043d28",
     "acp-child.js": "f2ef226fcfa6cb619644c5fc08767a1181677735b6ede53fe9f794d8d47c59b3",
-    "acp-protocol.js": "fc276d7daaec800c80b77dce3568a14d516b82afa204eae5a4919a2316a191de"
+    "acp-protocol.js": "2763840d2b6374f71f634456bf782616d5d02c50755f12162ee396a87a12b6dd",
+    "acp-failure.js": "297b54869a22e28b70d017683b8ec1a5a65548207edfc4d7aa94f9fbcfd7d676"
   },
   "promptHash": "ffdc7d77fc87045d5ed6bc07ee1eb5de2c55f1a8c09dc5031b3071b163012509",
   "toolCalls": 0,
@@ -18,10 +19,10 @@
   "effortValue": "xhigh",
   "ownedProcesses": 6,
   "totalOwnTextChunks": 2,
-  "totalOwnTextCodeUnits": 614,
-  "firstTextCodeUnits": 158,
+  "totalOwnTextCodeUnits": 305,
+  "firstTextCodeUnits": 151,
   "sameAssistantTextChunks": true,
-  "secondTextCodeUnits": 614,
+  "secondTextCodeUnits": 305,
   "cancelNotificationSent": true,
   "stopReason": "cancelled",
   "cancelledStable": true,

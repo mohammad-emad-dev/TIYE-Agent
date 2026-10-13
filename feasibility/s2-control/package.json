@@ -25,6 +25,7 @@
     "probe:active-disconnect": "node scripts/run-active-disconnect.js",
     "probe:stream-cancel": "node scripts/run-stream-cancel.js",
     "probe:acp-stream-cancel": "node scripts/run-acp-stream-cancel.js",
+    "probe:acp-faults": "node scripts/run-acp-faults.js",
     "check": "node --test test/*.test.js"
   },
   "engines": {

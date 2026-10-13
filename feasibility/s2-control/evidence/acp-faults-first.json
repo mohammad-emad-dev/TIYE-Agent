@@ -1,0 +1,107 @@
+{
+  "recordedAt": "2026-10-13T17:26:24.446Z",
+  "scope": "Injected owned-process deadline/crash/protocol contracts plus native unsupported-method error; no vendor hang or provider-error claims",
+  "sourceHashes": {
+    "run-acp-faults.js": "0001246752d6228b6f9ac97d4653e4f59e71deaa2a33cfd152a50b0e2e9ac7d8",
+    "acp-protocol.js": "2763840d2b6374f71f634456bf782616d5d02c50755f12162ee396a87a12b6dd",
+    "acp-failure.js": "297b54869a22e28b70d017683b8ec1a5a65548207edfc4d7aa94f9fbcfd7d676",
+    "acp-child.js": "f2ef226fcfa6cb619644c5fc08767a1181677735b6ede53fe9f794d8d47c59b3",
+    "persistent-cli.js": "54072a0884ee80ef5d177338a8e184f51a7f42347f2d78fd40feaf09074cb3b7",
+    "../fixtures/acp-fault.js": "1920c1b3319230df5a11ab3448ae3159cbfe5408d0e6328848816070437b11d9"
+  },
+  "runs": [
+    {
+      "caseID": "hang",
+      "source": "injected-owned-process",
+      "requestDeadlineMs": 500,
+      "executionStateAtFailure": "unknown",
+      "ready": true,
+      "faultRequestReceived": true,
+      "failure": {
+        "category": "acp.deadline",
+        "elapsedMs": 514
+      },
+      "aliveAtDeadline": true,
+      "exitCode": null,
+      "cleanup": {
+        "verified": true,
+        "capturedProcesses": 2,
+        "jobVerified": true
+      },
+      "onlyFixtureFilesPresent": true,
+      "tempRemoved": true,
+      "passed": true
+    },
+    {
+      "caseID": "crash",
+      "source": "injected-owned-process",
+      "requestDeadlineMs": 10000,
+      "executionStateAtFailure": "unknown",
+      "ready": true,
+      "faultRequestReceived": true,
+      "failure": {
+        "category": "acp.transport",
+        "elapsedMs": 3
+      },
+      "aliveAtDeadline": true,
+      "exitCode": null,
+      "cleanup": {
+        "verified": true,
+        "capturedProcesses": 2,
+        "jobVerified": true
+      },
+      "onlyFixtureFilesPresent": true,
+      "tempRemoved": true,
+      "passed": false
+    },
+    {
+      "caseID": "malformed",
+      "source": "injected-owned-process",
+      "requestDeadlineMs": 10000,
+      "executionStateAtFailure": "unknown",
+      "ready": true,
+      "faultRequestReceived": true,
+      "malformedProtocol": true,
+      "failure": {
+        "category": "acp.protocol",
+        "elapsedMs": 1
+      },
+      "aliveAtDeadline": true,
+      "exitCode": null,
+      "cleanup": {
+        "verified": true,
+        "capturedProcesses": 2,
+        "jobVerified": true
+      },
+      "onlyFixtureFilesPresent": true,
+      "tempRemoved": true,
+      "passed": true
+    },
+    {
+      "caseID": "unsupported-method",
+      "source": "native-opencode-acp",
+      "modelRequests": 0,
+      "version": "2.0.22",
+      "protocolConfirmed": true,
+      "failure": {
+        "category": "acp.remote",
+        "rpcCode": -32601,
+        "elapsedMs": 1
+      },
+      "healthyAfterRemoteError": true,
+      "noOwnedSessions": true,
+      "cleanup": {
+        "verified": true,
+        "capturedProcesses": 6,
+        "jobVerified": true
+      },
+      "onlyFixtureFilesPresent": true,
+      "tempRemoved": true,
+      "passed": true
+    }
+  ],
+  "sharedServiceUnchanged": true,
+  "selectedConfigsUnchanged": true,
+  "passed": false,
+  "result": "PARTIAL_OR_FAILED"
+}
