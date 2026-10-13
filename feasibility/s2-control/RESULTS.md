@@ -1,5 +1,81 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## S2.5 client disconnect while a tool awaits approval (13 October 2026)
+
+**PASS for this bounded live probe; full S2.5 remains open.** OpenCode
+2.0.22 with Muse Spark free `xhigh` received one exact harmless shell-command
+request through the native terminal, in a fresh disposable project/session.
+The session used shell `ask`; no approval reply was sent.
+
+| Check | Observed |
+|---|---|
+| Accepted prompt, one exact pending shell tool and unfinished assistant | Verified twice |
+| Request/session/message/tool identity and command correlation | Verified |
+| Owned native CLI PID/creation identity rechecked before termination | Passed |
+| PTY exit code | 1 |
+| Native exit observation plus old-client Job cleanup | 1597 ms |
+| Same pending request and running tool after old client tree was gone | Verified twice |
+| Owned session and shared service identity across client crash | Preserved |
+| First own-session interrupt / second interrupt | `true` / `false` |
+| Original tool after interrupt | `error`, type `aborted` |
+| Completed turns, no pending approvals, stable cancellation snapshot | Verified twice |
+| Interrupt-to-stable-cancellation observation | 1781 ms |
+| Marker before crash, after crash, after cancellation and final cleanup | Absent |
+| Final session/client/location/MCP fixture/temp cleanup | Verified |
+| Selected configs and disposable file scope | Unchanged |
+
+This is active work waiting for an approval, not a token-streaming model
+response or an executing shell command. The source pending request must
+join the accepted prompt's own session, assistant and tool call, exact
+command and working directory. The assistant turn is unfinished and the
+tool is running. Before/after client termination, the same request, source
+message and tool IDs must persist. Missing, replaced or completed operations
+cannot satisfy the disconnect gate.
+
+The CLI process was deliberately terminated only after matching and
+rechecking its PID/creation identity within the owned client tree. The
+Electron client observed the PTY exit before its Windows Job closed; that
+tree was verified gone. No shared service was terminated or restarted.
+Backend work still awaited approval after the client was gone. The later
+own-session interrupt actually acted, and its idempotency check found no
+remaining execution. This directly shows that client termination alone
+did not cancel this backend operation.
+
+Cancellation requires the original tool to serialize an `aborted` error,
+zero completed shell calls, no remaining permission requests and completed
+assistant turns. Two successive quiescent observations must have the same
+conversation fingerprint. Provider/scanner failures or a different tool's
+error do not count. Normal idle is recorded separately from quiescence;
+this trial also returned a usable idle timestamp during final cleanup.
+Recorded timings include polling/API/cleanup overhead and are not product
+latency guarantees.
+
+- [Live phase, cancellation and cleanup evidence](evidence/active-disconnect-latest.json)
+- Runner: `scripts/run-active-disconnect.js`
+- Classifier: `scripts/active-disconnect-evidence.js`
+- Shared process ownership helper: `scripts/client-crash.js`
+- Verification: 54 offline harness checks and all S2 script syntax checks passed.
+
+The existing idle-recovery probe now imports the same crash and session
+identity helpers; their behavior was moved without changing its task flow.
+The live active-disconnect probe exercised those helpers. Failure records
+retain the completed phase flags and a fixed failing stage. Raw tool inputs,
+permission messages, session/request/message/process IDs and credentials
+are not persisted. Previous permission and idle-recovery evidence remains
+unchanged.
+
+Muse free `xhigh` completed its supplied-facts design review; it explicitly
+did not independently verify the live evidence. The parent ran and inspected
+the probe and checks. MiMo Atria and Claude Atria `xhigh` timed out after four
+minutes without final reviews. Claude's tripwire detected the parent's
+concurrent edits, which were reviewed directly. No model was substituted.
+
+Limits: one approval-waiting operation on this model/version/Windows host.
+No executing command, in-flight external effect, token-stream cancellation,
+service/host crash, hang recovery, auth/network mutation or durable TIYE
+effect reconciliation is proven. Next: token-stream cancellation and scoped
+hang/error signals. Full S2 remains open.
+
 ## S2.5 idle native-client crash and session resume (13 October 2026)
 
 **PASS for two fresh measurements; full S2.5 remains open.** Both used

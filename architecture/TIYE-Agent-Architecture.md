@@ -451,6 +451,13 @@ must not be terminated as member-owned processes. The
 preserved the session/history and recalled context after a fresh terminal
 attached; active-generation and external-effect recovery remain separate gates.
 
+The subsequent [approval-wait disconnect probe](../feasibility/s2-control/evidence/active-disconnect-latest.json)
+kept the same pending backend operation after the native client and its tree
+were gone. A scoped session interrupt then ended that operation without command
+execution. The failure supervisor must therefore distinguish client/display
+failure from owned-session execution state. This evidence covers approval wait;
+streaming generation, executing commands and external effects remain untested.
+
 ### 5.3 API adapter
 
 For API members, the core runs the agent loop itself.

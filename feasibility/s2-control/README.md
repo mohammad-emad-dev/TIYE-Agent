@@ -4,6 +4,27 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Client disconnect during approval wait
+
+`npm run probe:active-disconnect` establishes exactly one shell request
+waiting for approval in an owned disposable session. It correlates the
+accepted prompt, unfinished assistant, tool call, command and pending request
+twice before terminating the native CLI. No approval is answered.
+
+After PTY exit and old-client Job cleanup, the same request and running tool
+must remain pending across two observations. Only then does the harness
+interrupt the owned backend session. The first interrupt must act, the next
+must find no active execution, and the original tool must end as `aborted`
+with completed turns, no pending requests and stable quiescence twice. Marker
+absence and final session/location/fixture/temp cleanup are required.
+
+The live probe passed with PTY exit code `1`; client termination left the
+backend operation pending, and scoped cancellation ended it without command
+execution. Evidence is `evidence/active-disconnect-latest.json`. The current
+offline suite has 54 passing checks. This exercises a turn blocked on approval;
+token streaming, executing commands, service crashes and external effects
+remain separate recovery cases.
+
 ## Idle client crash and resume
 
 `npm run probe:client-recovery` creates an owned service session and sends a

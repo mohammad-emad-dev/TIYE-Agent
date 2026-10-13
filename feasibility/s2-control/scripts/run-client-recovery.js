@@ -6,34 +6,11 @@ const { runMember, configFingerprints } = require('./run-tool-probe');
 const { SERVICE_PERMISSIONS } = require('./service-cli');
 const { pollTextPhase } = require('./terminal-task');
 const { openTerminal } = require('./terminal-client');
-const { closePrivate, processInventory, ownedIdentities, waitUntil } = require('./persistent-cli');
+const { crashOwnedClient } = require('./client-crash');
+const { sameSession } = require('./session-identity');
 const { recallEvidence } = require('./briefing-evidence');
-const { conversationFingerprint, ownedCrashTarget } = require('./recovery-evidence');
+const { conversationFingerprint } = require('./recovery-evidence');
 const recallPrompt = 'Recall the checkpoint profile from the first message. Reply with only a JSON object containing member, role and checkpoint. No tools, Markdown, explanations or file operations.';
-
-function sameSession(before, after, cwd) {
-  return before.id === after.id && before.time.created === after.time.created && before.agent === after.agent
-    && JSON.stringify(before.model) === JSON.stringify(after.model) && JSON.stringify(before.permissions) === JSON.stringify(after.permissions)
-    && path.resolve(after.location.directory).toLowerCase() === path.resolve(cwd).toLowerCase();
-}
-
-async function crashOwnedClient(request, servicePID) {
-  const ready = request.readEvents().find(event => event.type === 'ready');
-  const current = await processInventory();
-  const identity = ownedCrashTarget({ pid: ready?.ptyPID, captured: request.state.captured,
-    current: ownedIdentities(current, request.state.child.pid), rootPID: request.state.child.pid, servicePID });
-  if (!identity) throw new Error('crash target ownership unverified');
-  // Recheck the captured creation identity immediately before termination.
-  const fresh = await processInventory();
-  if (!ownedCrashTarget({ pid: identity.ProcessId, captured: [identity], current: ownedIdentities(fresh, request.state.child.pid), rootPID: request.state.child.pid, servicePID })) throw new Error('crash target identity changed');
-  const startedAt = Date.now();
-  process.kill(identity.ProcessId, 'SIGKILL');
-  await waitUntil(() => request.readEvents().some(event => event.type === 'pty-exit') || request.state.closed, 10000);
-  const exit = request.readEvents().filter(event => event.type === 'pty-exit');
-  if (exit.length !== 1 || !Number.isFinite(exit[0].exitCode)) throw new Error('native CLI exit unverified');
-  const cleanup = await closePrivate(request.state);
-  return { crashTargetOwned: true, ptyExitObserved: true, ptyExitCode: exit[0].exitCode, ptyExitSignal: exit[0].signal ?? null, crashObservationMs: Date.now() - startedAt, firstClientCleanup: cleanup };
-}
 
 async function observe(request, task, profile) {
   const evidence = { recoveryObserved: false, recoveryStage: 'seed' };
@@ -88,7 +65,7 @@ async function main() {
   const prompt = `Store this checkpoint profile in this session: ${JSON.stringify(profile)}. Acknowledge by replying with exactly that JSON object, no other text or tools. Do not read/change files, use shell or call team tools. Then wait.`;
   const task = { kind: 'recovery', prompt, permissions: SERVICE_PERMISSIONS };
   task.observe = request => observe(request, task, profile);
-  const names = ['run-client-recovery.js', 'recovery-evidence.js', 'terminal-client.js', 'terminal-task.js', 'terminal-main.js', 'run-tool-probe.js', 'service-cli.js'];
+  const names = ['run-client-recovery.js', 'client-crash.js', 'session-identity.js', 'recovery-evidence.js', 'terminal-client.js', 'terminal-task.js', 'terminal-main.js', 'run-tool-probe.js', 'service-cli.js'];
   const evidence = { scope: 'Intentional termination of an idle owned native CLI, then same-session terminal resume; not in-flight/service crash recovery', recordedAt: new Date().toISOString(),
     sourceHashes: Object.fromEntries(names.map(name => [name, crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname, name))).digest('hex')])),
     seedPromptHash: crypto.createHash('sha256').update(prompt).digest('hex'), recallPromptHash: crypto.createHash('sha256').update(recallPrompt).digest('hex') };
