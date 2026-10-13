@@ -8,6 +8,7 @@ const { nativeExecutable, attachJob, closePrivate, processInventory, ownedIdenti
 const { configFingerprints } = require('./run-tool-probe');
 const { serviceApi } = require('./service-cli');
 const { rpcClient } = require('./acp-protocol');
+const { reviewedVersion } = require('./reviewed-version');
 const model = 'opencode/muse-spark-1.3-contributor-free';
 const prompt = 'Write 300 numbered lines, each containing one short practical tip for writing readable functions. Start directly at line 1 and continue through line 300. Plain text only. No introduction, closing paragraph, tools, file operations, commands, or questions.';
 
@@ -15,8 +16,10 @@ async function main() {
   const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'tiye-s2-acp-'));
   const beforeConfigs = configFingerprints();
   const shared = await serviceApi(path.resolve(__dirname, '../../..'), 'GET', '/api/info');
+  const expectedVersion = reviewedVersion(shared.version);
   const evidence = { scope: 'Native ACP text-chunk cancellation in an owned private backend; not terminal Ctrl+C or shared-session API cancellation', recordedAt: new Date().toISOString(), stage: 'launch',
-    sourceHashes: Object.fromEntries(['run-acp-stream-cancel.js', 'acp-child.js', 'acp-protocol.js', 'acp-failure.js'].map(name => [name, crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname, name))).digest('hex')])),
+    expectedVersion,
+    sourceHashes: Object.fromEntries(['run-acp-stream-cancel.js', 'acp-child.js', 'acp-protocol.js', 'acp-failure.js', 'reviewed-version.js'].map(name => [name, crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname, name))).digest('hex')])),
     promptHash: crypto.createHash('sha256').update(prompt).digest('hex'), toolCalls: 0, permissionRequests: 0 };
   let state, sessionID, client;
   try {
@@ -29,6 +32,7 @@ async function main() {
     child.send({ type: 'launch', executable: nativeExecutable(), cwd });
     const initialized = await client.request('initialize', { protocolVersion: 1, clientCapabilities: {}, clientInfo: { name: 'tiye-feasibility', version: '0.1.0' } });
     evidence.version = initialized.agentInfo?.version;
+    if (evidence.version !== expectedVersion) throw new Error('ACP version changed');
     evidence.protocolConfirmed = initialized.protocolVersion === 1 && initialized.agentCapabilities?.sessionCapabilities?.delete !== undefined;
     evidence.stage = 'session';
     const created = await client.request('session/new', { cwd, mcpServers: [] });
@@ -72,7 +76,7 @@ async function main() {
     evidence.sharedServiceUnchanged = after.pid === shared.pid && after.version === shared.version;
     evidence.selectedConfigsUnchanged = JSON.stringify(beforeConfigs) === JSON.stringify(configFingerprints());
   }
-  evidence.passed = Boolean(!evidence.error && !evidence.cleanupError && evidence.version === '2.0.22' && evidence.protocolConfirmed && evidence.modelConfirmed && evidence.effortConfirmed
+  evidence.passed = Boolean(!evidence.error && !evidence.cleanupError && evidence.version === expectedVersion && evidence.protocolConfirmed && evidence.modelConfirmed && evidence.effortConfirmed
     && evidence.sameAssistantTextChunks && evidence.secondTextCodeUnits > evidence.firstTextCodeUnits && evidence.cancelNotificationSent && evidence.cancelledStable
     && !evidence.assistantChanged && !evidence.protocolOverflow && !evidence.malformedProtocol && evidence.toolCalls === 0 && evidence.permissionRequests === 0
     && evidence.sessionRemoved && evidence.cleanup?.verified && evidence.cleanup.jobVerified && evidence.onlyFixtureFilesPresent && evidence.tempRemoved

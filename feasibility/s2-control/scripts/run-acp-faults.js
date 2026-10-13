@@ -8,6 +8,7 @@ const { nativeExecutable, attachJob, closePrivate, processInventory, ownedIdenti
 const { configFingerprints } = require('./run-tool-probe');
 const { serviceApi } = require('./service-cli');
 const { rpcClient } = require('./acp-protocol');
+const { reviewedVersion } = require('./reviewed-version');
 
 async function observedFailure(client, method, timeoutMs) {
   const startedAt = Date.now();
@@ -74,9 +75,9 @@ async function runInjectedFault(fault) {
   return evidence;
 }
 
-async function runNativeError() {
+async function runNativeError(expectedVersion) {
   const cwd = fs.mkdtempSync(path.join(os.tmpdir(), 'tiye-s2-fault-'));
-  const evidence = { caseID: 'unsupported-method', source: 'native-opencode-acp', modelRequests: 0 };
+  const evidence = { caseID: 'unsupported-method', source: 'native-opencode-acp', expectedVersion, modelRequests: 0 };
   let state, client;
   try {
     fs.writeFileSync(path.join(cwd, 'opencode.json'), JSON.stringify({ permissions: [{ action: 'edit', resource: '*', effect: 'deny' }, { action: 'shell', resource: '*', effect: 'ask' }] }));
@@ -85,6 +86,7 @@ async function runNativeError() {
     state.child.send({ type: 'launch', executable: nativeExecutable(), cwd });
     const initialized = await client.request('initialize', { protocolVersion: 1, clientCapabilities: {}, clientInfo: { name: 'tiye-feasibility', version: '0.1.0' } });
     evidence.version = initialized.agentInfo?.version;
+    if (evidence.version !== expectedVersion) throw new Error('ACP version changed');
     evidence.protocolConfirmed = initialized.protocolVersion === 1;
     state.captured = ownedIdentities(await processInventory(), state.child.pid);
     evidence.failure = await observedFailure(client, 'tiye/unsupported_probe', 10000);
@@ -95,7 +97,7 @@ async function runNativeError() {
   finally {
     await finishOwnedProcess({ cwd, state, client, evidence, expectedFiles: ['opencode.json'] });
   }
-  evidence.passed = Boolean(!evidence.error && !evidence.cleanupError && !evidence.spawnError && !evidence.inputError && evidence.version === '2.0.22' && evidence.protocolConfirmed
+  evidence.passed = Boolean(!evidence.error && !evidence.cleanupError && !evidence.spawnError && !evidence.inputError && evidence.version === expectedVersion && evidence.protocolConfirmed
     && evidence.failure?.category === 'acp.remote' && evidence.failure.rpcCode === -32601 && evidence.healthyAfterRemoteError && evidence.noOwnedSessions
     && evidence.cleanup?.verified && evidence.cleanup.jobVerified && evidence.onlyFixtureFilesPresent && evidence.tempRemoved);
   return evidence;
@@ -105,7 +107,8 @@ async function main() {
   const beforeConfigs = configFingerprints();
   const workspace = path.resolve(__dirname, '../../..');
   const shared = await serviceApi(workspace, 'GET', '/api/info');
-  const names = ['run-acp-faults.js', 'acp-protocol.js', 'acp-failure.js', 'acp-child.js', 'persistent-cli.js', '../fixtures/acp-fault.js'];
+  const expectedVersion = reviewedVersion(shared.version);
+  const names = ['run-acp-faults.js', 'acp-protocol.js', 'acp-failure.js', 'acp-child.js', 'persistent-cli.js', 'reviewed-version.js', '../fixtures/acp-fault.js'];
   const evidence = { recordedAt: new Date().toISOString(), scope: 'Injected owned-process deadline/crash/protocol contracts plus native unsupported-method error; no vendor hang or provider-error claims',
     sourceHashes: Object.fromEntries(names.map(name => [name, crypto.createHash('sha256').update(fs.readFileSync(path.join(__dirname, name))).digest('hex')])), runs: [] };
   for (const fault of ['hang', 'crash', 'malformed']) {
@@ -113,7 +116,7 @@ async function main() {
     evidence.runs.push(run);
     if (!run.cleanup?.verified || !run.cleanup.jobVerified || !run.tempRemoved) { evidence.stoppedReason = 'owned-cleanup-unverified'; break; }
   }
-  if (!evidence.stoppedReason) evidence.runs.push(await runNativeError());
+  if (!evidence.stoppedReason) evidence.runs.push(await runNativeError(expectedVersion));
   const after = await serviceApi(workspace, 'GET', '/api/info');
   evidence.sharedServiceUnchanged = after.pid === shared.pid && after.version === shared.version;
   evidence.selectedConfigsUnchanged = JSON.stringify(beforeConfigs) === JSON.stringify(configFingerprints());

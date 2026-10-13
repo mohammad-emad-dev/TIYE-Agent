@@ -4,7 +4,7 @@
   "recordType": "feasibility-permission-assessment",
   "productionEligible": false,
   "testedVersions": [
-    "2.0.22"
+    "2.0.28"
   ],
   "environments": [
     "windows"
@@ -35,13 +35,11 @@
       "productGuarantee": false,
       "observedStatus": "partial",
       "documentedNativeRules": [
-        "edit deny",
-        "plan agent with documented exception"
+        "edit deny"
       ],
       "providerCompatibility": "shell-ask profile ran",
       "evidence": [
-        "../evidence/approval-outcomes-latest.json",
-        "../evidence/permissions-latest.json"
+        "../evidence/versions/2.0.28/approval-outcomes-latest.json"
       ],
       "limitation": "Edit denial observed; no complete read-only profile or OS write containment proven. Approved shell commands can write files"
     },
@@ -54,26 +52,31 @@
       ],
       "providerCompatibility": "observed-working",
       "evidence": [
-        "../evidence/permission-controls-latest.json",
-        "../evidence/terminal-task-validation.json"
+        "../evidence/versions/2.0.28/permission-controls-latest.json"
       ],
-      "limitation": "Paired allowed edit and earlier coding tasks; not arbitrary file access or a combined product profile"
+      "limitation": "Paired allowed edit only; coding reliability, arbitrary file access and combined product profiles require separate evidence"
     }
   },
   "terminal": {
     "off": {
       "osEnforcement": "not-established",
       "productGuarantee": false,
-      "observedStatus": "blocked-for-tested-model",
+      "observedStatus": "unverified-for-tested-version",
       "documentedNativeRules": [
         "shell deny"
       ],
-      "providerCompatibility": "historical-http-403-before-tool-execution",
-      "evidence": [
-        "../evidence/tool-call-latest.json",
-        "../RESULTS.md"
+      "providerCompatibility": "not-revalidated",
+      "evidence": [],
+      "historicalEvidence": [
+        {
+          "version": "2.0.22",
+          "observedStatus": "provider-rejected-before-tool-execution",
+          "evidence": [
+            "../evidence/versions/2.0.22/tool-call-latest.json"
+          ]
+        }
       ],
-      "limitation": "Rule is documented; denial enforcement cannot be inferred from a provider rejection. No recent shell-off retest or other model test"
+      "limitation": "Historical provider rejection does not establish denial enforcement or shell-off compatibility on another version. No recent shell-off retest"
     },
     "ask": {
       "osEnforcement": "not-established",
@@ -84,8 +87,7 @@
       ],
       "providerCompatibility": "observed-working",
       "evidence": [
-        "../evidence/approval-outcomes-latest.json",
-        "../evidence/permissions-latest.json"
+        "../evidence/versions/2.0.28/approval-outcomes-latest.json"
       ],
       "limitation": "Pending request, reject and once observed through API; approval UI and persistent always decisions untested"
     },
@@ -99,7 +101,7 @@
       ],
       "providerCompatibility": "observed-working",
       "evidence": [
-        "../evidence/permission-controls-latest.json"
+        "../evidence/versions/2.0.28/permission-controls-latest.json"
       ],
       "limitation": "One exact harmless command under configured shell allow. --auto flag and unrestricted commands not exercised"
     }
@@ -118,10 +120,10 @@
     "S2.5 error/crash/hang/resume signals",
     "Other CLIs, models and WSL"
   ],
-  "recordedAt": "2026-10-13T13:26:30.392Z",
+  "recordedAt": "2026-10-13T17:57:30.558Z",
   "evidenceHashes": {
-    "permission-controls-latest.json": "8a4b07b3f5f77cb675039bd8a619bd1d4fcb695213946715a65cd63178f18cac",
-    "approval-outcomes-latest.json": "b2bdce2df2109cd3f58d380397dbe967035cd845390b8c8199692e239f061387",
-    "permission-options-latest.json": "8aafd07eee2f11d709248f9613acbb8f08a95d8e6f433a74d200b149c5ed5eee"
+    "permission-controls-latest.json": "bdbd316f029dd3abfc10832ee80b117a8dc8d7cb82bc89aed3dc2a98bd1bf4b3",
+    "approval-outcomes-latest.json": "9f8df0a68d060663b17fa5aa4361503fb456d42e414fa377f575d4093ca3b5d2",
+    "permission-options-latest.json": "04601f8266569a1216d2ce0c567ca5bbf2eb08cca4d5641bc4154ebb1166dd69"
   }
 }

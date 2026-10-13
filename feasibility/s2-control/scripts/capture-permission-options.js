@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { nativeExecutable } = require('./persistent-cli');
+const { reviewedVersion } = require('./reviewed-version');
 
 const executable = nativeExecutable();
 const outputs = Object.fromEntries([['version', ['--version']], ['interactive', ['--help']], ['run', ['run', '--help']]].map(([name, args]) => {
@@ -10,7 +11,8 @@ const outputs = Object.fromEntries([['version', ['--version']], ['interactive', 
   if (checked.status !== 0 || checked.error || typeof checked.stdout !== 'string') throw new Error('CLI help capture failed');
   return [name, checked.stdout.trim()];
 }));
-if (!/(?:^|\s)v?2\.0\.22(?:\s|$)/.test(outputs.version) || !outputs.interactive.includes('--auto') || !outputs.run.includes('--auto')) throw new Error('permission inventory version or flags changed; review required');
+reviewedVersion(outputs.version);
+if (!outputs.interactive.includes('--auto') || !outputs.run.includes('--auto')) throw new Error('permission inventory flags changed; review required');
 const inventory = {
   scope: 'Installed OpenCode permission-relevant launch options, with complete help output; no model request',
   recordedAt: new Date().toISOString(), version: outputs.version,

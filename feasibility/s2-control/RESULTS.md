@@ -1,5 +1,96 @@
 # S2.1 result — OpenCode MCP attachment without a model request (feasibility slice)
 
+## OpenCode 2.0.28 permission and ACP revalidation (13 October 2026)
+
+**PASS for this bounded revalidation cohort; full S2 remains open.** Native
+CLI help reports 2.0.28. Five fresh permission sessions used Muse Spark free
+`xhigh` through the real terminal; the selected and executed model references,
+agent, location and permission arrays were verified. Each final service version
+also remained 2.0.28, with unchanged service identity and selected configs.
+
+| Permission case | Current result |
+|---|---|
+| `allow-edit-control` | One exact allowed edit; protected file unchanged, no approval |
+| `auto-shell` | One exact harmless command under configured shell allow; expected marker, no approval |
+| `deny-edit` | Actual targeted edit rejected as `permission.rejected`; protected bytes unchanged |
+| `reject-shell` | Correlated request rejected; no command execution or marker |
+| `allow-once-shell` | First command completed once; distinct repeat request remained pending twice |
+
+Native ACP initialized protocol 1 with version matching preflight 2.0.28.
+The unsupported-method case returned RPC `-32601`, and the following own-project
+session list was empty and healthy without a model request. All three injected
+fault contracts passed again: deadline, deliberate exit and malformed protocol.
+Those cases retain their injected-source labels and do not establish native
+hang or provider-error patterns.
+
+The live ACP streaming run confirmed Muse free and `xhigh`, received two chunks
+from the same owned assistant (156 then 311 cumulative text code units), sent
+one cancellation notification and received `stopReason: cancelled`. Counters
+continued tracking late chunks and stayed stable across the bounded follow-up
+interval. There were zero tool calls and approval requests. Session deletion,
+private Windows Job/process cleanup, exact temp cleanup and shared-service/config
+checks passed. These observations qualify the tested routes on 2.0.28 only.
+
+### Version qualification and preserved evidence
+
+`reviewed-version.js` accepts only exact reviewed 2.0.22 or 2.0.28 labels, with
+optional native `opencode ` / `v` prefixes. Unknown versions, suffixes and prefix
+lookalikes fail. ACP compares its native initialization version to the preflight
+shared service version before creating/generating a task. Final identity checks
+still reject mid-run service changes. Permission assessment requires complete
+unique passing cohorts and an inventory of the same reviewed version; fresh
+2.0.28 records must contain a matching final service version.
+
+Before latest files changed, nine 2.0.22 source records were archived byte for
+byte, including its raw prior assessment and earlier provider-rejection evidence.
+Five passing 2.0.28 sources were then sealed. Each manifest binds file names,
+original repository paths and SHA-256 hashes. The helper refuses a differing
+replacement, detects corrupted reads and rejects unsafe/reserved file names.
+Scoped Git attributes preserve exact evidence and measured source bytes across
+Windows checkouts, so newline conversion does not invalidate those hashes.
+The builder verifies that its current permission sources equal sealed bytes
+before publishing a new assessment. This write policy is not OS protection or
+the signed capability-update system planned for the product. The raw older
+assessment's hashed input records are located through its archive manifest;
+context-document references retain their original repository meaning.
+
+- [2.0.22 archive manifest](evidence/versions/2.0.22/manifest.json)
+- [2.0.28 archive manifest](evidence/versions/2.0.28/manifest.json)
+- [Current permission controls](evidence/versions/2.0.28/permission-controls-latest.json)
+- [Current denial/reject/once outcomes](evidence/versions/2.0.28/approval-outcomes-latest.json)
+- [Current native help inventory](evidence/versions/2.0.28/permission-options-latest.json)
+- [Current ACP streaming evidence](evidence/versions/2.0.28/acp-stream-cancel-latest.json)
+- [Current ACP native-error and injected-fault evidence](evidence/versions/2.0.28/acp-faults-latest.json)
+- [Current preliminary permission assessment](capabilities/opencode-permissions.json)
+- [Cohort version and integrity summary](evidence/version-revalidation-latest.json)
+
+The new assessment uses stable versioned references. Read-only remains partial;
+allowed edits, shell ask and configured shell allow have bounded observations.
+File `none`, OS containment, combined profiles, the terminal approval UI and
+`--auto` launch behavior remain unverified. Shell `off` is **unverified for
+2.0.28**, with its 2.0.22 provider rejection retained as historical evidence;
+no coding reliability result was carried forward. `productionEligible: false`
+and every `productGuarantee: false` remain. Documented permission vocabulary was
+checked against [OpenCode's V2 permission documentation](https://opencode.ai/v2/docs/permissions);
+documentation is kept separate from observed enforcement.
+
+Verification: **71 offline checks**, all S2 script syntax checks and diff
+whitespace checks passed. Added coverage rejects unknown/mixed/drifted versions,
+missing final-version evidence, immutable-archive replacement, path/reserved-name
+collisions and corruption. Existing failed records remain unchanged, and older
+milestone links now resolve to their archived measurements.
+
+Muse free `xhigh` completed a supplied-facts design review. The parent verified
+parsing rules, source hashes, version capture points, cohort gates, archive
+integrity and every live record. MiMo Atria and Claude Atria `xhigh` timed out
+after four minutes without final reviews; their recorded events contain no tool
+calls. Claude's tripwire detected the parent's concurrent edits, which were
+reviewed directly. No model was substituted.
+
+Next: test shell-off compatibility and denied profiles on 2.0.28. General native
+hang/auth/network/rate-limit behavior, other CLIs/models/WSL, S3-S6 feasibility
+and the core event store/team engine/full product UI remain open.
+
 ## S2.5 cancellation of an already executing local command (13 October 2026)
 
 **PASS for the fresh OpenCode 2.0.28 / Muse Spark free `xhigh` measurement.
@@ -146,11 +237,11 @@ The [first run](evidence/acp-faults-first.json) remains failed. Its crash case
 observed pipe closure before Node exposed the child's exit code; the request
 correctly rejected, but the immediate exit-code gate was inconclusive. The
 corrected runner awaits the bounded exit observation after recording request
-failure. The [final run](evidence/acp-faults-latest.json) passed all four cases.
+failure. The [final run](evidence/versions/2.0.22/acp-faults-latest.json) passed all four cases.
 Cleanup uncertainty now preserves a failed record and the exact directory,
 and stops further cases rather than continuing with unverified ownership.
 
-The [live streaming regression](evidence/acp-stream-cancel-latest.json) also
+The [live streaming regression](evidence/versions/2.0.22/acp-stream-cancel-latest.json) also
 passed on Muse Spark free `xhigh`: two same-assistant chunks, 151/305 cumulative
 text code units, `stopReason: cancelled`, stable late-chunk counters, no tools
 or approvals, deleted session and six captured processes gone. The prior
@@ -436,9 +527,9 @@ edit trial. The shell control passed in both measurements. These are bounded
 controls, not a new reporting-reliability cohort or causal wording comparison.
 
 - [First control measurement](evidence/permission-controls-first.json)
-- [Final control measurement and source hashes](evidence/permission-controls-latest.json)
-- [Installed launch-help inventory](evidence/permission-options-latest.json)
-- [Preliminary permission assessment](capabilities/opencode-permissions.json)
+- [Final control measurement and source hashes](evidence/versions/2.0.22/permission-controls-latest.json)
+- [Installed launch-help inventory](evidence/versions/2.0.22/permission-options-latest.json)
+- [Preliminary permission assessment for that milestone](evidence/versions/2.0.22/opencode-permissions.json)
 - Runner: `scripts/run-permission-controls.js`; assessment builder: `scripts/build-permission-capabilities.js`
 - Verification: 48 offline harness checks and all S2 script syntax checks passed.
 
@@ -542,7 +633,7 @@ the final batch exercised that check as well.
 
 - [First batch, including cleanup failure](evidence/approval-outcomes-first.json)
 - [Second batch, including classifier failure](evidence/approval-outcomes-second.json)
-- [Final three-case measurement and source hashes](evidence/approval-outcomes-latest.json)
+- [Final three-case measurement and source hashes](evidence/versions/2.0.22/approval-outcomes-latest.json)
 - Runner: `scripts/run-approval-outcomes.js`
 - Verification: 44 offline harness checks and all S2 script syntax checks passed.
 

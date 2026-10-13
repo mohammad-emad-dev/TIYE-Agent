@@ -1,0 +1,50 @@
+{
+  "version": "2.0.22",
+  "records": [
+    {
+      "name": "permission-controls-latest.json",
+      "originalPath": "feasibility/s2-control/evidence/permission-controls-latest.json",
+      "sha256": "8a4b07b3f5f77cb675039bd8a619bd1d4fcb695213946715a65cd63178f18cac"
+    },
+    {
+      "name": "approval-outcomes-latest.json",
+      "originalPath": "feasibility/s2-control/evidence/approval-outcomes-latest.json",
+      "sha256": "b2bdce2df2109cd3f58d380397dbe967035cd845390b8c8199692e239f061387"
+    },
+    {
+      "name": "permission-options-latest.json",
+      "originalPath": "feasibility/s2-control/evidence/permission-options-latest.json",
+      "sha256": "8aafd07eee2f11d709248f9613acbb8f08a95d8e6f433a74d200b149c5ed5eee"
+    },
+    {
+      "name": "permissions-latest.json",
+      "originalPath": "feasibility/s2-control/evidence/permissions-latest.json",
+      "sha256": "310c95c7332ed5919c4947ee61b63e82b2be7cb25b39ec80fc4ec878ae59a10c"
+    },
+    {
+      "name": "tool-call-latest.json",
+      "originalPath": "feasibility/s2-control/evidence/tool-call-latest.json",
+      "sha256": "50e8d9efe9b689ce12c722c89bae293d48f8e6983b8954616530fc1fe4fe3e97"
+    },
+    {
+      "name": "terminal-task-validation.json",
+      "originalPath": "feasibility/s2-control/evidence/terminal-task-validation.json",
+      "sha256": "367bedafeb6558f3f7d7a9d39786ef028f58008816bd27bf9d09512c9ebaa125"
+    },
+    {
+      "name": "acp-stream-cancel-latest.json",
+      "originalPath": "feasibility/s2-control/evidence/acp-stream-cancel-latest.json",
+      "sha256": "c84af5c91fde61abf78f9eaaeff7c8b54bc904af321e989726eec576748b710a"
+    },
+    {
+      "name": "acp-faults-latest.json",
+      "originalPath": "feasibility/s2-control/evidence/acp-faults-latest.json",
+      "sha256": "97e297e57f4a7abde80638067dc8e37c6dc16689d3827c813b464179889b50e9"
+    },
+    {
+      "name": "opencode-permissions.json",
+      "originalPath": "feasibility/s2-control/capabilities/opencode-permissions.json",
+      "sha256": "bf7fdb77ab50d8342f21324c3630cba573f5abd2de2f3d52849775304d61c137"
+    }
+  ]
+}

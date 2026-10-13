@@ -4,6 +4,36 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## OpenCode 2.0.28 permission and ACP revalidation
+
+The existing five permission cases passed again on 2.0.28 with Muse Spark
+free `xhigh`: allowed edit, configured shell allow, actual targeted edit denial,
+shell rejection, and approval once followed by a distinct pending repeat.
+Native ACP protocol/error recovery and real text-stream cancellation also
+passed. Injected process fault contracts remain separate from native behavior.
+All probes verified owned cleanup, unchanged shared service identity and
+selected config fingerprints. **71 offline checks pass.**
+
+The preliminary [permission assessment](capabilities/opencode-permissions.json)
+now qualifies only its bounded 2.0.28 observations. File `none`, OS containment,
+combined profiles and terminal approval UI remain unverified. Shell `off`
+is unverified for 2.0.28; its older provider rejection is explicitly tagged
+2.0.22. `productionEligible` and every `productGuarantee` remain false.
+
+The reviewed-version policy accepts exact 2.0.22 and 2.0.28 labels. ACP compares
+its native initialization version with preflight service info before generation.
+Permission qualification rejects mixed versions, missing final 2.0.28 service
+versions, failed or duplicate cases and unreviewed inventory versions.
+`npm run build:permission-capabilities` also requires current permission sources
+to equal their sealed, hash-verified archive bytes before writing an assessment.
+
+Versioned records and manifests are under `evidence/versions/2.0.22` and
+`evidence/versions/2.0.28`. The archive helper refuses differing replacements;
+this is a helper-enforced write policy, not a signed runtime registry. The raw
+older assessment retains its original references; its hashed input records
+can be located through the manifest's repository paths. Historical result links below point to
+the corresponding 2.0.22 archive. See `RESULTS.md` for the exact current cohort.
+
 ## Cancellation of an executing command
 
 `npm run probe:command-cancel` sends one exact shell command through the
@@ -31,8 +61,8 @@ control directory while targeting only the owned location for eviction.
 
 This covers one harmless local command and its child. It does not establish
 general shell isolation, terminal Ctrl+C, arbitrary process cancellation or
-external-effect rollback. Earlier permission/ACP results qualify 2.0.22;
-those capabilities require revalidation on the now-installed 2.0.28.
+external-effect rollback. Earlier permission/ACP results preserve 2.0.22;
+the scoped 2.0.28 revalidation is described above.
 
 ## ACP request deadlines and error recovery
 
@@ -53,7 +83,7 @@ expires only its own request; late replies are ignored. Defaults remain 15
 seconds per request and 90 seconds for a prompt. No automatic retry occurs;
 deadline or transport loss leaves execution state unknown until reconciled.
 
-Evidence: `evidence/acp-faults-latest.json`; the first failed observation is
+Historical evidence: `evidence/versions/2.0.22/acp-faults-latest.json`; the first failed observation is
 preserved in `acp-faults-first.json`. **63 offline checks pass**, including
 multiple pending calls, redaction, late replies and split UTF-8 bytes. Streaming
 cancellation also passed again with the updated client. These injected tests
@@ -140,12 +170,12 @@ one exact tool call each, expected file bytes before/after stopping, protected
 file unchanged, no approval replies or observed pending requests, and cleanup.
 The first edit control made three completed tool calls and remains failed in
 `permission-controls-first.json`; the stricter wording passed in
-`permission-controls-latest.json`. No earlier failures were replaced.
+`evidence/versions/2.0.22/permission-controls-latest.json`. No earlier failures were replaced.
 
 `npm run capture:permission-options` captures installed 2.0.22 help without a
 model request. `npm run build:permission-capabilities` validates the current
 control and approval cohorts and binds the preliminary assessment to their
-file hashes. The generated [assessment](capabilities/opencode-permissions.json)
+file hashes. The historical [assessment](evidence/versions/2.0.22/opencode-permissions.json)
 keeps file `none` unverified, read-only partial and shell `off` blocked for the
 tested free model. Read/write, shell ask and shell allow have bounded native
 observations. It is marked `productionEligible: false`, and offers no OS
@@ -167,7 +197,7 @@ correlated request. Rejection must leave no completed command or marker.
 Approval once must complete the first call and leave a distinct second
 request for the same command pending twice; marker bytes must equal
 `approved` both before stopping the session and after client cleanup.
-No persistent `always` approval is sent. See `approval-outcomes-latest.json`
+No persistent `always` approval is sent. See `evidence/versions/2.0.22/approval-outcomes-latest.json`
 and the preserved `approval-outcomes-first.json` / `approval-outcomes-second.json`.
 
 OpenCode may finish rejection as an aborted turn without an idle timestamp.

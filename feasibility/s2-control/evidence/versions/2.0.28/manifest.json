@@ -1,0 +1,30 @@
+{
+  "version": "2.0.28",
+  "records": [
+    {
+      "name": "permission-controls-latest.json",
+      "originalPath": "feasibility/s2-control/evidence/permission-controls-latest.json",
+      "sha256": "bdbd316f029dd3abfc10832ee80b117a8dc8d7cb82bc89aed3dc2a98bd1bf4b3"
+    },
+    {
+      "name": "approval-outcomes-latest.json",
+      "originalPath": "feasibility/s2-control/evidence/approval-outcomes-latest.json",
+      "sha256": "9f8df0a68d060663b17fa5aa4361503fb456d42e414fa377f575d4093ca3b5d2"
+    },
+    {
+      "name": "permission-options-latest.json",
+      "originalPath": "feasibility/s2-control/evidence/permission-options-latest.json",
+      "sha256": "04601f8266569a1216d2ce0c567ca5bbf2eb08cca4d5641bc4154ebb1166dd69"
+    },
+    {
+      "name": "acp-stream-cancel-latest.json",
+      "originalPath": "feasibility/s2-control/evidence/acp-stream-cancel-latest.json",
+      "sha256": "47f415ba2a6849feaaaf7bd30ef830709a674c2f62e9fb5cd5635c57f2ba82c7"
+    },
+    {
+      "name": "acp-faults-latest.json",
+      "originalPath": "feasibility/s2-control/evidence/acp-faults-latest.json",
+      "sha256": "1ed10837ee00739a925a322c7cdb92f39684d2d0c4b16dc8ed8a3ba4666e0ee2"
+    }
+  ]
+}

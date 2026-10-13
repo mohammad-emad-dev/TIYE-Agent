@@ -1,0 +1,73 @@
+{
+  "recordedAt": "2026-10-13T18:02:39.610Z",
+  "scope": "Five permission cases, native ACP error recovery and live streaming cancellation on OpenCode 2.0.28; injected fault contracts separate; not full S2 qualification",
+  "version": "2.0.28",
+  "permissionCases": [
+    {
+      "caseID": "allow-edit-control",
+      "version": "2.0.28",
+      "finalServiceVersion": "2.0.28",
+      "passed": true
+    },
+    {
+      "caseID": "auto-shell",
+      "version": "2.0.28",
+      "finalServiceVersion": "2.0.28",
+      "passed": true
+    },
+    {
+      "caseID": "deny-edit",
+      "version": "2.0.28",
+      "finalServiceVersion": "2.0.28",
+      "passed": true
+    },
+    {
+      "caseID": "reject-shell",
+      "version": "2.0.28",
+      "finalServiceVersion": "2.0.28",
+      "passed": true
+    },
+    {
+      "caseID": "allow-once-shell",
+      "version": "2.0.28",
+      "finalServiceVersion": "2.0.28",
+      "passed": true
+    }
+  ],
+  "acp": {
+    "nativeErrorPassed": true,
+    "streamingCancellationPassed": true,
+    "injectedFaultCases": [
+      {
+        "caseID": "hang",
+        "passed": true
+      },
+      {
+        "caseID": "crash",
+        "passed": true
+      },
+      {
+        "caseID": "malformed",
+        "passed": true
+      }
+    ]
+  },
+  "archivedSourceCounts": {
+    "2.0.22": 9,
+    "2.0.28": 5
+  },
+  "sourceHashes": {
+    "versions/2.0.22/manifest.json": "c3cc00c65bdc1e22c895d7634ae5c29ead3616432de6197c7639cb209017a759",
+    "versions/2.0.28/manifest.json": "9a546c5a784215be7336d5234ce558a0beb83f342ec343f94d267b8ca872b3be",
+    "capabilities/opencode-permissions.json": "74a8da8a27d6a128819fb0ce59ddb6a9f896bade85bf5a924c8b1b682a91b17a",
+    "scripts/build-permission-capabilities.js": "34ad567ded87c0245ab023ad7a8df4b5c0180edc7d3b2a0b82e6847149661bea",
+    "scripts/reviewed-version.js": "9bdbcd9c2c8128f0e1843ff085d0f8f492318be3e73b48feb6aa10b9fe2ba1bb",
+    "scripts/version-evidence.js": "b233dfde1b38460708f7029727ac057e54d41847f5a9c436fe433db4cf271edb"
+  },
+  "archiveIntegrityVerified": true,
+  "currentSourcesMatchArchive": true,
+  "measuredSourcesUnchanged": true,
+  "productionEligible": false,
+  "shellOffStatus": "unverified-for-tested-version",
+  "passed": true
+}

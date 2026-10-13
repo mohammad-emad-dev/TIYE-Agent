@@ -531,17 +531,21 @@ Because CLIs change often, these files can ship as **signed data updates** betwe
 **Feasibility evidence (13 October 2026).** The preliminary
 [OpenCode permission assessment](../feasibility/s2-control/capabilities/opencode-permissions.json)
 records native policy observations, provider compatibility and OS enforcement
-separately for OpenCode 2.0.22 and the tested Muse free model on Windows.
+separately for OpenCode 2.0.28 and the tested Muse free model on Windows.
 It is marked `productionEligible: false` and is not a runtime adapter registry.
 Individual edit/command controls do not establish every combined file/terminal
 profile. File `none`, guaranteed read-only isolation and shell `off` remain
 unvalidated or blocked for this model. Approval decisions were tested through
 the own-session API; the terminal approval UI is still a separate gate.
-The installed CLI/service later reported 2.0.28 during the executing-command
-probe. That version's bounded command cancellation passed, but the earlier
-2.0.22 permission/ACP assessment requires revalidation before qualifying the
-new version. Capability evidence is matched to the observed version, not
-inherited automatically across CLI updates.
+Five permission cases and native ACP initialization/error recovery/streaming
+cancellation passed again on 2.0.28. The assessment references hash-verified,
+versioned source records; prior 2.0.22 bytes and their original paths are
+preserved in a separate archive manifest. Qualification rejects mixed or
+unreviewed versions, failed cohorts and final service-version drift. Shell
+`off` is unverified for 2.0.28; the older provider rejection is tagged as 2.0.22
+history. Capability evidence is matched to the observed version, not inherited
+automatically across updates. Archive integrity is enforced by the feasibility
+helper; signed runtime data updates remain a product implementation task.
 
 ### 5.6 Per-CLI feasibility checklist
 

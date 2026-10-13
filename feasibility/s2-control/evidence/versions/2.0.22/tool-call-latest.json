@@ -1,0 +1,72 @@
+{
+  "scope": "Native standalone Muse xhigh report_result invocation; not full S2.2 reliability",
+  "recordedAt": "2026-10-12T21:40:52.028Z",
+  "runs": [
+    {
+      "member": "member-a",
+      "serverReportCalls": 0,
+      "matchingReports": 0,
+      "otherServerCalls": 0,
+      "cli": {
+        "model": "opencode/muse-spark-1.3-contributor-free#xhigh",
+        "completedAck": false,
+        "elapsedMs": 2716,
+        "cliExitCode": 1,
+        "malformedEvents": false,
+        "failure": {
+          "category": "provider.auth",
+          "httpStatus": 403
+        },
+        "completedReports": 0,
+        "otherToolCalls": 0,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 4,
+          "jobVerified": true
+        }
+      },
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false
+    },
+    {
+      "member": "member-b",
+      "serverReportCalls": 0,
+      "matchingReports": 0,
+      "otherServerCalls": 0,
+      "cli": {
+        "model": "opencode/muse-spark-1.3-contributor-free#xhigh",
+        "completedAck": false,
+        "elapsedMs": 2925,
+        "cliExitCode": 1,
+        "malformedEvents": false,
+        "failure": {
+          "category": "provider.auth",
+          "httpStatus": 403
+        },
+        "completedReports": 0,
+        "otherToolCalls": 0,
+        "outputTruncated": false,
+        "cliSpawnError": false,
+        "cleanup": {
+          "verified": true,
+          "capturedProcesses": 4,
+          "jobVerified": true
+        }
+      },
+      "fixtureStopped": true,
+      "tempRemoved": true,
+      "logHygiene": true,
+      "fixtureErrors": false,
+      "serverLogTruncated": false,
+      "passed": false
+    }
+  ],
+  "selectedConfigsUnchanged": true,
+  "passed": false
+}

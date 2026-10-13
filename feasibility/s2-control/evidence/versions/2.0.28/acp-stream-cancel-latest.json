@@ -1,0 +1,43 @@
+{
+  "scope": "Native ACP text-chunk cancellation in an owned private backend; not terminal Ctrl+C or shared-session API cancellation",
+  "recordedAt": "2026-10-13T17:53:29.629Z",
+  "stage": "completed",
+  "expectedVersion": "2.0.28",
+  "sourceHashes": {
+    "run-acp-stream-cancel.js": "229ebef692a72eb222a6df84d332276f04e6be4c78508a73d45a61b1e9125fa4",
+    "acp-child.js": "f2ef226fcfa6cb619644c5fc08767a1181677735b6ede53fe9f794d8d47c59b3",
+    "acp-protocol.js": "2763840d2b6374f71f634456bf782616d5d02c50755f12162ee396a87a12b6dd",
+    "acp-failure.js": "297b54869a22e28b70d017683b8ec1a5a65548207edfc4d7aa94f9fbcfd7d676",
+    "reviewed-version.js": "9bdbcd9c2c8128f0e1843ff085d0f8f492318be3e73b48feb6aa10b9fe2ba1bb"
+  },
+  "promptHash": "ffdc7d77fc87045d5ed6bc07ee1eb5de2c55f1a8c09dc5031b3071b163012509",
+  "toolCalls": 0,
+  "permissionRequests": 0,
+  "version": "2.0.28",
+  "protocolConfirmed": true,
+  "modelConfirmed": true,
+  "effortConfirmed": true,
+  "effortOptionPresent": true,
+  "effortValue": "xhigh",
+  "ownedProcesses": 6,
+  "totalOwnTextChunks": 2,
+  "totalOwnTextCodeUnits": 311,
+  "firstTextCodeUnits": 156,
+  "sameAssistantTextChunks": true,
+  "secondTextCodeUnits": 311,
+  "cancelNotificationSent": true,
+  "stopReason": "cancelled",
+  "cancelledStable": true,
+  "sessionRemoved": true,
+  "cleanup": {
+    "verified": true,
+    "capturedProcesses": 6,
+    "jobVerified": true
+  },
+  "onlyFixtureFilesPresent": true,
+  "tempRemoved": true,
+  "sharedServiceUnchanged": true,
+  "selectedConfigsUnchanged": true,
+  "passed": true,
+  "result": "PASS"
+}

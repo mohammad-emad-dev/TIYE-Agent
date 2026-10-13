@@ -1,13 +1,13 @@
 {
   "scope": "Paired allowed edit and configured shell-allow controls; no --auto flag or approval replies",
-  "recordedAt": "2026-10-13T13:22:00.624Z",
+  "recordedAt": "2026-10-13T17:53:29.415Z",
   "sourceHashes": {
     "run-permission-controls.js": "b53ac2140f57e245105b8993a430f2d740d346f81752523e7043cb09d0d0fa96",
     "control-evidence.js": "f2b022ab7148fd3e63484725efd82ab82f9f1d24ef013e5a9e2ba811fe49f82f",
     "permission-evidence.js": "3d9379c32a1829aa96cc048c3987447d05cecebc502185d8e8d26097c53f9d67",
-    "run-tool-probe.js": "0d82f6b23cbc490f988d3ebe240265d0fbb5db2b38008d5d2cb4150431abdf6e",
-    "terminal-task.js": "11165108b2c4b1e800bcf4c5d8df72cfc1a22d670cd41920090101eaed972340",
-    "service-cli.js": "ffdc2b0a2b2af68a94a974da3341cc3a837b8eb121df9ef6cbdc03dbcaf47d4b",
+    "run-tool-probe.js": "169b976ded7d5bbf18624ae957827c8c4b667dd6452353f059caf35419ecda2b",
+    "terminal-task.js": "d666c37fad9165ed018e2762017994a3a4cdfe181101d50b625099a733ea941d",
+    "service-cli.js": "bf4f2e92f0e14b8fd03cc9c7cdec8f2f01bd09f40fe6f8dd0b53a525f101cdef",
     "service-quiescence.js": "096594adb7c2b72abeb15d6db70316ae87321790508fe42542c00b63ea37f8d7"
   },
   "runs": [
@@ -22,7 +22,7 @@
         "completedAck": false,
         "locationUntouched": false,
         "stage": "completed",
-        "version": "2.0.22",
+        "version": "2.0.28",
         "modelConfirmed": true,
         "locationConfirmed": true,
         "permissionsConfirmed": true,
@@ -69,6 +69,7 @@
           "jobVerified": true
         },
         "locationEvicted": true,
+        "serviceVersionAfterCleanup": "2.0.28",
         "serviceIdentityUnchanged": true
       },
       "protectedFileUnchanged": true,
@@ -96,7 +97,7 @@
         "completedAck": false,
         "locationUntouched": false,
         "stage": "completed",
-        "version": "2.0.22",
+        "version": "2.0.28",
         "modelConfirmed": true,
         "locationConfirmed": true,
         "permissionsConfirmed": true,
@@ -143,6 +144,7 @@
           "jobVerified": true
         },
         "locationEvicted": true,
+        "serviceVersionAfterCleanup": "2.0.28",
         "serviceIdentityUnchanged": true
       },
       "protectedFileUnchanged": true,

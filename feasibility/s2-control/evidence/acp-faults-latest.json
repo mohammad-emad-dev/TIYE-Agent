@@ -1,12 +1,13 @@
 {
-  "recordedAt": "2026-10-13T17:28:26.292Z",
+  "recordedAt": "2026-10-13T17:53:29.713Z",
   "scope": "Injected owned-process deadline/crash/protocol contracts plus native unsupported-method error; no vendor hang or provider-error claims",
   "sourceHashes": {
-    "run-acp-faults.js": "fa371af10706efbd15949036da37cab790af925104ad946caffb2030d3963ad7",
+    "run-acp-faults.js": "135b0d55f2ade9b4adfefa6368ec1f59a2b2f678ee2a055825b08d2783f8fb25",
     "acp-protocol.js": "2763840d2b6374f71f634456bf782616d5d02c50755f12162ee396a87a12b6dd",
     "acp-failure.js": "297b54869a22e28b70d017683b8ec1a5a65548207edfc4d7aa94f9fbcfd7d676",
     "acp-child.js": "f2ef226fcfa6cb619644c5fc08767a1181677735b6ede53fe9f794d8d47c59b3",
     "persistent-cli.js": "54072a0884ee80ef5d177338a8e184f51a7f42347f2d78fd40feaf09074cb3b7",
+    "reviewed-version.js": "9bdbcd9c2c8128f0e1843ff085d0f8f492318be3e73b48feb6aa10b9fe2ba1bb",
     "../fixtures/acp-fault.js": "1920c1b3319230df5a11ab3448ae3159cbfe5408d0e6328848816070437b11d9"
   },
   "runs": [
@@ -19,7 +20,7 @@
       "faultRequestsReceived": 1,
       "failure": {
         "category": "acp.deadline",
-        "elapsedMs": 504
+        "elapsedMs": 514
       },
       "aliveAtFailure": true,
       "exitCode": null,
@@ -41,7 +42,7 @@
       "faultRequestsReceived": 1,
       "failure": {
         "category": "acp.transport",
-        "elapsedMs": 2
+        "elapsedMs": 5
       },
       "aliveAtFailure": true,
       "exitCode": 23,
@@ -64,7 +65,7 @@
       "malformedProtocol": true,
       "failure": {
         "category": "acp.protocol",
-        "elapsedMs": 1
+        "elapsedMs": 0
       },
       "aliveAtFailure": true,
       "exitCode": null,
@@ -80,13 +81,14 @@
     {
       "caseID": "unsupported-method",
       "source": "native-opencode-acp",
+      "expectedVersion": "2.0.28",
       "modelRequests": 0,
-      "version": "2.0.22",
+      "version": "2.0.28",
       "protocolConfirmed": true,
       "failure": {
         "category": "acp.remote",
         "rpcCode": -32601,
-        "elapsedMs": 1
+        "elapsedMs": 2
       },
       "healthyAfterRemoteError": true,
       "noOwnedSessions": true,
