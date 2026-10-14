@@ -1,0 +1,91 @@
+{
+  "recordedAt": "2026-10-14T14:43:47.427Z",
+  "scope": "Fixture-approved fast-forward final integration into a disposable clean user branch; dirty user root retained untouched",
+  "result": "FINAL_MERGE_PASS_S3_PARTIAL",
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0"
+  },
+  "mechanism": "Private pinned review plan and single-use fixture approval; source safety checkpoint followed by pinned-OID git merge --ff-only",
+  "supportedHistories": "source HEAD is ancestor of integration HEAD; divergent source refused with integration result retained",
+  "sourceBinding": "trusted fixture callback, canonical root, source branch and shared Git directory",
+  "integrationBinding": "owned lifecycle registry and canonical worktree",
+  "statusReadsPreserveIndex": true,
+  "approvalConsumedOnEveryAttempt": true,
+  "approvalSource": "trusted parent fixture simulation",
+  "memberRangeAuditedBeforeIntegration": true,
+  "memberAndIntegrationCommitMetadataPreserved": true,
+  "dirtySourcePreserved": true,
+  "integrationBranchRetained": true,
+  "safetyCheckpointSavedBeforeMerge": true,
+  "expectedSourceFilesVerified": true,
+  "refusalChecks": [
+    "forged/copied plan",
+    "forged/replayed approval",
+    "wrong session",
+    "stale source HEAD",
+    "stale integration HEAD",
+    "unstaged/staged/untracked/ignored source state",
+    "dirty integration",
+    "active merge/bisect state",
+    "unsupported assume-unchanged index flag",
+    "divergent source"
+  ],
+  "emptyFixtureHooksPinned": true,
+  "automaticPush": false,
+  "userApprovalUiQualified": false,
+  "leaderReviewQualified": false,
+  "integrationTestGateQualified": false,
+  "atomicMergeQualified": false,
+  "eventStoreMergeTransactionQualified": false,
+  "crashRecoveryQualified": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "worktreesCreated": 2,
+  "worktreesRemoved": 2,
+  "registryRootOnly": true,
+  "tempRemoved": true,
+  "s3OfflineChecksPassed": 21,
+  "s2OfflineChecksPassed": 113,
+  "previousEvidenceUnchanged": true,
+  "measuredSourcesUnchanged": true,
+  "supplementalReference": "supplements/final-merge/8bbfbdbebff1f41147dfe4d9176b47e7ad79a21d921ec6361538a2a29f3ea601/final-merge.json",
+  "supplementalSha256": "8bbfbdbebff1f41147dfe4d9176b47e7ad79a21d921ec6361538a2a29f3ea601",
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "toolEvents": 0,
+      "finalCaptured": true
+    },
+    {
+      "lane": "claude",
+      "status": "failed",
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "readOnlyViolation": true,
+      "concurrentParentEditsReviewed": true,
+      "errorCategory": "token-quota",
+      "httpStatus": 429
+    },
+    {
+      "lane": "agy-fallback",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "effort": "high",
+      "version": "1.3.5",
+      "finalCaptured": true,
+      "readOnlyViolation": false,
+      "concurrentParentEditsReviewed": true,
+      "structuredToolAuditAvailable": false,
+      "observedToolMarkers": 0
+    }
+  ]
+}

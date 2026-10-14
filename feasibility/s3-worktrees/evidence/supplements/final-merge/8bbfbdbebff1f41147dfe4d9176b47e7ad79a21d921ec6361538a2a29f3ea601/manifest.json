@@ -1,0 +1,13 @@
+{
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0"
+  },
+  "records": [
+    {
+      "name": "final-merge.json",
+      "sha256": "8bbfbdbebff1f41147dfe4d9176b47e7ad79a21d921ec6361538a2a29f3ea601"
+    }
+  ]
+}

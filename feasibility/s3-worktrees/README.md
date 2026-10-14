@@ -1,5 +1,36 @@
 # S3 worktree feasibility prototype
 
+`npm run probe:final-merge` audits an owned member range, merges it into an
+owned integration worktree, and exercises final transfer into a disposable
+source branch. Dirty source refusal must preserve file/index/HEAD/status state
+and retain the integration branch. After the parent removes its known synthetic
+untracked settings file, a new review and fixture approval allow the clean
+source to fast-forward to the pinned integration commit. Member and integration
+commit metadata stay intact. No external repository is merged or pushed.
+
+`scripts/final-merge-gate.js` takes trusted source validation and owned lifecycle
+bindings, then prepares a private plan for exact expected source/integration
+HEADs. Approving consumes the plan; every merge attempt consumes its token,
+including refusals. Status reads use `GIT_OPTIONAL_LOCKS=0`. Dirty tracked,
+staged, untracked or ignored state in either tree, active merge/rebase/sequencer/
+bisect/index-lock markers, special index flags, stale HEADs and divergent source
+history refuse. A refusal returns the integration branch for caller inspection.
+No reset, autostash or unstage is performed by the gate.
+
+Before a merge, the gate captures a source safety checkpoint using the existing
+isolated-index helper and the gate's session. It rechecks the reviewed states
+before `git merge --ff-only --no-edit <pinned-OID>`, with an absolute pinned empty
+hooks directory. It verifies the resulting HEAD, clean status, expected files
+and unchanged integration state. A failed or uncertain Git operation throws and
+never auto-retries or resets the source; the safety reference may already exist.
+Filesystem checks and the native merge are not one atomic transaction.
+
+The parent fixture supplies approval and performs the existing session-trailer
+audit before integration. The final gate does not supply an actual diff approval
+UI, Leader review or integration test policy. Only fast-forward histories are
+qualified; divergence leaves the result on its branch for a new decision.
+See `evidence/final-merge-qualification.json` for the sealed native observation.
+
 `npm run probe:shadow-checkpoints` records capture, load and reviewed restore
 timings in a disposable Git worktree and a separate non-Git project. Restore
 timing includes a mandatory safety capture and outcome verification. These

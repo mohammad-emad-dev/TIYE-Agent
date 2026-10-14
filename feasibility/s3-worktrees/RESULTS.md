@@ -1,3 +1,55 @@
+# S3.6 final merge — 14 October 2026
+
+**FINAL_MERGE_PASS_S3_PARTIAL.** Git 2.55.0.windows.5 and Node 26.7.0 verified
+an engine-owned final transfer into a disposable source branch. Approval was
+simulated by the trusted parent fixture; no actual user approval UI was used.
+
+| Check | Observed result |
+|---|---|
+| Integration input | Owned member range passed the existing session-trailer audit and merged into integration |
+| Dirty source | Initial untracked fixture settings caused refusal; source files, real index, HEAD and status remained unchanged |
+| Result retention | Integration branch and commit remained available after refusal |
+| Clean final transfer | New fixture approval fast-forwarded source main to the exact integration commit |
+| Safety checkpoint | Sequence 21 saved the clean pre-merge source under a create-only ref, with its original HEAD as parent |
+| Outcome | Expected files and clean status verified; original member/integration commit IDs and metadata preserved |
+| Cleanup | Two clean owned worktrees removed; registry root-only; exact disposable root removed |
+
+The [sealed observation](evidence/supplements/final-merge/8bbfbdbebff1f41147dfe4d9176b47e7ad79a21d921ec6361538a2a29f3ea601/final-merge.json)
+and [qualification](evidence/final-merge-qualification.json) bind measured
+source and versions. Prior tracked S1/S2/S3 evidence bytes remain unchanged.
+
+**21 S3 tests and 113 S2 tests passed.** Real Git refusal checks cover forged
+and copied plans, forged/replayed approvals, wrong session, stale source and
+integration HEADs, unstaged/staged/untracked/ignored source state, dirty
+integration, active merge/bisect state, an assume-unchanged index flag, and
+divergent histories. Refused attempts preserve both file/index states and
+HEADs, and do not create safety refs in these pre-capture refusal cases.
+Each attempt consumes its approval; a fresh review is required before retry.
+
+The gate pins source branch/common Git and owned integration registration,
+expected HEADs and reviewed file/index fingerprints. Native status reads disable
+optional writes to the actual index. Before the pinned-OID fast-forward merge,
+the gate saves a safety checkpoint and rechecks both states. Hooks point to a
+verified empty fixture directory, and merge autostash is disabled. Final
+verification checks source HEAD/files/clean status and unchanged integration
+state. The fixture's member range audit is upstream of the final gate; the gate
+does not independently supply Leader or integration test approval.
+
+Muse xhigh and Agy Gemini 3.8 Flash high completed supplied-facts reviews.
+MiMo Atria timed out; Claude Atria xhigh hit quota 429. The primary routes'
+structured logs contained no tool events. Agy's plain-text log had no observed
+tool markers; a structured tool audit was unavailable. Claude's change tripwire
+reflected reviewed concurrent parent edits. Agy's bisect-state check was added;
+the parent also pinned the safety checkpoint session and verified integration
+bytes/index preservation in refusal tests.
+
+This supports **clean fast-forward histories only**, with controlled writers.
+Dirty state and divergence leave the integration result on its branch. A safety
+checkpoint writes separate Git objects/refs; it does not restore the source
+automatically after an uncertain native merge. Approval UI, durable merge/event
+coordination, Leader review, integration test gates, atomic locks and
+interrupted/crash recovery remain unbuilt. **Full S3 remains partial.**
+
 # S3.5 shadow checkpoints and timing — 14 October 2026
 
 **SHADOW_CHECKPOINTS_PASS_S3_PARTIAL.** Git 2.55.0.windows.5 and Node 26.7.0

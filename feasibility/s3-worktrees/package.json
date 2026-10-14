@@ -13,7 +13,8 @@
     "probe:push-policy": "node scripts/run-push-policy.js",
     "probe:ownership": "node scripts/run-ownership.js",
     "probe:checkpoints": "node scripts/run-checkpoints.js",
-    "probe:shadow-checkpoints": "node scripts/run-shadow-checkpoints.js"
+    "probe:shadow-checkpoints": "node scripts/run-shadow-checkpoints.js",
+    "probe:final-merge": "node scripts/run-final-merge.js"
   },
   "engines": { "node": ">=18" }
 }

@@ -730,6 +730,21 @@ watcher routing remain unbuilt. See [the measured results](../feasibility/s3-wor
 
 The final merge touches the user's folder only when the user's working tree is clean. Otherwise the app offers to leave the result on its branch.
 
+**Bounded S3.6 baseline.** A fixture-approved final merge now transfers an
+audited integration result into a disposable clean source branch using
+`merge --ff-only` and the reviewed commit ID. A privately bound plan pins both
+HEADs, source branch/common Git identity, real index fingerprints and file
+state. Approval is consumed on every attempt. Dirty tracked/staged/untracked/
+ignored state, active Git operations, special index flags, stale HEADs and
+divergence are refused; the integration branch stays available. A safety Git
+checkpoint is persisted before the final state recheck and native merge.
+Native status reads disable optional index writes, and the fixture uses a
+pinned empty hooks directory. Resulting HEAD/files and member/integration
+commit metadata were verified. The approval UI, Leader review, integration test
+gate, atomic locking and interrupted/crash recovery remain unbuilt. This
+prototype supports fast-forward histories only. See the
+[S3 final merge results](../feasibility/s3-worktrees/RESULTS.md#s36-final-merge--14-october-2026).
+
 ### 6.5 Attribution
 
 | Item | Rule |
