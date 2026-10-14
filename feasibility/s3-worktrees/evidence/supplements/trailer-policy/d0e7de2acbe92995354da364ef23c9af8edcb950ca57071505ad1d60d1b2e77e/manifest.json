@@ -1,0 +1,13 @@
+{
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0"
+  },
+  "records": [
+    {
+      "name": "trailer-policy.json",
+      "sha256": "d0e7de2acbe92995354da364ef23c9af8edcb950ca57071505ad1d60d1b2e77e"
+    }
+  ]
+}

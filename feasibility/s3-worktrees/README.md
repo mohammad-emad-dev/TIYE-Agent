@@ -63,6 +63,18 @@ directory for diagnostics; committed evidence contains only the bounded proof.
 This qualifies this standalone CLI-to-shell path and parent fallback commit,
 not the shared-service launch, CLI-created commits or automatic session trailers.
 
+`npm run probe:trailer-policy` makes no model requests. Its integration gate
+audits all introduced commits from a pinned base, including an invalid earlier
+commit behind a valid tip. Each supported commit must have the expected member
+author, fixture committer and one matching raw/parsed session trailer. Empty,
+over-50-commit, non-linear, wrong-session and already-integrated selections are
+rejected. The gate privately binds each decision, rechecks both HEADs and owned
+worktree state, and merges the exact inspected SHA with an engine session trailer.
+Decisions are consumed when the Git operation starts; uncertain results require
+a new audit. Rejected member history is preserved rather than silently amended.
+This is a feasibility gate for engine-controlled integration. It does not stop
+a CLI from committing or merging directly and has no durable or atomic lock.
+
 The lifecycle registry is in memory. Restart recovery, interprocess locking and
 atomic protection against filesystem replacement remain unbuilt. Refusal is
 conservative; uncertain cleanup retains the fixture. This prototype does not

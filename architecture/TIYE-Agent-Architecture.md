@@ -726,7 +726,7 @@ The final merge touches the user's folder only when the user's working tree is c
 | Item | Rule |
 |---|---|
 | **Author** | The member's name, with an identifying address such as `<member-id>@tiye.local`. Environment variables supply defaults; observed metadata must be audited because a CLI can override them. |
-| **Trailer** | Each commit carries the session identifier. |
+| **Trailer** | Each introduced member commit is expected to carry one matching session identifier. Engine-controlled integration audits the whole range and refuses missing, duplicate or mismatched trailers; it does not silently rewrite member history. |
 | **Commit timing** | CLI members may commit themselves. If a task ends with uncommitted work, the engine commits it with the member as author. |
 
 History then reads as "Claude planned, OpenCode wrote, GPT reviewed".
@@ -749,6 +749,17 @@ member-authored fallback commit with a session trailer. This qualifies the
 bounded private-server launch path only. Shared-service propagation,
 provider-created commits, automatic CLI trailers and durable attribution stay
 open; the production adapter and core engine are not implemented.
+
+**Session-trailer policy, 14 October 2026.** A bounded feasibility gate audits
+the full introduced member range, binds its decision privately and checks both
+HEADs, ownership, dirty state and active Git operations before an exact-SHA
+integration merge. Invalid earlier commits behind a valid tip are refused;
+rejected member history remains intact. Empty, oversized, non-linear,
+wrong-session and already-integrated selections fail closed. Started merge
+operations consume their in-memory decisions. This is not a durable or atomic
+production gate and does not prevent direct CLI Git operations. Provider-created
+commit qualification, automatic trailers, recovery and final merge approval
+remain open; see [the policy results](../feasibility/s3-worktrees/RESULTS.md).
 
 ### 6.6 Git safety
 

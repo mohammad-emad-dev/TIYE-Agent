@@ -8,7 +8,8 @@
     "probe": "node scripts/run-basics.js",
     "probe:dependencies": "node scripts/run-dependencies.js",
     "probe:attribution": "node scripts/run-attribution.js",
-    "probe:cli-attribution": "node scripts/run-cli-attribution.js"
+    "probe:cli-attribution": "node scripts/run-cli-attribution.js",
+    "probe:trailer-policy": "node scripts/run-trailer-policy.js"
   },
   "engines": { "node": ">=18" }
 }

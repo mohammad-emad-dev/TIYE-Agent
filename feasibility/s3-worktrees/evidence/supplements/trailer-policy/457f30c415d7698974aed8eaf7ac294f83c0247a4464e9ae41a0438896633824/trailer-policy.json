@@ -1,0 +1,195 @@
+{
+  "recordedAt": "2026-10-14T11:10:52.369Z",
+  "scope": "Bounded engine-owned full-range session trailer audit and pinned no-ff merge; synthetic histories, no provider-created commit or concurrency enforcement",
+  "platform": "win32",
+  "node": "v26.7.0",
+  "git": "git version 2.55.0.windows.5",
+  "sourceHashes": {
+    "run-trailer-policy.js": "f9b7611e8bde7047acbeaa8cf744bb15dc5e529b31e04ad2bbf0882eab011c1b",
+    "session-trailer-gate.js": "02a523381b04003816df7542767797dc7e8ff85a9bf4201043af118d86f04a01",
+    "attribution-git.js": "f949b737c5f8b358ffc0f72f485cca067a28016d0fed9234f1e7be1ae90e3bf1",
+    "run-basics.js": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+    "worktree-lifecycle.js": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272"
+  },
+  "automaticCliTrailersQualified": false,
+  "cliCreatedCommitQualified": false,
+  "atomicMergeQualified": false,
+  "identityEnforced": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "worktreesRemoved": 3,
+  "worktreesCreated": 3,
+  "badEarlierCommitDetected": true,
+  "rejectedAudit": {
+    "eligible": false,
+    "baseCommit": "e539276dc9a840fb6c03a910928c15adee15550e",
+    "memberHead": "427cb9da1dcd23a88855a791889e05fa9bd16070",
+    "integrationHead": "e539276dc9a840fb6c03a910928c15adee15550e",
+    "problems": [],
+    "commits": [
+      {
+        "id": "992f360bf8a7d0c0863b7675dc47118b7582b78c",
+        "authorName": "Fixture Member B",
+        "authorEmail": "member-b@tiye.local",
+        "committerName": "TIYE Fixture Engine",
+        "committerEmail": "engine@tiye.local",
+        "parents": [
+          "e539276dc9a840fb6c03a910928c15adee15550e"
+        ],
+        "sessions": [],
+        "rawSessionLines": 0,
+        "messageSha256": "01c10f66b8bb0ce1633edef5e3b12f92f3a7ab0cff2eaf8cccc034952037ea39",
+        "problems": [
+          "missing-session"
+        ]
+      },
+      {
+        "id": "b9751c7198c544ce9a4c902b1e12bbde96ecc0f9",
+        "authorName": "Fixture Member B",
+        "authorEmail": "member-b@tiye.local",
+        "committerName": "TIYE Fixture Engine",
+        "committerEmail": "engine@tiye.local",
+        "parents": [
+          "992f360bf8a7d0c0863b7675dc47118b7582b78c"
+        ],
+        "sessions": [
+          "052680a0-b669-45f2-9cb5-4d2ffadf7810"
+        ],
+        "rawSessionLines": 1,
+        "messageSha256": "4bf699fbdf9c517f083c45745a39aec8bb6451a241019ce4d6a2616d97718fa6",
+        "problems": []
+      },
+      {
+        "id": "5e9361ac99874689440cbf680a2f529286b5ce4a",
+        "authorName": "Fixture Member B",
+        "authorEmail": "member-b@tiye.local",
+        "committerName": "TIYE Fixture Engine",
+        "committerEmail": "engine@tiye.local",
+        "parents": [
+          "b9751c7198c544ce9a4c902b1e12bbde96ecc0f9"
+        ],
+        "sessions": [
+          "foreign-session"
+        ],
+        "rawSessionLines": 1,
+        "messageSha256": "f4d4207c442cf1e49ab1679f3b9bd27ce838b4ba16323980f13c2beb2f68eacc",
+        "problems": [
+          "session-mismatch"
+        ]
+      },
+      {
+        "id": "484ec5850ff4243e11c2c20fc6cbfbe9ce16721f",
+        "authorName": "Fixture Member B",
+        "authorEmail": "member-b@tiye.local",
+        "committerName": "TIYE Fixture Engine",
+        "committerEmail": "engine@tiye.local",
+        "parents": [
+          "5e9361ac99874689440cbf680a2f529286b5ce4a"
+        ],
+        "sessions": [
+          "052680a0-b669-45f2-9cb5-4d2ffadf7810",
+          "different-session"
+        ],
+        "rawSessionLines": 2,
+        "messageSha256": "a76ba1a0e5270627efe79fda1d99f66819092dca7bd0c53795372dd7202a329b",
+        "problems": [
+          "duplicate-session"
+        ]
+      },
+      {
+        "id": "427cb9da1dcd23a88855a791889e05fa9bd16070",
+        "authorName": "Foreign Fixture",
+        "authorEmail": "foreign@tiye.local",
+        "committerName": "TIYE Fixture Engine",
+        "committerEmail": "engine@tiye.local",
+        "parents": [
+          "484ec5850ff4243e11c2c20fc6cbfbe9ce16721f"
+        ],
+        "sessions": [
+          "052680a0-b669-45f2-9cb5-4d2ffadf7810"
+        ],
+        "rawSessionLines": 1,
+        "messageSha256": "0a744af4edea36518dfab77a8d534150abb4ea850936e634986b815f6fab17d8",
+        "problems": [
+          "author-mismatch"
+        ]
+      }
+    ]
+  },
+  "fullRangeRejected": true,
+  "rejectedRangeUnchanged": true,
+  "forgedDecisionBlocked": true,
+  "staleMemberBlocked": true,
+  "staleIntegrationBlocked": true,
+  "acceptedAudit": {
+    "eligible": true,
+    "baseCommit": "e539276dc9a840fb6c03a910928c15adee15550e",
+    "memberHead": "b396ab0b4992ce4da3df2c545f8b0880842ce65f",
+    "integrationHead": "1aea5eba0437818d2bb40dd65d692c8ffedef124",
+    "problems": [],
+    "commits": [
+      {
+        "id": "087ed29126393eb635ba0b86ee5edccda2ce052b",
+        "authorName": "Fixture Member A",
+        "authorEmail": "member-a@tiye.local",
+        "committerName": "TIYE Fixture Engine",
+        "committerEmail": "engine@tiye.local",
+        "parents": [
+          "e539276dc9a840fb6c03a910928c15adee15550e"
+        ],
+        "sessions": [
+          "052680a0-b669-45f2-9cb5-4d2ffadf7810"
+        ],
+        "rawSessionLines": 1,
+        "messageSha256": "ad54390d1cf340751ed49035a7fe683213123fafb04798ced42499f46cc30eaa",
+        "problems": []
+      },
+      {
+        "id": "b396ab0b4992ce4da3df2c545f8b0880842ce65f",
+        "authorName": "Fixture Member A",
+        "authorEmail": "member-a@tiye.local",
+        "committerName": "TIYE Fixture Engine",
+        "committerEmail": "engine@tiye.local",
+        "parents": [
+          "087ed29126393eb635ba0b86ee5edccda2ce052b"
+        ],
+        "sessions": [
+          "052680a0-b669-45f2-9cb5-4d2ffadf7810"
+        ],
+        "rawSessionLines": 1,
+        "messageSha256": "3d84832ae6c7e21e8f955d20973b0649f4d036ccbfc1585bd2906e3f78e70171",
+        "problems": []
+      }
+    ]
+  },
+  "dirtyBlocked": true,
+  "activeOperationBlocked": true,
+  "mergeResult": {
+    "merged": true,
+    "commit": {
+      "id": "a087bfd54c092f8d765b57f1c2f33465de5ffc23",
+      "authorName": "Fixture Integration",
+      "authorEmail": "integration@tiye.local",
+      "committerName": "TIYE Fixture Engine",
+      "committerEmail": "engine@tiye.local",
+      "parents": [
+        "1aea5eba0437818d2bb40dd65d692c8ffedef124",
+        "b396ab0b4992ce4da3df2c545f8b0880842ce65f"
+      ],
+      "sessions": [
+        "052680a0-b669-45f2-9cb5-4d2ffadf7810"
+      ],
+      "rawSessionLines": 1,
+      "messageSha256": "ae8685081306adf14e43b7943cfe76c3acd6b5418c61b2b6f37cd578bb6dbaa1"
+    }
+  },
+  "validRangeMerged": true,
+  "memberMetadataPreserved": true,
+  "rejectedHistoryUnchanged": true,
+  "registryRootOnly": true,
+  "originalRootUnchanged": true,
+  "baseTempRemoved": true,
+  "rootTempRemoved": true,
+  "passed": true,
+  "result": "TRAILER_POLICY_PASS_S3_PARTIAL"
+}

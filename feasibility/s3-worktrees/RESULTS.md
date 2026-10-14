@@ -1,4 +1,61 @@
-# S3.2 native CLI propagation — 14 October 2026
+# S3.2 session-trailer policy — 14 October 2026
+
+**TRAILER_POLICY_PASS_S3_PARTIAL.** The disposable Windows fixture now has an
+integration gate that audits the complete introduced member range before its
+controlled merge. Git was 2.55.0.windows.5 and Node 26.7.0. The parent generated
+these synthetic histories; no provider CLI was asked to commit or push.
+
+| Check | Observed result |
+|---|---|
+| Invalid earlier commit behind a valid tip | Full range rejected; integration HEAD, files, index tree and status unchanged |
+| Trailer and identity errors | Missing, duplicate, foreign-session and foreign-author commits classified and refused |
+| Forged audit result | Copying an eligible result could not authorize merge; private decision binding required |
+| Stale heads | Changing either member or integration HEAD blocked the previous decision without a merge |
+| Dirty/active state | Owned dirty-file and Git-operation-marker controls blocked merge |
+| Valid range | Exact inspected SHA merged without fast-forward; merge parent order, engine trailer, file bytes and member metadata matched |
+| History and cleanup | Rejected history unchanged, source state unchanged, three clean worktrees removed, registry root-only and owned temp roots gone |
+| Offline verification | Eleven S3 checks plus existing 113 S2 checks pass |
+
+The policy is **audit and reject, without silently rewriting member history**.
+The fixture requires expected member author, synthetic engine committer and
+exactly one matching raw and Git-parsed `Tiye-Session` line on every supported
+introduced commit. Rejected history stays on its member branch. Production
+resolution UI and task routing are not implemented.
+
+Native range tests also cover empty ranges, 51 introduced commits, non-linear
+member history, a base outside integration ancestry, wrong gate session and
+already-integrated work. A consumed decision stays unusable even if the fixture
+integration ref is subsequently returned to its old value. Decisions are in
+memory and are consumed immediately before Git starts; uncertain failures need
+fresh inspection. The gate does not install hooks or automatic trailer insertion.
+
+The current observation is [sealed](evidence/supplements/trailer-policy/d0e7de2acbe92995354da364ef23c9af8edcb950ca57071505ad1d60d1b2e77e/trailer-policy.json),
+with [qualification](evidence/trailer-policy-qualification.json). Earlier passing
+observations remain separate: they preceded the already-integrated/session
+selection checks, decision consumption and sequencer-state refusal. Current source hashes, versions
+and prior tracked S1/S2/S3 evidence bytes were checked.
+
+The implementation uses Git's [complete range traversal](https://git-scm.com/docs/git-rev-list)
+and [ancestor checks](https://git-scm.com/docs/git-merge-base). It supports at
+most 50 introduced single-parent commits; unsupported history is refused.
+Checks before merge are not atomic concurrency protection. A post-merge parent
+mismatch or Git error is an unverified outcome, not permission to retry or reset
+history. Durable transaction records, locks, conflict recovery in this gate,
+actual provider-created commit qualification and final user-approved merge
+remain open. This gate does not prevent a CLI from invoking Git directly.
+The earlier standalone CLI propagation result is unchanged. Full S3, the core
+engine and production UI remain partial.
+
+Muse and the requested Agy Gemini 3.8 Flash high fallback completed supplied-facts
+reviews. MiMo Atria timed out after four minutes; Claude Atria returned token
+quota exhaustion (HTTP 429). Recursive event audits found zero tool events on
+MiMo/OpenCode/Claude. Agy's plain log does not provide equivalent structured
+tool-event coverage; its status, final review and change tripwire are recorded
+in qualification. Concurrent parent implementation changes were reviewed before
+commit. Agy's sequencing/race concerns informed marker refusal and the explicit
+non-atomic limitation; no durable lock or concurrency guarantee is claimed.
+
+## Earlier S3.2 native CLI propagation — 14 October 2026
 
 **CLI_ATTRIBUTION_PASS_S3_PARTIAL.** OpenCode 2.0.28, requested with the Muse
 spark 1.3 free route at xhigh, ran a fixed task in one disposable Windows
