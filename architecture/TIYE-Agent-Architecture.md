@@ -689,6 +689,11 @@ The [offline S4 boundary fixture](../feasibility/s4-provider-access/boundary/REA
 now exercises prerequisite refusal, sanitized fake responses and owned cleanup
 with a fixed local Node child. It qualifies that bounded offline behavior only;
 account applicability and native provider integration remain open.
+The [S4 declaration readiness check](../feasibility/s4-provider-access/readiness/README.md)
+now accepts bounded non-secret metadata through stdin and emits pending/refusal
+categories without retaining submitted account/model values. It performs no
+provider dispatch; the first native route still needs an operator declaration
+and policy applicability review.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

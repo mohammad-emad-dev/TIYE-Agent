@@ -1,0 +1,6 @@
+{
+  "name": "tiye-s4-route-readiness",
+  "private": true,
+  "type": "commonjs",
+  "scripts": { "check": "node check-evidence.js && node --test test/*.test.js", "assess": "node cli.js", "probe": "node run-probe.js" }
+}

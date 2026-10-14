@@ -1,0 +1,116 @@
+{
+  "schema": "tiye-s4-readiness-v1",
+  "recordedAt": "2026-10-14T17:15:34.483Z",
+  "platform": "win32",
+  "node": "v26.7.0",
+  "scope": "Public synthetic stdin assessment only; no provider CLI/auth/model request",
+  "observations": [
+    {
+      "scenario": "empty-declaration",
+      "outcome": {
+        "state": "awaiting-account-declaration",
+        "category": "missing-declaration",
+        "liveEligible": false,
+        "fullS4Qualified": false,
+        "productionEligible": false,
+        "missing": [
+          "routeId",
+          "cli",
+          "modelId",
+          "providerId",
+          "authMethod",
+          "accountPlan",
+          "accountCountry"
+        ]
+      },
+      "exitCode": 0,
+      "stderrEmpty": true
+    },
+    {
+      "scenario": "invalid-json",
+      "outcome": {
+        "state": "not-run",
+        "category": "invalid-json",
+        "liveEligible": false,
+        "fullS4Qualified": false,
+        "productionEligible": false
+      },
+      "exitCode": 1,
+      "stderrEmpty": true
+    },
+    {
+      "scenario": "extra-field",
+      "outcome": {
+        "state": "not-run",
+        "category": "invalid-declaration",
+        "liveEligible": false,
+        "fullS4Qualified": false,
+        "productionEligible": false
+      },
+      "exitCode": 1,
+      "stderrEmpty": true
+    },
+    {
+      "scenario": "oversized-input",
+      "outcome": {
+        "state": "not-run",
+        "category": "oversized-input",
+        "liveEligible": false,
+        "fullS4Qualified": false,
+        "productionEligible": false
+      },
+      "exitCode": 1,
+      "stderrEmpty": true
+    },
+    {
+      "scenario": "partial-blocked-route",
+      "outcome": {
+        "state": "not-run",
+        "category": "blocked-route",
+        "liveEligible": false,
+        "fullS4Qualified": false,
+        "productionEligible": false
+      },
+      "exitCode": 1,
+      "stderrEmpty": true
+    },
+    {
+      "scenario": "partial-alias",
+      "outcome": {
+        "state": "not-run",
+        "category": "unknown-route",
+        "liveEligible": false,
+        "fullS4Qualified": false,
+        "productionEligible": false
+      },
+      "exitCode": 1,
+      "stderrEmpty": true
+    }
+  ],
+  "sourceHashes": {
+    "declaration.js": "c5cdfef86584d54992e86e14a71db343367ba75826bfdca3c7a56d1a06127f9e",
+    "cli.js": "5a006b61921e51c7fc903dd83b756945c01b07977738864afd4fc159455637f8",
+    "run-probe.js": "041e33d7d8f756fc6d229b1a62a79b861a753bdda15aa193ea5a47885e1f05e0",
+    "../routes.json": "027c734b9bf2e613da0be4868cfcb5e525ce2635cad9997495a34cd238db133b"
+  },
+  "operatorDeclaration": {
+    "state": "awaiting-account-declaration",
+    "category": "missing-declaration",
+    "liveEligible": false,
+    "fullS4Qualified": false,
+    "productionEligible": false,
+    "missing": [
+      "routeId",
+      "cli",
+      "modelId",
+      "providerId",
+      "authMethod",
+      "accountPlan",
+      "accountCountry"
+    ]
+  },
+  "providerRequests": 0,
+  "liveAuthenticationTested": false,
+  "fullS4Qualified": false,
+  "productionEligible": false
+}

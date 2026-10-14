@@ -1,0 +1,71 @@
+{
+  "schema": "tiye-s4-readiness-review-v1",
+  "recordedAt": "2026-10-14T17:18:41.517Z",
+  "previousCohortCommit": "9c2d2aaafc8abe4a75494a482e55ab2a3b76cc0b",
+  "previousArtifactsUnchanged": true,
+  "scope": "Supplied-design delegate review and parent implementation; six public synthetic stdin assessments; no native provider qualification",
+  "sha256": {
+    "README.md": "79a64b829506c9b9ef452cb32383a5fde37a627d0822ca913b6bce74a6e41a2f",
+    "package.json": "28664a10e654b9b5d9e7b89a8c5ca835a74dedd759bd86835f124706f662a4bc",
+    "declaration.js": "c5cdfef86584d54992e86e14a71db343367ba75826bfdca3c7a56d1a06127f9e",
+    "cli.js": "5a006b61921e51c7fc903dd83b756945c01b07977738864afd4fc159455637f8",
+    "run-probe.js": "041e33d7d8f756fc6d229b1a62a79b861a753bdda15aa193ea5a47885e1f05e0",
+    "check-evidence.js": "2c8f57b0216351ba16a4ecc7e8122247704b43a4a408d6e87247411bb68c4939",
+    "test/readiness.test.js": "e83a53cd951b8c7b8b67dcfe44dc5a5cc07b72b91c3895bc79af85d9ae39a911",
+    "evidence.json": "ae765fa3808297bb579b0c7578bab805f8ce88e412b0016c80b680b01198dc97"
+  },
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "finalCaptured": false,
+      "finalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": null,
+      "concurrentParentChangesReviewed": true,
+      "toolEvents": 0,
+      "structuredToolAuditAvailable": true
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "finalCaptured": true,
+      "finalSha256": "a3f3f25d7ac8e6aae9f30da23575c85de56845ca7a95847dfb0e81c46e3e8d17",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": null,
+      "concurrentParentChangesReviewed": true,
+      "toolEvents": 0,
+      "structuredToolAuditAvailable": true
+    },
+    {
+      "lane": "claude",
+      "status": "failed",
+      "finalCaptured": true,
+      "finalSha256": "e3adfb72253019be16c640248456149575b9e89f4d8817a9ddf04e4784828a62",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": true,
+      "concurrentParentChangesReviewed": true,
+      "toolEvents": 0,
+      "structuredToolAuditAvailable": true,
+      "errorCategory": "token-quota-429"
+    },
+    {
+      "lane": "agy-fallback",
+      "status": "completed",
+      "finalCaptured": true,
+      "finalSha256": "3004e03af77074753381aa4df74702be532816622e77fcf6f0ce5ebbb50490fd",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": false,
+      "concurrentParentChangesReviewed": true,
+      "model": "gemini-3.8-flash-high",
+      "effort": "high",
+      "structuredToolAuditAvailable": false,
+      "observedToolMarkers": 0
+    }
+  ],
+  "readinessTestsPassed": 25,
+  "previousS4TestsPassed": 39,
+  "liveAuthenticationTested": false,
+  "fullS4Qualified": false,
+  "productionEligible": false
+}
