@@ -1,0 +1,212 @@
+{
+  "schema": "tiye-s5-five-terminal-smoke-v1",
+  "recordedAt": "2026-10-14T17:42:26.739Z",
+  "platform": "win32",
+  "views": [
+    {
+      "view": "grid",
+      "hiddenWindow": true,
+      "hardwareAcceleration": false,
+      "ptyMembers": 5,
+      "stored": [
+        {
+          "member": 0,
+          "chunks": 6,
+          "bytes": 2159,
+          "sha256": "8e093c6cf79d85c8cbe1ad83728d27e9fa07f308a1a229c6b04835b1f64a19d4",
+          "exitCode": 0
+        },
+        {
+          "member": 1,
+          "chunks": 5,
+          "bytes": 2159,
+          "sha256": "037fed3047b8882b85cccf61a57202a55ec2b86e31f8566d0b772a1cf3b15c0f",
+          "exitCode": 0
+        },
+        {
+          "member": 2,
+          "chunks": 6,
+          "bytes": 2159,
+          "sha256": "498724eda223ef5077e2d8dfdb665a26845f87a6488a6fd00f61f977a6fa19d6",
+          "exitCode": 0
+        },
+        {
+          "member": 3,
+          "chunks": 5,
+          "bytes": 2159,
+          "sha256": "22c451a9d66ad2feeea8e6948bb3613a14673951fd34b42c7800fe9f8b6d1713",
+          "exitCode": 0
+        },
+        {
+          "member": 4,
+          "chunks": 7,
+          "bytes": 2159,
+          "sha256": "8303f53cd90350bd82b5cd0a3ff53ca89d9d99606ba76eda3f4387abed728f23",
+          "exitCode": 0
+        }
+      ],
+      "renderer": [
+        {
+          "member": 0,
+          "receivedChunks": 6,
+          "pending": 0,
+          "bytes": 2159,
+          "sha256": "8e093c6cf79d85c8cbe1ad83728d27e9fa07f308a1a229c6b04835b1f64a19d4",
+          "recordsFound": 40
+        },
+        {
+          "member": 1,
+          "receivedChunks": 5,
+          "pending": 0,
+          "bytes": 2159,
+          "sha256": "037fed3047b8882b85cccf61a57202a55ec2b86e31f8566d0b772a1cf3b15c0f",
+          "recordsFound": 40
+        },
+        {
+          "member": 2,
+          "receivedChunks": 6,
+          "pending": 0,
+          "bytes": 2159,
+          "sha256": "498724eda223ef5077e2d8dfdb665a26845f87a6488a6fd00f61f977a6fa19d6",
+          "recordsFound": 40
+        },
+        {
+          "member": 3,
+          "receivedChunks": 5,
+          "pending": 0,
+          "bytes": 2159,
+          "sha256": "22c451a9d66ad2feeea8e6948bb3613a14673951fd34b42c7800fe9f8b6d1713",
+          "recordsFound": 40
+        },
+        {
+          "member": 4,
+          "receivedChunks": 7,
+          "pending": 0,
+          "bytes": 2159,
+          "sha256": "8303f53cd90350bd82b5cd0a3ff53ca89d9d99606ba76eda3f4387abed728f23",
+          "recordsFound": 40
+        }
+      ],
+      "electron": "38.8.6",
+      "nodePty": "1.1.0",
+      "xterm": "5.5.0",
+      "outputIntegrity": true,
+      "screenRecordIntegrity": true,
+      "providerRequests": 0,
+      "keyboardLatencyMeasured": false,
+      "frameRateMeasured": false,
+      "fullS5Qualified": false,
+      "productionEligible": false
+    },
+    {
+      "view": "focus",
+      "hiddenWindow": true,
+      "hardwareAcceleration": false,
+      "ptyMembers": 5,
+      "stored": [
+        {
+          "member": 0,
+          "chunks": 7,
+          "bytes": 2159,
+          "sha256": "8e093c6cf79d85c8cbe1ad83728d27e9fa07f308a1a229c6b04835b1f64a19d4",
+          "exitCode": 0
+        },
+        {
+          "member": 1,
+          "chunks": 5,
+          "bytes": 2159,
+          "sha256": "037fed3047b8882b85cccf61a57202a55ec2b86e31f8566d0b772a1cf3b15c0f",
+          "exitCode": 0
+        },
+        {
+          "member": 2,
+          "chunks": 6,
+          "bytes": 2159,
+          "sha256": "498724eda223ef5077e2d8dfdb665a26845f87a6488a6fd00f61f977a6fa19d6",
+          "exitCode": 0
+        },
+        {
+          "member": 3,
+          "chunks": 6,
+          "bytes": 2159,
+          "sha256": "22c451a9d66ad2feeea8e6948bb3613a14673951fd34b42c7800fe9f8b6d1713",
+          "exitCode": 0
+        },
+        {
+          "member": 4,
+          "chunks": 8,
+          "bytes": 2159,
+          "sha256": "8303f53cd90350bd82b5cd0a3ff53ca89d9d99606ba76eda3f4387abed728f23",
+          "exitCode": 0
+        }
+      ],
+      "renderer": [
+        {
+          "member": 0,
+          "receivedChunks": 7,
+          "pending": 0,
+          "bytes": 2159,
+          "sha256": "8e093c6cf79d85c8cbe1ad83728d27e9fa07f308a1a229c6b04835b1f64a19d4",
+          "recordsFound": 40
+        },
+        {
+          "member": 1,
+          "receivedChunks": 5,
+          "pending": 0,
+          "bytes": 2159,
+          "sha256": "037fed3047b8882b85cccf61a57202a55ec2b86e31f8566d0b772a1cf3b15c0f",
+          "recordsFound": 40
+        },
+        {
+          "member": 2,
+          "receivedChunks": 6,
+          "pending": 0,
+          "bytes": 2159,
+          "sha256": "498724eda223ef5077e2d8dfdb665a26845f87a6488a6fd00f61f977a6fa19d6",
+          "recordsFound": 40
+        },
+        {
+          "member": 3,
+          "receivedChunks": 6,
+          "pending": 0,
+          "bytes": 2159,
+          "sha256": "22c451a9d66ad2feeea8e6948bb3613a14673951fd34b42c7800fe9f8b6d1713",
+          "recordsFound": 40
+        },
+        {
+          "member": 4,
+          "receivedChunks": 8,
+          "pending": 0,
+          "bytes": 2159,
+          "sha256": "8303f53cd90350bd82b5cd0a3ff53ca89d9d99606ba76eda3f4387abed728f23",
+          "recordsFound": 40
+        }
+      ],
+      "electron": "38.8.6",
+      "nodePty": "1.1.0",
+      "xterm": "5.5.0",
+      "outputIntegrity": true,
+      "screenRecordIntegrity": true,
+      "providerRequests": 0,
+      "keyboardLatencyMeasured": false,
+      "frameRateMeasured": false,
+      "fullS5Qualified": false,
+      "productionEligible": false
+    }
+  ],
+  "ownedCleanup": true,
+  "sourceHashes": {
+    "toolchain.js": "b0c6a440964fe2f64397b6f43e552c911bc79adae409aee052a1849b16101c68",
+    "build.js": "bb1cbce1815a2daae34fb4e1400a3f2a75b44d003fd79a064fef0b53f6c48d05",
+    "protocol.js": "5fc57abe0b24c36c475ca39f909fdef5448c01df7e1464f3acd5f402955a8dbf",
+    "fixture.js": "fd46d550b36fd9d440fb63650b12462fc1a6ffff550ff347afb927b175bf3521",
+    "run-smoke.js": "698263b6108127e9b1920e25645bf2fd0c3e04939c47bfe9be7a98a04a46de87",
+    "src/main.cjs": "75726f7c01acd7169d45549cba3e02a59fc90743c67af6e7fc66db72286062af",
+    "src/preload.cjs": "efcfc6acc05380311360a4b6552f322ef3b095003ffdeb86b53702adf4b43502",
+    "src/renderer.js": "2998e3257270751daecdc8c356bc2935f560da1f1fa9bd01fda31549a3ee7f67",
+    "src/index.html": "e70d4317b63a5daf7d13d80c01f72eb2af7245e8092f13e55170f6befebbeaa6",
+    "src/display-producer.cjs": "e58d4ccccd86369cf834305794479633fde8471d2c714e857e32d523547160b5"
+  },
+  "fullS5Qualified": false,
+  "productionEligible": false
+}

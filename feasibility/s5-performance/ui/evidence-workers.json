@@ -1,0 +1,225 @@
+{
+  "schema": "tiye-s5-five-terminal-smoke-v1",
+  "recordedAt": "2026-10-14T22:33:12.283Z",
+  "platform": "win32",
+  "views": [
+    {
+      "view": "grid",
+      "hiddenWindow": true,
+      "hardwareAcceleration": false,
+      "ptyMembers": 5,
+      "isolatedPtyWorkers": 5,
+      "stored": [
+        {
+          "member": 0,
+          "chunks": 30,
+          "bytes": 2179,
+          "sha256": "31ec0de1d3550fd6cfca0408b4fab1c08d249ee07a94ab1e8d16edf42689571d",
+          "exitCode": 0,
+          "workerExitCode": 0
+        },
+        {
+          "member": 1,
+          "chunks": 29,
+          "bytes": 2179,
+          "sha256": "47e127c2408afcc10a89965fdf9bfce68352d405f77a3181ab84d4154e181b60",
+          "exitCode": 0,
+          "workerExitCode": 0
+        },
+        {
+          "member": 2,
+          "chunks": 27,
+          "bytes": 2179,
+          "sha256": "4c55fb54d34e641a5a1bb0798908ec2b2f3b2404b823463e96fd0e4cf1eeac35",
+          "exitCode": 0,
+          "workerExitCode": 0
+        },
+        {
+          "member": 3,
+          "chunks": 21,
+          "bytes": 2179,
+          "sha256": "f44d0ff1cdaf6b3bdf9407faae4bb0598b792d38fd1a10bec4e83a109e46617c",
+          "exitCode": 0,
+          "workerExitCode": 0
+        },
+        {
+          "member": 4,
+          "chunks": 20,
+          "bytes": 2179,
+          "sha256": "1e3514dff4aba88d8b34581fe132bfcf66ee34aa68f3823da4145ca84b7249c1",
+          "exitCode": 0,
+          "workerExitCode": 0
+        }
+      ],
+      "renderer": [
+        {
+          "member": 0,
+          "receivedChunks": 30,
+          "pending": 0,
+          "bytes": 2179,
+          "sha256": "31ec0de1d3550fd6cfca0408b4fab1c08d249ee07a94ab1e8d16edf42689571d",
+          "recordsFound": 40
+        },
+        {
+          "member": 1,
+          "receivedChunks": 29,
+          "pending": 0,
+          "bytes": 2179,
+          "sha256": "47e127c2408afcc10a89965fdf9bfce68352d405f77a3181ab84d4154e181b60",
+          "recordsFound": 40
+        },
+        {
+          "member": 2,
+          "receivedChunks": 27,
+          "pending": 0,
+          "bytes": 2179,
+          "sha256": "4c55fb54d34e641a5a1bb0798908ec2b2f3b2404b823463e96fd0e4cf1eeac35",
+          "recordsFound": 40
+        },
+        {
+          "member": 3,
+          "receivedChunks": 21,
+          "pending": 0,
+          "bytes": 2179,
+          "sha256": "f44d0ff1cdaf6b3bdf9407faae4bb0598b792d38fd1a10bec4e83a109e46617c",
+          "recordsFound": 40
+        },
+        {
+          "member": 4,
+          "receivedChunks": 20,
+          "pending": 0,
+          "bytes": 2179,
+          "sha256": "1e3514dff4aba88d8b34581fe132bfcf66ee34aa68f3823da4145ca84b7249c1",
+          "recordsFound": 40
+        }
+      ],
+      "electron": "38.8.6",
+      "nodePty": "1.1.0",
+      "xterm": "5.5.0",
+      "outputIntegrity": true,
+      "screenRecordIntegrity": true,
+      "providerRequests": 0,
+      "keyboardLatencyMeasured": false,
+      "frameRateMeasured": false,
+      "fullS5Qualified": false,
+      "productionEligible": false
+    },
+    {
+      "view": "focus",
+      "hiddenWindow": true,
+      "hardwareAcceleration": false,
+      "ptyMembers": 5,
+      "isolatedPtyWorkers": 5,
+      "stored": [
+        {
+          "member": 0,
+          "chunks": 34,
+          "bytes": 2179,
+          "sha256": "31ec0de1d3550fd6cfca0408b4fab1c08d249ee07a94ab1e8d16edf42689571d",
+          "exitCode": 0,
+          "workerExitCode": 0
+        },
+        {
+          "member": 1,
+          "chunks": 34,
+          "bytes": 2179,
+          "sha256": "47e127c2408afcc10a89965fdf9bfce68352d405f77a3181ab84d4154e181b60",
+          "exitCode": 0,
+          "workerExitCode": 0
+        },
+        {
+          "member": 2,
+          "chunks": 33,
+          "bytes": 2179,
+          "sha256": "4c55fb54d34e641a5a1bb0798908ec2b2f3b2404b823463e96fd0e4cf1eeac35",
+          "exitCode": 0,
+          "workerExitCode": 0
+        },
+        {
+          "member": 3,
+          "chunks": 31,
+          "bytes": 2179,
+          "sha256": "f44d0ff1cdaf6b3bdf9407faae4bb0598b792d38fd1a10bec4e83a109e46617c",
+          "exitCode": 0,
+          "workerExitCode": 0
+        },
+        {
+          "member": 4,
+          "chunks": 25,
+          "bytes": 2179,
+          "sha256": "1e3514dff4aba88d8b34581fe132bfcf66ee34aa68f3823da4145ca84b7249c1",
+          "exitCode": 0,
+          "workerExitCode": 0
+        }
+      ],
+      "renderer": [
+        {
+          "member": 0,
+          "receivedChunks": 34,
+          "pending": 0,
+          "bytes": 2179,
+          "sha256": "31ec0de1d3550fd6cfca0408b4fab1c08d249ee07a94ab1e8d16edf42689571d",
+          "recordsFound": 40
+        },
+        {
+          "member": 1,
+          "receivedChunks": 34,
+          "pending": 0,
+          "bytes": 2179,
+          "sha256": "47e127c2408afcc10a89965fdf9bfce68352d405f77a3181ab84d4154e181b60",
+          "recordsFound": 40
+        },
+        {
+          "member": 2,
+          "receivedChunks": 33,
+          "pending": 0,
+          "bytes": 2179,
+          "sha256": "4c55fb54d34e641a5a1bb0798908ec2b2f3b2404b823463e96fd0e4cf1eeac35",
+          "recordsFound": 40
+        },
+        {
+          "member": 3,
+          "receivedChunks": 31,
+          "pending": 0,
+          "bytes": 2179,
+          "sha256": "f44d0ff1cdaf6b3bdf9407faae4bb0598b792d38fd1a10bec4e83a109e46617c",
+          "recordsFound": 40
+        },
+        {
+          "member": 4,
+          "receivedChunks": 25,
+          "pending": 0,
+          "bytes": 2179,
+          "sha256": "1e3514dff4aba88d8b34581fe132bfcf66ee34aa68f3823da4145ca84b7249c1",
+          "recordsFound": 40
+        }
+      ],
+      "electron": "38.8.6",
+      "nodePty": "1.1.0",
+      "xterm": "5.5.0",
+      "outputIntegrity": true,
+      "screenRecordIntegrity": true,
+      "providerRequests": 0,
+      "keyboardLatencyMeasured": false,
+      "frameRateMeasured": false,
+      "fullS5Qualified": false,
+      "productionEligible": false
+    }
+  ],
+  "ownedCleanup": true,
+  "sourceHashes": {
+    "toolchain.js": "b0c6a440964fe2f64397b6f43e552c911bc79adae409aee052a1849b16101c68",
+    "build.js": "bb1cbce1815a2daae34fb4e1400a3f2a75b44d003fd79a064fef0b53f6c48d05",
+    "protocol.js": "5fc57abe0b24c36c475ca39f909fdef5448c01df7e1464f3acd5f402955a8dbf",
+    "fixture.js": "fd46d550b36fd9d440fb63650b12462fc1a6ffff550ff347afb927b175bf3521",
+    "run-smoke.js": "a918b6953f6a1235bc24943f69b6cda60b898abb903480a9ec3edb49ecdbf445",
+    "src/main.cjs": "d208b3e565370be958ce793726cb6a18b9bfb68df78a9f4f15898d1844afdd3a",
+    "src/preload.cjs": "efcfc6acc05380311360a4b6552f322ef3b095003ffdeb86b53702adf4b43502",
+    "src/renderer.js": "2998e3257270751daecdc8c356bc2935f560da1f1fa9bd01fda31549a3ee7f67",
+    "src/index.html": "e70d4317b63a5daf7d13d80c01f72eb2af7245e8092f13e55170f6befebbeaa6",
+    "src/display-producer.cjs": "90bd1a01316d2d1fcb68995147c0e57b755b6611069953ffad7d4e9bf3bff814",
+    "src/pty-worker.cjs": "9088a7aceb7ace8c8d397c0ca75af17254c2bcdc430cd462cf06c844cfea5f09"
+  },
+  "fullS5Qualified": false,
+  "productionEligible": false
+}

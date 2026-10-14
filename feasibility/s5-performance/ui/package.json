@@ -1,0 +1,11 @@
+{
+  "name": "tiye-s5-five-terminal-shell",
+  "private": true,
+  "scripts": {
+    "build": "node build.js",
+    "check": "node check-evidence.js && node --test test/*.test.js",
+    "check:runtime": "node check-evidence.js --runtime",
+    "smoke": "node run-smoke.js",
+    "start": "node run-smoke.js --visible"
+  }
+}

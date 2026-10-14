@@ -1,0 +1,14 @@
+{
+  "schema": "tiye-s5-ui-failure-v1",
+  "reviewedOn": "2026-10-15",
+  "scope": "Producer-ready handshake with five PTYs in one Electron main process",
+  "parentExitCode": 1,
+  "electronExitCode": 3221225477,
+  "exceptionHex": "0xC0000005",
+  "result": "grid-completed-focus-native-crash",
+  "failedRunStatePreserved": true,
+  "cause": "unconfirmed; installed ConPTY shared handle race is a source-backed hypothesis",
+  "response": "isolate each PTY in its own native worker; preserve failed and passing observations",
+  "fullS5Qualified": false,
+  "productionEligible": false
+}

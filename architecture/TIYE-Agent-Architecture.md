@@ -702,6 +702,11 @@ Independent [S5 ingress baseline work](../feasibility/s5-performance/README.md)
 now verifies five concurrent synthetic Node producers, backpressure and persisted
 byte integrity. PTY/display/UI, sustained flood and long-run performance are not
 measured; S5 remains partial.
+The [five-terminal S5 shell](../feasibility/s5-performance/ui/README.md) now has
+bounded native grid/focus integrity observations. An intermittent shared-process
+ConPTY crash led to one PTY per isolated worker; two current-source smokes passed.
+Hidden-window parsing/receipt is not visible UI performance qualification, and
+the failed observations and abnormal recovery limitations remain explicit.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

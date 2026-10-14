@@ -1,0 +1,12 @@
+{
+  "schema": "tiye-s5-ui-runtime-build-v1",
+  "recordedAt": "2026-10-14T22:36:18.579Z",
+  "scope": "Existing built files used by native smokes; no dependency mutation",
+  "sha256": {
+    "dist/renderer.js": "2884d556dfb18997e7e1b4d108cd326c0c6bc25e3e4ef1061b791cd3af3a3d24",
+    "dist/preload.cjs": "59238ad944a6dd08cdbaf0c092b1d703e7d432c97262e5a2cd2ec678880d2105",
+    "dist/index.html": "e70d4317b63a5daf7d13d80c01f72eb2af7245e8092f13e55170f6befebbeaa6",
+    "dist/xterm.css": "ba8e6985669488981ccf40c0cefe3aba80722cb6c92de7ad628b0bd717faf2b6"
+  },
+  "esbuildVersion": "0.21.5"
+}

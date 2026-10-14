@@ -1,0 +1,15 @@
+{
+  "schema": "tiye-s5-ui-failure-v1",
+  "reviewedOn": "2026-10-14",
+  "scope": "First runner revision native smoke rerun",
+  "parentExitCode": 1,
+  "result": "failed-before-complete-five-member-grid",
+  "failedRunStatePreserved": true,
+  "member4CapturedBytes": 16,
+  "member4CapturedSha256": "a572466f12e992a09e95917ce7a7c8c98c6c4d8a0a7c25143eee5a4c196ad1e1",
+  "member4ContentCategory": "ConPTY startup control sequences only; no task records",
+  "cause": "unresolved; early input/startup race is a hypothesis",
+  "response": "preserve failure; add explicit producer-ready handshake; fresh qualification required",
+  "fullS5Qualified": false,
+  "productionEligible": false
+}
