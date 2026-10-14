@@ -1,0 +1,74 @@
+{
+  "schema": "tiye-s4-offline-boundary-v1",
+  "recordedAt": "2026-10-14T17:06:00.870Z",
+  "platform": "win32",
+  "node": "v26.7.0",
+  "scope": "Fixed local fake Node child only; no vendor CLI, auth or provider requests",
+  "missingChecks": [
+    "exact-cli-version-model",
+    "non-secret-account-route-declaration",
+    "applicable-region-and-agreement",
+    "route-policy-review",
+    "public-synthetic-input",
+    "official-auth-owned-by-user",
+    "owned-process-and-workspace",
+    "sanitized-evidence",
+    "native-approval-boundary"
+  ],
+  "outcomes": {
+    "success": {
+      "state": "completed",
+      "category": "synthetic-task",
+      "exitCode": 0
+    },
+    "auth": {
+      "state": "failed",
+      "category": "auth",
+      "exitCode": 0
+    },
+    "quota": {
+      "state": "failed",
+      "category": "quota",
+      "exitCode": 0
+    },
+    "model": {
+      "state": "failed",
+      "category": "unsupported-model",
+      "exitCode": 0
+    },
+    "invalid": {
+      "state": "failed",
+      "category": "invalid-reply"
+    },
+    "foreign": {
+      "state": "failed",
+      "category": "uncorrelated-reply"
+    },
+    "exit": {
+      "state": "failed",
+      "category": "process-exit",
+      "exitCode": 7
+    }
+  },
+  "sourceHashes": {
+    "route-gate.js": "e44ff5f3fbe2fb31f8da5c516eb706b708907c18c03526677326d13583e1c25d",
+    "owned-fake.js": "cfed3babe5f1f7efe5022b3fb474cf4e7f8b16b10d816daeeabceae50df67bb8",
+    "fake-cli.js": "83d258b03a44dc2b95b4747fe95d463dc897e5771729ae15efee80677d4cd551",
+    "run-probe.js": "ab64edc9bd4a019fa38f222b6de1eb54f8f870a1945a0b12ad58fdea22e0187c",
+    "../routes.json": "027c734b9bf2e613da0be4868cfcb5e525ce2635cad9997495a34cd238db133b",
+    "../conditions/review.json": "5394557eca15b778f2827dffec65a4ed453a2a1209ddfca1bb3ac729b4746ca1"
+  },
+  "liveRefused": true,
+  "aliasRefused": true,
+  "blockedRouteRefused": true,
+  "foreignHandleRefused": true,
+  "unexpectedContentPreserved": true,
+  "siblingPreserved": true,
+  "ownedCleanup": true,
+  "syntheticFieldsOmitted": true,
+  "offlineBoundaryQualified": true,
+  "providerRequests": 0,
+  "liveAuthenticationTested": false,
+  "fullS4Qualified": false,
+  "productionEligible": false
+}

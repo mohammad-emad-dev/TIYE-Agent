@@ -684,7 +684,11 @@ qualification remain open; no candidate is integration eligible.
 The [account/product conditions supplement](../feasibility/s4-provider-access/conditions/README.md)
 records route-specific public terms and a prerequisite-based native test plan.
 Published conditions do not establish an accepted account agreement or native
-capability; a local boundary fixture is the next implementation step.
+capability; its test plan starts with a local boundary fixture.
+The [offline S4 boundary fixture](../feasibility/s4-provider-access/boundary/README.md)
+now exercises prerequisite refusal, sanitized fake responses and owned cleanup
+with a fixed local Node child. It qualifies that bounded offline behavior only;
+account applicability and native provider integration remain open.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

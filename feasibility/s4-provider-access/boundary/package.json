@@ -1,0 +1,9 @@
+{
+  "name": "tiye-s4-offline-boundary",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "check": "node check-evidence.js && node --test test/*.test.js",
+    "probe": "node run-probe.js"
+  }
+}

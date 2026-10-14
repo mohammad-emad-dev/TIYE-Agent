@@ -1,0 +1,73 @@
+{
+  "schema": "tiye-s4-boundary-review-v1",
+  "recordedAt": "2026-10-14T17:09:07.602Z",
+  "previousCohortCommit": "8fbdd4bf29a5d2cbf4fec35eb6c695fea34cafed",
+  "previousArtifactsUnchanged": true,
+  "scope": "Supplied-design delegate review and parent implementation; 7 actual fake child outcomes; no native provider qualification",
+  "sha256": {
+    "README.md": "4dbad8b484840fd37106b06d3d2d48ca471e99a8ff19c9e86c04ac718778c4f7",
+    "package.json": "7e85bafd16df39e4be4e9914702600462ab1ebe66e0665bb03b7212690fac66b",
+    "route-gate.js": "e44ff5f3fbe2fb31f8da5c516eb706b708907c18c03526677326d13583e1c25d",
+    "owned-fake.js": "cfed3babe5f1f7efe5022b3fb474cf4e7f8b16b10d816daeeabceae50df67bb8",
+    "fake-cli.js": "83d258b03a44dc2b95b4747fe95d463dc897e5771729ae15efee80677d4cd551",
+    "run-probe.js": "ab64edc9bd4a019fa38f222b6de1eb54f8f870a1945a0b12ad58fdea22e0187c",
+    "check-evidence.js": "dfb353a077bb185a8139597eea839d38e51a5b0994dbc9239bbcd05de87176f6",
+    "test/boundary.test.js": "b8c5bf28b2cb913198b1f4901eab0e474a71bf4ba478467c6e8e8b6acad10759",
+    "test/evidence.test.js": "5c5ca404bcbe6e8e7cabbe62117f65ffdd7d72bb7cb0e8adb5ead4ced0cdaee0",
+    "evidence.json": "2c9d76e3f929db34b165351baac6ed7715be18fe15713ce7f7f0f27b0df57fda"
+  },
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "finalCaptured": false,
+      "finalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": null,
+      "concurrentParentChangesReviewed": true,
+      "toolEvents": 0,
+      "structuredToolAuditAvailable": true
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "finalCaptured": true,
+      "finalSha256": "9964a74d7d54766a5a9c9fc9b3df2029ce3e5d34e5026f2627cc9f1e2e28f4ce",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": null,
+      "concurrentParentChangesReviewed": true,
+      "toolEvents": 0,
+      "structuredToolAuditAvailable": true
+    },
+    {
+      "lane": "claude",
+      "status": "failed",
+      "finalCaptured": true,
+      "finalSha256": "e3adfb72253019be16c640248456149575b9e89f4d8817a9ddf04e4784828a62",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": true,
+      "concurrentParentChangesReviewed": true,
+      "toolEvents": 0,
+      "structuredToolAuditAvailable": true,
+      "errorCategory": "token-quota-429"
+    },
+    {
+      "lane": "agy-fallback",
+      "status": "completed",
+      "finalCaptured": true,
+      "finalSha256": "cae6c158c0743db08af7fbaf7e8ca398125cb2bc9fd478084b00c08e27eff0d6",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": true,
+      "concurrentParentChangesReviewed": true,
+      "model": "gemini-3.8-flash-high",
+      "effort": "high",
+      "structuredToolAuditAvailable": false,
+      "observedToolMarkers": 0
+    }
+  ],
+  "boundaryTestsPassed": 28,
+  "previousS4TestsPassed": 11,
+  "liveAuthenticationTested": false,
+  "fullS4Qualified": false,
+  "productionEligible": false
+}
