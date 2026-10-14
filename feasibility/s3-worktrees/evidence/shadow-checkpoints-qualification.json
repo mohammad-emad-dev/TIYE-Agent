@@ -1,0 +1,122 @@
+{
+  "recordedAt": "2026-10-14T14:10:32.348Z",
+  "scope": "Single tiny Windows Git/worktree and non-Git shadow checkpoint timing observations and fixture-approved one-file restore",
+  "result": "SHADOW_CHECKPOINTS_PASS_S3_PARTIAL",
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0"
+  },
+  "mechanism": "Owned external Git directory and explicit --git-dir/--work-tree routing; empty synthetic baseline/index outside non-Git project",
+  "shadowCreationPreservedFiles": true,
+  "noProjectGitMetadata": true,
+  "shadowReopened": true,
+  "shadowReopenScope": "private parent handle only; no new process or global session reconstruction",
+  "cases": {
+    "git": {
+      "files": 10,
+      "payloadBytes": 607,
+      "captureMs": 2462.26,
+      "loadMs": 1537.01,
+      "restoreMs": 2837.87,
+      "restoreIncludesSafetyCapture": true,
+      "capturePreservedState": true,
+      "restored": true,
+      "safetySaved": true,
+      "ignoredPreserved": true,
+      "unrelatedPreserved": true,
+      "indexBytesPreserved": true,
+      "headBranchPreserved": true,
+      "rawBytesLoaded": true
+    },
+    "shadow": {
+      "files": 4,
+      "payloadBytes": 40,
+      "captureMs": 2830.2,
+      "loadMs": 1606.05,
+      "restoreMs": 3954.53,
+      "restoreIncludesSafetyCapture": true,
+      "capturePreservedState": true,
+      "restored": true,
+      "safetySaved": true,
+      "ignoredPreserved": true,
+      "unrelatedPreserved": true,
+      "indexBytesPreserved": true,
+      "headBranchPreserved": true,
+      "rawBytesLoaded": true
+    }
+  },
+  "timingMethod": "performance.now elapsed wall-clock ms; capture and load separate; restore includes safety capture and outcome verification",
+  "performanceGuaranteeQualified": false,
+  "comparableBenchmarkQualified": false,
+  "refusalChecks": [
+    "existing Git project",
+    "nonempty state directory",
+    "same project/state boundary",
+    "junction state directory",
+    "forged/foreign handle",
+    "project gained .git metadata",
+    "wrong expected checkpoint commit"
+  ],
+  "rawBinaryCheckpointVerified": true,
+  "ignoredCanaryPreserved": true,
+  "unrelatedEditsPreserved": true,
+  "realIndexBytesPreserved": true,
+  "headBranchPreserved": true,
+  "safetySavedBeforeRestore": true,
+  "userApprovalUiQualified": false,
+  "shadowGlobalRestartQualified": false,
+  "powerLossRecoveryQualified": false,
+  "atomicRecoveryQualified": false,
+  "eventStoreRefTransactionQualified": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "originalRootUnchanged": true,
+  "registryRootOnly": true,
+  "tempRemoved": true,
+  "s3OfflineChecksPassed": 19,
+  "s2OfflineChecksPassed": 113,
+  "previousEvidenceUnchanged": true,
+  "historicalCheckpointSourceCommit": "0ae36a711bcfaad9f5f12373a88ffc1d8a72f1ec",
+  "measuredSourcesUnchanged": true,
+  "supplementalReference": "supplements/shadow-checkpoints/47e0ca9032dde546f288af89f0c5afddb0c86e62d7fc4475afb191fc8f627d56/shadow-checkpoints.json",
+  "supplementalSha256": "47e0ca9032dde546f288af89f0c5afddb0c86e62d7fc4475afb191fc8f627d56",
+  "initialFailedObservation": "supplements/shadow-checkpoints/1b9d7e49bcc5d3e855f337bf847152b83c5e2832d4a31494bf687555e0a53cb9/shadow-checkpoints.json",
+  "initialFailedOwnedRootRemoved": true,
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "toolEvents": 0,
+      "finalCaptured": true
+    },
+    {
+      "lane": "claude",
+      "status": "failed",
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "readOnlyViolation": true,
+      "concurrentParentEditsReviewed": true,
+      "errorCategory": "token-quota",
+      "httpStatus": 429
+    },
+    {
+      "lane": "agy-fallback",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "effort": "high",
+      "version": "1.3.5",
+      "finalCaptured": true,
+      "readOnlyViolation": true,
+      "concurrentParentEditsReviewed": true,
+      "structuredToolAuditAvailable": false,
+      "observedToolMarkers": 0
+    }
+  ]
+}

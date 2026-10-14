@@ -1,0 +1,39 @@
+{
+  "recordedAt": "2026-10-14T14:06:29.899Z",
+  "scope": "Single tiny Windows Git/worktree and non-Git shadow checkpoint timing observations and fixture-approved one-file restore",
+  "platform": "win32",
+  "node": "v26.7.0",
+  "git": "git version 2.55.0.windows.5",
+  "sourceHashes": {
+    "scripts/run-shadow-checkpoints.js": "7bfeaebd4b6ed52480d535c7fe06bf31bfc5abaad247e9a67637581b669cec34",
+    "scripts/shadow-repository.js": "88bd320149d3643d5dd45b975d07e0ca2ed568ba062ddc717e8b6d4cdc1ce8eb",
+    "scripts/git-checkpoints.js": "58693a8c38e7b541b102615195bc3a90b45e6d612907f77a11bab15432c92530",
+    "scripts/attribution-git.js": "f949b737c5f8b358ffc0f72f485cca067a28016d0fed9234f1e7be1ae90e3bf1",
+    "scripts/run-basics.js": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+    "scripts/worktree-lifecycle.js": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272"
+  },
+  "performanceGuaranteeQualified": false,
+  "shadowGlobalRestartQualified": false,
+  "userApprovalUiQualified": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "gitCase": {
+    "files": 10,
+    "payloadBytes": 607,
+    "captureMs": 2336.49,
+    "loadMs": 1564.43,
+    "restoreMs": 2892.45,
+    "restoreIncludesSafetyCapture": true,
+    "capturePreservedState": true,
+    "restored": true,
+    "safetySaved": true,
+    "ignoredPreserved": true,
+    "unrelatedPreserved": true,
+    "indexBytesPreserved": true,
+    "headBranchPreserved": true,
+    "rawBytesLoaded": true
+  },
+  "error": "shadow checkpoint fixture failed",
+  "passed": false,
+  "result": "PARTIAL_OR_FAILED"
+}

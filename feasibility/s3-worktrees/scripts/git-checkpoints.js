@@ -4,7 +4,7 @@ const {attributionEnvironment}=require('./attribution-git');
 const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex'),oid=value=>typeof value==='string'&&/^[a-f0-9]{40}$/.test(value);
 function name(value){if(typeof value!=='string'||!value||!/^[a-zA-Z0-9_./-]+$/.test(value)||value.split('/').some(part=>!part||['.','..','.git'].includes(part.toLowerCase())))throw new Error('checkpoint path unsupported');return value;}
 function selection(session,sequence){if(typeof session!=='string'||!/^[a-z][a-z0-9-]{0,79}$/.test(session)||!Number.isSafeInteger(sequence)||sequence<1)throw new Error('checkpoint selection invalid');return 'refs/tiye/'+session+'/'+sequence;}
-function createGitCheckpoints({member,validate,storeDirectory}){
+function createGitCheckpoints({member,validate,storeDirectory,repositoryDirectory}){
   validate();const root=fs.realpathSync(member),store=fs.realpathSync(storeDirectory),loaded=new WeakMap(),plans=new WeakMap(),approvals=new WeakMap();let gitDirectory;
   if(fs.lstatSync(storeDirectory).isSymbolicLink()||store===root||store.startsWith(root+path.sep))throw new Error('checkpoint scratch boundary invalid');
   const identity={memberId:'checkpoint-engine',memberName:'Fixture Checkpoint Engine',sessionId:'checkpoint-fixture'};
@@ -12,7 +12,8 @@ function createGitCheckpoints({member,validate,storeDirectory}){
     if(gitDirectory&&['index.lock','MERGE_HEAD','CHERRY_PICK_HEAD','REVERT_HEAD','rebase-merge','rebase-apply'].some(name=>fs.existsSync(path.join(gitDirectory,name))))throw new Error('checkpoint active Git operation');}
   function native(args,{input,indexFile,binary=false}={}){
     check();const env=attributionEnvironment(identity);env.GIT_CONFIG_NOSYSTEM='1';env.GIT_CONFIG_GLOBAL=process.platform==='win32'?'NUL':'/dev/null';if(indexFile)env.GIT_INDEX_FILE=indexFile;
-    const result=spawnSync('git',['--no-replace-objects','-c','commit.gpgsign=false',...args],{cwd:root,env,input,windowsHide:true,encoding:binary?undefined:'utf8',timeout:20000,maxBuffer:9000000});
+    const routing=repositoryDirectory?['--git-dir='+repositoryDirectory,'--work-tree='+root]:[];
+    const result=spawnSync('git',['--no-replace-objects',...routing,'-c','commit.gpgsign=false',...args],{cwd:root,env,input,windowsHide:true,encoding:binary?undefined:'utf8',timeout:20000,maxBuffer:9000000});
     if(result.error||result.status!==0)throw new Error('checkpoint Git operation failed');return binary?result.stdout:result.stdout.trim();
   }
   function temporary(run,copy){const file=path.join(store,'index-'+crypto.randomUUID());if(fs.existsSync(file)||fs.existsSync(file+'.lock'))throw new Error('checkpoint scratch collision');try{if(copy)fs.writeFileSync(file,copy,{flag:'wx'});return run(file);}finally{

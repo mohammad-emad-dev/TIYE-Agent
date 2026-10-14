@@ -839,6 +839,17 @@ rechecks are not atomic. See the
 
 The app uses a **shadow repository**: a separate Git directory in the app data folder whose work tree is the project folder. It gives the same snapshots without changing the project. It also offers to initialize real Git, which is recommended, because isolation by worktrees needs it. Without Git, the session runs in shared-folder mode.
 
+**Bounded feasibility baseline.** An owned external Git directory now supports
+raw checkpoints and fixture-approved single-file recovery for a disposable
+non-Git folder. Initialization leaves its project files unchanged and creates
+no `.git` file or directory there. Explicit Git directory/work-tree routing
+keeps metadata, the empty baseline and real index outside the project. The
+probe verifies `.gitignore` exclusions, ignored dependency bytes, unrelated
+edits, safety checkpoints and HEAD/index preservation. Reopening uses a private
+parent handle; app-data lifecycle integration and restart reconstruction are
+still unbuilt. Tiny single-run timing observations are recorded in the
+[S3 shadow checkpoint results](../feasibility/s3-worktrees/RESULTS.md#s35-shadow-checkpoints-and-timing--14-october-2026).
+
 ### 6.10 Shared-folder mode (optional)
 
 A setting lets all members work in the same folder.

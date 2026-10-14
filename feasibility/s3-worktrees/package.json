@@ -12,7 +12,8 @@
     "probe:trailer-policy": "node scripts/run-trailer-policy.js",
     "probe:push-policy": "node scripts/run-push-policy.js",
     "probe:ownership": "node scripts/run-ownership.js",
-    "probe:checkpoints": "node scripts/run-checkpoints.js"
+    "probe:checkpoints": "node scripts/run-checkpoints.js",
+    "probe:shadow-checkpoints": "node scripts/run-shadow-checkpoints.js"
   },
   "engines": { "node": ">=18" }
 }

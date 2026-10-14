@@ -1,3 +1,56 @@
+# S3.5 shadow checkpoints and timing — 14 October 2026
+
+**SHADOW_CHECKPOINTS_PASS_S3_PARTIAL.** Git 2.55.0.windows.5 and Node 26.7.0
+verified the shared checkpoint API in one disposable Git worktree and one
+non-Git folder with a separate owned repository. No `.git` file or directory
+was created in the non-Git project, and initialization preserved its file bytes.
+
+| Fixture | Files / raw payload | Capture | Load | Reviewed restore |
+|---|---|---|---|---|
+| Git worktree | 10 / 607 bytes | 2462.26 ms | 1537.01 ms | 2837.87 ms |
+| Non-Git shadow | 4 / 40 bytes | 2830.20 ms | 1606.05 ms | 3954.53 ms |
+
+Each value is one `performance.now` wall-clock observation in the final run.
+Restore includes safety checkpoint capture and outcome verification; plan
+preparation and fixture approval are outside the timer. The fixtures differ
+in size and validation paths. These values do not establish speed comparisons,
+latency guarantees or representative application-scale performance.
+
+Both cases preserved real index bytes, HEAD/branch, an ignored dependency
+canary and unrelated dirty content while restoring one selected file. Raw
+binary bytes containing NUL, CRLF and 0xff loaded with matching SHA-256 hashes.
+The non-Git shadow stored an empty synthetic baseline, index, objects and refs
+outside the project, honored its `.gitignore`, and reopened through the current
+parent's privately owned handle. Existing Git projects, occupied state,
+overlapping roots, junctions, forged/foreign handles, changed project Git
+metadata and wrong expected checkpoint IDs were refused in real Git tests.
+
+The [sealed final observation](evidence/supplements/shadow-checkpoints/47e0ca9032dde546f288af89f0c5afddb0c86e62d7fc4475afb191fc8f627d56/shadow-checkpoints.json)
+and [qualification](evidence/shadow-checkpoints-qualification.json) bind current
+measured source and versions. All prior tracked evidence bytes remain unchanged;
+the earlier checkpoint source is preserved in commit `0ae36a7`. The optional
+external routing extension reuses the checkpoint implementation and its guards.
+
+The [initial failed observation](evidence/supplements/shadow-checkpoints/1b9d7e49bcc5d3e855f337bf847152b83c5e2832d4a31494bf687555e0a53cb9/shadow-checkpoints.json)
+is retained. Git rejected `--work-tree` during bare initialization; initialization
+now omits that argument, and subsequent operations use explicit directory and
+work-tree routing. Exact failed fixture ownership/content was checked before
+cleanup. The final owned worktree and disposable root were removed, with source
+state preserved and the worktree registry reduced to its original root.
+
+**19 S3 tests and 113 S2 tests passed.** Muse xhigh and Agy Gemini 3.8 Flash high
+completed supplied-facts reviews. MiMo Atria timed out; Claude Atria xhigh hit
+quota 429. Structured event logs for the three primary routes contained no tool
+events. Agy's plain-text logs had no observed tool markers; a structured tool
+audit was unavailable. Claude/Agy change tripwires reflected reviewed concurrent
+parent edits.
+
+Approval remains simulated. Shadow reopening does not reconstruct a session
+or ownership registry after a new process. App-data lifecycle integration,
+atomic recovery, event-store/ref transactions and power-loss qualification
+remain open. The prior ordinary-file/path/size/mode limits still apply.
+**Full S3 and production eligibility remain unqualified.**
+
 # S3.5 durable checkpoint storage and fresh-process recovery — 14 October 2026
 
 **CHECKPOINTS_PASS_S3_PARTIAL.** One disposable Windows worktree verified raw

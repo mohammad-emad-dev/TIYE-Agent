@@ -1,0 +1,13 @@
+{
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0"
+  },
+  "records": [
+    {
+      "name": "shadow-checkpoints.json",
+      "sha256": "47e0ca9032dde546f288af89f0c5afddb0c86e62d7fc4475afb191fc8f627d56"
+    }
+  ]
+}

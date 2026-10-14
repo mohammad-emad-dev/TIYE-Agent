@@ -1,5 +1,32 @@
 # S3 worktree feasibility prototype
 
+`npm run probe:shadow-checkpoints` records capture, load and reviewed restore
+timings in a disposable Git worktree and a separate non-Git project. Restore
+timing includes a mandatory safety capture and outcome verification. These
+tiny, differently sized fixtures provide observations, not a comparative
+benchmark or latency guarantee.
+
+`scripts/shadow-repository.js` owns a new empty state directory outside the
+non-Git project. Creation rejects existing Git projects (including inherited
+parent repositories), nonempty state, overlapping roots and links. Git metadata,
+an empty baseline commit and the real index live in the external repository.
+The project gains no `.git` file or directory. Initialization omits `--work-tree`
+for `init --bare`; later commands use both explicit routing arguments. Inherited
+Git routing variables and global/system config are excluded. Project
+`.gitignore` rules exclude the dependency canary from checkpoint selection.
+
+`createGitCheckpoints` accepts optional `repositoryDirectory` routing for this
+owned shadow context, retaining the existing checkpoint/approval guards. Its
+trusted `validate` callback remains responsible for verifying the selected
+repository and project. `createShadowRepositories().open(handle)` performs
+that validation and returns the shared checkpoint API. A copied or foreign
+handle throws; changed project Git metadata or routing refuses further work.
+Reopen is limited to the current parent's private handle registry. State is not
+adopted after a restart, and no production app-data or session integration exists.
+See `evidence/shadow-checkpoints-qualification.json` for source/version bindings.
+Earlier checkpoint source is recoverable at Git commit `0ae36a7`; its evidence
+bytes remain unchanged after this optional routing extension.
+
 `npm run probe:checkpoints` verifies bounded Git-backed checkpoints and a fresh
 Node process reopening their storage. `git-checkpoints.js` snapshots tracked and
 non-ignored untracked ordinary files as raw blobs, using an isolated index.
