@@ -681,6 +681,10 @@ classifications still unreviewed. The [first S4 research results](../feasibility
 record official documentation, installed CLI version/help observations and two
 blocked credential-reuse routes. Policy applicability and native authentication
 qualification remain open; no candidate is integration eligible.
+The [account/product conditions supplement](../feasibility/s4-provider-access/conditions/README.md)
+records route-specific public terms and a prerequisite-based native test plan.
+Published conditions do not establish an accepted account agreement or native
+capability; a local boundary fixture is the next implementation step.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

@@ -1,0 +1,62 @@
+{
+  "schema": "tiye-s4-conditions-seal-v1",
+  "recordedAt": "2026-10-14T17:01:25.501Z",
+  "previousCohortCommit": "60025733c607f5d421eedd2ef50cf9865d9c3b82",
+  "previousArtifactsUnchanged": true,
+  "sha256": {
+    "README.md": "0e2f65562824c1f97a8db72884739bbc66bcd163f75f4fb1d577eef6f0aa3376",
+    "check.js": "10fd23e80f26c2c04530436b4a6385d6504afc8f24e3ebe4595e5eee39789924",
+    "package.json": "3fa44710c36fad6ccb0d67f3bee4c6d66c25bc317d1d8f61f612372b4da2e94b",
+    "review.json": "5394557eca15b778f2827dffec65a4ed453a2a1209ddfca1bb3ac729b4746ca1",
+    "test/conditions.test.js": "aff915076b552b3ec082c79bde66bc8d80d1cb24374e7088f68eb04b93061b17"
+  },
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "finalCaptured": false,
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": null,
+      "concurrentParentChangesReviewed": true,
+      "toolEvents": 0,
+      "structuredToolAuditAvailable": true
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "finalCaptured": true,
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": null,
+      "concurrentParentChangesReviewed": true,
+      "toolEvents": 0,
+      "structuredToolAuditAvailable": true
+    },
+    {
+      "lane": "claude",
+      "status": "failed",
+      "finalCaptured": true,
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": true,
+      "concurrentParentChangesReviewed": true,
+      "toolEvents": 0,
+      "structuredToolAuditAvailable": true,
+      "errorCategory": "token-quota-429"
+    },
+    {
+      "lane": "agy-fallback",
+      "status": "completed",
+      "finalCaptured": true,
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": false,
+      "concurrentParentChangesReviewed": true,
+      "model": "gemini-3.8-flash-high",
+      "effort": "high",
+      "structuredToolAuditAvailable": false,
+      "observedToolMarkers": 0
+    }
+  ],
+  "fullS4Qualified": false,
+  "productionEligible": false,
+  "liveAuthenticationTested": false,
+  "verificationScope": "Offline structure and integrity; no account entitlement or native qualification"
+}

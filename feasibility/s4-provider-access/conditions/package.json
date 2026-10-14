@@ -1,0 +1,5 @@
+{
+  "name": "tiye-s4-account-conditions",
+  "private": true,
+  "scripts": { "check": "node check.js && node --test test/*.test.js" }
+}
