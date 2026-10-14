@@ -1,0 +1,5 @@
+{
+  "name": "tiye-s4-antigravity-consumer-route",
+  "private": true,
+  "scripts": { "check": "node check.js" }
+}

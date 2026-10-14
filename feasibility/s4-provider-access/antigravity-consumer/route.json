@@ -1,0 +1,33 @@
+{
+  "schema": "tiye-s4-antigravity-consumer-v1",
+  "reviewedOn": "2026-10-14",
+  "routeId": "google-antigravity-consumer-cli-wrapper",
+  "vendor": "Google",
+  "cli": "agy",
+  "cliVersionObserved": "1.3.5",
+  "modelIdObserved": "gemini-3.8-flash-high",
+  "modelLabelObserved": "Gemini 3.8 Flash (High)",
+  "modelResolutionMethod": "agy models; matching public slug also documented in official headless page",
+  "modelListExitCode": 0,
+  "operatorDeclarationReceived": true,
+  "accountScope": "consumer-account-login; operator-declared, not inspected",
+  "personalAccountMetadataRetained": false,
+  "classification": "D",
+  "integrationEligible": false,
+  "delegationEligible": false,
+  "nativeModelRequestRun": false,
+  "fullS4Qualified": false,
+  "productionEligible": false,
+  "decision": "Third-party consumer CLI wrapping explicitly unsupported; no TIYE or delegate model request for this route",
+  "sources": [
+    { "id": "agy-faq", "url": "https://antigravity.google/docs/faq", "observation": "FAQ distinguishes direct scripting/CI from consumer-plan third-party agent/application wrapping, which is unsupported." },
+    { "id": "agy-terms", "url": "https://antigravity.google/terms", "observation": "Additional terms section 6 restricts third-party access to the service; service and software access must not be conflated." },
+    { "id": "agy-headless", "url": "https://antigravity.google/docs/cli/headless/", "observation": "Documents headless operation, cached CLI authentication and the selected model slug; capability does not override product conditions." },
+    { "id": "agy-install", "url": "https://antigravity.google/docs/cli/install/", "observation": "Documents native Windows and account sign-in; API-key mode is a separate route." },
+    { "id": "agy-plans", "url": "https://antigravity.google/docs/plans", "observation": "Individual and Enterprise terms differ; plan quotas and model access are not third-party-wrapper permission." }
+  ],
+  "alternatives": [
+    "Direct personal use of the official CLI remains separate from TIYE integration",
+    "Assess a separately authorized API or Enterprise route under its applicable agreement; no automatic substitution"
+  ]
+}

@@ -694,6 +694,10 @@ now accepts bounded non-secret metadata through stdin and emits pending/refusal
 categories without retaining submitted account/model values. It performs no
 provider dispatch; the first native route still needs an operator declaration
 and policy applicability review.
+The operator then identified an Antigravity consumer-login route. Its public
+model slug is resolved, but [the route decision](../feasibility/s4-provider-access/antigravity-consumer/README.md)
+blocks consumer third-party CLI wrapping and delegation under the provider's
+explicit FAQ/terms. Historical Agy review success does not qualify this route.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

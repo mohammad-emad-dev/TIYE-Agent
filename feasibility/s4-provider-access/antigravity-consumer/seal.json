@@ -1,0 +1,18 @@
+{
+  "schema": "tiye-s4-antigravity-decision-seal-v1",
+  "recordedAt": "2026-10-14T17:24:03.590Z",
+  "previousCohortCommit": "7be23f6189ec3bc686e09764433f6c1ed42473b8",
+  "previousArtifactsUnchanged": true,
+  "sha256": {
+    "README.md": "aafca9978a9bdcc325a07d73d7af6fc1ce016107830c5399729d5d29150ad400",
+    "route.json": "ca417022de82a8e5877a429c5777d335b886aea1968024ecb4bc1e44c048e1fe",
+    "check.js": "5d9c5e3546a12d50e23d59232bb3fd78051896d143a02e387144411e2608684b",
+    "package.json": "43d7850fcaf34997b95b429ea0496a3acbc14a13c551014dfb58dc602ab01500"
+  },
+  "classification": "D",
+  "nativeModelRequestRun": false,
+  "delegatesDispatched": false,
+  "reason": "Consumer third-party wrapper restriction found in official provider FAQ and terms",
+  "fullS4Qualified": false,
+  "productionEligible": false
+}
