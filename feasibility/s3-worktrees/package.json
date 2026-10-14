@@ -15,7 +15,8 @@
     "probe:checkpoints": "node scripts/run-checkpoints.js",
     "probe:shadow-checkpoints": "node scripts/run-shadow-checkpoints.js",
     "probe:final-merge": "node scripts/run-final-merge.js",
-    "probe:windows": "node scripts/run-windows.js"
+    "probe:windows": "node scripts/run-windows.js",
+    "probe:windows-create": "node scripts/run-windows-create.js"
   },
   "engines": { "node": ">=18" }
 }

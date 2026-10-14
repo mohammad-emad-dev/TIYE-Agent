@@ -1,5 +1,31 @@
 # S3 worktree feasibility prototype
 
+`npm run probe:windows-create` verifies the explicit Windows creation entry
+point in `scripts/windows-worktree-create.js`. `createWindowsWorktree` takes a
+trusted lifecycle and canonical main repository, plus name/branch/ref. It
+resolves the ref once to a SHA-1 commit, reads that commit's recursive native
+tree records with NUL delimiters, checks ordinary blob modes, and applies
+`assertWindowsTreePaths` before calling `lifecycle.create` with the commit ID.
+The result reports `directory`, `selectedCommit` and `checkedPaths`. The created
+worktree has its own branch. Linked-worktree source roots and replace refs are
+unsupported; inherited Git routing and global/system config are excluded from
+the wrapper's inspection commands.
+
+Five synthetic native Git commits exercise file/directory case aliases,
+reserved device names, non-ASCII names and symlink modes. Each must fail for
+the expected reason without a target directory, new branch or worktree
+registration, preserving source file/index/HEAD/status state. A safe baseline
+ref creates one clean worktree at its inspected commit and removes without
+force. See `evidence/windows-create-qualification.json` for source bindings.
+
+Creation preflight applies when callers use this explicit Windows wrapper;
+the original lifecycle methods remain unchanged. Limits are 1,000 tree paths
+and 2 MiB of native inspection output; only modes 100644/100755 are supported.
+ASCII path policy still rejects spaces/non-ASCII, and only SHA-1 repositories
+are supported. Pinned commits avoid mutable-ref checkout selection, while
+repository metadata and filesystem checks still require controlled writers.
+Atomic checkout, full S3 and application lifecycle integration remain open.
+
 `npm run probe:windows` runs bounded Windows path, case, line-ending and real
 exclusive-file-lock observations. It sets `core.longpaths=true` only in a
 disposable repository, creates a 303-character ASCII path, and verifies native
@@ -12,8 +38,8 @@ tree is built via plumbing and inspected without checkout.
 for bounded ASCII tree paths. It rejects file/directory case aliases, duplicate
 and file/directory collisions, reserved Windows device names, trailing dots,
 traversal, Git metadata segments, empty segments and unsupported characters.
-It does not impose a 260-character cutoff. Callers must run it before checkout;
-the existing worktree creation method is not yet wired to this preflight.
+It does not impose a 260-character cutoff. The explicit Windows creation
+wrapper now runs it before checkout; the base lifecycle method remains unchanged.
 
 `removeWindowsWorktree({lifecycle,member})` revalidates ownership and scans
 ordinary files before calling the existing non-force removal method. It opens

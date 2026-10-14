@@ -691,8 +691,11 @@ staged blob, while the raw checkpoint restored exact CRLF and preserved the
 real index. An explicit Windows removal wrapper refused an exclusive
 `FileShare.None` handle before native removal, preserved worktree state and
 removed it after the owned child released the file. The original lifecycle
-method is unchanged; callers must use the wrapper, and case preflight is not
-yet wired into lifecycle creation. Other volumes/sharing modes, antivirus
+method is unchanged; callers must use the removal wrapper. A subsequent Windows
+creation wrapper now resolves the selected ref to a commit, inspects its tree
+and runs path/case preflight before calling lifecycle creation. It rejects
+unsafe trees before directory, branch or registration writes; the original
+creation method remains available and unchanged. Other volumes/sharing modes, antivirus
 contribution and atomic removal remain unqualified. See the
 [Windows observations](../feasibility/s3-worktrees/RESULTS.md#s37-windows-edge-cases--14-october-2026).
 

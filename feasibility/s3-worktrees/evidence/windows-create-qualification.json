@@ -1,0 +1,127 @@
+{
+  "recordedAt": "2026-10-14T16:18:57.766Z",
+  "scope": "Explicit Windows worktree creation wrapper: native commit/tree path preflight before branch/directory/checkout writes",
+  "result": "WINDOWS_CREATE_PASS_S3_PARTIAL",
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0",
+    "windowsRelease": "10.0.26300"
+  },
+  "mechanism": "Resolve exact SHA-1 commit, inspect recursive NUL-delimited native tree records, reuse ASCII Windows path preflight, then create owned branch from that commit ID",
+  "entryPoint": "createWindowsWorktree explicit wrapper only",
+  "originalLifecycleCreateChanged": false,
+  "globalLifecycleCreateEnforcementQualified": false,
+  "refInspectedByCommitId": true,
+  "checkoutSelectedByCommitId": true,
+  "ordinaryBlobModesOnly": true,
+  "replaceRefsRefused": true,
+  "treePathLimit": 1000,
+  "nativeTreeOutputMaxBytes": 2097152,
+  "refusalCases": [
+    {
+      "case": "file-case",
+      "refused": true,
+      "reason": "Windows case collision",
+      "noTarget": true,
+      "noBranch": true,
+      "registryPreserved": true,
+      "sourcePreserved": true
+    },
+    {
+      "case": "directory-case",
+      "refused": true,
+      "reason": "Windows case collision",
+      "noTarget": true,
+      "noBranch": true,
+      "registryPreserved": true,
+      "sourcePreserved": true
+    },
+    {
+      "case": "device-name",
+      "refused": true,
+      "reason": "Windows path unsupported",
+      "noTarget": true,
+      "noBranch": true,
+      "registryPreserved": true,
+      "sourcePreserved": true
+    },
+    {
+      "case": "non-ascii",
+      "refused": true,
+      "reason": "Windows path unsupported",
+      "noTarget": true,
+      "noBranch": true,
+      "registryPreserved": true,
+      "sourcePreserved": true
+    },
+    {
+      "case": "symlink",
+      "refused": true,
+      "reason": "Windows create tree mode unsupported",
+      "noTarget": true,
+      "noBranch": true,
+      "registryPreserved": true,
+      "sourcePreserved": true
+    }
+  ],
+  "refusalsPreserveSourceState": true,
+  "refusalsCreateNoDirectoryOrBranchOrRegistration": true,
+  "validCreated": true,
+  "selectedCommitMatched": true,
+  "safeFilesMatched": true,
+  "checkedPaths": 9,
+  "atomicCheckoutQualified": false,
+  "otherPlatformsQualified": false,
+  "productionUiQualified": false,
+  "globalRestartQualified": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "worktreesCreated": 1,
+  "worktreesRemoved": 1,
+  "originalRootUnchanged": true,
+  "registryRootOnly": true,
+  "tempRemoved": true,
+  "s3OfflineChecksPassed": 24,
+  "s2OfflineChecksPassed": 113,
+  "previousEvidenceUnchanged": true,
+  "measuredSourcesUnchanged": true,
+  "supplementalReference": "supplements/windows-create/e5c58a20c8b5c5f32aafda9f73e7c0c351e02c3cd3afe51ef3fb92ee9f84650b/windows-create.json",
+  "supplementalSha256": "e5c58a20c8b5c5f32aafda9f73e7c0c351e02c3cd3afe51ef3fb92ee9f84650b",
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "toolEvents": 0,
+      "finalCaptured": true
+    },
+    {
+      "lane": "claude",
+      "status": "failed",
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "readOnlyViolation": true,
+      "concurrentParentEditsReviewed": true,
+      "errorCategory": "token-quota",
+      "httpStatus": 429
+    },
+    {
+      "lane": "agy-fallback",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "effort": "high",
+      "version": "1.3.5",
+      "finalCaptured": true,
+      "readOnlyViolation": false,
+      "concurrentParentEditsReviewed": true,
+      "structuredToolAuditAvailable": false,
+      "observedToolMarkers": 0
+    }
+  ]
+}

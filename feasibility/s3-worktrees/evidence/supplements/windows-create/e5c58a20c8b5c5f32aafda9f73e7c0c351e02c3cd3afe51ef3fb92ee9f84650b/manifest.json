@@ -1,0 +1,14 @@
+{
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0",
+    "windowsRelease": "10.0.26300"
+  },
+  "records": [
+    {
+      "name": "windows-create.json",
+      "sha256": "e5c58a20c8b5c5f32aafda9f73e7c0c351e02c3cd3afe51ef3fb92ee9f84650b"
+    }
+  ]
+}

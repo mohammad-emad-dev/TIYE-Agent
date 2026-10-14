@@ -1,3 +1,55 @@
+# S3.7 Windows creation preflight — 14 October 2026
+
+**WINDOWS_CREATE_PASS_S3_PARTIAL.** The explicit Windows creation wrapper now
+applies path/case preflight before calling the existing lifecycle. Windows
+release 10.0.26300, Git 2.55.0.windows.5 and Node 26.7.0 verified native tree
+inspection and real worktree creation in one disposable repository.
+
+| Native candidate | Result before checkout |
+|---|---|
+| Foo.txt and foo.txt | Refused: Windows case collision |
+| Folder/a.txt and folder/b.txt | Refused: Windows case collision |
+| CON.txt | Refused: Windows path unsupported |
+| Non-ASCII name | Refused: Windows path unsupported |
+| Symlink tree entry | Refused: Windows create tree mode unsupported |
+| Safe baseline ref | Nine paths inspected; one clean owned worktree created at the exact selected commit |
+
+Every unsafe candidate preserved source files, index, HEAD and status, created
+no target directory or branch, and left the native worktree registry intact.
+The fixture requires the expected refusal category, so an unrelated Git failure
+cannot count as a pass. Synthetic unsafe commits were built with native Git
+plumbing; none was checked out. The safe worktree was removed without force;
+source state remained unchanged, the registry returned to its original root,
+and the exact disposable root was removed.
+
+The [sealed observation](evidence/supplements/windows-create/e5c58a20c8b5c5f32aafda9f73e7c0c351e02c3cd3afe51ef3fb92ee9f84650b/windows-create.json)
+and [qualification](evidence/windows-create-qualification.json) bind measured
+source and versions. All prior tracked evidence and previously measured source
+files remain unchanged. **24 S3 tests and 113 S2 tests passed.** The updated
+proof gate was also rerun against the final native observation.
+
+The wrapper validates its canonical main repository and lifecycle registry,
+resolves a ref to an exact SHA-1 commit, parses recursive NUL-delimited tree
+records and reuses the existing Windows path validator. Only ordinary blob
+modes 100644/100755 are accepted; inspection output is limited to 2 MiB and
+tree paths to 1,000. It passes the inspected commit ID to lifecycle creation,
+which makes a new owned branch. Inspection does not select checkout through a
+mutable branch name. Replace refs are conservatively unsupported.
+
+Muse xhigh and Agy Gemini 3.8 Flash high completed supplied-facts reviews;
+MiMo Atria timed out and Claude Atria xhigh hit quota 429. Primary structured
+logs contained no tool events. Agy's plain-text logs had no observed tool
+markers; structured auditing was unavailable. Claude's change tripwire
+reflected reviewed concurrent parent implementation changes.
+
+The original lifecycle methods remain unchanged. This guard applies through
+the **explicit Windows creation wrapper**, not to every direct lifecycle call.
+ASCII-only paths and SHA-1 repositories are the scope; controlled writers are
+required. The prior standalone path-preflight gap is closed for this entry
+point. Atomic checkout, broader Windows volumes and application lifecycle
+integration remain unqualified. **Full S3 and production eligibility remain
+unqualified.**
+
 # S3.7 Windows edge cases — 14 October 2026
 
 **WINDOWS_EDGE_PASS_S3_PARTIAL.** Windows release 10.0.26300, PowerShell
@@ -46,8 +98,9 @@ structured auditing was unavailable. Claude/Agy change tripwires reflected
 reviewed concurrent parent edits.
 
 The existing lifecycle methods are unchanged. Removal preflight applies only
-when callers use the explicit Windows wrapper; tree-case preflight is not yet
-integrated into worktree creation. ASCII-only paths, one sharing mode and the
+when callers use the explicit Windows wrapper. In this earlier cohort,
+tree-case preflight was standalone; the subsequent creation wrapper above now
+applies it before checkout. ASCII-only paths, one sharing mode and the
 tested volume are the scope. Other volumes, UNC/non-ASCII path support,
 antivirus impact, atomic removal and production lifecycle/restart integration
 remain open. **Full S3 and production eligibility remain unqualified.**

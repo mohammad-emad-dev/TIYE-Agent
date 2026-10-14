@@ -1,0 +1,78 @@
+{
+  "recordedAt": "2026-10-14T16:16:36.234Z",
+  "scope": "Explicit Windows worktree creation wrapper: native commit/tree path preflight before branch/directory/checkout writes",
+  "platform": "win32",
+  "windowsRelease": "10.0.26300",
+  "node": "v26.7.0",
+  "git": "git version 2.55.0.windows.5",
+  "sourceHashes": {
+    "scripts/run-windows-create.js": "50915a7aa68ee7c2e5778d307bb608ba6069003b59df7fde9baed09964f9b322",
+    "scripts/windows-worktree-create.js": "af037f36d2866fad124a499592fb23ffb338a1858d82819396decccc4e7696a3",
+    "scripts/windows-worktree-preflight.js": "338b0df3773255d19e8186b3b1004c9b9a7ce047e468fb43c033b8c9701f16f3",
+    "scripts/worktree-lifecycle.js": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+    "scripts/run-basics.js": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+    "scripts/attribution-git.js": "f949b737c5f8b358ffc0f72f485cca067a28016d0fed9234f1e7be1ae90e3bf1"
+  },
+  "originalLifecycleCreateChanged": false,
+  "atomicCheckoutQualified": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "worktreesRemoved": 1,
+  "refusals": [
+    {
+      "case": "file-case",
+      "refused": true,
+      "reason": "Windows case collision",
+      "noTarget": true,
+      "noBranch": true,
+      "registryPreserved": true,
+      "sourcePreserved": true
+    },
+    {
+      "case": "directory-case",
+      "refused": true,
+      "reason": "Windows case collision",
+      "noTarget": true,
+      "noBranch": true,
+      "registryPreserved": true,
+      "sourcePreserved": true
+    },
+    {
+      "case": "device-name",
+      "refused": true,
+      "reason": "Windows path unsupported",
+      "noTarget": true,
+      "noBranch": true,
+      "registryPreserved": true,
+      "sourcePreserved": true
+    },
+    {
+      "case": "non-ascii",
+      "refused": true,
+      "reason": "Windows path unsupported",
+      "noTarget": true,
+      "noBranch": true,
+      "registryPreserved": true,
+      "sourcePreserved": true
+    },
+    {
+      "case": "symlink",
+      "refused": true,
+      "reason": "Windows create tree mode unsupported",
+      "noTarget": true,
+      "noBranch": true,
+      "registryPreserved": true,
+      "sourcePreserved": true
+    }
+  ],
+  "worktreesCreated": 1,
+  "checkedPaths": 9,
+  "validCreated": true,
+  "selectedCommitMatched": true,
+  "safeFilesMatched": true,
+  "registryRootOnly": true,
+  "originalRootUnchanged": true,
+  "tempRemoved": true,
+  "passed": true,
+  "result": "WINDOWS_CREATE_PASS_S3_PARTIAL"
+}
