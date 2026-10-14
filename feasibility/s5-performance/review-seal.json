@@ -1,0 +1,60 @@
+{
+  "schema": "tiye-s5-ingress-review-v1",
+  "recordedAt": "2026-10-14T17:34:14.930Z",
+  "previousCohortCommit": "70a463b13ada9408fcf1830eee4c7162ebc19c37",
+  "previousArtifactsUnchanged": true,
+  "sha256": {
+    "README.md": "276813f8716ee7a6d932d9b7f4738b0428ec15f0bd325f0d331cadd319a20627",
+    "package.json": "66c393044d2080bee2e08b89d6c1a47d079bb9469158cabe840e7d9c4830e652",
+    "scripts/workload.js": "06dcdc27dbc3c267c71f307b6b3ecdf5b0f475eff08d06257f0656c3372674b7",
+    "scripts/producer.js": "2bbb91dd83888ab77068bd92db91412b03929eb0c9273349b49ce04bba4d7a89",
+    "scripts/capture.js": "b73bd4b80ef9a349d63cfd97a19b49a8c690d2f04a600872ce83b800b2e2f4ba",
+    "scripts/run-ingress.js": "f7d85d7fdbdcf08a1d19bb9dbd67706982c12a31693ebdb191e686dba6dc2a9a",
+    "scripts/check-evidence.js": "17d8f479fbdb23aef2ab0152c88a0a0ef5bb483465ff6734168f35dc747e7116",
+    "test/ingress.test.js": "4e1d94ffe59eeac4ed5b7b834358d6127b0b8135d480a89f09f4da944aaddbd7",
+    "evidence.json": "eb134c087ed081105f754fa5f571683ba4fe2d8a5d1bf2805b7ce6e6fdf0cfc4",
+    "evidence-initial.json": "93c1324ede6602ef19e973007dac9ce3338cffcbdbc9041da951360a55042166",
+    "snapshots/capture-initial.js": "d5f4ffcd7425e766c639972ef23bd39b4ce74c5a100e9a4fae6f7e0d71b74a6a"
+  },
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false,
+      "finalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": null,
+      "concurrentParentChangesReviewed": true
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "finalSha256": "f8fdd340c9f271c750d4c62f78fe3b75aad211ab64476f31cc169e96043e7d08",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": null,
+      "concurrentParentChangesReviewed": true
+    },
+    {
+      "lane": "claude",
+      "status": "failed",
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "finalSha256": "e3adfb72253019be16c640248456149575b9e89f4d8817a9ddf04e4784828a62",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": true,
+      "concurrentParentChangesReviewed": true,
+      "errorCategory": "token-quota-429"
+    }
+  ],
+  "agyFallbackDispatched": false,
+  "agyFallbackReason": "consumer-third-party-wrapper-policy-blocked",
+  "testsPassed": 5,
+  "scope": "Five local Node producer ingress and file byte integrity only",
+  "fullS5Qualified": false,
+  "ptyMeasured": false,
+  "uiMeasured": false,
+  "productionEligible": false
+}

@@ -1,0 +1,6 @@
+{
+  "name": "tiye-s5-ingress-baseline",
+  "private": true,
+  "type": "commonjs",
+  "scripts": { "check": "node scripts/check-evidence.js && node --test test/*.test.js", "probe": "node scripts/run-ingress.js" }
+}

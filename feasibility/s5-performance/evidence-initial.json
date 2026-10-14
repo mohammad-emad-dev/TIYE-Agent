@@ -1,0 +1,111 @@
+{
+  "schema": "tiye-s5-ingress-v1",
+  "recordedAt": "2026-10-14T17:30:28.160Z",
+  "platform": "win32",
+  "node": "v26.7.0",
+  "countPerMember": 1000,
+  "normal": {
+    "members": [
+      {
+        "member": 0,
+        "bytes": 303890,
+        "sha256": "b6d1bcffe4e69284d127cf4786770421eda86d6ad6dc68e3c575a3b716df4051",
+        "exitCode": 0,
+        "stderrBytes": 0,
+        "pauseCount": 59
+      },
+      {
+        "member": 1,
+        "bytes": 303890,
+        "sha256": "6f67a03c5bd464f2b3264b6adefccaf8c7b28a42747aa98bdf55c2332df33a20",
+        "exitCode": 0,
+        "stderrBytes": 0,
+        "pauseCount": 36
+      },
+      {
+        "member": 2,
+        "bytes": 303890,
+        "sha256": "73613607a1683d0bf5fedcb0e4f7e662fe91117f8dc9cec168eb774206c14248",
+        "exitCode": 0,
+        "stderrBytes": 0,
+        "pauseCount": 32
+      },
+      {
+        "member": 3,
+        "bytes": 303890,
+        "sha256": "b1e3ad3c8921a270c8b16cfb8730bde708ef896cee9856333d7737a07e467ee8",
+        "exitCode": 0,
+        "stderrBytes": 0,
+        "pauseCount": 9
+      },
+      {
+        "member": 4,
+        "bytes": 303890,
+        "sha256": "2bd0fb1ca75b3848d29dcef87085405b6c9fc630b65df1aaa840627c3f44cf9c",
+        "exitCode": 0,
+        "stderrBytes": 0,
+        "pauseCount": 21
+      }
+    ],
+    "elapsedMs": 113.9548,
+    "scope": "five Node stdout producers and file capture; PTY/display not measured"
+  },
+  "rich": {
+    "members": [
+      {
+        "member": 0,
+        "bytes": 312890,
+        "sha256": "312880d1d403c7f522b31f712c8560db1129a5a57866af6733a57ed8fc8beca1",
+        "exitCode": 0,
+        "stderrBytes": 0,
+        "pauseCount": 69
+      },
+      {
+        "member": 1,
+        "bytes": 312890,
+        "sha256": "f796d0cec278483940a3e2c89e3ac68ced19d05a98100bc29918134d44123365",
+        "exitCode": 0,
+        "stderrBytes": 0,
+        "pauseCount": 127
+      },
+      {
+        "member": 2,
+        "bytes": 312890,
+        "sha256": "4e2a19140c655c7d1e407b6efa07230ccb08080897fd74372c6f7f0f2006b40d",
+        "exitCode": 0,
+        "stderrBytes": 0,
+        "pauseCount": 14
+      },
+      {
+        "member": 3,
+        "bytes": 312890,
+        "sha256": "c0d58a5f19955d4c26f872edc485c2f077df65d97652467fd8c96d757687e1e9",
+        "exitCode": 0,
+        "stderrBytes": 0,
+        "pauseCount": 13
+      },
+      {
+        "member": 4,
+        "bytes": 312890,
+        "sha256": "e6053719711712c6046730b2305b6a2bbd02188f4bb74522c8ce3f6a5c306c91",
+        "exitCode": 0,
+        "stderrBytes": 0,
+        "pauseCount": 37
+      }
+    ],
+    "elapsedMs": 98.06620000000001,
+    "scope": "five Node stdout producers and file capture; PTY/display not measured"
+  },
+  "sourceHashes": {
+    "scripts/workload.js": "06dcdc27dbc3c267c71f307b6b3ecdf5b0f475eff08d06257f0656c3372674b7",
+    "scripts/producer.js": "2bbb91dd83888ab77068bd92db91412b03929eb0c9273349b49ce04bba4d7a89",
+    "scripts/capture.js": "d5f4ffcd7425e766c639972ef23bd39b4ce74c5a100e9a4fae6f7e0d71b74a6a",
+    "scripts/run-ingress.js": "f7d85d7fdbdcf08a1d19bb9dbd67706982c12a31693ebdb191e686dba6dc2a9a"
+  },
+  "providerRequests": 0,
+  "ptyMeasured": false,
+  "uiMeasured": false,
+  "inputLatencyMeasured": false,
+  "fullS5Qualified": false,
+  "productionEligible": false
+}

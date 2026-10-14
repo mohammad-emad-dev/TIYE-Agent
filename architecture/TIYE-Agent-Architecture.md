@@ -698,6 +698,10 @@ The operator then identified an Antigravity consumer-login route. Its public
 model slug is resolved, but [the route decision](../feasibility/s4-provider-access/antigravity-consumer/README.md)
 blocks consumer third-party CLI wrapping and delegation under the provider's
 explicit FAQ/terms. Historical Agy review success does not qualify this route.
+Independent [S5 ingress baseline work](../feasibility/s5-performance/README.md)
+now verifies five concurrent synthetic Node producers, backpressure and persisted
+byte integrity. PTY/display/UI, sustained flood and long-run performance are not
+measured; S5 remains partial.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
