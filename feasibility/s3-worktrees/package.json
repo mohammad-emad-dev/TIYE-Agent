@@ -6,7 +6,8 @@
   "scripts": {
     "check": "node --test test/*.test.js",
     "probe": "node scripts/run-basics.js",
-    "probe:dependencies": "node scripts/run-dependencies.js"
+    "probe:dependencies": "node scripts/run-dependencies.js",
+    "probe:attribution": "node scripts/run-attribution.js"
   },
   "engines": { "node": ">=18" }
 }

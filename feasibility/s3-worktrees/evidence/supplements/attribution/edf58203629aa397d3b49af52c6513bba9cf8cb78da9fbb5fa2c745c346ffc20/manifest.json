@@ -1,0 +1,14 @@
+{
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0"
+  },
+  "records": [
+    {
+      "name": "attribution.json",
+      "originalPath": "evidence/attribution-latest.json",
+      "sha256": "edf58203629aa397d3b49af52c6513bba9cf8cb78da9fbb5fa2c745c346ffc20"
+    }
+  ]
+}

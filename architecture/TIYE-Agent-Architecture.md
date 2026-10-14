@@ -432,7 +432,7 @@ A CLI member uses **two channels**:
 
 | Topic | Design |
 |---|---|
-| **Launch** | The adapter requests main to start the CLI and own its pseudo-terminal in the member's working folder. Environment variables set the Git author to the member's name, so commits made by the CLI are attributed correctly. |
+| **Launch** | The adapter requests main to start the CLI and own its pseudo-terminal in the member's working folder. Environment variables set the default Git author to the member's name; the engine audits observed commits against the expected identity and session. CLI overrides remain possible. |
 | **Environment** | Native Windows (PowerShell) or WSL, detected at link time. WSL members are launched through `wsl.exe`, with path translation. |
 | **Completion** | By the member's explicit `report_result` call. If a CLI goes idle without reporting, the engine nudges it once, then marks the task as needing attention and tells the Leader. |
 | **Permissions** | The adapter translates the user's per-member settings into the CLI's own launch options, using its capability data (Section 5.5). The app offers only what that CLI supports. A file watcher is the safety net. |
@@ -725,11 +725,21 @@ The final merge touches the user's folder only when the user's working tree is c
 
 | Item | Rule |
 |---|---|
-| **Author** | The member's name, with an identifying address such as `<member-id>@tiye.local`. This is set through environment variables, so commits made by a CLI are attributed correctly. |
+| **Author** | The member's name, with an identifying address such as `<member-id>@tiye.local`. Environment variables supply defaults; observed metadata must be audited because a CLI can override them. |
 | **Trailer** | Each commit carries the session identifier. |
 | **Commit timing** | CLI members may commit themselves. If a task ends with uncommitted work, the engine commits it with the member as author. |
 
 History then reads as "Claude planned, OpenCode wrote, GPT reviewed".
+
+**Native Git baseline, 14 October 2026.** A Node child and an engine fixture
+produced member-authored commits with distinct committer metadata and explicit
+session trailers. Non-fast-forward integration merges preserved their commit
+IDs, metadata and message hashes. The audit rejected missing/duplicate session
+trailers and an overridden author. Environment variables do not insert session
+trailers automatically and do not enforce identity. Native provider CLI launch
+propagation, automatic trailer insertion and durable session/task bindings
+remain unqualified; this is a feasibility baseline, not the core engine.
+See [the attribution results](../feasibility/s3-worktrees/RESULTS.md).
 
 ### 6.6 Git safety
 

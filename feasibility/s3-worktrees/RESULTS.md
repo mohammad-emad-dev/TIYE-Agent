@@ -1,4 +1,57 @@
-# S3.1 dependency comparison — 14 October 2026
+# S3.2 attribution baseline — 14 October 2026
+
+**ATTRIBUTION_BASELINE_PASS_S3_PARTIAL.** Native Git 2.55.0.windows.5 with
+Node 26.7.0 completed the metadata experiment in three disposable Windows
+worktrees. One Node child made a member commit; an engine fixture committed
+the other member's work. These are synthetic processes, not provider CLI tasks.
+
+| Check | Observed result |
+|---|---|
+| Member author, distinct committer | Both member commits matched their expected author and fixture engine committer |
+| Session association | Exactly one matching raw and Git-parsed Tiye-Session trailer on controlled member and merge commits |
+| Integration history | Two non-fast-forward merges retained exact member IDs, metadata and message hashes; parent order and merged file bytes matched |
+| Raw member commit | Identity environment did not insert a trailer; audit rejected the missing session |
+| Duplicate session trailers | Native parser returned both; audit rejected the commit |
+| Author override | Native --author changed the author despite launch defaults; audit rejected the mismatch |
+| Cleanup | Three clean worktrees removed without force, source state unchanged, registry root-only and exact temp roots removed |
+| Verification | Seven S3 checks and the existing 113 S2 checks pass |
+
+The launch helper clears inherited Git routing, identity and configuration
+environment values, then sets explicit author/committer defaults. Identity inputs
+reject control characters and unsafe member/session IDs. Metadata reads use
+NUL-separated fields and native trailer parsing, with a separate raw-line count
+to avoid accepting duplicate session lines after normalization.
+
+The final observation is [sealed by content hash](evidence/supplements/attribution/edf58203629aa397d3b49af52c6513bba9cf8cb78da9fbb5fa2c745c346ffc20/attribution.json).
+An earlier passing observation is retained separately: it preceded merge
+session trailers, raw trailer counts and message hashes. Only the corrected
+observation qualifies the current implementation. See
+[qualification](evidence/attribution-qualification.json) for source/version
+bindings and delegate outcomes. All previous tracked S1/S2/S3 evidence bytes
+remain unchanged.
+
+This supports inspectable Git metadata, **not trusted identity enforcement**.
+Git documents author/committer [environment defaults](https://git-scm.com/docs/git),
+the [author override and explicit trailer options](https://git-scm.com/docs/git-commit),
+and [native trailer parsing](https://git-scm.com/docs/git-interpret-trailers).
+CLI adapter environment propagation, trailer insertion for arbitrary CLI
+commits, and binding commits to durable session/task records remain unbuilt.
+The experiment installs no attribution hooks and changes no user Git settings.
+Full S3 and the application/core engine remain partial.
+
+Muse and the requested Agy Gemini 3.8 Flash high fallback completed their
+supplied-facts reviews. MiMo Atria timed out after four minutes; Claude Atria
+returned token quota exhaustion (HTTP 429). Recursive event audits found zero
+tool events on MiMo/OpenCode/Claude. Agy 1.3.5 returned a nonempty review and
+reported no working-tree violation; its plain log has no observed tool markers,
+but it provides no equivalent structured tool-event coverage. Claude's tripwire
+observed the parent's edits, which were reviewed before committing.
+Agy's suggestion to force-remove and prune worktrees was rejected: owned native
+removal without force already passed. Its environment-preservation advice is
+covered by retaining non-Git platform variables, and NUL metadata reads use
+native subprocess arguments rather than a shell.
+
+## Earlier S3.1 dependency comparison — 14 October 2026
 
 **COMPARISON_PASS_S3_PARTIAL.** Four disposable Windows worktrees compared
 independent `node_modules` with a shared npm cache, a separate-cache reference,
@@ -89,7 +142,7 @@ cleanup is performed.
 ## Remaining gates
 
 S3.1 step 3 now has a bounded dependency comparison; generic shared dependencies,
-real project setup and the Windows long-path/case/file-lock matrix remain open. S3.2 attribution,
+real project setup and the Windows long-path/case/file-lock matrix remain open. S3.2 provider CLI integration and durable attribution,
 S3.3 push approval and hook bypass, S3.4 watcher/revert, S3.5 checkpoints and
 S3.6 approved final merge have not been qualified here. Full S1/S2 also remain
 partial; this independent S3 fixture does not close them or permit release.

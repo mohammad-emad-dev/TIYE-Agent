@@ -39,6 +39,17 @@ test proves donor preservation and refusal of a foreign target.
 Timings and logical bytes are observations, not a speedup or disk-saving claim.
 See the content-addressed dependency evidence and qualification in `evidence/`.
 
+`npm run probe:attribution` runs a Node child and an engine fixture through
+native Git with explicit member author and fixture engine committer variables.
+Each controlled member/merge commit carries one `Tiye-Session` trailer. The
+audit reads actual commit metadata, message hashes and native parsed trailers;
+it rejects missing/duplicate session trailers and an overridden author. Two
+non-fast-forward merges must preserve member commit IDs and metadata.
+The launch helper removes inherited `GIT_*` values before setting attribution.
+Environment defaults are advisory: raw Git receives no automatic trailer, and
+`--author` can override the configured author. Native provider CLI launches,
+automatic trailer insertion and production commit orchestration remain open.
+
 The lifecycle registry is in memory. Restart recovery, interprocess locking and
 atomic protection against filesystem replacement remain unbuilt. Refusal is
 conservative; uncertain cleanup retains the fixture. This prototype does not
