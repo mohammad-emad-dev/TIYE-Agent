@@ -1,4 +1,46 @@
-# S3.1 baseline result — 14 October 2026
+# S3.1 dependency comparison — 14 October 2026
+
+**COMPARISON_PASS_S3_PARTIAL.** Four disposable Windows worktrees compared
+independent `node_modules` with a shared npm cache, a separate-cache reference,
+and a direct junction to the donor's modules. Git 2.55.0.windows.5, Node 26.7.0
+and npm 11.19.0 performed the offline local-package experiment.
+
+| Check | Observed result |
+|---|---|
+| Independent folders, shared cache | New package installed and executed; donor manifest, lock and installed hashes unchanged |
+| Direct modules junction | npm replaced it with a private install; new package executed and donor stayed unchanged |
+| Logical dependency bytes | 328 per baseline install; 538 in the borrower after its addition |
+| Install times | Cold shared cache 362 ms; warm shared cache 341 ms; separate cache 334 ms; private addition 340 ms; junction addition 344 ms |
+| Cleanup | Four worktrees removed, original source state unchanged, registry root-only, both owned temp roots gone |
+| Verification | Four S3 checks and all existing 113 S2 checks pass |
+
+The candidate policy is **independent dependency folders with one npm cache**.
+The direct junction did not remain shared during this install. These local file
+packages do not measure remote package caching, realistic application setup,
+allocated disk space or statistical speedup. No generic shared-dependency
+qualification or isolation guarantee is established.
+
+The latest observation is [sealed by content hash](evidence/supplements/dependencies/14f0e6283a881100d6fee707a020a19f15032e49e8117b42121e3c5dfc5603e7/dependencies.json),
+with [qualification](evidence/dependencies-qualification.json). Earlier passing
+observations remain archived. The latest run includes explicit borrower runtime
+verification and a stricter evidence gate; missing private-install, donor or
+cleanup proof cannot pass. Measured source hashes and all prior tracked
+S1/S2/S3 evidence bytes were verified.
+
+In the native experiment npm had already replaced the junction, so the owned
+unlink helper was not invoked there. A separate real-filesystem test verifies
+that helper against an owned donor and a foreign target, preserving both targets'
+bytes and refusing the foreign link before deletion. Cleanup revalidates owned
+worktrees and canonical boundaries; unknown links retain the fixture.
+
+Muse completed its supplied-facts review. MiMo Atria timed out after four minutes;
+Claude Atria returned token quota exhaustion (HTTP 429). The authorized Gemini
+fallback at high effort failed with `provider.quota` / HTTP 402. Recursive native
+event audits found zero tool events on all four routes. Claude's concurrent
+change tripwire observed parent edits, which the parent reviewed before commit.
+Full S3, the core application and production UI remain unfinished.
+
+## Earlier S3.1 baseline — 14 October 2026
 
 **BASELINE_PASS_S3_PARTIAL.** Native Git/npm and two simple Node writer processes
 completed the bounded baseline on Windows with Git 2.55.0.windows.5, Node
@@ -46,8 +88,8 @@ cleanup is performed.
 
 ## Remaining gates
 
-S3.1 step 3 (shared dependencies and install mutations), real project setup and
-the Windows long-path/case/file-lock matrix remain open. S3.2 attribution,
+S3.1 step 3 now has a bounded dependency comparison; generic shared dependencies,
+real project setup and the Windows long-path/case/file-lock matrix remain open. S3.2 attribution,
 S3.3 push approval and hook bypass, S3.4 watcher/revert, S3.5 checkpoints and
 S3.6 approved final merge have not been qualified here. Full S1/S2 also remain
 partial; this independent S3 fixture does not close them or permit release.

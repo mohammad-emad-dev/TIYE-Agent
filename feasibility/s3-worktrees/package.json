@@ -5,7 +5,8 @@
   "type": "commonjs",
   "scripts": {
     "check": "node --test test/*.test.js",
-    "probe": "node scripts/run-basics.js"
+    "probe": "node scripts/run-basics.js",
+    "probe:dependencies": "node scripts/run-dependencies.js"
   },
   "engines": { "node": ">=18" }
 }

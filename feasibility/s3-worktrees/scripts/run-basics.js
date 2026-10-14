@@ -161,4 +161,4 @@ async function main() {
   console.log(`[s3-basics] ${record.result}`); process.exitCode = record.passed ? 0 : 2;
 }
 if (require.main === module) main().catch(() => { console.error('[s3-basics] lifecycle failure'); process.exitCode=1; });
-module.exports = { basicsPassed };
+module.exports = { basicsPassed, node, treeFiles, rootState, initialize, cleanupArtifacts, removeTemp };

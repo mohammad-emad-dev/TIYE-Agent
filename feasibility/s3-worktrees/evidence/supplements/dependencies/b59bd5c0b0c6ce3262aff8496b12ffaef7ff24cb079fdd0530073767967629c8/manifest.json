@@ -1,0 +1,15 @@
+{
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0",
+    "npm": "11.19.0"
+  },
+  "records": [
+    {
+      "name": "dependencies.json",
+      "originalPath": "evidence/dependencies-latest.json",
+      "sha256": "b59bd5c0b0c6ce3262aff8496b12ffaef7ff24cb079fdd0530073767967629c8"
+    }
+  ]
+}

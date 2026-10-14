@@ -1,0 +1,95 @@
+{
+  "recordedAt": "2026-10-14T09:21:19.970Z",
+  "scope": "Offline local shared npm cache versus writable node_modules junction, including one member dependency addition; no general performance or isolation guarantee",
+  "result": "COMPARISON_PASS_S3_PARTIAL",
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0",
+    "npm": "11.19.0"
+  },
+  "candidatePolicy": "independent node_modules with shared npm cache; bounded fixture only",
+  "installs": {
+    "coldShared": {
+      "status": 0,
+      "elapsedMs": 362
+    },
+    "warmShared": {
+      "status": 0,
+      "elapsedMs": 341
+    },
+    "separateCache": {
+      "status": 0,
+      "elapsedMs": 334
+    },
+    "privateAddition": {
+      "status": 0,
+      "elapsedMs": 340
+    },
+    "junctionAddition": {
+      "status": 0,
+      "elapsedMs": 344
+    }
+  },
+  "baselineLogicalBytes": {
+    "donor": 328,
+    "privateB": 328,
+    "separateD": 328
+  },
+  "borrowerLogicalBytesAfterInstall": 538,
+  "privateDonorUnchanged": true,
+  "junctionOutcome": "link-replaced-with-private-install",
+  "borrowerExtraDependencyWorks": true,
+  "borrowerPrivateAfterInstall": true,
+  "donorChangedByLinkedInstall": false,
+  "linkRemovalMethod": "already-replaced-by-npm",
+  "ownedUnlinkVerifiedBySeparateFilesystemTest": true,
+  "originalRootUnchanged": true,
+  "worktreesCreated": 4,
+  "worktreesRemoved": 4,
+  "registryRootOnly": true,
+  "baseTempRemoved": true,
+  "rootTempRemoved": true,
+  "statisticalSpeedupQualified": false,
+  "genericSharedDependenciesQualified": false,
+  "directSharedModulesIsolated": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "previousEvidenceUnchanged": true,
+  "measuredSourcesUnchanged": true,
+  "s3OfflineChecksPassed": 4,
+  "s2OfflineChecksPassed": 113,
+  "supplementalReference": "supplements/dependencies/14f0e6283a881100d6fee707a020a19f15032e49e8117b42121e3c5dfc5603e7/dependencies.json",
+  "supplementalSha256": "14f0e6283a881100d6fee707a020a19f15032e49e8117b42121e3c5dfc5603e7",
+  "initialPassingObservation": "supplements/dependencies/b59bd5c0b0c6ce3262aff8496b12ffaef7ff24cb079fdd0530073767967629c8/dependencies.json",
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "toolEvents": 0,
+      "finalCaptured": true
+    },
+    {
+      "lane": "claude",
+      "status": "failed",
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "errorCategory": "token-quota",
+      "httpStatus": 429
+    },
+    {
+      "lane": "gemini-fallback",
+      "status": "failed",
+      "toolEvents": 0,
+      "finalCaptured": false,
+      "errorCategory": "provider.quota",
+      "httpStatus": 402
+    }
+  ]
+}

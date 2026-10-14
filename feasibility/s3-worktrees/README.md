@@ -27,12 +27,25 @@ canonical target checks; nested links are rejected before recursive deletion.
 Worktrees are then removed without force. Both exact temp directories are
 removed only after the native registry contains the original source root alone.
 
+`npm run probe:dependencies` compares separate `node_modules` folders using one
+owned npm cache against a Windows junction to another owned member's modules.
+Four disposable worktrees use local file packages and the same offline install
+flags. Adding a package must execute successfully in the private member while
+the donor's manifest, lock and installed file hashes remain unchanged. The
+probe records whether npm preserves, replaces or mutates the junction target.
+In the measured version npm replaced the junction with a private install.
+An owned-link helper unlinks only a verified junction; a separate real-filesystem
+test proves donor preservation and refusal of a foreign target.
+Timings and logical bytes are observations, not a speedup or disk-saving claim.
+See the content-addressed dependency evidence and qualification in `evidence/`.
+
 The lifecycle registry is in memory. Restart recovery, interprocess locking and
 atomic protection against filesystem replacement remain unbuilt. Refusal is
 conservative; uncertain cleanup retains the fixture. This prototype does not
 contain arbitrary processes or qualify file ownership watching.
 
-**Full S3 remains partial.** Shared dependencies, real project setup, native CLI
+**Full S3 remains partial.** The bounded shared-cache comparison passes;
+generic shared dependencies, real project setup, native CLI
 attribution, push approval/bypasses, ownership watcher/revert, checkpoints,
 approved final merge and the Windows compatibility matrix are still open.
 See [the measured results](RESULTS.md).

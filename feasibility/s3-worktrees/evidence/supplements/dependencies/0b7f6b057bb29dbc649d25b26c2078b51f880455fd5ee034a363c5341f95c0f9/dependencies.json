@@ -1,0 +1,70 @@
+{
+  "recordedAt": "2026-10-14T09:16:45.309Z",
+  "scope": "Offline local shared npm cache versus writable node_modules junction, including one member dependency addition; no general performance or isolation guarantee",
+  "platform": "win32",
+  "node": "v26.7.0",
+  "git": "git version 2.55.0.windows.5",
+  "sourceHashes": {
+    "run-dependencies.js": "32416b4097e9daa3193bc3d2e75cd7fd5669c64a046f251d90f70b83ec1f46d2",
+    "dependency-link.js": "2b82960460bf07054852b87322dde9e87e7603cf6a3b708856b4acc71ceee985",
+    "worktree-lifecycle.js": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+    "run-basics.js": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4"
+  },
+  "directSharedModulesIsolated": false,
+  "genericSharedDependenciesQualified": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "worktreesRemoved": 4,
+  "worktreesCreated": 4,
+  "npm": "11.19.0",
+  "cacheConfiguredMatched": true,
+  "coldSharedCacheInstall": {
+    "status": 0,
+    "elapsedMs": 499
+  },
+  "warmSharedCacheInstall": {
+    "status": 0,
+    "elapsedMs": 532
+  },
+  "separateCacheInstall": {
+    "status": 0,
+    "elapsedMs": 613
+  },
+  "baselineInstallsPassed": true,
+  "privateModuleDirectoriesDistinct": true,
+  "baselineLogicalBytes": {
+    "donor": 328,
+    "privateB": 328,
+    "separateD": 328
+  },
+  "sharedCacheMutationInstall": {
+    "status": 0,
+    "elapsedMs": 389
+  },
+  "extraDependencyWorksPrivately": true,
+  "privateDonorUnchanged": true,
+  "extraDependencyAbsentInDonor": true,
+  "junctionCreated": true,
+  "borrowedHelperWorks": true,
+  "junctionMutationInstall": {
+    "status": 0,
+    "elapsedMs": 450
+  },
+  "junctionInstallObserved": true,
+  "junctionStillPresentAfterInstall": false,
+  "borrowerExtraDependencyWorks": true,
+  "borrowerPrivateAfterInstall": true,
+  "borrowerLogicalBytesAfterInstall": 538,
+  "donorChangedByLinkedInstall": false,
+  "extraDependencyVisibleInDonor": false,
+  "junctionOutcome": "link-replaced-with-private-install",
+  "linkRemovalMethod": "already-replaced-by-npm",
+  "junctionCleanupVerified": true,
+  "donorUnchangedByUnlink": true,
+  "originalRootUnchanged": true,
+  "registryRootOnly": true,
+  "baseTempRemoved": true,
+  "rootTempRemoved": true,
+  "passed": true,
+  "result": "COMPARISON_PASS_S3_PARTIAL"
+}

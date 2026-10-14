@@ -681,6 +681,15 @@ memory; durable recovery and locking remain unbuilt. Shared dependencies, real
 project setup, the Windows matrix and the other S3 gates remain unqualified.
 See [the baseline results](../feasibility/s3-worktrees/RESULTS.md).
 
+**Dependency comparison, 14 October 2026.** Four disposable Windows worktrees
+compared independent `node_modules` with a shared npm cache against a direct
+modules junction. A member's local dependency addition left the other member's
+manifest, lock and dependency files unchanged with independent installs. npm
+11.19.0 replaced the junction with a private install; its donor stayed unchanged.
+Separate modules with a shared cache are the candidate setup policy. The tiny
+offline fixture establishes no general speedup, shared-module isolation or
+production readiness. Real project setup and the remaining S3 gates stay open.
+
 | Stage | What happens |
 |---|---|
 | **Create** | When an editing member gets its first task, the engine creates its worktree from the current integration branch. |
