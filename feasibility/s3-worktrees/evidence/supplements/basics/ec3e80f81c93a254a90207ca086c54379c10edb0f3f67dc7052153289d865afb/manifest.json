@@ -1,0 +1,15 @@
+{
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0",
+    "npm": "11.19.0"
+  },
+  "records": [
+    {
+      "name": "basics.json",
+      "originalPath": "evidence/basics-latest.json",
+      "sha256": "ec3e80f81c93a254a90207ca086c54379c10edb0f3f67dc7052153289d865afb"
+    }
+  ]
+}

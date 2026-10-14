@@ -1,0 +1,66 @@
+{
+  "recordedAt": "2026-10-14T06:01:50.655Z",
+  "scope": "S3.1 baseline with one offline local dependency, copied fixture settings, concurrent Node writers and Git merge/conflict cleanup; shared dependencies and full S3 remain open",
+  "result": "BASELINE_PASS_S3_PARTIAL",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0",
+    "npm": "11.19.0"
+  },
+  "platform": "win32",
+  "creationMs": 1055,
+  "setupMs": 616,
+  "memberInstalledLogicalBytes": 328,
+  "setupUnder60Seconds": true,
+  "lifecycleImplementation": "feasibility-in-memory-registry",
+  "worktreesCreated": 3,
+  "differentFilesMerged": true,
+  "conflictFiles": [
+    "shared.txt"
+  ],
+  "conflictAbortRestored": true,
+  "originalRootUnchanged": true,
+  "worktreesRemoved": 3,
+  "registryRootOnly": true,
+  "rootTempRemoved": true,
+  "baseTempRemoved": true,
+  "sharedDependenciesQualified": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "fullS1S2Qualified": false,
+  "previousEvidenceUnchanged": true,
+  "measuredSourcesUnchanged": true,
+  "s3OfflineChecksPassed": 2,
+  "s2OfflineChecksPassed": 113,
+  "supplementalReference": "supplements/basics/ec3e80f81c93a254a90207ca086c54379c10edb0f3f67dc7052153289d865afb/basics.json",
+  "supplementalSha256": "ec3e80f81c93a254a90207ca086c54379c10edb0f3f67dc7052153289d865afb",
+  "initialPassingObservation": "supplements/basics/836c47d26856b82f66a1770309c04b07097e22b8dbd39ea5c9075988cbee1f51/basics.json",
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "toolEvents": 0,
+      "finalCaptured": true
+    },
+    {
+      "lane": "claude",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    },
+    {
+      "lane": "gemini-fallback",
+      "status": "failed",
+      "toolEvents": 0,
+      "finalCaptured": false,
+      "errorCategory": "provider.quota",
+      "httpStatus": 402
+    }
+  ]
+}

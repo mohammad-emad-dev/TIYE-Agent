@@ -669,6 +669,18 @@ Branches follow a clear pattern: `tiye/<session>/integration` and `tiye/<session
 
 ### 6.2 Worktree lifecycle
 
+**Feasibility baseline, 14 October 2026.** The S3 prototype in
+`feasibility/s3-worktrees` created integration plus two member worktrees outside
+a disposable source root, ran an offline local-dependency setup, copied
+synthetic untracked settings and merged concurrent different-file edits.
+Conflicting same-line edits were listed automatically; merge abort restored
+the integration state. Original source files/branch/HEAD/index and all owned
+cleanup checks passed. The lifecycle prototype rejects dirty/ignored artifacts,
+changed ownership and active Git operations before removal. Its registry is in
+memory; durable recovery and locking remain unbuilt. Shared dependencies, real
+project setup, the Windows matrix and the other S3 gates remain unqualified.
+See [the baseline results](../feasibility/s3-worktrees/RESULTS.md).
+
 | Stage | What happens |
 |---|---|
 | **Create** | When an editing member gets its first task, the engine creates its worktree from the current integration branch. |

@@ -1,0 +1,11 @@
+{
+  "name": "tiye-s3-worktrees",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "check": "node --test test/*.test.js",
+    "probe": "node scripts/run-basics.js"
+  },
+  "engines": { "node": ">=18" }
+}

@@ -3,3 +3,6 @@ feasibility/s2-control/scripts/** -text whitespace=blank-at-eol,blank-at-eof,spa
 feasibility/s2-control/fixtures/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s2-control/evidence/** -text
 feasibility/s2-control/capabilities/*.json -text
+feasibility/s3-worktrees/scripts/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s3-worktrees/fixtures/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s3-worktrees/evidence/** -text

@@ -1,0 +1,40 @@
+{
+  "scope": "S3.1 baseline with one offline local dependency, copied fixture settings, concurrent Node writers and Git merge/conflict cleanup; shared dependencies and full S3 remain open",
+  "recordedAt": "2026-10-14T05:57:26.374Z",
+  "platform": "win32",
+  "node": "v26.7.0",
+  "git": "git version 2.55.0.windows.5",
+  "sourceHashes": {
+    "run-basics.js": "e99d8c11f313097782339c0dc3055441bbde09bc7d3e2197db38cadef7b3dc5b",
+    "worktree-lifecycle.js": "efc4de5f9f97c9075454c50d24a72adb580148f8424fcffc47ab4f6cbcd82bd4",
+    "../fixtures/member-write.cjs": "39a234c8b674c88191de72846f704f00a42a446e7fe612002bbfe7d0dab16aa0"
+  },
+  "sharedDependenciesQualified": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "worktreesRemoved": 3,
+  "creationMs": 772,
+  "worktreesCreated": 3,
+  "commonGitMatched": true,
+  "worktreesOutsideRoot": true,
+  "npm": "11.19.0",
+  "setupMs": 492,
+  "setupPassed": true,
+  "setupUnder60Seconds": true,
+  "memberInstalledBytes": 328,
+  "settingsCopied": true,
+  "settingsTestPassed": true,
+  "parallelWritersCompleted": true,
+  "differentFilesMerged": true,
+  "conflictExit": 1,
+  "conflictFiles": [
+    "shared.txt"
+  ],
+  "conflictAbortRestored": true,
+  "originalRootUnchanged": true,
+  "registryRootOnly": true,
+  "baseTempRemoved": true,
+  "rootTempRemoved": true,
+  "passed": true,
+  "result": "BASELINE_PASS_S3_PARTIAL"
+}
