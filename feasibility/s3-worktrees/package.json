@@ -9,7 +9,8 @@
     "probe:dependencies": "node scripts/run-dependencies.js",
     "probe:attribution": "node scripts/run-attribution.js",
     "probe:cli-attribution": "node scripts/run-cli-attribution.js",
-    "probe:trailer-policy": "node scripts/run-trailer-policy.js"
+    "probe:trailer-policy": "node scripts/run-trailer-policy.js",
+    "probe:push-policy": "node scripts/run-push-policy.js"
   },
   "engines": { "node": ">=18" }
 }

@@ -1,0 +1,13 @@
+{
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0"
+  },
+  "records": [
+    {
+      "name": "push-policy.json",
+      "sha256": "46434a1d821b9c16957880726af8ef6ff2a24978b731f748ac52cffede1550ff"
+    }
+  ]
+}

@@ -772,6 +772,16 @@ Push, force-push, and merge into protected branches need the user's approval (Sp
 
 **What the engine can and cannot enforce.** For its own Git operations — API member pushes, merges between session branches, and the final merge into the user's branch — approval is a hard gate, because the engine is the process running git and no push happens without it. A CLI member is a different case: it runs as the user, with the user's own Git credentials, and the engine has no credential or operating-system boundary to stand behind. The per-worktree hooks refuse a push launched from that worktree and log the attempt, but they are bypassable — a skip-hooks flag, a push run from outside the worktree, or the CLI's own Git configuration — and a bypassed push changes the remote only, so it leaves no local ref change the engine could detect. So the engine logs every push it can see, and CLI push control is presented as a layer that refuses the easy path and keeps the user's eyes on the terminal — never as a guarantee. A hard CLI guarantee would need an enforceable credential or OS boundary, which TIYE Agent does not have.
 
+**Push-policy feasibility, 14 October 2026.** Two disposable Windows worktrees
+and a local bare remote verified default hook refusal and exact fixture-approved
+pushes. A separate in-memory engine prototype rejected forged/replayed approval,
+changed source/remote tips and unapproved non-fast-forward updates. Native Git
+bypassed the member hook through `--no-verify`, a hooks-path override and another
+worktree, changing remote refs without local ref changes in this setup. The hook
+is advisory. These are parent-generated local operations with simulated approval;
+the production broker, user UI, authenticated remotes and provider CLI pushes
+remain unqualified. See [the push results](../feasibility/s3-worktrees/RESULTS.md).
+
 ### 6.7 Reviews
 
 A review task names the revision to read. An API reviewer reads that revision through read-only file tools. A CLI reviewer starts in a separate, disposable worktree at that revision, so ordinary edits in its assigned folder do not alter the author's worktree.

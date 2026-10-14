@@ -1,0 +1,63 @@
+{
+  "recordedAt": "2026-10-14T12:13:50.611Z",
+  "scope": "Fixture-only engine approval and bypassable worktree pre-push hook against one local bare remote; no provider CLI push or user/network remote",
+  "platform": "win32",
+  "node": "v26.7.0",
+  "git": "git version 2.55.0.windows.5",
+  "sourceHashes": {
+    "run-push-policy.js": "dec2c0a3898edb40aaef78e58528bc625c6a2ccb9ee4ad7d0a3028125cf85bc8",
+    "local-push-gate.js": "b92fed4f54685974c47c10f362466e51bc1480d722e79bff5e1d27ab4067a851",
+    "attribution-git.js": "f949b737c5f8b358ffc0f72f485cca067a28016d0fed9234f1e7be1ae90e3bf1",
+    "run-basics.js": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+    "worktree-lifecycle.js": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+    "../fixtures/push-hook.cjs": "fe0d5bc4e17833b414c2e70e7d6effe22a26e3082ef5afb67705ec881caa6b7d"
+  },
+  "humanApprovalUiQualified": false,
+  "providerCliPushQualified": false,
+  "cliPushEnforced": false,
+  "durableBrokerQualified": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "worktreesRemoved": 2,
+  "worktreesCreated": 2,
+  "hookScopeMatched": true,
+  "engineDeniedWithoutApproval": true,
+  "normalHookDenied": true,
+  "approvedPush": {
+    "pushed": true,
+    "ref": "refs/heads/tiye/member-a",
+    "head": "cc0c3882cc39361b29b9bb2dc9b2d288ab54b0e3",
+    "forceApproved": false
+  },
+  "approvedPushVerified": true,
+  "replayBlocked": true,
+  "staleSourceBlocked": true,
+  "staleRemoteBlocked": true,
+  "noVerifyBypassVerified": true,
+  "hooksPathBypassVerified": true,
+  "unhookedWorktreeBypassVerified": true,
+  "bypassesLeaveLocalRefsUnchanged": true,
+  "forceApprovalRequired": true,
+  "approvedForce": {
+    "pushed": true,
+    "ref": "refs/heads/tiye/member-a",
+    "head": "c300c913c0524d44bd4a3021a9775580c252f764",
+    "forceApproved": true
+  },
+  "approvedForceVerified": true,
+  "hookLog": [
+    {
+      "allowed": false
+    },
+    {
+      "allowed": true
+    }
+  ],
+  "hookBytesUnchanged": true,
+  "registryRootOnly": true,
+  "originalRootUnchanged": true,
+  "baseTempRemoved": true,
+  "rootTempRemoved": true,
+  "passed": true,
+  "result": "PUSH_POLICY_PASS_S3_PARTIAL"
+}

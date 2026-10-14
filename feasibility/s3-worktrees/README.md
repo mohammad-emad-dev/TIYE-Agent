@@ -75,6 +75,19 @@ a new audit. Rejected member history is preserved rather than silently amended.
 This is a feasibility gate for engine-controlled integration. It does not stop
 a CLI from committing or merging directly and has no durable or atomic lock.
 
+`npm run probe:push-policy` uses two owned worktrees and one disposable local
+bare remote. It makes no model requests and contacts no user/network remote.
+Only the fixture enables worktree-specific Git configuration and installs a
+pre-push hook on member A. The hook defaults to deny and matches one exact
+process grant. A separate engine prototype privately binds fixture approval to
+member HEAD, local target, ref, expected remote tip and force intent, consumes
+the approval before Git starts, and pushes the exact SHA with a pinned lease.
+Push subprocesses ignore global/system Git config and allow only file transport.
+Native bypass controls use `--no-verify`, a hooks-path override and unhooked
+member B. This proves the hook is advisory. Approval is simulated by the parent;
+the production broker, user approval UI, credentials and provider CLI push
+qualification are not implemented. All Git mutations target disposable fixtures.
+
 The lifecycle registry is in memory. Restart recovery, interprocess locking and
 atomic protection against filesystem replacement remain unbuilt. Refusal is
 conservative; uncertain cleanup retains the fixture. This prototype does not

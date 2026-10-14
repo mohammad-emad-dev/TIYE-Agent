@@ -1,4 +1,64 @@
-# S3.2 session-trailer policy — 14 October 2026
+# S3.3 local push policy — 14 October 2026
+
+**PUSH_POLICY_PASS_S3_PARTIAL.** Git 2.55.0.windows.5 and Node 26.7.0 completed
+the Windows push fixture with two owned worktrees and one local bare remote.
+The parent performed these native Git operations; delegates did not push or
+commit. Approval was a fixture simulation, not a human approval UI.
+
+| Check | Observed result |
+|---|---|
+| Worktree hook scope | Member A used its own pre-push hook; member B retained the fixture's empty hooks path |
+| No approval | Engine prototype refused request/forged approval objects; ordinary hooked Git push exited 1 and left the remote empty |
+| Exact fixture approval | Hook permitted one matching grant; pinned SHA reached the exact remote ref |
+| Replay and stale state | Consumed approval, changed source HEAD and changed remote tip were refused before another push |
+| Non-fast-forward | Normal approval refused rewind; explicit force approval with a pinned lease succeeded |
+| CLI-equivalent bypasses | --no-verify, core.hooksPath override and another unhooked worktree each changed the local remote without a hook log entry |
+| Local ref visibility | Local refs were unchanged across the bypass sequence despite remote ref changes |
+| Cleanup and checks | Source state unchanged, both clean worktrees removed, registry root-only, owned temp roots gone; 13 S3 and 113 S2 checks passed |
+
+The engine prototype uses private request/approval bindings and constructs one
+exact refspec itself. It compares the approved source and remote tips before
+Git, consumes approval when starting the operation, uses an explicit
+`--force-with-lease=<ref>:<expected-tip>`, and verifies the remote result. A
+non-fast-forward source needs explicit force intent. Only a canonical local
+bare target directly under the supplied fixture base is accepted. Global/system
+Git configuration is disabled for push subprocesses and only file transport is
+allowed, avoiding external URL rewrites or credential routes in this experiment.
+
+The pre-push hook is **best-effort for CLI members**. Its per-process grant is
+not a credential or same-user boundary. The bypass observations show why a
+local file/ref watcher cannot promise to detect every remote mutation. No hook
+or Git configuration was installed in the actual project checkout.
+
+The current observation is [sealed](evidence/supplements/push-policy/dd08cff37fe9b951d4fda948833e51eb2568c4d5a4ea7d20d23dd86b27b9945e/push-policy.json),
+with [qualification](evidence/push-policy-qualification.json). The initial failed
+observation remains separate: an approved grant comparison mixed shell-forward
+slashes with a canonical Windows path. The corrected hook canonicalizes that
+argument. Its first passing rerun is also retained; the final run adds config/
+transport isolation and strict hook-log/source-integrity evidence requirements.
+Source hashes, archive bytes and prior tracked S1/S2/S3 evidence were verified.
+
+Git documents [pre-push invocation](https://git-scm.com/docs/githooks),
+[leases and hook bypass](https://git-scm.com/docs/git-push), and
+[worktree configuration](https://git-scm.com/docs/git-worktree).
+This is a bounded local fixture, not a production push broker. Actual user
+approval, durable effects/recovery, authenticated network remotes, provider CLI
+push participation, protected-branch rules and OS/credential containment remain
+unqualified. Full S3, the core engine and production UI remain partial.
+
+Muse and Agy Gemini 3.8 Flash high completed supplied-facts reviews. MiMo Atria
+timed out after four minutes; Claude Atria returned token quota exhaustion
+(HTTP 429). Recursive MiMo/OpenCode/Claude audits found zero tool events. Agy's
+plain log lacks equivalent structured tool-event coverage; its outcome and
+change tripwire are recorded in qualification. Parent changes were reviewed
+before commit. Agy's mandatory format-version-1 advice was rejected: Git's
+[configuration documentation](https://git-scm.com/docs/git-config#Documentation/git-config.txt-extensionsworktreeConfig)
+states worktreeConfig is respected regardless of repositoryFormatVersion.
+Replay protection belongs to the engine approval map; the hook's environment
+grant is not a durable one-use capability. The stale-remote case is rejected by
+the engine precheck; no race during transport is qualified by that observation.
+
+## Earlier S3.2 session-trailer policy — 14 October 2026
 
 **TRAILER_POLICY_PASS_S3_PARTIAL.** The disposable Windows fixture now has an
 integration gate that audits the complete introduced member range before its

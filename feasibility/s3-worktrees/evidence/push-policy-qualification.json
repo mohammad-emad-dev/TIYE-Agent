@@ -1,0 +1,93 @@
+{
+  "recordedAt": "2026-10-14T12:17:42.694Z",
+  "scope": "Fixture-only engine approval and bypassable worktree pre-push hook against one local bare remote; no provider CLI push or user/network remote",
+  "result": "PUSH_POLICY_PASS_S3_PARTIAL",
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0"
+  },
+  "targetScope": "one canonical local bare remote, single refs/heads/tiye/* destination; file transport only; global/system push config disabled",
+  "approvalSource": "trusted parent fixture simulation, not human UI",
+  "privateRequestAndApprovalBinding": true,
+  "approvalConsumedBeforeGit": true,
+  "explicitRemoteLease": true,
+  "hookScopeMatched": true,
+  "engineDeniedWithoutApproval": true,
+  "normalHookDenied": true,
+  "approvedPushVerified": true,
+  "replayBlocked": true,
+  "staleSourceBlocked": true,
+  "staleRemoteBlocked": true,
+  "forceApprovalRequired": true,
+  "approvedForceVerified": true,
+  "noVerifyBypassVerified": true,
+  "hooksPathBypassVerified": true,
+  "unhookedWorktreeBypassVerified": true,
+  "bypassesLeaveLocalRefsUnchanged": true,
+  "hookLog": [
+    {
+      "allowed": false
+    },
+    {
+      "allowed": true
+    }
+  ],
+  "hookBytesUnchanged": true,
+  "humanApprovalUiQualified": false,
+  "providerCliPushQualified": false,
+  "cliPushEnforced": false,
+  "authenticatedRemoteQualified": false,
+  "durableBrokerQualified": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "originalRootUnchanged": true,
+  "worktreesCreated": 2,
+  "worktreesRemoved": 2,
+  "registryRootOnly": true,
+  "rootTempRemoved": true,
+  "baseTempRemoved": true,
+  "s3OfflineChecksPassed": 13,
+  "s2OfflineChecksPassed": 113,
+  "previousEvidenceUnchanged": true,
+  "measuredSourcesUnchanged": true,
+  "supplementalReference": "supplements/push-policy/dd08cff37fe9b951d4fda948833e51eb2568c4d5a4ea7d20d23dd86b27b9945e/push-policy.json",
+  "supplementalSha256": "dd08cff37fe9b951d4fda948833e51eb2568c4d5a4ea7d20d23dd86b27b9945e",
+  "initialFailedObservation": "supplements/push-policy/61f0e66817d995571b187384bfad2f9565a8fe791fa1ea5997a1a1250ac82337/push-policy.json",
+  "initialPassingObservation": "supplements/push-policy/46434a1d821b9c16957880726af8ef6ff2a24978b731f748ac52cffede1550ff/push-policy.json",
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "toolEvents": 0,
+      "finalCaptured": true
+    },
+    {
+      "lane": "claude",
+      "status": "failed",
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "errorCategory": "token-quota",
+      "httpStatus": 429
+    },
+    {
+      "lane": "agy-fallback",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "effort": "high",
+      "version": "1.3.5",
+      "finalCaptured": true,
+      "readOnlyViolation": true,
+      "concurrentParentEditsReviewed": true,
+      "structuredToolAuditAvailable": false,
+      "observedToolMarkers": 0,
+      "formatVersionAdviceRejected": "Git documents worktreeConfig respected regardless of repositoryFormatVersion"
+    }
+  ]
+}
