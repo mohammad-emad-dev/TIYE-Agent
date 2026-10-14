@@ -741,6 +741,15 @@ propagation, automatic trailer insertion and durable session/task bindings
 remain unqualified; this is a feasibility baseline, not the core engine.
 See [the attribution results](../feasibility/s3-worktrees/RESULTS.md).
 
+**Native CLI propagation, 14 October 2026.** A standalone OpenCode 2.0.28
+launch on the requested Muse xhigh route passed the expected author/committer
+environment into a fixed shell task and native Git. The parent audited the
+correlated tool result, worker integrity and exact edit before creating a
+member-authored fallback commit with a session trailer. This qualifies the
+bounded private-server launch path only. Shared-service propagation,
+provider-created commits, automatic CLI trailers and durable attribution stay
+open; the production adapter and core engine are not implemented.
+
 ### 6.6 Git safety
 
 Push, force-push, and merge into protected branches need the user's approval (Spec 7.2). What that approval is worth depends on which process runs git.

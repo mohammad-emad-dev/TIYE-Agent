@@ -1,4 +1,62 @@
-# S3.2 attribution baseline — 14 October 2026
+# S3.2 native CLI propagation — 14 October 2026
+
+**CLI_ATTRIBUTION_PASS_S3_PARTIAL.** OpenCode 2.0.28, requested with the Muse
+spark 1.3 free route at xhigh, ran a fixed task in one disposable Windows
+worktree. Its shell inherited the member author and fixture engine committer;
+native `git var` matched both identities. Git was 2.55.0.windows.5 and Node
+26.7.0. The delegate edited one synthetic file; only the parent committed it.
+
+| Check | Observed result |
+|---|---|
+| Native CLI tool | Exactly one completed shell event in the owned session, exact command and JSON output, exit 0 and no truncation |
+| Native Git identity | Expected member author and distinct fixture engine committer reached the shell/Git process |
+| Task and worker integrity | Expected content written; worker hash and task bytes unchanged; only expected fixture paths changed |
+| Commit boundary | CLI HEAD unchanged; parent fallback commit matched author, committer, session trailer and original parent |
+| Cleanup | Clean worktree removed without force; original source state unchanged; registry root-only and owned fixture roots removed |
+| Verification | Nine S3 checks and existing 113 S2 checks pass |
+
+The installed relay has no standalone flag, so the probe creates a disposable
+copy with exactly one verified argument-list replacement adding `--standalone`.
+Both relay source hashes are recorded. No installed skill, global configuration
+or protected shared OpenCode service was modified. Standalone mode matters here:
+this experiment establishes environment propagation through a fresh private
+server, not through the existing shared service.
+
+The latest run is [sealed](evidence/supplements/cli-attribution/4e2e647fa95120339db244271b13f3d9ea1b9758e6b607fe0f6cb2798a4312e2/cli-attribution.json),
+with [qualification](evidence/cli-attribution-qualification.json). An earlier
+passing run is retained. The final evidence gate additionally requires the
+captured native tool proof and rejects foreign sessions, extra tools, failed or
+truncated output, prose echoes, unknown CLI versions and incomplete cleanup.
+Source hashes, sealed bytes and previous tracked S1/S2/S3 evidence were checked.
+
+Two failed observations remain archived. The first used `--pure`, absent from
+this native version's help, and failed before a task; cleanup removed its raw
+relay diagnostics, so only its summary remains. The second executed the worker
+successfully but was rejected by an outdated `bash` tool expectation: this
+version emits `shell`. Its dirty fixture was retained on refusal. After auditing
+the known task, the parent restored only its synthetic member-a edit and removed
+the clean worktree without force; the separate cleanup record is retained.
+The passing reruns use the observed version-specific shell schema. No failed
+record was rewritten into a pass. Raw native artifacts for later runs remain
+outside Git; credentials and provider response bodies are not copied into evidence.
+
+This is **CLI environment propagation plus a parent fallback commit**.
+Provider-created commits, arbitrary commit trailer insertion, trusted author
+identity, durable task/commit binding, production launch adapters and full S3
+remain unqualified. Native CLI participation does not make these metadata
+defaults enforceable. The core engine and full product UI remain unbuilt.
+
+MiMo Atria timed out after four minutes; Claude Atria returned token quota
+exhaustion (HTTP 429). Their recursive native event audits found zero tool
+events. Muse performed the one qualified fixture shell call. The requested Agy
+Gemini 3.8 Flash high fallback completed its supplied-facts review; its
+working-tree tripwire observed concurrent parent edits, and its plain log does
+not provide equivalent structured
+tool-event coverage. Its prune suggestion was unnecessary because the owned
+non-force removal already left the registry root-only. Claude's change tripwire
+observed parent implementation edits, which were reviewed before committing.
+
+## Earlier S3.2 attribution baseline — 14 October 2026
 
 **ATTRIBUTION_BASELINE_PASS_S3_PARTIAL.** Native Git 2.55.0.windows.5 with
 Node 26.7.0 completed the metadata experiment in three disposable Windows

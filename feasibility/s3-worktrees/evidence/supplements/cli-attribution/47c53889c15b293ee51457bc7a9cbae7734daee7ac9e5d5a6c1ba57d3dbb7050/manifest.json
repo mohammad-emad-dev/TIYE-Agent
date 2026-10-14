@@ -1,0 +1,14 @@
+{
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0",
+    "cli": "opencode v2.0.28"
+  },
+  "records": [
+    {
+      "name": "cli-attribution.json",
+      "sha256": "47c53889c15b293ee51457bc7a9cbae7734daee7ac9e5d5a6c1ba57d3dbb7050"
+    }
+  ]
+}

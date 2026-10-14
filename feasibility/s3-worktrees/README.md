@@ -50,6 +50,19 @@ Environment defaults are advisory: raw Git receives no automatic trailer, and
 `--author` can override the configured author. Native provider CLI launches,
 automatic trailer insertion and production commit orchestration remain open.
 
+`npm run probe:cli-attribution` makes a model request to the authorized Muse
+xhigh route. It launches OpenCode 2.0.28 in a private standalone server with
+explicit attribution variables. A disposable copy of the installed OpenCode
+relay adds only `--standalone`; the original skill and shared service stay intact.
+The member runs one fixed `rtk proxy node attribution-task.cjs` shell command.
+The worker checks native Git identities and canonical location, then edits one
+fixture file. The parent checks the correlated completed shell event, exact
+JSON output, file bytes, worker/task integrity and unchanged HEAD before making
+the fallback commit itself. Raw native artifacts remain in an owned temp relay
+directory for diagnostics; committed evidence contains only the bounded proof.
+This qualifies this standalone CLI-to-shell path and parent fallback commit,
+not the shared-service launch, CLI-created commits or automatic session trailers.
+
 The lifecycle registry is in memory. Restart recovery, interprocess locking and
 atomic protection against filesystem replacement remain unbuilt. Refusal is
 conservative; uncertain cleanup retains the fixture. This prototype does not

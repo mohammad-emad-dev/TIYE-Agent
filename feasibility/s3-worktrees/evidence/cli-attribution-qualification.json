@@ -1,0 +1,82 @@
+{
+  "recordedAt": "2026-10-14T10:05:34.837Z",
+  "scope": "OpenCode Muse xhigh native shell/Git identity propagation and parent fallback commit in one disposable worktree; no CLI-created commit or automatic trailer qualification",
+  "result": "CLI_ATTRIBUTION_PASS_S3_PARTIAL",
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0",
+    "cli": "opencode v2.0.28"
+  },
+  "requestedModel": "opencode/muse-spark-1.3-contributor-free",
+  "requestedVariant": "xhigh",
+  "launchMode": "standalone private server",
+  "relayAdaptation": "exact run argv insertion of --standalone into a disposable copy",
+  "installedRelaySha256": "64b1b5a12ebf9acdba04af47555a73fbd8026613e002006cba58f0803b54044e",
+  "privateRelaySha256": "249dd152c27d05ea27f0dbfec06667bebf7c1cef8f48a6f1659d4f70f6d0b1e2",
+  "nativeShellGitIdentityQualified": true,
+  "parentFallbackCommitQualified": true,
+  "cliCreatedCommitQualified": false,
+  "automaticCliTrailersQualified": false,
+  "sharedServicePropagationQualified": false,
+  "identityEnforced": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "nativeToolCount": 1,
+  "nativeToolExit": 0,
+  "exactToolMatched": true,
+  "observationMatched": true,
+  "workerUnchanged": true,
+  "taskUnchanged": true,
+  "onlyExpectedFilesChanged": true,
+  "cliDidNotCommit": true,
+  "fallbackCommitMatched": true,
+  "originalRootUnchanged": true,
+  "worktreesCreated": 1,
+  "worktreesRemoved": 1,
+  "registryRootOnly": true,
+  "rootTempRemoved": true,
+  "baseTempRemoved": true,
+  "previousEvidenceUnchanged": true,
+  "measuredSourcesUnchanged": true,
+  "s3OfflineChecksPassed": 9,
+  "s2OfflineChecksPassed": 113,
+  "supplementalReference": "supplements/cli-attribution/4e2e647fa95120339db244271b13f3d9ea1b9758e6b607fe0f6cb2798a4312e2/cli-attribution.json",
+  "supplementalSha256": "4e2e647fa95120339db244271b13f3d9ea1b9758e6b607fe0f6cb2798a4312e2",
+  "initialPassingObservation": "supplements/cli-attribution/f6184148c5e6024635876743ea3077d14791ff92b3a1373294f424e2c89828b9/cli-attribution.json",
+  "failedObservations": [
+    "supplements/cli-attribution/1dd66dd177891e88f1a8c2f3db610fed48075cd2df0845f4648b709cd4cb9951/cli-attribution.json",
+    "supplements/cli-attribution/47c53889c15b293ee51457bc7a9cbae7734daee7ac9e5d5a6c1ba57d3dbb7050/cli-attribution.json"
+  ],
+  "retainedCleanupReference": "supplements/cli-attribution/47c53889c15b293ee51457bc7a9cbae7734daee7ac9e5d5a6c1ba57d3dbb7050/retained-cleanup.json",
+  "retainedCleanupSha256": "0bbea7ae724fa73d95c2419d46ea9c6313f20c17fbea8f60e66fdcc7992edd50",
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    },
+    {
+      "lane": "claude",
+      "status": "failed",
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "errorCategory": "token-quota",
+      "httpStatus": 429
+    },
+    {
+      "lane": "agy-fallback",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "effort": "high",
+      "version": "1.3.5",
+      "finalCaptured": true,
+      "readOnlyViolation": true,
+      "concurrentParentEditsReviewed": true,
+      "structuredToolAuditAvailable": false,
+      "observedToolMarkers": 0,
+      "cleanupAdviceRejected": "prune unnecessary; registry root-only after owned non-force removal"
+    }
+  ]
+}
