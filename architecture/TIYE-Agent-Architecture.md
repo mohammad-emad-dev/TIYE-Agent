@@ -592,8 +592,16 @@ blocked, admitted input may finish, and unknown delivery never auto-retries.
 Close closes input and awaits queued work/monitor disposal; it is not a verified
 session stop. An additional native probe verifies root/child command suspension
 after a locally injected permission-read failure and rejection of a later
-adapter prompt. It does not qualify native saved-grant-triggered active
-cancellation or direct native-terminal human input.
+adapter prompt. A further 14 October cohort replaces the injected trigger with
+a real native saved shell grant created through an owned idle session's
+controlled API permission request/Always reply, after original root/child
+execution is proven. The monitor closes input and verifies interruption of the
+original active session; owned revocation leaves it suspended and blocked.
+The saved row, idle/original sessions, client process tree, location and temp
+fixture are cleaned with ownership checks. This is a parent-proposed native
+API grant, not a tool-proposed pattern or terminal Always decision during
+execution. It does not qualify command prevention or direct native-terminal
+human input.
 
 Polling has a detection window. Atomic enforcement and production UI/core
 integration remain unbuilt,
@@ -601,7 +609,7 @@ so these prototypes do not establish strict member ask or production
 eligibility. The current native
 capability assessment still records the full-runtime requirement and its
 evidence. See the bounded verification in
-[the S2 results](../feasibility/s2-control/RESULTS.md#adapter-input-gate-and-active-suspension-13-october-2026).
+[the S2 results](../feasibility/s2-control/RESULTS.md#saved-grant-suspension-during-active-work-14-october-2026).
 Other layouts/themes,
 foreground human interaction and accessibility remain separate gates. Native terminal records
 are sealed as a separate content-hash supplement; previous assessments remain

@@ -15,7 +15,7 @@ const { conversationFingerprint } = require('./recovery-evidence');
 const controlCwd = path.resolve(__dirname, '../../..');
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 
-async function observe(request, task, ownership) {
+async function observe(request, task, ownership, { trigger, afterSuspension } = {}) {
   const evidence = { approvalRepliesSent: 0, fallbackTerminationUsed: false, commandCancelObserved: false, suspendCalls: 0, faultReads: 0, inputTransportCalls: 0 };
   let gate;
   try {
@@ -31,7 +31,7 @@ async function observe(request, task, ownership) {
       }
       return serviceApi(cwd, method, route, body);
     };
-    gate = await createStrictAskInputGate({ context, api: observedApi, intervalMs: 250,
+    gate = await createStrictAskInputGate({ context, api: trigger ? serviceApi : observedApi, intervalMs: 250,
       send: text => { evidence.inputTransportCalls++; return serviceApi(request.cwd, 'POST', `/api/session/${request.sessionID}/prompt`, { text, resume: false }); },
       stop: async () => {
         evidence.suspendCalls++;
@@ -54,10 +54,12 @@ async function observe(request, task, ownership) {
     if (!evidence.initialInputOpen) throw new Error('active input not open');
     await approveOwnedCommand(request, task, evidence);
     await executionTwice(request, task, evidence, context.servicePID);
-    inject = true;
+    if (trigger) await trigger({ context, request, evidence });
+    else inject = true;
     await waitUntil(() => ['suspended', 'stop-unverified'].includes(gate.status().monitor.status), 30000);
     evidence.suspensionStatus = gate.status();
-    if (evidence.suspensionStatus.monitor.status !== 'suspended' || evidence.faultReads !== 1 || evidence.suspendCalls !== 1) throw new Error('active input suspension failed');
+    if (evidence.suspensionStatus.monitor.status !== 'suspended' || evidence.faultReads !== (trigger ? 0 : 1) || evidence.suspendCalls !== 1) throw new Error('active input suspension failed');
+    if (afterSuspension) await afterSuspension({ gate, evidence });
     const messages = (await serviceApi(request.cwd, 'GET', `/api/session/${request.sessionID}/message?limit=100&order=desc`)).data;
     evidence.rejectedInput = await gate.submit('TIYE blocked fixture input');
     const afterMessages = (await serviceApi(request.cwd, 'GET', `/api/session/${request.sessionID}/message?limit=100&order=desc`)).data;
@@ -116,4 +118,4 @@ async function main() {
   console.log(`[strict-ask-active] ${measurement.result}`); process.exitCode = measurement.passed ? 0 : 2;
 }
 if (require.main === module) main().catch(() => { console.error('[strict-ask-active] lifecycle failure'); process.exitCode = 1; });
-module.exports = { activeInputRunPassed };
+module.exports = { activeInputRunPassed, observeActiveInput: observe };

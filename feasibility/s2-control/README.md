@@ -4,6 +4,28 @@ Bounded slice of Feasibility Test Plan S2.1 + Architecture 4.2: attach a
 minimal team-tools MCP server to installed OpenCode. The default probe makes
 no model request; the separate invocation probe uses the approved free model.
 
+## Saved-grant suspension during active work
+
+`npm run probe:saved-active` verifies that a real backend-saved shell grant
+triggers the existing input gate while its owned root/child command is executing.
+After actual execution proof, a separate owned idle session creates a controlled
+shell permission request through the native API and replies Always. The native
+project's saved row is verified against its empty baseline, exact parent-proposed
+pattern, project ID and creation time. The idle session sends no model task.
+
+The monitor uses the real API throughout, with zero injected reads. It detects
+the saved-shell conflict, closes adapter input and verifies scoped active
+interruption. Original tool abortion, captured process creation identities gone,
+stable heartbeat bytes and cleanup pass. The owned row is removed by ID; the
+gate remains latched, later input stays blocked and both owned sessions are
+deleted. See [the results](RESULTS.md#saved-grant-suspension-during-active-work-14-october-2026).
+
+This is a parent-proposed native API grant. It does not qualify a shell tool's
+pattern proposal, a terminal Always decision during active work, worktree-triggered
+suspension, command prevention or atomic enforcement. The earlier terminal and
+worktree observations remain separate evidence. Production UI/core integration
+and strict per-member approval guarantees remain open.
+
 ## Adapter input gate and active suspension prototype
 
 `scripts/strict-ask-input.js` implements
@@ -39,8 +61,9 @@ See [the results](RESULTS.md#adapter-input-gate-and-active-suspension-13-october
 This gate covers trusted adapter submissions. The fixture's initial task is
 sent through the existing native terminal before gate attachment; direct human
 terminal input and the production UI/core input path are not covered. Native
-saved-grant-triggered active cancellation, atomic permission enforcement and
-general external-effect rollback remain unqualified.
+saved-grant-triggered suspension is now verified in the separate cohort above.
+Atomic permission enforcement and general external-effect rollback remain
+unqualified.
 
 ## Permission-change monitoring prototype
 
