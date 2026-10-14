@@ -1,3 +1,57 @@
+# S3.7 Windows edge cases — 14 October 2026
+
+**WINDOWS_EDGE_PASS_S3_PARTIAL.** Windows release 10.0.26300, PowerShell
+5.1.26100.9549, Git 2.55.0.windows.5 and Node 26.7.0 passed one disposable
+worktree cohort. This qualifies the listed fixture outcomes on the tested
+temporary volume, not general Windows compatibility.
+
+| Check | Observed result |
+|---|---|
+| Long path | 303-character absolute ASCII path created/read by Node, staged/committed by Git and verified in a raw checkpoint |
+| Configuration | `core.longpaths=true` set only in the disposable repository's local config |
+| Case alias | CaseName.txt and casename.txt resolved the same fixture file; uppercase member alias refused by lowercase selection policy |
+| Case collision | Synthetic Foo.txt/foo.txt Git tree rejected by path preflight; never checked out |
+| Line endings | CRLF working bytes normalized to LF in the staged Git blob; raw checkpoint recovered exact CRLF with real index bytes preserved |
+| Exclusive lock | Owned PowerShell child held FileShare.None; readable-handle preflight refused before native worktree removal |
+| Preservation | Registry, inventory, HEAD and index remained intact during refusal; file hashes matched after release |
+| Release/removal | Correlated release marker, owned child exit 0, then clean non-force removal succeeded |
+| Cleanup | Source root unchanged, one worktree removed, registry root-only and exact disposable root removed |
+
+Creation took **224.61 ms** in the final tiny run. It is a wall-clock observation;
+antivirus contribution was not isolated or injected, and no performance bound
+or application-scale result is claimed.
+
+The [sealed observation](evidence/supplements/windows/e8e00706a3512fc521bb97b40cf9326dbf76bf3b18962b7a81095dd6f0d323fe/windows.json)
+and [qualification](evidence/windows-qualification.json) bind measured source
+and native versions. Previous tracked evidence and previously measured scripts
+remain unchanged. **23 S3 tests and 113 S2 tests passed.** Path policy checks
+also refuse directory case aliases, file/directory collisions, duplicate paths,
+reserved device names, trailing dots, traversal, Git metadata segments, empty
+segments, non-ASCII and spaces. Long ASCII paths are allowed by this policy.
+
+The removal wrapper revalidates the owned worktree, rejects links/hardlinks and
+unverified files, bounds its traversal, and opens/closes readable file handles
+before invoking existing removal. Limits are 1,000 files, 2,000 directory/file
+entries, 1 MiB per file and 8 MiB total. FileShare.None blocks the read probe in
+this cohort. A readable file can still prohibit deletion under another sharing
+mode, and a writer can race the probe; this is conservative detection, not an
+atomic lock. No native removal was attempted while the exclusive lock was held.
+Only the owned child was released; no broad process termination or forced
+cleanup was used.
+
+Muse xhigh and Agy Gemini 3.8 Flash high completed supplied-facts reviews. MiMo
+Atria timed out; Claude Atria xhigh hit quota 429. Primary structured logs
+contained no tool events. Agy's plain-text log had no observed tool markers;
+structured auditing was unavailable. Claude/Agy change tripwires reflected
+reviewed concurrent parent edits.
+
+The existing lifecycle methods are unchanged. Removal preflight applies only
+when callers use the explicit Windows wrapper; tree-case preflight is not yet
+integrated into worktree creation. ASCII-only paths, one sharing mode and the
+tested volume are the scope. Other volumes, UNC/non-ASCII path support,
+antivirus impact, atomic removal and production lifecycle/restart integration
+remain open. **Full S3 and production eligibility remain unqualified.**
+
 # S3.6 final merge — 14 October 2026
 
 **FINAL_MERGE_PASS_S3_PARTIAL.** Git 2.55.0.windows.5 and Node 26.7.0 verified

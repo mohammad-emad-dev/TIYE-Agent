@@ -681,6 +681,21 @@ memory; durable recovery and locking remain unbuilt. Shared dependencies, real
 project setup, the Windows matrix and the other S3 gates remain unqualified.
 See [the baseline results](../feasibility/s3-worktrees/RESULTS.md).
 
+**Bounded Windows checks, 14 October 2026.** A disposable worktree exercised
+a 303-character ASCII path with repository-local `core.longpaths=true`, native
+Git add/commit and raw checkpoint loading. The tested temporary volume resolved
+case aliases to the same file; a separate tree-path preflight rejected a
+synthetic `Foo.txt`/`foo.txt` collision without checking that tree out. Member
+selection remains lowercase-only. CRLF working bytes normalized to LF in Git's
+staged blob, while the raw checkpoint restored exact CRLF and preserved the
+real index. An explicit Windows removal wrapper refused an exclusive
+`FileShare.None` handle before native removal, preserved worktree state and
+removed it after the owned child released the file. The original lifecycle
+method is unchanged; callers must use the wrapper, and case preflight is not
+yet wired into lifecycle creation. Other volumes/sharing modes, antivirus
+contribution and atomic removal remain unqualified. See the
+[Windows observations](../feasibility/s3-worktrees/RESULTS.md#s37-windows-edge-cases--14-october-2026).
+
 **Dependency comparison, 14 October 2026.** Four disposable Windows worktrees
 compared independent `node_modules` with a shared npm cache against a direct
 modules junction. A member's local dependency addition left the other member's

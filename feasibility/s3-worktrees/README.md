@@ -1,5 +1,38 @@
 # S3 worktree feasibility prototype
 
+`npm run probe:windows` runs bounded Windows path, case, line-ending and real
+exclusive-file-lock observations. It sets `core.longpaths=true` only in a
+disposable repository, creates a 303-character ASCII path, and verifies native
+Git add/commit and raw checkpoint loading. A case alias read resolves the same
+ordinary file on the tested temporary volume. Uppercase member selection is
+rejected by the existing lowercase name policy. A case-colliding synthetic Git
+tree is built via plumbing and inspected without checkout.
+
+`scripts/windows-worktree-preflight.js` provides `assertWindowsTreePaths(paths)`
+for bounded ASCII tree paths. It rejects file/directory case aliases, duplicate
+and file/directory collisions, reserved Windows device names, trailing dots,
+traversal, Git metadata segments, empty segments and unsupported characters.
+It does not impose a 260-character cutoff. Callers must run it before checkout;
+the existing worktree creation method is not yet wired to this preflight.
+
+`removeWindowsWorktree({lifecycle,member})` revalidates ownership and scans
+ordinary files before calling the existing non-force removal method. It opens
+and closes readable handles, refusing unreadable or exclusively locked files,
+links, hardlinks and unverified paths. Limits are 1,000 files, 2,000 directory/
+file entries, 1 MiB per file and 8 MiB total. The native fixture owns a PowerShell
+child opening one exact member file with `.NET FileShare.None`; correlated ready
+and release markers stay outside the member. Lock refusal preserves registry,
+file inventory, HEAD and index; exact bytes are checked after release. The
+parent signals only its own child, awaits exit, then removes without force.
+
+This wrapper is an explicit caller option; the original lifecycle removal
+method is unchanged. Readable-handle preflight is not an atomic delete lock and
+does not detect every sharing mode. The probe also verifies LF staged content
+versus exact CRLF working checkpoint/recovery. A tiny creation timing is only an
+observation. Other Windows volumes, UNC paths, antivirus contribution and
+application lifecycle integration remain unqualified. See
+`evidence/windows-qualification.json` for native versions and the sealed result.
+
 `npm run probe:final-merge` audits an owned member range, merges it into an
 owned integration worktree, and exercises final transfer into a disposable
 source branch. Dirty source refusal must preserve file/index/HEAD/status state

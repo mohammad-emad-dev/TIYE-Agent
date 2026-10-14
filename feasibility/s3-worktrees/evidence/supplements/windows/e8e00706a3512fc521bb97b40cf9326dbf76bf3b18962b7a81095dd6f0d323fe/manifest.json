@@ -1,0 +1,15 @@
+{
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0",
+    "windowsRelease": "10.0.26300",
+    "powerShell": "5.1.26100.9549"
+  },
+  "records": [
+    {
+      "name": "windows.json",
+      "sha256": "e8e00706a3512fc521bb97b40cf9326dbf76bf3b18962b7a81095dd6f0d323fe"
+    }
+  ]
+}

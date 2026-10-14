@@ -14,7 +14,8 @@
     "probe:ownership": "node scripts/run-ownership.js",
     "probe:checkpoints": "node scripts/run-checkpoints.js",
     "probe:shadow-checkpoints": "node scripts/run-shadow-checkpoints.js",
-    "probe:final-merge": "node scripts/run-final-merge.js"
+    "probe:final-merge": "node scripts/run-final-merge.js",
+    "probe:windows": "node scripts/run-windows.js"
   },
   "engines": { "node": ">=18" }
 }
