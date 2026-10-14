@@ -1,0 +1,93 @@
+{
+  "recordedAt": "2026-10-14T13:31:47.315Z",
+  "scope": "Git-backed raw ordinary-file checkpoint and fresh Node process fixture-approved single-file recovery; controlled writers only",
+  "result": "CHECKPOINTS_PASS_S3_PARTIAL",
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0"
+  },
+  "checkpointStorage": "SHA-1 Git commit with reachable manifest.json and raw files/ tree; create-only refs/tiye/session/sequence",
+  "approvalSource": "trusted parent fixture simulation in fresh Node process",
+  "snapshotSelection": "tracked and non-ignored untracked ordinary files; deleted paths omitted; ASCII relative paths only; modes normalized to 100644",
+  "snapshotLimits": {
+    "maxFiles": 1000,
+    "maxFileBytes": 1048576,
+    "maxTotalBytes": 8388608
+  },
+  "freshProcessRecoveryQualified": true,
+  "safetySavedBeforeRestore": true,
+  "actualIndexCopiedForTreeReads": true,
+  "indexBytesPreserved": true,
+  "unrelatedEditPreserved": true,
+  "headAndBranchPreserved": true,
+  "refusalChecks": [
+    "duplicate ref expected-zero CAS",
+    "wrong expected commit",
+    "wrong session/member",
+    "forged plan/approval",
+    "stale target",
+    "changed staged tree",
+    "changed HEAD",
+    "active Git operation",
+    "hardlink target",
+    "oversized ordinary file",
+    "consumed approval replay"
+  ],
+  "globalRestartRecoveryQualified": false,
+  "userApprovalUiQualified": false,
+  "powerLossRecoveryQualified": false,
+  "atomicRecoveryQualified": false,
+  "eventStoreRefTransactionQualified": false,
+  "memberPauseQualified": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "originalRootUnchanged": true,
+  "worktreesCreated": 1,
+  "worktreesRemoved": 1,
+  "registryRootOnly": true,
+  "rootTempRemoved": true,
+  "baseTempRemoved": true,
+  "s3OfflineChecksPassed": 17,
+  "s2OfflineChecksPassed": 113,
+  "previousEvidenceUnchanged": true,
+  "measuredSourcesUnchanged": true,
+  "supplementalReference": "supplements/checkpoints/785e0cbdd84ae8514fe3dbc89388b9a87cdb481ed5b86d17b703611b0360efa0/checkpoints.json",
+  "supplementalSha256": "785e0cbdd84ae8514fe3dbc89388b9a87cdb481ed5b86d17b703611b0360efa0",
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "toolEvents": 0,
+      "finalCaptured": true
+    },
+    {
+      "lane": "claude",
+      "status": "failed",
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "readOnlyViolation": true,
+      "concurrentParentEditsReviewed": true,
+      "errorCategory": "token-quota",
+      "httpStatus": 429
+    },
+    {
+      "lane": "agy-fallback",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "effort": "high",
+      "version": "1.3.5",
+      "finalCaptured": true,
+      "readOnlyViolation": false,
+      "concurrentParentEditsReviewed": true,
+      "structuredToolAuditAvailable": false,
+      "observedToolMarkers": 0
+    }
+  ]
+}

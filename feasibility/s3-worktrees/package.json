@@ -11,7 +11,8 @@
     "probe:cli-attribution": "node scripts/run-cli-attribution.js",
     "probe:trailer-policy": "node scripts/run-trailer-policy.js",
     "probe:push-policy": "node scripts/run-push-policy.js",
-    "probe:ownership": "node scripts/run-ownership.js"
+    "probe:ownership": "node scripts/run-ownership.js",
+    "probe:checkpoints": "node scripts/run-checkpoints.js"
   },
   "engines": { "node": ">=18" }
 }

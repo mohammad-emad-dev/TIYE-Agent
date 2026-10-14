@@ -804,7 +804,10 @@ The separate worktree protects the author's work from ordinary edits in the revi
 
 ### 6.8 Checkpoints and restore
 
-Checkpoints are saved as **hidden Git references**, so they never touch the user's branches, index, or history.
+Checkpoints use a separate **Git reference namespace**. Capturing a checkpoint
+must preserve the user's branch tips, working files and real index. The namespace
+adds Git objects and refs; it is not secret and does not exclude checkpoints
+from mirror pushes.
 
 | Item | Design |
 |---|---|
@@ -812,6 +815,25 @@ Checkpoints are saved as **hidden Git references**, so they never touch the user
 | **How** | The state of each active worktree is written as a snapshot using a temporary index, and stored under `refs/tiye/<session>/<n>`. The event sequence number is recorded with it. |
 | **Restore** | The engine first saves a safety checkpoint, pauses the affected members, restores the files, and writes a `checkpoint.restored` event. The conversation history stays. |
 | **Leader notice** | The Leader receives a rollback notice with the restore point, so it does not work from an outdated picture of the code. |
+
+**Bounded S3.5 baseline.** The Windows feasibility prototype now stores a
+reachable `manifest.json` and raw `files/` tree in a SHA-1 Git commit, using
+isolated temporary indexes and create-only refs. It copies the real index to
+compute the staged-tree fingerprint. A fresh Node process verifies the expected
+commit, session, sequence, member/common-Git fingerprints, branch, parent and
+file hashes before fixture-approved recovery. A safety checkpoint is saved
+before restoring one file; unrelated edits, HEAD, branch and real index bytes
+remain unchanged. Ref reuse, wrong identity/commit, stale targets, changed
+HEAD/index, active Git operations, unsafe paths and links are refused.
+
+This baseline handles bounded ordinary-file contents, including non-ignored
+untracked files. Deleted paths are omitted and file modes are normalized; it
+does not restore the staged index or provide a complete worktree rollback.
+The approval is simulated by a trusted fixture, and writers are controlled.
+Member suspension, actual approval UI, event-store/ref transactions, global
+session reconstruction and crash/power-loss recovery remain unbuilt. Filesystem
+rechecks are not atomic. See the
+[S3 checkpoint results](../feasibility/s3-worktrees/RESULTS.md#s35-durable-checkpoint-storage-and-fresh-process-recovery--14-october-2026).
 
 ### 6.9 Projects without Git
 

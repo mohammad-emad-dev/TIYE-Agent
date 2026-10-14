@@ -1,0 +1,13 @@
+{
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0"
+  },
+  "records": [
+    {
+      "name": "checkpoints.json",
+      "sha256": "785e0cbdd84ae8514fe3dbc89388b9a87cdb481ed5b86d17b703611b0360efa0"
+    }
+  ]
+}

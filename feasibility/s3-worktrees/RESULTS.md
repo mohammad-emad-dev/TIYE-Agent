@@ -1,3 +1,50 @@
+# S3.5 durable checkpoint storage and fresh-process recovery — 14 October 2026
+
+**CHECKPOINTS_PASS_S3_PARTIAL.** One disposable Windows worktree verified raw
+Git checkpoint storage and selective recovery in a new Node process using Git
+2.55.0.windows.5 and Node 26.7.0. Approval was simulated by a trusted fixture.
+
+| Check | Observed result |
+|---|---|
+| Capture | Ten tracked/non-ignored untracked files stored as raw blobs; real index bytes, working files, HEAD and branch preserved |
+| Persistence | Fresh Node process reopened the exact expected ref/commit and verified reachable manifest and file hashes |
+| Selective restore | Working member-a.txt restored while its different staged bytes and an unrelated member-b.txt edit stayed intact |
+| Safety snapshot | Sequence 18 saved the newer pre-restore bytes before restoring sequence 17 content |
+| Refusals | Duplicate ref, wrong expected commit, stale target, changed index/HEAD, forged/replayed approval blocked |
+| Additional real Git tests | Wrong member/session, forged plan, unsafe path, unavailable file, hardlink, oversized file and active Git operation refused |
+| Cleanup | Source root unchanged; one clean owned worktree removed; registry root-only; exact disposable roots removed |
+| Gates | 17 S3 tests and 113 S2 tests passed; prior tracked S1/S2/S3 evidence unchanged |
+
+The [sealed observation](evidence/supplements/checkpoints/785e0cbdd84ae8514fe3dbc89388b9a87cdb481ed5b86d17b703611b0360efa0/checkpoints.json)
+and [qualification](evidence/checkpoints-qualification.json) bind measured source
+bytes and versions. An initial fixture error assumed a linked worktree had a
+`.git/index` inside its working directory. The corrected fixture resolves the
+native Git index path, and its exact failed disposable roots were cleaned after
+verifying ownership and synthetic bytes.
+
+Checkpoint publication uses an isolated temporary index and expected-zero
+`update-ref` CAS. The manifest and payload are reachable from the checkpoint
+commit. Loading binds the expected commit ID, session, sequence, member/common
+Git fingerprints, branch, parent, tree entries and raw file hashes. Restoration
+consumes every reviewed attempt, including refusals, checks current HEAD/staged
+tree/target hash, saves a safety checkpoint, rechecks state, then writes only the
+selected file. No bulk reset, unstage or deletion is performed by recovery.
+
+Muse xhigh and Agy Gemini 3.8 Flash high completed supplied-facts reviews. MiMo
+Atria timed out; Claude Atria xhigh returned quota 429. Structured event logs
+for the first three contained no tool events. Agy's plain-text logs had no
+observed tool markers; a structured tool audit was unavailable. The Claude
+change tripwire reflected reviewed concurrent parent implementation changes.
+
+This is bounded **Git storage across a process boundary**, with controlled
+writers. Limits are 1,000 ordinary files, 1 MiB each and 8 MiB total. ASCII
+relative paths and SHA-1 repositories are supported. Deleted paths are omitted,
+modes normalize to 100644, and the staged tree is only a fingerprint. The
+checkpoint namespace is not secret or exempt from mirror pushes. Failed capture
+may leave unreachable objects. Full worktree rollback, real approval UI, member
+pause, atomic checks, event-store/ref coordination, global session reconstruction
+and crash/power-loss qualification remain open. **Full S3 remains partial.**
+
 # S3.4 ownership watcher and recovery — 14 October 2026
 
 **OWNERSHIP_PASS_S3_PARTIAL.** One disposable Windows worktree verified bounded

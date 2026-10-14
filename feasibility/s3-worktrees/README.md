@@ -1,5 +1,32 @@
 # S3 worktree feasibility prototype
 
+`npm run probe:checkpoints` verifies bounded Git-backed checkpoints and a fresh
+Node process reopening their storage. `git-checkpoints.js` snapshots tracked and
+non-ignored untracked ordinary files as raw blobs, using an isolated index.
+A copy of the real index supplies the staged-tree fingerprint. The reachable
+manifest binds the session, sequence, canonical member/common Git fingerprints,
+branch, HEAD, staged tree and file hashes. Create-only `refs/tiye/*` publication
+uses expected-zero CAS; callers must supply the trusted expected commit ID.
+
+Recovery loads and verifies the checkpoint, prepares one file, then consumes
+one privately bound fixture approval. It refuses stale target/HEAD/index,
+active Git operations, unsafe paths and links. A new safety checkpoint must
+persist before writing only that file. The native fixture distinguishes staged
+and working contents, loads original untracked bytes, preserves unrelated dirty
+work, and verifies exact real-index bytes. The fresh reader validates its pinned
+fixture roots and native registration; it does not rebuild the app's lifecycle
+or session registry. No provider creates these recovery approvals or writes.
+
+Limits are 1,000 files, 1 MiB per file and 8 MiB total, with ASCII relative paths
+and SHA-1 repositories only. Deleted paths are omitted; executable modes are
+not preserved. The staged tree is a fingerprint, not an index restoration
+payload. Failed capture can leave unreachable Git objects. Refs are reachable
+Git storage, not secret or excluded from mirror pushes. Cleanup removes the
+exact owned disposable roots, including their checkpoint objects.
+This qualifies storage across a process boundary, not atomic recovery, durable
+event-store coordination, writer suspension, approval UI or power-loss recovery.
+See `evidence/checkpoints-qualification.json` and the sealed observation.
+
 This begins S3.1 with a disposable Windows Git fixture. `npm run probe` makes
 no model requests and uses no remote repository. The probe creates a fresh
 source root plus a separate worktree base, integration and two member branches.
