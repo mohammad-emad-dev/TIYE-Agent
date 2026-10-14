@@ -1,4 +1,64 @@
-# S3.3 local push policy — 14 October 2026
+# S3.4 ownership watcher and recovery — 14 October 2026
+
+**OWNERSHIP_PASS_S3_PARTIAL.** One disposable Windows worktree verified bounded
+polling and reviewed per-file recovery with Git 2.55.0.windows.5 and Node
+26.7.0. The parent supplied controlled fixture writes and simulated approval;
+no provider CLI made these edits, and no actual user approval UI was exercised.
+
+| Check | Observed result |
+|---|---|
+| Real polling | Modified member-b.txt, deleted shared.txt, added new-note.txt and modified initial untracked local-note.txt detected |
+| Assigned file | member-a.txt edit was not flagged and stayed intact through all recovery |
+| Reviewed recovery | Four privately bound approvals restored changed/deleted content and removed the new file |
+| Stale target | An earlier approval refused a newer target edit; newer bytes remained until a fresh observation was approved |
+| Untracked checkpoint | Original local-note.txt bytes restored from memory rather than HEAD |
+| Refusal tests | Forged/replayed approval, staged index, changed HEAD, hardlink and junction substitution refused; foreign canary bytes preserved |
+| Stop/fault | Polling closed; a link-induced snapshot fault latched and prevented recovery/restart |
+| Cleanup and checks | Assigned fixture work committed only for cleanup, source state unchanged, clean owned worktree removed, registry root-only, owned roots gone; 15 S3 and 113 S2 checks passed |
+
+The measured detection interval was **183 ms** in this tiny controlled run with
+a 100 ms polling delay plus synchronous scan time. This is an observation, not
+a latency guarantee or a production benchmark. The watcher snapshots ordinary
+file bytes, skips `.git`, deduplicates pending file-state fingerprints, limits
+the notification queue to 100, and fails closed on unverified snapshots.
+Snapshot limits are 1 MiB per file, 1,000 regular files and 8 MiB total. Exact
+assigned paths are copied at construction; globs and dynamic reassignment are
+unsupported. Directory-only and file-mode changes are not qualified.
+
+The [sealed observation](evidence/supplements/ownership/45fdade5a2dac89983411852384f379091b9855a70570dc3562707fdf272ee88/ownership.json)
+and [qualification](evidence/ownership-qualification.json) bind the measured
+source and versions. The first passing observation is separately retained;
+the corrected run consumes approvals on every reviewed attempt, including a
+refusal. Previous tracked S1/S2/S3 evidence remains unchanged.
+The real-filesystem refusal test stages a fixture edit, changes its HEAD, and
+substitutes a hardlink/junction to a separate fixture canary. It verifies refusal
+before recovering or deleting foreign content. Test cleanup touches only its
+known synthetic edits and exact owned paths.
+
+This is **after-the-fact detection and fixture-approved recovery**, not write
+prevention. Recovery compares the current target hash with the reviewed
+observation and refuses changed checkpoint HEAD/index, unsafe paths and links.
+Approval is consumed on the reviewed attempt; a refused attempt needs a fresh
+observation and approval before retrying. Rejected writes are not silently
+reset or unstaged. Initial untracked checkpoint bytes are preserved.
+Closing only stops polling; it does not stop a CLI process. Writers must be
+controlled before recovery. Filesystem rechecks are not atomic and do not
+contain arbitrary processes. Edits between polls can be missed, and out-of-tree
+writes or Git metadata changes are not covered by this watcher. Durable hidden
+Git checkpoints, restart recovery, production routing/UI, provider CLI watcher
+qualification and the Windows compatibility matrix remain open. Full S3 and
+the core application remain partial.
+
+Muse and Agy Gemini 3.8 Flash high completed supplied-facts reviews. MiMo Atria
+timed out after four minutes; Claude Atria returned token quota exhaustion
+(HTTP 429). Recursive MiMo/OpenCode/Claude event audits found zero tool events.
+Agy's plain log lacks equivalent structured tool-event coverage; its status and
+change tripwire are recorded in qualification. Concurrent parent edits were
+reviewed before commit. Agy's replay concern prompted consumption on refused
+recovery attempts as well as successful ones; its race concern remains an
+explicit limitation rather than a containment claim.
+
+## Earlier S3.3 local push policy — 14 October 2026
 
 **PUSH_POLICY_PASS_S3_PARTIAL.** Git 2.55.0.windows.5 and Node 26.7.0 completed
 the Windows push fixture with two owned worktrees and one local bare remote.

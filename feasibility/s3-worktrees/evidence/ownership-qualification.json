@@ -1,0 +1,94 @@
+{
+  "recordedAt": "2026-10-14T13:15:41.098Z",
+  "scope": "Bounded polling detection and fixture-approved per-file recovery from in-memory working-tree checkpoint; controlled writers only",
+  "result": "OWNERSHIP_PASS_S3_PARTIAL",
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0"
+  },
+  "mechanism": "100 ms polling delay plus synchronous bounded ordinary-file snapshot",
+  "detectionMs": 183,
+  "latencyGuaranteeQualified": false,
+  "checkpoint": "in-memory working-tree bytes with HEAD/index tree; initial untracked files included",
+  "assignedScope": "exact immutable paths",
+  "snapshotLimits": {
+    "maxFileBytes": 1048576,
+    "maxFiles": 1000,
+    "maxTotalBytes": 8388608,
+    "maxQueuedNotifications": 100
+  },
+  "pollingDetectedAll": true,
+  "assignedNotFlagged": true,
+  "forgedApprovalBlocked": true,
+  "staleTargetBlocked": true,
+  "reviewedRestoresPassed": true,
+  "assignedEditPreserved": true,
+  "initialUntrackedBytesRestored": true,
+  "replayBlocked": true,
+  "watcherClosed": true,
+  "approvalSource": "trusted parent fixture simulation",
+  "approvalConsumedOnEveryReviewedAttempt": true,
+  "nativeRefusalChecks": [
+    "staged index",
+    "changed HEAD",
+    "hardlink target",
+    "junction scan fault",
+    "foreign bytes preserved",
+    "refused approval retry needs fresh observation"
+  ],
+  "preventsWrites": false,
+  "atomicRecoveryQualified": false,
+  "durableCheckpointQualified": false,
+  "userApprovalUiQualified": false,
+  "providerCliWatcherQualified": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "originalRootUnchanged": true,
+  "worktreesCreated": 1,
+  "worktreesRemoved": 1,
+  "registryRootOnly": true,
+  "rootTempRemoved": true,
+  "baseTempRemoved": true,
+  "s3OfflineChecksPassed": 15,
+  "s2OfflineChecksPassed": 113,
+  "previousEvidenceUnchanged": true,
+  "measuredSourcesUnchanged": true,
+  "supplementalReference": "supplements/ownership/45fdade5a2dac89983411852384f379091b9855a70570dc3562707fdf272ee88/ownership.json",
+  "supplementalSha256": "45fdade5a2dac89983411852384f379091b9855a70570dc3562707fdf272ee88",
+  "initialPassingObservation": "supplements/ownership/fa84c6f1e210547877fe0c1e5a625c1074ed92152cd2ea179e0706703d7c6053/ownership.json",
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "toolEvents": 0,
+      "finalCaptured": true
+    },
+    {
+      "lane": "claude",
+      "status": "failed",
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "errorCategory": "token-quota",
+      "httpStatus": 429
+    },
+    {
+      "lane": "agy-fallback",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "effort": "high",
+      "version": "1.3.5",
+      "finalCaptured": true,
+      "readOnlyViolation": true,
+      "concurrentParentEditsReviewed": true,
+      "structuredToolAuditAvailable": false,
+      "observedToolMarkers": 0
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "platform": "win32",
+  "versions": {
+    "git": "git version 2.55.0.windows.5",
+    "node": "v26.7.0"
+  },
+  "records": [
+    {
+      "name": "ownership.json",
+      "sha256": "fa84c6f1e210547877fe0c1e5a625c1074ed92152cd2ea179e0706703d7c6053"
+    }
+  ]
+}

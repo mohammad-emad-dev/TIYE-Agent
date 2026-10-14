@@ -88,6 +88,24 @@ member B. This proves the hook is advisory. Approval is simulated by the parent;
 the production broker, user approval UI, credentials and provider CLI push
 qualification are not implemented. All Git mutations target disposable fixtures.
 
+`npm run probe:ownership` polls one owned worktree every 100 ms plus scan time.
+It captures an in-memory working-tree checkpoint and an exact assigned-file
+list, queues new unauthorized modified/deleted/added file states, and stops on
+an unverified snapshot or a full notification queue. `.git` is excluded. The
+prototype supports ordinary files up to 1 MiB each, 1,000 files and 8 MiB total;
+links and unsupported entries are refused. It does not qualify directory-only,
+transient, metadata-only or out-of-worktree changes.
+Recovery requires a privately bound fixture approval, unchanged checkpoint
+HEAD/index tree and unchanged target observation. It restores only one file's
+checkpoint bytes or unlinks the exact newly added file, preserving assigned edits
+and initial untracked checkpoint content. Each recovery attempt consumes its
+approval, including a refusal; a new observation and review are needed to retry.
+Closing stops polling; explicit scans
+and reviewed recovery remain available. No bulk Git reset or automatic revert
+is performed. Writers must be controlled: checks are not atomic with file I/O.
+User approval UI, durable checkpoints and production watcher integration remain
+unbuilt. The probe makes no model requests and never edits the user's files.
+
 The lifecycle registry is in memory. Restart recovery, interprocess locking and
 atomic protection against filesystem replacement remain unbuilt. Refusal is
 conservative; uncertain cleanup retains the fixture. This prototype does not

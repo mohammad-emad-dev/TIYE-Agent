@@ -710,6 +710,15 @@ The Leader assigns files and areas with `assign_files`. Ownership keeps members 
 
 The two rows are different guarantees, not two implementations of one: the API row is prevention, the CLI row is detection. See the enforcement matrix (Section 6.11).
 
+**Ownership feasibility, 14 October 2026.** A bounded polling prototype detected
+unauthorized file modifications, deletion and creation in one disposable
+worktree. Fixture-approved per-file recovery preserved assigned edits and
+initial untracked checkpoint bytes, and refused stale target/index/HEAD and
+link substitutions. The checkpoint is in memory; polling does not prevent
+writes or stop the CLI. Recovery requires controlled writers and provides no
+atomic or OS boundary. Durable checkpoints, the user approval UI and production
+watcher routing remain unbuilt. See [the measured results](../feasibility/s3-worktrees/RESULTS.md).
+
 ### 6.4 Merging
 
 | Step | Action |

@@ -1,0 +1,94 @@
+{
+  "recordedAt": "2026-10-14T13:14:11.649Z",
+  "scope": "Bounded polling detection and fixture-approved per-file recovery from in-memory working-tree checkpoint; controlled writers only",
+  "platform": "win32",
+  "node": "v26.7.0",
+  "git": "git version 2.55.0.windows.5",
+  "sourceHashes": {
+    "run-ownership.js": "991bcb17013145a174582fbad56eb377cbf18c2e6e3743ec1c7498ff0289b4b2",
+    "ownership-watcher.js": "b50a3a4a6e2102b6e6678d1fa966070f005087a5173550827ec625f92d98a856",
+    "run-basics.js": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+    "worktree-lifecycle.js": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272"
+  },
+  "preventsWrites": false,
+  "atomicRecoveryQualified": false,
+  "durableCheckpointQualified": false,
+  "userApprovalUiQualified": false,
+  "providerCliWatcherQualified": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "worktreesRemoved": 1,
+  "worktreesCreated": 1,
+  "detectionMs": 183,
+  "observations": [
+    {
+      "path": "local-note.txt",
+      "kind": "modified",
+      "beforeHash": "e733793884e55d0b632f4d96632385863ccb4d5d4a911e251d23c8d811a88ca6",
+      "observedHash": "37eaf5b479c9960d5a60cf682519a751328fe87e234a2e0011034d2707744064"
+    },
+    {
+      "path": "member-b.txt",
+      "kind": "modified",
+      "beforeHash": "1896468176c48ad4ec287394037bc8d4eb1704cfa0f3059305b8d6bf7a1799db",
+      "observedHash": "42fa15243fce21d95343b88418636310971752b14351232e21b66f5bac422ece"
+    },
+    {
+      "path": "shared.txt",
+      "kind": "deleted",
+      "beforeHash": "e183efcd58d5df07e5375ddce3c1837ef628a775d28bf28378ce08020f12042e",
+      "observedHash": null
+    },
+    {
+      "path": "new-note.txt",
+      "kind": "added",
+      "beforeHash": null,
+      "observedHash": "5d151f3346321ac812dfaf368f209fe20b87d65ef6c3bf1186097e91db0d1aba"
+    }
+  ],
+  "pollingDetectedAll": true,
+  "assignedNotFlagged": true,
+  "forgedApprovalBlocked": true,
+  "staleTargetBlocked": true,
+  "restoreResults": [
+    {
+      "restored": {
+        "restored": true,
+        "path": "local-note.txt"
+      },
+      "replayBlocked": true
+    },
+    {
+      "restored": {
+        "restored": true,
+        "path": "member-b.txt"
+      },
+      "replayBlocked": true
+    },
+    {
+      "restored": {
+        "restored": true,
+        "path": "shared.txt"
+      },
+      "replayBlocked": true
+    },
+    {
+      "restored": {
+        "restored": true,
+        "path": "new-note.txt"
+      },
+      "replayBlocked": true
+    }
+  ],
+  "reviewedRestoresPassed": true,
+  "replayBlocked": true,
+  "assignedEditPreserved": true,
+  "initialUntrackedBytesRestored": true,
+  "watcherClosed": true,
+  "registryRootOnly": true,
+  "originalRootUnchanged": true,
+  "baseTempRemoved": true,
+  "rootTempRemoved": true,
+  "passed": true,
+  "result": "OWNERSHIP_PASS_S3_PARTIAL"
+}
