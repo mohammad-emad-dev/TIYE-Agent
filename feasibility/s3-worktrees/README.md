@@ -1,5 +1,12 @@
 # S3 worktree feasibility prototype
 
+See [ASSESSMENT.md](ASSESSMENT.md) for the consolidated S3 status and remaining
+qualification. `npm run assess` derives the twelve-cohort evidence inventory;
+`npm run assess:check` verifies the saved assessment. Both use existing sealed
+records and local Git history, with no new model/native cohort. Current-byte
+matching and historical-only source observations are recorded separately.
+Full S3 and production eligibility remain false.
+
 `npm run probe:windows-create` verifies the explicit Windows creation entry
 point in `scripts/windows-worktree-create.js`. `createWindowsWorktree` takes a
 trusted lifecycle and canonical main repository, plus name/branch/ref. It

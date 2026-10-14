@@ -1,0 +1,738 @@
+{
+  "schema": "tiye-s3-assessment-v1",
+  "result": "VERIFIED_BOUNDED_EVIDENCE_S3_PARTIAL",
+  "cohorts": [
+    {
+      "id": "basics",
+      "result": "BASELINE_PASS_S3_PARTIAL",
+      "recordedAt": "2026-10-14T05:59:25.221Z",
+      "qualification": "evidence/basics-qualification.json",
+      "qualificationSha256": "e2c120eeb7c7ed738081d7ef983bec2a769a86cda6c245be0a0c59f14a76e11e",
+      "sealedObservation": "evidence/supplements/basics/ec3e80f81c93a254a90207ca086c54379c10edb0f3f67dc7052153289d865afb/basics.json",
+      "observationSha256": "ec3e80f81c93a254a90207ca086c54379c10edb0f3f67dc7052153289d865afb",
+      "manifestSha256": "7eebad8af123b417cdac2b8a56c9a7a30c472a86a1fb78f43673549b157fdc9c",
+      "versions": {
+        "git": "git version 2.55.0.windows.5",
+        "node": "v26.7.0",
+        "npm": "11.19.0"
+      },
+      "sourceCommit": "eaa9524b47e6190e397b6bb9eb1bc14e3592cd91",
+      "sourceApplicability": "historical-source-only",
+      "sources": [
+        {
+          "path": "scripts/run-basics.js",
+          "sha256": "41d31c1fdc39f11cb21374ab5b397d2d95ab254dbced959f81f458089b693e3c",
+          "historicalCommit": "eaa9524b47e6190e397b6bb9eb1bc14e3592cd91",
+          "currentBytesMatch": false
+        },
+        {
+          "path": "scripts/worktree-lifecycle.js",
+          "sha256": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+          "historicalCommit": "eaa9524b47e6190e397b6bb9eb1bc14e3592cd91",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "fixtures/member-write.cjs",
+          "sha256": "39a234c8b674c88191de72846f704f00a42a446e7fe612002bbfe7d0dab16aa0",
+          "historicalCommit": "eaa9524b47e6190e397b6bb9eb1bc14e3592cd91",
+          "currentBytesMatch": true
+        }
+      ]
+    },
+    {
+      "id": "dependencies",
+      "result": "COMPARISON_PASS_S3_PARTIAL",
+      "recordedAt": "2026-10-14T09:19:36.834Z",
+      "qualification": "evidence/dependencies-qualification.json",
+      "qualificationSha256": "98f10e7cf800698e896675cd3e077fa0a7f29a0611319ac5f8bebd8ce7fbb6c8",
+      "sealedObservation": "evidence/supplements/dependencies/14f0e6283a881100d6fee707a020a19f15032e49e8117b42121e3c5dfc5603e7/dependencies.json",
+      "observationSha256": "14f0e6283a881100d6fee707a020a19f15032e49e8117b42121e3c5dfc5603e7",
+      "manifestSha256": "6a7a595ef29a0118fb2f0a7d4f635f86fd489be74acd79fb46a90509104559d5",
+      "versions": {
+        "git": "git version 2.55.0.windows.5",
+        "node": "v26.7.0",
+        "npm": "11.19.0"
+      },
+      "sourceCommit": "ebda2de694644903f389bddc18918ed335accfaf",
+      "sourceApplicability": "recorded-source-bytes-match",
+      "sources": [
+        {
+          "path": "scripts/run-dependencies.js",
+          "sha256": "49a8833f1ed5816d4da7295aaa04abf631cd1a135757621a451872dd504ef347",
+          "historicalCommit": "ebda2de694644903f389bddc18918ed335accfaf",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/dependency-link.js",
+          "sha256": "2b82960460bf07054852b87322dde9e87e7603cf6a3b708856b4acc71ceee985",
+          "historicalCommit": "ebda2de694644903f389bddc18918ed335accfaf",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/worktree-lifecycle.js",
+          "sha256": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+          "historicalCommit": "ebda2de694644903f389bddc18918ed335accfaf",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/run-basics.js",
+          "sha256": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+          "historicalCommit": "ebda2de694644903f389bddc18918ed335accfaf",
+          "currentBytesMatch": true
+        }
+      ]
+    },
+    {
+      "id": "attribution",
+      "result": "ATTRIBUTION_BASELINE_PASS_S3_PARTIAL",
+      "recordedAt": "2026-10-14T09:46:37.204Z",
+      "qualification": "evidence/attribution-qualification.json",
+      "qualificationSha256": "60f28311aa7f367df5248a37c3428ac9d6246c8104ee12cee9752f4c7a82587b",
+      "sealedObservation": "evidence/supplements/attribution/edf58203629aa397d3b49af52c6513bba9cf8cb78da9fbb5fa2c745c346ffc20/attribution.json",
+      "observationSha256": "edf58203629aa397d3b49af52c6513bba9cf8cb78da9fbb5fa2c745c346ffc20",
+      "manifestSha256": "ee30c50f83f89705b2d260de440ebc8fee39e394eaf3006e718fff83e2ad2fab",
+      "versions": {
+        "git": "git version 2.55.0.windows.5",
+        "node": "v26.7.0"
+      },
+      "sourceCommit": "4866d4d3e4f239e185e19f48342d93a7f271c160",
+      "sourceApplicability": "recorded-source-bytes-match",
+      "sources": [
+        {
+          "path": "scripts/run-attribution.js",
+          "sha256": "79cebac32d0f8016c45c63e4833ae21f1b1e7cf3c8c6bcbc6f4a28e0b7ab8300",
+          "historicalCommit": "4866d4d3e4f239e185e19f48342d93a7f271c160",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/attribution-git.js",
+          "sha256": "f949b737c5f8b358ffc0f72f485cca067a28016d0fed9234f1e7be1ae90e3bf1",
+          "historicalCommit": "4866d4d3e4f239e185e19f48342d93a7f271c160",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/run-basics.js",
+          "sha256": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+          "historicalCommit": "4866d4d3e4f239e185e19f48342d93a7f271c160",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/worktree-lifecycle.js",
+          "sha256": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+          "historicalCommit": "4866d4d3e4f239e185e19f48342d93a7f271c160",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "fixtures/member-commit.cjs",
+          "sha256": "93eff116eb0eedeb1a5416ac3305ca36979d4a79175a460f1c3458a75196ec53",
+          "historicalCommit": "4866d4d3e4f239e185e19f48342d93a7f271c160",
+          "currentBytesMatch": true
+        }
+      ]
+    },
+    {
+      "id": "cli-attribution",
+      "result": "CLI_ATTRIBUTION_PASS_S3_PARTIAL",
+      "recordedAt": "2026-10-14T10:01:03.896Z",
+      "qualification": "evidence/cli-attribution-qualification.json",
+      "qualificationSha256": "62c414c8807db1a4bc3c5de53e5388486ce859e1539c394845dd3cc53e7cb828",
+      "sealedObservation": "evidence/supplements/cli-attribution/4e2e647fa95120339db244271b13f3d9ea1b9758e6b607fe0f6cb2798a4312e2/cli-attribution.json",
+      "observationSha256": "4e2e647fa95120339db244271b13f3d9ea1b9758e6b607fe0f6cb2798a4312e2",
+      "manifestSha256": "76427bdfe3add0277d6ff3e2bec7398a0046f5d3186f1b55e9414d39f7742ea8",
+      "versions": {
+        "git": "git version 2.55.0.windows.5",
+        "node": "v26.7.0",
+        "cli": "opencode v2.0.28"
+      },
+      "sourceCommit": "22d2428a69849cc6b0be359d1782b8fc181b9b8e",
+      "sourceApplicability": "recorded-source-bytes-match",
+      "sources": [
+        {
+          "path": "scripts/run-cli-attribution.js",
+          "sha256": "1903e1c79a4425564029524d33f3886d2b7f63b554b374b4f2639ac211c3c367",
+          "historicalCommit": "22d2428a69849cc6b0be359d1782b8fc181b9b8e",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/cli-attribution-evidence.js",
+          "sha256": "d625789aea983a181b3cd47cc78c2ad35bdd7970f687fb12470c120484432e13",
+          "historicalCommit": "22d2428a69849cc6b0be359d1782b8fc181b9b8e",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/attribution-git.js",
+          "sha256": "f949b737c5f8b358ffc0f72f485cca067a28016d0fed9234f1e7be1ae90e3bf1",
+          "historicalCommit": "22d2428a69849cc6b0be359d1782b8fc181b9b8e",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/run-basics.js",
+          "sha256": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+          "historicalCommit": "22d2428a69849cc6b0be359d1782b8fc181b9b8e",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/worktree-lifecycle.js",
+          "sha256": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+          "historicalCommit": "22d2428a69849cc6b0be359d1782b8fc181b9b8e",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "fixtures/attribution-task.cjs",
+          "sha256": "da42d8045d74ed9cc9abb16e8ccca82f6f0974b6d38e3c7a89ecebd7fbc28ac9",
+          "historicalCommit": "22d2428a69849cc6b0be359d1782b8fc181b9b8e",
+          "currentBytesMatch": true
+        }
+      ]
+    },
+    {
+      "id": "trailer-policy",
+      "result": "TRAILER_POLICY_PASS_S3_PARTIAL",
+      "recordedAt": "2026-10-14T11:13:16.886Z",
+      "qualification": "evidence/trailer-policy-qualification.json",
+      "qualificationSha256": "4c7df9cec26992517b1cab50e3d848344a67fd648d2131bd846907aa28590fc1",
+      "sealedObservation": "evidence/supplements/trailer-policy/d0e7de2acbe92995354da364ef23c9af8edcb950ca57071505ad1d60d1b2e77e/trailer-policy.json",
+      "observationSha256": "d0e7de2acbe92995354da364ef23c9af8edcb950ca57071505ad1d60d1b2e77e",
+      "manifestSha256": "eec997ec50ce28e14ef9eade7dc903db7ac0ca3ced913fcdc00ec22809d06fc0",
+      "versions": {
+        "git": "git version 2.55.0.windows.5",
+        "node": "v26.7.0"
+      },
+      "sourceCommit": "af72db261036043932424b4ed993a90e21a2a0ec",
+      "sourceApplicability": "recorded-source-bytes-match",
+      "sources": [
+        {
+          "path": "scripts/run-trailer-policy.js",
+          "sha256": "f9b7611e8bde7047acbeaa8cf744bb15dc5e529b31e04ad2bbf0882eab011c1b",
+          "historicalCommit": "af72db261036043932424b4ed993a90e21a2a0ec",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/session-trailer-gate.js",
+          "sha256": "d5d383891bbcd2ba4bac64527f8cb46ea010e57e1b834fef39dfba6719dced59",
+          "historicalCommit": "af72db261036043932424b4ed993a90e21a2a0ec",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/attribution-git.js",
+          "sha256": "f949b737c5f8b358ffc0f72f485cca067a28016d0fed9234f1e7be1ae90e3bf1",
+          "historicalCommit": "af72db261036043932424b4ed993a90e21a2a0ec",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/run-basics.js",
+          "sha256": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+          "historicalCommit": "af72db261036043932424b4ed993a90e21a2a0ec",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/worktree-lifecycle.js",
+          "sha256": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+          "historicalCommit": "af72db261036043932424b4ed993a90e21a2a0ec",
+          "currentBytesMatch": true
+        }
+      ]
+    },
+    {
+      "id": "push-policy",
+      "result": "PUSH_POLICY_PASS_S3_PARTIAL",
+      "recordedAt": "2026-10-14T12:13:50.611Z",
+      "qualification": "evidence/push-policy-qualification.json",
+      "qualificationSha256": "f404798f0c4973d16738e0ede962465e3a1fafc5b270b1eadce24265adda90f0",
+      "sealedObservation": "evidence/supplements/push-policy/dd08cff37fe9b951d4fda948833e51eb2568c4d5a4ea7d20d23dd86b27b9945e/push-policy.json",
+      "observationSha256": "dd08cff37fe9b951d4fda948833e51eb2568c4d5a4ea7d20d23dd86b27b9945e",
+      "manifestSha256": "23e3211e312c7251860b049c5ea8f0faa97457597ef0073928a2e3a9de79f048",
+      "versions": {
+        "git": "git version 2.55.0.windows.5",
+        "node": "v26.7.0"
+      },
+      "sourceCommit": "5b4ea172eac091cf3dcc40c9d12d316b392008ea",
+      "sourceApplicability": "recorded-source-bytes-match",
+      "sources": [
+        {
+          "path": "scripts/run-push-policy.js",
+          "sha256": "dec2c0a3898edb40aaef78e58528bc625c6a2ccb9ee4ad7d0a3028125cf85bc8",
+          "historicalCommit": "5b4ea172eac091cf3dcc40c9d12d316b392008ea",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/local-push-gate.js",
+          "sha256": "b92fed4f54685974c47c10f362466e51bc1480d722e79bff5e1d27ab4067a851",
+          "historicalCommit": "5b4ea172eac091cf3dcc40c9d12d316b392008ea",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/attribution-git.js",
+          "sha256": "f949b737c5f8b358ffc0f72f485cca067a28016d0fed9234f1e7be1ae90e3bf1",
+          "historicalCommit": "5b4ea172eac091cf3dcc40c9d12d316b392008ea",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/run-basics.js",
+          "sha256": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+          "historicalCommit": "5b4ea172eac091cf3dcc40c9d12d316b392008ea",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/worktree-lifecycle.js",
+          "sha256": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+          "historicalCommit": "5b4ea172eac091cf3dcc40c9d12d316b392008ea",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "fixtures/push-hook.cjs",
+          "sha256": "fe0d5bc4e17833b414c2e70e7d6effe22a26e3082ef5afb67705ec881caa6b7d",
+          "historicalCommit": "5b4ea172eac091cf3dcc40c9d12d316b392008ea",
+          "currentBytesMatch": true
+        }
+      ]
+    },
+    {
+      "id": "ownership",
+      "result": "OWNERSHIP_PASS_S3_PARTIAL",
+      "recordedAt": "2026-10-14T13:14:11.649Z",
+      "qualification": "evidence/ownership-qualification.json",
+      "qualificationSha256": "8b31d6d18779523e2c6a95ed08ff2410e5854c533d3cf09da8fcf0bd7de496bc",
+      "sealedObservation": "evidence/supplements/ownership/45fdade5a2dac89983411852384f379091b9855a70570dc3562707fdf272ee88/ownership.json",
+      "observationSha256": "45fdade5a2dac89983411852384f379091b9855a70570dc3562707fdf272ee88",
+      "manifestSha256": "4387def7fa800c77e8c3ee11f3722f085b75f7db457c6b12c1c562077281b745",
+      "versions": {
+        "git": "git version 2.55.0.windows.5",
+        "node": "v26.7.0"
+      },
+      "sourceCommit": "084bd6eedcf52fe6923830eaaf4f8882b6978ca4",
+      "sourceApplicability": "recorded-source-bytes-match",
+      "sources": [
+        {
+          "path": "scripts/run-ownership.js",
+          "sha256": "991bcb17013145a174582fbad56eb377cbf18c2e6e3743ec1c7498ff0289b4b2",
+          "historicalCommit": "084bd6eedcf52fe6923830eaaf4f8882b6978ca4",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/ownership-watcher.js",
+          "sha256": "b50a3a4a6e2102b6e6678d1fa966070f005087a5173550827ec625f92d98a856",
+          "historicalCommit": "084bd6eedcf52fe6923830eaaf4f8882b6978ca4",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/run-basics.js",
+          "sha256": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+          "historicalCommit": "084bd6eedcf52fe6923830eaaf4f8882b6978ca4",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/worktree-lifecycle.js",
+          "sha256": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+          "historicalCommit": "084bd6eedcf52fe6923830eaaf4f8882b6978ca4",
+          "currentBytesMatch": true
+        }
+      ]
+    },
+    {
+      "id": "checkpoints",
+      "result": "CHECKPOINTS_PASS_S3_PARTIAL",
+      "recordedAt": "2026-10-14T13:30:14.643Z",
+      "qualification": "evidence/checkpoints-qualification.json",
+      "qualificationSha256": "dc60e447259a9847b97db98fc5e1a5095c91e2a30778e052e797245d10cb9b96",
+      "sealedObservation": "evidence/supplements/checkpoints/785e0cbdd84ae8514fe3dbc89388b9a87cdb481ed5b86d17b703611b0360efa0/checkpoints.json",
+      "observationSha256": "785e0cbdd84ae8514fe3dbc89388b9a87cdb481ed5b86d17b703611b0360efa0",
+      "manifestSha256": "8e4d234e4baa0a4583d825e6da3ce4f238f50ef5d06699522194a4811776264f",
+      "versions": {
+        "git": "git version 2.55.0.windows.5",
+        "node": "v26.7.0"
+      },
+      "sourceCommit": "0ae36a711bcfaad9f5f12373a88ffc1d8a72f1ec",
+      "sourceApplicability": "historical-source-only",
+      "sources": [
+        {
+          "path": "scripts/run-checkpoints.js",
+          "sha256": "d48bac7b96b30e6df0487a5cd765d1000c0f573fac7ebb52f9ec7a3dac351e73",
+          "historicalCommit": "0ae36a711bcfaad9f5f12373a88ffc1d8a72f1ec",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/git-checkpoints.js",
+          "sha256": "d16d272918cb74dcc9eb1fec63540a8ba824976662ccb6ca640e418672f6211c",
+          "historicalCommit": "0ae36a711bcfaad9f5f12373a88ffc1d8a72f1ec",
+          "currentBytesMatch": false
+        },
+        {
+          "path": "scripts/run-basics.js",
+          "sha256": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+          "historicalCommit": "0ae36a711bcfaad9f5f12373a88ffc1d8a72f1ec",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/worktree-lifecycle.js",
+          "sha256": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+          "historicalCommit": "0ae36a711bcfaad9f5f12373a88ffc1d8a72f1ec",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/attribution-git.js",
+          "sha256": "f949b737c5f8b358ffc0f72f485cca067a28016d0fed9234f1e7be1ae90e3bf1",
+          "historicalCommit": "0ae36a711bcfaad9f5f12373a88ffc1d8a72f1ec",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "fixtures/checkpoint-reopen.cjs",
+          "sha256": "e83fd45f100a6437307663e818360ba092aae29f8b0b5d5d1ce52b99a7aa232c",
+          "historicalCommit": "0ae36a711bcfaad9f5f12373a88ffc1d8a72f1ec",
+          "currentBytesMatch": true
+        }
+      ]
+    },
+    {
+      "id": "shadow-checkpoints",
+      "result": "SHADOW_CHECKPOINTS_PASS_S3_PARTIAL",
+      "recordedAt": "2026-10-14T14:09:11.897Z",
+      "qualification": "evidence/shadow-checkpoints-qualification.json",
+      "qualificationSha256": "3e4c4ae172d9f0ff56bbaf026aeea5e809d2891c965c7f025662c6f3f8bcdad6",
+      "sealedObservation": "evidence/supplements/shadow-checkpoints/47e0ca9032dde546f288af89f0c5afddb0c86e62d7fc4475afb191fc8f627d56/shadow-checkpoints.json",
+      "observationSha256": "47e0ca9032dde546f288af89f0c5afddb0c86e62d7fc4475afb191fc8f627d56",
+      "manifestSha256": "5664846c8a87d4acb3ad1b4faf7894032d84e955d017be1f50b5447f7dca642e",
+      "versions": {
+        "git": "git version 2.55.0.windows.5",
+        "node": "v26.7.0"
+      },
+      "sourceCommit": "5dc6e61dda7c4eaf98a3dcd0da6343a3b258f1a0",
+      "sourceApplicability": "recorded-source-bytes-match",
+      "sources": [
+        {
+          "path": "scripts/run-shadow-checkpoints.js",
+          "sha256": "d662e9dd24c8b5656b8da7d1a82dc059388ba83b585cac4fcd2f6ac00e79f8e2",
+          "historicalCommit": "5dc6e61dda7c4eaf98a3dcd0da6343a3b258f1a0",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/shadow-repository.js",
+          "sha256": "7b89e402ec2f97204c40844b89281c4ed3f0190e0485f3add6ab354e18a57d12",
+          "historicalCommit": "5dc6e61dda7c4eaf98a3dcd0da6343a3b258f1a0",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/git-checkpoints.js",
+          "sha256": "58693a8c38e7b541b102615195bc3a90b45e6d612907f77a11bab15432c92530",
+          "historicalCommit": "5dc6e61dda7c4eaf98a3dcd0da6343a3b258f1a0",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/attribution-git.js",
+          "sha256": "f949b737c5f8b358ffc0f72f485cca067a28016d0fed9234f1e7be1ae90e3bf1",
+          "historicalCommit": "5dc6e61dda7c4eaf98a3dcd0da6343a3b258f1a0",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/run-basics.js",
+          "sha256": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+          "historicalCommit": "5dc6e61dda7c4eaf98a3dcd0da6343a3b258f1a0",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/worktree-lifecycle.js",
+          "sha256": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+          "historicalCommit": "5dc6e61dda7c4eaf98a3dcd0da6343a3b258f1a0",
+          "currentBytesMatch": true
+        }
+      ]
+    },
+    {
+      "id": "final-merge",
+      "result": "FINAL_MERGE_PASS_S3_PARTIAL",
+      "recordedAt": "2026-10-14T14:42:14.377Z",
+      "qualification": "evidence/final-merge-qualification.json",
+      "qualificationSha256": "9c168235d31a782e4e008d2fe60e3e983482ca14eb61f929ee78539ab1a0f54a",
+      "sealedObservation": "evidence/supplements/final-merge/8bbfbdbebff1f41147dfe4d9176b47e7ad79a21d921ec6361538a2a29f3ea601/final-merge.json",
+      "observationSha256": "8bbfbdbebff1f41147dfe4d9176b47e7ad79a21d921ec6361538a2a29f3ea601",
+      "manifestSha256": "6f64d6f89c94548058612855d7f5936272a09cfbb4580cbed0149ae23d921512",
+      "versions": {
+        "git": "git version 2.55.0.windows.5",
+        "node": "v26.7.0"
+      },
+      "sourceCommit": "6973ef8fb422d7044671f2b48b33bfd8c7fc763e",
+      "sourceApplicability": "recorded-source-bytes-match",
+      "sources": [
+        {
+          "path": "scripts/run-final-merge.js",
+          "sha256": "529280595bc2c61a74de5cf72aba6d16c07706adc688503e74aaed18d83292b9",
+          "historicalCommit": "6973ef8fb422d7044671f2b48b33bfd8c7fc763e",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/final-merge-gate.js",
+          "sha256": "675e4bbdfa372ff69a08f9a72cb99157225e07888617be1984af1cfc95410549",
+          "historicalCommit": "6973ef8fb422d7044671f2b48b33bfd8c7fc763e",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/session-trailer-gate.js",
+          "sha256": "d5d383891bbcd2ba4bac64527f8cb46ea010e57e1b834fef39dfba6719dced59",
+          "historicalCommit": "6973ef8fb422d7044671f2b48b33bfd8c7fc763e",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/git-checkpoints.js",
+          "sha256": "58693a8c38e7b541b102615195bc3a90b45e6d612907f77a11bab15432c92530",
+          "historicalCommit": "6973ef8fb422d7044671f2b48b33bfd8c7fc763e",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/attribution-git.js",
+          "sha256": "f949b737c5f8b358ffc0f72f485cca067a28016d0fed9234f1e7be1ae90e3bf1",
+          "historicalCommit": "6973ef8fb422d7044671f2b48b33bfd8c7fc763e",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/run-basics.js",
+          "sha256": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+          "historicalCommit": "6973ef8fb422d7044671f2b48b33bfd8c7fc763e",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/worktree-lifecycle.js",
+          "sha256": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+          "historicalCommit": "6973ef8fb422d7044671f2b48b33bfd8c7fc763e",
+          "currentBytesMatch": true
+        }
+      ]
+    },
+    {
+      "id": "windows",
+      "result": "WINDOWS_EDGE_PASS_S3_PARTIAL",
+      "recordedAt": "2026-10-14T15:59:25.121Z",
+      "qualification": "evidence/windows-qualification.json",
+      "qualificationSha256": "f864791df711e3664d3fbf8e3400674f44e3b1931614148bc5109e3ae442d16b",
+      "sealedObservation": "evidence/supplements/windows/e8e00706a3512fc521bb97b40cf9326dbf76bf3b18962b7a81095dd6f0d323fe/windows.json",
+      "observationSha256": "e8e00706a3512fc521bb97b40cf9326dbf76bf3b18962b7a81095dd6f0d323fe",
+      "manifestSha256": "84f5e004e8ae3ca03bd37b6bdb44535099bd05138a3b40b89210171356d5f20c",
+      "versions": {
+        "git": "git version 2.55.0.windows.5",
+        "node": "v26.7.0",
+        "windowsRelease": "10.0.26300",
+        "powerShell": "5.1.26100.9549"
+      },
+      "sourceCommit": "a34c329d1bc9e10dc4ac5fbc48b3c12c8b3a5c64",
+      "sourceApplicability": "recorded-source-bytes-match",
+      "sources": [
+        {
+          "path": "scripts/run-windows.js",
+          "sha256": "5e68a5eae1e58287272dc86a229296b87226c3fae0286326768a6196e56da7f4",
+          "historicalCommit": "a34c329d1bc9e10dc4ac5fbc48b3c12c8b3a5c64",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/windows-worktree-preflight.js",
+          "sha256": "338b0df3773255d19e8186b3b1004c9b9a7ce047e468fb43c033b8c9701f16f3",
+          "historicalCommit": "a34c329d1bc9e10dc4ac5fbc48b3c12c8b3a5c64",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/worktree-lifecycle.js",
+          "sha256": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+          "historicalCommit": "a34c329d1bc9e10dc4ac5fbc48b3c12c8b3a5c64",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/run-basics.js",
+          "sha256": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+          "historicalCommit": "a34c329d1bc9e10dc4ac5fbc48b3c12c8b3a5c64",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/git-checkpoints.js",
+          "sha256": "58693a8c38e7b541b102615195bc3a90b45e6d612907f77a11bab15432c92530",
+          "historicalCommit": "a34c329d1bc9e10dc4ac5fbc48b3c12c8b3a5c64",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/attribution-git.js",
+          "sha256": "f949b737c5f8b358ffc0f72f485cca067a28016d0fed9234f1e7be1ae90e3bf1",
+          "historicalCommit": "a34c329d1bc9e10dc4ac5fbc48b3c12c8b3a5c64",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "fixtures/windows-file-lock.ps1",
+          "sha256": "037aff44888c0803454a13b13a3bf6bddb456de352bf3ea09156a4dc5c65af18",
+          "historicalCommit": "a34c329d1bc9e10dc4ac5fbc48b3c12c8b3a5c64",
+          "currentBytesMatch": true
+        }
+      ]
+    },
+    {
+      "id": "windows-create",
+      "result": "WINDOWS_CREATE_PASS_S3_PARTIAL",
+      "recordedAt": "2026-10-14T16:16:36.234Z",
+      "qualification": "evidence/windows-create-qualification.json",
+      "qualificationSha256": "cb91ceaa21b4db6f25de36dde7afcbcbe12a5a558515487ac7ba7a5df38ac76d",
+      "sealedObservation": "evidence/supplements/windows-create/e5c58a20c8b5c5f32aafda9f73e7c0c351e02c3cd3afe51ef3fb92ee9f84650b/windows-create.json",
+      "observationSha256": "e5c58a20c8b5c5f32aafda9f73e7c0c351e02c3cd3afe51ef3fb92ee9f84650b",
+      "manifestSha256": "53c09fb65e6e679257a6dc53c5ad33b7f86b7ba91e33b9e0d02684221fed7439",
+      "versions": {
+        "git": "git version 2.55.0.windows.5",
+        "node": "v26.7.0",
+        "windowsRelease": "10.0.26300"
+      },
+      "sourceCommit": "3ccedeb00542350c2952ae29ccf13bd5f13ff321",
+      "sourceApplicability": "recorded-source-bytes-match",
+      "sources": [
+        {
+          "path": "scripts/run-windows-create.js",
+          "sha256": "50915a7aa68ee7c2e5778d307bb608ba6069003b59df7fde9baed09964f9b322",
+          "historicalCommit": "3ccedeb00542350c2952ae29ccf13bd5f13ff321",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/windows-worktree-create.js",
+          "sha256": "af037f36d2866fad124a499592fb23ffb338a1858d82819396decccc4e7696a3",
+          "historicalCommit": "3ccedeb00542350c2952ae29ccf13bd5f13ff321",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/windows-worktree-preflight.js",
+          "sha256": "338b0df3773255d19e8186b3b1004c9b9a7ce047e468fb43c033b8c9701f16f3",
+          "historicalCommit": "3ccedeb00542350c2952ae29ccf13bd5f13ff321",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/worktree-lifecycle.js",
+          "sha256": "1a37028a3ae289784cbcc589b860ace7c750e9399e7a223390ca9cc3b1eda272",
+          "historicalCommit": "3ccedeb00542350c2952ae29ccf13bd5f13ff321",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/run-basics.js",
+          "sha256": "2464285244f364b703bba31b325664b3d20bf86b99d4a05ebabb6dafe9514ac4",
+          "historicalCommit": "3ccedeb00542350c2952ae29ccf13bd5f13ff321",
+          "currentBytesMatch": true
+        },
+        {
+          "path": "scripts/attribution-git.js",
+          "sha256": "f949b737c5f8b358ffc0f72f485cca067a28016d0fed9234f1e7be1ae90e3bf1",
+          "historicalCommit": "3ccedeb00542350c2952ae29ccf13bd5f13ff321",
+          "currentBytesMatch": true
+        }
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "S3.1",
+      "cohorts": [
+        "basics",
+        "dependencies"
+      ],
+      "observed": "Disposable lifecycle, offline local dependency setup, merges/conflict abort, separate modules/shared cache and junction comparison",
+      "missing": [
+        "A4/representative project setup and cost",
+        "Broader package/project dependency matrix"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "S3.2",
+      "cohorts": [
+        "attribution",
+        "cli-attribution",
+        "trailer-policy"
+      ],
+      "observed": "Synthetic identity/trailers, one standalone Muse shell identity and parent fallback commit, full member-range audit",
+      "missing": [
+        "Each supported CLI creating its own commits",
+        "CLI-specific extra trailers/author overrides",
+        "Shared-service launch propagation and durable session binding"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "S3.3",
+      "cohorts": [
+        "push-policy"
+      ],
+      "observed": "Local bare-remote fixture approval and leases; three hook bypasses observed without local-ref changes",
+      "missing": [
+        "Provider CLI push refusal/reporting",
+        "Authenticated external remote route",
+        "Actual approval UI and durable push broker"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "S3.4",
+      "cohorts": [
+        "ownership"
+      ],
+      "observed": "Controlled polling detection and fixture-approved selective recovery",
+      "missing": [
+        "Provider CLI burst edits and latency cohort",
+        "Outside-worktree detection scope",
+        "User/Leader notification and reviewed approval UI"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "S3.5",
+      "cohorts": [
+        "checkpoints",
+        "shadow-checkpoints"
+      ],
+      "observed": "Raw file snapshots, fresh ordinary Git reader, safety snapshot, ignored preservation, shadow storage and tiny timings",
+      "missing": [
+        "Complete selected-change rollback semantics for deletions/modes/index",
+        "Global session/ownership reconstruction",
+        "Member suspension and approval/event-store coordination",
+        "Representative project timing"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "S3.6",
+      "cohorts": [
+        "final-merge"
+      ],
+      "observed": "Fixture-approved pinned fast-forward final transfer; dirty/divergent/stale refusal and safety checkpoint",
+      "missing": [
+        "Real diff approval UI",
+        "Leader/integration test gates",
+        "Durable interrupted-merge reconciliation"
+      ],
+      "status": "partial"
+    },
+    {
+      "id": "S3.7",
+      "cohorts": [
+        "windows",
+        "windows-create"
+      ],
+      "observed": "303-character ASCII path, casing preflight, raw CRLF and FileShare.None removal refusal through explicit wrappers",
+      "missing": [
+        "Other volumes/UNC/Unicode path policy",
+        "Additional sharing modes and atomic removal limits",
+        "Antivirus contribution and representative creation timing",
+        "Production adoption of explicit wrappers"
+      ],
+      "status": "partial"
+    }
+  ],
+  "historicalSourceOnlyCohorts": [
+    "basics",
+    "checkpoints"
+  ],
+  "liveNativeCohortsRerun": false,
+  "allProvidersQualified": false,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "s4Entry": {
+    "readOnlyResearchMayBegin": true,
+    "providerClassifications": "unreviewed",
+    "implementationOrReleaseGatePassed": false,
+    "requirements": [
+      "Official provider/access-route sources and review date",
+      "Separate permitted-access and native-capability evidence",
+      "Exact CLI/model/provider identities and versions",
+      "No token extraction, credential changes or login actions in this assessment",
+      "Unclear access stays unreviewed; delegation success supplies no classification",
+      "Preserve S3 blockers while researching S4"
+    ]
+  }
+}

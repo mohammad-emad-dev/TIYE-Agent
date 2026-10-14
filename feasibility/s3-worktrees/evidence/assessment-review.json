@@ -1,0 +1,58 @@
+{
+  "recordedAt": "2026-10-14T16:31:09.244Z",
+  "scope": "Derived S3 evidence/provenance verification and S4 entry planning; supplied-facts model reviews",
+  "assessmentSha256": "053728bfffdc0aca24094f5228b57534684e5f8991c2fb1d1112b8cc2ae45a22",
+  "assessorSourceSha256": "739f95440dd9fb0d0ecf571eba3144d40a3bfe2ba5d68a967a39fa5170cc70a8",
+  "documentHashes": {
+    "feasibility/s3-worktrees/ASSESSMENT.md": "8fb297e17f9c69caafd5bc548b127cef9476069be83406b53c8c673addadf6d2",
+    "feasibility/s4-provider-access/ENTRY-PLAN.md": "2de2a8ef8308fe47e000a3805b32e4a62ef07326eaa6b660bed82e4eb7c3a57a"
+  },
+  "cohortCount": 12,
+  "historicalSourceOnlyCohorts": [
+    "basics",
+    "checkpoints"
+  ],
+  "previousEvidenceUnchanged": true,
+  "nativeQualificationCohortsRerun": false,
+  "s3OfflineChecksPassed": 26,
+  "s2OfflineChecksPassed": 113,
+  "fullS3Qualified": false,
+  "productionEligible": false,
+  "s4ProviderClassifications": "unreviewed",
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "toolEvents": 0,
+      "finalCaptured": true
+    },
+    {
+      "lane": "claude",
+      "status": "failed",
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "readOnlyViolation": true,
+      "concurrentParentEditsReviewed": true,
+      "errorCategory": "token-quota",
+      "httpStatus": 429
+    },
+    {
+      "lane": "agy-fallback",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "effort": "high",
+      "version": "1.3.5",
+      "finalCaptured": true,
+      "readOnlyViolation": true,
+      "concurrentParentEditsReviewed": true,
+      "structuredToolAuditAvailable": false,
+      "observedToolMarkers": 0
+    }
+  ]
+}

@@ -669,6 +669,16 @@ Branches follow a clear pattern: `tiye/<session>/integration` and `tiye/<session
 
 ### 6.2 Worktree lifecycle
 
+**S3 consolidation.** The [qualification summary](../feasibility/s3-worktrees/ASSESSMENT.md)
+now verifies twelve sealed cohorts and their source commits. All S3.1-S3.7
+sections remain partial; provider-native matrices, real project setup,
+approval UI, durable orchestration and broader Windows qualification remain
+open. The original basics/checkpoint cohorts are historical source observations;
+later recorded source versions are listed explicitly. This is not a full
+implementation gate. Independent S4 documentation research has an
+[entry plan](../feasibility/s4-provider-access/ENTRY-PLAN.md), with provider
+classifications still unreviewed.
+
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
 a disposable source root, ran an offline local-dependency setup, copied
