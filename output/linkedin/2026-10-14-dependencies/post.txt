@@ -1,0 +1,11 @@
+Can one AI agent install a package without disrupting another’s workspace?
+
+Today, I tested that architectural question for TIYE Agent.
+
+In a Windows feasibility prototype, separate dependency folders with a shared npm cache kept the other member’s files unchanged. A shared folder junction behaved differently: npm replaced it with a private install.
+
+That evidence gives us a clearer direction for the architecture. The full application is still in development.
+
+Small experiment. Concrete result. One step closer.
+
+#AIEngineering #SoftwareArchitecture #BuildInPublic

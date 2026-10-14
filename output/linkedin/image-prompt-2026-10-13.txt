@@ -1,0 +1,40 @@
+Built-in image_gen tool. Final generation prompt:
+
+Create a polished, highly readable LinkedIn project-progress infographic for TIYE Agent. This is a final raster graphic, portrait 4:5 aspect ratio, high resolution. Use case: infographic-diagram. Premium editorial engineering aesthetic: warm ivory background, dark navy typography, restrained teal accents, thin precise rules, generous whitespace, a subtle abstract network of terminal-like rectangles as a small decorative accent only. Clean sans-serif typography with large legible headings and clear hierarchy. No invented company logo, no LinkedIn logo, no stock robots, no fake software screenshot, no exaggerated completion bar or percentage. It should look designed by a skilled technical communication designer, not a generic dashboard.
+
+Render the following exact text with impeccable spelling, and no additional factual claims:
+
+Top small eyebrow: "PROJECT UPDATE · 13 OCT 2026"
+Main large title: "TIYE AGENT"
+Subtitle: "A desktop workspace for AI coding agents"
+
+A prominent current-stage band:
+"CURRENT STAGE"
+"Architecture & feasibility validation"
+
+A three-step compact vertical roadmap, visually distinguish documented, in progress, and upcoming using labels, not false percentages:
+"DOCUMENTED"
+"Product specification & architecture"
+"IN PROGRESS"
+"Terminal and MCP prototypes"
+"UPCOMING"
+"Reliability, isolation & core engine"
+
+Below, a large bordered evidence section:
+"VERIFIED IN THE PROTOTYPE"
+Three spacious metric blocks:
+"2" / "Terminal coding tasks validated"
+"22" / "Correctness tests passed"
+"21" / "Harness checks passed"
+
+One compact technical stack line:
+"Electron · xterm.js · node-pty · MCP"
+
+Bottom accent callout:
+"NEXT MILESTONE"
+"10-run reporting reliability"
+
+Bottom tiny but readable scope note:
+"Early prototype evidence. Core engine and full product UI are still ahead."
+
+Composition must keep all text readable on a phone, with enough margins and no cut-off elements. The figures refer to specific feasibility runs, not project-wide completion or reliability. Align the metrics consistently and emphasize the current-stage band and evidence. Use simple refined outline terminal/network symbols, subtle teal status dots, and disciplined typographic spacing. Avoid glow, gradients, clutter, and unnecessary code text.

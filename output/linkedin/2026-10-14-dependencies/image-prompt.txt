@@ -1,0 +1,11 @@
+Generated with the built-in image_gen tool.
+
+Use case: ads-marketing.
+Asset: polished square LinkedIn post image for the software project TIYE Agent.
+Create a striking editorial technology poster, premium and restrained, with excellent typography and a clean composition readable on mobile. Dark midnight navy background, soft cyan light and subtle amber accent. Central artwork: three elegant separate translucent glass workspace cubes on individual platforms, connected by fine light lines to one luminous cache-like central core; symbolic architectural visualization, not a screenshot of an existing product. Carefully balanced dimensional lighting, crisp details, generous negative space, no robots, no people, no generic stock graphics.
+Exact text only:
+Small top label: "TIYE AGENT"
+Large headline: "Separate workspaces."
+Second headline line: "Shared cache."
+Small bottom line: "Verified in a Windows feasibility prototype."
+The headlines should be the dominant typography, with artwork as a sophisticated focal point below them. Use modern clean sans serif type and neat alignment. No percentage, progress bar, invented logo, dashboard, production-ready claim or additional words. This is a development update and concept artwork, not evidence of a finished UI. Opaque background.

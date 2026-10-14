@@ -1,0 +1,27 @@
+Built-in image_gen, using yesterday's image as a style reference
+
+Use case: infographic-diagram.
+Create a new portrait 4:5 LinkedIn architecture infographic for TIYE Agent. Use the supplied image ONLY as a visual style reference: warm ivory paper, dark navy headings, restrained teal, thin precise rules, refined clean sans serif typography, spacious readable layout. This must be an actual clear software architecture diagram, not 3D glass rooms or decorative artwork. No glow, robots, fake application screenshot, percentage, or invented logo. The old image's metrics and old next milestone must NOT be reused.
+Text and structure:
+Eyebrow "PROJECT UPDATE · 14 OCT 2026"
+Title "TIYE AGENT"
+Subtitle "Architecture taking shape"
+Small current stage band: "ARCHITECTURE & FEASIBILITY VALIDATION"
+Main panel heading "WORKTREE PROTOTYPE"
+Inside the panel use a clear three-column left-to-right Git workflow with exact labeled nodes and arrows:
+Left node "Source repository"
+Middle upper node "Member A worktree", middle lower node "Member B worktree"
+Right node "Integration branch"
+Git arrows Source repository -> each member worktree labeled "Create"; each member worktree -> Integration branch labeled "Merge"
+Each member worktree card contains a visually distinct lower inset labeled "Private node_modules"
+Beneath the two member worktrees place a small teal node "Shared npm cache" connected by thin dotted teal lines ONLY to the two Private node_modules insets. Add a small diagram legend "Solid: Git workflow   Dotted: dependency cache"
+Do not draw cache arrows to source or integration. Keep Git edges distinguishable from cache connections. Show the members as isolated file directories, not OS security isolation.
+Below main diagram, a bordered evidence band heading "VERIFIED IN THE FIXTURE" with three succinct lines:
+"Dependency addition leaves donor files unchanged"
+"npm replaces the modules junction with a private install"
+"Merge conflicts detected · abort restores integration"
+Bottom teal callout "NEXT" / "Native Git attribution"
+Readable footer "Prototype evidence · core engine and full product UI still ahead"
+All text exact and readable, sharp diagram nodes, disciplined alignment, no clipping or crowded lines. Architecture diagram should occupy most of the image. The whole composition should feel like a professional engineering update and match the reference's editorial identity.
+
+Final edit: route exactly two dotted cache connections separately from the member dependency folders to the cache, with no direct member-to-member connection
