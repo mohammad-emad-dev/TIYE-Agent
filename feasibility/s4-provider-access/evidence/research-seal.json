@@ -1,0 +1,56 @@
+{
+  "schema": "tiye-s4-research-seal-v1",
+  "recordedAt": "2026-10-14T16:52:24.329Z",
+  "scope": "Documentation observations and installed version/help only; offline integrity is not policy approval",
+  "sha256": {
+    "sources.json": "89d463486bd75451cdfb353bfc1d5ac21c28b2ca219ba5efd6725895b9ceb6d4",
+    "routes.json": "027c734b9bf2e613da0be4868cfcb5e525ce2635cad9997495a34cd238db133b",
+    "evidence/cli-inventory.json": "fe5ed76d6fa849083880eec3c0297c0596e98a7d97bc58963510d467aeba7532",
+    "scripts/inventory-cli.js": "2cbc328def971e0d70ecf861f8c7f53e57fa2f89e6f8d8694a36d483aadc7455",
+    "scripts/check-research.js": "314f749f950539962d5b2d725ced97e3dd9914035c7acfd3e4a2a0a9562661f6",
+    "test/research.test.js": "baead36ccf61a48dead16ef7b4a2bfe20753a7d1f9b21c736c15467f4add46ba",
+    "RESULTS.md": "0880f5252788c94b55dcf00a631060bcca38eb8bf5de504ca3194d9555278470",
+    "ENTRY-PLAN.md": "0ba593d8e9c5f9c50ccf7be7dc919ee17cf749bbf9cd108c5cba21f3a48ee8d7",
+    "package.json": "27c3ba73cf0210e215bb5370006875ce988f691e7ff099782f991658a02e9117"
+  },
+  "delegates": [
+    {
+      "lane": "mimo",
+      "status": "timeout",
+      "toolEvents": 0,
+      "finalCaptured": false,
+      "readOnlyViolation": false,
+      "concurrentParentChangesReviewed": true
+    },
+    {
+      "lane": "opencode",
+      "status": "completed",
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "readOnlyViolation": false,
+      "concurrentParentChangesReviewed": true
+    },
+    {
+      "lane": "claude",
+      "status": "failed",
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "readOnlyViolation": true,
+      "concurrentParentChangesReviewed": true,
+      "errorCategory": "token-quota-429"
+    },
+    {
+      "lane": "agy-fallback",
+      "status": "completed",
+      "model": "gemini-3.8-flash-high",
+      "effort": "high",
+      "structuredToolAuditAvailable": false,
+      "observedToolMarkers": 0,
+      "readOnlyViolation": false,
+      "concurrentParentChangesReviewed": true
+    }
+  ],
+  "previousEvidenceUnchanged": true,
+  "fullS4Qualified": false,
+  "productionEligible": false
+}

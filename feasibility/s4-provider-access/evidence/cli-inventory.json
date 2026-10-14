@@ -1,0 +1,170 @@
+{
+  "recordedAt": "2026-10-14T16:43:45.812Z",
+  "scope": "Installed command version/help only; no auth status, login, model request or credential/config inspection",
+  "platform": "win32",
+  "node": "v26.7.0",
+  "entries": [
+    {
+      "cli": "codex",
+      "commands": {
+        "--version": {
+          "status": "completed",
+          "exitCode": 0,
+          "stdoutSha256": "a2af91afbeed67d4d94d7ae88f4f7864866bb5923ab435c0955d779a3e8161f1",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "version": "codex-cli 0.157.1"
+        },
+        "--help": {
+          "status": "completed",
+          "exitCode": 0,
+          "stdoutSha256": "4a7f0188d4d6e6d812c5cfbcf82468336b899acd5e437de7450421a403c0071e",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "helpMarkerScope": "stdout plus stderr; markers are not native feature qualification",
+          "recognized": {
+            "login": true,
+            "auth": true,
+            "exec": true,
+            "run": true,
+            "prompt": false,
+            "print": false,
+            "outputFormat": false,
+            "standalone": false
+          }
+        }
+      }
+    },
+    {
+      "cli": "claude",
+      "commands": {
+        "--version": {
+          "status": "completed",
+          "exitCode": 0,
+          "stdoutSha256": "5e1f77b148a04a84983ccd8de38e0a56f1c0b7a73180ee748d307502af286d88",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "version": "2.1.294 (Claude Code)"
+        },
+        "--help": {
+          "status": "completed",
+          "exitCode": 0,
+          "stdoutSha256": "550db4f88ae1d97bf7244ca96dc89554aabd3978241ceb69f79001e816c35f09",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "helpMarkerScope": "stdout plus stderr; markers are not native feature qualification",
+          "recognized": {
+            "login": false,
+            "auth": true,
+            "exec": false,
+            "run": true,
+            "prompt": true,
+            "print": true,
+            "outputFormat": true,
+            "standalone": false
+          }
+        }
+      }
+    },
+    {
+      "cli": "gemini",
+      "commands": {
+        "--version": {
+          "status": "failed",
+          "exitCode": 1,
+          "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSha256": "92287bbb63619a83087eab3c04664b1b7afa4fead381c74961645cff487c2daf"
+        },
+        "--help": {
+          "status": "failed",
+          "exitCode": 1,
+          "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSha256": "92287bbb63619a83087eab3c04664b1b7afa4fead381c74961645cff487c2daf"
+        }
+      }
+    },
+    {
+      "cli": "opencode",
+      "commands": {
+        "--version": {
+          "status": "completed",
+          "exitCode": 0,
+          "stdoutSha256": "26bf8d3a15ef82fcadd696776e53491563f7f45f97e46664683cf51418df7191",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "version": "opencode v2.0.28"
+        },
+        "--help": {
+          "status": "completed",
+          "exitCode": 0,
+          "stdoutSha256": "fcbfb3e3220e806a3ecf4bbe002dc8dc835e8f676d68393ab22a0d32a3a4e619",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "helpMarkerScope": "stdout plus stderr; markers are not native feature qualification",
+          "recognized": {
+            "login": false,
+            "auth": true,
+            "exec": false,
+            "run": true,
+            "prompt": true,
+            "print": true,
+            "outputFormat": false,
+            "standalone": true
+          }
+        }
+      }
+    },
+    {
+      "cli": "mimo",
+      "commands": {
+        "--version": {
+          "status": "completed",
+          "exitCode": 0,
+          "stdoutSha256": "e0a25b3b7adde370a854cb1b4866bdc4b565236f0ee65dcdb1b7cd1bc3b6f071",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "version": "0.1.15"
+        },
+        "--help": {
+          "status": "completed",
+          "exitCode": 0,
+          "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSha256": "18fa8b0fce2c6c5135218e72059d7cb2533de901b809f588ff7a9c4bdcffd174",
+          "helpMarkerScope": "stdout plus stderr; markers are not native feature qualification",
+          "recognized": {
+            "login": false,
+            "auth": true,
+            "exec": false,
+            "run": true,
+            "prompt": true,
+            "print": true,
+            "outputFormat": false,
+            "standalone": false
+          }
+        }
+      }
+    },
+    {
+      "cli": "agy",
+      "commands": {
+        "--version": {
+          "status": "completed",
+          "exitCode": 0,
+          "stdoutSha256": "fc253dae4f432925780b608f87298fbbd2f948cd811d2e894cdcbb98ec855d2e",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "version": "1.3.5"
+        },
+        "--help": {
+          "status": "completed",
+          "exitCode": 0,
+          "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSha256": "a12355e8fc064b330eeb25ba52de596406582752442e293083bcda6388a63b78",
+          "helpMarkerScope": "stdout plus stderr; markers are not native feature qualification",
+          "recognized": {
+            "login": false,
+            "auth": false,
+            "exec": false,
+            "run": true,
+            "prompt": true,
+            "print": true,
+            "outputFormat": true,
+            "standalone": false
+          }
+        }
+      }
+    }
+  ]
+}

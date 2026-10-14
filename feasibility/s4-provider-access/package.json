@@ -1,0 +1,8 @@
+{
+  "name": "tiye-s4-provider-access",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "check": "node scripts/check-research.js && node --test test/*.test.js"
+  }
+}

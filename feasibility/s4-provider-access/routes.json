@@ -1,0 +1,171 @@
+{
+  "schema": "tiye-s4-route-research-v1",
+  "reviewedOn": "2026-10-14",
+  "result": "DOCUMENTATION_REVIEW_S4_PARTIAL",
+  "routes": [
+    {
+      "id": "openai-codex-cli",
+      "vendor": "OpenAI",
+      "cli": "codex",
+      "accessKind": "official-cli-user-auth",
+      "candidateClass": "A",
+      "sourceIds": [
+        "openai-auth",
+        "openai-exec",
+        "openai-sdk"
+      ],
+      "documentedLogin": true,
+      "documentedHeadless": true,
+      "permissionStatus": "documented-integration-scope-needs-review",
+      "nativeStatus": "version-help-only",
+      "openQuestions": [
+        "Confirm TIYE local end-user orchestration and account policy scope",
+        "Qualify installed CLI against current documentation",
+        "Assess API/default automation and Enterprise token route separately"
+      ],
+      "classification": "unreviewed",
+      "integrationEligible": false,
+      "productionEligible": false,
+      "policyReviewedOn": "2026-10-14",
+      "nativeAuthQualified": false
+    },
+    {
+      "id": "anthropic-claude-cli",
+      "vendor": "Anthropic",
+      "cli": "claude",
+      "accessKind": "unmodified-official-cli-user-auth",
+      "candidateClass": "A",
+      "sourceIds": [
+        "anthropic-auth",
+        "anthropic-headless",
+        "anthropic-legal"
+      ],
+      "documentedLogin": true,
+      "documentedHeadless": true,
+      "permissionStatus": "conditional-unmodified-cli-documentation",
+      "nativeStatus": "version-help-only",
+      "openQuestions": [
+        "Review commercial product conditions and user-billed authentication",
+        "Qualify TIYE permission/approval integration",
+        "Keep API/provider SDK route distinct from subscription login"
+      ],
+      "classification": "unreviewed",
+      "integrationEligible": false,
+      "productionEligible": false,
+      "policyReviewedOn": "2026-10-14",
+      "nativeAuthQualified": false
+    },
+    {
+      "id": "google-gemini-cli",
+      "vendor": "Google",
+      "cli": "gemini",
+      "accessKind": "official-cli-user-auth",
+      "candidateClass": "A",
+      "sourceIds": [
+        "google-auth",
+        "google-headless",
+        "google-terms"
+      ],
+      "documentedLogin": true,
+      "documentedHeadless": true,
+      "permissionStatus": "orchestration-scope-unresolved",
+      "nativeStatus": "command-unavailable",
+      "openQuestions": [
+        "Clarify official CLI wrapper scope under published policy",
+        "Qualify a documented API/Vertex route independently",
+        "Gemini CLI installation/native cohort remains open; Agy supplies no parity proof"
+      ],
+      "classification": "unreviewed",
+      "integrationEligible": false,
+      "productionEligible": false,
+      "policyReviewedOn": "2026-10-14",
+      "nativeAuthQualified": false
+    },
+    {
+      "id": "opencode-provider-routing",
+      "vendor": "provider-dependent",
+      "cli": "opencode",
+      "accessKind": "provider-specific",
+      "candidateClass": null,
+      "sourceIds": [
+        "opencode-v2"
+      ],
+      "documentedLogin": true,
+      "documentedHeadless": false,
+      "permissionStatus": "underlying-provider-route-unresolved",
+      "nativeStatus": "version-help-only",
+      "openQuestions": [
+        "Resolve vendor/access method for each selected provider configuration",
+        "Use V2 documentation and preserve protected service",
+        "Evaluate provider terms independently of OpenCode integration support"
+      ],
+      "classification": "unreviewed",
+      "integrationEligible": false,
+      "productionEligible": false,
+      "policyReviewedOn": "2026-10-14",
+      "nativeAuthQualified": false
+    }
+  ],
+  "blockedRoutes": [
+    {
+      "id": "anthropic-third-party-subscription-credential-reuse",
+      "vendor": "Anthropic",
+      "classification": "D",
+      "integrationEligible": false,
+      "sourceIds": [
+        "anthropic-legal"
+      ],
+      "reason": "Third-party Claude.ai login/credential intermediation is explicitly restricted; unmodified user-authenticated CLI is a separate route."
+    },
+    {
+      "id": "google-direct-cli-oauth-service-reuse",
+      "vendor": "Google",
+      "classification": "D",
+      "integrationEligible": false,
+      "sourceIds": [
+        "google-terms"
+      ],
+      "reason": "Direct third-party use of the CLI backing service through Gemini CLI OAuth is expressly prohibited."
+    }
+  ],
+  "unresolvedAliases": [
+    {
+      "requested": "Atria Dawn Preview / Atria-Dawn-Preview",
+      "executionClis": [
+        "mimo",
+        "claude"
+      ],
+      "actualVendor": "unresolved",
+      "actualEndpoint": "unresolved",
+      "permissionStatus": "unreviewed"
+    },
+    {
+      "requested": "Muse spark 1.3 free",
+      "executionClis": [
+        "opencode"
+      ],
+      "actualVendor": "unresolved",
+      "actualEndpoint": "unresolved",
+      "permissionStatus": "unreviewed"
+    },
+    {
+      "requested": "Agy gemini 3.8 flash high",
+      "executionClis": [
+        "agy"
+      ],
+      "actualVendor": "unresolved-for-this-configured-route",
+      "actualEndpoint": "unresolved",
+      "permissionStatus": "unreviewed",
+      "geminiCliParityQualified": false
+    }
+  ],
+  "apiRoutes": {
+    "OpenAI": "Documented API-key route; commercial/account applicability and pricing review pending",
+    "Anthropic": "Console/API or supported provider route documented; product conditions and pricing review pending",
+    "Google": "API/Vertex documented; route terms and pricing review pending"
+  },
+  "fullS4Qualified": false,
+  "productionEligible": false,
+  "liveAuthenticationTested": false,
+  "thirdPartyLoginApprovalQualified": false
+}

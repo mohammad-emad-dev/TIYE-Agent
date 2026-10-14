@@ -677,7 +677,10 @@ open. The original basics/checkpoint cohorts are historical source observations;
 later recorded source versions are listed explicitly. This is not a full
 implementation gate. Independent S4 documentation research has an
 [entry plan](../feasibility/s4-provider-access/ENTRY-PLAN.md), with provider
-classifications still unreviewed.
+classifications still unreviewed. The [first S4 research results](../feasibility/s4-provider-access/RESULTS.md)
+record official documentation, installed CLI version/help observations and two
+blocked credential-reuse routes. Policy applicability and native authentication
+qualification remain open; no candidate is integration eligible.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

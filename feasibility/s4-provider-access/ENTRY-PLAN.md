@@ -1,6 +1,10 @@
 # S4 provider access: entry plan
 
-**State: research planned; provider classifications unreviewed.** S3 has a
+**State: first documentation/version-help cohort recorded; S4 partial.**
+See [results](RESULTS.md), [sources](sources.json) and [routes](routes.json).
+Official CLI candidates remain unreviewed; two direct credential-reuse routes
+are blocked by documented restrictions. Native authentication is unqualified.
+S3 has a
 verified bounded evidence inventory and remains partial. S4 documentation
 research can proceed independently; production and implementation gates remain
 open across feasibility phases.

@@ -1,0 +1,95 @@
+{
+  "schema": "tiye-s4-sources-v1",
+  "sources": [
+    {
+      "id": "openai-auth",
+      "url": "https://learn.chatgpt.com/docs/auth",
+      "publisher": "OpenAI",
+      "reviewedOn": "2026-10-14",
+      "retrieval": "web-tool page opened",
+      "summary": "Codex supports ChatGPT subscription and API-key authentication. Programmatic CLI workflows default toward API keys; Enterprise access tokens form a separate trusted automation option.",
+      "scope": "documentation observation; policy applicability requires route review"
+    },
+    {
+      "id": "openai-exec",
+      "url": "https://learn.chatgpt.com/docs/non-interactive-mode",
+      "publisher": "OpenAI",
+      "reviewedOn": "2026-10-14",
+      "retrieval": "web-tool page opened",
+      "summary": "codex exec provides non-interactive operation and reuses saved CLI authentication. The advanced account-auth CI path has specific trusted/private-runner limitations.",
+      "scope": "documentation observation; policy applicability requires route review"
+    },
+    {
+      "id": "openai-sdk",
+      "url": "https://learn.chatgpt.com/docs/codex-sdk",
+      "publisher": "OpenAI",
+      "reviewedOn": "2026-10-14",
+      "retrieval": "web-tool page opened",
+      "summary": "The official SDK supports programmatic local Codex agents and application integration; custom clients use the app server.",
+      "scope": "documentation observation; policy applicability requires route review"
+    },
+    {
+      "id": "anthropic-auth",
+      "url": "https://code.claude.com/docs/en/authentication",
+      "publisher": "Anthropic",
+      "reviewedOn": "2026-10-14",
+      "retrieval": "web-tool page opened",
+      "summary": "Claude Code documents subscription sign-in, Console and supported inference-provider routes.",
+      "scope": "documentation observation; policy applicability requires route review"
+    },
+    {
+      "id": "anthropic-headless",
+      "url": "https://code.claude.com/docs/en/headless",
+      "publisher": "Anthropic",
+      "reviewedOn": "2026-10-14",
+      "retrieval": "web-tool page opened",
+      "summary": "claude -p/--print supports scripted operation and structured output. Bare mode excludes subscription OAuth and uses API/provider authentication.",
+      "scope": "documentation observation; policy applicability requires route review"
+    },
+    {
+      "id": "anthropic-legal",
+      "url": "https://code.claude.com/docs/en/legal-and-compliance",
+      "publisher": "Anthropic",
+      "reviewedOn": "2026-10-14",
+      "retrieval": "web-tool page opened",
+      "summary": "Products can run the unmodified Claude Code binary subject to commercial terms, preserved authentication and each user paying/authenticating directly. Third-party apps must not collect or intermediate Claude.ai credentials or offer their own Claude.ai login; end users can sign in through the unmodified binary.",
+      "scope": "documentation observation; policy applicability requires route review"
+    },
+    {
+      "id": "google-auth",
+      "url": "https://geminicli.com/docs/get-started/authentication/",
+      "publisher": "Google",
+      "reviewedOn": "2026-10-14",
+      "retrieval": "web-tool page opened",
+      "summary": "Gemini CLI documents Google-account login, including associated Pro/Ultra subscriptions, API keys and Vertex AI. Headless mode can reuse cached authentication; without it an API/Vertex configuration is required.",
+      "scope": "documentation observation; policy applicability requires route review"
+    },
+    {
+      "id": "google-headless",
+      "url": "https://geminicli.com/docs/cli/headless/",
+      "publisher": "Google",
+      "reviewedOn": "2026-10-14",
+      "retrieval": "web-tool page opened",
+      "summary": "Gemini CLI documents non-interactive prompt execution and structured output.",
+      "scope": "documentation observation; policy applicability requires route review"
+    },
+    {
+      "id": "google-terms",
+      "url": "https://geminicli.com/docs/resources/tos-privacy/",
+      "publisher": "Google",
+      "reviewedOn": "2026-10-14",
+      "retrieval": "web-tool page opened",
+      "summary": "Applicable terms vary by authentication route. Direct third-party access to Gemini CLI backing services using its OAuth is expressly prohibited. Official CLI orchestration requires a separate scope review.",
+      "scope": "documentation observation; policy applicability requires route review"
+    },
+    {
+      "id": "opencode-v2",
+      "url": "https://dev.opencode.ai/v2/docs/cli/providers",
+      "publisher": "OpenCode",
+      "reviewedOn": "2026-10-14",
+      "retrieval": "web-tool page opened",
+      "summary": "V2 supports provider-specific key/OAuth/command/environment methods. Credentials belong to the CLI-managed SQLite store; legacy auth.json instructions do not describe current V2 storage. Shared-service environment changes can restart the service.",
+      "scope": "documentation observation; policy applicability requires route review"
+    }
+  ]
+}
