@@ -1,0 +1,3 @@
+<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"><link rel="stylesheet" href="xterm.css"><title>TIYE S5 terminal resize/scroll experiment</title><style>
+body{margin:8px;background:#0b1220;color:#dce5f4;font:13px system-ui}header{padding:6px}#terminals{display:grid;grid-template-columns:1fr 1fr;gap:6px}section{background:#142037;padding:6px;min-width:0}h2{font-size:12px;margin:0 0 4px}.holder{height:220px;overflow:hidden}
+</style></head><body><header>TIYE S5 · five native PTYs · resize and scrollback API observation</header><main id="terminals"></main><script src="renderer.js"></script></body></html>

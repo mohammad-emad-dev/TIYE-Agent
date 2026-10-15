@@ -1,0 +1,84 @@
+{
+  "schema": "tiye-s5-interaction-failed-attempt-v1",
+  "recordedAt": "2026-10-15T22:22:38.249Z",
+  "exitCode": 1,
+  "diagnostic": "exact logical buffer comparison failed at 100-to-60 column resize",
+  "successEvidenceWritten": false,
+  "runtimeRetained": true,
+  "fullCohortQualified": false,
+  "snapshotTiming": "after-attempt; prelaunch hashes were not persisted on the failure path",
+  "sources": {
+    "main.cjs": {
+      "snapshot": "00-main.cjs.snapshot",
+      "sha256": "e1361cfa861b293b6e97aca214c939c8db25151ba8cddbdcd20c27588e9561c7"
+    },
+    "renderer.js": {
+      "snapshot": "01-renderer.js.snapshot",
+      "sha256": "010196b1a5ad56a513cb6ce82248697c00723e2fcb6d8692bbfa28d92e88e056"
+    },
+    "preload.cjs": {
+      "snapshot": "02-preload.cjs.snapshot",
+      "sha256": "1097379eb839a5e23f8e5eaa85d38558a7329161ea7e14d6ee70f5c2155b3f32"
+    },
+    "index.html": {
+      "snapshot": "03-index.html.snapshot",
+      "sha256": "5efac982b0309fbc276d5da1582dbbd722e3b954b109106c94ff3f21a22ec961"
+    },
+    "producer.cjs": {
+      "snapshot": "04-producer.cjs.snapshot",
+      "sha256": "7113dd5690c54fff4a880a641c79fc6161f1c1f62a7c3c563a5adedd9c4bb1ec"
+    },
+    "pty-worker.cjs": {
+      "snapshot": "05-pty-worker.cjs.snapshot",
+      "sha256": "4b33878ea8b265c2d0a98317556621fe5c847740b5864d10fc245e475beaee1d"
+    },
+    "logical-lines.js": {
+      "snapshot": "06-logical-lines.js.snapshot",
+      "sha256": "a85969852eb8a092044831736456781d54ed13b9976e6513be4e053d2cd67121"
+    },
+    "fixture.js": {
+      "snapshot": "07-fixture.js.snapshot",
+      "sha256": "42ed41a501e10b59a04bbc2569edbcbbfdcbd75f3498713f14be6df987edb358"
+    },
+    "build.js": {
+      "snapshot": "08-build.js.snapshot",
+      "sha256": "f78128dd2c5c7b0835b029cb48e1d94ddf2b1a858c4403929cf7aff916ef7943"
+    },
+    "run.js": {
+      "snapshot": "09-run.js.snapshot",
+      "sha256": "2076a72aa37f73d2607dd14d888279158d5843f8b312b961b9a60b94522d198e"
+    },
+    "../renderer-recovery/epoch-ledger.js": {
+      "snapshot": "10-epoch-ledger.js.snapshot",
+      "sha256": "2c6c6daa43b13292f9c4a1a687a8dd8d83533e89f8c4c5ce971e5813f71a0f2d"
+    },
+    "../toolchain.js": {
+      "snapshot": "11-toolchain.js.snapshot",
+      "sha256": "b0c6a440964fe2f64397b6f43e552c911bc79adae409aee052a1849b16101c68"
+    },
+    "../resources/sampler.js": {
+      "snapshot": "12-sampler.js.snapshot",
+      "sha256": "ebbcb1b4c694083fac3a4149f965b4fa3e3affe517c053e89fa810b9944fe623"
+    },
+    "../resources/sample-processes.ps1": {
+      "snapshot": "13-sample-processes.ps1.snapshot",
+      "sha256": "7ca90f90bd12a34b0e8a16737b9ee88a96a726f78914291f3c84cff3056f1c3d"
+    },
+    "dist/renderer.js": {
+      "snapshot": "14-renderer.js.snapshot",
+      "sha256": "5f962f2ae421c28aa0a0efe6329ba426769691d3bc08693dac55a85a9390b566"
+    },
+    "dist/preload.cjs": {
+      "snapshot": "15-preload.cjs.snapshot",
+      "sha256": "aca15a4f3d13271fecde43fcc2dd798c51065f1ca1081b3bb75eae4e09b31983"
+    },
+    "dist/index.html": {
+      "snapshot": "16-index.html.snapshot",
+      "sha256": "5efac982b0309fbc276d5da1582dbbd722e3b954b109106c94ff3f21a22ec961"
+    },
+    "dist/xterm.css": {
+      "snapshot": "17-xterm.css.snapshot",
+      "sha256": "ba8e6985669488981ccf40c0cefe3aba80722cb6c92de7ad628b0bd717faf2b6"
+    }
+  }
+}

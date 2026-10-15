@@ -10,3 +10,10 @@ feasibility/s4-provider-access/** -text whitespace=blank-at-eol,blank-at-eof,spa
 feasibility/s5-performance/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s5-recovery/*.log -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s5-renderer-recovery/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s5-interaction/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s5-interaction-windows/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s5-interaction-diagnostics/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Raw PTY trailing spaces are measured failure evidence.
+output/s5-interaction/*.log -whitespace
+output/s5-interaction-windows/*.log -whitespace
+output/s5-interaction-diagnostics/**/*.log -whitespace

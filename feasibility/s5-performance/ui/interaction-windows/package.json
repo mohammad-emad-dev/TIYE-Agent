@@ -1,0 +1,1 @@
+{"name": "tiye-s5-windows-interaction", "private": true, "scripts": {"build": "node build.js", "probe": "node run.js", "test": "node --test test/*.test.js", "check": "node check-evidence.js && node --test test/*.test.js", "check:runtime": "node check-evidence.js --runtime"}}

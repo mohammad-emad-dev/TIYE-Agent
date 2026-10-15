@@ -1,0 +1,163 @@
+{
+  "schema": "tiye-s5-interaction-windows-evidence-v1",
+  "recordedAt": "2026-10-15T22:27:53.163Z",
+  "exitCode": 1,
+  "comparisonEligible": true,
+  "sameFixtureBytes": true,
+  "windowsPty": {
+    "backend": "conpty",
+    "buildNumber": 26300
+  },
+  "resizeScrollQualified": false,
+  "fullS5Qualified": false,
+  "productionEligible": false,
+  "coreProcessPresent": false,
+  "physicalWheelQualified": false,
+  "physicalPaintQualified": false,
+  "ownedCleanup": false,
+  "runtimeRetained": true,
+  "outcomes": [
+    {
+      "member": 0,
+      "expectedCount": 101,
+      "observedCount": 100,
+      "missing": [
+        84
+      ],
+      "altered": [
+        85,
+        86,
+        87,
+        88,
+        89,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false
+    },
+    {
+      "member": 1,
+      "expectedCount": 101,
+      "observedCount": 100,
+      "missing": [
+        85
+      ],
+      "altered": [
+        86,
+        87,
+        88,
+        89,
+        90,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false
+    },
+    {
+      "member": 2,
+      "expectedCount": 101,
+      "observedCount": 100,
+      "missing": [
+        85
+      ],
+      "altered": [
+        86,
+        87,
+        88,
+        89,
+        90,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false
+    },
+    {
+      "member": 3,
+      "expectedCount": 100,
+      "observedCount": 99,
+      "missing": [
+        84
+      ],
+      "altered": [
+        85,
+        86,
+        87,
+        88,
+        89,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false
+    },
+    {
+      "member": 4,
+      "expectedCount": 102,
+      "observedCount": 101,
+      "missing": [
+        85
+      ],
+      "altered": [
+        86,
+        87,
+        88,
+        89,
+        90,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false
+    }
+  ]
+}

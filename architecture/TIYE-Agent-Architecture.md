@@ -772,6 +772,21 @@ receipt chains, epoch ACKs, actual terminal-buffer content and 50,000-event
 SQLite/FTS/reopen checks passed. A deliberate stale-epoch ACK cannot advance
 the new ledger. This qualifies one renderer reconstruction with main alive;
 physical paint, whole-host recovery, product-core recovery and full S5 remain open.
+The [S5 interaction experiment](../feasibility/s5-performance/ui/interaction/README.md)
+found a blocker: active-output 100→60-column resizing failed exact wrapped-text
+buffer comparison in all five terminals, with two expected record IDs absent
+per reconstructed snapshot and additional text mismatches. Those IDs' prefixes
+remain in decoded PTY captures. Child TTY dimensions converged, so resize
+coordination/reflow must be isolated before qualification; the root cause is
+not established. Both failed attempts and source/build snapshots are preserved.
+Five artifact/regression checks pass while resize/scroll qualification remains
+false. Later geometry/scroll phases, full S5 and production remain open.
+A separate [Windows PTY option comparison](../feasibility/s5-performance/ui/interaction-windows/README.md)
+also failed with the original fixture bytes after supplying supported ConPTY
+backend/build metadata. The option alone does not qualify resize. A separate
+locale-decoded source-copy attempt is preserved and excluded from comparison.
+The next investigation must isolate resize coordination and terminal redraw;
+no root-cause or fix claim is made from these observations.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

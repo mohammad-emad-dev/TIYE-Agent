@@ -1,0 +1,95 @@
+{
+  "schema": "tiye-s5-interaction-failure-v1",
+  "recordedAt": "2026-10-15T22:22:38.250Z",
+  "reviewDate": "2026-10-16",
+  "timezone": "Asia/Amman",
+  "nativeAttempts": 2,
+  "completedCohorts": 0,
+  "failedAttempts": 2,
+  "exitCode": 1,
+  "timeout": false,
+  "failurePhase": 1,
+  "plan": {
+    "cols": 60,
+    "rows": 16,
+    "width": 1100,
+    "height": 1000
+  },
+  "successEvidenceWritten": false,
+  "resizeScrollQualified": false,
+  "fullS5Qualified": false,
+  "productionEligible": false,
+  "coreProcessPresent": false,
+  "physicalWheelQualified": false,
+  "physicalPaintQualified": false,
+  "providerRequests": 0,
+  "runtimeRetained": true,
+  "ownedCleanup": false,
+  "originalChunkJournalAvailable": false,
+  "artifactHashes": {
+    "failure.json": {
+      "bytes": 73162,
+      "sha256": "ca6e7699c5b60e8b38b457feaf89dc0e1fbce5c741c1a3b7b3027c7f860e08d6"
+    },
+    "member-0.log": {
+      "bytes": 16477,
+      "sha256": "96a00b5e3d6369bc51979a4eb5aee2b57bcb307ade7cffd1fd4f3d278ccb9420"
+    },
+    "expected-0.jsonl": {
+      "bytes": 15906,
+      "sha256": "1f1f06e9245ae56c18351c5f1f8ee1adb1d637f908c7e29e7b158819d7bcaef3"
+    },
+    "control-0.jsonl": {
+      "bytes": 382,
+      "sha256": "0213620ebdae656159bbc785ec4fb1714761398ec2f2f6339c8bfccc6cdb7597"
+    },
+    "member-1.log": {
+      "bytes": 16621,
+      "sha256": "14ab6897d783aabe0ea95f8c308107f280c9dfc60902d90d3363f271f556865a"
+    },
+    "expected-1.jsonl": {
+      "bytes": 16060,
+      "sha256": "b25828cf44cff1bd77709f9fd8eebe89f48da6c97cdaa6d7e20d771ac4466c30"
+    },
+    "control-1.jsonl": {
+      "bytes": 382,
+      "sha256": "e0dda4521ac7869b042578d294b5c481721f1d6bfabfabaf272b0efa406fbf74"
+    },
+    "member-2.log": {
+      "bytes": 16477,
+      "sha256": "a0a92dda17d104e4be42fbba1e19f020a4b7bd1831549f54b0ec4d293898bc89"
+    },
+    "expected-2.jsonl": {
+      "bytes": 15906,
+      "sha256": "58c56eed5dc7971e8562011b112f9e2f61d9fb6848775c46ce75d6388f709138"
+    },
+    "control-2.jsonl": {
+      "bytes": 382,
+      "sha256": "d73989361b6b7fb61482ea436a8d6d3e93201b0b7a7898cd23fe1f25f71fac51"
+    },
+    "member-3.log": {
+      "bytes": 16339,
+      "sha256": "9bf1d23922f70f48ea9cf8da41bcab5314866185fffb40686ccd49911cf45387"
+    },
+    "expected-3.jsonl": {
+      "bytes": 15752,
+      "sha256": "e07f9df71e0d917a3d714b8d836b0a1dec2a7c91e83982a227b11c8ff1f2ac73"
+    },
+    "control-3.jsonl": {
+      "bytes": 382,
+      "sha256": "9df384f59b691d6b251a1c6a681644f479b846599ef7fe0bb9448045606f1a13"
+    },
+    "member-4.log": {
+      "bytes": 16479,
+      "sha256": "b06471b71bdf971fdf32b6c906143a64dd5b543b024f53a251246ae805d01aec"
+    },
+    "expected-4.jsonl": {
+      "bytes": 15906,
+      "sha256": "ea1a063d2c1af7896698ed396d3c0c0411980b47a452843c9dfcffb8cf592266"
+    },
+    "control-4.jsonl": {
+      "bytes": 382,
+      "sha256": "2a2b9119c39431e3fcfdfa64a4233dac3484ba1d5b8e3aac1c4ba9d699484c64"
+    }
+  }
+}
