@@ -714,6 +714,13 @@ probes per view below 100 ms, with RAF gaps below 500 ms. Initial window/frame
 measurement defects remain preserved. These are synthetic callback timing
 proxies; physical input/display latency, long-run CPU/memory, feed/search and
 abnormal recovery remain unqualified. S5 remains partial.
+The [S5 resource pilot](../feasibility/s5-performance/ui/resources/README.md)
+adds role-scoped CPU, working-set and private-memory samples during a one-minute
+flood followed by a one-minute idle observation in each view. It preserves an
+initial lifecycle phase-tagging defect and distinguishes the corrected
+transition interval from active/idle coverage. The core process is absent;
+these short observations do not qualify memory settling or the about-hour
+mixed workload with feed/search load. S5 remains partial.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

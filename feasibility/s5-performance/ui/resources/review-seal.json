@@ -1,0 +1,85 @@
+{
+  "schema": "tiye-s5-resource-review-seal-v1",
+  "reviewedOn": "2026-10-15",
+  "recordedAt": "2026-10-15T06:01:34.568Z",
+  "previousCohortCommit": "6c35afcda779775c483b4ac4df0c5ef8cc875eb3",
+  "previousArtifactsUnchanged": true,
+  "sha256": {
+    ".gitignore": "ed19d3c9c8a5e34d0179e0b1a9c2907d2e657738733e4a432a8cf81c76ce56f1",
+    "README.md": "8f4109063c6ac8a9d4c4082f69bce1681ac787b16a1170ba2d74f3cfe232fa3f",
+    "build.js": "50109610365bba1712d74d8eaa1c3d4668796ff4e05de80e9db172c6413a991b",
+    "check-evidence.js": "7a5959cb7ee2da5006ff93e173dd2daed790745bb21f1d7c6cc235a03b65b637",
+    "evidence-initial.json": "cb62a67a281f6e9c49f417bac59d0cd15d8b91211b2ae88e4268b5669f5cbc7a",
+    "evidence.json": "99db533d93f35fdd22742cc052e1bdbd2f54fde657dd02e0b07eab43517413fa",
+    "main.cjs": "6c9c5a02e9227fcb949fa9b83f3e79b694c9d810db863b8eba6c6beed9a98af7",
+    "package.json": "e3a25557849cf031a9612e9d0a3cfeb2ba2206772823945c400daaf7cfdf29e5",
+    "renderer.js": "f0f35e3e256e8468f097b7492f45b953b51a331abf40c843849659bee95b7a93",
+    "resource-metrics.js": "ce61446b0ddf83f83eb1a865e3b22448853525e19b4df7a475d12e01f2d93e87",
+    "run.js": "dfc6ea11cdeaaf2c7298fc7c4f1c8b5cbffe68bd66ba08cfc7f6f30c15fbebd7",
+    "sample-processes.ps1": "7ca90f90bd12a34b0e8a16737b9ee88a96a726f78914291f3c84cff3056f1c3d",
+    "sampler.js": "ebbcb1b4c694083fac3a4149f965b4fa3e3affe517c053e89fa810b9944fe623",
+    "snapshots/main-initial.cjs": "72a2f8afb2b74d2066514a7c3d76f352098e913a9c2494fa791642efb5684224",
+    "test/evidence.test.js": "49175d8fde172115d236c9e9030ce194dedd4db0aa741aec872f9022093ac648",
+    "test/resources.test.js": "13cfa9f87ffa782a03828760dfa7d4cbf270019763cd9657ab3059f588b61de3",
+    "worker.cjs": "0597dbaf0ab88c9f9f6dbf87ac81a29a5741b7599e2a4f1531823e8e8cf7484a"
+  },
+  "delegates": [
+    {
+      "lane": "mimo",
+      "model": "atria/Atria-Dawn-Preview",
+      "status": "timeout",
+      "eventCount": 0,
+      "toolEvents": 0,
+      "finalCaptured": false,
+      "finalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": null,
+      "concurrentParentChangesReviewed": true,
+      "reviewScope": "supplied-design-only; no independent workspace verification"
+    },
+    {
+      "lane": "opencode",
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "status": "completed",
+      "eventCount": 3,
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "finalSha256": "776d205775a6805c8579fca4d613e7d51af06e819fb7741b56378319553116f2",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": null,
+      "concurrentParentChangesReviewed": true,
+      "reviewScope": "supplied-design-only; no independent workspace verification"
+    },
+    {
+      "lane": "claude",
+      "model": "Atria-Dawn-Preview",
+      "status": "failed",
+      "eventCount": 13,
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "finalSha256": "b6604c0b3295186788737f856949c6d730fb54e2b432783420c33bb0f5a5cd1b",
+      "stderrSha256": "87fad63a69b6a257f7de00dc90f9cc8af7f7d25245f12b560656de342739973b",
+      "readOnlyViolation": true,
+      "concurrentParentChangesReviewed": true,
+      "errorCategories": [
+        "connection-refused",
+        "unrecognized-model-diagnostic"
+      ],
+      "reviewScope": "supplied-design-only; no independent workspace verification"
+    }
+  ],
+  "nativeCohorts": 2,
+  "viewsPerCohort": [
+    "grid",
+    "focus"
+  ],
+  "membersPerView": 5,
+  "pilotOnly": true,
+  "initialPhaseDefectRetained": true,
+  "hourMixedWorkloadQualified": false,
+  "memorySettlingQualified": false,
+  "agyFallbackDispatched": false,
+  "agyFallbackReason": "consumer-third-party-wrapper-restriction",
+  "fullS5Qualified": false,
+  "productionEligible": false
+}

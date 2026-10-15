@@ -1,0 +1,10 @@
+{
+  "name":"tiye-s5-resource-pilot",
+  "private":true,
+  "scripts":{
+    "build":"node build.js",
+    "check":"node check-evidence.js && node --test test/*.test.js",
+    "check:runtime":"node check-evidence.js --runtime",
+    "probe":"node run.js"
+  }
+}
