@@ -815,6 +815,17 @@ backend as a candidate mitigation without establishing component fault. Prior
 resource/performance and recovery results used the system backend and must be
 checked on this candidate before product selection. Whole process-tree cleanup,
 broader Windows coverage and full S5 remain open; earlier failures stay preserved.
+The [bundled-backend verification](../feasibility/s5-performance/ui/bundled-resources/README.md)
+now repeats the two-view resource pilot, renderer reconstruction and isolated
+PTY/SQLite process-fault cases. Active/idle sample coverage and 28/28 synthetic
+input probes per view pass; maximum dispatch-to-render ACKs are 15.90/17.51 ms.
+Renderer reconstruction retains 12 persistent identities and restores all
+600 records/member plus the 50,000-event feed. The corrected isolated-fault run
+passes with all 14 recorded roles exited; its first schema-mismatch attempt is
+preserved as failed. The bundled pilot observes more decoded bytes and higher
+main-process CPU peaks than the older system-backend pilot, without a paired
+causal comparison or a CPU/RAM budget. Longer mixed-workload, memory-settling,
+helper accounting and full S5 remain open before product backend selection.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

@@ -1,0 +1,1 @@
+{"name":"tiye-s5-bundled-process-faults","private":true,"scripts":{"probe":"node run.js","check":"node check-evidence.js","check:runtime":"node check-evidence.js --runtime"}}

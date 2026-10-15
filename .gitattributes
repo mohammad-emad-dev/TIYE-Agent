@@ -26,3 +26,10 @@ output/s5-interaction-conpty/** -text
 output/s5-interaction-conpty-active/** -text
 output/s5-interaction-conpty/*.log -whitespace
 output/s5-interaction-conpty-active/*.log -whitespace
+output/s5-bundled-recovery/** -text
+output/s5-bundled-resources/** -text
+output/s5-bundled-faults/** -text
+output/s5-bundled-faults-attempt-1/** -text
+output/s5-bundled-recovery/*.log -whitespace
+output/s5-bundled-faults/*.log -whitespace
+output/s5-bundled-faults-attempt-1/*.log -whitespace

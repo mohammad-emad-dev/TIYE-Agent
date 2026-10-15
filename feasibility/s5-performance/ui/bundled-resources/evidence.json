@@ -1,0 +1,206 @@
+{
+  "schema": "tiye-s5-bundled-resources-v1",
+  "sourceHashes": {
+    "worker.cjs": "bd98f5384a7b4b6d7296ba7938d151a18f47c0ab0b7266644eccbddd939cbbb8",
+    "renderer.js": "f0f35e3e256e8468f097b7492f45b953b51a331abf40c843849659bee95b7a93",
+    "build.js": "50109610365bba1712d74d8eaa1c3d4668796ff4e05de80e9db172c6413a991b",
+    "main.cjs": "fffeb8cd8c984fc49831717f50fe290d9ad61e24cfbc10124060ea8e378dceb9",
+    "run.js": "749807c250e1fa49d4c96ebd778eca75b68de0a972df84c6ca0fd06f9d299a29",
+    "backend-modules.ps1": "141443c69f915eed0e9f1d8395ad194774175df7631a4c94fec8a0db8e42320b",
+    "../resources/sampler.js": "ebbcb1b4c694083fac3a4149f965b4fa3e3affe517c053e89fa810b9944fe623",
+    "../resources/sample-processes.ps1": "7ca90f90bd12a34b0e8a16737b9ee88a96a726f78914291f3c84cff3056f1c3d",
+    "../resources/resource-metrics.js": "ce61446b0ddf83f83eb1a865e3b22448853525e19b4df7a475d12e01f2d93e87",
+    "../flood/metrics.js": "a6fad06cc4b69af1a0d0429f0c632929943647a616523e5dd56dc5b7e5a925c0",
+    "../flood/producer.cjs": "1dcdd0dd14dd9001f7190f704fd7322617989a001bc3c87d2ab888500f05370a",
+    "../flood/preload.cjs": "5517e90d52acee9ea38713cbfd02d0bcff291d4b6fcf21c1ae3e4284eb49c5a4",
+    "../flood/index.html": "1546481596376e89730d11079451367153da8522d585ec80a1288cdd8f2a832f",
+    "../worker-channel.js": "e9a7668cf34a7ef9d914dc3b86cf8cff733b4e93216292a54ec2090ecd3761e8",
+    "../protocol.js": "5fc57abe0b24c36c475ca39f909fdef5448c01df7e1464f3acd5f402955a8dbf",
+    "../toolchain.js": "b0c6a440964fe2f64397b6f43e552c911bc79adae409aee052a1849b16101c68"
+  },
+  "buildHashes": {
+    "dist/renderer.js": "445bc8a6b70031b83b97e838b3efdb60e0de0911beb18eaecc5417b42baeca77",
+    "dist/preload.cjs": "62b37bd8ca6658ad34f5225417c9236ecf72029241b874ff5085d26b5dbc8693",
+    "dist/index.html": "1546481596376e89730d11079451367153da8522d585ec80a1288cdd8f2a832f",
+    "dist/xterm.css": "ba8e6985669488981ccf40c0cefe3aba80722cb6c92de7ad628b0bd717faf2b6",
+    "../../../s1-terminal/node_modules/node-pty/prebuilds/win32-x64/conpty/conpty.dll": "7c7430632052ff703540b68371ec43821820aa1335d8e11dfbcd9ff00e9daaed",
+    "../../../s1-terminal/node_modules/node-pty/prebuilds/win32-x64/conpty/OpenConsole.exe": "d1fe7faa62f9e955e2ac2371f95d7e5513df4d496255097158f979c94782c5fc"
+  },
+  "recordedBeforeLaunch": "2026-10-15T23:00:58.088Z",
+  "outcomes": [
+    {
+      "view": "grid",
+      "code": 0,
+      "signal": null,
+      "timedOut": false
+    },
+    {
+      "view": "focus",
+      "code": 0,
+      "signal": null,
+      "timedOut": false
+    }
+  ],
+  "unchanged": true,
+  "completed": true,
+  "artifacts": {
+    "focus-0.log.gz": {
+      "sha256": "8db06eef4fc02cc57efe56961834c0dccbdec96faa318ce69dd5b990d79d57b2",
+      "decodedSha256": "00a82e250a91066e5b347ea4cd8fe78a7568dffa7fd3f405c682dd5d9cb91080",
+      "decodedBytes": 5227695,
+      "encoding": "gzip"
+    },
+    "focus-1.log.gz": {
+      "sha256": "851ddd7aaaa4250324ae854e6d1a09873ce55c5d01599ef77462c4e65495d05f",
+      "decodedSha256": "bf8ac819163ae0030a84c26466801a41a1fb116ef88d594120441e2031828147",
+      "decodedBytes": 5271804,
+      "encoding": "gzip"
+    },
+    "focus-2.log.gz": {
+      "sha256": "75d9e143dd29205c382047256ba34c4867a3af97745ece82c090da78b3f31f00",
+      "decodedSha256": "454fe9c0e56103d71eedac411129210003cf8a8ebc4ea09a892530adeb9c93c5",
+      "decodedBytes": 5261052,
+      "encoding": "gzip"
+    },
+    "focus-3.log.gz": {
+      "sha256": "c55f1c382a94e0b6a75d456202cf3fec2bd2cd13566d4012ba56342d3c870d6b",
+      "decodedSha256": "2eadf4d5e0ebc6a6a47a79ee3f248e4c59a2d576e93af1680a0554520324e14d",
+      "decodedBytes": 5259260,
+      "encoding": "gzip"
+    },
+    "focus-4.log.gz": {
+      "sha256": "5d153435d7ce8c3bf2a192433d4028f10b2ef47e6d998f3f2f9b793f9ac5df9a",
+      "decodedSha256": "3b293d2c366ff77db11dabb44aab8f4dfd7a65d591fc203c7d6e9d7e72f78bdc",
+      "decodedBytes": 5248508,
+      "encoding": "gzip"
+    },
+    "focus-backend-0.json": {
+      "sha256": "c3f2b4595b75ea24c88afc8dfe5ca9bec13c874c71a8494d92c311a9b9bee5f3",
+      "decodedSha256": "c3f2b4595b75ea24c88afc8dfe5ca9bec13c874c71a8494d92c311a9b9bee5f3",
+      "decodedBytes": 193,
+      "encoding": "identity"
+    },
+    "focus-backend-1.json": {
+      "sha256": "c79c15130f50c283b7ab9f9f5a0626137c21ee4ed68dc8540cd1b629aceec4af",
+      "decodedSha256": "c79c15130f50c283b7ab9f9f5a0626137c21ee4ed68dc8540cd1b629aceec4af",
+      "decodedBytes": 193,
+      "encoding": "identity"
+    },
+    "focus-backend-2.json": {
+      "sha256": "cd43a05eb34423657a5bd316bdcd84fcbb4de4c97231e702a80a449d4ed23ef0",
+      "decodedSha256": "cd43a05eb34423657a5bd316bdcd84fcbb4de4c97231e702a80a449d4ed23ef0",
+      "decodedBytes": 193,
+      "encoding": "identity"
+    },
+    "focus-backend-3.json": {
+      "sha256": "6fdedfd7437546cbb5d2951a93c1028d1e4b9cf19ae671e451f56c5f5cf59ffb",
+      "decodedSha256": "6fdedfd7437546cbb5d2951a93c1028d1e4b9cf19ae671e451f56c5f5cf59ffb",
+      "decodedBytes": 192,
+      "encoding": "identity"
+    },
+    "focus-backend-4.json": {
+      "sha256": "ee9fa3bc2c3b01e87efbfa869c7e69413323e4218e85c1f6ebba21eb15ecb905",
+      "decodedSha256": "ee9fa3bc2c3b01e87efbfa869c7e69413323e4218e85c1f6ebba21eb15ecb905",
+      "decodedBytes": 192,
+      "encoding": "identity"
+    },
+    "focus-result.json": {
+      "sha256": "47f8e9751c516c02d726a1ab24ae42a6df309643afd0cda0e64ed31c794c561f",
+      "decodedSha256": "47f8e9751c516c02d726a1ab24ae42a6df309643afd0cda0e64ed31c794c561f",
+      "decodedBytes": 169847,
+      "encoding": "identity"
+    },
+    "focus-stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decodedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decodedBytes": 0,
+      "encoding": "identity"
+    },
+    "grid-0.log.gz": {
+      "sha256": "4cc140bd225a38cee0124150d1ea83dc12a47fb6de754f09d9393dbb2dd03a7e",
+      "decodedSha256": "4f21f121e1bc7644a271721bafee68553136d65276fe946567a2d66cc04d84b8",
+      "decodedBytes": 5718703,
+      "encoding": "gzip"
+    },
+    "grid-1.log.gz": {
+      "sha256": "9baa64ca19ce8e988d8c609a1c125154d33eb8fa27a0fe54b1ebe766737b3212",
+      "decodedSha256": "7fc191b587066648338695a2f3d7a817d5c95df178e21e5f0de8d2d7a9d81fb4",
+      "decodedBytes": 5725180,
+      "encoding": "gzip"
+    },
+    "grid-2.log.gz": {
+      "sha256": "d598dd35522419a37f4326355ec2b542df5b21007f9dfae60991ed69aa36cb20",
+      "decodedSha256": "482081e5bf83cd5bf34b67ef5e4c7546f67b6e1a58c012a86137e2a3eee6d2c8",
+      "decodedBytes": 5712636,
+      "encoding": "gzip"
+    },
+    "grid-3.log.gz": {
+      "sha256": "6f23f320641d2cf5117781da12abc93fb5af794a446ea5ef895f16388604b16f",
+      "decodedSha256": "b1fe504c81a3f1b06915d5113653368c9c1f6fc6f69923891a5e85531b1d6f0c",
+      "decodedBytes": 5712636,
+      "encoding": "gzip"
+    },
+    "grid-4.log.gz": {
+      "sha256": "eb1d266ba002a6474a656126898ca5c2de7735eb55ad69968a9f99a432137669",
+      "decodedSha256": "403cfd0109b01460c2a6632d25d633d652e076356dad5e8083261b705b668192",
+      "decodedBytes": 5703676,
+      "encoding": "gzip"
+    },
+    "grid-backend-0.json": {
+      "sha256": "ff2c86efeb044684c8c74d2304b468a33a737ab11123296fe8155808a0575908",
+      "decodedSha256": "ff2c86efeb044684c8c74d2304b468a33a737ab11123296fe8155808a0575908",
+      "decodedBytes": 192,
+      "encoding": "identity"
+    },
+    "grid-backend-1.json": {
+      "sha256": "2975dd376bd7d1b3abd2f6048d400c4c92b18dac0a05bb9d67e095ad47413fb1",
+      "decodedSha256": "2975dd376bd7d1b3abd2f6048d400c4c92b18dac0a05bb9d67e095ad47413fb1",
+      "decodedBytes": 193,
+      "encoding": "identity"
+    },
+    "grid-backend-2.json": {
+      "sha256": "6e5e9363ce7b802996236d493543e038472f4f969236fb90513f97fad99a1979",
+      "decodedSha256": "6e5e9363ce7b802996236d493543e038472f4f969236fb90513f97fad99a1979",
+      "decodedBytes": 193,
+      "encoding": "identity"
+    },
+    "grid-backend-3.json": {
+      "sha256": "cdf64b199fa952dee32ab2562c14817a54e44a6a66e55f615056fcc2f9fb18bd",
+      "decodedSha256": "cdf64b199fa952dee32ab2562c14817a54e44a6a66e55f615056fcc2f9fb18bd",
+      "decodedBytes": 192,
+      "encoding": "identity"
+    },
+    "grid-backend-4.json": {
+      "sha256": "ea0a21056228ab3cf5b3f2480551208dae3031560eeef37c7cb783853972bd21",
+      "decodedSha256": "ea0a21056228ab3cf5b3f2480551208dae3031560eeef37c7cb783853972bd21",
+      "decodedBytes": 192,
+      "encoding": "identity"
+    },
+    "grid-result.json": {
+      "sha256": "9a2c789ab447627993b7f0ffb2768f8de56f2f7b006d4162ef1ee174731d1f00",
+      "decodedSha256": "9a2c789ab447627993b7f0ffb2768f8de56f2f7b006d4162ef1ee174731d1f00",
+      "decodedBytes": 169542,
+      "encoding": "identity"
+    },
+    "grid-stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decodedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "decodedBytes": 0,
+      "encoding": "identity"
+    },
+    "prelaunch.json": {
+      "sha256": "20694f1cecd98df557ec3c8fd716eb58e8280a9ef0694bc800eb253512eee6e2",
+      "decodedSha256": "20694f1cecd98df557ec3c8fd716eb58e8280a9ef0694bc800eb253512eee6e2",
+      "decodedBytes": 2128,
+      "encoding": "identity"
+    }
+  },
+  "platform": "win32",
+  "providerRequests": 0,
+  "runtimeRetained": true,
+  "runtimeRoot": "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\tiye-s5-bundled-resources-X395M8",
+  "ownedCleanup": false,
+  "coreProcessPresent": false,
+  "fullS5Qualified": false,
+  "productionEligible": false
+}

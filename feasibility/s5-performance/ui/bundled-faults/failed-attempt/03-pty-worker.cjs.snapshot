@@ -1,0 +1,10 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),{s1Require}=require('../toolchain');
+const [root,nodeBinary,memberText,generationText]=process.argv.slice(2),member=Number(memberText),generation=Number(generationText);
+if(!process.send||!path.isAbsolute(root)||!fs.existsSync(path.join(root,'.owner'))||!path.isAbsolute(nodeBinary)||!Number.isInteger(member)||member<0||member>4||![0,1].includes(generation))throw Error('invalid-worker');
+const terminal=s1Require('node-pty').spawn(nodeBinary,[path.join(__dirname,'producer.cjs'),memberText,generationText],{name:'xterm-256color',useConpty:true,useConptyDll:true,cols:100,rows:12,cwd:root,env:{SystemRoot:process.env.SystemRoot||'C:\\Windows',TERM:'xterm-256color'}});
+const modules=JSON.parse(require('node:child_process').execFileSync('powershell.exe',['-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',path.join(__dirname,'backend-modules.ps1'),String(process.pid)],{encoding:'utf8',windowsHide:true,timeout:15000}));
+fs.writeFileSync(path.join(root,`backend-${member}-${generation}.json`),JSON.stringify({workerPid:process.pid,useConptyDll:true,modules}),{flag:'wx'});
+process.send({event:'producer-pid',pid:terminal.pid});
+terminal.onData(text=>process.send({event:'chunk',text}));
+terminal.onExit(({exitCode})=>setTimeout(()=>process.send({event:'terminal-exit',exitCode},()=>process.exit(exitCode===0?0:1)),100));
