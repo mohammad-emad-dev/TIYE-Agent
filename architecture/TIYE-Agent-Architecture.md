@@ -707,6 +707,13 @@ bounded native grid/focus integrity observations. An intermittent shared-process
 ConPTY crash led to one PTY per isolated worker; two current-source smokes passed.
 Hidden-window parsing/receipt is not visible UI performance qualification, and
 the failed observations and abnormal recovery limitations remain explicit.
+The additive [S5 flood harness](../feasibility/s5-performance/ui/flood/README.md)
+now records 60-second grid/focus cohorts with five isolated PTYs. The corrected
+cohort preserves all captured output hashes and completes 28 synthetic input
+probes per view below 100 ms, with RAF gaps below 500 ms. Initial window/frame
+measurement defects remain preserved. These are synthetic callback timing
+proxies; physical input/display latency, long-run CPU/memory, feed/search and
+abnormal recovery remain unqualified. S5 remains partial.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
