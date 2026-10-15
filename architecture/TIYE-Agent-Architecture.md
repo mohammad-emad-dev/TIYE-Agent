@@ -848,6 +848,16 @@ work is open. Trace overhead is uncalibrated, so this is diagnostic evidence,
 not a fix or replacement qualification. Worker-local ACK/control tracing and
 input scheduling isolation remain next before the bundled hour-long run.
 
+The [worker-local trace](../feasibility/s5-performance/ui/input-worker-trace/README.md)
+adds parent pipe callbacks and separate worker command/write/ACK timestamps,
+preserving the serial scheduler. All 35 probes reconcile, but two focus samples
+exceed 100 ms (128.32 and 100.27 ms). The slowest probe has a 0.39 ms worker-local
+command-to-ACK interval and a separate 73.30 ms renderer callback-to-render-event
+interval. Unsynchronized clocks do not locate the remaining control/transport
+delay. A 557.28 ms pre-dispatch wait also occurs. The latency target remains
+failed; input scheduling isolation is next. No causal fix, physical paint,
+memory/hour or full-S5 qualification follows from this diagnostic.
+
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
 a disposable source root, ran an offline local-dependency setup, copied
