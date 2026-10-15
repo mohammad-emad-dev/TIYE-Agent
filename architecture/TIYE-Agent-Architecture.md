@@ -837,6 +837,16 @@ pass. This is bounded idle settling, not leak freedom or hour qualification.
 Decoded volume remains higher than the older unpaired system-backend run.
 Mixed-input correlation tracing is next, before the bundled hour-long run;
 full S5 and product eligibility remain open.
+The subsequent [mixed-input trace](../feasibility/s5-performance/ui/input-trace/README.md)
+reconciles 35 complete one-at-a-time probes across main IPC/ACK stages,
+renderer-local callbacks and worker write notices. The old 126.17 ms spike does
+not recur; the new maximum is 75.30 ms, including 64.59 ms between input notice
+and PTY ACK ingress. That interval still combines control delivery, worker
+scheduling and producer/ConPTY behavior; it does not establish the old cause.
+The trace also records a 320.84 ms pre-dispatch scheduling wait while feed/search
+work is open. Trace overhead is uncalibrated, so this is diagnostic evidence,
+not a fix or replacement qualification. Worker-local ACK/control tracing and
+input scheduling isolation remain next before the bundled hour-long run.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

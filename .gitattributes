@@ -35,3 +35,5 @@ output/s5-bundled-faults/*.log -whitespace
 output/s5-bundled-faults-attempt-1/*.log -whitespace
 output/s5-bundled-settling/** -text
 output/s5-bundled-settling/*.log -whitespace
+output/s5-input-trace/** -text
+output/s5-input-trace/*.log -whitespace
