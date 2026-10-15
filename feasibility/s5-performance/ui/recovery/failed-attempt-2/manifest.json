@@ -1,0 +1,82 @@
+{
+  "schema": "tiye-s5-recovery-failed-attempt-v1",
+  "recordedAt": "2026-10-15T18:02:20.098Z",
+  "exitCode": 1,
+  "diagnostic": "deadline-child-close",
+  "successEvidenceWritten": false,
+  "runtimeRetained": true,
+  "completeCohortQualified": false,
+  "fullS5Qualified": false,
+  "sources": {
+    "run.js": {
+      "snapshot": "00-run.js.snapshot",
+      "sha256": "84e06cbb1c1f051d1eb7d32697e6d2e92ee362a89f9ebed5325f55ab95af1e87"
+    },
+    "feed-worker.cjs": {
+      "snapshot": "01-feed-worker.cjs.snapshot",
+      "sha256": "aeca65a3e1cbd86699ef222dc0b25e6857c95e6cfe079edc989b1dab76e44986"
+    },
+    "pty-worker.cjs": {
+      "snapshot": "02-pty-worker.cjs.snapshot",
+      "sha256": "e12b628f9d498fe534ba67743e5c0b643268f9ad57b6854c3470e00d1ed1b1f0"
+    },
+    "producer.cjs": {
+      "snapshot": "03-producer.cjs.snapshot",
+      "sha256": "f46548c1a6862aff9acce1ce07d96d9b5df1974aa89514aa9439c3eee66d2c53"
+    },
+    "owned-runtime.js": {
+      "snapshot": "04-owned-runtime.js.snapshot",
+      "sha256": "8087c2c6c101fc517da4e4aefa9f0df688f946717c2b082c1d3538476a55008b"
+    },
+    "recovery-policy.js": {
+      "snapshot": "05-recovery-policy.js.snapshot",
+      "sha256": "b97eacdd6db5c7dc76dee1baf370a33683fa0f7d44f0728ab83a79f5404e50ad"
+    },
+    "../toolchain.js": {
+      "snapshot": "06-toolchain.js.snapshot",
+      "sha256": "b0c6a440964fe2f64397b6f43e552c911bc79adae409aee052a1849b16101c68"
+    },
+    "../mixed/sqlite-feed.js": {
+      "snapshot": "07-sqlite-feed.js.snapshot",
+      "sha256": "c2c084b34fd8da3276848d1dedd0dcb14bfd66a30a1b6f391b8b57d12a1fb9f6"
+    },
+    "../mixed/fixture.js": {
+      "snapshot": "08-fixture.js.snapshot",
+      "sha256": "af8da54330381f7b3af030f0f5dd96f97da13863df3ae1863bb60b0c5c6a5947"
+    },
+    "../resources/sampler.js": {
+      "snapshot": "09-sampler.js.snapshot",
+      "sha256": "ebbcb1b4c694083fac3a4149f965b4fa3e3affe517c053e89fa810b9944fe623"
+    },
+    "../resources/sample-processes.ps1": {
+      "snapshot": "10-sample-processes.ps1.snapshot",
+      "sha256": "7ca90f90bd12a34b0e8a16737b9ee88a96a726f78914291f3c84cff3056f1c3d"
+    }
+  },
+  "retainedFiles": {
+    "member-0-0.log": {
+      "bytes": 779,
+      "sha256": "45539a17bbabbe6cc810d761cd1ed6f94d6b434be791e0e3300093a863c72264"
+    },
+    "member-0-1.log": {
+      "bytes": 10492,
+      "sha256": "0b0a91787aef62c8d0db41b0b765002b6efa037a30c72453873899f18b42ba33"
+    },
+    "member-1-0.log": {
+      "bytes": 10492,
+      "sha256": "08c6ff35e343da8ae2adfe50a8bcb45fda1b449f12613daf035952749aaaa40f"
+    },
+    "member-2-0.log": {
+      "bytes": 10492,
+      "sha256": "af74bafad5461d90379f7c9550348fdf2ce0723ec5fa4c6cbf7fef6635bae081"
+    },
+    "member-3-0.log": {
+      "bytes": 10492,
+      "sha256": "4806f375ebd1b6140fcafc8ba0a4f75d97b07f127748ee8e7249c1f81cbbb6f3"
+    },
+    "member-4-0.log": {
+      "bytes": 10492,
+      "sha256": "844fcdea8842098816aa896b6813bbd08382b25f9141b59ac4cbff8cd83955b0"
+    }
+  }
+}

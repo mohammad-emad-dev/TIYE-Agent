@@ -754,6 +754,15 @@ search pages and the corrected post-measurement focus control passed. The
 initial failed control and its source/build snapshots are preserved. This
 qualifies the bounded foreground-input proxy only; earlier full-hour coverage,
 abnormal recovery and full S5 remain open.
+The [isolated S5 recovery cohort](../feasibility/s5-performance/ui/recovery/README.md)
+now kills an owned SQLite writer with 1,000 uncommitted events after 10,000
+committed events, verifies the exact committed prefix in a separate process,
+and resumes to 50,000 with FTS/digest/reopen checks. Killing one isolated PTY
+worker left four complete survivor streams; a fresh replacement also completed.
+The victim's captured prefix is retained without a recovered-tail claim.
+All 14 owned roles exited before normal cleanup. Two failed harness attempts
+are preserved. This qualifies these bounded process-fault cases; renderer and
+whole-host recovery, product-core recovery and full S5 remain open.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

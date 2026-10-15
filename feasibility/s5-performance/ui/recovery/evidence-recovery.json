@@ -1,0 +1,278 @@
+{
+  "schema": "tiye-s5-recovery-v1",
+  "recordedAt": "2026-10-15T18:02:34.088Z",
+  "platform": "win32",
+  "elapsedMs": 13482.002199999999,
+  "database": {
+    "committedBefore": 10000,
+    "uncommittedCount": 1000,
+    "writerVisible": 11000,
+    "walBeforeBytes": 1417312,
+    "walArmedBytes": 1491472,
+    "journalMode": "wal",
+    "synchronous": 2,
+    "cacheSize": 10,
+    "prefixMatches": [
+      997,
+      1994,
+      2991,
+      3988,
+      4985,
+      5982,
+      6979,
+      7976,
+      8973,
+      9970
+    ],
+    "finalMatches": [
+      997,
+      1994,
+      2991,
+      3988,
+      4985,
+      5982,
+      6979,
+      7976,
+      8973,
+      9970,
+      10967,
+      11964,
+      12961,
+      13958,
+      14955,
+      15952,
+      16949,
+      17946,
+      18943,
+      19940,
+      20937,
+      21934,
+      22931,
+      23928,
+      24925,
+      25922,
+      26919,
+      27916,
+      28913,
+      29910,
+      30907,
+      31904,
+      32901,
+      33898,
+      34895,
+      35892,
+      36889,
+      37886,
+      38883,
+      39880,
+      40877,
+      41874,
+      42871,
+      43868,
+      44865,
+      45862,
+      46859,
+      47856,
+      48853,
+      49850
+    ],
+    "finalTotal": 50,
+    "killedWriter": {
+      "abnormal": true,
+      "exitCode": null,
+      "signal": "SIGKILL"
+    },
+    "recoveredPrefix": {
+      "count": 10000,
+      "sha256": "18914b611e0636b2a3deb976ab46157d547bffe17d11e83e8aada589111864b0",
+      "sqlite": "ok",
+      "fts": "ok"
+    },
+    "expectedPrefixSha256": "18914b611e0636b2a3deb976ab46157d547bffe17d11e83e8aada589111864b0",
+    "final": {
+      "count": 50000,
+      "sha256": "8c9a9ce74ec0536003ff32333fdaedf064713f4e52aadce03b1db9f07b2e71d9",
+      "sqlite": "ok",
+      "fts": "ok",
+      "reopened": true
+    },
+    "expectedFullSha256": "8c9a9ce74ec0536003ff32333fdaedf064713f4e52aadce03b1db9f07b2e71d9"
+  },
+  "beforeFaultRecords": [
+    12,
+    11,
+    12,
+    10,
+    11
+  ],
+  "terminals": [
+    {
+      "member": 0,
+      "generation": 0,
+      "role": "victim",
+      "records": 21,
+      "expectedRecords": 300,
+      "ordered": true,
+      "ended": false,
+      "exitCode": null,
+      "signal": "SIGKILL",
+      "bytes": 779,
+      "captureSha256": "45539a17bbabbe6cc810d761cd1ed6f94d6b434be791e0e3300093a863c72264",
+      "storedSha256": "45539a17bbabbe6cc810d761cd1ed6f94d6b434be791e0e3300093a863c72264"
+    },
+    {
+      "member": 1,
+      "generation": 0,
+      "role": "survivor",
+      "records": 300,
+      "expectedRecords": 300,
+      "ordered": true,
+      "ended": true,
+      "exitCode": 0,
+      "signal": null,
+      "bytes": 10492,
+      "captureSha256": "08c6ff35e343da8ae2adfe50a8bcb45fda1b449f12613daf035952749aaaa40f",
+      "storedSha256": "08c6ff35e343da8ae2adfe50a8bcb45fda1b449f12613daf035952749aaaa40f"
+    },
+    {
+      "member": 2,
+      "generation": 0,
+      "role": "survivor",
+      "records": 300,
+      "expectedRecords": 300,
+      "ordered": true,
+      "ended": true,
+      "exitCode": 0,
+      "signal": null,
+      "bytes": 10492,
+      "captureSha256": "af74bafad5461d90379f7c9550348fdf2ce0723ec5fa4c6cbf7fef6635bae081",
+      "storedSha256": "af74bafad5461d90379f7c9550348fdf2ce0723ec5fa4c6cbf7fef6635bae081"
+    },
+    {
+      "member": 3,
+      "generation": 0,
+      "role": "survivor",
+      "records": 300,
+      "expectedRecords": 300,
+      "ordered": true,
+      "ended": true,
+      "exitCode": 0,
+      "signal": null,
+      "bytes": 10492,
+      "captureSha256": "4806f375ebd1b6140fcafc8ba0a4f75d97b07f127748ee8e7249c1f81cbbb6f3",
+      "storedSha256": "4806f375ebd1b6140fcafc8ba0a4f75d97b07f127748ee8e7249c1f81cbbb6f3"
+    },
+    {
+      "member": 4,
+      "generation": 0,
+      "role": "survivor",
+      "records": 300,
+      "expectedRecords": 300,
+      "ordered": true,
+      "ended": true,
+      "exitCode": 0,
+      "signal": null,
+      "bytes": 10492,
+      "captureSha256": "844fcdea8842098816aa896b6813bbd08382b25f9141b59ac4cbff8cd83955b0",
+      "storedSha256": "844fcdea8842098816aa896b6813bbd08382b25f9141b59ac4cbff8cd83955b0"
+    },
+    {
+      "member": 0,
+      "generation": 1,
+      "role": "replacement",
+      "records": 300,
+      "expectedRecords": 300,
+      "ordered": true,
+      "ended": true,
+      "exitCode": 0,
+      "signal": null,
+      "bytes": 10492,
+      "captureSha256": "0b0a91787aef62c8d0db41b0b765002b6efa037a30c72453873899f18b42ba33",
+      "storedSha256": "0b0a91787aef62c8d0db41b0b765002b6efa037a30c72453873899f18b42ba33"
+    }
+  ],
+  "ownedProcessChecks": [
+    {
+      "role": "writer",
+      "status": "exited"
+    },
+    {
+      "role": "recovery-reader",
+      "status": "exited"
+    },
+    {
+      "role": "worker-0-0",
+      "status": "exited"
+    },
+    {
+      "role": "producer-0-0",
+      "status": "exited"
+    },
+    {
+      "role": "worker-1-0",
+      "status": "exited"
+    },
+    {
+      "role": "producer-1-0",
+      "status": "exited"
+    },
+    {
+      "role": "worker-2-0",
+      "status": "exited"
+    },
+    {
+      "role": "producer-2-0",
+      "status": "exited"
+    },
+    {
+      "role": "worker-3-0",
+      "status": "exited"
+    },
+    {
+      "role": "producer-3-0",
+      "status": "exited"
+    },
+    {
+      "role": "worker-4-0",
+      "status": "exited"
+    },
+    {
+      "role": "producer-4-0",
+      "status": "exited"
+    },
+    {
+      "role": "worker-0-1",
+      "status": "exited"
+    },
+    {
+      "role": "producer-0-1",
+      "status": "exited"
+    }
+  ],
+  "ownedProcessesGone": true,
+  "outputIntegrity": true,
+  "ownedCleanup": true,
+  "providerRequests": 0,
+  "fullS5Qualified": false,
+  "productionEligible": false,
+  "coreProcessPresent": false,
+  "sourceHashes": {
+    "run.js": "84e06cbb1c1f051d1eb7d32697e6d2e92ee362a89f9ebed5325f55ab95af1e87",
+    "feed-worker.cjs": "aeca65a3e1cbd86699ef222dc0b25e6857c95e6cfe079edc989b1dab76e44986",
+    "pty-worker.cjs": "f3201320260414821d91897236462c5ebe8d42ba51f52b9d69dda07970c964f4",
+    "producer.cjs": "f46548c1a6862aff9acce1ce07d96d9b5df1974aa89514aa9439c3eee66d2c53",
+    "owned-runtime.js": "8087c2c6c101fc517da4e4aefa9f0df688f946717c2b082c1d3538476a55008b",
+    "recovery-policy.js": "b97eacdd6db5c7dc76dee1baf370a33683fa0f7d44f0728ab83a79f5404e50ad",
+    "../toolchain.js": "b0c6a440964fe2f64397b6f43e552c911bc79adae409aee052a1849b16101c68",
+    "../mixed/sqlite-feed.js": "c2c084b34fd8da3276848d1dedd0dcb14bfd66a30a1b6f391b8b57d12a1fb9f6",
+    "../mixed/fixture.js": "af8da54330381f7b3af030f0f5dd96f97da13863df3ae1863bb60b0c5c6a5947",
+    "../resources/sampler.js": "ebbcb1b4c694083fac3a4149f965b4fa3e3affe517c053e89fa810b9944fe623",
+    "../resources/sample-processes.ps1": "7ca90f90bd12a34b0e8a16737b9ee88a96a726f78914291f3c84cff3056f1c3d"
+  },
+  "versions": {
+    "node": "v26.7.0",
+    "sqlite": "3.53.4",
+    "electron": "38.8.6",
+    "nodePty": "1.1.0"
+  }
+}

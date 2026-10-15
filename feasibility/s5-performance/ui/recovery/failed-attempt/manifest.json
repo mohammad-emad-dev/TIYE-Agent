@@ -1,0 +1,56 @@
+{
+  "schema": "tiye-s5-recovery-failed-attempt-v1",
+  "recordedAt": "2026-10-15T18:01:31.138Z",
+  "exitCode": 1,
+  "diagnostic": "owned-process-not-present",
+  "successEvidenceWritten": false,
+  "runtimeRetained": true,
+  "faultInjectionQualified": false,
+  "fullS5Qualified": false,
+  "sources": {
+    "run.js": {
+      "snapshot": "00-run.js.snapshot",
+      "sha256": "84e06cbb1c1f051d1eb7d32697e6d2e92ee362a89f9ebed5325f55ab95af1e87"
+    },
+    "feed-worker.cjs": {
+      "snapshot": "01-feed-worker.cjs.snapshot",
+      "sha256": "7ac0492013eb86442593fd6ce16541533d193ae4e1906c9e23fe364ada8e8203"
+    },
+    "pty-worker.cjs": {
+      "snapshot": "02-pty-worker.cjs.snapshot",
+      "sha256": "e12b628f9d498fe534ba67743e5c0b643268f9ad57b6854c3470e00d1ed1b1f0"
+    },
+    "producer.cjs": {
+      "snapshot": "03-producer.cjs.snapshot",
+      "sha256": "f46548c1a6862aff9acce1ce07d96d9b5df1974aa89514aa9439c3eee66d2c53"
+    },
+    "owned-runtime.js": {
+      "snapshot": "04-owned-runtime.js.snapshot",
+      "sha256": "ed8e3a477ad95fa21feb69001154418a0b84b8d029ee2456c75bca738b63c2fd"
+    },
+    "recovery-policy.js": {
+      "snapshot": "05-recovery-policy.js.snapshot",
+      "sha256": "b97eacdd6db5c7dc76dee1baf370a33683fa0f7d44f0728ab83a79f5404e50ad"
+    },
+    "../toolchain.js": {
+      "snapshot": "06-toolchain.js.snapshot",
+      "sha256": "b0c6a440964fe2f64397b6f43e552c911bc79adae409aee052a1849b16101c68"
+    },
+    "../mixed/sqlite-feed.js": {
+      "snapshot": "07-sqlite-feed.js.snapshot",
+      "sha256": "c2c084b34fd8da3276848d1dedd0dcb14bfd66a30a1b6f391b8b57d12a1fb9f6"
+    },
+    "../mixed/fixture.js": {
+      "snapshot": "08-fixture.js.snapshot",
+      "sha256": "af8da54330381f7b3af030f0f5dd96f97da13863df3ae1863bb60b0c5c6a5947"
+    },
+    "../resources/sampler.js": {
+      "snapshot": "09-sampler.js.snapshot",
+      "sha256": "ebbcb1b4c694083fac3a4149f965b4fa3e3affe517c053e89fa810b9944fe623"
+    },
+    "../resources/sample-processes.ps1": {
+      "snapshot": "10-sample-processes.ps1.snapshot",
+      "sha256": "7ca90f90bd12a34b0e8a16737b9ee88a96a726f78914291f3c84cff3056f1c3d"
+    }
+  }
+}

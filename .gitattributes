@@ -8,3 +8,4 @@ feasibility/s3-worktrees/fixtures/** -text whitespace=blank-at-eol,blank-at-eof,
 feasibility/s3-worktrees/evidence/** -text
 feasibility/s4-provider-access/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s5-performance/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s5-recovery/*.log -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
