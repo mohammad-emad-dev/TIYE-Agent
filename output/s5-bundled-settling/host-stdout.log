@@ -1,0 +1,9 @@
+
+{"progressMinutes":1,"events":16608,"searches":12,"view":"grid"}
+{"progressMinutes":2,"events":33302,"searches":24,"view":"grid"}
+{"idleElapsedSeconds":0,"events":50000,"resourceSamples":18,"workersClosed":5}
+{"idleElapsedSeconds":60,"events":50000,"resourceSamples":24,"workersClosed":5}
+{"idleElapsedSeconds":120,"events":50000,"resourceSamples":30,"workersClosed":5}
+{"idleElapsedSeconds":180,"events":50000,"resourceSamples":35,"workersClosed":5}
+{"idleElapsedSeconds":240,"events":50000,"resourceSamples":41,"workersClosed":5}
+{"idleElapsedSeconds":300,"events":50000,"resourceSamples":47,"workersClosed":5}

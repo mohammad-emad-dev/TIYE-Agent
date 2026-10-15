@@ -826,6 +826,17 @@ preserved as failed. The bundled pilot observes more decoded bytes and higher
 main-process CPU peaks than the older system-backend pilot, without a paired
 causal comparison or a CPU/RAM budget. Longer mixed-workload, memory-settling,
 helper accounting and full S5 remain open before product backend selection.
+The [bundled eight-minute settling check](../feasibility/s5-performance/ui/bundled-settling/README.md)
+passes the unchanged final-two-minute private-memory criterion for main,
+renderer and feed after three minutes of mixed PTY/feed/search activity.
+Twelve samples per retained role span 113.53 seconds; slopes are +0.008,
+−0.103 and −0.043 MiB/min. All 50,000 events and 36 search/page checks verify.
+All 35 input probes complete with exposure confirmed, but focus has a 126.17 ms
+maximum and fails the unchanged 100 ms input bound; grid, RAF and search proxies
+pass. This is bounded idle settling, not leak freedom or hour qualification.
+Decoded volume remains higher than the older unpaired system-backend run.
+Mixed-input correlation tracing is next, before the bundled hour-long run;
+full S5 and product eligibility remain open.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

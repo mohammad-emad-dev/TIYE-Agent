@@ -33,3 +33,5 @@ output/s5-bundled-faults-attempt-1/** -text
 output/s5-bundled-recovery/*.log -whitespace
 output/s5-bundled-faults/*.log -whitespace
 output/s5-bundled-faults-attempt-1/*.log -whitespace
+output/s5-bundled-settling/** -text
+output/s5-bundled-settling/*.log -whitespace

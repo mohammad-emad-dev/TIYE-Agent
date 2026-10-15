@@ -1,0 +1,186 @@
+{
+  "schema": "tiye-s5-bundled-settling-review-v1",
+  "reviewedOn": "2026-10-16",
+  "timezone": "Asia/Amman",
+  "recordedAt": "2026-10-15T23:30:23.787Z",
+  "previousCommit": "0975a014fc7a2378951af2925e27bc06df199fab",
+  "previousFiles": 1029,
+  "previousArtifactsUnchanged": true,
+  "sha256": {
+    "feasibility/s5-performance/ui/bundled-settling/README.md": "1f36f0c9acf1b08de015bd271c0e8c1adce7d78d34da06bb2a6ac867866f90b4",
+    "feasibility/s5-performance/ui/bundled-settling/backend-modules.ps1": "141443c69f915eed0e9f1d8395ad194774175df7631a4c94fec8a0db8e42320b",
+    "feasibility/s5-performance/ui/bundled-settling/build.js": "90756a9407f721d13c1c3c6ea4f43648cc32431fc22959e5f805ed4e0661a6f6",
+    "feasibility/s5-performance/ui/bundled-settling/check-evidence.js": "b3996fdb31faee8cb2df7b315b22c2a8b460a936f09d6658ebb16b8943fb02fe",
+    "feasibility/s5-performance/ui/bundled-settling/evidence-settling.json": "471f8a0ea30f8a41a1efc39c969eaf04ec0b655eda1a7c77a1d4b711ca7ee583",
+    "feasibility/s5-performance/ui/bundled-settling/main.cjs": "58d38e2847b7b61a9d1a6b940a3ea6d6e6b83f0dce585370247af072a459f648",
+    "feasibility/s5-performance/ui/bundled-settling/package.json": "6cd328fc6ea2f36ee4d19f570978b1ee201a9eabbf3691dd93f77aa05fed4d61",
+    "feasibility/s5-performance/ui/bundled-settling/producer.cjs": "22ce2df4775e2e01ef17ef1a9343c324aceb538a2e0e0219f78b023ea77940ca",
+    "feasibility/s5-performance/ui/bundled-settling/profiles.js": "4311a127db21621b53f75a98276321be38473fac90c151afebb5e28d21d23825",
+    "feasibility/s5-performance/ui/bundled-settling/run.js": "cdd9042c81e8fcee541086f00ea9ca5a4e4ced08da61284d26713083ba52952d",
+    "feasibility/s5-performance/ui/bundled-settling/test/evidence.test.js": "fc3a46d2533bd791f0b76310decf182f8fa268cff9f269b94f3d4d1e42909ec1",
+    "feasibility/s5-performance/ui/bundled-settling/worker.cjs": "3788e02d577cd9b99eeb11494ae0be775b3f351382daf1ad3b7c2692e246b7dc",
+    "output/s5-bundled-settling/backend-0.json": "d656c8781bca6bf92b311b63ec4a5ee36ba8f413840ee7645b597e4c0f93fc03",
+    "output/s5-bundled-settling/backend-1.json": "09b490830f62ddd13fc66ae7c2d183e5bf3e9085e63a2663d03985a9857f3358",
+    "output/s5-bundled-settling/backend-2.json": "418ce84d1b0e8ee25c7a0e24d9cc44913df64cf37c6e6abcd464fcb0cbcfa178",
+    "output/s5-bundled-settling/backend-3.json": "a28fb7d9eef63109c4b5bb4bd5adbbf62f1c9e2d5c14702eff744692c4043c9f",
+    "output/s5-bundled-settling/backend-4.json": "bbc958fa461fdc6adc950719b672f6ee7f233b4afd8cfaee5d8303e71481f54d",
+    "output/s5-bundled-settling/host-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s5-bundled-settling/host-stdout.log": "67d5b22c6c82d8064c7e46208f1b02603461f2b552ab74b855de6251e579e462",
+    "output/s5-bundled-settling/member-0.log.gz": "881facba74863973ce1c62c6eb910e55f22c4ecbe0a84031938d3fb7bb09259a",
+    "output/s5-bundled-settling/member-1.log.gz": "b99595cba2501171263a9032ba79d49a1467fddddc2986463dbeb96db29fc207",
+    "output/s5-bundled-settling/member-2.log.gz": "8fc291023d805a1262cbbf8842b1e9dcdcdd204aa8384036c8e3979f5f4a9208",
+    "output/s5-bundled-settling/member-3.log.gz": "3dbe731254664edd973b270c929e79360e3b762636b3744baea741de1f7f212d",
+    "output/s5-bundled-settling/member-4.log.gz": "3ac81ac224cf5f30111e85e9685f77bed4b8483fcf1f1f3703cdbe8bab1e1888",
+    "output/s5-bundled-settling/prelaunch.json": "afd1261e1afa47af2ba31f6c1e9287f48c6b82e9ff87712efc68e20be22f8a29"
+  },
+  "delegates": [
+    {
+      "lane": "muse",
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "effort": "xhigh",
+      "status": "completed",
+      "toolEvents": 0,
+      "scope": "supplied context only; no independent workspace verification; parent owns implementation and gates",
+      "readOnlyViolation": null,
+      "parentConcurrentChangesReviewed": true,
+      "artifactSha256": {
+        "brief.txt": "67afa083497fe3c0422750c63474511c2b272219d256f55e5d9a980b058f665f",
+        "events.jsonl": "22f3885ce6b1fd6c8af06c39271c0bbe782690e0e1937e9ad7dfc7512f5397da",
+        "final.txt": "0eae6f399e29223407e1e8cd55ff6f0d22f22057cdf871bdfd9b34bebaa826d6",
+        "stderr.txt": null,
+        "result.json": "f897ac389182facc8ce4699c5261585626e07393aea124e8869621a190bd07a8"
+      }
+    },
+    {
+      "lane": "space-bunny-fallback",
+      "model": "opencode/space-bunny-free",
+      "effort": "xhigh",
+      "status": "completed",
+      "toolEvents": 0,
+      "scope": "supplied context only; no independent workspace verification; parent owns implementation and gates",
+      "readOnlyViolation": null,
+      "parentConcurrentChangesReviewed": true,
+      "artifactSha256": {
+        "brief.txt": "f7494fc08050e592a31735399658f0fbebb01abde601b7d3145a0c8ec038aba8",
+        "events.jsonl": "1cb01e77f3d170a95ae36f6a16f4b5119a0380248292d64931a7166002d6d4f6",
+        "final.txt": "711935a5d890b163a1f0e9e3e78279ed7ea6a355161dbaec7f1a287e303b9c01",
+        "stderr.txt": null,
+        "result.json": "8da26d37c7b5a19c7e9e1dd3c084a79c1d07da90a90a8bc7feae9ba04cc85e52"
+      }
+    },
+    {
+      "lane": "deepseek",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "toolEvents": 0,
+      "scope": "supplied context only; no independent workspace verification; parent owns implementation and gates",
+      "readOnlyViolation": null,
+      "parentConcurrentChangesReviewed": true,
+      "artifactSha256": {
+        "brief.txt": "2a7de5c22598418637f5ee3254bc72dfe1a29a7fb202d2ab73354845b6ed97ac",
+        "events.jsonl": "c882446b3aa9204c357a649423082cf001fa10d69a378ccfaede00a4b438e805",
+        "final.txt": "8526ea380a243310ede76261605a0a9e02315f230c0c9144f5ea0bdb894b314f",
+        "stderr.txt": null,
+        "result.json": "c2b00c2d9910731b2202eb098f0cd8c0c0262cab3c4db2c63e42030bc11e8d1c"
+      }
+    }
+  ],
+  "regressionTestsPassed": 4,
+  "nativeAttempts": 1,
+  "nativeCompleted": true,
+  "observed": {
+    "elapsedMs": 484578.29679999995,
+    "searches": 36,
+    "decodedBytes": 28411199,
+    "targets": {
+      "exposureConfirmed": true,
+      "resourceActiveCoverage": true,
+      "resourceIdleCoverage": true,
+      "gridInputUnder100Ms": true,
+      "focusInputUnder100Ms": false,
+      "gridRafUnder500Ms": true,
+      "focusRafUnder500Ms": true,
+      "searchDbUnder2000Ms": true,
+      "searchRafUnder2000Ms": true
+    },
+    "memory": {
+      "criteria": {
+        "scope": "provisional bounded private-memory settling; not leak-free proof",
+        "roles": [
+          "main",
+          "renderer",
+          "feed"
+        ],
+        "tailMs": 120000,
+        "minimumSamples": 10,
+        "minimumSpanMs": 100000,
+        "maximumGapMs": 15000,
+        "maximumSlopeMiBPerMinute": 1,
+        "maximumRangeMiB": 8
+      },
+      "windowStartMs": 360000,
+      "windowEndMs": 480000,
+      "roles": [
+        {
+          "role": "main",
+          "pass": true,
+          "samples": 12,
+          "spanMs": 113527.60439999995,
+          "maxGapMs": 10579.40830000001,
+          "slopeMiBPerMinute": 0.008173916030104419,
+          "rangeMiB": 0.32421875,
+          "firstPrivateMiB": 72.52734375,
+          "lastPrivateMiB": 72.5234375
+        },
+        {
+          "role": "renderer",
+          "pass": true,
+          "samples": 12,
+          "spanMs": 113527.60439999995,
+          "maxGapMs": 10579.40830000001,
+          "slopeMiBPerMinute": -0.10296403567285427,
+          "rangeMiB": 0.56640625,
+          "firstPrivateMiB": 58.4140625,
+          "lastPrivateMiB": 58.32421875
+        },
+        {
+          "role": "feed",
+          "pass": true,
+          "samples": 12,
+          "spanMs": 113527.60439999995,
+          "maxGapMs": 10579.40830000001,
+          "slopeMiBPerMinute": -0.04323023413848902,
+          "rangeMiB": 0.06640625,
+          "firstPrivateMiB": 32.13671875,
+          "lastPrivateMiB": 32.0703125
+        }
+      ],
+      "pass": true
+    },
+    "boundedMemorySettlingQualified": true,
+    "hourMixedWorkloadQualified": false,
+    "fullS5Qualified": false
+  },
+  "sourceAndBackendPrelaunchHashesPersisted": true,
+  "sourceAndBackendHashesUnchanged": true,
+  "loadedBundledBackendObserved": true,
+  "rawLogs": "lossless gzip after measurement; decoded logs independently rehashed; original chunk boundaries not persisted; main/renderer chain agreement checked from recorded native results",
+  "criterionChanged": false,
+  "profileChanged": false,
+  "forcedGC": false,
+  "allInWindowSamplesIncluded": true,
+  "memorySettlingQualified": false,
+  "hourMixedWorkloadQualified": false,
+  "fullS5Qualified": false,
+  "productionEligible": false,
+  "coreProcessPresent": false,
+  "markedRuntimeCleanup": true,
+  "wholeProcessTreeCleanupQualified": false,
+  "codexRetried": false,
+  "codexReason": "recorded unsupported gpt-6.1-luna account rejection; authorized fallback used",
+  "agyDispatched": false,
+  "agyReason": "recorded consumer route restriction",
+  "delegateReview": "Fixed window, slow-drift and scope advice used. No extra post-hoc stop-marker, independent-observer or slope-error gate adopted. No leak-free claim.",
+  "next": "Trace mixed-workload focus input spike (126.17ms against unchanged100ms bound) before bundled hour-long run; helper accounting and wider S5 gates remain open"
+}
