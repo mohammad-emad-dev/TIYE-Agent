@@ -1,0 +1,1382 @@
+{
+  "schema": "tiye-s5-resize-replay-analysis-v1",
+  "replayCases": 15,
+  "allNativeFailuresReproducedExactly": true,
+  "firstMismatchIsFirstRedrawChunk": true,
+  "orderingVariantsFixExactContents": false,
+  "rootCauseEstablished": false,
+  "activeResizeQualified": false,
+  "fullS5Qualified": false,
+  "comparisons": [
+    {
+      "mode": "resize-before",
+      "member": 0,
+      "firstBadOrdinal": 117,
+      "expectedCount": 72,
+      "observedCount": 72,
+      "missing": [],
+      "altered": [
+        67,
+        68,
+        69,
+        70,
+        71
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "e7f89a00e646eca9a305348da0c0ec16402d48a0f361a3b210ff954b5451989b",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=0 n=0068 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=0 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=0 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=0 n=0071 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    },
+    {
+      "mode": "resize-before",
+      "member": 1,
+      "firstBadOrdinal": 124,
+      "expectedCount": 73,
+      "observedCount": 73,
+      "missing": [],
+      "altered": [
+        68,
+        69,
+        70,
+        71,
+        72
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "df6ddab6f5eb91c1e94761dc5aa936b447768a5b43a8c501e4a94dd7baf9aea3",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=1 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=1 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=1 n=0071 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=1 n=0072 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    },
+    {
+      "mode": "resize-before",
+      "member": 2,
+      "firstBadOrdinal": 121,
+      "expectedCount": 71,
+      "observedCount": 71,
+      "missing": [],
+      "altered": [
+        66,
+        67,
+        68,
+        69,
+        70
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "db0de3f649465621fe0cc914283a9118f2f6c622196a2acf25a2b077685d00ed",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=2 n=0067 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=2 n=0068 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=2 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=2 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    },
+    {
+      "mode": "resize-before",
+      "member": 3,
+      "firstBadOrdinal": 126,
+      "expectedCount": 72,
+      "observedCount": 72,
+      "missing": [],
+      "altered": [
+        67,
+        68,
+        69,
+        70,
+        71
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "46223bc06bd9376f4ea565f9e166fc60af9c1093fa0f404423dcf8581f5723c5",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=3 n=0068 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=3 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=3 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=3 n=0071 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    },
+    {
+      "mode": "resize-before",
+      "member": 4,
+      "firstBadOrdinal": 121,
+      "expectedCount": 72,
+      "observedCount": 72,
+      "missing": [],
+      "altered": [
+        67,
+        68,
+        69,
+        70,
+        71
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "df9a89224883ac1b491e4855045efdd77f1007f730c501e497d43b50db32a40a",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=4 n=0068 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=4 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=4 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=4 n=0071 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    },
+    {
+      "mode": "first-chunk-before-resize",
+      "member": 0,
+      "firstBadOrdinal": 117,
+      "expectedCount": 72,
+      "observedCount": 72,
+      "missing": [],
+      "altered": [
+        68,
+        69,
+        70,
+        71
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "e7f89a00e646eca9a305348da0c0ec16402d48a0f361a3b210ff954b5451989b",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=0 n=0068 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=0 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=0 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=0 n=0071 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    },
+    {
+      "mode": "first-chunk-before-resize",
+      "member": 1,
+      "firstBadOrdinal": 124,
+      "expectedCount": 73,
+      "observedCount": 73,
+      "missing": [],
+      "altered": [
+        69,
+        70,
+        71,
+        72
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "df6ddab6f5eb91c1e94761dc5aa936b447768a5b43a8c501e4a94dd7baf9aea3",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=1 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=1 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=1 n=0071 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=1 n=0072 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    },
+    {
+      "mode": "first-chunk-before-resize",
+      "member": 2,
+      "firstBadOrdinal": 121,
+      "expectedCount": 71,
+      "observedCount": 71,
+      "missing": [],
+      "altered": [
+        67,
+        68,
+        69,
+        70
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "db0de3f649465621fe0cc914283a9118f2f6c622196a2acf25a2b077685d00ed",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=2 n=0067 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=2 n=0068 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=2 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=2 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    },
+    {
+      "mode": "first-chunk-before-resize",
+      "member": 3,
+      "firstBadOrdinal": 126,
+      "expectedCount": 72,
+      "observedCount": 72,
+      "missing": [],
+      "altered": [
+        68,
+        69,
+        70,
+        71
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "46223bc06bd9376f4ea565f9e166fc60af9c1093fa0f404423dcf8581f5723c5",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=3 n=0068 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=3 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=3 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=3 n=0071 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    },
+    {
+      "mode": "first-chunk-before-resize",
+      "member": 4,
+      "firstBadOrdinal": 121,
+      "expectedCount": 72,
+      "observedCount": 72,
+      "missing": [],
+      "altered": [
+        68,
+        69,
+        70,
+        71
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "df9a89224883ac1b491e4855045efdd77f1007f730c501e497d43b50db32a40a",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=4 n=0068 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=4 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=4 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=4 n=0071 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    },
+    {
+      "mode": "all-chunks-before-resize",
+      "member": 0,
+      "firstBadOrdinal": 117,
+      "expectedCount": 72,
+      "observedCount": 72,
+      "missing": [],
+      "altered": [
+        68,
+        69,
+        70,
+        71
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "e7f89a00e646eca9a305348da0c0ec16402d48a0f361a3b210ff954b5451989b",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=0 n=0068 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=0 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=0 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=0 n=0071 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    },
+    {
+      "mode": "all-chunks-before-resize",
+      "member": 1,
+      "firstBadOrdinal": 124,
+      "expectedCount": 73,
+      "observedCount": 73,
+      "missing": [],
+      "altered": [
+        69,
+        70,
+        71,
+        72
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "df6ddab6f5eb91c1e94761dc5aa936b447768a5b43a8c501e4a94dd7baf9aea3",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=1 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=1 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=1 n=0071 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=1 n=0072 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    },
+    {
+      "mode": "all-chunks-before-resize",
+      "member": 2,
+      "firstBadOrdinal": 121,
+      "expectedCount": 71,
+      "observedCount": 71,
+      "missing": [],
+      "altered": [
+        67,
+        68,
+        69,
+        70
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "db0de3f649465621fe0cc914283a9118f2f6c622196a2acf25a2b077685d00ed",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=2 n=0067 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=2 n=0068 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=2 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=2 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    },
+    {
+      "mode": "all-chunks-before-resize",
+      "member": 3,
+      "firstBadOrdinal": 126,
+      "expectedCount": 72,
+      "observedCount": 72,
+      "missing": [],
+      "altered": [
+        68,
+        69,
+        70,
+        71
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "46223bc06bd9376f4ea565f9e166fc60af9c1093fa0f404423dcf8581f5723c5",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=3 n=0068 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=3 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=3 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=3 n=0071 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    },
+    {
+      "mode": "all-chunks-before-resize",
+      "member": 4,
+      "firstBadOrdinal": 121,
+      "expectedCount": 72,
+      "observedCount": 72,
+      "missing": [],
+      "altered": [
+        68,
+        69,
+        70,
+        71
+      ],
+      "duplicates": [],
+      "unexpected": [],
+      "unrecognizedCount": 0,
+      "ordered": false,
+      "contentMatches": false,
+      "redraw": {
+        "bytes": 667,
+        "sha256": "df9a89224883ac1b491e4855045efdd77f1007f730c501e497d43b50db32a40a",
+        "csi": [
+          {
+            "sequence": "\u001b[?25l",
+            "byteOffset": 0
+          },
+          {
+            "sequence": "\u001b[H",
+            "byteOffset": 6
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 32
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 594
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 626
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 631
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 636
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 641
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 646
+          },
+          {
+            "sequence": "\u001b[K",
+            "byteOffset": 651
+          },
+          {
+            "sequence": "\u001b[12;1H",
+            "byteOffset": 654
+          },
+          {
+            "sequence": "\u001b[?25h",
+            "byteOffset": 661
+          }
+        ],
+        "recordRuns": [
+          {
+            "text": "REC m=4 n=0068 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=4 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=4 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          },
+          {
+            "text": "REC m=4 n=0071 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ",
+            "trailingAsciiSpaces": 4
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"name":"tiye-s5-interaction-replay","private":true,"scripts":{"build":"node build.js","probe":"node run.js","check":"node analyze.js && node --test test/*.test.js","check:runtime":"node analyze.js --runtime"}}

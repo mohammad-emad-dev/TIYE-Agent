@@ -21,3 +21,4 @@ output/s5-interaction-paused/** -text
 output/s5-interaction-paused-boundary/** -text
 output/s5-interaction-paused/*.log -whitespace
 output/s5-interaction-paused-boundary/*.log -whitespace
+output/s5-interaction-replay/** -text

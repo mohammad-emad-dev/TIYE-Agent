@@ -796,6 +796,14 @@ and checkpoint receipt chains are preserved and checked. This narrows the observ
 transition without establishing root cause. Resize qualification remains false;
 the next step is journal replay to isolate redraw/reflow ordering before a fix
 is tested against active output. Both failed runtime directories remain retained.
+A subsequent [offline redraw replay](../feasibility/s5-performance/ui/interaction-replay/README.md)
+reproduces all five native record-array failures exactly. The first suffix
+redraw chunk is sufficient to introduce each mismatch. Fifteen replay cases
+compare three resize/output orders: moving redraw ahead of local resize avoids
+one damaged partial record, but four records still gain four literal spaces.
+Neither alternate order passes strict content preservation. This supplies a
+repeatable trigger for console redraw/width investigation; it does not establish
+component fault, qualify a native resize fix or close full S5.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

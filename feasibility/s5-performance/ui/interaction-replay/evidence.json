@@ -1,0 +1,44 @@
+{
+  "schema": "tiye-s5-resize-replay-v1",
+  "sourceHashes": {
+    "main.cjs": "44a6c7d1d6df8aaf73d81110e747134f526a8cf5f4939268b14d48400ea52b48",
+    "renderer.js": "8007f259400a527e6f06f392b9a69753632e1d47f3c8f1aee0fc18719a72f016",
+    "preload.cjs": "ed6bef34cc85941361cb07ae11ea71b11271c02bb1e5a5d3c2e21cc74ecf1295",
+    "index.html": "664ea75ad69b43fef7ba35e74fd821fae3e800e1b1af024e29b7c9e25baf01ee",
+    "build.js": "f78128dd2c5c7b0835b029cb48e1d94ddf2b1a858c4403929cf7aff916ef7943",
+    "run.js": "564971d8a6f9ff1d59265ec393f1b846708fe57085d1e78294da0282450df488",
+    "../interaction/logical-lines.js": "a85969852eb8a092044831736456781d54ed13b9976e6513be4e053d2cd67121",
+    "../interaction/fixture.js": "42ed41a501e10b59a04bbc2569edbcbbfdcbd75f3498713f14be6df987edb358",
+    "../interaction/failure-analysis.js": "92d2800d2a477af42b7cb4765cb690239b5abdfebcc310d06b9d557e6f06c3fd",
+    "../toolchain.js": "b0c6a440964fe2f64397b6f43e552c911bc79adae409aee052a1849b16101c68"
+  },
+  "buildHashes": {
+    "dist/renderer.js": "a11f274f5389c683238a070213cd02204333e061ba877ec001fda0ca4cfd09c1",
+    "dist/preload.cjs": "35ae5f209d27c664feb930ee3d23402cfd4d690b5979f73621b54245f7c2e4c3",
+    "dist/index.html": "664ea75ad69b43fef7ba35e74fd821fae3e800e1b1af024e29b7c9e25baf01ee",
+    "dist/xterm.css": "ba8e6985669488981ccf40c0cefe3aba80722cb6c92de7ad628b0bd717faf2b6"
+  },
+  "inputHashes": {
+    "journal.json": "1788701627a63ec652b2902c2262ad72247d6fc32fc93097aa734f510e61b215",
+    "checkpoints.jsonl": "e6484a12d3437a2e8a5173d6c00f924c9fa1d1da9034fbd69be06f5043ce08d4"
+  },
+  "recordedAt": "2026-10-15T22:43:18.065Z",
+  "outcome": {
+    "code": 0,
+    "signal": null,
+    "timedOut": false,
+    "stderr": ""
+  },
+  "unchanged": true,
+  "artifacts": {
+    "result.json": "37d9dbfaa5df617519c1f427cf6d58bf1f03d5ea8e92424f1de27d34499fdb26",
+    "prelaunch.json": "0a0828f9703c4b477f64097644b68c927ab766083a5bc207cc7d708a58699033"
+  },
+  "runtimeRetained": true,
+  "ownedCleanup": false,
+  "providerRequests": 0,
+  "nativePtyLaunched": false,
+  "activeResizeQualified": false,
+  "fullS5Qualified": false,
+  "productionEligible": false
+}

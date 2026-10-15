@@ -1,0 +1,107 @@
+{
+  "schema": "tiye-s5-replay-review-v1",
+  "reviewedOn": "2026-10-16",
+  "timezone": "Asia/Amman",
+  "recordedAt": "2026-10-15T22:46:32.728Z",
+  "previousCommit": "799d34c4789e1c37f453a08f313b6061071b10bc",
+  "previousFiles": 817,
+  "previousArtifactsUnchanged": true,
+  "versions": {
+    "node": "v26.7.0",
+    "electron": "38.8.6",
+    "@xterm/xterm": "5.5.0",
+    "node-pty": "1.1.0",
+    "esbuild": "0.21.5"
+  },
+  "sha256": {
+    "feasibility/s5-performance/ui/interaction-replay/README.md": "cd7df48974c73cba3505754c4659949d3fdad6baa7122f255164fb6c4b31399f",
+    "feasibility/s5-performance/ui/interaction-replay/analysis.json": "620411ada22b817620c4230534675859fd9047251acf052ace7c2f70450759b2",
+    "feasibility/s5-performance/ui/interaction-replay/analyze.js": "8bb2b548e78aae29a0ba3787cf28de9bd559c149d98209f867660cb9404fbe1b",
+    "feasibility/s5-performance/ui/interaction-replay/build.js": "f78128dd2c5c7b0835b029cb48e1d94ddf2b1a858c4403929cf7aff916ef7943",
+    "feasibility/s5-performance/ui/interaction-replay/evidence.json": "d482e9141d699c05899c6904bb6d73a7062a40b8508713793a79f4aead5cc8d8",
+    "feasibility/s5-performance/ui/interaction-replay/index.html": "664ea75ad69b43fef7ba35e74fd821fae3e800e1b1af024e29b7c9e25baf01ee",
+    "feasibility/s5-performance/ui/interaction-replay/main.cjs": "44a6c7d1d6df8aaf73d81110e747134f526a8cf5f4939268b14d48400ea52b48",
+    "feasibility/s5-performance/ui/interaction-replay/package.json": "19e93a70f34795059dd7f847387ae0231772b1ce7b197c200a9af359e5deb19a",
+    "feasibility/s5-performance/ui/interaction-replay/preload.cjs": "ed6bef34cc85941361cb07ae11ea71b11271c02bb1e5a5d3c2e21cc74ecf1295",
+    "feasibility/s5-performance/ui/interaction-replay/renderer.js": "8007f259400a527e6f06f392b9a69753632e1d47f3c8f1aee0fc18719a72f016",
+    "feasibility/s5-performance/ui/interaction-replay/run.js": "564971d8a6f9ff1d59265ec393f1b846708fe57085d1e78294da0282450df488",
+    "feasibility/s5-performance/ui/interaction-replay/test/replay.test.js": "d5ecbfd0a0a0480f803955bed421512a6577471e02a65339a4ef92db867907cd",
+    "output/s5-interaction-replay/prelaunch.json": "0a0828f9703c4b477f64097644b68c927ab766083a5bc207cc7d708a58699033",
+    "output/s5-interaction-replay/result.json": "37d9dbfaa5df617519c1f427cf6d58bf1f03d5ea8e92424f1de27d34499fdb26"
+  },
+  "delegates": [
+    {
+      "lane": "muse",
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "effort": "xhigh",
+      "status": "completed",
+      "toolEvents": 0,
+      "scope": "supplied context only; no independent workspace verification; parent owns implementation and gates",
+      "readOnlyViolation": null,
+      "parentConcurrentChangesReviewed": true,
+      "artifactSha256": {
+        "brief.txt": "8f0e5b573487c0ecf959d156af0b117978fb1a67a2f07305e55edb21f910ba80",
+        "events.jsonl": "07b144fd7101342ba8211b6f3b6d9eee790acf83ac7eb2966bbb1b4013b0e8c3",
+        "final.txt": "cd16368599d345ba9db5f047ac810fffec1af91269655934a310341c028c4798",
+        "stderr.txt": null,
+        "result.json": "cd23356851d0fa9b67ddef03ff1e3080a9dce35fa8af73b8d5d8933365b84f08"
+      }
+    },
+    {
+      "lane": "space-bunny-fallback",
+      "model": "opencode/space-bunny-free",
+      "effort": "xhigh",
+      "status": "timeout",
+      "toolEvents": 0,
+      "scope": "supplied context only; no independent workspace verification; parent owns implementation and gates",
+      "readOnlyViolation": null,
+      "parentConcurrentChangesReviewed": true,
+      "artifactSha256": {
+        "brief.txt": "160801678df616f211a42454b66f5cfdb299e65925139bfcf9b99e96b5c59f2b",
+        "events.jsonl": "ad3fe5af7283372404b52e0e54dc11106bdc0e90d0d584df18afd3dde23ae8c5",
+        "final.txt": null,
+        "stderr.txt": null,
+        "result.json": "2d0ca159e662090c2ddf5d01a9d98d9c87c1a46a30e34f4ad765790fb784dff7"
+      }
+    },
+    {
+      "lane": "deepseek",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "toolEvents": 0,
+      "scope": "supplied context only; no independent workspace verification; parent owns implementation and gates",
+      "readOnlyViolation": null,
+      "parentConcurrentChangesReviewed": true,
+      "artifactSha256": {
+        "brief.txt": "095a88183d02f5a516d8d06483e6cddfe09298a2b1b0eaa3e7d570f1475806c9",
+        "events.jsonl": "bfd24ad387633f62f0be7f6aa3138790c7271540e3db4a19d46d21f8f7d7e8d2",
+        "final.txt": "cbe520aec577f2405ffe763d4ca3190fe2d512902d93ea2c7cc6c816d9f4ed85",
+        "stderr.txt": null,
+        "result.json": "a2557bb8313793f37368b38608c3feb3feb8427d846edca7f35dcf1cebfde812"
+      }
+    }
+  ],
+  "replayHostAttempts": 1,
+  "replayHostCompleted": true,
+  "replayCases": 15,
+  "regressionTestsPassed": 3,
+  "nativePtyLaunched": false,
+  "providerRequests": 0,
+  "sourceAndBuildPrelaunchHashesPersisted": true,
+  "sourceAndBuildUnchangedAfterExit": true,
+  "nativeInputHashesUnchanged": true,
+  "allFiveBaselineRecordArraysEqualNativeFailure": true,
+  "finding": "First redraw chunk reproduces native mismatch; two alternate resize orders retain four records with four literal trailing spaces each",
+  "rootCauseEstablished": false,
+  "resizeQualified": false,
+  "fullS5Qualified": false,
+  "productionEligible": false,
+  "ownedCleanup": false,
+  "coreProcessPresent": false,
+  "codexRetried": false,
+  "codexReason": "recorded unsupported gpt-6.1-luna account rejection; authorized fallback used",
+  "agyDispatched": false,
+  "agyReason": "recorded consumer route restriction",
+  "delegateReview": "Muse chunk replay advice used; DeepSeek offset/CSI/space diagnostics advice used without its general parser code; Space Bunny timeout"
+}
