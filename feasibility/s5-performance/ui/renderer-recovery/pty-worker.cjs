@@ -1,0 +1,8 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),{s1Require}=require('../toolchain');
+const [root,nodeBinary,memberText,generationText]=process.argv.slice(2),member=Number(memberText),generation=Number(generationText);
+if(!process.send||!path.isAbsolute(root)||!fs.existsSync(path.join(root,'.owner'))||!path.isAbsolute(nodeBinary)||!Number.isInteger(member)||member<0||member>4||![0,1].includes(generation))throw Error('invalid-worker');
+const terminal=s1Require('node-pty').spawn(nodeBinary,[path.join(__dirname,'producer.cjs'),memberText,generationText],{name:'xterm-256color',cols:100,rows:12,cwd:root,env:{SystemRoot:process.env.SystemRoot||'C:\\Windows',TERM:'xterm-256color'}});
+process.send({event:'producer-pid',pid:terminal.pid});
+terminal.onData(text=>process.send({event:'chunk',text}));
+terminal.onExit(({exitCode})=>setTimeout(()=>process.send({event:'terminal-exit',exitCode},()=>process.exit(exitCode===0?0:1)),100));

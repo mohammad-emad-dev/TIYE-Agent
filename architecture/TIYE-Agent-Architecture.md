@@ -763,6 +763,15 @@ The victim's captured prefix is retained without a recovered-tail claim.
 All 14 owned roles exited before normal cleanup. Two failed harness attempts
 are preserved. This qualifies these bounded process-fault cases; renderer and
 whole-host recovery, product-core recovery and full S5 remain open.
+The [S5 renderer-recovery cohort](../feasibility/s5-performance/ui/renderer-recovery/README.md)
+now force-crashes only the renderer while all 12 persistent main/feed/PTY
+worker/producer identities survive. Each PTY emits new output after confirmed
+renderer death; a fresh renderer replays the bounded main-owned journal and
+reconstructs all 600 records per terminal plus feed pages. Decoded file hashes,
+receipt chains, epoch ACKs, actual terminal-buffer content and 50,000-event
+SQLite/FTS/reopen checks passed. A deliberate stale-epoch ACK cannot advance
+the new ledger. This qualifies one renderer reconstruction with main alive;
+physical paint, whole-host recovery, product-core recovery and full S5 remain open.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
