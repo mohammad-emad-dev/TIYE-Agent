@@ -737,6 +737,14 @@ Full-hour input coverage is unqualified: 88 of 119 planned probes were skipped
 without focus. The 31 delivered probes completed below 38 ms. Resource samples
 cover all required roles, but memory settling, resize/scroll interaction,
 abnormal recovery and the product core remain unqualified; S5 remains partial.
+The [bounded S5 settling cohort](../feasibility/s5-performance/ui/settling/README.md)
+now applies a predeclared final two-minute idle window after three minutes of
+combined load and five minutes idle. Main, renderer and feed worker passed the
+provisional private-memory slope/range gate with complete sample coverage.
+This is not leak-free or foreground-only proof. The accompanying input attempt
+is unqualified (33 of 35 probes skipped and visibility lost); raw RAF gaps
+reached about one second. The hour evidence is unchanged. Foreground input,
+abnormal recovery and full S5 remain open.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
