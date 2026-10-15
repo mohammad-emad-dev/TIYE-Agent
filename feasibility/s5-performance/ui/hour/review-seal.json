@@ -1,0 +1,88 @@
+{
+  "schema": "tiye-s5-combined-review-seal-v1",
+  "reviewedOn": "2026-10-15",
+  "recordedAt": "2026-10-15T12:54:23.745Z",
+  "previousCohortCommit": "c928edffcadbd1c81a6ee5a5d2e642476211729e",
+  "previousArtifactsUnchanged": true,
+  "sha256": {
+    ".gitignore": "ed19d3c9c8a5e34d0179e0b1a9c2907d2e657738733e4a432a8cf81c76ce56f1",
+    "README.md": "8bfe426b6bcde3dca09e6385030b571544e995fbe606d75a4cb9debcb49f08e2",
+    "build.js": "f78128dd2c5c7b0835b029cb48e1d94ddf2b1a858c4403929cf7aff916ef7943",
+    "check-evidence.js": "085d5d2fbf2abc647f328ccab6f7c9f88bc0000fab98f1e890755724d5d1cd4f",
+    "evidence-hour.json": "ec85e1513e5ab1bb87ce54d8cec5011819e8ff361a3bef306b7f2a079d7875e8",
+    "evidence-smoke.json": "dac8dcb5f02083aac47c0ce7d084f4121a2c171e61bbbcc1a68f503d199211ac",
+    "feed-client.js": "3b56f6488c53c403c4d14ff10215e2b3f252ff598aee8f57332959ad0fd550ba",
+    "feed-worker.cjs": "3ae6471882fc49008b6cc208729120abcc7254250dab1acea473b27a2d7c2f85",
+    "index.html": "772537f5e0d83cc86025bb8321d5d24ee51c04fde046d442e79a78dfe3df3c96",
+    "main.cjs": "80c40ae3f72e17ee5ca58f1accfed539dda506878a94b2ce5e03581d1a2c1e72",
+    "package.json": "25cdb5d85ec4a193cc6160a97a8c0052b83b136a2bf771bdc50cf69168bd5604",
+    "preload.cjs": "c0a74d141b95c68e0f7cf06036f0e9cec285fc6bb341d8faf70a8ce9c95d7a81",
+    "producer.cjs": "22ce2df4775e2e01ef17ef1a9343c324aceb538a2e0e0219f78b023ea77940ca",
+    "profiles.js": "58de616b60b61c0c2b115779acfeb68cab48e7643a8c4d26fd2fa9ba9c92fc62",
+    "renderer.js": "f17b6e3e1cf32912eb859303a78fabdf35243185221620055bdfe05c9ac1b9f7",
+    "run.js": "2d24faa827c0171e90779e98ba51959be3470af1416b4ac1cce17207d68ae5bc",
+    "test/evidence.test.js": "f7287801af1b4832384e5587a5cb15a144aa737542a554d551a017b15375e780",
+    "test/profile.test.js": "73cf998c095354ba858fd9eab1c4808d8137ccad6d9676e2d55c60cb7cecbb38",
+    "worker.cjs": "12ac6978cdf01c4c1f4fd63f49c7fc66ab256bf502cfedc6448b0b56f4bb3e67"
+  },
+  "delegates": [
+    {
+      "lane": "mimo",
+      "model": "atria/Atria-Dawn-Preview",
+      "status": "timeout",
+      "eventCount": 0,
+      "toolEvents": 0,
+      "finalCaptured": false,
+      "finalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": null,
+      "concurrentParentChangesReviewed": true,
+      "reviewScope": "supplied-design-only; no independent workspace verification"
+    },
+    {
+      "lane": "opencode",
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "status": "completed",
+      "eventCount": 3,
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "finalSha256": "f8af13a32acfd4cd630fd37fda0855264c44be164fb77f4c0c89705ce7b7d0d9",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "readOnlyViolation": null,
+      "concurrentParentChangesReviewed": true,
+      "reviewScope": "supplied-design-only; no independent workspace verification"
+    },
+    {
+      "lane": "claude",
+      "model": "Atria-Dawn-Preview",
+      "status": "failed",
+      "eventCount": 13,
+      "toolEvents": 0,
+      "finalCaptured": true,
+      "finalSha256": "b6604c0b3295186788737f856949c6d730fb54e2b432783420c33bb0f5a5cd1b",
+      "stderrSha256": "87fad63a69b6a257f7de00dc90f9cc8af7f7d25245f12b560656de342739973b",
+      "readOnlyViolation": true,
+      "concurrentParentChangesReviewed": true,
+      "errorCategories": [
+        "connection-refused",
+        "unrecognized-model-diagnostic"
+      ],
+      "reviewScope": "supplied-design-only; no independent workspace verification"
+    }
+  ],
+  "nativeCohorts": 2,
+  "persistedEvents": 50000,
+  "maximumViewportRows": 20,
+  "combinedPtyWorkload": true,
+  "regressionTestsPassed": 4,
+  "profiles": [
+    "smoke",
+    "hour"
+  ],
+  "hourMixedWorkloadQualified": true,
+  "memorySettlingQualified": false,
+  "agyFallbackDispatched": false,
+  "agyFallbackReason": "consumer-third-party-wrapper-restriction",
+  "fullS5Qualified": false,
+  "productionEligible": false
+}

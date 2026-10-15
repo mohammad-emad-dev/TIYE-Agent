@@ -1,0 +1,1 @@
+{"name":"tiye-s5-combined-hour","private":true,"scripts":{"build":"node build.js","test":"node --test test/*.test.js","check":"node check-evidence.js && node --test test/*.test.js","check:runtime":"node check-evidence.js --runtime","smoke":"node run.js smoke","hour":"node run.js hour"}}

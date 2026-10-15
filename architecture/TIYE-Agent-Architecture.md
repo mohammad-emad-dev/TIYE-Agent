@@ -728,6 +728,15 @@ separate Node worker with correlated bounded frames. This is a bulk-load
 component observation: combined PTYs, continuous mixed ingestion and the
 actual hour-long workload remain open. It does not implement the product
 event engine or qualify full S5.
+The [combined S5 hour workload](../feasibility/s5-performance/ui/hour/README.md)
+has now run five isolated PTYs for an actual hour while incrementally storing
+50,000 SQLite events, alternating grid/focus and checking 716 search pages.
+All output/storage/renderer-chain and feed reopen checks passed. Both views'
+RAF gaps stayed below 500 ms and all search completions below two seconds.
+Full-hour input coverage is unqualified: 88 of 119 planned probes were skipped
+without focus. The 31 delivered probes completed below 38 ms. Resource samples
+cover all required roles, but memory settling, resize/scroll interaction,
+abnormal recovery and the product core remain unqualified; S5 remains partial.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
