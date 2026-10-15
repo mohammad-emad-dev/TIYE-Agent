@@ -1,0 +1,11 @@
+{
+  "name":"tiye-s5-feed-search",
+  "private":true,
+  "scripts":{
+    "build":"node build.js",
+    "check":"node check-evidence.js && node --test test/*.test.js",
+    "test":"node --test test/*.test.js",
+    "probe":"node run.js",
+    "check:runtime":"node check-evidence.js --runtime"
+  }
+}

@@ -721,6 +721,13 @@ initial lifecycle phase-tagging defect and distinguishes the corrected
 transition interval from active/idle coverage. The core process is absent;
 these short observations do not qualify memory settling or the about-hour
 mixed workload with feed/search load. S5 remains partial.
+The additive [S5 feed/search component](../feasibility/s5-performance/ui/mixed/README.md)
+now persists/reopens 50,000 synthetic SQLite WAL/FTS5 events and checks native
+first/last/search viewport pages with bounded DOM rows. SQLite runs in a
+separate Node worker with correlated bounded frames. This is a bulk-load
+component observation: combined PTYs, continuous mixed ingestion and the
+actual hour-long workload remain open. It does not implement the product
+event engine or qualify full S5.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
