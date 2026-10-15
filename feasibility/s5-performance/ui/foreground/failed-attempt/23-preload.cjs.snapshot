@@ -1,0 +1,37 @@
+"use strict";
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+
+// ../protocol.js
+var require_protocol = __commonJS({
+  "../protocol.js"(exports2, module2) {
+    "use strict";
+    function isMember(member) {
+      return Number.isInteger(member) && member >= 0 && member < 5;
+    }
+    function isChunk2(packet) {
+      return !!packet && isMember(packet.member) && Number.isInteger(packet.ordinal) && packet.ordinal >= 0 && typeof packet.text === "string" && packet.text.length <= 1048576;
+    }
+    function verifyMember(stored, renderer) {
+      if (!isMember(stored.member) || renderer.member !== stored.member || stored.exitCode !== 0 || renderer.pending !== 0 || renderer.receivedChunks !== stored.chunks || renderer.bytes !== stored.bytes || renderer.sha256 !== stored.sha256 || renderer.recordsFound !== 40) throw new Error("member-integrity-mismatch");
+    }
+    module2.exports = { isMember, isChunk: isChunk2, verifyMember };
+  }
+});
+
+// preload.cjs
+var { contextBridge, ipcRenderer } = require("electron");
+var { isChunk } = require_protocol();
+contextBridge.exposeInMainWorld("combined", {
+  ready: () => ipcRenderer.send("combined-ready"),
+  ack: (member, ordinal) => ipcRenderer.send("combined-ack", { member, ordinal }),
+  input: () => ipcRenderer.send("combined-input"),
+  rendered: (ordinal) => ipcRenderer.send("combined-rendered", ordinal),
+  page: (request) => ipcRenderer.invoke("combined-page", request),
+  report: (report) => ipcRenderer.invoke("combined-report", report),
+  onChunk: (callback) => ipcRenderer.on("combined-chunk", (_event, packet) => {
+    if (isChunk(packet)) callback(packet);
+  })
+});

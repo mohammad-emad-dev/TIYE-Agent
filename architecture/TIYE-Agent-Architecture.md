@@ -745,6 +745,15 @@ This is not leak-free or foreground-only proof. The accompanying input attempt
 is unqualified (33 of 35 probes skipped and visibility lost); raw RAF gaps
 reached about one second. The hour evidence is unchanged. Foreground input,
 abnormal recovery and full S5 remain open.
+The additive [S5 foreground cohort](../feasibility/s5-performance/ui/foreground/README.md)
+now records window/document focus and main visibility throughout a two-minute
+combined run with continuous terminal output in both views. All 58 planned
+synthetic inputs completed without skips; maximum dispatch-through-render ACK
+was 26.91 ms in grid and 26.05 ms in focus. Output chains, 50,000-event feed,
+search pages and the corrected post-measurement focus control passed. The
+initial failed control and its source/build snapshots are preserved. This
+qualifies the bounded foreground-input proxy only; earlier full-hour coverage,
+abnormal recovery and full S5 remain open.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

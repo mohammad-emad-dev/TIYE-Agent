@@ -1,0 +1,1 @@
+{"name": "tiye-s5-foreground-input", "private": true, "scripts": {"build": "node build.js", "test": "node --test test/*.test.js", "probe": "node run.js foreground", "check": "node check-evidence.js && node --test test/*.test.js", "check:runtime": "node check-evidence.js --runtime"}}
