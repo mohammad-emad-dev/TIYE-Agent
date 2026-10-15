@@ -804,6 +804,17 @@ one damaged partial record, but four records still gain four literal spaces.
 Neither alternate order passes strict content preservation. This supplies a
 repeatable trigger for console redraw/width investigation; it does not establish
 component fault, qualify a native resize fix or close full S5.
+The subsequent [bundled ConPTY mitigation](../feasibility/s5-performance/ui/interaction-conpty/README.md)
+passes both held and original active-output resize/scroll protocols across all
+five geometries. Workers explicitly set node-pty's experimental `useConptyDll`
+option; each reports the bundled DLL loaded in its own process, with backend
+binaries hashed before and after. Exact record history, viewport behavior,
+receipt chains and ten worker/producer exits pass in each run. This qualifies
+the bounded resize path on the tested Windows host. It supports the bundled
+backend as a candidate mitigation without establishing component fault. Prior
+resource/performance and recovery results used the system backend and must be
+checked on this candidate before product selection. Whole process-tree cleanup,
+broader Windows coverage and full S5 remain open; earlier failures stay preserved.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside

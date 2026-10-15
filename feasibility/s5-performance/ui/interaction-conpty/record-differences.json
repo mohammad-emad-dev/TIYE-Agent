@@ -1,0 +1,683 @@
+{
+  "schema": "tiye-s5-record-differences-v1",
+  "inputSha256": "37d9dbfaa5df617519c1f427cf6d58bf1f03d5ea8e92424f1de27d34499fdb26",
+  "lengthUnit": "UTF16 code units; not display cells",
+  "stringsChanged": false,
+  "rows": [
+    {
+      "mode": "resize-before",
+      "member": 0,
+      "differences": [
+        {
+          "sequence": 67,
+          "firstDiffOffset": 60,
+          "expectedLength": 113,
+          "actualLength": 73,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 0,
+          "equal": false
+        },
+        {
+          "sequence": 68,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 71,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    },
+    {
+      "mode": "resize-before",
+      "member": 1,
+      "differences": [
+        {
+          "sequence": 68,
+          "firstDiffOffset": 60,
+          "expectedLength": 113,
+          "actualLength": 73,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 0,
+          "equal": false
+        },
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 71,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 72,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    },
+    {
+      "mode": "resize-before",
+      "member": 2,
+      "differences": [
+        {
+          "sequence": 66,
+          "firstDiffOffset": 60,
+          "expectedLength": 113,
+          "actualLength": 73,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 0,
+          "equal": false
+        },
+        {
+          "sequence": 67,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 68,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    },
+    {
+      "mode": "resize-before",
+      "member": 3,
+      "differences": [
+        {
+          "sequence": 67,
+          "firstDiffOffset": 60,
+          "expectedLength": 113,
+          "actualLength": 73,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 0,
+          "equal": false
+        },
+        {
+          "sequence": 68,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 71,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    },
+    {
+      "mode": "resize-before",
+      "member": 4,
+      "differences": [
+        {
+          "sequence": 67,
+          "firstDiffOffset": 60,
+          "expectedLength": 113,
+          "actualLength": 73,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 0,
+          "equal": false
+        },
+        {
+          "sequence": 68,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 71,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    },
+    {
+      "mode": "first-chunk-before-resize",
+      "member": 0,
+      "differences": [
+        {
+          "sequence": 68,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 71,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    },
+    {
+      "mode": "first-chunk-before-resize",
+      "member": 1,
+      "differences": [
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 71,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 72,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    },
+    {
+      "mode": "first-chunk-before-resize",
+      "member": 2,
+      "differences": [
+        {
+          "sequence": 67,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 68,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    },
+    {
+      "mode": "first-chunk-before-resize",
+      "member": 3,
+      "differences": [
+        {
+          "sequence": 68,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 71,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    },
+    {
+      "mode": "first-chunk-before-resize",
+      "member": 4,
+      "differences": [
+        {
+          "sequence": 68,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 71,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    },
+    {
+      "mode": "all-chunks-before-resize",
+      "member": 0,
+      "differences": [
+        {
+          "sequence": 68,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 71,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    },
+    {
+      "mode": "all-chunks-before-resize",
+      "member": 1,
+      "differences": [
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 71,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 72,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    },
+    {
+      "mode": "all-chunks-before-resize",
+      "member": 2,
+      "differences": [
+        {
+          "sequence": 67,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 68,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    },
+    {
+      "mode": "all-chunks-before-resize",
+      "member": 3,
+      "differences": [
+        {
+          "sequence": 68,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 71,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    },
+    {
+      "mode": "all-chunks-before-resize",
+      "member": 4,
+      "differences": [
+        {
+          "sequence": 68,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 69,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 70,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        },
+        {
+          "sequence": 71,
+          "firstDiffOffset": 113,
+          "expectedLength": 113,
+          "actualLength": 117,
+          "expectedTrailingSpaces": 0,
+          "actualTrailingSpaces": 4,
+          "equal": false
+        }
+      ]
+    }
+  ]
+}
