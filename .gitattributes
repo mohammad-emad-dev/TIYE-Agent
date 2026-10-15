@@ -17,3 +17,7 @@ output/s5-interaction-diagnostics/** -text whitespace=blank-at-eol,blank-at-eof,
 output/s5-interaction/*.log -whitespace
 output/s5-interaction-windows/*.log -whitespace
 output/s5-interaction-diagnostics/**/*.log -whitespace
+output/s5-interaction-paused/** -text
+output/s5-interaction-paused-boundary/** -text
+output/s5-interaction-paused/*.log -whitespace
+output/s5-interaction-paused-boundary/*.log -whitespace

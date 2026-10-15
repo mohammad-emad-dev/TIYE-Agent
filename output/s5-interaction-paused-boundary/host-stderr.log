@@ -1,0 +1,23 @@
+Expected values to be strictly deep-equal:
++ actual - expected
+... Skipped lines
+
+  [
+    'REC m=0 n=0000 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café',
+    'REC m=0 n=0001 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café',
+    'REC m=0 n=0002 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café',
+    'REC m=0 n=0003 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café',
+...
+    'REC m=0 n=0066 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café',
++   'REC m=0 n=0067 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdaبية 日本語 café',
++   'REC m=0 n=0068 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ',
++   'REC m=0 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ',
++   'REC m=0 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    ',
++   'REC m=0 n=0071 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café    '
+-   'REC m=0 n=0067 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café',
+-   'REC m=0 n=0068 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café',
+-   'REC m=0 n=0069 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café',
+-   'REC m=0 n=0070 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café',
+-   'REC m=0 n=0071 abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd العربية 日本語 café'
+  ]
+

@@ -787,6 +787,15 @@ backend/build metadata. The option alone does not qualify resize. A separate
 locale-decoded source-copy attempt is preserved and excluded from comparison.
 The next investigation must isolate resize coordination and terminal redraw;
 no root-cause or fix claim is made from these observations.
+Two additive [paused-output controls](../feasibility/s5-performance/ui/interaction-paused/README.md)
+also fail the 100→60-column transition without increasing producer record counts.
+The boundary control passes exact content immediately after xterm resizes, then
+fails after native PTY resize and subsequent console output: five altered records
+per terminal, with no numbered records missing. Original chunks, prelaunch hashes
+and checkpoint receipt chains are preserved and checked. This narrows the observed
+transition without establishing root cause. Resize qualification remains false;
+the next step is journal replay to isolate redraw/reflow ordering before a fix
+is tested against active output. Both failed runtime directories remain retained.
 
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
