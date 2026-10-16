@@ -1,0 +1,4 @@
+'use strict';
+const profile=Object.freeze({name:'trace',mixedMs:180000,idleMs:10000,viewMs:30000,cycleMs:60000,floodMs:20000,inputMs:5000,searchLeadMs:750,searchBarrierTimeoutMs:3000,injectedDelayOrdinal:7,injectedDelayMs:120});
+function profileFor(name){if(name!=='pipe')throw Error('unknown-profile');return {...profile,name,probeTransport:name};}
+module.exports={profileFor};

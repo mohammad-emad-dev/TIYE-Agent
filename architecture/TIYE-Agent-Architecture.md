@@ -900,6 +900,16 @@ gap overlaps those short intervals; this does not locate or rule out scheduling
 delay. Main-clock worker command-receipt notices and a controlled-delay check are
 next. No causal fix, clock synchronization or full-S5 qualification is established.
 
+The [worker receipt/positive-control cohort](../feasibility/s5-performance/ui/input-receipt/README.md)
+reconciles all 35 main-clock notices with their raw worker command stamps. A
+declared 120 ms pre-write wait on ordinal 7 measures 122.26 ms locally and
+125.19 ms in the application proxy, validating that control. The ordinary-only
+34 samples still include two failures, with a 255.20 ms maximum. Notice 35
+arrives after its stdout ACK and is retained without a negative processing-time
+claim. Receipt arrival cannot locate the worker's entry instant on the main
+clock. A direct-pipe control to isolate the producer/PTY bridge is next; no
+earlier latency failure is retired and full S5 remains open.
+
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
 a disposable source root, ran an offline local-dependency setup, copied

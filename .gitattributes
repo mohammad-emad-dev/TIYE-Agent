@@ -52,3 +52,5 @@ output/s5-input-transport-ipc/*.log -whitespace
 output/s5-input-transport/** -text
 output/s5-input-ack-path-pipe/** -text
 output/s5-input-ack-path-pipe/*.log -whitespace
+output/s5-input-receipt-pipe/** -text
+output/s5-input-receipt-pipe/*.log -whitespace
