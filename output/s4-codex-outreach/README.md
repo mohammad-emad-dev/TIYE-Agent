@@ -17,7 +17,7 @@ contact details for the submission. Those details are excluded from this record.
   submission. The form disappeared. No receipt number was displayed.
 - One submit action was performed; no duplicate submission was attempted.
 
-![OpenAI receipt confirmation without contact details](confirmation.png)
+![OpenAI receipt confirmation without contact details](confirmation.jpg)
 
 This is a commercial-interest submission carrying the scope questions, not a
 support case with a promised response. The acknowledgement says OpenAI may
