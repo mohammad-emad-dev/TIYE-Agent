@@ -1,0 +1,149 @@
+{
+  "schema": "tiye-s5-input-direct-pipe-failed-attempt-v1",
+  "attempt": 1,
+  "nativeCompleted": false,
+  "qualifying": false,
+  "reason": "Error invoking remote method 'combined-page': Error: search-barrier-timeout-slot-24",
+  "skipped": [
+    {
+      "view": "focus",
+      "dueMs": 120000,
+      "checkedMs": 120008.64080000001,
+      "reason": "window-not-focused"
+    }
+  ],
+  "completedProbes": 23,
+  "sourceAndBuildHashes": {
+    "sourceHashes": {
+      "backend-modules.ps1": "141443c69f915eed0e9f1d8395ad194774175df7631a4c94fec8a0db8e42320b",
+      "profiles.js": "9129b57dc8dffadda08bdd85278fd18ce3f15459218f4b3b3449c3cd9b859889",
+      "direct-producer.js": "d29db5bc04bbfbcbcc755d3d5a92baaa5333087e69592a82a56c75146bf718d2",
+      "delay-probe.js": "4f4740e18ecfdeb2ffea8e919a56b86033134abbb5c701059de9a5b3c42380ac",
+      "loop-trace.js": "9ed5fba759be15b36829dc83febf793e62958fd6e783cc7d1c749d7291b5875b",
+      "producer-trace.js": "ae5704db9a94c2a40143efde8adfe0ecd8d6baade0a80fc157018549f166df90",
+      "probe-transport.js": "12bb46954ba0d5a18b241583c3022dbdb8fde540bacdacd3d32b8004216f6167",
+      "input-schedule.js": "0383282227e6d8bd803f85172899aee976bee804e03ff87c69a770ca2ebbfaa6",
+      "view-gate.js": "ca7173b0a178dd19ef433f82f5fdc8b0429be9da36c8d8d2a68e2e7c916e497e",
+      "search-barrier.js": "a27d6151aaaa896a95c472e3040dcbf98d50c50257e1d9201ca57ba7084b00e1",
+      "trace-ledger.js": "852ccdb04126bae86d3948f1f0c07f68b09e0995bda5f0b3f3c406d27caa72b0",
+      "worker-trace.js": "5f745a63f3e087fd4d84e3ec1218d383a1f436c4b022f53ee4f543ded7836704",
+      "producer.cjs": "58aa2a95f6ea6a5b19b7f6b3b2f537e6ffc880388885a8178bfcdef3fad23e53",
+      "worker.cjs": "4c5cf934ac82bb64c4eb3aa4aea8ed4b06d74c8ce42bdd125e5ac5b68191007f",
+      "../hour/feed-worker.cjs": "3ae6471882fc49008b6cc208729120abcc7254250dab1acea473b27a2d7c2f85",
+      "../hour/feed-client.js": "3b56f6488c53c403c4d14ff10215e2b3f252ff598aee8f57332959ad0fd550ba",
+      "main.cjs": "d877fd7408a044a10c6835d74fd1632353361f6c626c49fa5080741e577cf2fa",
+      "preload.cjs": "984b6c1a04285d1110db81d33353689c0e9292657eb52b0f9016cf5568b30fef",
+      "renderer.js": "75902343b8ff7f7fc3ab69c98db36bc068fbf4e818d9aba0abe75441e00513d0",
+      "index.html": "772537f5e0d83cc86025bb8321d5d24ee51c04fde046d442e79a78dfe3df3c96",
+      "build.js": "f78128dd2c5c7b0835b029cb48e1d94ddf2b1a858c4403929cf7aff916ef7943",
+      "run.js": "b350c56f88d1f128ba3b5597745c4469d8d9b17b6e8206e7fffa291fc6d9059f",
+      "../toolchain.js": "b0c6a440964fe2f64397b6f43e552c911bc79adae409aee052a1849b16101c68",
+      "../protocol.js": "5fc57abe0b24c36c475ca39f909fdef5448c01df7e1464f3acd5f402955a8dbf",
+      "../worker-channel.js": "e9a7668cf34a7ef9d914dc3b86cf8cff733b4e93216292a54ec2090ecd3761e8",
+      "../mixed/sqlite-feed.js": "c2c084b34fd8da3276848d1dedd0dcb14bfd66a30a1b6f391b8b57d12a1fb9f6",
+      "../mixed/fixture.js": "af8da54330381f7b3af030f0f5dd96f97da13863df3ae1863bb60b0c5c6a5947",
+      "../mixed/protocol.js": "1e1f80cfe62a486905ec3cabe36ab65a794333ad612a14eae0f2cbcbaeed9acb",
+      "../resources/sampler.js": "ebbcb1b4c694083fac3a4149f965b4fa3e3affe517c053e89fa810b9944fe623",
+      "../resources/sample-processes.ps1": "7ca90f90bd12a34b0e8a16737b9ee88a96a726f78914291f3c84cff3056f1c3d",
+      "../resources/resource-metrics.js": "ce61446b0ddf83f83eb1a865e3b22448853525e19b4df7a475d12e01f2d93e87",
+      "../flood/metrics.js": "a6fad06cc4b69af1a0d0429f0c632929943647a616523e5dd56dc5b7e5a925c0"
+    },
+    "buildHashes": {
+      "../../../s1-terminal/node_modules/node-pty/prebuilds/win32-x64/conpty/conpty.dll": "7c7430632052ff703540b68371ec43821820aa1335d8e11dfbcd9ff00e9daaed",
+      "../../../s1-terminal/node_modules/node-pty/prebuilds/win32-x64/conpty/OpenConsole.exe": "d1fe7faa62f9e955e2ac2371f95d7e5513df4d496255097158f979c94782c5fc",
+      "dist/renderer.js": "55a9f123d5f5c2f569c3e912008d706ee3cac25faf5c1ecd8d5fdd258499873c",
+      "dist/preload.cjs": "c89b5db718dc185dbcd696aab9d2e955d2211dd1f18ceb29579d8908182158d4",
+      "dist/index.html": "772537f5e0d83cc86025bb8321d5d24ee51c04fde046d442e79a78dfe3df3c96",
+      "dist/xterm.css": "ba8e6985669488981ccf40c0cefe3aba80722cb6c92de7ad628b0bd717faf2b6"
+    },
+    "recordedBeforeLaunch": "2026-10-16T10:21:16.602Z"
+  },
+  "artifacts": {
+    "prelaunch.json": {
+      "sha256": "0d294c44fe5fd981aa5f76a7562eabdaa19a7a17ee9c3b5bfe8b97a118e25544",
+      "decodedSha256": "0d294c44fe5fd981aa5f76a7562eabdaa19a7a17ee9c3b5bfe8b97a118e25544",
+      "decodedBytes": 3495,
+      "encoding": "identity"
+    },
+    "trace-failure.json": {
+      "sha256": "82d6c84fbe8fd91e38034ae44b79b317462615cf4e14e5d2e9877962788b75e6",
+      "decodedSha256": "82d6c84fbe8fd91e38034ae44b79b317462615cf4e14e5d2e9877962788b75e6",
+      "decodedBytes": 48061,
+      "encoding": "identity"
+    },
+    "host-stdout.log": {
+      "sha256": "3498e3190d3250041eea72a7d84257c6a9c98faff44e75474f8131c97da9b9f1",
+      "decodedSha256": "3498e3190d3250041eea72a7d84257c6a9c98faff44e75474f8131c97da9b9f1",
+      "decodedBytes": 67,
+      "encoding": "identity"
+    },
+    "host-stderr.log": {
+      "sha256": "da545cd398c6db0fc4be15d11c8217c35b9a51a55c1e98369f53d95656c67710",
+      "decodedSha256": "da545cd398c6db0fc4be15d11c8217c35b9a51a55c1e98369f53d95656c67710",
+      "decodedBytes": 494,
+      "encoding": "identity"
+    },
+    "backend-0.json": {
+      "sha256": "8d360f2d745264196105451e8e193120cb25f40a4507aba28c20614dce8dab9d",
+      "decodedSha256": "8d360f2d745264196105451e8e193120cb25f40a4507aba28c20614dce8dab9d",
+      "decodedBytes": 96,
+      "encoding": "identity"
+    },
+    "backend-1.json": {
+      "sha256": "ba063efbeb993e8b9be2b3cacc2f739c1a0334390c02e5650bb58b3169506069",
+      "decodedSha256": "ba063efbeb993e8b9be2b3cacc2f739c1a0334390c02e5650bb58b3169506069",
+      "decodedBytes": 239,
+      "encoding": "identity"
+    },
+    "backend-2.json": {
+      "sha256": "43d270a45bc7ded0e827428e33048fd1b719b406e0faed2f6fec960ecf38720e",
+      "decodedSha256": "43d270a45bc7ded0e827428e33048fd1b719b406e0faed2f6fec960ecf38720e",
+      "decodedBytes": 240,
+      "encoding": "identity"
+    },
+    "backend-3.json": {
+      "sha256": "7e1464d1008ea43a5080f71e3d72452e04b2bc735173eb6413cfd8da0d58ad4a",
+      "decodedSha256": "7e1464d1008ea43a5080f71e3d72452e04b2bc735173eb6413cfd8da0d58ad4a",
+      "decodedBytes": 240,
+      "encoding": "identity"
+    },
+    "backend-4.json": {
+      "sha256": "daac6b7353482339e3d93b126aad313b290d279697575162493690c2d1337ce5",
+      "decodedSha256": "daac6b7353482339e3d93b126aad313b290d279697575162493690c2d1337ce5",
+      "decodedBytes": 240,
+      "encoding": "identity"
+    },
+    "member-0.log.gz": {
+      "sha256": "f8fca6266b668eda6b38419d191712f55df8f9758a38dfb47fb14da87c1fc30a",
+      "decodedSha256": "bf42c4aef75a26a5738771227abb10d2cbceee91f301bd16e4fc2899d2ccc484",
+      "decodedBytes": 4704685,
+      "encoding": "gzip"
+    },
+    "member-1.log.gz": {
+      "sha256": "32e27012c5677e5a47b0c12b5510ed73e75644e24f3580d081fa1eeb7c444b95",
+      "decodedSha256": "8048a738b805cf21af3a6384d5ca861f85328f1d4f90c37a5471f05f265a8eec",
+      "decodedBytes": 4718408,
+      "encoding": "gzip"
+    },
+    "member-2.log.gz": {
+      "sha256": "bb63c6510c80800ce989403a900cd045c1bc42dd11d2e7bc9a56b6edc57e46f3",
+      "decodedSha256": "f011862a0144574895921379bca4b7537d1ad9f63e0d683d5c8abbc4a937b5f1",
+      "decodedBytes": 4714824,
+      "encoding": "gzip"
+    },
+    "member-3.log.gz": {
+      "sha256": "f6ba299851574e843be7e15ad225ff698dbca691aa82956979b24f5e882f6d69",
+      "decodedSha256": "288c1e24436ee3e310e228bac548299953ebec80952f0e3e7f674b6a5e52cb6e",
+      "decodedBytes": 4713032,
+      "encoding": "gzip"
+    },
+    "member-4.log.gz": {
+      "sha256": "589210fc5812a17bb09e7b241bd4ccd45fbe06494d69ef274949d2b9ce2782e8",
+      "decodedSha256": "1d36aa6a05577d3e91f7ab081a12d2972ef4f5908ce14f9da87546276da76f38",
+      "decodedBytes": 4725576,
+      "encoding": "gzip"
+    }
+  },
+  "runtimeRetained": true,
+  "wholeProcessTreeCleanupQualified": false
+}

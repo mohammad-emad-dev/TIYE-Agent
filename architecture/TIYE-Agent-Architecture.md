@@ -910,6 +910,19 @@ claim. Receipt arrival cannot locate the worker's entry instant on the main
 clock. A direct-pipe control to isolate the producer/PTY bridge is next; no
 earlier latency failure is retired and full S5 remains open.
 
+The [direct-pipe isolation diagnostic](../feasibility/s5-performance/ui/input-direct-pipe/README.md)
+replaces only member 0's producer bridge: four members retain bundled ConPTY,
+while member 0 uses ordinary pipes. Its completed capture reconciles all 35
+probes and 50,000 events; the 34 ordinary inputs have an 18.40 ms maximum with
+none over 100 ms. The deliberate ordinal-7 wait measures 125.33 ms locally and
+129.79 ms in the application proxy. Raw child stdout matches the captured log.
+Thirty-five tests pass. A first attempt interrupted by focus loss at slot 24
+is archived as incomplete; the completed attempt uses identical executed hashes.
+This changes TTY semantics, chunking and process topology, so the contrast does
+not identify a cause, quantify PTY overhead or qualify five-PTY performance.
+The next decision is a bounded PTY bridge investigation; historical latency
+failures, the product core and full S5 remain open.
+
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
 a disposable source root, ran an offline local-dependency setup, copied

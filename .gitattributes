@@ -54,3 +54,7 @@ output/s5-input-ack-path-pipe/** -text
 output/s5-input-ack-path-pipe/*.log -whitespace
 output/s5-input-receipt-pipe/** -text
 output/s5-input-receipt-pipe/*.log -whitespace
+output/s5-input-direct-pipe-pipe/** -text
+output/s5-input-direct-pipe-pipe/*.log -whitespace
+output/s5-input-direct-pipe-failed-focus/** -text
+output/s5-input-direct-pipe-failed-focus/*.log -whitespace
