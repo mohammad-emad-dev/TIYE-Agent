@@ -1,0 +1,31 @@
+{
+  "projectDate": "2026-10-17",
+  "host": "Windows-11-10.0.26300-SP0",
+  "python": "3.14.7",
+  "sourceSha256": {
+    "feasibility/s6-wsl/codex-u0/.gitignore": "9967fbf6a68b4488fb0a6eb19a6c36b1d408a47312b8825b6d38062e10d5c07a",
+    "feasibility/s6-wsl/codex-u0/check.py": "313ae5cbdbe01faf873db9006b53e95154db1f0fa70c765a9bbea2c4889762ca",
+    "feasibility/s6-wsl/codex-u0/linux.py": "d1fdfff6021bfc4a513250787768d6627479d540bf5d1cc13cad07ba88c2d9f6",
+    "feasibility/s6-wsl/codex-u0/peer.py": "b1ad1c8979712e5e4726d37ba95f2b99593551d9abd25338fb5cc77b091a9cec",
+    "feasibility/s6-wsl/codex-u0/run.py": "b1803c50c956a9a2d5639345eab1c119be49bb791b27ff79e8c113af736bb178",
+    "feasibility/s6-wsl/codex-u0/test_u0.py": "0907763388995d274592a156a728c30d8f115cc6e378bcb9d74721fc623f3dea",
+    "feasibility/s6-wsl/codex-u0/transport.py": "d44f8c00069b9f05610427a7e9b79a3b84d43c6d7caf5223b5c87eb5ea811a9b"
+  },
+  "artifactSha256": {
+    "offline.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "offline.stdout.bin": "009327f673ccba5faefd78ae9ee7eaab25384d8eda692c9d2e62f06ca0d330c1",
+    "README.md": "bcb84bd22ba453c14c7ddf793093d56a2cd3ea01e3ae62db9cc1f9b95f0af54d",
+    "review.json": "9964f12e3c58c8bf279071a4d61003deb62f847d810cc151231747334ee64428",
+    "tests.stderr.bin": "77cefb54573315f542ab76bf2f4e4316a20ad3f17430e48db221fdc81812be21",
+    "tests.stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "testCount": 13,
+  "testExitCode": 0,
+  "offlineExitCode": 0,
+  "finalRunOnly": true,
+  "nativeRuns": 0,
+  "nativeAdmissionGranted": false,
+  "fullS4Qualified": false,
+  "fullS6Qualified": false,
+  "phase1": "HOLD"
+}

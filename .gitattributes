@@ -94,4 +94,6 @@ output/s4-codex-pipe-lifecycle/** -text
 output/s4-codex-pipe-lifecycle/*.bin -whitespace
 output/s4-codex-transport-assessment/** -text
 output/s4-codex-native-protocol/** -text
+output/s4-codex-u0-launcher/** -text
+output/s4-codex-u0-launcher/*.bin -whitespace
 feasibility/s6-wsl/** -text

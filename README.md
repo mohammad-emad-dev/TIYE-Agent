@@ -99,3 +99,8 @@ The [prepared Linux native protocol](output/s4-codex-native-protocol/README.md)
 defines bounded handshake, authentication, task, approval and cleanup cases.
 It is preparation only; a reviewed launcher and the applicable entry conditions
 are required before execution. No new native qualification is claimed.
+
+The [first U0 launcher implementation](output/s4-codex-u0-launcher/README.md)
+now has synthetic subprocess tests, strict handshake handling, bounded capture
+and a persistent launch block. Native admission is still pending independent
+watchdog, ownership/recovery and privacy checks; no Linux Codex run is claimed.

@@ -1,0 +1,18 @@
+test_foreign_and_truncated_responses_do_not_trigger_second_write (test_u0.ProcessTests.test_foreign_and_truncated_responses_do_not_trigger_second_write) ... ok
+test_late_duplicate_after_notification_is_still_a_failure (test_u0.ProcessTests.test_late_duplicate_after_notification_is_still_a_failure) ... ok
+test_live_child_after_handshake_requires_recorded_escalation (test_u0.ProcessTests.test_live_child_after_handshake_requires_recorded_escalation) ... ok
+test_output_overflow_preserves_bounded_prefix_and_reaps_child (test_u0.ProcessTests.test_output_overflow_preserves_bounded_prefix_and_reaps_child) ... ok
+test_protocol_failure_keeps_draining_so_flooding_peer_can_exit (test_u0.ProcessTests.test_protocol_failure_keeps_draining_so_flooding_peer_can_exit) ... ok
+test_real_peer_observes_only_initialize_and_initialized_then_exits (test_u0.ProcessTests.test_real_peer_observes_only_initialize_and_initialized_then_exits) ... ok
+test_changed_source_or_missing_review_blocks_native_admission (test_u0.ProtocolTests.test_changed_source_or_missing_review_blocks_native_admission) ... ok
+test_fragmented_unicode_then_eof_revokes_further_writes (test_u0.ProtocolTests.test_fragmented_unicode_then_eof_revokes_further_writes) ... ok
+test_invalid_or_conflicting_wire_never_allows_notification (test_u0.ProtocolTests.test_invalid_or_conflicting_wire_never_allows_notification) ... ok
+test_oversized_unterminated_record_is_rejected_without_retaining_it (test_u0.ProtocolTests.test_oversized_unterminated_record_is_rejected_without_retaining_it) ... ok
+test_truncated_valid_json_is_not_a_handshake (test_u0.ProtocolTests.test_truncated_valid_json_is_not_a_handshake) ... ok
+test_worker_receipt_alone_or_native_failure_does_not_pass_protocol (test_u0.ProtocolTests.test_worker_receipt_alone_or_native_failure_does_not_pass_protocol) ... ok
+test_wrong_worker_nonce_or_duplicate_result_is_refused (test_u0.ProtocolTests.test_wrong_worker_nonce_or_duplicate_result_is_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.676s
+
+OK

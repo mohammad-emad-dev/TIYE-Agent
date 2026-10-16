@@ -1,0 +1,103 @@
+{
+  "projectDate": "2026-10-17",
+  "scope": "Supplied design/code snapshots; no independent workspace or native verification",
+  "reviews": [
+    {
+      "model": "gpt-6-luna",
+      "requestedEffort": "max",
+      "relayStatus": "completed",
+      "outcome": "No implementation delivered; session reported filesystem policy rejection",
+      "observedToolEvents": [],
+      "touchedFilesReport": [],
+      "artifactSha256": {
+        "brief.txt": "59f6a360e0c7742b8c877da6279656ba453a854907cbf2df34981d8457a84fe9",
+        "events.jsonl": "3c935a1778107ac42dc5a925ac036415d96442e5d50c5298ed7b4c8a1b529083",
+        "final.txt": "71866d50b18cc22d8482b9a71f53ce6c5ac6219ea1624b8dfb3150f494e525b4",
+        "stderr.txt": "391ee03d74a0283001c41fb4b76885cf2871aa146d9e7d6a0f5d9ab4cb9567b8",
+        "result.json": "f0d7b7985a2c9dc0684bd3297e0070e1a5cff875c4183bd9a631365793980fc5"
+      }
+    },
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "requestedEffort": "xhigh",
+      "relayStatus": "completed",
+      "outcome": "Supplied design review completed",
+      "observedToolEvents": [],
+      "touchedFilesReport": [],
+      "artifactSha256": {
+        "brief.txt": "5643162104917100fa0e8c52e090fb7a33cab8ebcea6465fe35f4d958dd82305",
+        "events.jsonl": "5e5b2a012858b2bc83bd66e81ab9688dd82785cf8461bcb36f6554bef853224f",
+        "final.txt": "b10aa223e3a96a0e9d7a7cdfa7f1f0497c6439c7b6541ee955d75790c82237b0",
+        "stderr.txt": null,
+        "result.json": "50cbe18b28b044c2ba75434e8ebacdd8e1586e1327db26a46f2a6a548bbabdd5"
+      }
+    },
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "requestedEffort": "xhigh",
+      "relayStatus": "completed",
+      "outcome": "Supplied earlier code review completed",
+      "observedToolEvents": [],
+      "touchedFilesReport": [
+        "?? feasibility/s6-wsl/codex-u0/"
+      ],
+      "artifactSha256": {
+        "brief.txt": "9876e6548be15a2b92440fdd01d196e3a7068be0c26e68bd04f8edde0b4d4094",
+        "events.jsonl": "f3da4f0121798b7e058f36a8371bc9ed1ea0afacd104d3464b0fa9688b0f758e",
+        "final.txt": "c37cae6c1248cd733a17c952fd59cca0101555131b4c086f02f315d1902e8016",
+        "stderr.txt": null,
+        "result.json": "9e7fa2c40e90b83064dd48f4cebb791ea00d601549816f43dfaf79a864d2f831"
+      }
+    },
+    {
+      "model": "opencode/space-bunny-free",
+      "requestedEffort": "xhigh",
+      "relayStatus": "timeout",
+      "outcome": "Timeout; no final review",
+      "observedToolEvents": [],
+      "touchedFilesReport": [
+        "?? feasibility/s6-wsl/codex-u0/"
+      ],
+      "artifactSha256": {
+        "brief.txt": "9876e6548be15a2b92440fdd01d196e3a7068be0c26e68bd04f8edde0b4d4094",
+        "events.jsonl": "0efdb12ccd67133657a284603d223d9b52a56eb95ecd1adefeaeda707811fcc2",
+        "final.txt": null,
+        "stderr.txt": null,
+        "result.json": "a597c212d438b03b283ab7cb90ddff9ea40f8faadd4347afe9fd21704e39f116"
+      }
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "requestedEffort": "max",
+      "relayStatus": "timeout",
+      "outcome": "Timeout; no final review",
+      "observedToolEvents": [],
+      "touchedFilesReport": [
+        "?? feasibility/s6-wsl/codex-u0/"
+      ],
+      "artifactSha256": {
+        "brief.txt": "094db26bb7593e0107555a6f40f0d9a41cb5f929ff80f629889a8b70b609e5c5",
+        "events.jsonl": "5e5339655722bae7daec542e87b7b9a4e977942d2d42a018386910361fbd1fc7",
+        "final.txt": null,
+        "stderr.txt": null,
+        "result.json": "aa6b57542422b4619e33990896341272f35945ceb89197a1633e93c9e114c502"
+      }
+    }
+  ],
+  "implementedBy": "Parent",
+  "finalRevisionReviewedBy": "Parent",
+  "parentDispositions": [
+    "Muse1: unresolved direct-child exit now records a fault; native protocol gate also requires reap/zero exit/EOF and no cleanup errors.",
+    "Muse2: pipe close failures recorded individually; unverified process ownership never treated as recovered. Private CPython close API is an explicit tooling dependency.",
+    "Muse3: deadline exhaustion now marks cleanup failure; rejected suggestion to extend waits past the overall deadline. Independent hard watchdog remains an admission blocker.",
+    "Muse4: strict worker object, nonce, record sequencing and stream shape validation added; parser errors become faults while readers continue draining.",
+    "Muse5: malformed base64/budgets preserve private result before decode; invalid decode updates failure record.",
+    "Muse6: rejected recursive fixture deletion; protocol explicitly retains Linux evidence. Process cleanup is distinct from filesystem cleanup.",
+    "Parent: stream parser keeps draining after protocol failure; real flooding-peer regression passed.",
+    "Parent: native failure cannot pass merely because worker transport succeeded; missing/malformed completion evidence refuses protocol observation.",
+    "Parent: exact source payload bytes snapshotted before admission/hash manifest; environment startup disables Python site imports.",
+    "Test Guard: real synthetic subprocesses at the OS boundary; grouped protocol variants and distinct regression scenarios, no provider mocks or native qualification claims."
+  ],
+  "gemini": "Not dispatched: recorded consumer route excluded",
+  "nativeAdmissionGranted": false
+}
