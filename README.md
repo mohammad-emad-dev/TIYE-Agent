@@ -32,7 +32,11 @@ after owned launcher termination; survivor-present cleanup is still untested.
 The [WSL mock PTY capture](output/s6-pty/README.md) now verifies synthetic
 ASCII/Unicode/multiline paste, Linux resize/SIGINT events and normal mock exit
 through Electron, xterm and the requested experimental ConPTY backend.
-Full [S6](feasibility/s6-wsl/PLAN.md),
+The [current nine-row S6 assessment](output/s6-assessment/README.md) consolidates
+these bounded observations, preserves the original failures and identifies
+live-survivor crash/restart recovery as the next mock task. It supersedes the
+historical S6 status in the Phase 0 snapshot and initial plan; S6 remains partial.
+Full [S6](output/s6-assessment/README.md),
 S4 route qualification, unresolved
 S5 limits and the remaining S1–S3 requirements stay visible in the readiness ledger.
 

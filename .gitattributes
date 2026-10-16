@@ -79,4 +79,5 @@ output/s6-environment/** -text
 output/s6-lifecycle/** -text
 output/s6-pty/** -text
 output/s6-pty/*.log -whitespace
+output/s6-assessment/** -text
 feasibility/s6-wsl/** -text

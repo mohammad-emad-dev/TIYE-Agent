@@ -1,0 +1,184 @@
+{
+  "schema": "tiye-s6-assessment-v1",
+  "assessedOn": "2026-10-16",
+  "baselineCommit": "dce05d5378114025329ff42f1ff4bfac240772ce",
+  "status": "partial",
+  "fullS6Qualified": false,
+  "phase1Construction": "HOLD",
+  "newNativeExperiments": 0,
+  "waivedRequirements": [],
+  "rows": [
+    {
+      "step": 1,
+      "title": "WSL/distribution discovery",
+      "status": "partial",
+      "evidenceCohorts": [
+        "output/s6-prerequisites",
+        "output/s6-discovery"
+      ],
+      "remainingQualification": "Reusable app-side discovery and initialization/error handling"
+    },
+    {
+      "step": 2,
+      "title": "Linux CLI discovery",
+      "status": "partial",
+      "evidenceCohorts": [
+        "output/s6-discovery"
+      ],
+      "remainingQualification": "Eligible Linux-native CLI executable/version/capability mapping"
+    },
+    {
+      "step": 3,
+      "title": "PTY input/display",
+      "status": "partial",
+      "evidenceCohorts": [
+        "output/s6-pty"
+      ],
+      "remainingQualification": "Qualified CLI/S1 parity and physical interaction/rendering/crash cases"
+    },
+    {
+      "step": 4,
+      "title": "Both filesystems/worktrees",
+      "status": "partial",
+      "evidenceCohorts": [
+        "output/s6-path-git",
+        "output/s6-cross-git"
+      ],
+      "remainingQualification": "Qualified CLI on both intended filesystems; representative setup/cost"
+    },
+    {
+      "step": 5,
+      "title": "Task/ownership paths",
+      "status": "partial",
+      "evidenceCohorts": [
+        "output/s6-path-git"
+      ],
+      "remainingQualification": "Windows-mounted Unicode case and invalid/unrelated-root/symlink containment"
+    },
+    {
+      "step": 6,
+      "title": "Windows team tools",
+      "status": "partial",
+      "evidenceCohorts": [
+        "output/s6-connectivity"
+      ],
+      "remainingQualification": "Other available networking modes; CLI attachment; helper/crash cleanup"
+    },
+    {
+      "step": 7,
+      "title": "Environment",
+      "status": "partial",
+      "evidenceCohorts": [
+        "output/s6-environment"
+      ],
+      "remainingQualification": "Native CLI attribution/adherence; credential delivery and broader cases"
+    },
+    {
+      "step": 8,
+      "title": "Quit/crash/restart ownership",
+      "status": "partial",
+      "evidenceCohorts": [
+        "output/s6-lifecycle",
+        "output/s6-pty"
+      ],
+      "remainingQualification": "Actual Electron main crash/restart; live-survivor cleanup; duplicate refusal"
+    },
+    {
+      "step": 9,
+      "title": "Cross-side worktrees",
+      "status": "partial",
+      "evidenceCohorts": [
+        "output/s6-cross-git"
+      ],
+      "remainingQualification": "Cross-side sharing unqualified; one-Git-side fallback retained"
+    }
+  ],
+  "nextTask": "Separately scoped live-survivor Electron crash/restart mock recovery protocol",
+  "historicalSnapshotsPreserved": [
+    "output/phase0-readiness/ASSESSMENT.md",
+    "feasibility/s6-wsl/PLAN.md"
+  ],
+  "sourceHashScope": "Exact local file bytes at assessment time; unprotected documentation may have checkout line-ending conversion",
+  "sourceSha256": {
+    "architecture/TIYE-Agent-Architecture.md": "e46e5a5581d16160af95f7ce5ddae9e2da505510c04eb50b825d2f5c532c6a59",
+    "architecture/TIYE-Agent-Feasibility-Test-Plan.md": "82d118ffcf0d523f1fcfae430d1488662416a7081c219b1248055e9ef32fa764",
+    "feasibility/s4-provider-access/antigravity-consumer/README.md": "aafca9978a9bdcc325a07d73d7af6fc1ce016107830c5399729d5d29150ad400",
+    "feasibility/s4-provider-access/antigravity-consumer/check.js": "5d9c5e3546a12d50e23d59232bb3fd78051896d143a02e387144411e2608684b",
+    "feasibility/s4-provider-access/antigravity-consumer/package.json": "43d7850fcaf34997b95b429ea0496a3acbc14a13c551014dfb58dc602ab01500",
+    "feasibility/s4-provider-access/antigravity-consumer/route.json": "ca417022de82a8e5877a429c5777d335b886aea1968024ecb4bc1e44c048e1fe",
+    "feasibility/s4-provider-access/antigravity-consumer/seal.json": "b74a65a2b1076c21f1fc87e593e0d5dc12dd9bf401afd388644f44b8f0abe096",
+    "feasibility/s6-wsl/PLAN.md": "2c75da13935c3b59772844dbaee8601ee620a4243cc2845f67373a95c599c9e3",
+    "feasibility/s6-wsl/check-discovery.py": "e7024d47db62cff38f878beef0dee5ff93e580ff1bf49597fc87255f3f5a4aa6",
+    "feasibility/s6-wsl/connectivity/check.py": "c9a8e779c3fe0070a07fa3b418a23043bbe3324fdf9fb6849057442599a221c7",
+    "feasibility/s6-wsl/connectivity/client.py": "3fdb2d6ad16c7bdec0f1c88ef9ef2ec3152d0153dfd9f36f5d877a148dfee4f6",
+    "feasibility/s6-wsl/connectivity/protocol.json": "be33b1c9c0f2e2179e282d9a6f17d8657ef31db926caa2c39009dbb93ca4b2e1",
+    "feasibility/s6-wsl/connectivity/relay.cjs": "60abc673584201461d78cf86441ee775670cb23f4b813e093cede7648445b2c0",
+    "feasibility/s6-wsl/connectivity/run.py": "7d5290ddd7dc1af1371fe0ee47a44b874837840722c89d05ad9e2624b13c0a1b",
+    "feasibility/s6-wsl/cross-git/check.py": "99353139e5e9171f969b55b36703adb90c35fd64f31847718efa32d2de2b3763",
+    "feasibility/s6-wsl/cross-git/finish-peer-read.py": "aec1c06ecd370b69c9e12d080ee18896565c278980ead82b848dd397d58a2f54",
+    "feasibility/s6-wsl/cross-git/linux-fixture.sh": "4e4a814e46d16b47195092530f5e71cd20da66bd47486fe4057ff573c9629d78",
+    "feasibility/s6-wsl/cross-git/protocol.json": "641009ed528d4bf87c164978781f27e346f1688c3ab80093a9dc532a2fbf64c8",
+    "feasibility/s6-wsl/cross-git/run.py": "818204d9c6d90fdf203b3cd1ef2747b6c077b8b35325e20b03f69637ad260203",
+    "feasibility/s6-wsl/discover.py": "bf5b09be798a5c7d06ad36fa9a74f14f4f8da2fa3af3c6fa7fb3b2d51b04d461",
+    "feasibility/s6-wsl/environment/check.py": "e54de7c6c1513797ad3da0f256cc45ff1f95552b2964b912c69dc980ba767d88",
+    "feasibility/s6-wsl/environment/mock.py": "3189b8b5fea61a83ea8c0f360451f677e7b02f6841b2b317dd6b35403bd39243",
+    "feasibility/s6-wsl/environment/protocol.json": "d9d1d23074d163b811d2fb77adff48056dc293cc7c7458a20d0b726582953fe9",
+    "feasibility/s6-wsl/environment/run.py": "52a6c3e87e2cb9a2ee4aeae7eb279f8643556de294b6631ac897ede9540886de",
+    "feasibility/s6-wsl/lifecycle/check.py": "f1ef161525a36fea476438333c483a4ab2bc227b6de94cfaca9a4f5785e826d5",
+    "feasibility/s6-wsl/lifecycle/linux.py": "3b4e7c1d063fb412d33b1a745e164abf5a2a2892b7fbf7d38e93c0ce32c0eaa5",
+    "feasibility/s6-wsl/lifecycle/protocol.json": "c0acd927dc8fe0714ea231e40b193d6eeac6b1d24f6ea623b2ad7d399d11d62f",
+    "feasibility/s6-wsl/lifecycle/run.py": "df5a0254fe5c11f61c0bafd89a2f89a3d1f40deafe1c1b39913dd4387017f6c2",
+    "feasibility/s6-wsl/path-git/check.py": "fbb5f1d9abdcf5b069afea9a46756c08976c504cff01f160a18fcab63038f858",
+    "feasibility/s6-wsl/path-git/finish-linux.py": "07f3d6065222fd16f60c14b42f33b3ed8c3ed205c26ce25258c329609a937d03",
+    "feasibility/s6-wsl/path-git/fixture.sh": "6e916196b8cb202c6dc56d79e101cea40abef06bdb7e81070df3e2a00c585fe8",
+    "feasibility/s6-wsl/path-git/protocol.json": "81f12e4ef7dc897ae4481a6ffe66266e7651729d7baa23f5d4111382aeb1fc3c",
+    "feasibility/s6-wsl/path-git/run.py": "05344d474c9b25e8a04ed267c4d18fbfe7406397d8f4cb66885bdba516d8e301",
+    "feasibility/s6-wsl/pty/build.cjs": "51c34d080a9a1ce88bedabd9dca1a82eef633770949b5e0f6ce0a0bc2dbb0204",
+    "feasibility/s6-wsl/pty/check.py": "dc75a76f4209997290747b591387f0c0dc609daa5f34a2e9a452efb81dfb7432",
+    "feasibility/s6-wsl/pty/inspect.py": "0bf7d1776bb6d5619bfa243cad64ba301277db855b36210008145163c0b29118",
+    "feasibility/s6-wsl/pty/main.cjs": "657ce5f7be36d8cebcdce5c071986be3894be5dd0a7d6fd624e122bd1b500917",
+    "feasibility/s6-wsl/pty/mock.py": "71ded519932659fa2a15dd88c33a00d5b4a37d0fe76e18989f214731c3e70240",
+    "feasibility/s6-wsl/pty/preload.cjs": "58818027679ba0500aba31dced87d6b77f83c2a076b87a467d2cb40b78c1538f",
+    "feasibility/s6-wsl/pty/protocol.json": "6b7cfe39e7be608477d5c3245da3a8ff5abac5bfa3138d5405510eaa67c2a055",
+    "feasibility/s6-wsl/pty/renderer.js": "788ba203c509024a32cf26d30ee6c20b4474824b8d7d2caecae7e13ce48333ae",
+    "feasibility/s6-wsl/pty/run.cjs": "8f9df6809a569663e56f22d1df3a2fe2c6e28a2de1de16e9df66535ccb1e9341",
+    "feasibility/s6-wsl/pty/worker.cjs": "08188c5f7c7871bf83ea9916043ed5912cb675835706460775c46c905c9699f2",
+    "output/phase0-readiness/ASSESSMENT.md": "9bb6d1f5e9f1a64fc4a6324f05f4fc531473a3b8795827a14f413e5fb8fd0a2e",
+    "output/phase0-readiness/review.json": "c629ddbd53f96a3efbecc4a8356a2e5f3466abd1ac3814646861d46e251db12c",
+    "output/phase0-readiness/wsl-prerequisites.json": "c4d2a3cd1a03c98f8c73d427353a49d048b3aacb92fcc6dd134d5746d148fb6f",
+    "output/s6-connectivity/README.md": "00d27e9269df1533d6a0c7c7d513a246fec7bbbb09b662e6e084e47b33011e30",
+    "output/s6-connectivity/evidence.json": "6bbf904bcfd1a7f7df709fb8e9aa01d144971dbc3522387f09502004a6476c81",
+    "output/s6-connectivity/listener-observation.json": "667b05e348eec8467f24a82f7efd05bfc8031bced5dce4c299f045c790ce548b",
+    "output/s6-connectivity/review.json": "ea0987c5f816df4d8122594a9540a9fc7c52f48cc29ca6eb7da09191428611df",
+    "output/s6-connectivity/ubuntu-interop-pipe.stdout.json": "b957bf3ff72b159331aa76ef00a777f650f291b32803173e22be1f0a3cecc376",
+    "output/s6-connectivity/ubuntu-loopback.stdout.json": "2f1f8f72e29391497c16686b05ecf3e8e6e8f1dd07b4661f878572ca9ea7eb22",
+    "output/s6-connectivity/windows-control.stdout.json": "a359d5935700c72fb65c935591a96868d952286f99f0354fcd4063ea5c6e1594",
+    "output/s6-cross-git/README.md": "f4f3442c9a295be732918fe4f9e8022bb08a2b09fa8bb6fd1f1498659f4eaf7b",
+    "output/s6-cross-git/evidence.json": "7c6931b02c29528224ae463659ca804caf7da9282bcc61a9e27ed2cf3b37a14a",
+    "output/s6-cross-git/peer-followup.json": "5dfdc636285d4c484d9fd55142a9a45f34ebf6173e9ce6bf26a250c862cc08ba",
+    "output/s6-cross-git/peer-preflight.json": "bdf820120d4661083371cbfd191a4be46fd5ca4b9308e5c21b6818c6f1b6598d",
+    "output/s6-cross-git/review.json": "ff3c4e35b3b0aae11a50d2dd866107161cd7826768a9375589987eb59ee01625",
+    "output/s6-discovery/README.md": "319bb84570b3502e3d2b0cde7c760d84c40b17547c9507968d2f3267cb97ccca",
+    "output/s6-discovery/discovery.json": "3b94f0830d1ba4603d32e6c736099f8ced82db97530d4ffea49d8c98568da02a",
+    "output/s6-discovery/review.json": "7c48504e4e55ff2eefce83508e45bddcc8f200f0cc967964a8de67afca859111",
+    "output/s6-environment/README.md": "43ca657215db03f82573cb7b5c1e8fdd5016b738d292d00acb3c623dde5ddeab",
+    "output/s6-environment/evidence.json": "a7b995467e4c39acc481a6eba123fb7274e541c1967f942b9491b5ed5450701e",
+    "output/s6-environment/review.json": "3bfcd06e9c040a45a38cf3e269aeecff3b0d599dffd141c1c647a9d602932c30",
+    "output/s6-lifecycle/README.md": "293ae690fe72c0be213e0c4c2d323da9ee1bf201325de1faeff47e49880dc795",
+    "output/s6-lifecycle/evidence.json": "49bb8298b411987b58a745c8b7b1d26dd195f58a76ef3d800fb1cdd78dc82480",
+    "output/s6-lifecycle/review.json": "12a0ce34909a465c5dad31ca19a248131c721f7c3a083dd990e2ba0964971ef2",
+    "output/s6-path-git/README.md": "21981becf4cbd71e1107c1399f777c01b0a4816427ea3dfe19f86ab9fd61f7c1",
+    "output/s6-path-git/evidence.json": "699c37d37c4c02d02eb49c90f98fa2206bbdc522b88d621879702b878fbd20a9",
+    "output/s6-path-git/linux-followup.json": "202ab1d4b983b838bddab6b010999f0312120175ac983022f2f38c4ea2bc77c1",
+    "output/s6-path-git/review.json": "613f8dca43bc58866fb6d26664bcf56e8afadd7764e32795b23ebb5c534f84fc",
+    "output/s6-prerequisites/README.md": "06eedb6bcad419cba8e7775bbd27ac4850300fd7ae1caed27582a324e6b20e32",
+    "output/s6-prerequisites/installation.json": "0c747b92799840b509b8015bd84ac47b706484638186ee30819f74e850c0bfd9",
+    "output/s6-prerequisites/review.json": "42da7edece1c0ccdca35a025af058eae6ab974444e98e330a8a7245f88cc59e4",
+    "output/s6-prerequisites/setup-state.json": "532a51c54a3538ce831cabfbb2a1679fe219099aae3cb1853e00fe6336e2a69f",
+    "output/s6-pty/README.md": "96fb95b3ee80a6371ebe34bf3bcd4fff001c353673c7b85082ec0819ac7f9e60",
+    "output/s6-pty/coordinator.json": "cd460503eb8c8016c2322ac4f27ab7a62c646c224e530566efeb69c5ead647b4",
+    "output/s6-pty/native.json": "8ea76cad723ce146a53eb713f3004097934ddabbddf2b1bf48c589f11ab1828b",
+    "output/s6-pty/prelaunch.json": "cff8b3fb99c91db1635c7b545366f0cd096b435e270ea4647bdaf159b6e4f6f7",
+    "output/s6-pty/review.json": "e9bc2f366acb73188d080c203aeaa274175a4e02c7254fe8c506bd82ccae57bd"
+  }
+}
