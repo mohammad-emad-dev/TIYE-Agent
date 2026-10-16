@@ -1467,7 +1467,13 @@ worktree as dubious ownership. Pin one Git execution side per project before
 creating worktrees; automatic cross-side use, pointer rewriting and implicit
 `safe.directory` exceptions are unsupported in the prototype. Path conversion
 is not Git interoperability proof; broader cross-side coverage and full S6
-remain open. The assessment defines
+remain open. The [WSL mock MCP connection](../output/s6-connectivity/README.md)
+now records authenticated two-member round trips through an interop pipe relay
+in NAT mode; direct Ubuntu loopback was refused. Retain the loopback-only Windows
+server and treat the relay as an experimental route. The owned server exited,
+but immediate port-closure checking was inconclusive; a later Windows listener
+inventory was empty. No graceful or general process-tree cleanup follows.
+The assessment defines
 core entry conditions and a proposed first slice under Section 3.8. It does
 not waive feasibility gates or require a finished UI before building the core.
 

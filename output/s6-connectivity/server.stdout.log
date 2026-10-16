@@ -1,0 +1,35 @@
+[mcp] ready host=127.0.0.1 port=50417 tools=report_result,ask_leader,delegate_task
+[mcp] auth-rejected method-for-path=/mcp
+[mcp] auth-rejected method-for-path=/mcp
+[mcp] session-open member=member-a sessions=1
+[mcp] protocol-request member=member-a method=initialize
+[mcp] protocol-request member=member-a method=notifications/initialized
+[mcp] protocol-request member=member-a method=tools/list
+[mcp] tool-call member=member-a tool=report_result valid=true argumentCount=2
+[mcp] report-match member=member-a matched=true
+[mcp] session-open member=member-b sessions=2
+[mcp] protocol-request member=member-b method=initialize
+[mcp] protocol-request member=member-b method=notifications/initialized
+[mcp] protocol-request member=member-b method=tools/list
+[mcp] tool-call member=member-b tool=report_result valid=true argumentCount=2
+[mcp] report-match member=member-b matched=true
+[mcp] session-ownership-rejected method=POST owner=member-a caller=member-b
+[mcp] session-close member=member-a sessions=1
+[mcp] session-close member=member-b sessions=0
+[mcp] auth-rejected method-for-path=/mcp
+[mcp] auth-rejected method-for-path=/mcp
+[mcp] session-open member=member-a sessions=1
+[mcp] protocol-request member=member-a method=initialize
+[mcp] protocol-request member=member-a method=notifications/initialized
+[mcp] protocol-request member=member-a method=tools/list
+[mcp] tool-call member=member-a tool=report_result valid=true argumentCount=2
+[mcp] report-match member=member-a matched=true
+[mcp] session-open member=member-b sessions=2
+[mcp] protocol-request member=member-b method=initialize
+[mcp] protocol-request member=member-b method=notifications/initialized
+[mcp] protocol-request member=member-b method=tools/list
+[mcp] tool-call member=member-b tool=report_result valid=true argumentCount=2
+[mcp] report-match member=member-b matched=true
+[mcp] session-ownership-rejected method=POST owner=member-a caller=member-b
+[mcp] session-close member=member-a sessions=1
+[mcp] session-close member=member-b sessions=0

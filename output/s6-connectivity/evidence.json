@@ -1,0 +1,224 @@
+{
+  "schema": "tiye-s6-connectivity-v1",
+  "state": "route-observations-completed",
+  "routes": [
+    {
+      "route": "windows-control",
+      "exitCode": 0,
+      "timedOut": false,
+      "client": {
+        "route": "windows-control",
+        "state": "roundtrip-completed",
+        "steps": [
+          {
+            "operation": "missing-token",
+            "httpStatus": 401
+          },
+          {
+            "operation": "bad-token",
+            "httpStatus": 401
+          },
+          {
+            "member": "member-a",
+            "operation": "initialize",
+            "httpStatus": 200,
+            "requestIdMatched": true
+          },
+          {
+            "member": "member-a",
+            "operation": "tools/list",
+            "httpStatus": 200,
+            "requestIdMatched": true
+          },
+          {
+            "member": "member-a",
+            "operation": "tools/call",
+            "httpStatus": 200,
+            "requestIdMatched": true
+          },
+          {
+            "member": "member-a",
+            "operation": "acknowledgement",
+            "matched": true
+          },
+          {
+            "member": "member-b",
+            "operation": "initialize",
+            "httpStatus": 200,
+            "requestIdMatched": true
+          },
+          {
+            "member": "member-b",
+            "operation": "tools/list",
+            "httpStatus": 200,
+            "requestIdMatched": true
+          },
+          {
+            "member": "member-b",
+            "operation": "tools/call",
+            "httpStatus": 200,
+            "requestIdMatched": true
+          },
+          {
+            "member": "member-b",
+            "operation": "acknowledgement",
+            "matched": true
+          },
+          {
+            "operation": "foreign-member-session",
+            "httpStatus": 401
+          },
+          {
+            "member": "member-a",
+            "operation": "delete-session",
+            "httpStatus": 200
+          },
+          {
+            "member": "member-b",
+            "operation": "delete-session",
+            "httpStatus": 200
+          }
+        ]
+      },
+      "elapsedMs": 200.2306999929715,
+      "serverCorrelation": {
+        "member-a": 1,
+        "member-b": 1
+      }
+    },
+    {
+      "route": "ubuntu-loopback",
+      "exitCode": 1,
+      "timedOut": false,
+      "client": {
+        "route": "ubuntu-loopback",
+        "state": "route-incomplete",
+        "steps": [],
+        "errorClass": "ConnectionRefusedError"
+      },
+      "elapsedMs": 148.77629998954944,
+      "serverCorrelation": {
+        "member-a": 0,
+        "member-b": 0
+      }
+    },
+    {
+      "route": "ubuntu-interop-pipe",
+      "exitCode": 0,
+      "timedOut": false,
+      "client": {
+        "route": "ubuntu-interop-pipe",
+        "state": "roundtrip-completed",
+        "steps": [
+          {
+            "operation": "missing-token",
+            "httpStatus": 401
+          },
+          {
+            "operation": "bad-token",
+            "httpStatus": 401
+          },
+          {
+            "member": "member-a",
+            "operation": "initialize",
+            "httpStatus": 200,
+            "requestIdMatched": true
+          },
+          {
+            "member": "member-a",
+            "operation": "tools/list",
+            "httpStatus": 200,
+            "requestIdMatched": true
+          },
+          {
+            "member": "member-a",
+            "operation": "tools/call",
+            "httpStatus": 200,
+            "requestIdMatched": true
+          },
+          {
+            "member": "member-a",
+            "operation": "acknowledgement",
+            "matched": true
+          },
+          {
+            "member": "member-b",
+            "operation": "initialize",
+            "httpStatus": 200,
+            "requestIdMatched": true
+          },
+          {
+            "member": "member-b",
+            "operation": "tools/list",
+            "httpStatus": 200,
+            "requestIdMatched": true
+          },
+          {
+            "member": "member-b",
+            "operation": "tools/call",
+            "httpStatus": 200,
+            "requestIdMatched": true
+          },
+          {
+            "member": "member-b",
+            "operation": "acknowledgement",
+            "matched": true
+          },
+          {
+            "operation": "foreign-member-session",
+            "httpStatus": 401
+          },
+          {
+            "member": "member-a",
+            "operation": "delete-session",
+            "httpStatus": 200
+          },
+          {
+            "member": "member-b",
+            "operation": "delete-session",
+            "httpStatus": 200
+          }
+        ]
+      },
+      "elapsedMs": 1186.5773999888916,
+      "serverCorrelation": {
+        "member-a": 1,
+        "member-b": 1
+      }
+    }
+  ],
+  "sourceHashes": {
+    "feasibility/s6-wsl/connectivity/run.py": "7d5290ddd7dc1af1371fe0ee47a44b874837840722c89d05ad9e2624b13c0a1b",
+    "feasibility/s6-wsl/connectivity/client.py": "3fdb2d6ad16c7bdec0f1c88ef9ef2ec3152d0153dfd9f36f5d877a148dfee4f6",
+    "feasibility/s6-wsl/connectivity/relay.cjs": "60abc673584201461d78cf86441ee775670cb23f4b813e093cede7648445b2c0",
+    "feasibility/s6-wsl/connectivity/protocol.json": "be33b1c9c0f2e2179e282d9a6f17d8657ef31db926caa2c39009dbb93ca4b2e1",
+    "feasibility/s2-control/src/team-tools-server.js": "cd3acf1cb45037885f64e0a8c9b76cd8a0e5c7b6919b3b7edfc916c2df78dd62"
+  },
+  "fullS6Qualified": false,
+  "productionEligible": false,
+  "networkConfigurationChanged": false,
+  "networkingMode": "nat",
+  "ubuntuPythonVersion": "Python 3.14.4",
+  "windowsNodeVersion": "v26.7.0",
+  "sdkVersion": "1.32.1",
+  "serverOwnedPid": 14952,
+  "serverBind": {
+    "host": "127.0.0.1",
+    "port": 50417
+  },
+  "ownedServerExitObserved": true,
+  "ownedServerExitCode": 1,
+  "terminationMethod": "Windows owned Popen handle termination; not graceful product shutdown",
+  "serverPortClosedAfterExit": null,
+  "sourceHashesUnchangedAfterRun": true,
+  "artifactHashes": {
+    "server.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "server.stdout.log": "8fc1402db98d91ecc960490c004ed30b91db6e5719be7e56ba907c0871b7986a",
+    "ubuntu-interop-pipe.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ubuntu-interop-pipe.stdout.json": "b957bf3ff72b159331aa76ef00a777f650f291b32803173e22be1f0a3cecc376",
+    "ubuntu-loopback.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ubuntu-loopback.stdout.json": "2f1f8f72e29391497c16686b05ecf3e8e6e8f1dd07b4661f878572ca9ea7eb22",
+    "windows-control.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "windows-control.stdout.json": "a359d5935700c72fb65c935591a96868d952286f99f0354fcd4063ea5c6e1594"
+  }
+}

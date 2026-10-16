@@ -20,7 +20,10 @@ not found on the tested Linux PATH. The [path/Git fixture](output/s6-path-git/RE
 completed on Ubuntu's filesystem but failed repository initialization on the
 Windows-mounted temporary path. The [native Windows/cross-side cohort](output/s6-cross-git/README.md)
 then verified owner-side controls and recorded both peer reads refusing access;
-keep one Git execution side per project. Full [S6](feasibility/s6-wsl/PLAN.md),
+keep one Git execution side per project. The [WSL mock tool connection](output/s6-connectivity/README.md)
+completed through an interop pipe relay; direct loopback was refused in NAT mode.
+The shutdown connect check was inconclusive, with a later empty listener table.
+Full [S6](feasibility/s6-wsl/PLAN.md),
 S4 route qualification, unresolved
 S5 limits and the remaining S1–S3 requirements stay visible in the readiness ledger.
 

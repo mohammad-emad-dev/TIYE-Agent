@@ -1,0 +1,126 @@
+{
+  "schema": "tiye-s6-connectivity-review-v1",
+  "reviewedOn": "2026-10-16",
+  "baselineCommit": "37658091741f521676fdd12a766f405898e594e3",
+  "result": "partial",
+  "scope": "Unchanged Windows S2 mock server; native control, direct NAT loopback refusal and interop-pipe route observations",
+  "fullS6Qualified": false,
+  "phase1Ready": false,
+  "productionEligible": false,
+  "delegates": [
+    {
+      "model": "opencode/space-bunny-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "23e69a7e4e37663b4f90046d6979ff1179589753800960aa237338d68bf0b262",
+        "events.jsonl": "2a76afb25eec1db18f9f8b8676d8b53a14d78e5df504f89f7839c9146235071f",
+        "final.txt": "1fdad3f7254b47702717b75984aa865110182beb1478ba102c1dd1ffa39f391d",
+        "stderr.txt": null,
+        "result.json": "28622ece5f5eeec5b2a57e7230519bdd53d8987897df90318ee8d416d58fae64"
+      }
+    },
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "23e69a7e4e37663b4f90046d6979ff1179589753800960aa237338d68bf0b262",
+        "events.jsonl": "0cb496940fe82c5641de4e830b651dfd128958b55cd5bf8cf4fa22d45b5546c6",
+        "final.txt": "5042401fd2ed386d943eb3004bdc604a4e36f5c2ef4d7c9b8f9fc2bffdfa19f4",
+        "stderr.txt": null,
+        "result.json": "3cbc73b4c42a7b8a18e8e6069007cd26d0cd7be0f739a69158963a6209b58e10"
+      }
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "requestedVariant": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "23e69a7e4e37663b4f90046d6979ff1179589753800960aa237338d68bf0b262",
+        "events.jsonl": "1b5a3f16ac25b5da42d863fb44d68dfd397cc04dd32b2f058b85c0ed0b2100ad",
+        "final.txt": "c32c1a38e7785ea9f9880351f3b9e0c1ba286f60607a5c9a1db5390cf3cbbade",
+        "stderr.txt": null,
+        "result.json": "1f469e2bc4e1ff1a456658fc3eea8bdb39b9f8dbdd3941ba41a054ac5dd1e292"
+      }
+    }
+  ],
+  "notDispatched": [
+    {
+      "model": "GPT-6.1 Luna max",
+      "reason": "Exact model previously unsupported, not retried"
+    },
+    {
+      "model": "Gemini 3.8 Flash High through agy",
+      "reason": "Recorded consumer-wrapper exclusion remains in force"
+    }
+  ],
+  "parentVerification": {
+    "originalCoordinatorExitCode": 1,
+    "originalExitReason": "Post-exit socket probe inconclusive; original field preserved as null",
+    "storedPartialEvidenceCheckerExitCode": 0,
+    "routesAttempted": 3,
+    "retries": 0,
+    "successfulRoutes": [
+      "windows-control",
+      "ubuntu-interop-pipe"
+    ],
+    "directRoute": "ConnectionRefusedError before HTTP exchange",
+    "correlatedToolAcknowledgements": 4,
+    "laterWindowsListenerCount": 0,
+    "separateDiagnosticConnect": "TimeoutError after original exit; not persisted as a raw transcript and not treated as connection-refused",
+    "localLinksVerified": 20,
+    "priorSnapshotPathsUnchanged": [
+      "feasibility/s2-control/src/team-tools-server.js",
+      "feasibility/s6-wsl/PLAN.md",
+      "output/s6-cross-git/evidence.json",
+      "output/s6-cross-git/peer-followup.json",
+      "output/s6-cross-git/review.json",
+      "output/s6-path-git/evidence.json",
+      "output/s6-discovery/discovery.json",
+      "output/phase0-readiness/ASSESSMENT.md"
+    ]
+  },
+  "artifactHashes": {
+    "output/s6-connectivity/evidence.json": "6bbf904bcfd1a7f7df709fb8e9aa01d144971dbc3522387f09502004a6476c81",
+    "output/s6-connectivity/listener-observation.json": "667b05e348eec8467f24a82f7efd05bfc8031bced5dce4c299f045c790ce548b",
+    "output/s6-connectivity/README.md": "00d27e9269df1533d6a0c7c7d513a246fec7bbbb09b662e6e084e47b33011e30",
+    "output/s6-connectivity/server.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-connectivity/server.stdout.log": "8fc1402db98d91ecc960490c004ed30b91db6e5719be7e56ba907c0871b7986a",
+    "output/s6-connectivity/ubuntu-interop-pipe.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-connectivity/ubuntu-interop-pipe.stdout.json": "b957bf3ff72b159331aa76ef00a777f650f291b32803173e22be1f0a3cecc376",
+    "output/s6-connectivity/ubuntu-loopback.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-connectivity/ubuntu-loopback.stdout.json": "2f1f8f72e29391497c16686b05ecf3e8e6e8f1dd07b4661f878572ca9ea7eb22",
+    "output/s6-connectivity/windows-control.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-connectivity/windows-control.stdout.json": "a359d5935700c72fb65c935591a96868d952286f99f0354fcd4063ea5c6e1594",
+    "feasibility/s6-wsl/connectivity/check.py": "c9a8e779c3fe0070a07fa3b418a23043bbe3324fdf9fb6849057442599a221c7",
+    "feasibility/s6-wsl/connectivity/client.py": "3fdb2d6ad16c7bdec0f1c88ef9ef2ec3152d0153dfd9f36f5d877a148dfee4f6",
+    "feasibility/s6-wsl/connectivity/observe-listener.ps1": "17284c77177e66dd97725890b588778cb907ca33a7aa903408ec4a142064954d",
+    "feasibility/s6-wsl/connectivity/protocol.json": "be33b1c9c0f2e2179e282d9a6f17d8657ef31db926caa2c39009dbb93ca4b2e1",
+    "feasibility/s6-wsl/connectivity/relay.cjs": "60abc673584201461d78cf86441ee775670cb23f4b813e093cede7648445b2c0",
+    "feasibility/s6-wsl/connectivity/run.py": "7d5290ddd7dc1af1371fe0ee47a44b874837840722c89d05ad9e2624b13c0a1b",
+    "README.md": "29176cb38236f4d1eaa47525ebf80c76acd4b4af24ea2413bc8923374adcbdd1",
+    "architecture/TIYE-Agent-Architecture.md": "2ff23dcd657bba7e54c5999225b7c33b0b26529ec157536c2ac31ade40b122e7"
+  },
+  "limitations": [
+    "Local integrity record, not external attestation",
+    "Delegate reviews used supplied context before native outcomes; raw delegate artifacts remain local",
+    "Projected client/server artifacts omit runtime tokens, session IDs and wire bodies; not full raw protocol capture",
+    "SDK version recorded; dependency tree not fully content-hashed",
+    "NAT only, no mirrored/gateway/LAN route qualification",
+    "Windows owned-handle server termination is not graceful or general process-tree cleanup",
+    "Original nonzero gate remains recorded; later listener observation supplements it"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "schema": "tiye-s6-connectivity-protocol-v1",
+  "routes": ["windows-control", "ubuntu-loopback", "ubuntu-interop-pipe"],
+  "attemptsPerRoute": 1,
+  "retries": 0,
+  "httpTimeoutSeconds": 3,
+  "relayTimeoutSeconds": 5,
+  "clientTimeoutSeconds": 25,
+  "totalDeadlineSeconds": 180,
+  "maxResponseBytes": 65536,
+  "server": "Unchanged S2 SDK team-tools server; Windows 127.0.0.1, ephemeral port",
+  "checks": ["missing token 401", "bad token 401", "initialize two members", "list three tools", "report_result correlated acknowledgement per member", "foreign token/session 401", "delete owned sessions"],
+  "networkingChanges": false,
+  "fullS6Qualified": false,
+  "productionEligible": false
+}

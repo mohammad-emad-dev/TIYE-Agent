@@ -1,0 +1,27 @@
+{
+  "schema": "tiye-s6-listener-observation-v1",
+  "recordedAt": "2026-10-16T11:23:49.909953+00:00",
+  "originalEvidenceSha256": "6bbf904bcfd1a7f7df709fb8e9aa01d144971dbc3522387f09502004a6476c81",
+  "scriptSha256": "17284c77177e66dd97725890b588778cb907ca33a7aa903408ec4a142064954d",
+  "command": [
+    "powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-File",
+    "D:\\TIYE Agent\\feasibility\\s6-wsl\\connectivity\\observe-listener.ps1",
+    "-Port",
+    "50417"
+  ],
+  "exitCode": 0,
+  "observation": {
+    "port": 50417,
+    "tcpListenersAtPort": 0,
+    "scope": "Windows TCP listener-table observation only"
+  },
+  "earlierConnectObservation": "Post-exit connection timed out; original port-closure field remains null",
+  "tcpListenerAbsent": true,
+  "limitations": [
+    "Separate later observation, not a successful connection-refused check",
+    "No generic process-tree, helper cleanup or graceful shutdown qualification"
+  ]
+}
