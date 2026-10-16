@@ -83,3 +83,9 @@ S4 route qualification, unresolved
 S5 limits and the remaining S1–S3 requirements stay visible in the readiness ledger.
 
 The event store implementation must follow Architecture 3.8: persist command and effect intent before external action, reconcile uncertain outcomes after a crash, and avoid automatic duplicate execution.
+
+The [Codex route refresh of 16 October 2026](output/s4-codex-route-refresh/README.md)
+now records a current official-documentation review. TIYE's paid desktop route
+remains unqualified; the existing provider clarification draft is ready and
+unsent. Provider guidance and applicable onboarding are the next dependency for
+authenticated Linux qualification. This refresh does not clear Phase 1.
