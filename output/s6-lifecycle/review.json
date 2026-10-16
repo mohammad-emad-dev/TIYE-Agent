@@ -1,0 +1,143 @@
+{
+  "schema": "tiye-s6-lifecycle-review-v1",
+  "reviewedOn": "2026-10-16",
+  "baselineCommit": "86b133f0e397996f2a8fe20683d2f0502abc7726",
+  "result": "bounded-observations-completed",
+  "fullS6Qualified": false,
+  "phase1Ready": false,
+  "productionEligible": false,
+  "scope": "Graceful two-process mock stop; altered start-time refusal; no survivors after owned Windows launcher termination",
+  "delegates": [
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "c5cde6ef8e58060f4c35b8c01964bfdd264a4e8f48ebef3a8ec11f34f1bd4494",
+        "events.jsonl": "5affa631741a7611450cbbcf2827fba8b005d689c109ddcbc99f0c07672edf2d",
+        "final.txt": "0c65ccce1c81c0a5b7651b30becc027a3fcde1aa44acfbdad4e7c7787e2afd59",
+        "stderr.txt": null,
+        "result.json": "cad2af4db91ad21a7e7ec8023a4efdb0be0939d3df43e6cb5a31ccc2dada8e3a"
+      }
+    },
+    {
+      "model": "opencode/space-bunny-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "c5cde6ef8e58060f4c35b8c01964bfdd264a4e8f48ebef3a8ec11f34f1bd4494",
+        "events.jsonl": "ef355982611f447785c41b6a3d74da49d216ecb32967e0fbef42e3a9cb704ca6",
+        "final.txt": "ad5d8694a1176ecf43636f90ccfc2cd5c49b65368e44597b580094c63fe5fe51",
+        "stderr.txt": null,
+        "result.json": "65d2b2a6de73f33b1f4b1996e118a55916222517a819a75e9620be5a7f6f359b"
+      }
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "requestedVariant": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "c5cde6ef8e58060f4c35b8c01964bfdd264a4e8f48ebef3a8ec11f34f1bd4494",
+        "events.jsonl": "5324f588e8db540321217a4cb8f0c7e3e6feb9470f9f694cd9318dc160033e14",
+        "final.txt": "efa2a4168dfab0c25b81d54fdb3e0f8cc34c3861e36f8a42363947a0bb9d3a05",
+        "stderr.txt": null,
+        "result.json": "20f5285f127a3b820d886801d2c3682d6b759f490f07246791f9b8498765fd83"
+      }
+    }
+  ],
+  "notDispatched": [
+    {
+      "model": "GPT-6.1 Luna max",
+      "reason": "Exact model previously unsupported, not retried"
+    },
+    {
+      "model": "Gemini 3.8 Flash High through agy",
+      "reason": "Recorded consumer-wrapper exclusion remains in force"
+    }
+  ],
+  "parentVerification": {
+    "nativeCoordinatorExitCode": 0,
+    "savedEvidenceCheckerExitCode": 0,
+    "caseAttempts": 2,
+    "retries": 0,
+    "processesPerCase": 2,
+    "negativeIdentityRefused": true,
+    "negativeControlSignals": 0,
+    "recoverySignals": 0,
+    "liveSurvivorCleanupExercised": false,
+    "originalIdentitiesGoneInBothFinalChecks": true,
+    "stableHeartbeats": true,
+    "bothCasesBeforeSelfExpiry": true,
+    "launcherStreamsJoined": true,
+    "duplicateMemberLaunches": 0,
+    "localLinksVerified": 18,
+    "priorSnapshotPathsUnchanged": [
+      "feasibility/s6-wsl/PLAN.md",
+      "output/s6-environment/evidence.json",
+      "output/s6-environment/review.json",
+      "output/s6-connectivity/evidence.json",
+      "output/s6-cross-git/evidence.json",
+      "output/s6-path-git/evidence.json",
+      "output/s6-discovery/discovery.json",
+      "output/phase0-readiness/ASSESSMENT.md"
+    ]
+  },
+  "artifactHashes": {
+    "output/s6-lifecycle/evidence.json": "49bb8298b411987b58a745c8b7b1d26dd195f58a76ef3d800fb1cdd78dc82480",
+    "output/s6-lifecycle/graceful-final.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-lifecycle/graceful-final.stdout.bin": "d0f2365e1e8ee9ee11ca91ece49c7da71c1e656aad649ee98e7a3874d79d84a4",
+    "output/s6-lifecycle/graceful-launcher.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-lifecycle/graceful-launcher.stdout.bin": "8c0055d9b45d29513e65f33e79b9ef496dfcf443fc161fc71def44017812c424",
+    "output/s6-lifecycle/graceful-live-first.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-lifecycle/graceful-live-first.stdout.bin": "c2959eb05c63afd18a6d6544df6012156a6e4fb69c4992337d812ac88416aeec",
+    "output/s6-lifecycle/graceful-live-second.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-lifecycle/graceful-live-second.stdout.bin": "56415dd3f40c7ea487a1a6c1a5f43497343a3c3ae54d1851d2b5116c7de9e892",
+    "output/s6-lifecycle/graceful-stable.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-lifecycle/graceful-stable.stdout.bin": "cd7421b154cb036f953b619f2c72be6c7689527889f7feae2944c25e8a384cb3",
+    "output/s6-lifecycle/launcher-exit-after-launcher-exit.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-lifecycle/launcher-exit-after-launcher-exit.stdout.bin": "949c4dcdce852424629dc8143031161469b821a1dc98ef79299d39a74544adb0",
+    "output/s6-lifecycle/launcher-exit-after-negative.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-lifecycle/launcher-exit-after-negative.stdout.bin": "ac2ebd68f20cfb64b1a8669c8b5dc0f26f6717e04490aa6f5a7533a78049299a",
+    "output/s6-lifecycle/launcher-exit-final.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-lifecycle/launcher-exit-final.stdout.bin": "36145549410086cd4295c3af86f21d32ccdaafafcac377c64ed2303d563cfe28",
+    "output/s6-lifecycle/launcher-exit-launcher.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-lifecycle/launcher-exit-launcher.stdout.bin": "25439f0cf1bd36599b1f138236c7c5209704d95875538657773bae1314a4575c",
+    "output/s6-lifecycle/launcher-exit-live-first.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-lifecycle/launcher-exit-live-first.stdout.bin": "38fc93d9f018a1b7f8e28bafb7ce622a3cc6639775eb959daf39594a6dc120c9",
+    "output/s6-lifecycle/launcher-exit-live-second.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-lifecycle/launcher-exit-live-second.stdout.bin": "24a1e8b19e3d41f3b283bdc8681a8a74fa2872eb68c7a903802ab18cb33c52fa",
+    "output/s6-lifecycle/launcher-exit-negative-identity.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-lifecycle/launcher-exit-negative-identity.stdout.bin": "4e2818e19c7a04c03228f67355d7e679fdb0f57276b6b29d7aac8daa736f33f6",
+    "output/s6-lifecycle/launcher-exit-recovery.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-lifecycle/launcher-exit-recovery.stdout.bin": "40bd5c390b70e61f957b670a410c9aef8e1724e0893e42f04931efa72cca5531",
+    "output/s6-lifecycle/launcher-exit-stable.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-lifecycle/launcher-exit-stable.stdout.bin": "e88a5a5847ffdd059a9b3e8ac443c9e56f2e4d6ff5b86bfe3e2faf5a2b77fcb2",
+    "output/s6-lifecycle/README.md": "293ae690fe72c0be213e0c4c2d323da9ee1bf201325de1faeff47e49880dc795",
+    "feasibility/s6-wsl/lifecycle/check.py": "f1ef161525a36fea476438333c483a4ab2bc227b6de94cfaca9a4f5785e826d5",
+    "feasibility/s6-wsl/lifecycle/linux.py": "3b4e7c1d063fb412d33b1a745e164abf5a2a2892b7fbf7d38e93c0ce32c0eaa5",
+    "feasibility/s6-wsl/lifecycle/protocol.json": "c0acd927dc8fe0714ea231e40b193d6eeac6b1d24f6ea623b2ad7d399d11d62f",
+    "feasibility/s6-wsl/lifecycle/run.py": "df5a0254fe5c11f61c0bafd89a2f89a3d1f40deafe1c1b39913dd4387017f6c2",
+    "README.md": "41d4044d45306fe77219ac25247e26430e733b5a6a636f54e92fa646b9eeed13",
+    "architecture/TIYE-Agent-Architecture.md": "48d58b808fe3b131f5d52a574e388d88e77d57afeae83807187d1b6b2965eba2"
+  },
+  "limitations": [
+    "Local integrity record, not external attestation",
+    "Delegates used supplied context before native outcomes; raw delegate artifacts remain local",
+    "Recovery positive pidfd signaling branch not exercised; mismatch admission branch opened then closed a pidfd without signals",
+    "No proc fault injection, actual PID reuse, malicious registry, reboot or zombie case qualified",
+    "Owned wsl.exe launcher termination is not an Electron main crash or PTY/Job Object proof",
+    "No persistent roots deleted; no general process-tree cleanup qualification"
+  ]
+}

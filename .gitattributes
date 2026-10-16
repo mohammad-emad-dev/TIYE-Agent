@@ -76,4 +76,5 @@ output/s6-cross-git/peer-preflight.json -whitespace
 output/s6-connectivity/** -text
 output/s6-connectivity/*.stdout.json -whitespace
 output/s6-environment/** -text
+output/s6-lifecycle/** -text
 feasibility/s6-wsl/** -text

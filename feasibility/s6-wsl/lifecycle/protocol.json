@@ -1,0 +1,16 @@
+{
+  "schema": "tiye-s6-lifecycle-protocol-v1",
+  "order": ["graceful", "launcher-exit"],
+  "attemptsPerCase": 1,
+  "retries": 0,
+  "supervisorTtlSeconds": 45,
+  "childTtlSeconds": 50,
+  "queryTimeoutSeconds": 12,
+  "totalDeadlineSeconds": 120,
+  "identity": ["pid", "startTicks", "uid", "bootIdSha256", "public nonce in argv"],
+  "recovery": "Validate all surviving identities after pidfd_open before any pidfd signal; child then supervisor",
+  "negativeControl": "Alter expected supervisor startTicks in memory; refuse without signaling",
+  "stdinEofPolicy": "Supervisor records EOF and waits for explicit signal or its deadline",
+  "fullS6Qualified": false,
+  "productionEligible": false
+}

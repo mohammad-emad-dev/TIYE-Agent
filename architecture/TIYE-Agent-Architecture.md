@@ -1478,7 +1478,12 @@ allowlisted public environment values, synthetic Git identity inputs and
 decoded mock briefing text in Ubuntu and a descendant. Build the environment
 explicitly and deliver bridge briefing data over structured stdin; no provider
 instruction adherence, credential delivery or process containment follows.
-The assessment defines
+The [WSL local lifecycle fixture](../output/s6-lifecycle/README.md) records
+graceful mock shutdown, start-time mismatch refusal without signals, and both
+Linux identities absent after termination of the owned Windows WSL launcher.
+Recovery sent no signals because no live survivor was observed. Keep survivor
+cleanup, actual Electron/PTY crashes and broader process-tree behavior unqualified;
+launcher exit alone is not ownership or cleanup proof. The assessment defines
 core entry conditions and a proposed first slice under Section 3.8. It does
 not waive feasibility gates or require a finished UI before building the core.
 
