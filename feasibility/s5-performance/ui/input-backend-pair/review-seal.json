@@ -1,0 +1,1360 @@
+{
+  "schema": "tiye-s5-backend-pair-review-v1",
+  "reviewedOn": "2026-10-16",
+  "timezone": "Asia/Amman",
+  "previousCommit": "4fc61ec5b0ed6516139fc2d4e1a9b705483fccc3",
+  "previousFiles": 1490,
+  "previousArtifactsUnchanged": true,
+  "sha256": {
+    "feasibility/s5-performance/ui/input-backend-pair/README.md": "542458758d897a2711521c7b3b71a850bd67aa7fca6e13b79d709677dbbda65c",
+    "feasibility/s5-performance/ui/input-backend-pair/analysis-direct.json": "21a0925b0fbc7dd884a55191f01ad6ebbee1f5760827130ce8400474764ccb03",
+    "feasibility/s5-performance/ui/input-backend-pair/analysis-pty.json": "30d47ada00b6e85fc5a77e7b2048286fc21abede82d33097890f94f18e9e22c7",
+    "feasibility/s5-performance/ui/input-backend-pair/analyze.js": "5609cc09a5017db63fdf37e4cd0c8ec405e219859115a547eff8f47498e0eb02",
+    "feasibility/s5-performance/ui/input-backend-pair/archive-failure.js": "f646057e84ae917b53d0199e30436fe13c4dec1aed2bd68e52ab4aadf9be83aa",
+    "feasibility/s5-performance/ui/input-backend-pair/backend-modules.ps1": "141443c69f915eed0e9f1d8395ad194774175df7631a4c94fec8a0db8e42320b",
+    "feasibility/s5-performance/ui/input-backend-pair/build.js": "f78128dd2c5c7b0835b029cb48e1d94ddf2b1a858c4403929cf7aff916ef7943",
+    "feasibility/s5-performance/ui/input-backend-pair/check-ack-path.js": "8117259c65242a9c4ec3709632762ad294d009b7cc7c720d4235381b8e7df44e",
+    "feasibility/s5-performance/ui/input-backend-pair/check-evidence.js": "d465177bd0bcc5eecfc70f4530ef93477ed3dd1ce30d8c7edce3086f126d54fa",
+    "feasibility/s5-performance/ui/input-backend-pair/check-overlap.js": "2e9ed170ea89c22a0d876e1772eb11b856cab491e636d2b02f32808aeefbc982",
+    "feasibility/s5-performance/ui/input-backend-pair/check-pair.js": "7ecdc3425cda035cf36ad016c577e542bfe7f0d8168b3185a0ae0ec69f9be358",
+    "feasibility/s5-performance/ui/input-backend-pair/check-receipts.js": "f0d326c3d15f0adb05daafaee465311673be34ee9631a8e671a61c7a8008e068",
+    "feasibility/s5-performance/ui/input-backend-pair/check-schedule.js": "6f3133aae18be238240663c8ac1fd41b49ce5b6243fb73c8a26b37f0d73905b7",
+    "feasibility/s5-performance/ui/input-backend-pair/compare.js": "b4f810e988768aa33d6c3eeb9e465de45e27c12b3d5affed9020193458b1634a",
+    "feasibility/s5-performance/ui/input-backend-pair/delay-probe.js": "4f4740e18ecfdeb2ffea8e919a56b86033134abbb5c701059de9a5b3c42380ac",
+    "feasibility/s5-performance/ui/input-backend-pair/direct-producer.js": "d29db5bc04bbfbcbcc755d3d5a92baaa5333087e69592a82a56c75146bf718d2",
+    "feasibility/s5-performance/ui/input-backend-pair/evidence-direct.json": "03421e810872fcfb01234feda9e266f1fe1fa264c11e5cab8baeef95e3e8fad1",
+    "feasibility/s5-performance/ui/input-backend-pair/evidence-pty.json": "3265ff5829192a840d9f49237641ad0db0f40137ca76a0d85b27cbbe71b3aadb",
+    "feasibility/s5-performance/ui/input-backend-pair/index.html": "772537f5e0d83cc86025bb8321d5d24ee51c04fde046d442e79a78dfe3df3c96",
+    "feasibility/s5-performance/ui/input-backend-pair/input-schedule.js": "0383282227e6d8bd803f85172899aee976bee804e03ff87c69a770ca2ebbfaa6",
+    "feasibility/s5-performance/ui/input-backend-pair/loop-trace.js": "9ed5fba759be15b36829dc83febf793e62958fd6e783cc7d1c749d7291b5875b",
+    "feasibility/s5-performance/ui/input-backend-pair/main.cjs": "ec9dbb5d6ecbdacc4a3bbaf13b6da57b4cb36db41b2c558d0ec64cf4170bc871",
+    "feasibility/s5-performance/ui/input-backend-pair/overlap.js": "5f33d82c65c49ff2be6f7f0167d5c8febe12d8f1e35816c14e37471f19c2939e",
+    "feasibility/s5-performance/ui/input-backend-pair/package.json": "be7370f09c078425844837fd1e56bd2cf00f738841bfacfa28e8af7a61f2f13a",
+    "feasibility/s5-performance/ui/input-backend-pair/preload.cjs": "984b6c1a04285d1110db81d33353689c0e9292657eb52b0f9016cf5568b30fef",
+    "feasibility/s5-performance/ui/input-backend-pair/probe-transport.js": "12bb46954ba0d5a18b241583c3022dbdb8fde540bacdacd3d32b8004216f6167",
+    "feasibility/s5-performance/ui/input-backend-pair/producer-trace.js": "ae5704db9a94c2a40143efde8adfe0ecd8d6baade0a80fc157018549f166df90",
+    "feasibility/s5-performance/ui/input-backend-pair/producer.cjs": "58aa2a95f6ea6a5b19b7f6b3b2f537e6ffc880388885a8178bfcdef3fad23e53",
+    "feasibility/s5-performance/ui/input-backend-pair/profiles.js": "00ad6c052ec2611d0260f703e213c324ab84e75ea0e21d3d4e275c9056e2e456",
+    "feasibility/s5-performance/ui/input-backend-pair/protocol.json": "58177b177db9e07db53d4492533cd8d490fa1154f449144aca98cc920dd9f8cd",
+    "feasibility/s5-performance/ui/input-backend-pair/renderer.js": "75902343b8ff7f7fc3ab69c98db36bc068fbf4e818d9aba0abe75441e00513d0",
+    "feasibility/s5-performance/ui/input-backend-pair/run-pair.js": "d4d10cfb84653955eae0067c7882887f26746b07da95cf82a5774b855bc0bbef",
+    "feasibility/s5-performance/ui/input-backend-pair/run.js": "8d11fdb8ccca1bd8e6c0c0e4450ffe368d9c8dfe92acc6b212a0ecf72ceab08a",
+    "feasibility/s5-performance/ui/input-backend-pair/search-barrier.js": "a27d6151aaaa896a95c472e3040dcbf98d50c50257e1d9201ca57ba7084b00e1",
+    "feasibility/s5-performance/ui/input-backend-pair/test/ack-path.test.js": "6b34caa1f7f2e3cff5db690a24f7ebe964f96d87a1de92b871284ee2ad4642ca",
+    "feasibility/s5-performance/ui/input-backend-pair/test/barrier.test.js": "8d705dd36f3776c716de8c012a388e83527b0b6da0d47b7a41402fc9d8ecefe6",
+    "feasibility/s5-performance/ui/input-backend-pair/test/compare.test.js": "f79d8071866a6672d8195e1020408cc6ab001b9fe828c7768f6755eb56bff09c",
+    "feasibility/s5-performance/ui/input-backend-pair/test/direct-producer.test.js": "a20e09e6f4835192832b6e8cdfd18be76c708bbe1fac88615ec9a7b36c777c24",
+    "feasibility/s5-performance/ui/input-backend-pair/test/receipt.test.js": "db5097de04234241c8f35bc326e70ce2815c3fd58505bb21a6b711234e6431a1",
+    "feasibility/s5-performance/ui/input-backend-pair/test/recorded.test.js": "ebefbd190be346f9dea30a35f0789cd061c629dd7525d45fe1c2b5a5f62dc428",
+    "feasibility/s5-performance/ui/input-backend-pair/test/schedule.test.js": "b487aa5f2ddf4c68de57095d1ad8412c5b559f3f4189e61c4cdf682272fd7c38",
+    "feasibility/s5-performance/ui/input-backend-pair/test/trace.test.js": "9c353072f326f30fbc713aacd055308bb65bd17636560089af35518bf3411b0e",
+    "feasibility/s5-performance/ui/input-backend-pair/test/transport.test.js": "f9725b03ce6af8b3aaf3a8d2cb9920607f83688e40facdd5de4cf9970df3c91b",
+    "feasibility/s5-performance/ui/input-backend-pair/test/view-gate.test.js": "bf6121714e1eaf471bc8bb7132db34431cdabd9843d5591fccb3ebc786bb8c8c",
+    "feasibility/s5-performance/ui/input-backend-pair/test/worker.test.js": "e0e56d15df38021bb8576ad917ff9d276562ff9c19bf5ae050cd9c4cf71d1d75",
+    "feasibility/s5-performance/ui/input-backend-pair/trace-ledger.js": "852ccdb04126bae86d3948f1f0c07f68b09e0995bda5f0b3f3c406d27caa72b0",
+    "feasibility/s5-performance/ui/input-backend-pair/view-gate.js": "ca7173b0a178dd19ef433f82f5fdc8b0429be9da36c8d8d2a68e2e7c916e497e",
+    "feasibility/s5-performance/ui/input-backend-pair/worker-trace.js": "5f745a63f3e087fd4d84e3ec1218d383a1f436c4b022f53ee4f543ded7836704",
+    "feasibility/s5-performance/ui/input-backend-pair/worker.cjs": "19f81831d3ed793d61830ebfc86ff02df4be0a3738c1af8625c01862445b15fd",
+    "output/s5-input-backend-pair-direct/backend-0.json": "53819788f4efe972bb61fe6e17f5c9d9dbb35a1ad503d8fc09aa496a4f393ffb",
+    "output/s5-input-backend-pair-direct/backend-1.json": "ab6d19c7a726df6fbfe9636d761265e11f3aecd886b8ded9b3cc81457eb3adb5",
+    "output/s5-input-backend-pair-direct/backend-2.json": "20071ff72334f0fb277ef263f08492926ef4b50c76415da444ad4dc84548fdeb",
+    "output/s5-input-backend-pair-direct/backend-3.json": "d37aac53b10e650e952e14c541da6169b2304bee914b7f43ad61a6916464a6bd",
+    "output/s5-input-backend-pair-direct/backend-4.json": "039f14f5d23938d44ab29611de2a744b87171f7a6d6dc9e00a355e9e1f7c7950",
+    "output/s5-input-backend-pair-direct/host-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s5-input-backend-pair-direct/host-stdout.log": "d1b3ee41e75a78b67698ab694a588489024d7084d2e06c6d916585d2aaf2eb06",
+    "output/s5-input-backend-pair-direct/member-0.log.gz": "806feb61f3ead697b001d4bc938b45b8c9210b8bb3fd22aff123dc25a30382a1",
+    "output/s5-input-backend-pair-direct/member-1.log.gz": "c463f2228506fa8a6104d199515dbd4430267f2325b8c491dc175ab15031b318",
+    "output/s5-input-backend-pair-direct/member-2.log.gz": "1e778ccaa223a5004747d4fc7917dc5334fd1da2bf946b2a59d7e0dbdfd920cc",
+    "output/s5-input-backend-pair-direct/member-3.log.gz": "2713a755f6955a2659ab436f9827232a4779686034c58336124dbdc18ddd4821",
+    "output/s5-input-backend-pair-direct/member-4.log.gz": "99ae0af9e153df510923af687a61e12099c57da328faebf60d7a082dc8e2a9bf",
+    "output/s5-input-backend-pair-direct/prelaunch.json": "3ac765d7ea44bcd4f9f9341373512064f89c06d886e7ef4fa0f3e74c357f5a1f",
+    "output/s5-input-backend-pair-direct/s5-producer-0.json": "59f104d7914d45f1cb84e52607e3769cd7677d466a02e46a18b691596cf92cf2",
+    "output/s5-input-backend-pair-direct/s5-worker-0.json": "ff6b9590fffe0a84a06f59c65923952031b0ec1bfac5940112756a499396c6ee",
+    "output/s5-input-backend-pair-pty/backend-0.json": "747430b6ce506b96da37f559c129f936bb8159bc756c405e126356e337e0a56f",
+    "output/s5-input-backend-pair-pty/backend-1.json": "f129c6df7c2a0c7dcdd6a32f723dc4b4c9b972e73400c04e70f0fb290dd23c9f",
+    "output/s5-input-backend-pair-pty/backend-2.json": "526e261f9b37a5fdb2a21082268e7cd90b48b99d94e38101902c8fbc77cb69dc",
+    "output/s5-input-backend-pair-pty/backend-3.json": "596ed18310442d88e8a9f644b0fcc575ed35b335aa58e97d81630eddfa3a65a8",
+    "output/s5-input-backend-pair-pty/backend-4.json": "9a0415d9deda3b6f9d112e16f2b11cdf84f46469f41030570576d9e23309d7e5",
+    "output/s5-input-backend-pair-pty/host-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s5-input-backend-pair-pty/host-stdout.log": "1b072c261a62b9c53058c6b8f7ce557f5ce6287005d2944c75c76cdcefe2a322",
+    "output/s5-input-backend-pair-pty/member-0.log.gz": "364cb8e9d846eab84e0807b1e8c8dee1a007d71cc10b6300c8ea80c96e0eda71",
+    "output/s5-input-backend-pair-pty/member-1.log.gz": "232dbce1922225f84385f7ad74a591c7f93c47306897aaa1510987bcb9ace28b",
+    "output/s5-input-backend-pair-pty/member-2.log.gz": "4c9ac66bf48f1140855cd6d5fd9d51a5c784ed7474e51fbd5344980c9dcb90d8",
+    "output/s5-input-backend-pair-pty/member-3.log.gz": "67057da615b3e226e871c95ff8b794513e304742810d9220c2ace921da7acae2",
+    "output/s5-input-backend-pair-pty/member-4.log.gz": "e8f3a47ff30ec05a3474de9a8b38f22b1d04f15caf7e889c0b7b11365c5312b5",
+    "output/s5-input-backend-pair-pty/prelaunch.json": "dee4fca0dcf21ea81d334a40bc403f862deb6ff01db92b246a9cdc3db1e658c4",
+    "output/s5-input-backend-pair-pty/s5-producer-0.json": "2ae4aa76443c61c315333292342c9384fed4f8938d278b0d19318e07957e9779",
+    "output/s5-input-backend-pair-pty/s5-worker-0.json": "c18f6d24df338212e386da8cc0881bb2010a0ed49afde6f778967d7649fbf9fb",
+    "output/s5-input-backend-pair/attempts.json": "f6cef6bbc3d0a51433050223f849129e6bcc49588992bf098ceda2985e4e4383",
+    "output/s5-input-backend-pair/comparison.json": "ace82c4a617ca137d581e61de8dbd00d1e88c3b33f9ed53264923f26847a8849"
+  },
+  "delegates": [
+    {
+      "lane": "muse",
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "effort": "xhigh",
+      "status": "completed",
+      "toolEvents": 0,
+      "scope": "Supplied context only; parent implemented and verified",
+      "artifactSha256": {
+        "brief.txt": "2f74bbc31e309fbc6e8fa77962b9d42182309a1fc053503861629dd22a610e76",
+        "events.jsonl": "b3cd67890955f1411d69cc71957fae9d57fed186e916fd29a3aecb97841f84de",
+        "final.txt": "a69a68d2d4d3b7ff391a3224c173e9deeba425bad903d0831eec6e39282a61c4",
+        "stderr.txt": null,
+        "result.json": "5c44fd723af097871bc6482350aa81f292c17f38d01b446a71d3694978dd535e"
+      }
+    },
+    {
+      "lane": "space-bunny-fallback",
+      "model": "opencode/space-bunny-free",
+      "effort": "xhigh",
+      "status": "completed",
+      "toolEvents": 0,
+      "scope": "Supplied context only; parent implemented and verified",
+      "artifactSha256": {
+        "brief.txt": "2f74bbc31e309fbc6e8fa77962b9d42182309a1fc053503861629dd22a610e76",
+        "events.jsonl": "a1db0e004e9c475f81d1961fa13eaba093dd4a7ad26fbd68add1f8c9950e01ea",
+        "final.txt": "9f245c87ea763224937e1d001947faa9c27fc0435e0e929aa2238b16e72cd235",
+        "stderr.txt": null,
+        "result.json": "0acde6c2d25c1c8700629b69a9eae48fd170bcfcad44280a734af0ea77122359"
+      }
+    },
+    {
+      "lane": "deepseek-fallback",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "toolEvents": 0,
+      "scope": "Supplied context only; parent implemented and verified",
+      "artifactSha256": {
+        "brief.txt": "2f74bbc31e309fbc6e8fa77962b9d42182309a1fc053503861629dd22a610e76",
+        "events.jsonl": "f0d75ae498eaec482cfe823d780fed705bf3ba7f96ed397856b7b248e18398f9",
+        "final.txt": "5a369bc4b1f62bb7437b7378183b582f09303fd24502db21d9919949bb68f448",
+        "stderr.txt": null,
+        "result.json": "91a5661458655c5e0298dc38d7153e9323a8ee12de7df6da67979188f2bad60e"
+      }
+    }
+  ],
+  "regressionTestsPassed": 36,
+  "nativeAttempts": 2,
+  "retries": 0,
+  "investigationEnded": true,
+  "observed": {
+    "checked": {
+      "pty": {
+        "receipts": {
+          "receiptCount": 35,
+          "matchedWorkerCommandStamps": 35,
+          "positiveControl": {
+            "ordinal": 7,
+            "configuredDelayMs": 120,
+            "workerPreWriteMs": 125.88410000000295,
+            "mainTotalMs": 141.74659999999858,
+            "criterionMet": true
+          },
+          "all35Over100": [
+            7
+          ],
+          "ordinaryOnly": {
+            "count": 34,
+            "over100": [],
+            "latencies": {
+              "count": 34,
+              "medianMs": 14.622800000011921,
+              "p95Ms": 22.57390000000305,
+              "maxMs": 33.32510000000184,
+              "over50Ms": 0,
+              "over500Ms": 0
+            }
+          },
+          "rows": [
+            {
+              "ordinal": 1,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.14110000000073342,
+              "mainSendToReceiptNoticeMs": 0.6106999999992695,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 1.0112000000008265,
+              "mainTotalMs": 14.4992000000002
+            },
+            {
+              "ordinal": 2,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.043900000000576256,
+              "mainSendToReceiptNoticeMs": 0.3875000000007276,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.5667999999986932,
+              "mainTotalMs": 11.266999999999825
+            },
+            {
+              "ordinal": 3,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.05220000000190339,
+              "mainSendToReceiptNoticeMs": 0.36639999999897555,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.6517999999996391,
+              "mainTotalMs": 15.701700000001438
+            },
+            {
+              "ordinal": 4,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04869999999937136,
+              "mainSendToReceiptNoticeMs": 0.288300000000163,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.5456000000012864,
+              "mainTotalMs": 11.919300000001385
+            },
+            {
+              "ordinal": 5,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.059000000001105946,
+              "mainSendToReceiptNoticeMs": 0.2860000000000582,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.5276999999987311,
+              "mainTotalMs": 12.265999999999622
+            },
+            {
+              "ordinal": 6,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.05879999999888241,
+              "mainSendToReceiptNoticeMs": 3.3519999999989523,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.10870000000431901,
+              "mainTotalMs": 14.113799999999173
+            },
+            {
+              "ordinal": 7,
+              "injected": true,
+              "configuredDelayMs": 120,
+              "workerPreWriteMs": 125.88410000000295,
+              "mainSendToReceiptNoticeMs": 0.8506000000052154,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 128.55289999999513,
+              "mainTotalMs": 141.74659999999858
+            },
+            {
+              "ordinal": 8,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04389999999693828,
+              "mainSendToReceiptNoticeMs": 4.7093000000022585,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.12670000000071013,
+              "mainTotalMs": 15.200700000001234
+            },
+            {
+              "ordinal": 9,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.042499999995925464,
+              "mainSendToReceiptNoticeMs": 0.2952999999979511,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.5051999999996042,
+              "mainTotalMs": 17.723900000004505
+            },
+            {
+              "ordinal": 10,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04830000000220025,
+              "mainSendToReceiptNoticeMs": 0.2698999999993248,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.5864999999976135,
+              "mainTotalMs": 10.567799999997078
+            },
+            {
+              "ordinal": 11,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.045100000003003515,
+              "mainSendToReceiptNoticeMs": 0.26780000000144355,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.469199999999546,
+              "mainTotalMs": 16.89480000000185
+            },
+            {
+              "ordinal": 12,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.05860000000393484,
+              "mainSendToReceiptNoticeMs": 0.9789999999993597,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.5656999999991967,
+              "mainTotalMs": 16.626100000001315
+            },
+            {
+              "ordinal": 13,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.046000000002095476,
+              "mainSendToReceiptNoticeMs": 1.6875,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.16370000000461005,
+              "mainTotalMs": 11.741099999999278
+            },
+            {
+              "ordinal": 14,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.036799999987124465,
+              "mainSendToReceiptNoticeMs": 0.8491999999969266,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.41899999999441206,
+              "mainTotalMs": 15.953900000007707
+            },
+            {
+              "ordinal": 15,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.03989999998884741,
+              "mainSendToReceiptNoticeMs": 0.5748999999923399,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.874100000000908,
+              "mainTotalMs": 15.512900000001537
+            },
+            {
+              "ordinal": 16,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.0371000000013737,
+              "mainSendToReceiptNoticeMs": 0.7767999999923632,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.29099999999743886,
+              "mainTotalMs": 15.404800000003888
+            },
+            {
+              "ordinal": 17,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04889999999431893,
+              "mainSendToReceiptNoticeMs": 0.27229999999690335,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.43930000001273584,
+              "mainTotalMs": 12.057000000000698
+            },
+            {
+              "ordinal": 18,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04020000000309665,
+              "mainSendToReceiptNoticeMs": 12.698299999989104,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.18040000001201406,
+              "mainTotalMs": 22.31380000000354
+            },
+            {
+              "ordinal": 19,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.042100000006030314,
+              "mainSendToReceiptNoticeMs": 4.338300000003073,
+              "receiptNoticeBeforeAck": false,
+              "mainReceiptNoticeToAckMs": null,
+              "mainTotalMs": 13.666299999997136
+            },
+            {
+              "ordinal": 20,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.043999999994412065,
+              "mainSendToReceiptNoticeMs": 24.179300000003423,
+              "receiptNoticeBeforeAck": false,
+              "mainReceiptNoticeToAckMs": null,
+              "mainTotalMs": 33.32510000000184
+            },
+            {
+              "ordinal": 21,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.03949999999895226,
+              "mainSendToReceiptNoticeMs": 7.792600000000675,
+              "receiptNoticeBeforeAck": false,
+              "mainReceiptNoticeToAckMs": null,
+              "mainTotalMs": 17.15109999998822
+            },
+            {
+              "ordinal": 22,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04529999999795109,
+              "mainSendToReceiptNoticeMs": 3.6590000000142027,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.10229999999864958,
+              "mainTotalMs": 13.662599999996019
+            },
+            {
+              "ordinal": 23,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04030000000784639,
+              "mainSendToReceiptNoticeMs": 1.1990999999979977,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.15350000000034925,
+              "mainTotalMs": 12.943700000003446
+            },
+            {
+              "ordinal": 24,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.042100000006030314,
+              "mainSendToReceiptNoticeMs": 13.346999999994296,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.12589999999909196,
+              "mainTotalMs": 22.57390000000305
+            },
+            {
+              "ordinal": 25,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.1045999999914784,
+              "mainSendToReceiptNoticeMs": 0.5319000000017695,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.7850000000034925,
+              "mainTotalMs": 14.622800000011921
+            },
+            {
+              "ordinal": 26,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04230000000097789,
+              "mainSendToReceiptNoticeMs": 1.25089999998454,
+              "receiptNoticeBeforeAck": false,
+              "mainReceiptNoticeToAckMs": null,
+              "mainTotalMs": 9.972699999983888
+            },
+            {
+              "ordinal": 27,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.043000000005122274,
+              "mainSendToReceiptNoticeMs": 0.654099999985192,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.2651000000187196,
+              "mainTotalMs": 15.023500000010245
+            },
+            {
+              "ordinal": 28,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.03990000000339933,
+              "mainSendToReceiptNoticeMs": 0.6295000000100117,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.10420000000158325,
+              "mainTotalMs": 16.754999999975553
+            },
+            {
+              "ordinal": 29,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.043600000004516914,
+              "mainSendToReceiptNoticeMs": 0.28870000000461005,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.5601000000024214,
+              "mainTotalMs": 14.343599999992875
+            },
+            {
+              "ordinal": 30,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04409999999916181,
+              "mainSendToReceiptNoticeMs": 0.25909999999566935,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.700200000021141,
+              "mainTotalMs": 10.319799999997485
+            },
+            {
+              "ordinal": 31,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.042599999986123294,
+              "mainSendToReceiptNoticeMs": 0.28179999999701977,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.47340000001713634,
+              "mainTotalMs": 14.858299999992596
+            },
+            {
+              "ordinal": 32,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04149999999208376,
+              "mainSendToReceiptNoticeMs": 0.24390000000130385,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.44139999998151325,
+              "mainTotalMs": 12.116099999984726
+            },
+            {
+              "ordinal": 33,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04589999999734573,
+              "mainSendToReceiptNoticeMs": 0.2633999999961816,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.4228000000002794,
+              "mainTotalMs": 11.154500000004191
+            },
+            {
+              "ordinal": 34,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.043999999994412065,
+              "mainSendToReceiptNoticeMs": 0.25489999999990687,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.46030000000610016,
+              "mainTotalMs": 17.019499999994878
+            },
+            {
+              "ordinal": 35,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.1008000000147149,
+              "mainSendToReceiptNoticeMs": 0.48440000001573935,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.5781999999890104,
+              "mainTotalMs": 15.054100000008475
+            }
+          ]
+        },
+        "ackPath": {
+          "producerRows": 35,
+          "workerRows": 35,
+          "producerLoopTicks": 5768,
+          "workerLoopTicks": 5848,
+          "producerLoopGaps": 1,
+          "workerLoopGaps": 0
+        },
+        "scheduling": {
+          "planned": 35,
+          "checked": 35,
+          "allSlotsAccounted": true,
+          "viewCorrelationValid": true
+        },
+        "overlap": {
+          "controlledSearches": 35,
+          "completedInputIntervalsContained": 35,
+          "initialUnheldSearches": 1,
+          "realPageQueriesAfterRelease": 35,
+          "asynchronousResponseHold": true,
+          "synchronousQueryContentionMeasured": false
+        },
+        "targets": {
+          "exposureConfirmed": true,
+          "resourceActiveCoverage": true,
+          "resourceIdleCoverage": false,
+          "gridInputUnder100Ms": true,
+          "focusInputUnder100Ms": false,
+          "gridRafUnder500Ms": true,
+          "focusRafUnder500Ms": true,
+          "searchDbUnder2000Ms": true,
+          "searchRafUnder2000Ms": true
+        },
+        "planned": 35,
+        "completed": 35,
+        "completeMainStages": 35,
+        "rendererChunkStages": 35,
+        "over100": [
+          7
+        ],
+        "fullS5Qualified": false
+      },
+      "direct": {
+        "receipts": {
+          "receiptCount": 35,
+          "matchedWorkerCommandStamps": 35,
+          "positiveControl": {
+            "ordinal": 7,
+            "configuredDelayMs": 120,
+            "workerPreWriteMs": 123.81810000000405,
+            "mainTotalMs": 135.92540000000008,
+            "criterionMet": true
+          },
+          "all35Over100": [
+            7
+          ],
+          "ordinaryOnly": {
+            "count": 34,
+            "over100": [],
+            "latencies": {
+              "count": 34,
+              "medianMs": 14.776900000004389,
+              "p95Ms": 18.024999999999636,
+              "maxMs": 21.285000000003492,
+              "over50Ms": 0,
+              "over500Ms": 0
+            }
+          },
+          "rows": [
+            {
+              "ordinal": 1,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.1386000000002241,
+              "mainSendToReceiptNoticeMs": 0.6321000000007189,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.751299999999901,
+              "mainTotalMs": 18.024999999999636
+            },
+            {
+              "ordinal": 2,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04470000000037544,
+              "mainSendToReceiptNoticeMs": 0.37589999999909196,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.4121000000013737,
+              "mainTotalMs": 10.98739999999998
+            },
+            {
+              "ordinal": 3,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.046300000001792796,
+              "mainSendToReceiptNoticeMs": 0.31309999999939464,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.5969999999979336,
+              "mainTotalMs": 9.992799999999988
+            },
+            {
+              "ordinal": 4,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.054500000002008164,
+              "mainSendToReceiptNoticeMs": 0.3496000000013737,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.3326999999990221,
+              "mainTotalMs": 16.94840000000113
+            },
+            {
+              "ordinal": 5,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.06469999999899301,
+              "mainSendToReceiptNoticeMs": 0.30499999999665306,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.4258000000008906,
+              "mainTotalMs": 15.887699999999313
+            },
+            {
+              "ordinal": 6,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.06220000000030268,
+              "mainSendToReceiptNoticeMs": 4.910400000000664,
+              "receiptNoticeBeforeAck": false,
+              "mainReceiptNoticeToAckMs": null,
+              "mainTotalMs": 14.776900000004389
+            },
+            {
+              "ordinal": 7,
+              "injected": true,
+              "configuredDelayMs": 120,
+              "workerPreWriteMs": 123.81810000000405,
+              "mainSendToReceiptNoticeMs": 1.6405000000013388,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 125.05359999999928,
+              "mainTotalMs": 135.92540000000008
+            },
+            {
+              "ordinal": 8,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04359999999724096,
+              "mainSendToReceiptNoticeMs": 19.24699999999575,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.10429999999905704,
+              "mainTotalMs": 21.285000000003492
+            },
+            {
+              "ordinal": 9,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04029999999329448,
+              "mainSendToReceiptNoticeMs": 7.595000000001164,
+              "receiptNoticeBeforeAck": false,
+              "mainReceiptNoticeToAckMs": null,
+              "mainTotalMs": 17.18959999999788
+            },
+            {
+              "ordinal": 10,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.048199999997450504,
+              "mainSendToReceiptNoticeMs": 3.079600000004575,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.11099999999714782,
+              "mainTotalMs": 12.84780000000319
+            },
+            {
+              "ordinal": 11,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04329999999754364,
+              "mainSendToReceiptNoticeMs": 8.203099999998813,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.12369999999646097,
+              "mainTotalMs": 15.169700000005832
+            },
+            {
+              "ordinal": 12,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.098599999997532,
+              "mainSendToReceiptNoticeMs": 0.495599999994738,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.811600000000908,
+              "mainTotalMs": 16.265700000003562
+            },
+            {
+              "ordinal": 13,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.07509999998728745,
+              "mainSendToReceiptNoticeMs": 0.4609000000054948,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.5423999999911757,
+              "mainTotalMs": 13.868700000006356
+            },
+            {
+              "ordinal": 14,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04040000001259614,
+              "mainSendToReceiptNoticeMs": 0.30120000000169966,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.20500000000174623,
+              "mainTotalMs": 15.5115000000078
+            },
+            {
+              "ordinal": 15,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04529999999795109,
+              "mainSendToReceiptNoticeMs": 0.8096000000077765,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.0776999999943655,
+              "mainTotalMs": 16.059499999988475
+            },
+            {
+              "ordinal": 16,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.0503000000026077,
+              "mainSendToReceiptNoticeMs": 0.40950000000884756,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.48070000000006985,
+              "mainTotalMs": 13.309299999993527
+            },
+            {
+              "ordinal": 17,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.06139999999140855,
+              "mainSendToReceiptNoticeMs": 0.3727000000071712,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.38210000000253785,
+              "mainTotalMs": 13.008799999995972
+            },
+            {
+              "ordinal": 18,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04799999999522697,
+              "mainSendToReceiptNoticeMs": 0.29699999999138527,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.3693000000057509,
+              "mainTotalMs": 11.552200000005541
+            },
+            {
+              "ordinal": 19,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04080000000249129,
+              "mainSendToReceiptNoticeMs": 0.2921000000060303,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.34029999999620486,
+              "mainTotalMs": 10.156100000007427
+            },
+            {
+              "ordinal": 20,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.03919999999925494,
+              "mainSendToReceiptNoticeMs": 8.972999999998137,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.11530000000493601,
+              "mainTotalMs": 10.66139999999723
+            },
+            {
+              "ordinal": 21,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.13360000000102445,
+              "mainSendToReceiptNoticeMs": 6.258300000001327,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.13339999999152496,
+              "mainTotalMs": 16.798099999999977
+            },
+            {
+              "ordinal": 22,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.036600000006728806,
+              "mainSendToReceiptNoticeMs": 6.249100000000908,
+              "receiptNoticeBeforeAck": false,
+              "mainReceiptNoticeToAckMs": null,
+              "mainTotalMs": 16.487899999992806
+            },
+            {
+              "ordinal": 23,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04030000000784639,
+              "mainSendToReceiptNoticeMs": 7.888500000000931,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.14300000001094304,
+              "mainTotalMs": 15.44210000000021
+            },
+            {
+              "ordinal": 24,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04050000000279397,
+              "mainSendToReceiptNoticeMs": 12.108900000006543,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.1100999999907799,
+              "mainTotalMs": 16.296799999996438
+            },
+            {
+              "ordinal": 25,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04190000001108274,
+              "mainSendToReceiptNoticeMs": 1.4100000000034925,
+              "receiptNoticeBeforeAck": false,
+              "mainReceiptNoticeToAckMs": null,
+              "mainTotalMs": 17.192800000004354
+            },
+            {
+              "ordinal": 26,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.04000000000814907,
+              "mainSendToReceiptNoticeMs": 0.8913999999931548,
+              "receiptNoticeBeforeAck": false,
+              "mainReceiptNoticeToAckMs": null,
+              "mainTotalMs": 15.299999999988358
+            },
+            {
+              "ordinal": 27,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.050500000012107193,
+              "mainSendToReceiptNoticeMs": 0.6221000000077765,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.6165999999793712,
+              "mainTotalMs": 17.44310000000405
+            },
+            {
+              "ordinal": 28,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.0393999999796506,
+              "mainSendToReceiptNoticeMs": 0.7312000000092667,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.23900000000139698,
+              "mainTotalMs": 9.963199999998324
+            },
+            {
+              "ordinal": 29,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.06070000000181608,
+              "mainSendToReceiptNoticeMs": 0.5729999999748543,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 1.580100000021048,
+              "mainTotalMs": 11.856499999994412
+            },
+            {
+              "ordinal": 30,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.05869999999413267,
+              "mainSendToReceiptNoticeMs": 0.3770999999833293,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.34520000001066364,
+              "mainTotalMs": 12.998299999977462
+            },
+            {
+              "ordinal": 31,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.0415999999968335,
+              "mainSendToReceiptNoticeMs": 0.2603999999992084,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.34649999998509884,
+              "mainTotalMs": 14.998200000001816
+            },
+            {
+              "ordinal": 32,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.07790000000386499,
+              "mainSendToReceiptNoticeMs": 0.8399999999965075,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.4198000000033062,
+              "mainTotalMs": 9.766700000007404
+            },
+            {
+              "ordinal": 33,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.05240000001504086,
+              "mainSendToReceiptNoticeMs": 0.3602000000246335,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.3913999999931548,
+              "mainTotalMs": 14.432499999995343
+            },
+            {
+              "ordinal": 34,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.041800000006332994,
+              "mainSendToReceiptNoticeMs": 0.2462999999988824,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.3070000000006985,
+              "mainTotalMs": 13.328800000017509
+            },
+            {
+              "ordinal": 35,
+              "injected": false,
+              "configuredDelayMs": 0,
+              "workerPreWriteMs": 0.045599999983096495,
+              "mainSendToReceiptNoticeMs": 0.2798999999940861,
+              "receiptNoticeBeforeAck": true,
+              "mainReceiptNoticeToAckMs": 0.5081000000063796,
+              "mainTotalMs": 13.143400000000838
+            }
+          ]
+        },
+        "ackPath": {
+          "producerRows": 35,
+          "workerRows": 35,
+          "producerLoopTicks": 5778,
+          "workerLoopTicks": 5864,
+          "producerLoopGaps": 2,
+          "workerLoopGaps": 1
+        },
+        "scheduling": {
+          "planned": 35,
+          "checked": 35,
+          "allSlotsAccounted": true,
+          "viewCorrelationValid": true
+        },
+        "overlap": {
+          "controlledSearches": 35,
+          "completedInputIntervalsContained": 35,
+          "initialUnheldSearches": 1,
+          "realPageQueriesAfterRelease": 35,
+          "asynchronousResponseHold": true,
+          "synchronousQueryContentionMeasured": false
+        },
+        "targets": {
+          "exposureConfirmed": true,
+          "resourceActiveCoverage": true,
+          "resourceIdleCoverage": false,
+          "gridInputUnder100Ms": true,
+          "focusInputUnder100Ms": false,
+          "gridRafUnder500Ms": true,
+          "focusRafUnder500Ms": true,
+          "searchDbUnder2000Ms": true,
+          "searchRafUnder2000Ms": true
+        },
+        "planned": 35,
+        "completed": 35,
+        "completeMainStages": 35,
+        "rendererChunkStages": 35,
+        "over100": [
+          7
+        ],
+        "fullS5Qualified": false
+      }
+    },
+    "report": {
+      "schema": "tiye-s5-backend-pair-comparison-v1",
+      "order": [
+        "pty",
+        "direct"
+      ],
+      "completedCaptures": 2,
+      "profiles": {
+        "pty": {
+          "ordinary": {
+            "count": 34,
+            "over100": [],
+            "latencies": {
+              "count": 34,
+              "medianMs": 14.622800000011921,
+              "p95Ms": 22.57390000000305,
+              "maxMs": 33.32510000000184,
+              "over50Ms": 0,
+              "over500Ms": 0
+            }
+          },
+          "positiveControl": {
+            "ordinal": 7,
+            "configuredDelayMs": 120,
+            "workerPreWriteMs": 125.88410000000295,
+            "mainTotalMs": 141.74659999999858,
+            "criterionMet": true
+          },
+          "all35Over100": [
+            7
+          ],
+          "views": [
+            {
+              "ordinal": 1,
+              "view": "grid"
+            },
+            {
+              "ordinal": 2,
+              "view": "grid"
+            },
+            {
+              "ordinal": 3,
+              "view": "grid"
+            },
+            {
+              "ordinal": 4,
+              "view": "grid"
+            },
+            {
+              "ordinal": 5,
+              "view": "grid"
+            },
+            {
+              "ordinal": 6,
+              "view": "grid"
+            },
+            {
+              "ordinal": 7,
+              "view": "focus"
+            },
+            {
+              "ordinal": 8,
+              "view": "focus"
+            },
+            {
+              "ordinal": 9,
+              "view": "focus"
+            },
+            {
+              "ordinal": 10,
+              "view": "focus"
+            },
+            {
+              "ordinal": 11,
+              "view": "focus"
+            },
+            {
+              "ordinal": 12,
+              "view": "focus"
+            },
+            {
+              "ordinal": 13,
+              "view": "grid"
+            },
+            {
+              "ordinal": 14,
+              "view": "grid"
+            },
+            {
+              "ordinal": 15,
+              "view": "grid"
+            },
+            {
+              "ordinal": 16,
+              "view": "grid"
+            },
+            {
+              "ordinal": 17,
+              "view": "grid"
+            },
+            {
+              "ordinal": 18,
+              "view": "grid"
+            },
+            {
+              "ordinal": 19,
+              "view": "focus"
+            },
+            {
+              "ordinal": 20,
+              "view": "focus"
+            },
+            {
+              "ordinal": 21,
+              "view": "focus"
+            },
+            {
+              "ordinal": 22,
+              "view": "focus"
+            },
+            {
+              "ordinal": 23,
+              "view": "focus"
+            },
+            {
+              "ordinal": 24,
+              "view": "focus"
+            },
+            {
+              "ordinal": 25,
+              "view": "grid"
+            },
+            {
+              "ordinal": 26,
+              "view": "grid"
+            },
+            {
+              "ordinal": 27,
+              "view": "grid"
+            },
+            {
+              "ordinal": 28,
+              "view": "grid"
+            },
+            {
+              "ordinal": 29,
+              "view": "grid"
+            },
+            {
+              "ordinal": 30,
+              "view": "grid"
+            },
+            {
+              "ordinal": 31,
+              "view": "focus"
+            },
+            {
+              "ordinal": 32,
+              "view": "focus"
+            },
+            {
+              "ordinal": 33,
+              "view": "focus"
+            },
+            {
+              "ordinal": 34,
+              "view": "focus"
+            },
+            {
+              "ordinal": 35,
+              "view": "focus"
+            }
+          ],
+          "rawChildWitnessPresent": false
+        },
+        "direct": {
+          "ordinary": {
+            "count": 34,
+            "over100": [],
+            "latencies": {
+              "count": 34,
+              "medianMs": 14.776900000004389,
+              "p95Ms": 18.024999999999636,
+              "maxMs": 21.285000000003492,
+              "over50Ms": 0,
+              "over500Ms": 0
+            }
+          },
+          "positiveControl": {
+            "ordinal": 7,
+            "configuredDelayMs": 120,
+            "workerPreWriteMs": 123.81810000000405,
+            "mainTotalMs": 135.92540000000008,
+            "criterionMet": true
+          },
+          "all35Over100": [
+            7
+          ],
+          "views": [
+            {
+              "ordinal": 1,
+              "view": "grid"
+            },
+            {
+              "ordinal": 2,
+              "view": "grid"
+            },
+            {
+              "ordinal": 3,
+              "view": "grid"
+            },
+            {
+              "ordinal": 4,
+              "view": "grid"
+            },
+            {
+              "ordinal": 5,
+              "view": "grid"
+            },
+            {
+              "ordinal": 6,
+              "view": "grid"
+            },
+            {
+              "ordinal": 7,
+              "view": "focus"
+            },
+            {
+              "ordinal": 8,
+              "view": "focus"
+            },
+            {
+              "ordinal": 9,
+              "view": "focus"
+            },
+            {
+              "ordinal": 10,
+              "view": "focus"
+            },
+            {
+              "ordinal": 11,
+              "view": "focus"
+            },
+            {
+              "ordinal": 12,
+              "view": "focus"
+            },
+            {
+              "ordinal": 13,
+              "view": "grid"
+            },
+            {
+              "ordinal": 14,
+              "view": "grid"
+            },
+            {
+              "ordinal": 15,
+              "view": "grid"
+            },
+            {
+              "ordinal": 16,
+              "view": "grid"
+            },
+            {
+              "ordinal": 17,
+              "view": "grid"
+            },
+            {
+              "ordinal": 18,
+              "view": "grid"
+            },
+            {
+              "ordinal": 19,
+              "view": "focus"
+            },
+            {
+              "ordinal": 20,
+              "view": "focus"
+            },
+            {
+              "ordinal": 21,
+              "view": "focus"
+            },
+            {
+              "ordinal": 22,
+              "view": "focus"
+            },
+            {
+              "ordinal": 23,
+              "view": "focus"
+            },
+            {
+              "ordinal": 24,
+              "view": "focus"
+            },
+            {
+              "ordinal": 25,
+              "view": "grid"
+            },
+            {
+              "ordinal": 26,
+              "view": "grid"
+            },
+            {
+              "ordinal": 27,
+              "view": "grid"
+            },
+            {
+              "ordinal": 28,
+              "view": "grid"
+            },
+            {
+              "ordinal": 29,
+              "view": "grid"
+            },
+            {
+              "ordinal": 30,
+              "view": "grid"
+            },
+            {
+              "ordinal": 31,
+              "view": "focus"
+            },
+            {
+              "ordinal": 32,
+              "view": "focus"
+            },
+            {
+              "ordinal": 33,
+              "view": "focus"
+            },
+            {
+              "ordinal": 34,
+              "view": "focus"
+            },
+            {
+              "ordinal": 35,
+              "view": "focus"
+            }
+          ],
+          "rawChildWitnessPresent": true
+        }
+      },
+      "matchingScheduledViews": 35,
+      "sameExecutedSourcesAndBuilds": true,
+      "ordinaryThresholdMs": 100,
+      "fixedOrder": true,
+      "randomized": false,
+      "statisticallyPaired": false,
+      "causalAttribution": false,
+      "historicalSpikeFixed": false,
+      "fullS5Qualified": false,
+      "decision": "Retain bundled ConPTY as experimental prototype backend; keep direct pipes diagnostic-only. End this diagnostic series, retain the unresolved five-PTY latency risk and return to the remaining Phase 0 readiness decision before product construction."
+    }
+  },
+  "sourceAndBuildHashesIdentical": true,
+  "sourceAndBuildHashesUnchanged": true,
+  "sameClockArithmeticOnly": true,
+  "observerOverheadCalibrated": false,
+  "physicalPaintMeasured": false,
+  "randomized": false,
+  "statisticallyPaired": false,
+  "causalAttribution": false,
+  "historicalSpikeFixed": false,
+  "historicalLatencyRiskRetained": true,
+  "successfulRuntimeCleanup": true,
+  "wholeProcessTreeCleanupQualified": false,
+  "fullS5Qualified": false,
+  "productionEligible": false,
+  "coreProcessPresent": false,
+  "delegateReview": "Retained fixed-order, one-run-per-topology, witness asymmetry and complete-control caveats. Rejected invented schema fields, CONPTY_COUNT=4 for both profiles, forbidding descriptive numeric contrast, and cross-clock arguments against comparing independently measured durations. No causal effect, confidence interval or backend promotion claimed.",
+  "guardReview": "Code, tests and docs reviewed. Reused existing validators; immutable cohort snapshot retained for source provenance. Comparison mutation cases cover hashes, topology, control, schedule and raw-child witness. Failure archives are explicitly nonqualifying; no retry loop.",
+  "next": "End this latency diagnostic series; record experimental backend choice and resolve remaining Phase 0 readiness before core construction."
+}

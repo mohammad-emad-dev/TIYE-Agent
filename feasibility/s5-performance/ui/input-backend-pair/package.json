@@ -1,0 +1,1 @@
+{"name":"tiye-s5-input-backend-pair","private":true,"scripts":{"build":"node build.js","probe":"node run-pair.js","test":"node --test test/*.test.js","check":"node check-pair.js","check:runtime":"node check-pair.js --runtime"}}

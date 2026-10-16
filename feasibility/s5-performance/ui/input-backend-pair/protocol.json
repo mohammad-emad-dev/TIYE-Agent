@@ -1,0 +1,13 @@
+{
+  "schema": "tiye-s5-backend-pair-protocol-v1",
+  "order": ["pty", "direct"],
+  "maximumNativeAttempts": 2,
+  "retries": 0,
+  "mixedMs": 180000,
+  "ordinaryInputThresholdMs": 100,
+  "positiveControlOrdinal": 7,
+  "positiveControlMinimumMs": 120,
+  "purpose": "Descriptive fixed-order topology comparison; stop after two attempts regardless of latency outcome",
+  "causalAttribution": false,
+  "fullS5Qualification": false
+}

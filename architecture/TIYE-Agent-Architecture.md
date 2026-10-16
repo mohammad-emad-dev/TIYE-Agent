@@ -923,6 +923,19 @@ not identify a cause, quantify PTY overhead or qualify five-PTY performance.
 The next decision is a bounded PTY bridge investigation; historical latency
 failures, the product core and full S5 remain open.
 
+
+The [bounded backend comparison](../feasibility/s5-performance/ui/input-backend-pair/README.md)
+completes its preregistered fixed-order pair with zero retries and identical
+executed source/build hashes. All 70 probes and both 50,000-event feeds reconcile;
+36 tests pass. Ordinary maxima are 33.33 ms for five bundled PTYs and
+21.29 ms for four PTYs plus member 0 on direct pipes. Neither capture
+reproduces the historical ordinary breach; both preserve the declared 120 ms
+control separately. This identifies no component cause and closes no historical
+performance failure. Retain bundled ConPTY only as the experimental prototype
+backend; direct pipes remain diagnostic-only. This ends the latency diagnostic
+series. Return to remaining Phase 0 readiness before product construction under
+Section 11.2; full S5 and product eligibility remain open.
+
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
 a disposable source root, ran an offline local-dependency setup, copied

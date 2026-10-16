@@ -1,0 +1,40 @@
+{
+  "schema": "tiye-s5-backend-pair-attempts-v1",
+  "protocol": {
+    "schema": "tiye-s5-backend-pair-protocol-v1",
+    "order": [
+      "pty",
+      "direct"
+    ],
+    "maximumNativeAttempts": 2,
+    "retries": 0,
+    "mixedMs": 180000,
+    "ordinaryInputThresholdMs": 100,
+    "positiveControlOrdinal": 7,
+    "positiveControlMinimumMs": 120,
+    "purpose": "Descriptive fixed-order topology comparison; stop after two attempts regardless of latency outcome",
+    "causalAttribution": false,
+    "fullS5Qualification": false
+  },
+  "attempts": [
+    {
+      "profile": "pty",
+      "startedAt": "2026-10-16T10:35:33.069Z",
+      "status": "completed",
+      "endedAt": "2026-10-16T10:38:58.749Z",
+      "exitCode": 0,
+      "signal": null,
+      "error": null
+    },
+    {
+      "profile": "direct",
+      "startedAt": "2026-10-16T10:38:58.750Z",
+      "status": "completed",
+      "endedAt": "2026-10-16T10:42:21.769Z",
+      "exitCode": 0,
+      "signal": null,
+      "error": null
+    }
+  ],
+  "status": "completed"
+}

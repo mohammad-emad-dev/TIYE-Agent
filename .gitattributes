@@ -58,3 +58,12 @@ output/s5-input-direct-pipe-pipe/** -text
 output/s5-input-direct-pipe-pipe/*.log -whitespace
 output/s5-input-direct-pipe-failed-focus/** -text
 output/s5-input-direct-pipe-failed-focus/*.log -whitespace
+output/s5-input-backend-pair-pty/** -text
+output/s5-input-backend-pair-pty/*.log -whitespace
+output/s5-input-backend-pair-direct/** -text
+output/s5-input-backend-pair-direct/*.log -whitespace
+output/s5-input-backend-pair-failed-pty/** -text
+output/s5-input-backend-pair-failed-pty/*.log -whitespace
+output/s5-input-backend-pair-failed-direct/** -text
+output/s5-input-backend-pair-failed-direct/*.log -whitespace
+output/s5-input-backend-pair/** -text

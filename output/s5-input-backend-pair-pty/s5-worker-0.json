@@ -1,0 +1,1 @@
+{"schema":"tiye-s5-worker-loop-v1","member":0,"loop":{"domain":"worker-monotonic","periodMs":20,"thresholdMs":20,"startMs":1047.6296,"lastTickMs":183873.6276,"stoppedMs":183875.3171,"ticks":5848,"gaps":[],"status":"stopped","terminalUnobservedMs":1.6894999999785796},"backendExit":null}

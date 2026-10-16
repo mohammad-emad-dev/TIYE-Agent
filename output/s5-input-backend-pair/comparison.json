@@ -1,0 +1,354 @@
+{
+  "schema": "tiye-s5-backend-pair-comparison-v1",
+  "order": [
+    "pty",
+    "direct"
+  ],
+  "completedCaptures": 2,
+  "profiles": {
+    "pty": {
+      "ordinary": {
+        "count": 34,
+        "over100": [],
+        "latencies": {
+          "count": 34,
+          "medianMs": 14.622800000011921,
+          "p95Ms": 22.57390000000305,
+          "maxMs": 33.32510000000184,
+          "over50Ms": 0,
+          "over500Ms": 0
+        }
+      },
+      "positiveControl": {
+        "ordinal": 7,
+        "configuredDelayMs": 120,
+        "workerPreWriteMs": 125.88410000000295,
+        "mainTotalMs": 141.74659999999858,
+        "criterionMet": true
+      },
+      "all35Over100": [
+        7
+      ],
+      "views": [
+        {
+          "ordinal": 1,
+          "view": "grid"
+        },
+        {
+          "ordinal": 2,
+          "view": "grid"
+        },
+        {
+          "ordinal": 3,
+          "view": "grid"
+        },
+        {
+          "ordinal": 4,
+          "view": "grid"
+        },
+        {
+          "ordinal": 5,
+          "view": "grid"
+        },
+        {
+          "ordinal": 6,
+          "view": "grid"
+        },
+        {
+          "ordinal": 7,
+          "view": "focus"
+        },
+        {
+          "ordinal": 8,
+          "view": "focus"
+        },
+        {
+          "ordinal": 9,
+          "view": "focus"
+        },
+        {
+          "ordinal": 10,
+          "view": "focus"
+        },
+        {
+          "ordinal": 11,
+          "view": "focus"
+        },
+        {
+          "ordinal": 12,
+          "view": "focus"
+        },
+        {
+          "ordinal": 13,
+          "view": "grid"
+        },
+        {
+          "ordinal": 14,
+          "view": "grid"
+        },
+        {
+          "ordinal": 15,
+          "view": "grid"
+        },
+        {
+          "ordinal": 16,
+          "view": "grid"
+        },
+        {
+          "ordinal": 17,
+          "view": "grid"
+        },
+        {
+          "ordinal": 18,
+          "view": "grid"
+        },
+        {
+          "ordinal": 19,
+          "view": "focus"
+        },
+        {
+          "ordinal": 20,
+          "view": "focus"
+        },
+        {
+          "ordinal": 21,
+          "view": "focus"
+        },
+        {
+          "ordinal": 22,
+          "view": "focus"
+        },
+        {
+          "ordinal": 23,
+          "view": "focus"
+        },
+        {
+          "ordinal": 24,
+          "view": "focus"
+        },
+        {
+          "ordinal": 25,
+          "view": "grid"
+        },
+        {
+          "ordinal": 26,
+          "view": "grid"
+        },
+        {
+          "ordinal": 27,
+          "view": "grid"
+        },
+        {
+          "ordinal": 28,
+          "view": "grid"
+        },
+        {
+          "ordinal": 29,
+          "view": "grid"
+        },
+        {
+          "ordinal": 30,
+          "view": "grid"
+        },
+        {
+          "ordinal": 31,
+          "view": "focus"
+        },
+        {
+          "ordinal": 32,
+          "view": "focus"
+        },
+        {
+          "ordinal": 33,
+          "view": "focus"
+        },
+        {
+          "ordinal": 34,
+          "view": "focus"
+        },
+        {
+          "ordinal": 35,
+          "view": "focus"
+        }
+      ],
+      "rawChildWitnessPresent": false
+    },
+    "direct": {
+      "ordinary": {
+        "count": 34,
+        "over100": [],
+        "latencies": {
+          "count": 34,
+          "medianMs": 14.776900000004389,
+          "p95Ms": 18.024999999999636,
+          "maxMs": 21.285000000003492,
+          "over50Ms": 0,
+          "over500Ms": 0
+        }
+      },
+      "positiveControl": {
+        "ordinal": 7,
+        "configuredDelayMs": 120,
+        "workerPreWriteMs": 123.81810000000405,
+        "mainTotalMs": 135.92540000000008,
+        "criterionMet": true
+      },
+      "all35Over100": [
+        7
+      ],
+      "views": [
+        {
+          "ordinal": 1,
+          "view": "grid"
+        },
+        {
+          "ordinal": 2,
+          "view": "grid"
+        },
+        {
+          "ordinal": 3,
+          "view": "grid"
+        },
+        {
+          "ordinal": 4,
+          "view": "grid"
+        },
+        {
+          "ordinal": 5,
+          "view": "grid"
+        },
+        {
+          "ordinal": 6,
+          "view": "grid"
+        },
+        {
+          "ordinal": 7,
+          "view": "focus"
+        },
+        {
+          "ordinal": 8,
+          "view": "focus"
+        },
+        {
+          "ordinal": 9,
+          "view": "focus"
+        },
+        {
+          "ordinal": 10,
+          "view": "focus"
+        },
+        {
+          "ordinal": 11,
+          "view": "focus"
+        },
+        {
+          "ordinal": 12,
+          "view": "focus"
+        },
+        {
+          "ordinal": 13,
+          "view": "grid"
+        },
+        {
+          "ordinal": 14,
+          "view": "grid"
+        },
+        {
+          "ordinal": 15,
+          "view": "grid"
+        },
+        {
+          "ordinal": 16,
+          "view": "grid"
+        },
+        {
+          "ordinal": 17,
+          "view": "grid"
+        },
+        {
+          "ordinal": 18,
+          "view": "grid"
+        },
+        {
+          "ordinal": 19,
+          "view": "focus"
+        },
+        {
+          "ordinal": 20,
+          "view": "focus"
+        },
+        {
+          "ordinal": 21,
+          "view": "focus"
+        },
+        {
+          "ordinal": 22,
+          "view": "focus"
+        },
+        {
+          "ordinal": 23,
+          "view": "focus"
+        },
+        {
+          "ordinal": 24,
+          "view": "focus"
+        },
+        {
+          "ordinal": 25,
+          "view": "grid"
+        },
+        {
+          "ordinal": 26,
+          "view": "grid"
+        },
+        {
+          "ordinal": 27,
+          "view": "grid"
+        },
+        {
+          "ordinal": 28,
+          "view": "grid"
+        },
+        {
+          "ordinal": 29,
+          "view": "grid"
+        },
+        {
+          "ordinal": 30,
+          "view": "grid"
+        },
+        {
+          "ordinal": 31,
+          "view": "focus"
+        },
+        {
+          "ordinal": 32,
+          "view": "focus"
+        },
+        {
+          "ordinal": 33,
+          "view": "focus"
+        },
+        {
+          "ordinal": 34,
+          "view": "focus"
+        },
+        {
+          "ordinal": 35,
+          "view": "focus"
+        }
+      ],
+      "rawChildWitnessPresent": true
+    }
+  },
+  "matchingScheduledViews": 35,
+  "sameExecutedSourcesAndBuilds": true,
+  "ordinaryThresholdMs": 100,
+  "fixedOrder": true,
+  "randomized": false,
+  "statisticallyPaired": false,
+  "causalAttribution": false,
+  "historicalSpikeFixed": false,
+  "fullS5Qualified": false,
+  "decision": "Retain bundled ConPTY as experimental prototype backend; keep direct pipes diagnostic-only. End this diagnostic series, retain the unresolved five-PTY latency risk and return to the remaining Phase 0 readiness decision before product construction."
+}
