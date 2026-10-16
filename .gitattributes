@@ -43,3 +43,5 @@ output/s5-input-scheduled/** -text
 output/s5-input-scheduled/*.log -whitespace
 output/s5-input-scheduled-views/** -text
 output/s5-input-scheduled-views/*.log -whitespace
+output/s5-input-search-overlap/** -text
+output/s5-input-search-overlap/*.log -whitespace

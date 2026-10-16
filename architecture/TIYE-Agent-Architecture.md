@@ -869,6 +869,17 @@ either new native run. Input phase and view coordination changed, so these are
 not paired performance comparisons. Controlled native search overlap and further
 dispatch/input/render delay tracing remain next; full S5 is still open.
 
+The [controlled search-overlap cohort](../feasibility/s5-performance/ui/input-search-overlap/README.md)
+holds 35 page responses asynchronously until matching input render ACKs. All
+35 input intervals fall inside the corresponding pending-search/wait spans;
+real SQLite queries and exact row/DOM checks resume after release. This validates
+the controlled async-wait condition, not synchronous query contention. Focus
+still fails the unchanged 100 ms bound at 109.08 ms. That probe includes a
+102.96 ms main-observed pipe-write callback interval and a separate 1.43 ms
+worker-local command-to-ACK interval; no root cause or cross-clock decomposition
+is established. A controlled parent-to-worker transport comparison is next.
+Earlier failures remain unchanged; full S5 and product eligibility remain open.
+
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
 a disposable source root, ran an offline local-dependency setup, copied
