@@ -89,3 +89,8 @@ now records a current official-documentation review. TIYE's paid desktop route
 remains unqualified; the existing provider clarification draft is ready and
 unsent. Provider guidance and applicable onboarding are the next dependency for
 authenticated Linux qualification. This refresh does not clear Phase 1.
+
+The subsequent [authorized OpenAI outreach](output/s4-codex-outreach/README.md)
+was submitted through the official interest form; its receipt was confirmed.
+This supersedes earlier unsent status only. Provider guidance and product
+eligibility remain pending; Phase 1 remains HOLD.
