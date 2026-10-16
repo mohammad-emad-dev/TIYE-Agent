@@ -1454,8 +1454,10 @@ This is the order of **construction**, not release stages. The product ships com
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and
-S6 now has an [installed Ubuntu WSL 2 distribution](../output/s6-prerequisites/README.md)
-awaiting user initialization and bounded prerequisite discovery. The assessment defines
+S6 now has an initialized Ubuntu WSL 2 distribution with
+[bounded prerequisite discovery](../output/s6-discovery/README.md): Linux-native
+Git is available, while Node and candidate agent CLIs were not found on the
+tested PATH. Path/Git fixtures and full S6 remain open. The assessment defines
 core entry conditions and a proposed first slice under Section 3.8. It does
 not waive feasibility gates or require a finished UI before building the core.
 

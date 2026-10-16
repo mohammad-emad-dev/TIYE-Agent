@@ -1,0 +1,118 @@
+{
+  "schema": "tiye-s6-discovery-v1",
+  "state": "prerequisite-discovery-completed",
+  "operatorConfirmedUserSetup": true,
+  "command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--exec",
+    "/usr/bin/env",
+    "-i",
+    "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "LC_ALL=C",
+    "/bin/sh",
+    "-s"
+  ],
+  "sourceHashes": {
+    "feasibility/s6-wsl/discover.py": "bf5b09be798a5c7d06ad36fa9a74f14f4f8da2fa3af3c6fa7fb3b2d51b04d461",
+    "feasibility/s6-wsl/PLAN.md": "2c75da13935c3b59772844dbaee8601ee620a4243cc2845f67373a95c599c9e3"
+  },
+  "queries": [
+    {
+      "query": "uid",
+      "script": "id -u\n",
+      "startedAt": "2026-10-16T11:01:50.850216+00:00",
+      "exitCode": 0,
+      "timedOut": false,
+      "finishedAt": "2026-10-16T11:01:50.988051+00:00",
+      "stdout": {
+        "artifact": "uid.stdout.bin",
+        "bytes": 5,
+        "sha256": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9"
+      },
+      "stderr": {
+        "artifact": "uid.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "query": "os-release",
+      "script": "cat /etc/os-release\n",
+      "startedAt": "2026-10-16T11:01:50.989076+00:00",
+      "exitCode": 0,
+      "timedOut": false,
+      "finishedAt": "2026-10-16T11:01:51.089978+00:00",
+      "stdout": {
+        "artifact": "os-release.stdout.bin",
+        "bytes": 410,
+        "sha256": "cf72627ff81aef345d0a9f3807eb80f1035e0f80fe2932d12d94efc02fd68104"
+      },
+      "stderr": {
+        "artifact": "os-release.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "query": "kernel",
+      "script": "uname -r\n",
+      "startedAt": "2026-10-16T11:01:51.091187+00:00",
+      "exitCode": 0,
+      "timedOut": false,
+      "finishedAt": "2026-10-16T11:01:51.198601+00:00",
+      "stdout": {
+        "artifact": "kernel.stdout.bin",
+        "bytes": 34,
+        "sha256": "600c01e56d5afd93f0ecd74ff4ebb5ef91623d779bbba04388a866c3b581fc92"
+      },
+      "stderr": {
+        "artifact": "kernel.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "query": "native-tools",
+      "script": "set -eu\nfor tool in git node; do\n  candidate=$(command -v \"$tool\" || true)\n  if [ -z \"$candidate\" ]; then\n    printf '%s\\tnot-on-tested-PATH\\n' \"$tool\"\n    continue\n  fi\n  resolved=$(readlink -f \"$candidate\")\n  magic=$(od -An -tx1 -N4 \"$resolved\" | tr -d ' \\n')\n  printf '%s\\tpath=%s\\tresolved=%s\\tmagic=%s\\n' \"$tool\" \"$candidate\" \"$resolved\" \"$magic\"\n  case \"$resolved\" in\n    /mnt/*) printf '%s\\tversion-not-run-interop-path\\n' \"$tool\"; continue ;;\n  esac\n  if [ \"$magic\" != 7f454c46 ]; then\n    printf '%s\\tversion-not-run-non-ELF\\n' \"$tool\"\n    continue\n  fi\n  \"$resolved\" --version\ndone\n",
+      "startedAt": "2026-10-16T11:01:51.200680+00:00",
+      "exitCode": 0,
+      "timedOut": false,
+      "finishedAt": "2026-10-16T11:01:51.306290+00:00",
+      "stdout": {
+        "artifact": "native-tools.stdout.bin",
+        "bytes": 102,
+        "sha256": "234158d66768f8d31ff80fa8c47f393973383f6f71ab55b5d3d255acbd1ce0eb"
+      },
+      "stderr": {
+        "artifact": "native-tools.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "query": "cli-presence",
+      "script": "set -eu\nfor tool in codex claude opencode gemini agy mimo; do\n  candidate=$(command -v \"$tool\" || true)\n  if [ -z \"$candidate\" ]; then\n    printf '%s\\tnot-on-tested-PATH\\n' \"$tool\"\n  else\n    printf '%s\\tpath=%s\\tresolved=%s\\n' \"$tool\" \"$candidate\" \"$(readlink -f \"$candidate\")\"\n  fi\ndone\n",
+      "startedAt": "2026-10-16T11:01:51.307663+00:00",
+      "exitCode": 0,
+      "timedOut": false,
+      "finishedAt": "2026-10-16T11:01:51.412833+00:00",
+      "stdout": {
+        "artifact": "cli-presence.stdout.bin",
+        "bytes": 152,
+        "sha256": "f409a6040ad7a1a5a2b2bfda4edfbfa0709a95e64fcef457bcef4b1978fa57e6"
+      },
+      "stderr": {
+        "artifact": "cli-presence.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "providerCliInvocations": 0,
+  "fullS6Qualified": false,
+  "productionEligible": false,
+  "observedUidNonzero": true,
+  "sourceHashesUnchangedAfterRun": true
+}

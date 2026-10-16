@@ -1,0 +1,116 @@
+{
+  "schema": "tiye-s6-discovery-review-v1",
+  "reviewedOn": "2026-10-16",
+  "baselineCommit": "c148ba00e4f97263b9c21b633e6b8a8e2f5a3765",
+  "scope": "Five read-only Ubuntu prerequisite queries after operator confirmation; no full S6 qualification",
+  "fullS6Qualified": false,
+  "phase1Ready": false,
+  "delegates": [
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "reportedTouchedFiles": [
+        "?? feasibility/s6-wsl/discover.py",
+        "?? output/s6-discovery/"
+      ],
+      "observedToolEventCount": 0,
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "7d7ec1fe140bb94cc6741060fc585cb7bf999347ae34d950f4777f659fd9f1c9",
+        "events.jsonl": "c6669edd48c30d69c47dbfe8eb661c1534d47b9539f626f343e2fd75dd8554c8",
+        "final.txt": "f9bfe58d196df4a55507006e11e7d34ee39a48a320d08c7b0b5dd2d89560069c",
+        "stderr.txt": null,
+        "result.json": "2213046a87727f7bf14bdcc6f4fe915ea630b83129e6c91ee71f242d48aa42d7"
+      }
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "requestedVariant": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "reportedTouchedFiles": [
+        "?? feasibility/s6-wsl/discover.py",
+        "?? output/s6-discovery/"
+      ],
+      "observedToolEventCount": 0,
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "7d7ec1fe140bb94cc6741060fc585cb7bf999347ae34d950f4777f659fd9f1c9",
+        "events.jsonl": "37831d7e62061fb5a75c6827479102e00bb40a256631ea98a69b3b5b05eda160",
+        "final.txt": "cad2266eeffd4243b91b605adb3819ba01b4e82245df589ed8c586be71555ceb",
+        "stderr.txt": null,
+        "result.json": "54a3068e98ce6a2c0ec33ff6fdc37edb4ee6269d99b1f0094015334ce28ff75e"
+      }
+    },
+    {
+      "model": "opencode/space-bunny-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "reportedTouchedFiles": [
+        "?? feasibility/s6-wsl/discover.py",
+        "?? output/s6-discovery/"
+      ],
+      "observedToolEventCount": 0,
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "7d7ec1fe140bb94cc6741060fc585cb7bf999347ae34d950f4777f659fd9f1c9",
+        "events.jsonl": "d19940b98ce3e6062c9f95a8f7bad40235f3cac0a7fa4f6d8f2781ae8d976350",
+        "final.txt": "eda8b72d69de7e82787b5a9079a85c2880dcbb00cd528b39b8bf8d95d1ba1b09",
+        "stderr.txt": null,
+        "result.json": "3e7aababba2eab11026f0c4e4005cd61e936adbebbb19bd1bf02df5032383942"
+      }
+    }
+  ],
+  "notDispatched": [
+    {
+      "model": "GPT-6.1 Luna max",
+      "reason": "Previously unsupported exact model, not retried"
+    },
+    {
+      "model": "Gemini 3.8 Flash High through agy",
+      "reason": "Recorded consumer-wrapper exclusion remains in force"
+    }
+  ],
+  "parentVerification": {
+    "storedEvidenceCheckerExitCode": 0,
+    "localLinksVerified": 13,
+    "newNativeQueries": 5,
+    "providerCliInvocationsInUbuntu": 0,
+    "priorSnapshotPathsUnchanged": [
+      "feasibility/s6-wsl/PLAN.md",
+      "output/s6-prerequisites/installation.json",
+      "output/s6-prerequisites/setup-state.json",
+      "output/s6-prerequisites/review.json",
+      "output/phase0-readiness/ASSESSMENT.md"
+    ],
+    "historicalSnapshotComparison": "Exact bytes or equivalent checkout line endings"
+  },
+  "artifactHashes": {
+    "output/s6-discovery/cli-presence.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-discovery/cli-presence.stdout.bin": "f409a6040ad7a1a5a2b2bfda4edfbfa0709a95e64fcef457bcef4b1978fa57e6",
+    "output/s6-discovery/discovery.json": "3b94f0830d1ba4603d32e6c736099f8ced82db97530d4ffea49d8c98568da02a",
+    "output/s6-discovery/kernel.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-discovery/kernel.stdout.bin": "600c01e56d5afd93f0ecd74ff4ebb5ef91623d779bbba04388a866c3b581fc92",
+    "output/s6-discovery/native-tools.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-discovery/native-tools.stdout.bin": "234158d66768f8d31ff80fa8c47f393973383f6f71ab55b5d3d255acbd1ce0eb",
+    "output/s6-discovery/os-release.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-discovery/os-release.stdout.bin": "cf72627ff81aef345d0a9f3807eb80f1035e0f80fe2932d12d94efc02fd68104",
+    "output/s6-discovery/README.md": "319bb84570b3502e3d2b0cde7c760d84c40b17547c9507968d2f3267cb97ccca",
+    "output/s6-discovery/uid.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-discovery/uid.stdout.bin": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
+    "feasibility/s6-wsl/discover.py": "bf5b09be798a5c7d06ad36fa9a74f14f4f8da2fa3af3c6fa7fb3b2d51b04d461",
+    "feasibility/s6-wsl/check-discovery.py": "e7024d47db62cff38f878beef0dee5ff93e580ff1bf49597fc87255f3f5a4aa6",
+    "README.md": "6be036ecbd015f6b8fd2153ff614464d0eb2ca979d0ffbb2777ea74ccd8e69fd",
+    "architecture/TIYE-Agent-Architecture.md": "746afee04bae3e812b5294168efb403eb9d8580c6033fa596687d68cf2b7764c"
+  },
+  "limitations": [
+    "Local integrity record, not external attestation",
+    "Delegate reviews used supplied context; no independent workspace or native result verification",
+    "Raw delegate artifacts remain local",
+    "Script source is frozen as measured; checker is specific to this capture",
+    "No provider authentication, package installation, PTY, path/Git, network or process-tree cleanup qualification"
+  ]
+}
