@@ -858,6 +858,17 @@ delay. A 557.28 ms pre-dispatch wait also occurs. The latency target remains
 failed; input scheduling isolation is next. No causal fix, physical paint,
 memory/hour or full-S5 qualification follows from this diagnostic.
 
+The subsequent [independent input scheduler](../feasibility/s5-performance/ui/input-scheduled/README.md)
+anchors 35 five-second deadlines outside the awaited feed/search loop. Its first
+capture is retained and rejected because one dispatch/input view label disagrees.
+The [view-coordinated correction](../feasibility/s5-performance/ui/input-scheduled-views/README.md)
+reconciles all 35 probes with no skips or view mismatches; maximum due-to-dispatch
+lateness is 14.70 ms. Focus still exceeds the unchanged 100 ms latency bound,
+with a 104.29 ms maximum. No input interval overlaps a recorded search span in
+either new native run. Input phase and view coordination changed, so these are
+not paired performance comparisons. Controlled native search overlap and further
+dispatch/input/render delay tracing remain next; full S5 is still open.
+
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
 a disposable source root, ran an offline local-dependency setup, copied

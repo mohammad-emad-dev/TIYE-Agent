@@ -1,0 +1,1925 @@
+{
+  "schema": "tiye-s5-input-scheduled-stage-analysis-v1",
+  "diagnosticOnly": true,
+  "historicalSpikeFixed": false,
+  "singleOutstandingVerified": true,
+  "thresholdMs": 100,
+  "planned": 35,
+  "completed": 35,
+  "schedulingLateness": {
+    "count": 35,
+    "medianMs": 7.0695999999989,
+    "p95Ms": 13.507200000000012,
+    "maxMs": 15.32489999999234,
+    "over50Ms": 0,
+    "over500Ms": 0
+  },
+  "schedulingChecks": 35,
+  "viewMismatches": [
+    6
+  ],
+  "skipped": 0,
+  "completeMainStages": 35,
+  "rendererChunkStages": 35,
+  "over100": [
+    19
+  ],
+  "rows": [
+    {
+      "ordinal": 1,
+      "view": "grid",
+      "dueMs": 5000,
+      "dispatchMs": 5001.8618,
+      "schedulingLatenessMs": 1.8617999999996755,
+      "schedule": {
+        "slot": 1,
+        "checkedMs": 5001.773700000001,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 13.974500000000262,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 1.434400000000096,
+        "inputNoticeToAckIngressMs": 1.066000000000713,
+        "ackIngressToRenderNoticeMs": 11.474099999999453
+      },
+      "rendererLocalMs": 12.599999994039536,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 253,
+          "queueWaitMs": 0,
+          "hashMs": 2.4000000059604645,
+          "writeCallbackMs": 0.30000001192092896,
+          "callbackToRenderMs": 8.399999976158142
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.03840000000127475,
+        "writeStartToCallbackMs": 0.12839999999960128,
+        "writeStartToAckIngressMs": 1.0275999999994383,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.030399999999644933,
+        "writeCallMs": 0.03709999999955471,
+        "writeEndToAckMs": 0.3986000000004424,
+        "commandToAckMs": 0.466099999999642
+      },
+      "workerNoticeMs": 5004.241800000001,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 2,
+      "view": "grid",
+      "dueMs": 10000,
+      "dispatchMs": 10000.519,
+      "schedulingLatenessMs": 0.5190000000002328,
+      "schedule": {
+        "slot": 2,
+        "checkedMs": 10000.477200000001,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 13.229200000001583,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 1.0262000000002445,
+        "inputNoticeToAckIngressMs": 0.6849000000001979,
+        "ackIngressToRenderNoticeMs": 11.51810000000114
+      },
+      "rendererLocalMs": 12.299999982118607,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 519,
+          "queueWaitMs": 3.199999988079071,
+          "hashMs": 0.30000001192092896,
+          "writeCallbackMs": 0.19999998807907104,
+          "callbackToRenderMs": 7.5999999940395355
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.013100000000122236,
+        "writeStartToCallbackMs": 0.06759999999849242,
+        "writeStartToAckIngressMs": 0.6718000000000757,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.002200000000811997,
+        "writeCallMs": 0.0253999999986263,
+        "writeEndToAckMs": 0.2959000000009837,
+        "commandToAckMs": 0.323500000000422
+      },
+      "workerNoticeMs": 10002.1626,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 3,
+      "view": "grid",
+      "dueMs": 15000,
+      "dispatchMs": 15007.069599999999,
+      "schedulingLatenessMs": 7.0695999999989,
+      "schedule": {
+        "slot": 3,
+        "checkedMs": 15007.0475,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 13.39849999999933,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 1.2836999999999534,
+        "inputNoticeToAckIngressMs": 0.6131999999997788,
+        "ackIngressToRenderNoticeMs": 11.501599999999598
+      },
+      "rendererLocalMs": 12.300000011920929,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 766,
+          "queueWaitMs": 3.2000000178813934,
+          "hashMs": 0.29999998211860657,
+          "writeCallbackMs": 0.09999999403953552,
+          "callbackToRenderMs": 7.800000011920929
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.01329999999870779,
+        "writeStartToCallbackMs": 0.08320000000094296,
+        "writeStartToAckIngressMs": 0.599900000001071,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0018999999992956873,
+        "writeCallMs": 0.025900000000547152,
+        "writeEndToAckMs": 0.2481000000007043,
+        "commandToAckMs": 0.27590000000054715
+      },
+      "workerNoticeMs": 15008.9084,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 4,
+      "view": "grid",
+      "dueMs": 20000,
+      "dispatchMs": 20004.7638,
+      "schedulingLatenessMs": 4.763800000000629,
+      "schedule": {
+        "slot": 4,
+        "checkedMs": 20004.738999999998,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 13.955799999999726,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 1.6018999999978405,
+        "inputNoticeToAckIngressMs": 0.7270000000025902,
+        "ackIngressToRenderNoticeMs": 11.626899999999296
+      },
+      "rendererLocalMs": 12.400000005960464,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 1017,
+          "queueWaitMs": 4.300000011920929,
+          "hashMs": 0.19999998807907104,
+          "writeCallbackMs": 0.30000001192092896,
+          "callbackToRenderMs": 6.5999999940395355
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.014400000000023283,
+        "writeStartToCallbackMs": 0.08770000000004075,
+        "writeStartToAckIngressMs": 0.712600000002567,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.004000000000814907,
+        "writeCallMs": 0.026399999998830026,
+        "writeEndToAckMs": 0.26520000000164146,
+        "commandToAckMs": 0.2956000000012864
+      },
+      "workerNoticeMs": 20006.9614,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 5,
+      "view": "grid",
+      "dueMs": 25000,
+      "dispatchMs": 25011.6574,
+      "schedulingLatenessMs": 11.657400000000052,
+      "schedule": {
+        "slot": 5,
+        "checkedMs": 25011.6391,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 15.219399999998132,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.5318999999981315,
+        "inputNoticeToAckIngressMs": 0.7466000000022177,
+        "ackIngressToRenderNoticeMs": 13.940899999997782
+      },
+      "rendererLocalMs": 14.800000011920929,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 1027,
+          "queueWaitMs": 0.09999999403953552,
+          "hashMs": 4.5,
+          "writeCallbackMs": 0.10000002384185791,
+          "callbackToRenderMs": 9
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.018000000000029104,
+        "writeStartToCallbackMs": 0.08910000000105356,
+        "writeStartToAckIngressMs": 0.7286000000021886,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.003099999998084968,
+        "writeCallMs": 0.033400000000256114,
+        "writeEndToAckMs": 0.29860000000189757,
+        "commandToAckMs": 0.33510000000023865
+      },
+      "workerNoticeMs": 25012.8197,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 6,
+      "view": "grid",
+      "dueMs": 30000,
+      "dispatchMs": 30000.9252,
+      "schedulingLatenessMs": 0.9252000000014959,
+      "schedule": {
+        "slot": 6,
+        "checkedMs": 30000.907600000002,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": false,
+      "totalMs": 61.60129999999481,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 58.89860000000044,
+        "inputNoticeToAckIngressMs": 0.8125,
+        "ackIngressToRenderNoticeMs": 1.8901999999943655
+      },
+      "rendererLocalMs": 2.5999999940395355,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 1038,
+          "queueWaitMs": 0,
+          "hashMs": 0.30000001192092896,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 0.4000000059604645
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.01029999999445863,
+        "writeStartToCallbackMs": 0.06810000000405125,
+        "writeStartToAckIngressMs": 0.8022000000055414,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.005300000004353933,
+        "writeCallMs": 0.02959999999438878,
+        "writeEndToAckMs": 0.3120000000053551,
+        "commandToAckMs": 0.3469000000040978
+      },
+      "workerNoticeMs": 30060.556500000002,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [
+        {
+          "index": 45,
+          "kind": "view-change",
+          "status": "completed",
+          "relation": "overlap"
+        }
+      ],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 7,
+      "view": "focus",
+      "dueMs": 35000,
+      "dispatchMs": 35008.5268,
+      "schedulingLatenessMs": 8.52679999999964,
+      "schedule": {
+        "slot": 7,
+        "checkedMs": 35008.506400000006,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 13.471000000005006,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.4862000000066473,
+        "inputNoticeToAckIngressMs": 0.8148999999975786,
+        "ackIngressToRenderNoticeMs": 12.16990000000078
+      },
+      "rendererLocalMs": 13,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 1048,
+          "queueWaitMs": 0,
+          "hashMs": 3.699999988079071,
+          "writeCallbackMs": 0.10000002384185791,
+          "callbackToRenderMs": 8.199999988079071
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.0063999999983934686,
+        "writeStartToCallbackMs": 0.051200000001699664,
+        "writeStartToAckIngressMs": 0.8084999999991851,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0030000000042491592,
+        "writeCallMs": 0.023799999995389953,
+        "writeEndToAckMs": 0.33940000000438886,
+        "commandToAckMs": 0.36620000000402797
+      },
+      "workerNoticeMs": 35009.6903,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 8,
+      "view": "focus",
+      "dueMs": 40000,
+      "dispatchMs": 40001.544400000006,
+      "schedulingLatenessMs": 1.544400000006135,
+      "schedule": {
+        "slot": 8,
+        "checkedMs": 40001.5258,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 15.5653999999995,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.43449999999575084,
+        "inputNoticeToAckIngressMs": 0.8286000000007334,
+        "ackIngressToRenderNoticeMs": 14.302300000003015
+      },
+      "rendererLocalMs": 15.099999994039536,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 1059,
+          "queueWaitMs": 0,
+          "hashMs": 5.699999988079071,
+          "writeCallbackMs": 0.10000002384185791,
+          "callbackToRenderMs": 8.299999982118607
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.008300000001327135,
+        "writeStartToCallbackMs": 0.058700000001408625,
+        "writeStartToAckIngressMs": 0.8202999999994063,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0034999999988940544,
+        "writeCallMs": 0.09350000000267755,
+        "writeEndToAckMs": 0.2742999999973108,
+        "commandToAckMs": 0.3712999999988824
+      },
+      "workerNoticeMs": 40002.670600000005,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 9,
+      "view": "focus",
+      "dueMs": 45000,
+      "dispatchMs": 45013.4757,
+      "schedulingLatenessMs": 13.47570000000269,
+      "schedule": {
+        "slot": 9,
+        "checkedMs": 45013.4473,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 12.656399999999849,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.546199999997043,
+        "inputNoticeToAckIngressMs": 1.393000000003667,
+        "ackIngressToRenderNoticeMs": 10.717199999999139
+      },
+      "rendererLocalMs": 12.099999994039536,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 1070,
+          "queueWaitMs": 0.09999999403953552,
+          "hashMs": 1.100000023841858,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 9.199999988079071
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.010400000006484333,
+        "writeStartToCallbackMs": 0.08150000000023283,
+        "writeStartToAckIngressMs": 1.3825999999971827,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0051000000021304,
+        "writeCallMs": 0.03809999999793945,
+        "writeEndToAckMs": 0.9706000000005588,
+        "commandToAckMs": 1.0138000000006286
+      },
+      "workerNoticeMs": 45015.318300000006,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 10,
+      "view": "focus",
+      "dueMs": 50000,
+      "dispatchMs": 50013.5072,
+      "schedulingLatenessMs": 13.507200000000012,
+      "schedule": {
+        "slot": 10,
+        "checkedMs": 50013.478800000004,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 24.944200000005367,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.602100000003702,
+        "inputNoticeToAckIngressMs": 17.918799999999464,
+        "ackIngressToRenderNoticeMs": 6.4233000000022
+      },
+      "rendererLocalMs": 23.400000005960464,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 1080,
+          "queueWaitMs": 0,
+          "hashMs": 0.19999998807907104,
+          "writeCallbackMs": 0.09999999403953552,
+          "callbackToRenderMs": 4.800000011920929
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.012000000002444722,
+        "writeStartToCallbackMs": 16.678399999997055,
+        "writeStartToAckIngressMs": 17.90679999999702,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0036999999938416295,
+        "writeCallMs": 0.028200000000651926,
+        "writeEndToAckMs": 0.7744000000020606,
+        "commandToAckMs": 0.8062999999965541
+      },
+      "workerNoticeMs": 50031.950000000004,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 11,
+      "view": "focus",
+      "dueMs": 55000,
+      "dispatchMs": 55008.1273,
+      "schedulingLatenessMs": 8.127300000000105,
+      "schedule": {
+        "slot": 11,
+        "checkedMs": 55008.1168,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 10.56880000000092,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.507900000004156,
+        "inputNoticeToAckIngressMs": 0.850800000000163,
+        "ackIngressToRenderNoticeMs": 9.2100999999966
+      },
+      "rendererLocalMs": 10.099999994039536,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 1091,
+          "queueWaitMs": 0,
+          "hashMs": 0.10000002384185791,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 8.899999976158142
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.005599999996775296,
+        "writeStartToCallbackMs": 0.06220000000030268,
+        "writeStartToAckIngressMs": 0.8452000000033877,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.002899999999499414,
+        "writeCallMs": 0.02449999999953434,
+        "writeEndToAckMs": 0.4147000000011758,
+        "commandToAckMs": 0.44210000000020955
+      },
+      "workerNoticeMs": 55009.407300000006,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 12,
+      "view": "grid",
+      "dueMs": 60000,
+      "dispatchMs": 60003.676100000004,
+      "schedulingLatenessMs": 3.676100000004226,
+      "schedule": {
+        "slot": 12,
+        "checkedMs": 60003.669400000006,
+        "viewTransitioning": true
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 12.482899999995425,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.6691999999966356,
+        "inputNoticeToAckIngressMs": 0.7021000000022468,
+        "ackIngressToRenderNoticeMs": 11.111599999996542
+      },
+      "rendererLocalMs": 11.599999994039536,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 1101,
+          "queueWaitMs": 0,
+          "hashMs": 6.399999976158142,
+          "writeCallbackMs": 0.10000002384185791,
+          "callbackToRenderMs": 4.0999999940395355
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.004700000004959293,
+        "writeStartToCallbackMs": 0.04409999999916181,
+        "writeStartToAckIngressMs": 0.6973999999972875,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.002599999999802094,
+        "writeCallMs": 0.025200000003678724,
+        "writeEndToAckMs": 0.26750000000174623,
+        "commandToAckMs": 0.29530000000522705
+      },
+      "workerNoticeMs": 60004.9167,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [
+        {
+          "index": 89,
+          "kind": "view-change",
+          "status": "completed",
+          "relation": "overlap"
+        }
+      ],
+      "operationCooccurrences": [
+        {
+          "index": 89,
+          "kind": "view-change",
+          "status": "completed",
+          "relation": "overlap"
+        },
+        {
+          "index": 90,
+          "kind": "feed-append",
+          "status": "completed",
+          "relation": "overlap"
+        }
+      ],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 13,
+      "view": "grid",
+      "dueMs": 65000,
+      "dispatchMs": 65000.151000000005,
+      "schedulingLatenessMs": 0.1510000000052969,
+      "schedule": {
+        "slot": 13,
+        "checkedMs": 65000.14370000001,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 13.25,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 1.2260999999998603,
+        "inputNoticeToAckIngressMs": 1.0803000000014435,
+        "ackIngressToRenderNoticeMs": 10.943599999998696
+      },
+      "rendererLocalMs": 12.200000017881393,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 1349,
+          "queueWaitMs": 0,
+          "hashMs": 2.2000000178813934,
+          "writeCallbackMs": 0.09999999403953552,
+          "callbackToRenderMs": 8.400000005960464
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.009299999990616925,
+        "writeStartToCallbackMs": 0.08610000000044238,
+        "writeStartToAckIngressMs": 1.0710000000108266,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.005300000004353933,
+        "writeCallMs": 0.05830000000423752,
+        "writeEndToAckMs": 0.4036999999952968,
+        "commandToAckMs": 0.46730000000388827
+      },
+      "workerNoticeMs": 65002.3427,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 14,
+      "view": "grid",
+      "dueMs": 70000,
+      "dispatchMs": 70006.97589999999,
+      "schedulingLatenessMs": 6.975899999990361,
+      "schedule": {
+        "slot": 14,
+        "checkedMs": 70006.9672,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 12.729300000006333,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.7191000000020722,
+        "inputNoticeToAckIngressMs": 1.977599999998347,
+        "ackIngressToRenderNoticeMs": 10.032600000005914
+      },
+      "rendererLocalMs": 12.199999988079071,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 1562,
+          "queueWaitMs": 0,
+          "hashMs": 1.300000011920929,
+          "writeCallbackMs": 0.09999999403953552,
+          "callbackToRenderMs": 8.299999982118607
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.006500000003143214,
+        "writeStartToCallbackMs": 0.09209999999438878,
+        "writeStartToAckIngressMs": 1.9710999999952037,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0026999999972758815,
+        "writeCallMs": 0.0356000000028871,
+        "writeEndToAckMs": 0.33179999999993015,
+        "commandToAckMs": 0.37010000000009313
+      },
+      "workerNoticeMs": 70009.6035,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 15,
+      "view": "grid",
+      "dueMs": 75000,
+      "dispatchMs": 75003.9222,
+      "schedulingLatenessMs": 3.9222000000008848,
+      "schedule": {
+        "slot": 15,
+        "checkedMs": 75003.91159999999,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 14.583099999988917,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.503100000001723,
+        "inputNoticeToAckIngressMs": 2.032999999995809,
+        "ackIngressToRenderNoticeMs": 12.046999999991385
+      },
+      "rendererLocalMs": 14.199999988079071,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 1782,
+          "queueWaitMs": 3.5,
+          "hashMs": 0.5,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 7.9000000059604645
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.005699999994249083,
+        "writeStartToCallbackMs": 0.07850000000325963,
+        "writeStartToAckIngressMs": 2.02730000000156,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.002199999988079071,
+        "writeCallMs": 0.028700000009848736,
+        "writeEndToAckMs": 1.6860999999917112,
+        "commandToAckMs": 1.716999999989639
+      },
+      "workerNoticeMs": 75006.3967,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 16,
+      "view": "grid",
+      "dueMs": 80000,
+      "dispatchMs": 80011.2242,
+      "schedulingLatenessMs": 11.224199999996927,
+      "schedule": {
+        "slot": 16,
+        "checkedMs": 80011.21089999999,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 14.342799999998533,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.750899999999092,
+        "inputNoticeToAckIngressMs": 0.9279999999998836,
+        "ackIngressToRenderNoticeMs": 12.663899999999558
+      },
+      "rendererLocalMs": 13.799999982118607,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 2038,
+          "queueWaitMs": 4.300000011920929,
+          "hashMs": 0.09999999403953552,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 8.099999994039536
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.0087000000057742,
+        "writeStartToCallbackMs": 0.29349999999976717,
+        "writeStartToAckIngressMs": 0.9192999999941094,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0029000000067753717,
+        "writeCallMs": 0.026100000002770685,
+        "writeEndToAckMs": 0.49760000000242144,
+        "commandToAckMs": 0.5266000000119675
+      },
+      "workerNoticeMs": 80012.805,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 17,
+      "view": "grid",
+      "dueMs": 85000,
+      "dispatchMs": 85007.5374,
+      "schedulingLatenessMs": 7.537400000001071,
+      "schedule": {
+        "slot": 17,
+        "checkedMs": 85007.53039999999,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 13.298499999989872,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.5181999999913387,
+        "inputNoticeToAckIngressMs": 0.6500000000087311,
+        "ackIngressToRenderNoticeMs": 12.130299999989802
+      },
+      "rendererLocalMs": 12.900000005960464,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 2048,
+          "queueWaitMs": 0,
+          "hashMs": 3.7999999821186066,
+          "writeCallbackMs": 0.10000002384185791,
+          "callbackToRenderMs": 8
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.006699999998090789,
+        "writeStartToCallbackMs": 0.06300000000919681,
+        "writeStartToAckIngressMs": 0.6433000000106404,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0019000000029336661,
+        "writeCallMs": 0.025599999993573874,
+        "writeEndToAckMs": 0.26450000000477303,
+        "commandToAckMs": 0.29200000000128057
+      },
+      "workerNoticeMs": 85008.5993,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 18,
+      "view": "grid",
+      "dueMs": 90000,
+      "dispatchMs": 90009.47529999999,
+      "schedulingLatenessMs": 9.475299999990966,
+      "schedule": {
+        "slot": 18,
+        "checkedMs": 90009.469,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 11.294900000008056,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.466100000005099,
+        "inputNoticeToAckIngressMs": 0.6967000000004191,
+        "ackIngressToRenderNoticeMs": 10.132100000002538
+      },
+      "rendererLocalMs": 11,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 2059,
+          "queueWaitMs": 0,
+          "hashMs": 0.8999999761581421,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 9.100000023841858
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.007100000002537854,
+        "writeStartToCallbackMs": 0.07699999999022111,
+        "writeStartToAckIngressMs": 0.6895999999978812,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0023999999975785613,
+        "writeCallMs": 0.0298999999940861,
+        "writeEndToAckMs": 0.2968000000109896,
+        "commandToAckMs": 0.32910000000265427
+      },
+      "workerNoticeMs": 90010.5688,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 19,
+      "view": "focus",
+      "dueMs": 95000,
+      "dispatchMs": 95000.9164,
+      "schedulingLatenessMs": 0.9164000000018859,
+      "schedule": {
+        "slot": 19,
+        "checkedMs": 95000.9114,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 117.10319999999774,
+      "over100Ms": true,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.5637999999889871,
+        "inputNoticeToAckIngressMs": 108.74930000001041,
+        "ackIngressToRenderNoticeMs": 7.790099999998347
+      },
+      "rendererLocalMs": 116.5,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 2070,
+          "queueWaitMs": 0,
+          "hashMs": 0.09999999403953552,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 7.5
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.006099999998696148,
+        "writeStartToCallbackMs": 108.00300000001153,
+        "writeStartToAckIngressMs": 108.74320000001171,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0031000000017229468,
+        "writeCallMs": 0.030500000008032657,
+        "writeEndToAckMs": 0.35570000000006985,
+        "commandToAckMs": 0.38930000000982545
+      },
+      "workerNoticeMs": 95110.14439999999,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 20,
+      "view": "focus",
+      "dueMs": 100000,
+      "dispatchMs": 100015.32489999999,
+      "schedulingLatenessMs": 15.32489999999234,
+      "schedule": {
+        "slot": 20,
+        "checkedMs": 100015.3197,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 15.545299999997951,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.449399999997695,
+        "inputNoticeToAckIngressMs": 0.9138000000093598,
+        "ackIngressToRenderNoticeMs": 14.182099999990896
+      },
+      "rendererLocalMs": 15,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 2080,
+          "queueWaitMs": 0,
+          "hashMs": 5.5999999940395355,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 8.300000011920929
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.0060000000084983185,
+        "writeStartToCallbackMs": 0.10850000000209548,
+        "writeStartToAckIngressMs": 0.9078000000008615,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0025000000023283064,
+        "writeCallMs": 0.05689999999594875,
+        "writeEndToAckMs": 0.44959999999264255,
+        "commandToAckMs": 0.5089999999909196
+      },
+      "workerNoticeMs": 100016.6028,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 21,
+      "view": "focus",
+      "dueMs": 105000,
+      "dispatchMs": 105007.863,
+      "schedulingLatenessMs": 7.862999999997555,
+      "schedule": {
+        "slot": 21,
+        "checkedMs": 105007.856,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 10.464899999991758,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.44280000000435393,
+        "inputNoticeToAckIngressMs": 0.7617999999929452,
+        "ackIngressToRenderNoticeMs": 9.260299999994459
+      },
+      "rendererLocalMs": 10,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 2091,
+          "queueWaitMs": 0,
+          "hashMs": 0.7999999821186066,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 8.200000017881393
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.005999999993946403,
+        "writeStartToCallbackMs": 0.06930000000284053,
+        "writeStartToAckIngressMs": 0.7557999999989988,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0023999999975785613,
+        "writeCallMs": 0.028800000000046566,
+        "writeEndToAckMs": 0.33550000000104774,
+        "commandToAckMs": 0.36669999999867287
+      },
+      "workerNoticeMs": 105008.9984,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 22,
+      "view": "focus",
+      "dueMs": 110000,
+      "dispatchMs": 110000.80399999999,
+      "schedulingLatenessMs": 0.8039999999891734,
+      "schedule": {
+        "slot": 22,
+        "checkedMs": 110000.7972,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 16.490200000000186,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.4567000000097323,
+        "inputNoticeToAckIngressMs": 0.644799999994575,
+        "ackIngressToRenderNoticeMs": 15.388699999995879
+      },
+      "rendererLocalMs": 16.100000023841858,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 2102,
+          "queueWaitMs": 0,
+          "hashMs": 5.9000000059604645,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 9.300000011920929
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.007599999997182749,
+        "writeStartToCallbackMs": 0.08909999999741558,
+        "writeStartToAckIngressMs": 0.6371999999973923,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0019000000029336661,
+        "writeCallMs": 0.023499999995692633,
+        "writeEndToAckMs": 0.26929999999993015,
+        "commandToAckMs": 0.29469999999855645
+      },
+      "workerNoticeMs": 110001.8234,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 23,
+      "view": "focus",
+      "dueMs": 115000,
+      "dispatchMs": 115000.9099,
+      "schedulingLatenessMs": 0.9098999999987427,
+      "schedule": {
+        "slot": 23,
+        "checkedMs": 115000.9053,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 10.400200000003679,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.4446999999927357,
+        "inputNoticeToAckIngressMs": 2.716899999999441,
+        "ackIngressToRenderNoticeMs": 7.238600000011502
+      },
+      "rendererLocalMs": 9.899999976158142,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 2112,
+          "queueWaitMs": 0,
+          "hashMs": 0.09999999403953552,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 6.799999982118607
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.004700000004959293,
+        "writeStartToCallbackMs": 1.4853000000002794,
+        "writeStartToAckIngressMs": 2.712199999994482,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0022000000026309863,
+        "writeCallMs": 0.036300000007031485,
+        "writeEndToAckMs": 0.8671999999933178,
+        "commandToAckMs": 0.9057000000029802
+      },
+      "workerNoticeMs": 115003.99309999999,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 24,
+      "view": "focus",
+      "dueMs": 120000,
+      "dispatchMs": 120010.4818,
+      "schedulingLatenessMs": 10.48179999999411,
+      "schedule": {
+        "slot": 24,
+        "checkedMs": 120010.47529999999,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 12.138500000000931,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.4511999999958789,
+        "inputNoticeToAckIngressMs": 0.632900000011432,
+        "ackIngressToRenderNoticeMs": 11.05439999999362
+      },
+      "rendererLocalMs": 11.599999994039536,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 2122,
+          "queueWaitMs": 0,
+          "hashMs": 2.399999976158142,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 8.300000011920929
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.005900000003748573,
+        "writeStartToCallbackMs": 0.0761999999958789,
+        "writeStartToAckIngressMs": 0.6270000000076834,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0022000000026309863,
+        "writeCallMs": 0.024300000004586764,
+        "writeEndToAckMs": 0.27180000000225846,
+        "commandToAckMs": 0.2983000000094762
+      },
+      "workerNoticeMs": 120011.459,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 25,
+      "view": "grid",
+      "dueMs": 125000,
+      "dispatchMs": 125002.33189999999,
+      "schedulingLatenessMs": 2.331899999990128,
+      "schedule": {
+        "slot": 25,
+        "checkedMs": 125002.3226,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 15.45120000001043,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.6428000000014435,
+        "inputNoticeToAckIngressMs": 1.5222999999969034,
+        "ackIngressToRenderNoticeMs": 13.286100000012084
+      },
+      "rendererLocalMs": 14.799999982118607,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 2366,
+          "queueWaitMs": 4.9000000059604645,
+          "hashMs": 0.4000000059604645,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 7.699999988079071
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.006800000002840534,
+        "writeStartToCallbackMs": 0.22920000000158325,
+        "writeStartToAckIngressMs": 1.5154999999940628,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0060000000084983185,
+        "writeCallMs": 0.06829999999899883,
+        "writeEndToAckMs": 0.7124999999941792,
+        "commandToAckMs": 0.7868000000016764
+      },
+      "workerNoticeMs": 125004.3994,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 26,
+      "view": "grid",
+      "dueMs": 130000,
+      "dispatchMs": 130010.4154,
+      "schedulingLatenessMs": 10.415399999998044,
+      "schedule": {
+        "slot": 26,
+        "checkedMs": 130010.40409999999,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 14.817899999994552,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.8955999999889173,
+        "inputNoticeToAckIngressMs": 1.0587000000232365,
+        "ackIngressToRenderNoticeMs": 12.863599999982398
+      },
+      "rendererLocalMs": 14.199999988079071,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 2637,
+          "queueWaitMs": 3.0999999940395355,
+          "hashMs": 0.09999999403953552,
+          "writeCallbackMs": 0.30000001192092896,
+          "callbackToRenderMs": 9.199999988079071
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.006800000002840534,
+        "writeStartToCallbackMs": 0.09930000000167638,
+        "writeStartToAckIngressMs": 1.051900000020396,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0017000000225380063,
+        "writeCallMs": 0.023999999975785613,
+        "writeEndToAckMs": 0.5477000000246335,
+        "commandToAckMs": 0.5734000000229571
+      },
+      "workerNoticeMs": 130012.31539999999,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 27,
+      "view": "grid",
+      "dueMs": 135000,
+      "dispatchMs": 135009.0753,
+      "schedulingLatenessMs": 9.075299999996787,
+      "schedule": {
+        "slot": 27,
+        "checkedMs": 135009.0655,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 15.465599999995902,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.5400000000081491,
+        "inputNoticeToAckIngressMs": 1.7461999999941327,
+        "ackIngressToRenderNoticeMs": 13.17939999999362
+      },
+      "rendererLocalMs": 15,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 2904,
+          "queueWaitMs": 2.800000011920929,
+          "hashMs": 0.19999998807907104,
+          "writeCallbackMs": 0.09999999403953552,
+          "callbackToRenderMs": 9.800000011920929
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.011199999978998676,
+        "writeStartToCallbackMs": 0.09369999999762513,
+        "writeStartToAckIngressMs": 1.735000000015134,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.014400000014575198,
+        "writeCallMs": 0.054899999988265336,
+        "writeEndToAckMs": 0.967000000004191,
+        "commandToAckMs": 1.0363000000070315
+      },
+      "workerNoticeMs": 135011.2684,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 28,
+      "view": "grid",
+      "dueMs": 140000,
+      "dispatchMs": 140006.74,
+      "schedulingLatenessMs": 6.739999999990687,
+      "schedule": {
+        "slot": 28,
+        "checkedMs": 140006.7296,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 15.124400000000605,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.7489000000059605,
+        "inputNoticeToAckIngressMs": 1.222299999993993,
+        "ackIngressToRenderNoticeMs": 13.153200000000652
+      },
+      "rendererLocalMs": 14.600000023841858,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 3156,
+          "queueWaitMs": 0,
+          "hashMs": 3.699999988079071,
+          "writeCallbackMs": 0.10000002384185791,
+          "callbackToRenderMs": 9
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.008200000011129305,
+        "writeStartToCallbackMs": 0.10999999998603016,
+        "writeStartToAckIngressMs": 1.2140999999828637,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0027999999874737114,
+        "writeCallMs": 0.02489999998942949,
+        "writeEndToAckMs": 0.7490000000107102,
+        "commandToAckMs": 0.7766999999876134
+      },
+      "workerNoticeMs": 140008.65899999999,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 29,
+      "view": "grid",
+      "dueMs": 145000,
+      "dispatchMs": 145011.193,
+      "schedulingLatenessMs": 11.192999999999302,
+      "schedule": {
+        "slot": 29,
+        "checkedMs": 145011.1837,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 16.815399999992223,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.45530000000144355,
+        "inputNoticeToAckIngressMs": 0.7611000000033528,
+        "ackIngressToRenderNoticeMs": 15.598999999987427
+      },
+      "rendererLocalMs": 16.30000001192093,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 3167,
+          "queueWaitMs": 0.09999999403953552,
+          "hashMs": 4.800000011920929,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 10.400000005960464
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.006800000002840534,
+        "writeStartToCallbackMs": 0.05119999998714775,
+        "writeStartToAckIngressMs": 0.7543000000005122,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.001999999978579581,
+        "writeCallMs": 0.023000000015599653,
+        "writeEndToAckMs": 0.3393999999971129,
+        "commandToAckMs": 0.36439999999129213
+      },
+      "workerNoticeMs": 145012.3274,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [
+        {
+          "index": 217,
+          "kind": "resource-sample",
+          "status": "completed",
+          "relation": "overlap"
+        }
+      ],
+      "operationCooccurrences": [
+        {
+          "index": 217,
+          "kind": "resource-sample",
+          "status": "completed",
+          "relation": "overlap"
+        }
+      ],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 30,
+      "view": "grid",
+      "dueMs": 150000,
+      "dispatchMs": 150005.7366,
+      "schedulingLatenessMs": 5.736600000003818,
+      "schedule": {
+        "slot": 30,
+        "checkedMs": 150005.7307,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "grid",
+      "viewMatches": true,
+      "totalMs": 14.468699999997625,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.3874999999825377,
+        "inputNoticeToAckIngressMs": 0.6070000000181608,
+        "ackIngressToRenderNoticeMs": 13.474199999996927
+      },
+      "rendererLocalMs": 14,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 3178,
+          "queueWaitMs": 0.09999999403953552,
+          "hashMs": 3.9000000059604645,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 9.199999988079071
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.007000000012340024,
+        "writeStartToCallbackMs": 0.0717000000004191,
+        "writeStartToAckIngressMs": 0.6000000000058208,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0019000000029336661,
+        "writeCallMs": 0.023799999995389953,
+        "writeEndToAckMs": 0.27729999998700805,
+        "commandToAckMs": 0.30299999998533167
+      },
+      "workerNoticeMs": 150006.6558,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 31,
+      "view": "focus",
+      "dueMs": 155000,
+      "dispatchMs": 155003.7312,
+      "schedulingLatenessMs": 3.7312000000092667,
+      "schedule": {
+        "slot": 31,
+        "checkedMs": 155003.72509999998,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 11.456599999975879,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.4339999999792781,
+        "inputNoticeToAckIngressMs": 0.7017000000050757,
+        "ackIngressToRenderNoticeMs": 10.320899999991525
+      },
+      "rendererLocalMs": 11.099999994039536,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 3189,
+          "queueWaitMs": 0.09999999403953552,
+          "hashMs": 1.800000011920929,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 8.299999982118607
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.00810000000637956,
+        "writeStartToCallbackMs": 0.08670000001438893,
+        "writeStartToAckIngressMs": 0.6935999999986961,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.001799999998183921,
+        "writeCallMs": 0.024199999985285103,
+        "writeEndToAckMs": 0.2741000000096392,
+        "commandToAckMs": 0.3000999999931082
+      },
+      "workerNoticeMs": 155004.739,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 32,
+      "view": "focus",
+      "dueMs": 160000,
+      "dispatchMs": 160010.3261,
+      "schedulingLatenessMs": 10.326100000005681,
+      "schedule": {
+        "slot": 32,
+        "checkedMs": 160010.31829999998,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 15.458400000003166,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.4145999999891501,
+        "inputNoticeToAckIngressMs": 0.6627999999909662,
+        "ackIngressToRenderNoticeMs": 14.38100000002305
+      },
+      "rendererLocalMs": 15,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 3200,
+          "queueWaitMs": 0,
+          "hashMs": 5.9000000059604645,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 8.199999988079071
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.0058000000135507435,
+        "writeStartToCallbackMs": 0.055899999977555126,
+        "writeStartToAckIngressMs": 0.6569999999774154,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0019000000029336661,
+        "writeCallMs": 0.023499999981140718,
+        "writeEndToAckMs": 0.2697000000043772,
+        "commandToAckMs": 0.2950999999884516
+      },
+      "workerNoticeMs": 160011.3257,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 33,
+      "view": "focus",
+      "dueMs": 165000,
+      "dispatchMs": 165009.3675,
+      "schedulingLatenessMs": 9.367499999993015,
+      "schedule": {
+        "slot": 33,
+        "checkedMs": 165009.36179999998,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 62.915600000007544,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.4365000000107102,
+        "inputNoticeToAckIngressMs": 31.757299999997485,
+        "ackIngressToRenderNoticeMs": 30.721799999999348
+      },
+      "rendererLocalMs": 62.39999997615814,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 3210,
+          "queueWaitMs": 0,
+          "hashMs": 0.30000001192092896,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 0.19999998807907104
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.005299999989802018,
+        "writeStartToCallbackMs": 30.713900000002468,
+        "writeStartToAckIngressMs": 31.752000000007683,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.002800000016577542,
+        "writeCallMs": 0.060999999986961484,
+        "writeEndToAckMs": 0.323900000017602,
+        "commandToAckMs": 0.387700000021141
+      },
+      "workerNoticeMs": 165041.45979999998,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 34,
+      "view": "focus",
+      "dueMs": 170000,
+      "dispatchMs": 170012.9161,
+      "schedulingLatenessMs": 12.916100000002189,
+      "schedule": {
+        "slot": 34,
+        "checkedMs": 170012.9104,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 16.792300000000978,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.43239999999059364,
+        "inputNoticeToAckIngressMs": 0.6413999999931548,
+        "ackIngressToRenderNoticeMs": 15.71850000001723
+      },
+      "rendererLocalMs": 16.399999976158142,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 3221,
+          "queueWaitMs": 0,
+          "hashMs": 7.0999999940395355,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 8.299999982118607
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.005499999999301508,
+        "writeStartToCallbackMs": 0.06650000001536682,
+        "writeStartToAckIngressMs": 0.6358999999938533,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0018999999738298357,
+        "writeCallMs": 0.051700000010896474,
+        "writeEndToAckMs": 0.2552000000141561,
+        "commandToAckMs": 0.3087999999988824
+      },
+      "workerNoticeMs": 170013.9176,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    },
+    {
+      "ordinal": 35,
+      "view": "focus",
+      "dueMs": 175000,
+      "dispatchMs": 175004.5931,
+      "schedulingLatenessMs": 4.5930999999982305,
+      "schedule": {
+        "slot": 35,
+        "checkedMs": 175004.5866,
+        "viewTransitioning": false
+      },
+      "rendererInputView": "focus",
+      "viewMatches": true,
+      "totalMs": 11.439799999992829,
+      "over100Ms": false,
+      "mainStagesComplete": true,
+      "mainChronologyValid": true,
+      "mainStages": {
+        "dispatchToInputNoticeMs": 0.4210000000020955,
+        "inputNoticeToAckIngressMs": 0.738599999982398,
+        "ackIngressToRenderNoticeMs": 10.280200000008335
+      },
+      "rendererLocalMs": 11,
+      "rendererStages": [
+        {
+          "chunkOrdinal": 3232,
+          "queueWaitMs": 0,
+          "hashMs": 0.9000000059604645,
+          "writeCallbackMs": 0,
+          "callbackToRenderMs": 9.199999988079071
+        }
+      ],
+      "parentControl": {
+        "inputNoticeToWriteStartMs": 0.007299999997485429,
+        "writeStartToCallbackMs": 0.07029999999213032,
+        "writeStartToAckIngressMs": 0.7312999999849126,
+        "callbackBeforeAckIngress": true
+      },
+      "workerLocal": {
+        "clock": "worker-monotonic",
+        "commandToWriteStartMs": 0.0025000000023283064,
+        "writeCallMs": 0.027999999991152436,
+        "writeEndToAckMs": 0.2888000000093598,
+        "commandToAckMs": 0.31930000000284053
+      },
+      "workerNoticeMs": 175005.6432,
+      "workerNoticeBeforeAckIngress": true,
+      "longTaskSupported": true,
+      "longTasks": [],
+      "preDispatchCooccurrences": [],
+      "operationCooccurrences": [],
+      "mainTimerCooccurrences": []
+    }
+  ]
+}

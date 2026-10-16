@@ -39,3 +39,7 @@ output/s5-input-trace/** -text
 output/s5-input-trace/*.log -whitespace
 output/s5-input-worker-trace/** -text
 output/s5-input-worker-trace/*.log -whitespace
+output/s5-input-scheduled/** -text
+output/s5-input-scheduled/*.log -whitespace
+output/s5-input-scheduled-views/** -text
+output/s5-input-scheduled-views/*.log -whitespace

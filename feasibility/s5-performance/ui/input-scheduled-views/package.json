@@ -1,0 +1,1 @@
+{"name":"tiye-s5-input-scheduled-views","private":true,"scripts":{"build":"node build.js","probe":"node run.js trace","test":"node --test test/*.test.js","check":"node check-evidence.js","check:runtime":"node check-evidence.js --runtime"}}
