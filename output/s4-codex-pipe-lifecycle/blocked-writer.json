@@ -1,0 +1,746 @@
+{
+  "mode": "blocked-writer",
+  "pid": 19780,
+  "returnCode": 1,
+  "deadlineSecondsAfterSpawn": 1.5,
+  "elapsedSecondsAfterSpawn": 1.5152641999884509,
+  "fault": "activity-deadline",
+  "killRequested": true,
+  "directChildReaped": true,
+  "ioTasksSettled": true,
+  "cleanupErrors": [],
+  "observedBytes": {
+    "stdout": 1439,
+    "stderr": 800
+  },
+  "retainedBytes": {
+    "stdout": 1439,
+    "stderr": 800
+  },
+  "limits": {
+    "stdout": 8192,
+    "stderr": 4096
+  },
+  "writerState": "uncertain-write-cancelled",
+  "writes": [
+    {
+      "kind": "blocked-input-fault",
+      "byteCount": 1048576,
+      "state": "uncertain-write-cancelled"
+    }
+  ],
+  "stdoutEofObserved": false,
+  "probeAcknowledgedAfterEof": false,
+  "writeBufferLowHigh": [
+    8192,
+    16384
+  ],
+  "events": [
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.02447340000071563,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.024524400010704994,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "drain-entered",
+      "elapsedSeconds": 0.024964400014141575,
+      "queuedBytes": 1048576
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.07462729999679141,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.0746318000019528,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 131,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.07466079998994246,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 52,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.12495240001589991,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.12495659998967312,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 177,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.12498439999762923,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 78,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.17516250000335276,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.1751669000077527,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 223,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.17519670000183396,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 104,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.2253158999956213,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.22532009999849834,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 269,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.22534830000950024,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 130,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.2754805000149645,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.27548479998949915,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 315,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.27551480001420714,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 156,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.325918599992292,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.3259226999944076,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 361,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.32595160001073964,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 182,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.37602319999132305,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.37602729999343865,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 407,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.376055600005202,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 208,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.42609409999568015,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.4260980999970343,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 453,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.4261263000080362,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 234,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.47624449999420904,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.4762487999978475,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 499,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.4762765000050422,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 260,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.5264172999886796,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.5264213999907952,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 546,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.5264504000078887,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 287,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.5768302000069525,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.5768342000083067,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 593,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.5768609000078868,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 314,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.6269268000032753,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.6269308000046294,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 640,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.6269591999880504,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 341,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.6771459000010509,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.677149900002405,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 687,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.677177900011884,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 368,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.7273464000027161,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.7273515000124462,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 734,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.7273817000095733,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 395,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.7774312999972608,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.7774349999963306,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 781,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.7774620999989565,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 422,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.8278285000124015,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.8278321000107098,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 828,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.82785880001029,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 449,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.8782272000098601,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.8782313000119757,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 875,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.8782607000030112,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 476,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.9287318999995477,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.9287360000016633,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 922,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.9287636000080965,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 503,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.9788885999878403,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.9788927999907173,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 969,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 0.9789197999925818,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 530,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 1.0289851000125054,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.0289891000138596,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 1016,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.0290193000109866,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 557,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 1.0793785999994725,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.0793826000008266,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 1063,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.0794105000095442,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 584,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 1.129485100012971,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.1294893000158481,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 1110,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.129515700013144,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 611,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 1.1799043999926653,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.1799083999940194,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 1157,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.179940700007137,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 638,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 1.2302504999970552,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.2302542999968864,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 1204,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.230282000004081,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 665,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 1.2805069999885745,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.280511499993736,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 1251,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.2805484000127763,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 692,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 1.3307377999881282,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.3307420999917667,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 1298,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.3307730999949854,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 719,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 1.380842799990205,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.380847399996128,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 1345,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.380880899989279,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 746,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 1.4309720000019297,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.4309763000055682,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 1392,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.431006200000411,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 773,
+      "writerTaskDone": false
+    },
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 1.4810270000016317,
+      "result": {
+        "event": "unmodeled-method"
+      }
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.4810312000045087,
+      "source": "stdout",
+      "queuedBytes": 1048576,
+      "observedBytes": 1439,
+      "writerTaskDone": false
+    },
+    {
+      "event": "output-read-while-drain-pending",
+      "elapsedSeconds": 1.4810596999886911,
+      "source": "stderr",
+      "queuedBytes": 1048576,
+      "observedBytes": 800,
+      "writerTaskDone": false
+    },
+    {
+      "event": "writer-cancelled",
+      "elapsedSeconds": 1.5132395999971777
+    },
+    {
+      "event": "policy-disconnect",
+      "elapsedSeconds": 1.5132879999873694,
+      "source": "local-abort",
+      "result": {
+        "event": "stream-closed"
+      }
+    },
+    {
+      "event": "direct-child-kill-requested",
+      "elapsedSeconds": 1.513430499995593
+    }
+  ],
+  "transportOpen": false,
+  "protocolStatus": "needs-attention",
+  "taskSuccess": null,
+  "outcome": "needs-attention"
+}

@@ -66,6 +66,12 @@ closed-input write error, bounded stdout/stderr floods and deadline cleanup.
 Only the owned synthetic direct child is covered; no real CLI or provider route
 is qualified. Next are independent stdout/process lifetime and blocked-writer
 cases with a synthetic peer.
+The subsequent [pipe-lifetime capture](output/s4-codex-pipe-lifecycle/README.md)
+now records peer acknowledgement of a control probe after stdout EOF, separately
+from process exit, and continued stdout/stderr reads during a blocked writer.
+Three adversarial scenarios and six capture tests passed; write cancellation
+remains uncertain and no callback is retried. Next is consolidation of the
+transport evidence and remaining real-CLI/provider qualification requirements.
 Full [S6](output/s6-assessment/README.md),
 S4 route qualification, unresolved
 S5 limits and the remaining S1–S3 requirements stay visible in the readiness ledger.

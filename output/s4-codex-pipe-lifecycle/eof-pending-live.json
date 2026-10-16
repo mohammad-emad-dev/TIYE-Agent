@@ -1,0 +1,89 @@
+{
+  "mode": "eof-pending-live",
+  "pid": 10100,
+  "returnCode": 1,
+  "deadlineSecondsAfterSpawn": 1.5,
+  "elapsedSecondsAfterSpawn": 1.5163799000147264,
+  "fault": "activity-deadline",
+  "killRequested": true,
+  "directChildReaped": true,
+  "ioTasksSettled": true,
+  "cleanupErrors": [],
+  "observedBytes": {
+    "stdout": 177,
+    "stderr": 72
+  },
+  "retainedBytes": {
+    "stdout": 177,
+    "stderr": 72
+  },
+  "limits": {
+    "stdout": 8192,
+    "stderr": 4096
+  },
+  "writerState": "locally-drained",
+  "writes": [
+    {
+      "kind": "post-eof-control-probe",
+      "byteCount": 37,
+      "state": "locally-drained"
+    }
+  ],
+  "stdoutEofObserved": true,
+  "probeAcknowledgedAfterEof": true,
+  "writeBufferLowHigh": [
+    8192,
+    16384
+  ],
+  "events": [
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.024787300004391,
+      "result": {
+        "event": "approval-pending",
+        "fingerprint": "706b98216b16db3de7adabc3e59eadd1ec7d08d5ed797c0007cee0dc371a847c"
+      }
+    },
+    {
+      "event": "stdout-eof-observed",
+      "elapsedSeconds": 0.024814300006255507,
+      "peerReturnCode": null
+    },
+    {
+      "event": "policy-disconnect",
+      "elapsedSeconds": 0.024817199999233708,
+      "source": "stdout-eof",
+      "result": {
+        "event": "stream-closed"
+      }
+    },
+    {
+      "event": "post-eof-reply-refused",
+      "elapsedSeconds": 0.024820099992211908,
+      "reason": "connection-closed"
+    },
+    {
+      "event": "drain-entered",
+      "elapsedSeconds": 0.024864900013199076,
+      "queuedBytes": 0
+    },
+    {
+      "event": "drain-returned",
+      "elapsedSeconds": 0.024869199987733737
+    },
+    {
+      "event": "probe-acknowledgement",
+      "elapsedSeconds": 0.02495319998706691,
+      "afterStdoutEof": true,
+      "peerReturnCode": null
+    },
+    {
+      "event": "direct-child-kill-requested",
+      "elapsedSeconds": 1.5148184999998193
+    }
+  ],
+  "transportOpen": false,
+  "protocolStatus": "needs-attention",
+  "taskSuccess": null,
+  "outcome": "needs-attention"
+}

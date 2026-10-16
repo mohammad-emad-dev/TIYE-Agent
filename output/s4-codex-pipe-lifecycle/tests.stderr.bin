@@ -1,0 +1,11 @@
+test_all_adversarial_peers_reach_deadline_and_direct_child_cleanup (test_capture.CaptureTests.test_all_adversarial_peers_reach_deadline_and_direct_child_cleanup) ... ok
+test_blocked_write_is_cancelled_once_without_retry_or_acceptance_claim (test_capture.CaptureTests.test_blocked_write_is_cancelled_once_without_retry_or_acceptance_claim) ... ok
+test_blocked_writer_does_not_stop_either_output_reader (test_capture.CaptureTests.test_blocked_writer_does_not_stop_either_output_reader) ... ok
+test_completed_protocol_does_not_clear_live_peer_deadline (test_capture.CaptureTests.test_completed_protocol_does_not_clear_live_peer_deadline) ... ok
+test_eof_precedes_probe_ack_and_does_not_imply_process_exit (test_capture.CaptureTests.test_eof_precedes_probe_ack_and_does_not_imply_process_exit) ... ok
+test_pending_approval_is_refused_after_eof_before_control_probe (test_capture.CaptureTests.test_pending_approval_is_refused_after_eof_before_control_probe) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.003s
+
+OK

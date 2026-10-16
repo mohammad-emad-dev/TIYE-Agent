@@ -1,0 +1,66 @@
+{
+  "schema": "tiye-synthetic-pipe-lifecycle-v1",
+  "state": "synthetic-pipe-lifecycle-verified",
+  "scenarios": [
+    "eof-pending-live",
+    "eof-completed-live",
+    "blocked-writer"
+  ],
+  "sourceSha256": {
+    "feasibility/s6-wsl/codex-framing/framing.py": "f1aaf415660293fa01fa86496921547443eb5497c132f00413e43b91dae75a1d",
+    "feasibility/s6-wsl/codex-framing/run.py": "b250766fa0c0d3fd2ef1f47e2266ce76ece07719185d5306dde381ac6dce40a6",
+    "feasibility/s6-wsl/codex-framing/test_framing.py": "eac14ba5c842a4ca0f4a9755923d9ef7f1c65a3356f01b91136b3ec8f0d9fdd3",
+    "feasibility/s6-wsl/codex-pipe-lifecycle/harness.py": "3b0470d8d74d1e35bcb149d598be39840afff0eb2cff27ed69bba817796012b4",
+    "feasibility/s6-wsl/codex-pipe-lifecycle/run.py": "a372c50202a119bf80c7c4f3174d7de8dbda4a5a9c68469e74bf1d1adbb46120",
+    "feasibility/s6-wsl/codex-pipe-lifecycle/synthetic_peer.py": "b31ff5d12b803f814437d838df9be26f01703017b9a29fd2e2155cfdf15d33b6",
+    "feasibility/s6-wsl/codex-pipe-lifecycle/test_capture.py": "650ee7c9aa159fc64cb8660987a5d467425acac61defc29bdf6f4bd7c99cd8aa",
+    "feasibility/s6-wsl/codex-replay/replay.py": "9d2ebd8a23215efde6e3cfb6576cd2d0310b2282e93e643f302c2d6d96bc3385",
+    "feasibility/s6-wsl/codex-replay/run.py": "585f9f12c78078f3e9b2c7a4cc619fcbc632f749cba980c6d54855cf52b5eb06",
+    "feasibility/s6-wsl/codex-replay/test_replay.py": "1ade3c3b3b86c979c642b6d77d7f7cc99501b1ed46948f1aab869a85d91f65f7"
+  },
+  "inputSha256": {
+    "probeUtf8": "3f13bbfa0d8db8800a47757ecc0f59cd71915bcc99c12a7a0ded9ee76be2b500",
+    "blockedPayload": "097e10cd3204d7b09baf2863693f7d7906f2bd75d057f70a4bd0c2821e95d2f5"
+  },
+  "schemaArchiveSha256": "e428d95d952017d9880841e83b75d592463180ba6cb94d86b5da826b913ef406",
+  "runtime": {
+    "python": "3.14.7",
+    "platform": "Windows-11-10.0.26300-SP0"
+  },
+  "tests": {
+    "exitCode": 0,
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "-B",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "D:\\TIYE Agent\\feasibility\\s6-wsl\\codex-pipe-lifecycle",
+      "-p",
+      "test_capture.py",
+      "-v"
+    ],
+    "deadlineSeconds": 30
+  },
+  "nativeWindowsSyntheticPeerRun": true,
+  "providerRequestRun": false,
+  "fullS4Qualified": false,
+  "fullS6Qualified": false,
+  "phase1Construction": "HOLD",
+  "artifactSha256": {
+    "blocked-writer.json": "98ccc2184390e95ca5db71d1fc988396960ce69af4e7fcb03287e4d08ebfd5e0",
+    "blocked-writer.stderr.bin": "190182f9973a0ec709622e13b39579be3c8ceb30a484e8fea73a41c5cc989e70",
+    "blocked-writer.stdout.bin": "e981d53d40e49b9a20f3664b8244bd5a91baf9f8a14a53152979af044d320e52",
+    "eof-completed-live.json": "e25beeac0811bb3ec58582d31d6c1748bc5616ca31fb6753b5d11a34e9ce1251",
+    "eof-completed-live.stderr.bin": "4e27700daf71bf4515ae33ccb5f104f2af955014faf362cc4e9a1004edb21539",
+    "eof-completed-live.stdout.bin": "f9a3c79d1f5f75048ecf0e4c44fe9248137b71bc3f1525ae5378a29288fe5e94",
+    "eof-pending-live.json": "1d28f11df8eab8d4dc1aabedff95966f88cc0f28528b505ec6cd0ee9d730fa1c",
+    "eof-pending-live.stderr.bin": "4e27700daf71bf4515ae33ccb5f104f2af955014faf362cc4e9a1004edb21539",
+    "eof-pending-live.stdout.bin": "0cd92de75bdadfac54a54e1e781d5a7d0b71db80870f85537af4cff37650f7a0",
+    "tests.stderr.bin": "924000b2e7fc99845759bc320ce82fb365d983418eee7c8914bcd8a549a7a615",
+    "tests.stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

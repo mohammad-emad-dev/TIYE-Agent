@@ -1,0 +1,84 @@
+{
+  "mode": "eof-completed-live",
+  "pid": 8068,
+  "returnCode": 1,
+  "deadlineSecondsAfterSpawn": 1.5,
+  "elapsedSecondsAfterSpawn": 1.5030170000100043,
+  "fault": "activity-deadline",
+  "killRequested": true,
+  "directChildReaped": true,
+  "ioTasksSettled": true,
+  "cleanupErrors": [],
+  "observedBytes": {
+    "stdout": 124,
+    "stderr": 72
+  },
+  "retainedBytes": {
+    "stdout": 124,
+    "stderr": 72
+  },
+  "limits": {
+    "stdout": 8192,
+    "stderr": 4096
+  },
+  "writerState": "locally-drained",
+  "writes": [
+    {
+      "kind": "post-eof-control-probe",
+      "byteCount": 37,
+      "state": "locally-drained"
+    }
+  ],
+  "stdoutEofObserved": true,
+  "probeAcknowledgedAfterEof": true,
+  "writeBufferLowHigh": [
+    8192,
+    16384
+  ],
+  "events": [
+    {
+      "event": "policy-receive",
+      "elapsedSeconds": 0.025548400008119643,
+      "result": {
+        "event": "protocol-completed",
+        "taskSuccess": null
+      }
+    },
+    {
+      "event": "stdout-eof-observed",
+      "elapsedSeconds": 0.025567600008798763,
+      "peerReturnCode": null
+    },
+    {
+      "event": "policy-disconnect",
+      "elapsedSeconds": 0.02557110000634566,
+      "source": "stdout-eof",
+      "result": {
+        "event": "stream-closed"
+      }
+    },
+    {
+      "event": "drain-entered",
+      "elapsedSeconds": 0.0256152999936603,
+      "queuedBytes": 0
+    },
+    {
+      "event": "drain-returned",
+      "elapsedSeconds": 0.025618899991968647
+    },
+    {
+      "event": "probe-acknowledgement",
+      "elapsedSeconds": 0.02569710000534542,
+      "afterStdoutEof": true,
+      "peerReturnCode": null
+    },
+    {
+      "event": "direct-child-kill-requested",
+      "elapsedSeconds": 1.501443899993319
+    }
+  ],
+  "transportOpen": false,
+  "protocolStatus": "protocol-completed",
+  "taskSuccess": null,
+  "outcome": "needs-attention"
+}

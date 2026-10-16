@@ -1,0 +1,137 @@
+{
+  "schema": "tiye-synthetic-pipe-lifecycle-review-v1",
+  "reviews": [
+    {
+      "reviewer": "codex",
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "scope": "design",
+      "status": "timeout",
+      "exitCode": 1,
+      "startedAt": "2026-10-16T16:52:04.692Z",
+      "finishedAt": "2026-10-16T16:53:35.026Z",
+      "observedToolEvents": 0,
+      "contextOnly": true,
+      "artifactSha256": {
+        "brief.txt": "e4e7ff32a69b9e68cce5e68134f73975804d0718882866972aa63bba91a06bcf",
+        "events.jsonl": "e1bfb7240a5cfb6809ce958542a1da7c7bce0950cf5c0c785fbdd5c180ab39a1",
+        "final.txt": null,
+        "stderr.txt": "0452f9020a16cddbf544380daac84997439e3d18075541aad90370e43c8c9efd",
+        "result.json": "cb2f15664f655d3c23abe1d636ca987bb4744a6c66532a0d8d3d28245b1a149f"
+      }
+    },
+    {
+      "reviewer": "muse",
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "effort": "xhigh",
+      "scope": "design",
+      "status": "completed",
+      "exitCode": 0,
+      "startedAt": "2026-10-16T16:52:14.825Z",
+      "finishedAt": "2026-10-16T16:53:16.969Z",
+      "observedToolEvents": 0,
+      "contextOnly": true,
+      "artifactSha256": {
+        "brief.txt": "e4e7ff32a69b9e68cce5e68134f73975804d0718882866972aa63bba91a06bcf",
+        "events.jsonl": "376192e4bfcfc97a6f06d8b337d98c09c5ca1427b7102e3edd21ddbee5df27b4",
+        "final.txt": "1ae873ce8a706cf897a231512d2db7fb84dd131a345fa55659976fc3d7ea4567",
+        "stderr.txt": null,
+        "result.json": "d9f1aeb4fd5aa72c8c473ff5dddc2c68a4e5b0fe888d0f35421afbcd96996ced"
+      }
+    },
+    {
+      "reviewer": "space",
+      "model": "opencode/space-bunny-free",
+      "effort": "xhigh",
+      "scope": "candidate-code",
+      "status": "timeout",
+      "exitCode": 1,
+      "startedAt": "2026-10-16T16:54:21.512Z",
+      "finishedAt": "2026-10-16T16:55:51.900Z",
+      "observedToolEvents": 0,
+      "contextOnly": true,
+      "artifactSha256": {
+        "brief.txt": "dd54da9950e6ce9076d90732d2e0fa012089b939fea89b6dfef2466f1f2e9a62",
+        "events.jsonl": "7a350bcce7ddcc704076a08f124362f844908978e13eaf99cbedf35d1718a56c",
+        "final.txt": null,
+        "stderr.txt": null,
+        "result.json": "24d219e67100c2ee84040a410a0214e31e7b08462fd4e4d8f2a2e75778fc57eb"
+      }
+    },
+    {
+      "reviewer": "deepseek",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "scope": "candidate-code-and-tests",
+      "status": "timeout",
+      "exitCode": 1,
+      "startedAt": "2026-10-16T16:56:18.431Z",
+      "finishedAt": "2026-10-16T16:57:48.886Z",
+      "observedToolEvents": 0,
+      "contextOnly": true,
+      "artifactSha256": {
+        "brief.txt": "b862c2e7c3d5a238039c10aeb08d702f09e1f3d80fe43ef9015dda7010dfee13",
+        "events.jsonl": "86a01abc9664c18d91cedaae3128f850ce115fc09a28a3ccfea20ae4622af438",
+        "final.txt": null,
+        "stderr.txt": null,
+        "result.json": "731f534fa690e8e143432453cb96947f10bca1347c4727b70a7d335d1578d76c"
+      }
+    }
+  ],
+  "gemini": {
+    "dispatched": false,
+    "reason": "Recorded consumer route excluded from delegation and integration"
+  },
+  "provenance": "Supplied-context design/candidate reviews, not independent workspace verification. Final sources frozen before native recording. touchedFiles can include concurrent parent edits; recursive tool audit found zero.",
+  "museDesignDisposition": [
+    {
+      "findings": "1: bounded probe write and distinct control input",
+      "decision": "Existing activity deadline bounds send/drain. Tests require fixed probe under4KiB, exact peer acknowledgement and refusal of pending callback before the probe. No approval callback is sent."
+    },
+    {
+      "findings": "2: ambiguous acknowledgement framing",
+      "decision": "No ambiguity in fixed peer: EOF scenarios emit one standalone JSON acknowledgement on stderr and no pulses. Tests compare entire retained stderr bytes to that exact record. No custom ACK syntax needed."
+    },
+    {
+      "findings": "3-4: prefix capture and stream-specific caps",
+      "decision": "Explicit stdout8192/stderr4096 caps and observed/retained counters. Tests require no overflow for accepted captures; no full-output/postkill-drain claim. Partial final records under cancellation handled as prefixes."
+    },
+    {
+      "findings": "5: activity/spawn timing",
+      "decision": "Monotonic activity timing begins after create_subprocess_exec returns. No separate startup latency qualification or500ms requirement adopted."
+    },
+    {
+      "findings": "6: single writer trigger",
+      "decision": "One waiting writer task and one asyncio.Event, set on EOF or the fixed ready stream. Exact one write asserted. Candidate is fixed-peer tooling, not general packet dispatch."
+    },
+    {
+      "findings": "7: concrete drain-pending evidence",
+      "decision": "Uses transport.get_write_buffer_size. Added explicit writerTaskDone observation before final capture; tests require positive queue and unfinished task at multiple increasing-read observations on both streams."
+    },
+    {
+      "findings": "8-9: cancelled writer reuse and Windows cleanup",
+      "decision": "Cancellation latches uncertain-write-cancelled, no retry. Activity cancellation settles before local policy close/kill; separate child wait, task settlement and bounded stdin close/abort. No additional data write follows cancellation."
+    },
+    {
+      "findings": "10-11: allowlist and descendant boundary",
+      "decision": "Resolved module directory gives absolute fixed path; validated mode and argv list, -I, no shell. Known peer source is hashed and inspected; no descendants or runtime tree containment claimed. No brittle keyword-only static guard added."
+    },
+    {
+      "findings": "12: input/source hash freeze",
+      "decision": "Recorder freezes source/dependency/archive and explicit probe/payload hashes before final launch. Saved --check is in-process hashes/assertions only."
+    },
+    {
+      "findings": "13: separate output and platform limits",
+      "decision": "New exclusive output directory, immutable prior cohorts. Documentation limits observations to native Windows termination and fixed peers; no Linux signal claims."
+    }
+  ],
+  "parentVerification": {
+    "testGuard": "Six focused capture behavior tests, real native outputs, no mocks; variants use subTest. Prefix-aware assertions avoid assuming deadline captures end on LF.",
+    "docsGuard": "Claims, local paths, commands, input/capture bounds and EOF/abort distinction checked against code and recorded evidence.",
+    "preliminaryRuns": "One exploratory and one preflight cohort before final recording; only final cohort published.",
+    "priorEvidence": "Saved original stdio and framing checks passed unchanged.",
+    "fullS4Qualified": false,
+    "fullS6Qualified": false,
+    "phase1Construction": "HOLD"
+  }
+}

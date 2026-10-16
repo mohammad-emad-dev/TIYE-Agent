@@ -90,4 +90,6 @@ output/s4-codex-framing/** -text
 output/s4-codex-framing/*.bin -whitespace
 output/s4-codex-stdio/** -text
 output/s4-codex-stdio/*.bin -whitespace
+output/s4-codex-pipe-lifecycle/** -text
+output/s4-codex-pipe-lifecycle/*.bin -whitespace
 feasibility/s6-wsl/** -text
