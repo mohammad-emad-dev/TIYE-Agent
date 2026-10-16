@@ -1,0 +1,11 @@
+test_blocked_host_is_stopped_with_worker_and_peer (test_supervised.IntegratedTests.test_blocked_host_is_stopped_with_worker_and_peer) ... ok
+test_existing_run_record_refuses_relaunch (test_supervised.IntegratedTests.test_existing_run_record_refuses_relaunch) ... ok
+test_host_exit_does_not_hide_live_worker_and_peer (test_supervised.IntegratedTests.test_host_exit_does_not_hide_live_worker_and_peer) ... ok
+test_native_capture_refuses_without_creating_launch_artifacts (test_supervised.IntegratedTests.test_native_capture_refuses_without_creating_launch_artifacts) ... ok
+test_valid_foreign_and_corrupt_reports_preserve_protocol_outcomes (test_supervised.IntegratedTests.test_valid_foreign_and_corrupt_reports_preserve_protocol_outcomes) ... ok
+test_watchdog_crash_stops_integrated_tree_and_spares_sentinel (test_supervised.IntegratedTests.test_watchdog_crash_stops_integrated_tree_and_spares_sentinel) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 6.003s
+
+OK

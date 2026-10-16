@@ -1,0 +1,471 @@
+[
+  {
+    "case": "blocked-host",
+    "watchdog": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "fbcef26966bf429fb68bfb7939b5e23c",
+      "deadlineSeconds": 2.0,
+      "rootExitSeen": false,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 8720,
+      "stopReason": "deadline",
+      "activeProcessesObservedBeforeStop": 4,
+      "stopDecisionElapsedSeconds": 2.0003823000006378,
+      "stopDecisionLatenessSeconds": 0.0003823000006377697,
+      "terminationRequestReturnedSeconds": 2.000587700000324,
+      "rootHandleSignaled": true,
+      "finalRootExitCode": 124,
+      "cleanupObservationSeconds": 0.0055020999989210395,
+      "elapsedSeconds": 2.0061129000005167
+    },
+    "identities": [
+      {
+        "pid": 8720,
+        "creationTime": 134366619635332874,
+        "nonce": "fbcef26966bf429fb68bfb7939b5e23c"
+      },
+      {
+        "pid": 18268,
+        "creationTime": 134366619636436067,
+        "nonce": "fbcef26966bf429fb68bfb7939b5e23c"
+      },
+      {
+        "pid": 18304,
+        "creationTime": 134366619637549738,
+        "nonce": "fbcef26966bf429fb68bfb7939b5e23c"
+      }
+    ],
+    "independentHandlesSignaled": true,
+    "hostCompletionReportAbsent": true
+  },
+  {
+    "case": "relaunch-refusal",
+    "priorRecordUnchanged": true,
+    "launchArtifactsAbsent": true
+  },
+  {
+    "case": "host-exit-with-descendants",
+    "watchdog": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "f9b06a088f224950adec7ffa926e3a3f",
+      "deadlineSeconds": 2.0,
+      "rootExitSeen": true,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 18088,
+      "rootExitCode": 7,
+      "stopReason": "deadline",
+      "activeProcessesObservedBeforeStop": 3,
+      "stopDecisionElapsedSeconds": 2.000468300000648,
+      "stopDecisionLatenessSeconds": 0.00046830000064801425,
+      "terminationRequestReturnedSeconds": 2.000505500000145,
+      "rootHandleSignaled": true,
+      "finalRootExitCode": 7,
+      "cleanupObservationSeconds": 1.2500000593718141e-05,
+      "elapsedSeconds": 2.0005366999994294
+    },
+    "identities": [
+      {
+        "pid": 18088,
+        "creationTime": 134366619657003363,
+        "nonce": "f9b06a088f224950adec7ffa926e3a3f"
+      },
+      {
+        "pid": 6248,
+        "creationTime": 134366619658046417,
+        "nonce": "f9b06a088f224950adec7ffa926e3a3f"
+      },
+      {
+        "pid": 18944,
+        "creationTime": 134366619658967543,
+        "nonce": "f9b06a088f224950adec7ffa926e3a3f"
+      }
+    ],
+    "descendantsObservedLiveAfterHostExit": true,
+    "independentHandlesSignaled": true
+  },
+  {
+    "case": "native-refusal",
+    "exitCode": 2,
+    "launchArtifactsAbsent": true
+  },
+  {
+    "case": "valid",
+    "host": {
+      "mode": "valid",
+      "nonce": "2edf5571ffd24784a13017b0df9a3776",
+      "synthetic": true,
+      "host": {
+        "fault": null,
+        "writes": [
+          {
+            "bytes": 45,
+            "state": "locally-drained"
+          }
+        ],
+        "signals": [],
+        "cleanupErrors": [],
+        "spawnUncertain": false,
+        "directChildReaped": true,
+        "returnCode": 0,
+        "readerEof": {
+          "stdout": true,
+          "stderr": true
+        },
+        "elapsedSeconds": 0.17371040000034554,
+        "observedBytes": {
+          "stdout": 980,
+          "stderr": 0
+        },
+        "retainedBytes": {
+          "stdout": 980,
+          "stderr": 0
+        },
+        "discardedBytes": {
+          "stdout": 0,
+          "stderr": 0
+        }
+      },
+      "worker": {
+        "event": "result",
+        "nonce": "2edf5571ffd24784a13017b0df9a3776",
+        "observation": {
+          "fault": null,
+          "writes": [
+            {
+              "bytes": 31,
+              "state": "locally-drained"
+            },
+            {
+              "bytes": 25,
+              "state": "locally-drained"
+            }
+          ],
+          "signals": [],
+          "cleanupErrors": [],
+          "spawnUncertain": false,
+          "directChildReaped": true,
+          "returnCode": 0,
+          "readerEof": {
+            "stdout": true,
+            "stderr": true
+          },
+          "elapsedSeconds": 0.037599799999952666,
+          "observedBytes": {
+            "stdout": 146,
+            "stderr": 34
+          },
+          "retainedBytes": {
+            "stdout": 146,
+            "stderr": 34
+          },
+          "discardedBytes": {
+            "stdout": 0,
+            "stderr": 0
+          },
+          "synthetic": true,
+          "handshakeAccepted": true,
+          "handshakeFault": null,
+          "initializedWitness": true
+        },
+        "rawBase64": {
+          "stdout": "eyJpZCI6IDEsICJyZXN1bHQiOiB7ImNvZGV4SG9tZSI6ICIvZml4dHVyZSIsICJwbGF0Zm9ybUZhbWlseSI6ICJ1bml4IiwgInBsYXRmb3JtT3MiOiAibGludXgiLCAidXNlckFnZW50IjogInN5bnRoZXRpYyDYudix2KjZiiDml6XmnKzoqp4g8J+ZgiJ9fQo=",
+          "stderr": "aW5pdGlhbGl6ZWQtbm90aWZpY2F0aW9uLW9ic2VydmVkCg=="
+        }
+      },
+      "syntheticProtocolObserved": true,
+      "protocolValidationFault": null,
+      "nativeAdmissionGranted": false
+    },
+    "watchdog": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "2edf5571ffd24784a13017b0df9a3776",
+      "deadlineSeconds": 6.0,
+      "rootExitSeen": true,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 18388,
+      "rootExitCode": 0,
+      "stopReason": "job-empty",
+      "stopDecisionElapsedSeconds": 0.3087637000007817,
+      "rootHandleSignaled": true,
+      "finalRootExitCode": 0,
+      "cleanupObservationSeconds": 1.5200001143966801e-05,
+      "elapsedSeconds": 0.30879880000065896
+    },
+    "identities": [
+      {
+        "pid": 18388,
+        "creationTime": 134366619678673905,
+        "nonce": "2edf5571ffd24784a13017b0df9a3776"
+      },
+      {
+        "pid": 16972,
+        "creationTime": 134366619679845883,
+        "nonce": "2edf5571ffd24784a13017b0df9a3776"
+      }
+    ],
+    "independentHandlesSignaled": true
+  },
+  {
+    "case": "foreign",
+    "host": {
+      "mode": "foreign",
+      "nonce": "da8d39fb0b364506861d500433853b2b",
+      "synthetic": true,
+      "host": {
+        "fault": null,
+        "writes": [
+          {
+            "bytes": 45,
+            "state": "locally-drained"
+          }
+        ],
+        "signals": [],
+        "cleanupErrors": [],
+        "spawnUncertain": false,
+        "directChildReaped": true,
+        "returnCode": 0,
+        "readerEof": {
+          "stdout": true,
+          "stderr": true
+        },
+        "elapsedSeconds": 0.15429690000019036,
+        "observedBytes": {
+          "stdout": 945,
+          "stderr": 0
+        },
+        "retainedBytes": {
+          "stdout": 945,
+          "stderr": 0
+        },
+        "discardedBytes": {
+          "stdout": 0,
+          "stderr": 0
+        }
+      },
+      "worker": {
+        "event": "result",
+        "nonce": "da8d39fb0b364506861d500433853b2b",
+        "observation": {
+          "fault": "uncorrelated-or-error-response",
+          "writes": [
+            {
+              "bytes": 31,
+              "state": "locally-drained"
+            }
+          ],
+          "signals": [],
+          "cleanupErrors": [],
+          "spawnUncertain": false,
+          "directChildReaped": true,
+          "returnCode": 0,
+          "readerEof": {
+            "stdout": true,
+            "stderr": true
+          },
+          "elapsedSeconds": 0.030465400001048693,
+          "observedBytes": {
+            "stdout": 146,
+            "stderr": 0
+          },
+          "retainedBytes": {
+            "stdout": 146,
+            "stderr": 0
+          },
+          "discardedBytes": {
+            "stdout": 0,
+            "stderr": 0
+          },
+          "synthetic": true,
+          "handshakeAccepted": false,
+          "handshakeFault": "uncorrelated-or-error-response",
+          "initializedWitness": false
+        },
+        "rawBase64": {
+          "stdout": "eyJpZCI6IDIsICJyZXN1bHQiOiB7ImNvZGV4SG9tZSI6ICIvZml4dHVyZSIsICJwbGF0Zm9ybUZhbWlseSI6ICJ1bml4IiwgInBsYXRmb3JtT3MiOiAibGludXgiLCAidXNlckFnZW50IjogInN5bnRoZXRpYyDYudix2KjZiiDml6XmnKzoqp4g8J+ZgiJ9fQo=",
+          "stderr": ""
+        }
+      },
+      "syntheticProtocolObserved": false,
+      "protocolValidationFault": null,
+      "nativeAdmissionGranted": false
+    },
+    "watchdog": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "da8d39fb0b364506861d500433853b2b",
+      "deadlineSeconds": 6.0,
+      "rootExitSeen": true,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 17784,
+      "rootExitCode": 1,
+      "stopReason": "job-empty",
+      "stopDecisionElapsedSeconds": 0.28841800000009243,
+      "rootHandleSignaled": true,
+      "finalRootExitCode": 1,
+      "cleanupObservationSeconds": 1.6899999536690302e-05,
+      "elapsedSeconds": 0.2884625999995478
+    },
+    "identities": [
+      {
+        "pid": 17784,
+        "creationTime": 134366619682762555,
+        "nonce": "da8d39fb0b364506861d500433853b2b"
+      },
+      {
+        "pid": 17536,
+        "creationTime": 134366619683801350,
+        "nonce": "da8d39fb0b364506861d500433853b2b"
+      }
+    ],
+    "independentHandlesSignaled": true
+  },
+  {
+    "case": "invalid-raw",
+    "host": {
+      "mode": "invalid-raw",
+      "nonce": "f065d11196fa4b1a8f9d92c7c2269b02",
+      "synthetic": true,
+      "host": {
+        "fault": null,
+        "writes": [
+          {
+            "bytes": 45,
+            "state": "locally-drained"
+          }
+        ],
+        "signals": [],
+        "cleanupErrors": [],
+        "spawnUncertain": false,
+        "directChildReaped": true,
+        "returnCode": 0,
+        "readerEof": {
+          "stdout": true,
+          "stderr": true
+        },
+        "elapsedSeconds": 0.1660941999998613,
+        "observedBytes": {
+          "stdout": 784,
+          "stderr": 0
+        },
+        "retainedBytes": {
+          "stdout": 784,
+          "stderr": 0
+        },
+        "discardedBytes": {
+          "stdout": 0,
+          "stderr": 0
+        }
+      },
+      "worker": {
+        "event": "result",
+        "nonce": "f065d11196fa4b1a8f9d92c7c2269b02",
+        "observation": {
+          "fault": null,
+          "writes": [
+            {
+              "bytes": 31,
+              "state": "locally-drained"
+            },
+            {
+              "bytes": 25,
+              "state": "locally-drained"
+            }
+          ],
+          "signals": [],
+          "cleanupErrors": [],
+          "spawnUncertain": false,
+          "directChildReaped": true,
+          "returnCode": 0,
+          "readerEof": {
+            "stdout": true,
+            "stderr": true
+          },
+          "elapsedSeconds": 0.03774879999946279,
+          "observedBytes": {
+            "stdout": 146,
+            "stderr": 34
+          },
+          "retainedBytes": {
+            "stdout": 146,
+            "stderr": 34
+          },
+          "discardedBytes": {
+            "stdout": 0,
+            "stderr": 0
+          },
+          "synthetic": true,
+          "handshakeAccepted": true,
+          "handshakeFault": null,
+          "initializedWitness": true
+        },
+        "rawBase64": {
+          "stdout": "!",
+          "stderr": "aW5pdGlhbGl6ZWQtbm90aWZpY2F0aW9uLW9ic2VydmVkCg=="
+        }
+      },
+      "syntheticProtocolObserved": false,
+      "protocolValidationFault": "Error:Only base64 data is allowed",
+      "nativeAdmissionGranted": false
+    },
+    "watchdog": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "f065d11196fa4b1a8f9d92c7c2269b02",
+      "deadlineSeconds": 6.0,
+      "rootExitSeen": true,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 4516,
+      "rootExitCode": 1,
+      "stopReason": "job-empty",
+      "stopDecisionElapsedSeconds": 0.3073623000000225,
+      "rootHandleSignaled": true,
+      "finalRootExitCode": 1,
+      "cleanupObservationSeconds": 1.680000059423037e-05,
+      "elapsedSeconds": 0.30740250000053493
+    },
+    "identities": [
+      {
+        "pid": 4516,
+        "creationTime": 134366619686749744,
+        "nonce": "f065d11196fa4b1a8f9d92c7c2269b02"
+      },
+      {
+        "pid": 1968,
+        "creationTime": 134366619687871743,
+        "nonce": "f065d11196fa4b1a8f9d92c7c2269b02"
+      }
+    ],
+    "independentHandlesSignaled": true
+  },
+  {
+    "case": "watchdog-crash",
+    "identities": [
+      {
+        "pid": 5604,
+        "creationTime": 134366619691304191,
+        "nonce": "c129a4bd39434719a526e7dd7979eb45"
+      },
+      {
+        "pid": 17160,
+        "creationTime": 134366619692452769,
+        "nonce": "c129a4bd39434719a526e7dd7979eb45"
+      },
+      {
+        "pid": 14628,
+        "creationTime": 134366619693455406,
+        "nonce": "c129a4bd39434719a526e7dd7979eb45"
+      }
+    ],
+    "sentinelIdentity": {
+      "pid": 11260,
+      "creationTime": 134366619689963068,
+      "nonce": "c129a4bd39434719a526e7dd7979eb45"
+    },
+    "independentHandlesSignaled": true,
+    "unrelatedSentinelStillLive": true,
+    "normalCompletionReportAbsent": true
+  }
+]

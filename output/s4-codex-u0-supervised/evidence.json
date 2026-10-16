@@ -1,0 +1,39 @@
+{
+  "projectDate": "2026-10-17",
+  "host": "Windows-11-10.0.26300-SP0",
+  "python": "3.14.7",
+  "sourceSha256": {
+    "feasibility/s6-wsl/codex-u0/check.py": "313ae5cbdbe01faf873db9006b53e95154db1f0fa70c765a9bbea2c4889762ca",
+    "feasibility/s6-wsl/codex-u0/linux.py": "d1fdfff6021bfc4a513250787768d6627479d540bf5d1cc13cad07ba88c2d9f6",
+    "feasibility/s6-wsl/codex-u0/peer.py": "b1ad1c8979712e5e4726d37ba95f2b99593551d9abd25338fb5cc77b091a9cec",
+    "feasibility/s6-wsl/codex-u0/run.py": "b1803c50c956a9a2d5639345eab1c119be49bb791b27ff79e8c113af736bb178",
+    "feasibility/s6-wsl/codex-u0/test_u0.py": "0907763388995d274592a156a728c30d8f115cc6e378bcb9d74721fc623f3dea",
+    "feasibility/s6-wsl/codex-u0/transport.py": "d44f8c00069b9f05610427a7e9b79a3b84d43c6d7caf5223b5c87eb5ea811a9b",
+    "feasibility/s6-wsl/codex-u0-supervised/host.py": "dcf9471e0b2710011707114275564f7ab5b6fe72c3d2300c581281aa5026b4a1",
+    "feasibility/s6-wsl/codex-u0-supervised/record.py": "ef9605ef743fb42e9c0038266adde27c733f1ab66146eea19c44d5fca98aacb1",
+    "feasibility/s6-wsl/codex-u0-supervised/run.py": "ee3012f3aaa1b535bd4053a5e8d7c825c479ddb78d53f3eb01d10d59e34b6d5d",
+    "feasibility/s6-wsl/codex-u0-supervised/support.py": "bfd7dec327281f7b0fe11366e13dfedec70c37a155d693d9043bd166fbc2964c",
+    "feasibility/s6-wsl/codex-u0-supervised/test_supervised.py": "d57ecdcce2fc751b4ab87ce105bec785517428f8a015576f02e2872e9ba3abff",
+    "feasibility/s6-wsl/codex-u0-supervised/worker.py": "4e90e4e65fc6fecd30d6ab79a89a50ed44e06d27be1801edea3bfb1b06051161",
+    "feasibility/s6-wsl/codex-u0-watchdog-v2/peer.py": "f8a0569d8429b6aebbe8627e18e02a183a59b5e51efd09ff13776dd92118a92f",
+    "feasibility/s6-wsl/codex-u0-watchdog-v2/run.py": "67cb2e31d3dbad6a3abdfc5fbdb99ec23811c2b812989a201cbd1f5082dc524c",
+    "feasibility/s6-wsl/codex-u0-watchdog-v2/test_watchdog.py": "34307d9f35df45f70238a4cb6eb5d275e90768842a470e4db38b02e07ebc85bd",
+    "feasibility/s6-wsl/codex-u0-watchdog-v2/watchdog.py": "b5aec82280f45f68c5fa567c0fd1e69bb7677a7ca34cbe40dace6cd13199cc46",
+    "feasibility/s6-wsl/codex-u0-watchdog-v2/winjob.py": "cba5dd28c2449b0a23447d44a6dc9ff0190414f13392f76296a3c99a80cbc23a"
+  },
+  "artifactSha256": {
+    "input.json": "57a5a9137013e2bc276f85399295cf47150d05f7aae3c80508cba7dbbf95c9be",
+    "tests.log": "4d94388a7c7417a3e2ba8eed791f4947e3ea2de71603ee404da783986157d939",
+    "observations.json": "2da23fbc34bd1863ada850b99f209d48a2fd2a30f1a137166550dad86c313fa5",
+    "README.md": "ce165897d93ffdb5c2cefa4359a57f2424efeb75f2779e6019cc3386033e7681",
+    "review.json": "22e37c9726818f1d77149dda6a597d28d046a8d660d73b987888fe06fd445329"
+  },
+  "testCount": 6,
+  "testsSuccessful": true,
+  "sourcesUnchanged": true,
+  "elapsedSeconds": 6.038111199999548,
+  "nativeRuns": 0,
+  "wslRuns": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD"
+}

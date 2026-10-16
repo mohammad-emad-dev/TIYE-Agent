@@ -100,4 +100,5 @@ output/s4-codex-u0-watchdog/** -text
 output/s4-codex-u0-watchdog/*.log -whitespace
 output/s4-codex-u0-watchdog-v2/** -text
 output/s4-codex-u0-watchdog-v2/*.log -whitespace
+output/s4-codex-u0-supervised/** -text
 feasibility/s6-wsl/** -text

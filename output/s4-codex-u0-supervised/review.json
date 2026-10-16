@@ -1,0 +1,88 @@
+{
+  "projectDate": "2026-10-17",
+  "reviews": [
+    {
+      "requestedModel": "gpt-6-luna",
+      "requestedEffort": "max",
+      "status": "completed",
+      "scope": "Returned host/worker source in reply only; parent replaced incompatible adapters",
+      "cliVersion": "codex-cli 0.157.1",
+      "artifactSha256": {
+        "brief.txt": "afbe1925f13c2b788b618b1f9dd563edb91879df4b391643746970c507a21e23",
+        "events.jsonl": "69424da30da3f2eb36edd3fc62f7e0694e513cb2c38633c73302fedbbe1cb172",
+        "final.txt": "6889649efd43ced53969f42e6e7d806fcba1f3d3899ff09cf54877874598ad8b",
+        "result.json": "61440a82cb59104ec32e6be34095e7183b23035426bfbcab7b2c6b05cb9b3c9e",
+        "stderr.txt": "a931cd49e9f3795811751c425a403b6bd47c407e5df854e2e7f1cbc4d2b3f825"
+      }
+    },
+    {
+      "requestedModel": "opencode/muse-spark-1.3-contributor-free",
+      "requestedEffort": "xhigh",
+      "status": "failed",
+      "scope": "Pre-dispatch unsupported --pure flag failure",
+      "cliVersion": "opencode v2.0.28",
+      "artifactSha256": {
+        "brief.txt": "185174c566da3b0253d69a31cbbbaedcebe598832a32639b54fae3a10ec0ee54",
+        "events.jsonl": "7a138276d9e67c37aa13875e2879a997858c1baff45e676e82e4b2bff8ff4b7d",
+        "result.json": "f12f8c03b7ff49ca0df92ba76a36c68ffd0b9dd79b91506780e4d8a7962e4f5c"
+      }
+    },
+    {
+      "requestedModel": "opencode/muse-spark-1.3-contributor-free",
+      "requestedEffort": "xhigh",
+      "status": "completed",
+      "scope": "Design-only supplied-context review",
+      "cliVersion": "opencode v2.0.28",
+      "artifactSha256": {
+        "brief.txt": "185174c566da3b0253d69a31cbbbaedcebe598832a32639b54fae3a10ec0ee54",
+        "events.jsonl": "f6625ec87b9d89261efad08243bd955d8dd83c181b54b34ba9956e4f8b5f142c",
+        "final.txt": "e65c7c759a69fa8fe82ba5bf22156cac8be861cf542a4b3ee953af3610da4d33",
+        "result.json": "15bb5869cc8b434b9a3621e3a98ea4427904e71084e171cd688e1d5a6f0de03c"
+      }
+    },
+    {
+      "requestedModel": "opencode/muse-spark-1.3-contributor-free",
+      "requestedEffort": "xhigh",
+      "status": "completed",
+      "scope": "Supplied source snapshot review; not independent workspace/runtime verification",
+      "cliVersion": "opencode v2.0.28",
+      "artifactSha256": {
+        "brief.txt": "40e785237f5cdcca6fa4a0fd08a2d93043ba3273563edd0a641d17fb43b0b2cb",
+        "events.jsonl": "08c86e571a6197927c5ee458414835bc4951bfa9f2bc33f14b381a8fa4a3f069",
+        "final.txt": "3fb01dd762f82e4f9c300d7f3f22e5626a22ce200818f79fe270377db8fe704a",
+        "result.json": "137f248e04a8e332e8accaa8b0a97ff9d5bc0fe54e6d9da15503a2bb2c1da083"
+      }
+    }
+  ],
+  "finalRevisionReviewedBy": "Parent",
+  "parentDispositions": [
+    "Codex supplied 1329 lines of source containing speculative signature/type adapters, an async ready callback incompatible with the actual synchronous transport callback and type/result envelope keys instead of event/result. Parent rejected that implementation and wrote the bridge against inspected concrete interfaces. No returned adapters were landed.",
+    "Muse design 1: success requires bounded transport completion, exact write counts, both EOFs and peer notification witness. Forced termination has no normal-completion report; cleanup success cannot manufacture protocol success.",
+    "Muse design 2: frozen dependency source hashes checked before launch; whole new/dependency source receipts captured before and checked after suite. This is not immutable execution binding against local file mutation; native admission remains disabled.",
+    "Muse design 3: frozen supervisor records root exit and final exit separately. Root-exit test asserts exit7 before/after descendant termination and separate supervisor exit124.",
+    "Muse design 4: all independent process handles opened and creation times checked while live before intervention. Held Windows process handles remain tied to that process instance; a second PID lookup after exit is unnecessary.",
+    "Muse design 5: input.json exclusive create is persistent directory-reuse refusal, not a durable native recovery lock. Added relaunch-refusal regression preserving old bytes and no launch artifacts. No power-loss guarantee claimed.",
+    "Muse design 6-9: foreign response failure checked as protocol id-correlation failure, distinct from envelope nonce validation; sentinel is launched independently of watchdog job; no simultaneous normal-exit/deadline boundary guarantee claimed.",
+    "Muse code 1: parent added explicit validation-fault reporting for malformed embedded raw streams. Added invalid-raw peer-report injection after a real valid exchange; false success and absent-report regressions are checked.",
+    "Muse code 2: retained explicit 5-second release and shorter outer fixture deadlines. Tests qualify only this recorded host within those bounds; overloaded-host success is not promised. Deadline stop decisions remain independently measured.",
+    "Muse code 3: recorder now prechecks README.md and review.json before input/test mutation. No placeholder reviews used.",
+    "Muse code 4: supplied reviewer snapshot omitted frozen winjob/peer/linux details; parent read dependency sources and independently verified saved baseline hashes. Dependency source hashes are included in final evidence, not treated as reviewer verification.",
+    "Muse code 5: exact Python version recorded in evidence.json; no frozen transport edits. CPython private pipe cleanup remains a version-specific limitation.",
+    "Muse secondary: missing baseline records fail closed; frozen test count/case set intentional and documented.",
+    "Clean Code Guard: direct verified APIs, no speculative compatibility adapters/new packages, synthetic behavior explicitly named, no native/provider success substitute.",
+    "Test Guard: real Windows processes and pipes, independent held-handle witnesses, unrelated sentinel, parameterized protocol outcomes, review-found malformed-stream regression retained.",
+    "Docs Guard: commands, source paths and status claims checked against implementation and saved capture; receipts and synthetic results are explicitly limited.",
+    "Final parent revision after reviewer snapshot: root final exit7 assertion, unused import removal, guarded raw validation and regression, recorder prerequisite checks, revised case list. Parent reviewed final source."
+  ],
+  "diagnostics": [
+    "Codex emitted configured MCP startup/authentication warnings despite ignore-user-config. No account or service configuration changes were made. Reply-only scope is not evidence of network silence.",
+    "OpenCode v2.0.28 rejected --pure before model dispatch; rerun omitted that unsupported flag. Model/effort request unchanged.",
+    "Relays emitted Node shell-argument deprecation warnings; task arguments were fixed."
+  ],
+  "gemini": "Not dispatched: recorded consumer Agy route excluded from integration and delegation",
+  "fallback": "DeepSeek not dispatched: requested Codex and Muse runs completed after CLI flag correction; parent replaced incompatible generated code",
+  "nativeQualificationRuns": 0,
+  "wslRuns": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD"
+}
