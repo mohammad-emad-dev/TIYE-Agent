@@ -1,0 +1,121 @@
+{
+  "schema": "tiye-s6-environment-review-v1",
+  "reviewedOn": "2026-10-16",
+  "baselineCommit": "80f5306cb9ccf1dd14e24d068aaa13b8b0d9c05f",
+  "result": "bounded-propagation-passed",
+  "fullS6Qualified": false,
+  "phase1Ready": false,
+  "productionEligible": false,
+  "scope": "Public selected environment tuple and decoded briefing text in non-root Ubuntu mocks; no provider semantics",
+  "delegates": [
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "requestedVariant": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "040f45f18467b83082340f121b4e078f970c7bc2749550c69c9292eb52096f62",
+        "events.jsonl": "fef053ae558b61d77ab0c7aad6c2071e43ef23254824ca047ee29f637aa14c61",
+        "final.txt": "b945e52acaabfa1e6c6de0433a442912a3856c3d5d39f150068ecf125f564c1b",
+        "stderr.txt": null,
+        "result.json": "66ed54b18b6fcc2bdb08e59ab4097fa476b6049e6c2cc403dd22fabe746263b3"
+      }
+    },
+    {
+      "model": "opencode/space-bunny-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "040f45f18467b83082340f121b4e078f970c7bc2749550c69c9292eb52096f62",
+        "events.jsonl": "b27ac8b64c445c49633772578ac6c5c8ceb6fbbd671bdc85e88a9af84562b178",
+        "final.txt": "c810f0f10611183cd87b603001ea441e3a1796a06bdc706c0b98cd5cd3a97333",
+        "stderr.txt": null,
+        "result.json": "fa1b4b6e401e1a450a48b387fc1ca0456e040ab1de0e8de8fd0cb60ce7412648"
+      }
+    },
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "040f45f18467b83082340f121b4e078f970c7bc2749550c69c9292eb52096f62",
+        "events.jsonl": "c49693324f5b173fa6ec70808e194b2f6655012a2d1dcf3ecc21225e1d079df0",
+        "final.txt": "305c863428dcfdcca4d5c6d7038a72fa6b795ddf58d3e08455177887ef0e6dc9",
+        "stderr.txt": null,
+        "result.json": "f9419250b587773d472e5f37be1741ec5373fd09430503027ea75c173a37846f"
+      }
+    }
+  ],
+  "notDispatched": [
+    {
+      "model": "GPT-6.1 Luna max",
+      "reason": "Exact model previously unsupported, not retried"
+    },
+    {
+      "model": "Gemini 3.8 Flash High through agy",
+      "reason": "Recorded consumer-wrapper exclusion remains in force"
+    }
+  ],
+  "parentVerification": {
+    "nativeCoordinatorExitCode": 0,
+    "savedEvidenceCheckerExitCode": 0,
+    "wslRootInvocations": 3,
+    "nestedPythonDescendants": 2,
+    "gitVarInvocations": 2,
+    "invalidBuilderCases": 2,
+    "invalidCaseNativeLaunches": 0,
+    "retries": 0,
+    "allowlistedKeys": 7,
+    "briefingUtf8Bytes": 131,
+    "briefingLines": 4,
+    "decoyImportObserved": true,
+    "decoyAbsentFromFilteredTargets": true,
+    "decoyAbsentFromDescendants": true,
+    "localLinksVerified": 17,
+    "priorSnapshotPathsUnchanged": [
+      "feasibility/s6-wsl/PLAN.md",
+      "output/s6-connectivity/evidence.json",
+      "output/s6-connectivity/listener-observation.json",
+      "output/s6-connectivity/review.json",
+      "output/s6-cross-git/evidence.json",
+      "output/s6-path-git/evidence.json",
+      "output/s6-discovery/discovery.json",
+      "output/phase0-readiness/ASSESSMENT.md"
+    ]
+  },
+  "artifactHashes": {
+    "output/s6-environment/baseline.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-environment/baseline.stdout.bin": "f3288bd44927ec9f61c58e3593da812ddf1359de6cab0c8237fafc08f28a7b77",
+    "output/s6-environment/decoy-import-control.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-environment/decoy-import-control.stdout.bin": "5c8243803354708d09dc2009bc53090fb8a65093ed7b5b9cd8e3e9562ed78f74",
+    "output/s6-environment/evidence.json": "a7b995467e4c39acc481a6eba123fb7274e541c1967f942b9491b5ed5450701e",
+    "output/s6-environment/explicit-allowlist.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-environment/explicit-allowlist.stdout.bin": "50df38dd569f67567940e5ab7b11dbf36b59d3ddec34994b484857ef74713315",
+    "output/s6-environment/README.md": "43ca657215db03f82573cb7b5c1e8fdd5016b738d292d00acb3c623dde5ddeab",
+    "feasibility/s6-wsl/environment/check.py": "e54de7c6c1513797ad3da0f256cc45ff1f95552b2964b912c69dc980ba767d88",
+    "feasibility/s6-wsl/environment/mock.py": "3189b8b5fea61a83ea8c0f360451f677e7b02f6841b2b317dd6b35403bd39243",
+    "feasibility/s6-wsl/environment/protocol.json": "d9d1d23074d163b811d2fb77adff48056dc293cc7c7458a20d0b726582953fe9",
+    "feasibility/s6-wsl/environment/run.py": "52a6c3e87e2cb9a2ee4aeae7eb279f8643556de294b6631ac897ede9540886de",
+    "README.md": "cebef2d35c9e7aa48e747157b5af579fd80cfd0dd53998cbcb0c0bd7ae234414",
+    "architecture/TIYE-Agent-Architecture.md": "eb7ef4e12ce99f808328b2aa8d61bd3e658001da80313663825ae08dbd854778"
+  },
+  "limitations": [
+    "Local integrity record, not external attestation",
+    "Delegates reviewed supplied context before native results; raw delegate artifacts remain local",
+    "Decoded LF briefing text checked, not raw JSON wire bytes or arbitrary binary/CRLF fidelity",
+    "Public fixture values in argv are not a credential transport",
+    "Baseline no-Git-lookup follows frozen code and empty result, not syscall observation",
+    "No real CLI role adherence, Git commit attribution, PTY, process cleanup or full S6 qualification"
+  ]
+}

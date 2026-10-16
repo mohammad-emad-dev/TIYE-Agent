@@ -1,0 +1,25 @@
+{
+  "schema": "tiye-s6-environment-protocol-v1",
+  "distribution": "Ubuntu",
+  "workingDirectory": "/tmp",
+  "order": ["decoy-import-control", "explicit-allowlist", "baseline"],
+  "attemptsPerCase": 1,
+  "retries": 0,
+  "queryTimeoutSeconds": 30,
+  "totalDeadlineSeconds": 120,
+  "allowedKeys": ["TIYE_SENTINEL", "GIT_AUTHOR_NAME", "GIT_AUTHOR_EMAIL", "GIT_AUTHOR_DATE", "GIT_COMMITTER_NAME", "GIT_COMMITTER_EMAIL", "GIT_COMMITTER_DATE"],
+  "values": {
+    "TIYE_SENTINEL": "team space مرحبا 日本 'quotes' $HOME $(printf injected)\nline two",
+    "GIT_AUTHOR_NAME": "TIYE Fixture مرحبا 日本",
+    "GIT_AUTHOR_EMAIL": "fixture@example.invalid",
+    "GIT_AUTHOR_DATE": "2026-10-16T12:00:00+00:00",
+    "GIT_COMMITTER_NAME": "TIYE Committer مرحبا 日本",
+    "GIT_COMMITTER_EMAIL": "committer@example.invalid",
+    "GIT_COMMITTER_DATE": "2026-10-16T12:00:00+00:00"
+  },
+  "briefing": "Role: local mock reviewer\nTeam: member-a, member-b\nTask: retain bytes مرحبا 日本\nLiteral: 'quotes' $HOME $(printf injected)\n",
+  "decoy": "public-not-for-child",
+  "negativeCases": ["unknown environment key", "NUL environment value"],
+  "fullS6Qualified": false,
+  "productionEligible": false
+}

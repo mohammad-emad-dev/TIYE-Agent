@@ -1,0 +1,195 @@
+{
+  "schema": "tiye-s6-environment-v1",
+  "state": "bounded-propagation-completed",
+  "cases": [
+    {
+      "label": "decoy-import-control",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--cd",
+        "/tmp",
+        "--exec",
+        "/usr/bin/python3",
+        "-c",
+        "import json,os,sys; expected=json.load(sys.stdin)['decoy']; print(json.dumps({'decoyImported':os.environ.get('TIYE_NOT_FOR_CHILD')==expected}))"
+      ],
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 84.94890001020394,
+      "stdout": {
+        "artifact": "decoy-import-control.stdout.bin",
+        "bytes": 24,
+        "sha256": "5c8243803354708d09dc2009bc53090fb8a65093ed7b5b9cd8e3e9562ed78f74"
+      },
+      "stderr": {
+        "artifact": "decoy-import-control.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "observation": {
+        "decoyImported": true
+      }
+    },
+    {
+      "label": "explicit-allowlist",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--cd",
+        "/tmp",
+        "--exec",
+        "/usr/bin/env",
+        "-i",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LC_ALL=C.UTF-8",
+        "GIT_CONFIG_NOSYSTEM=1",
+        "GIT_CONFIG_GLOBAL=/dev/null",
+        "TIYE_SENTINEL=team space \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c 'quotes' $HOME $(printf injected)\nline two",
+        "GIT_AUTHOR_NAME=TIYE Fixture \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c",
+        "GIT_AUTHOR_EMAIL=fixture@example.invalid",
+        "GIT_AUTHOR_DATE=2026-10-16T12:00:00+00:00",
+        "GIT_COMMITTER_NAME=TIYE Committer \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c",
+        "GIT_COMMITTER_EMAIL=committer@example.invalid",
+        "GIT_COMMITTER_DATE=2026-10-16T12:00:00+00:00",
+        "/usr/bin/python3",
+        "-c",
+        "\"\"\"Read only synthetic selected values and stdin briefing; no provider or file writes.\"\"\"\nimport hashlib\nimport json\nimport os\nimport subprocess\nimport sys\n\nALLOWED = ['TIYE_SENTINEL', 'GIT_AUTHOR_NAME', 'GIT_AUTHOR_EMAIL', 'GIT_AUTHOR_DATE',\n           'GIT_COMMITTER_NAME', 'GIT_COMMITTER_EMAIL', 'GIT_COMMITTER_DATE']\nDESCENDANT = '''import hashlib,json,os,sys\npayload=json.load(sys.stdin)\nraw=payload['briefing'].encode('utf-8')\nprint(json.dumps({'selected':{k:os.environ[k] for k in payload['allowedKeys'] if k in os.environ},\n 'decoyPresent':'TIYE_NOT_FOR_CHILD' in os.environ,\n 'briefing':{'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'lines':len(payload['briefing'].splitlines()),'taskId':payload['taskId']}}))\n'''\n\n\ndef main():\n    payload = json.load(sys.stdin)\n    if payload['allowedKeys'] != ALLOWED:\n        raise ValueError('Allowlist mismatch')\n    raw = payload['briefing'].encode('utf-8')\n    selected = {key: os.environ[key] for key in ALLOWED if key in os.environ}\n    environment = {key: os.environ[key] for key in ['PATH', 'LC_ALL', 'GIT_CONFIG_NOSYSTEM', 'GIT_CONFIG_GLOBAL']}\n    environment.update(selected)\n    child = subprocess.run(['/usr/bin/python3', '-c', DESCENDANT], input=json.dumps(payload).encode('utf-8'),\n                           capture_output=True, timeout=5, env=environment, cwd='/tmp', check=True)\n    if child.stderr:\n        raise RuntimeError('Descendant stderr')\n    result = {'selected': selected, 'decoyPresent': 'TIYE_NOT_FOR_CHILD' in os.environ,\n              'uidNonzero': os.getuid() != 0,\n              'briefing': {'sha256': hashlib.sha256(raw).hexdigest(), 'bytes': len(raw),\n                           'lines': len(payload['briefing'].splitlines()), 'taskId': payload['taskId']},\n              'descendant': json.loads(child.stdout), 'descendantExitCode': child.returncode,\n              'gitIdents': {}}\n    if 'GIT_AUTHOR_NAME' in selected:\n        for name in ['GIT_AUTHOR_IDENT', 'GIT_COMMITTER_IDENT']:\n            completed = subprocess.run(['/usr/bin/git', 'var', name], capture_output=True,\n                                       timeout=5, env=environment, cwd='/tmp', check=True)\n            if completed.stderr:\n                raise RuntimeError('Git identity stderr')\n            result['gitIdents'][name] = completed.stdout.decode('utf-8').rstrip('\\n')\n    print(json.dumps(result))\n\n\nif __name__ == '__main__':\n    main()\n"
+      ],
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 96.76129999570549,
+      "stdout": {
+        "artifact": "explicit-allowlist.stdout.bin",
+        "bytes": 1712,
+        "sha256": "50df38dd569f67567940e5ab7b11dbf36b59d3ddec34994b484857ef74713315"
+      },
+      "stderr": {
+        "artifact": "explicit-allowlist.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "observation": {
+        "selected": {
+          "TIYE_SENTINEL": "team space \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c 'quotes' $HOME $(printf injected)\nline two",
+          "GIT_AUTHOR_NAME": "TIYE Fixture \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c",
+          "GIT_AUTHOR_EMAIL": "fixture@example.invalid",
+          "GIT_AUTHOR_DATE": "2026-10-16T12:00:00+00:00",
+          "GIT_COMMITTER_NAME": "TIYE Committer \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c",
+          "GIT_COMMITTER_EMAIL": "committer@example.invalid",
+          "GIT_COMMITTER_DATE": "2026-10-16T12:00:00+00:00"
+        },
+        "decoyPresent": false,
+        "uidNonzero": true,
+        "briefing": {
+          "sha256": "be3657d01b0e60bdf01934efe859f1ab7e4538679ae9ff3ef86e7feb8a5cc226",
+          "bytes": 131,
+          "lines": 4,
+          "taskId": "s6-public-e65afeed34a54716bc40394cf0031e37"
+        },
+        "descendant": {
+          "selected": {
+            "TIYE_SENTINEL": "team space \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c 'quotes' $HOME $(printf injected)\nline two",
+            "GIT_AUTHOR_NAME": "TIYE Fixture \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c",
+            "GIT_AUTHOR_EMAIL": "fixture@example.invalid",
+            "GIT_AUTHOR_DATE": "2026-10-16T12:00:00+00:00",
+            "GIT_COMMITTER_NAME": "TIYE Committer \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c",
+            "GIT_COMMITTER_EMAIL": "committer@example.invalid",
+            "GIT_COMMITTER_DATE": "2026-10-16T12:00:00+00:00"
+          },
+          "decoyPresent": false,
+          "briefing": {
+            "sha256": "be3657d01b0e60bdf01934efe859f1ab7e4538679ae9ff3ef86e7feb8a5cc226",
+            "bytes": 131,
+            "lines": 4,
+            "taskId": "s6-public-e65afeed34a54716bc40394cf0031e37"
+          }
+        },
+        "descendantExitCode": 0,
+        "gitIdents": {
+          "GIT_AUTHOR_IDENT": "TIYE Fixture \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c <fixture@example.invalid> 1792152000 +0000",
+          "GIT_COMMITTER_IDENT": "TIYE Committer \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c <committer@example.invalid> 1792152000 +0000"
+        }
+      }
+    },
+    {
+      "label": "baseline",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--cd",
+        "/tmp",
+        "--exec",
+        "/usr/bin/env",
+        "-i",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LC_ALL=C.UTF-8",
+        "GIT_CONFIG_NOSYSTEM=1",
+        "GIT_CONFIG_GLOBAL=/dev/null",
+        "/usr/bin/python3",
+        "-c",
+        "\"\"\"Read only synthetic selected values and stdin briefing; no provider or file writes.\"\"\"\nimport hashlib\nimport json\nimport os\nimport subprocess\nimport sys\n\nALLOWED = ['TIYE_SENTINEL', 'GIT_AUTHOR_NAME', 'GIT_AUTHOR_EMAIL', 'GIT_AUTHOR_DATE',\n           'GIT_COMMITTER_NAME', 'GIT_COMMITTER_EMAIL', 'GIT_COMMITTER_DATE']\nDESCENDANT = '''import hashlib,json,os,sys\npayload=json.load(sys.stdin)\nraw=payload['briefing'].encode('utf-8')\nprint(json.dumps({'selected':{k:os.environ[k] for k in payload['allowedKeys'] if k in os.environ},\n 'decoyPresent':'TIYE_NOT_FOR_CHILD' in os.environ,\n 'briefing':{'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'lines':len(payload['briefing'].splitlines()),'taskId':payload['taskId']}}))\n'''\n\n\ndef main():\n    payload = json.load(sys.stdin)\n    if payload['allowedKeys'] != ALLOWED:\n        raise ValueError('Allowlist mismatch')\n    raw = payload['briefing'].encode('utf-8')\n    selected = {key: os.environ[key] for key in ALLOWED if key in os.environ}\n    environment = {key: os.environ[key] for key in ['PATH', 'LC_ALL', 'GIT_CONFIG_NOSYSTEM', 'GIT_CONFIG_GLOBAL']}\n    environment.update(selected)\n    child = subprocess.run(['/usr/bin/python3', '-c', DESCENDANT], input=json.dumps(payload).encode('utf-8'),\n                           capture_output=True, timeout=5, env=environment, cwd='/tmp', check=True)\n    if child.stderr:\n        raise RuntimeError('Descendant stderr')\n    result = {'selected': selected, 'decoyPresent': 'TIYE_NOT_FOR_CHILD' in os.environ,\n              'uidNonzero': os.getuid() != 0,\n              'briefing': {'sha256': hashlib.sha256(raw).hexdigest(), 'bytes': len(raw),\n                           'lines': len(payload['briefing'].splitlines()), 'taskId': payload['taskId']},\n              'descendant': json.loads(child.stdout), 'descendantExitCode': child.returncode,\n              'gitIdents': {}}\n    if 'GIT_AUTHOR_NAME' in selected:\n        for name in ['GIT_AUTHOR_IDENT', 'GIT_COMMITTER_IDENT']:\n            completed = subprocess.run(['/usr/bin/git', 'var', name], capture_output=True,\n                                       timeout=5, env=environment, cwd='/tmp', check=True)\n            if completed.stderr:\n                raise RuntimeError('Git identity stderr')\n            result['gitIdents'][name] = completed.stdout.decode('utf-8').rstrip('\\n')\n    print(json.dumps(result))\n\n\nif __name__ == '__main__':\n    main()\n"
+      ],
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 94.55549999256618,
+      "stdout": {
+        "artifact": "baseline.stdout.bin",
+        "bytes": 505,
+        "sha256": "f3288bd44927ec9f61c58e3593da812ddf1359de6cab0c8237fafc08f28a7b77"
+      },
+      "stderr": {
+        "artifact": "baseline.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "observation": {
+        "selected": {},
+        "decoyPresent": false,
+        "uidNonzero": true,
+        "briefing": {
+          "sha256": "be3657d01b0e60bdf01934efe859f1ab7e4538679ae9ff3ef86e7feb8a5cc226",
+          "bytes": 131,
+          "lines": 4,
+          "taskId": "s6-public-e65afeed34a54716bc40394cf0031e37"
+        },
+        "descendant": {
+          "selected": {},
+          "decoyPresent": false,
+          "briefing": {
+            "sha256": "be3657d01b0e60bdf01934efe859f1ab7e4538679ae9ff3ef86e7feb8a5cc226",
+            "bytes": 131,
+            "lines": 4,
+            "taskId": "s6-public-e65afeed34a54716bc40394cf0031e37"
+          }
+        },
+        "descendantExitCode": 0,
+        "gitIdents": {}
+      }
+    }
+  ],
+  "negativeCases": [
+    {
+      "case": "unknown-key",
+      "category": "unknown-key",
+      "nativeLaunches": 0
+    },
+    {
+      "case": "nul-value",
+      "category": "invalid-value",
+      "nativeLaunches": 0
+    }
+  ],
+  "sourceHashes": {
+    "feasibility/s6-wsl/environment/run.py": "52a6c3e87e2cb9a2ee4aeae7eb279f8643556de294b6631ac897ede9540886de",
+    "feasibility/s6-wsl/environment/mock.py": "3189b8b5fea61a83ea8c0f360451f677e7b02f6841b2b317dd6b35403bd39243",
+    "feasibility/s6-wsl/environment/protocol.json": "d9d1d23074d163b811d2fb77adff48056dc293cc7c7458a20d0b726582953fe9"
+  },
+  "fullS6Qualified": false,
+  "productionEligible": false,
+  "nativeLaunchRetries": 0,
+  "sourceHashesUnchangedAfterRun": true
+}

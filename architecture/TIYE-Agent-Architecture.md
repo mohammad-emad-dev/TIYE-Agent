@@ -1473,6 +1473,11 @@ in NAT mode; direct Ubuntu loopback was refused. Retain the loopback-only Window
 server and treat the relay as an experimental route. The owned server exited,
 but immediate port-closure checking was inconclusive; a later Windows listener
 inventory was empty. No graceful or general process-tree cleanup follows.
+The [WSL launch fixture](../output/s6-environment/README.md) verifies explicit
+allowlisted public environment values, synthetic Git identity inputs and
+decoded mock briefing text in Ubuntu and a descendant. Build the environment
+explicitly and deliver bridge briefing data over structured stdin; no provider
+instruction adherence, credential delivery or process containment follows.
 The assessment defines
 core entry conditions and a proposed first slice under Section 3.8. It does
 not waive feasibility gates or require a finished UI before building the core.
