@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-16",
+  "scope": "Supplied draft and facts only; no tools or independent workspace verification",
+  "reviews": [
+    {
+      "model": "gpt-6-luna",
+      "requestedEffort": "max",
+      "status": "completed",
+      "observedToolEvents": [],
+      "touchedFilesReport": [
+        " M README.md",
+        "?? output/s4-codex-native-protocol/"
+      ],
+      "artifactSha256": {
+        "brief.txt": "031809d6c542b60daf066b837f72f770c9ccfd4f2e6e05fde2b73f21c813434b",
+        "events.jsonl": "c93a6d7e0d11e4ccaae00f4b815c859c0cb4d1adbc659365dfd47e7adf4c3cf1",
+        "final.txt": "6eae5d5d8704a6b445752dbad9a8bea1e964fa0cb327583e67a81b09264363a8",
+        "stderr.txt": "61b30a5fe05e23fd1151a97b1c0f68d144e306b648746de5f68e93194cd291cc",
+        "result.json": "c367811cf0f29a070d968a532bfc0bb73e94f29e147095d28dd644779f00efb5"
+      }
+    },
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "requestedEffort": "xhigh",
+      "status": "completed",
+      "observedToolEvents": [],
+      "touchedFilesReport": [
+        " M README.md",
+        "?? output/s4-codex-native-protocol/"
+      ],
+      "artifactSha256": {
+        "brief.txt": "031809d6c542b60daf066b837f72f770c9ccfd4f2e6e05fde2b73f21c813434b",
+        "events.jsonl": "67f4e8e199d70ae3fa22281ceaafa82fe6c7d41d22842fb2d38f9940a963928b",
+        "final.txt": "e53852b0da5944a0d8267f6f6c3eb5095f20d923e1f429f5b23f4c37d21eccf7",
+        "stderr.txt": null,
+        "result.json": "b513c180e627339549ff6ace51136462823e85c6862dd7919567ce1192577911"
+      }
+    }
+  ],
+  "parentDispositions": [
+    "Raised U0 overall cap to90s and post-login cases to210s; overall deadlines dominate phase maxima and include cleanup.",
+    "Added incremental line bounds, bounded drain/discard during cleanup and reader-failure abort handling.",
+    "Specified fresh Linux environment allowlist, no WSLENV/inherited credentials, host environment review and limits on unauthenticated claims.",
+    "Clarified U0 route independence and later authenticated route gates; EOF observation is separate from graceful shutdown and escalated cleanup.",
+    "Required later native wire contracts before post-U0 cases, including explicit requested model/effort and confirmation evidence.",
+    "Required enforced effect boundaries, disposable-root denial targets, baseline definition, identity metadata and pre/post path checks with race limitations.",
+    "Checked expected executable hash against saved installation and initialize contracts against saved schemas; no new executable launch.",
+    "Removed unnecessary params from initialized notification to match the minimal declared shape."
+  ],
+  "reviewedDraftSha256": "031809d6c542b60daf066b837f72f770c9ccfd4f2e6e05fde2b73f21c813434b",
+  "finalProtocolSha256": "e1d18607ba13e1040f57e41dce58751e53a8d4a7c615521411a7c43a8da93a32",
+  "finalRevisionsReviewedBy": "Parent; delegated models reviewed the earlier supplied draft",
+  "gemini": "Not dispatched: recorded consumer route excluded",
+  "fallbacks": "Not needed; both requested reviews completed",
+  "newNativeExperiments": 0,
+  "routeQualified": false,
+  "phase1": "HOLD"
+}

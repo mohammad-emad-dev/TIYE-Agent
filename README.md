@@ -94,3 +94,8 @@ The subsequent [authorized OpenAI outreach](output/s4-codex-outreach/README.md)
 was submitted through the official interest form; its receipt was confirmed.
 This supersedes earlier unsent status only. Provider guidance and product
 eligibility remain pending; Phase 1 remains HOLD.
+
+The [prepared Linux native protocol](output/s4-codex-native-protocol/README.md)
+defines bounded handshake, authentication, task, approval and cleanup cases.
+It is preparation only; a reviewed launcher and the applicable entry conditions
+are required before execution. No new native qualification is claimed.

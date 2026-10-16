@@ -93,4 +93,5 @@ output/s4-codex-stdio/*.bin -whitespace
 output/s4-codex-pipe-lifecycle/** -text
 output/s4-codex-pipe-lifecycle/*.bin -whitespace
 output/s4-codex-transport-assessment/** -text
+output/s4-codex-native-protocol/** -text
 feasibility/s6-wsl/** -text
