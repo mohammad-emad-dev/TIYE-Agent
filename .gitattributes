@@ -86,4 +86,6 @@ output/s4-codex-candidate/** -text
 output/s4-codex-schema/** -text
 output/s4-codex-replay/** -text
 output/s4-codex-replay/*.bin -whitespace
+output/s4-codex-framing/** -text
+output/s4-codex-framing/*.bin -whitespace
 feasibility/s6-wsl/** -text

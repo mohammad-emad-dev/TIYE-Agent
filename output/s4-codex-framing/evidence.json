@@ -1,0 +1,43 @@
+{
+  "schema": "tiye-offline-jsonl-framing-v1",
+  "state": "offline-framing-verified",
+  "sourceSha256": {
+    "feasibility/s6-wsl/codex-framing/framing.py": "f1aaf415660293fa01fa86496921547443eb5497c132f00413e43b91dae75a1d",
+    "feasibility/s6-wsl/codex-framing/run.py": "b250766fa0c0d3fd2ef1f47e2266ce76ece07719185d5306dde381ac6dce40a6",
+    "feasibility/s6-wsl/codex-framing/test_framing.py": "eac14ba5c842a4ca0f4a9755923d9ef7f1c65a3356f01b91136b3ec8f0d9fdd3",
+    "feasibility/s6-wsl/codex-replay/replay.py": "9d2ebd8a23215efde6e3cfb6576cd2d0310b2282e93e643f302c2d6d96bc3385",
+    "feasibility/s6-wsl/codex-replay/run.py": "585f9f12c78078f3e9b2c7a4cc619fcbc632f749cba980c6d54855cf52b5eb06",
+    "feasibility/s6-wsl/codex-replay/test_replay.py": "1ade3c3b3b86c979c642b6d77d7f7cc99501b1ed46948f1aab869a85d91f65f7"
+  },
+  "schemaArchiveSha256": "e428d95d952017d9880841e83b75d592463180ba6cb94d86b5da826b913ef406",
+  "tests": {
+    "exitCode": 0,
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "-B",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "D:\\TIYE Agent\\feasibility\\s6-wsl\\codex-framing",
+      "-p",
+      "test_framing.py",
+      "-v"
+    ],
+    "deadlineSeconds": 30
+  },
+  "walkthroughSteps": 9,
+  "packetsAreSynthetic": true,
+  "modelRequestRun": false,
+  "nativeTransportRun": false,
+  "fullS4Qualified": false,
+  "fullS6Qualified": false,
+  "phase1Construction": "HOLD",
+  "artifactSha256": {
+    "tests.stderr.bin": "fdb3980d5e34ddb41c2a3fc2c59eb2678b36b6a4b2c9df4f3621f25c046ed3a2",
+    "tests.stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "transcript.json": "37b139f2ca8cae3992fddce7982c93d927aa0f425f26a07b1a2baff93ca9fda0"
+  }
+}

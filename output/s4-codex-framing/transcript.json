@@ -1,0 +1,121 @@
+[
+  {
+    "action": "feed",
+    "input": {
+      "hex": "7b226964223a372c226d6574686f64223a226974656d2f636f6d6d616e6445",
+      "byteCount": 31
+    },
+    "result": [],
+    "transportOpen": true,
+    "protocolStatus": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "feed",
+    "input": {
+      "hex": "7865637574696f6e2f72657175657374417070726f76616c222c22706172616d73223a7b227468726561644964223a227468726561642d6f776e6564222c227475726e4964223a227475726e2d6f776e6564222c226974656d4964223a226974656d2d31222c227374617274656441744d73223a313030302c22636f6d6d616e64223a226563686f207075626c69632d66697874757265227d7d0a",
+      "byteCount": 155
+    },
+    "result": [
+      {
+        "event": "approval-pending",
+        "fingerprint": "60450c8e71e7c08d5c603fb33dcf924ba8a04afa14df232a70823a0bccdab518"
+      }
+    ],
+    "transportOpen": true,
+    "protocolStatus": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "disconnect",
+    "input": {},
+    "result": {
+      "event": "stream-closed"
+    },
+    "transportOpen": false,
+    "protocolStatus": "needs-attention",
+    "taskSuccess": null
+  },
+  {
+    "action": "decide",
+    "input": {
+      "id": 7,
+      "decision": "accept",
+      "fingerprint": "60450c8e71e7c08d5c603fb33dcf924ba8a04afa14df232a70823a0bccdab518"
+    },
+    "result": {
+      "refused": "connection-closed"
+    },
+    "transportOpen": false,
+    "protocolStatus": "needs-attention",
+    "taskSuccess": null
+  },
+  {
+    "action": "feed",
+    "input": {
+      "hex": "7b226d6574686f64223a227475726e2f636f6d706c65746564222c22706172616d73223a7b227468726561644964223a227468726561642d6f776e6564222c227475726e223a7b226964223a227475726e2d6f776e6564222c226974656d73223a5b5d2c22737461747573223a22636f6d706c65746564227d7d7d0a",
+      "byteCount": 124
+    },
+    "result": {
+      "refused": "connection-closed"
+    },
+    "transportOpen": false,
+    "protocolStatus": "needs-attention",
+    "taskSuccess": null
+  },
+  {
+    "action": "feed",
+    "input": {
+      "hex": "7b226d6574686f64223a22666978747572652f756e6d6f64656c6564222c22706172616d73223a7b2274657874223a22d985d8b1d8add8a8d8a720f09f9880227d7d0aff0a7b226d6574686f64223a227475726e2f636f6d706c65746564222c22706172616d73223a7b227468726561644964223a227468726561642d6f776e6564222c227475726e223a7b226964223a227475726e2d6f776e6564222c226974656d73223a5b5d2c22737461747573223a22636f6d706c65746564227d7d7d0a",
+      "byteCount": 193
+    },
+    "result": [
+      {
+        "event": "unmodeled-method"
+      },
+      {
+        "event": "stream-failed",
+        "reason": "invalid-record"
+      }
+    ],
+    "transportOpen": false,
+    "protocolStatus": "needs-attention",
+    "taskSuccess": null
+  },
+  {
+    "action": "disconnect",
+    "input": {},
+    "result": {
+      "refused": "connection-closed"
+    },
+    "transportOpen": false,
+    "protocolStatus": "needs-attention",
+    "taskSuccess": null
+  },
+  {
+    "action": "feed",
+    "input": {
+      "hex": "7b226d6574686f64223a227475726e2f636f6d706c65746564222c22706172616d73223a7b227468726561644964223a227468726561642d6f776e6564222c227475726e223a7b226964223a227475726e2d6f776e6564222c226974656d73223a5b5d2c22737461747573223a22636f6d706c65746564227d7d7d0a",
+      "byteCount": 124
+    },
+    "result": [
+      {
+        "event": "protocol-completed",
+        "taskSuccess": null
+      }
+    ],
+    "transportOpen": true,
+    "protocolStatus": "protocol-completed",
+    "taskSuccess": null
+  },
+  {
+    "action": "disconnect",
+    "input": {},
+    "result": {
+      "event": "stream-closed"
+    },
+    "transportOpen": false,
+    "protocolStatus": "protocol-completed",
+    "taskSuccess": null
+  }
+]

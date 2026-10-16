@@ -54,6 +54,11 @@ The [offline replay fixture](output/s4-codex-replay/README.md) now verifies thos
 client-policy cases with 14 behavior tests and a 17-step synthetic transcript.
 It plans no transport activity and qualifies no provider behavior. Next is
 bounded JSONL byte-stream framing and disconnect handling.
+The [offline framing fixture](output/s4-codex-framing/README.md) now verifies
+that local policy with 11 behavior tests and a 9-step synthetic transcript,
+including split UTF-8, byte budgets, malformed records and revoked reply plans
+after closure. It qualifies no native transport. Next is a bounded subprocess
+stdio fixture using a synthetic peer for actual pipes and exit handling.
 Full [S6](output/s6-assessment/README.md),
 S4 route qualification, unresolved
 S5 limits and the remaining S1–S3 requirements stay visible in the readiness ledger.

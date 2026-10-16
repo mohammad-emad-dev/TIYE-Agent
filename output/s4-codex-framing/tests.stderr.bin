@@ -1,0 +1,16 @@
+test_chunk_limit_rejects_whole_chunk_without_accepting_prefix (test_framing.FramingTests.test_chunk_limit_rejects_whole_chunk_without_accepting_prefix) ... ok
+test_completion_remains_protocol_only_and_truncation_overrides_it (test_framing.FramingTests.test_completion_remains_protocol_only_and_truncation_overrides_it) ... ok
+test_default_byte_limits_accept_boundary_and_refuse_one_extra_byte (test_framing.FramingTests.test_default_byte_limits_accept_boundary_and_refuse_one_extra_byte) ... ok
+test_disconnect_revokes_pending_reply_and_does_not_reopen (test_framing.FramingTests.test_disconnect_revokes_pending_reply_and_does_not_reopen) ... ok
+test_eof_never_parses_unterminated_or_partial_utf8_record (test_framing.FramingTests.test_eof_never_parses_unterminated_or_partial_utf8_record) ... ok
+test_every_byte_split_preserves_unicode_and_coalesced_records (test_framing.FramingTests.test_every_byte_split_preserves_unicode_and_coalesced_records) ... ok
+test_frame_budget_preserves_prefix_then_quarantines (test_framing.FramingTests.test_frame_budget_preserves_prefix_then_quarantines) ... ok
+test_invalid_records_quarantine_suffix_and_block_further_input (test_framing.FramingTests.test_invalid_records_quarantine_suffix_and_block_further_input) ... ok
+test_line_limit_counts_bytes_and_cr_across_chunks (test_framing.FramingTests.test_line_limit_counts_bytes_and_cr_across_chunks) ... ok
+test_malformed_protocol_after_approval_blocks_reply (test_framing.FramingTests.test_malformed_protocol_after_approval_blocks_reply) ... ok
+test_open_connection_keeps_single_use_reply_planning (test_framing.FramingTests.test_open_connection_keeps_single_use_reply_planning) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.206s
+
+OK

@@ -1,0 +1,129 @@
+{
+  "schema": "tiye-offline-framing-review-v1",
+  "reviews": [
+    {
+      "reviewer": "codex",
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "timeout",
+      "exitCode": 1,
+      "startedAt": "2026-10-16T16:17:10.135Z",
+      "finishedAt": "2026-10-16T16:18:40.523Z",
+      "observedToolEvents": 0,
+      "contextOnly": true,
+      "artifactSha256": {
+        "brief.txt": "8db3ded9d888fc00ed41b63af649892cca246978b28f13e1d438c1a62d0cb6c1",
+        "events.jsonl": "17441bb30ded8165d1be8c880eaa004a99c8d7cde5c9684d4f26b599da1e4bb1",
+        "final.txt": null,
+        "stderr.txt": "c8a5fbc07b8f7b0ae18dbe76184fe9b33a05d309deb7dbae12af8995377ba6ae",
+        "result.json": "813fea35ce9e19cc3bd172d2d88a418b0e27beee95669bd73faa809116d12eed"
+      }
+    },
+    {
+      "reviewer": "muse",
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "effort": "xhigh",
+      "status": "timeout",
+      "exitCode": 1,
+      "startedAt": "2026-10-16T16:18:27.949Z",
+      "finishedAt": "2026-10-16T16:19:58.401Z",
+      "observedToolEvents": 0,
+      "contextOnly": true,
+      "artifactSha256": {
+        "brief.txt": "559309de1afe9f629eb4df227640f75e8ddb333fe5e0dbd0cfadd3d9b85cb0c5",
+        "events.jsonl": "64100e5cdcbb2da1e3586e9881efe439da5758b5e8acca534d25ac2e6e02ebd5",
+        "final.txt": null,
+        "stderr.txt": null,
+        "result.json": "4684278df06c359512d0f50759f4ff8397d21350667056991adf6fe0c8162669"
+      }
+    },
+    {
+      "reviewer": "space",
+      "model": "opencode/space-bunny-free",
+      "effort": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "startedAt": "2026-10-16T16:19:08.040Z",
+      "finishedAt": "2026-10-16T16:19:57.458Z",
+      "observedToolEvents": 0,
+      "contextOnly": true,
+      "artifactSha256": {
+        "brief.txt": "559309de1afe9f629eb4df227640f75e8ddb333fe5e0dbd0cfadd3d9b85cb0c5",
+        "events.jsonl": "0849badbf6e1c53200a8e2131beae32c16975e5f30ad53d5037333fb5a445ca1",
+        "final.txt": "ed935301f325ea1b6e907ba94b18578b5e286be53738b51b335679aed5d26141",
+        "stderr.txt": null,
+        "result.json": "df36119eed4a61f6e4e16e37965727e64ae0aa9b892d05d6a42acf7a214aca0e"
+      }
+    },
+    {
+      "reviewer": "deepseek",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "timeout",
+      "exitCode": 1,
+      "startedAt": "2026-10-16T16:20:28.520Z",
+      "finishedAt": "2026-10-16T16:21:59.019Z",
+      "observedToolEvents": 0,
+      "contextOnly": true,
+      "artifactSha256": {
+        "brief.txt": "dbe03a6f1362464bbb5c1cfb6bba79b10f1e2aa9aa8f03bdf2f4095cb16d9b9b",
+        "events.jsonl": "73477e248501ccd3548228367362c139ecb3d2abe1336c66bab7953ad709aa3d",
+        "final.txt": null,
+        "stderr.txt": null,
+        "result.json": "7bb0dc868206d14c7bdfc5d009362f34a60c30f040deaa56db2f6cee95c6ce6e"
+      }
+    }
+  ],
+  "gemini": {
+    "dispatched": false,
+    "reason": "Recorded consumer route excluded from delegation and integration"
+  },
+  "provenance": "Supplied-context reviews only; no independent workspace verification. touchedFiles can include concurrent parent edits. Recursively audited event types show no tool use.",
+  "spaceBunnyDisposition": [
+    {
+      "finding": "Single-chunk line limit unreachable; CR count inconsistent",
+      "decision": "Rejected. Guard runs before append/decode on every iteration. Default exact/one-extra tests pass. CR inclusion is explicit and intentionally reduces payload allowance."
+    },
+    {
+      "finding": "Frame budget must count lifetime stream messages",
+      "decision": "Rejected. Explicit contract is per feed call. Added repeated feeds to pin intended behavior."
+    },
+    {
+      "finding": "Strictness depends on unavailable frozen decoder",
+      "decision": "Checked source and malformed variants; decoder rejects duplicate keys/constants/nonobjects. README identifies delegated checks."
+    },
+    {
+      "finding": "Protocol-error path mutates an already-failed framer",
+      "decision": "No observed bug. Wrapper owns framer, terminal reset discards any predecoded suffix, and only first applicable failure is emitted. Speculative future API changes are outside frozen fixture."
+    },
+    {
+      "finding": "Status coupling and prior completion observation loss",
+      "decision": "Pinned dependency is hashed and exposes status. Reply planning leaves running status. Historical snapshots/events remain in transcript; final snapshot is not a ledger. Documented."
+    },
+    {
+      "finding": "Closure exceptions differ; bytes-only type strictness",
+      "decision": "Intentional layer-specific caller errors, documented alongside wire failure events. No bytearray/memoryview contract."
+    },
+    {
+      "finding": "Missing boundary, buffered oversized chunk and precise reason tests",
+      "decision": "Added exact/default byte limits, one-byte excess, pending buffer oversized chunk and framing/protocol failure reason assertions before final recording."
+    },
+    {
+      "finding": "Duplicate empty-input subtest; nullable task outcome; missing archive should skip",
+      "decision": "Rejected. Only one empty entry exists; task outcome intentionally unproven; captured schema absence must fail verification rather than skip."
+    },
+    {
+      "finding": "Local policy could be mistaken for Codex runtime semantics",
+      "decision": "README explicitly identifies local limits, state transitions, no native transport and no provider qualification."
+    }
+  ],
+  "parentVerification": {
+    "testGuard": "11 focused unittest behavior cases with subTest variants, real decoder/session/archive and no mocks; no remaining violations.",
+    "docsGuard": "Paths, commands, test counts, failure semantics and nonclaims checked against sources and recorded evidence.",
+    "exploratoryCorrection": "Removed incorrect expectation that valid 2000-level JSON must be rejected; no depth limit claimed.",
+    "oldReplayEvidence": "Saved hash/transcript check passed; prior measured sources and outputs unchanged.",
+    "phase1Construction": "HOLD",
+    "fullS4Qualified": false,
+    "fullS6Qualified": false
+  }
+}
