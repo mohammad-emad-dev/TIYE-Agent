@@ -1,0 +1,60 @@
+{
+  "schema": "tiye-s6-recovery-v1",
+  "stages": [
+    {
+      "stage": "crash",
+      "ownedElectronPid": 15420,
+      "timedOut": false,
+      "exit": {
+        "code": 4294930435,
+        "signal": null
+      }
+    },
+    {
+      "stage": "restart",
+      "ownedElectronPid": 12056,
+      "timedOut": false,
+      "exit": {
+        "code": 0,
+        "signal": null
+      }
+    }
+  ],
+  "state": "bounded-live-survivor-recovery-completed",
+  "fullS6Qualified": false,
+  "phase1Construction": "HOLD",
+  "runtimeRetained": true,
+  "elapsedMs": 5910.4951,
+  "sourcesUnchanged": true,
+  "artifactSha256": {
+    "crash-00-bootstrap.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "crash-00-bootstrap.stdout.bin": "be4f59cb977b1dd5420acb4f1a85b2a63415138704fe4b124f00e6518f25aed2",
+    "crash-01-inspect.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "crash-01-inspect.stdout.bin": "44f72c8b40099213af31f61bdadb3cc62d432a9c73bfcfa3b7f91c8bf04d773c",
+    "crash.json": "2d75fdb2c0b846b509f5a1fab12b114e30ac88f9ef45dd59c4b1aebb621df805",
+    "crash.stderr.log": "4d88d6c6a8435b94fbcdddb6a70358d9d6a1b65877323670968d2f161506c370",
+    "crash.stdout.log": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+    "prelaunch.json": "5e6f0a62950e499f2a2ba1bfe0b80a0a94eb7ab7df7c9f7cd897d987961051a4",
+    "restart-00-inspect.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "restart-00-inspect.stdout.bin": "42c96dbb82fc9926ad26e413c9be8692a9ea4630e6c9b8b6362c09c913ac8062",
+    "restart-01-inspect.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "restart-01-inspect.stdout.bin": "448dd211886acc145eb8e279e8aa9c9478b9dc12b1902de13c88da88b54a6546",
+    "restart-02-admit.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "restart-02-admit.stdout.bin": "2e5931eb1190255be686c1eae3b3fac102ff33596339a58bf4f5f88a2278ca0f",
+    "restart-03-admit-negative.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "restart-03-admit-negative.stdout.bin": "67d82c5b930672cdf06a0845712ee9cea84b4054b1ed310106118bdaf73f2964",
+    "restart-04-negative.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "restart-04-negative.stdout.bin": "500fecd9a107ea091a451dd38cc6629e0c1833f77d111132cf966d618efd9e6f",
+    "restart-05-inspect.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "restart-05-inspect.stdout.bin": "2c5abd36b1b17a9cc9345a0189ef0c28ab67e04646745278cfb5378aa2e6b6f8",
+    "restart-06-recover.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "restart-06-recover.stdout.bin": "dc6ccc09eb07b5174fbac45cf793ccfdbd31e91b36960dd64881cc83bfece08d",
+    "restart-07-wait-gone.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "restart-07-wait-gone.stdout.bin": "fc7cb9c9a3e7254f3c479545d8daf2db236e654fae81cae2212a1f2bb4eb388f",
+    "restart-08-inspect.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "restart-08-inspect.stdout.bin": "a48af0ab869b013e2b670a8ad29229cbb86938eeddb88f1a4a2197e4e110cc8d",
+    "restart.json": "2382c307a4bc8b3c15bff1eccecd1c2cf29539eb484eb2e13473d8be33186aa0",
+    "restart.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "restart.stdout.log": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6"
+  }
+}

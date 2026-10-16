@@ -1,0 +1,97 @@
+{
+  "schema": "tiye-s6-recovery-review-v1",
+  "reviewedOn": "2026-10-16",
+  "baselineCommit": "9233d8e1158995a095af5f3695a7487078f7a229",
+  "delegates": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "timeout",
+      "exitCode": 1,
+      "toolEventCount": 0,
+      "independentWorkspaceVerification": false,
+      "finalMessage": "",
+      "artifactDirectory": "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\delegate-relay\\TIYE Agent-2026-10-16T15-37-46-782Z",
+      "artifactSha256": {
+        "brief.txt": "15cb2732d47e2f9f815844a8d7d1c13b6653c05f66e130f463f91204b798ca29",
+        "events.jsonl": "c92e51aa3090098085e77e91b2f526d7899941ed9c89562e498224e8a2a49357",
+        "final.txt": null,
+        "stderr.txt": "c979f94e366154a73c3febccd46f8f22fbafd8431545aa2082ab789e5e81923c",
+        "result.json": "ebf4784383025efaa69cd03d97d9184702fdfafc118a8cf894fa8c7f28984989"
+      }
+    },
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "effortOrVariant": "xhigh",
+      "status": "timeout",
+      "exitCode": 1,
+      "toolEventCount": 0,
+      "independentWorkspaceVerification": false,
+      "finalMessage": "",
+      "artifactDirectory": "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\delegate-relay\\TIYE Agent-2026-10-16T15-37-46-784Z",
+      "artifactSha256": {
+        "brief.txt": "15cb2732d47e2f9f815844a8d7d1c13b6653c05f66e130f463f91204b798ca29",
+        "events.jsonl": "7bb1c845d7eb3d16004a7b079bd99b491a8e4a400ae2682e3555fadaefb4de9f",
+        "final.txt": null,
+        "stderr.txt": null,
+        "result.json": "3d756e64e731a3936d10be207d924d27a7dc896d1fded07124a5637143df09bb"
+      }
+    },
+    {
+      "model": "opencode/space-bunny-free",
+      "effortOrVariant": "xhigh",
+      "status": "failed",
+      "exitCode": 1,
+      "toolEventCount": 0,
+      "independentWorkspaceVerification": false,
+      "finalMessage": "",
+      "artifactDirectory": "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\delegate-relay\\TIYE Agent-2026-10-16T15-39-32-726Z",
+      "artifactSha256": {
+        "brief.txt": "f0745b4100bfa6df8953c129c845e01358e78d7dfc83158111f401fdd25b106d",
+        "events.jsonl": "c6b405f9239dea43f0eb7f0c638f8362e1db3ffaa5b358896ef8a4b3309d6c87",
+        "final.txt": null,
+        "stderr.txt": null,
+        "result.json": "3bbcac587b69fdc4eb805a04fedf203dc4292d4b66358c230517a90357a0045f"
+      }
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "timeout",
+      "exitCode": 1,
+      "toolEventCount": 0,
+      "independentWorkspaceVerification": false,
+      "finalMessage": "",
+      "artifactDirectory": "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\delegate-relay\\TIYE Agent-2026-10-16T15-39-32-754Z",
+      "artifactSha256": {
+        "brief.txt": "f0745b4100bfa6df8953c129c845e01358e78d7dfc83158111f401fdd25b106d",
+        "events.jsonl": "751c2a8bb82c4ad1bde9651537a13571e3389ee9ac1e84da1135c74390d5f386",
+        "final.txt": null,
+        "stderr.txt": null,
+        "result.json": "ca134e3dd78f2b4830d0c59e36caf57062c6f3039c6014bd9156f826eb756a26"
+      }
+    }
+  ],
+  "agyDispatched": false,
+  "agyDecision": "Recorded consumer route excluded",
+  "parentVerification": {
+    "savedEvidenceCheckerExit": 0,
+    "syntaxChecksPassed": true,
+    "documentLinksChecked": true,
+    "priorTrackedEvidenceUnmodified": true
+  },
+  "reviewOutcome": "No delegate completed; parent review only",
+  "guardPasses": [
+    "test-guard: real process/OS boundaries, one bounded scenario with meaningful failure controls",
+    "docs-guard: claims checked against native artifacts, sources and local Electron declaration"
+  ],
+  "reviewScope": "Supplied code, not workspace inspection or independent runtime verification",
+  "postBriefChanges": [
+    "Added negative recovery pidfd validation in addition to admission control",
+    "Added exact registry text witness and offline evidence checker"
+  ],
+  "deliverableSha256": {
+    "README.md": "09825ef910fda6a3b3011bc3a052a6ba74732d3009ea6d4ffd5d134bbdae9ed7",
+    "output/s6-recovery/README.md": "0aa7fa7c3d048bad357ecf0ae037310b904cebdfef0a6f4f0ea581249396b232"
+  }
+}

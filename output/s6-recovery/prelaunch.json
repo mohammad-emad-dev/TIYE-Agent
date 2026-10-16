@@ -1,0 +1,14 @@
+{
+  "sourceBinaryHashes": {
+    "feasibility/s6-wsl/recovery/protocol.json": "0b542b060dd95403badcca81660be1e85b198ffc2cf793d31104ff3b613f0b7e",
+    "feasibility/s6-wsl/recovery/linux.py": "23b4a7aeb4db89a89311a819dca85649c8dd29675ca878bb3a09af650dc1788e",
+    "feasibility/s6-wsl/recovery/main.cjs": "3c8fa26f8af784295ec2ead425b8c65962124825a7f45366413436388379ca04",
+    "feasibility/s6-wsl/recovery/run.cjs": "7902578d6e0822e6e1482cef4a523f44cd16405f3e8c3b7c5c981e84b32d2a72",
+    "feasibility/s6-wsl/recovery/check.py": "eb6ff3bbe541c7cd314fe7dce9098738b49a9bf59e5c68e78832382c28ab9508",
+    "feasibility/s5-performance/ui/toolchain.js": "b0c6a440964fe2f64397b6f43e552c911bc79adae409aee052a1849b16101c68",
+    "feasibility/s1-terminal/node_modules/electron/dist/electron.exe": "62c62d170a95aa4a3eb3df05f0d56a3654ab4344f7452e21dea1334afed7100f"
+  },
+  "runtime": "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\tiye-s6-recovery-0Y2bPT",
+  "attempts": 1,
+  "retries": 0
+}

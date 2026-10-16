@@ -1,0 +1,20 @@
+{
+  "schema": "tiye-s6-live-survivor-protocol-v1",
+  "attempts": 1,
+  "retries": 0,
+  "coordinatorDeadlineSeconds": 70,
+  "electronStageDeadlineSeconds": 25,
+  "wslQueryDeadlineSeconds": 10,
+  "supervisorTtlSeconds": 90,
+  "childTtlSeconds": 95,
+  "distribution": "Ubuntu",
+  "fixture": "Non-root detached Python supervisor with one ordinary child, no PTY or provider",
+  "crash": "Electron main process.crash after fsynced registry and live identities; native crash exit must be nonzero",
+  "restart": "New Electron main reads exact persisted fixture descriptor; does not start a member",
+  "admissionControls": ["verified-live blocks duplicate launch", "in-memory expected start-tick mismatch pauses with zero signals and zero new launches"],
+  "cleanup": "Open pidfds for both identities; revalidate PID/startTicks/UID/boot hash/nonce; signal only supervisor using pidfd SIGTERM; supervisor reaps its own child",
+  "absence": "Both original PIDs gone, stable heartbeats, same boot identity, before 60-second registry age",
+  "failurePolicy": "Persist incomplete result without native retry; owned Windows stage handles only; detached mocks self-expire as emergency backstop, never counted as verified cleanup",
+  "retention": "Retain owned Linux fixture, host runtime and crash diagnostics; no recursive deletion",
+  "limits": ["Intentional detach is a controlled survivor, not natural provider survival", "No Job Object, PTY, power-loss or arbitrary process-tree qualification", "Single coordinator, no concurrent launchers or malicious same-user registry threat model", "No actual PID reuse, zombie or proc permission fault injection", "No full S6 or Phase 1 qualification"]
+}

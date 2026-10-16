@@ -1,0 +1,519 @@
+{
+  "stage": "restart",
+  "electronPid": 12056,
+  "electron": "38.8.6",
+  "node": "22.22.0",
+  "observations": [
+    {
+      "mode": "inspect",
+      "prefix": "restart-00-inspect",
+      "exitCode": 0,
+      "signal": null,
+      "elapsedMs": 207.4476,
+      "error": null,
+      "result": {
+        "states": [
+          {
+            "expected": {
+              "pid": 1854,
+              "startTicks": 1694751,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "R"
+            },
+            "observed": {
+              "pid": 1854,
+              "startTicks": 1694751,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "S"
+            },
+            "status": "verified-live"
+          },
+          {
+            "expected": {
+              "pid": 1855,
+              "startTicks": 1694758,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "S"
+            },
+            "observed": {
+              "pid": 1855,
+              "startTicks": 1694758,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "S"
+            },
+            "status": "verified-live"
+          }
+        ],
+        "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+        "heartbeats": {
+          "root": {
+            "counter": 8,
+            "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756"
+          },
+          "child": {
+            "counter": 7,
+            "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756"
+          }
+        },
+        "launchRecords": [
+          {
+            "pid": 1854,
+            "kind": "initial-detached-supervisor"
+          }
+        ],
+        "ageSeconds": 0.7417868780030403
+      }
+    },
+    {
+      "mode": "inspect",
+      "prefix": "restart-01-inspect",
+      "exitCode": 0,
+      "signal": null,
+      "elapsedMs": 124.97300000000007,
+      "error": null,
+      "result": {
+        "states": [
+          {
+            "expected": {
+              "pid": 1854,
+              "startTicks": 1694751,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "R"
+            },
+            "observed": {
+              "pid": 1854,
+              "startTicks": 1694751,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "S"
+            },
+            "status": "verified-live"
+          },
+          {
+            "expected": {
+              "pid": 1855,
+              "startTicks": 1694758,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "S"
+            },
+            "observed": {
+              "pid": 1855,
+              "startTicks": 1694758,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "S"
+            },
+            "status": "verified-live"
+          }
+        ],
+        "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+        "heartbeats": {
+          "root": {
+            "counter": 12,
+            "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756"
+          },
+          "child": {
+            "counter": 11,
+            "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756"
+          }
+        },
+        "launchRecords": [
+          {
+            "pid": 1854,
+            "kind": "initial-detached-supervisor"
+          }
+        ],
+        "ageSeconds": 1.1459617159998743
+      }
+    },
+    {
+      "mode": "admit",
+      "prefix": "restart-02-admit",
+      "exitCode": 0,
+      "signal": null,
+      "elapsedMs": 134.15550000000007,
+      "error": null,
+      "result": {
+        "decision": "blocked-existing",
+        "newLaunches": 0,
+        "signals": [],
+        "observation": {
+          "states": [
+            {
+              "expected": {
+                "pid": 1854,
+                "startTicks": 1694751,
+                "uid": 1000,
+                "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+                "state": "R"
+              },
+              "observed": {
+                "pid": 1854,
+                "startTicks": 1694751,
+                "uid": 1000,
+                "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+                "state": "S"
+              },
+              "status": "verified-live"
+            },
+            {
+              "expected": {
+                "pid": 1855,
+                "startTicks": 1694758,
+                "uid": 1000,
+                "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+                "state": "S"
+              },
+              "observed": {
+                "pid": 1855,
+                "startTicks": 1694758,
+                "uid": 1000,
+                "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+                "state": "S"
+              },
+              "status": "verified-live"
+            }
+          ],
+          "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+          "heartbeats": {
+            "root": {
+              "counter": 14,
+              "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756"
+            },
+            "child": {
+              "counter": 13,
+              "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756"
+            }
+          },
+          "launchRecords": [
+            {
+              "pid": 1854,
+              "kind": "initial-detached-supervisor"
+            }
+          ],
+          "ageSeconds": 1.2782995410016156
+        }
+      }
+    },
+    {
+      "mode": "admit-negative",
+      "prefix": "restart-03-admit-negative",
+      "exitCode": 0,
+      "signal": null,
+      "elapsedMs": 134.69319999999993,
+      "error": null,
+      "result": {
+        "decision": "paused-unverified",
+        "newLaunches": 0,
+        "signals": [],
+        "observation": {
+          "states": [
+            {
+              "expected": {
+                "pid": 1854,
+                "startTicks": 1694752,
+                "uid": 1000,
+                "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+                "state": "R"
+              },
+              "observed": {
+                "pid": 1854,
+                "startTicks": 1694751,
+                "uid": 1000,
+                "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+                "state": "S"
+              },
+              "status": "unverified"
+            },
+            {
+              "expected": {
+                "pid": 1855,
+                "startTicks": 1694758,
+                "uid": 1000,
+                "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+                "state": "S"
+              },
+              "observed": {
+                "pid": 1855,
+                "startTicks": 1694758,
+                "uid": 1000,
+                "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+                "state": "S"
+              },
+              "status": "verified-live"
+            }
+          ],
+          "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+          "heartbeats": {
+            "root": {
+              "counter": 15,
+              "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756"
+            },
+            "child": {
+              "counter": 14,
+              "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756"
+            }
+          },
+          "launchRecords": [
+            {
+              "pid": 1854,
+              "kind": "initial-detached-supervisor"
+            }
+          ],
+          "ageSeconds": 1.4188495520029392
+        }
+      }
+    },
+    {
+      "mode": "negative",
+      "prefix": "restart-04-negative",
+      "exitCode": 0,
+      "signal": null,
+      "elapsedMs": 135.0815,
+      "error": null,
+      "result": {
+        "decision": "paused-unverified",
+        "signals": [],
+        "newLaunches": 0,
+        "negativeControl": true,
+        "expectedIdentities": [
+          {
+            "pid": 1854,
+            "startTicks": 1694752,
+            "uid": 1000,
+            "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+            "state": "R"
+          },
+          {
+            "pid": 1855,
+            "startTicks": 1694758,
+            "uid": 1000,
+            "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+            "state": "S"
+          }
+        ]
+      }
+    },
+    {
+      "mode": "inspect",
+      "prefix": "restart-05-inspect",
+      "exitCode": 0,
+      "signal": null,
+      "elapsedMs": 146.84609999999998,
+      "error": null,
+      "result": {
+        "states": [
+          {
+            "expected": {
+              "pid": 1854,
+              "startTicks": 1694751,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "R"
+            },
+            "observed": {
+              "pid": 1854,
+              "startTicks": 1694751,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "S"
+            },
+            "status": "verified-live"
+          },
+          {
+            "expected": {
+              "pid": 1855,
+              "startTicks": 1694758,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "S"
+            },
+            "observed": {
+              "pid": 1855,
+              "startTicks": 1694758,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "S"
+            },
+            "status": "verified-live"
+          }
+        ],
+        "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+        "heartbeats": {
+          "root": {
+            "counter": 18,
+            "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756"
+          },
+          "child": {
+            "counter": 17,
+            "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756"
+          }
+        },
+        "launchRecords": [
+          {
+            "pid": 1854,
+            "kind": "initial-detached-supervisor"
+          }
+        ],
+        "ageSeconds": 1.7004053920027218
+      }
+    },
+    {
+      "mode": "recover",
+      "prefix": "restart-06-recover",
+      "exitCode": 0,
+      "signal": null,
+      "elapsedMs": 175.92730000000006,
+      "error": null,
+      "result": {
+        "decision": "verified-supervisor-signaled",
+        "signals": [
+          {
+            "pid": 1854,
+            "signal": "SIGTERM",
+            "mechanism": "pidfd"
+          }
+        ],
+        "newLaunches": 0,
+        "negativeControl": false,
+        "expectedIdentities": [
+          {
+            "pid": 1854,
+            "startTicks": 1694751,
+            "uid": 1000,
+            "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+            "state": "R"
+          },
+          {
+            "pid": 1855,
+            "startTicks": 1694758,
+            "uid": 1000,
+            "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+            "state": "S"
+          }
+        ]
+      }
+    },
+    {
+      "mode": "wait-gone",
+      "prefix": "restart-07-wait-gone",
+      "exitCode": 0,
+      "signal": null,
+      "elapsedMs": 262.41319999999996,
+      "error": null,
+      "result": {
+        "states": [
+          {
+            "expected": {
+              "pid": 1854,
+              "startTicks": 1694751,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "R"
+            },
+            "observed": null,
+            "status": "gone"
+          },
+          {
+            "expected": {
+              "pid": 1855,
+              "startTicks": 1694758,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "S"
+            },
+            "observed": null,
+            "status": "gone"
+          }
+        ],
+        "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+        "heartbeats": {
+          "root": {
+            "counter": 20,
+            "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756"
+          },
+          "child": {
+            "counter": 20,
+            "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756"
+          }
+        },
+        "launchRecords": [
+          {
+            "pid": 1854,
+            "kind": "initial-detached-supervisor"
+          }
+        ],
+        "ageSeconds": 2.143878062001022,
+        "supervisorExit": {
+          "reason": "SIGTERM",
+          "childExitCode": 0,
+          "elapsedSeconds": 2.0867488389994833
+        }
+      }
+    },
+    {
+      "mode": "inspect",
+      "prefix": "restart-08-inspect",
+      "exitCode": 0,
+      "signal": null,
+      "elapsedMs": 184.34799999999996,
+      "error": null,
+      "result": {
+        "states": [
+          {
+            "expected": {
+              "pid": 1854,
+              "startTicks": 1694751,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "R"
+            },
+            "observed": null,
+            "status": "gone"
+          },
+          {
+            "expected": {
+              "pid": 1855,
+              "startTicks": 1694758,
+              "uid": 1000,
+              "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+              "state": "S"
+            },
+            "observed": null,
+            "status": "gone"
+          }
+        ],
+        "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+        "heartbeats": {
+          "root": {
+            "counter": 20,
+            "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756"
+          },
+          "child": {
+            "counter": 20,
+            "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756"
+          }
+        },
+        "launchRecords": [
+          {
+            "pid": 1854,
+            "kind": "initial-detached-supervisor"
+          }
+        ],
+        "ageSeconds": 2.574797438999667
+      }
+    }
+  ],
+  "completed": true,
+  "descriptor": {
+    "root": "/tmp/tiye-s6-recovery-n6e51as0",
+    "nonce": "c2aba568-6355-466b-b1da-1ed49aeea756",
+    "registrySha256": "8588b130358112452d87034d7b4a8dffc068ddca9109aa05dc5aa10ed39566d0"
+  }
+}

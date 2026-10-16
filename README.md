@@ -28,14 +28,19 @@ allowlisted environment tuple, synthetic Git identity inputs and decoded mock
 briefing text in a root process and its descendant. The
 [WSL lifecycle fixture](output/s6-lifecycle/README.md) now records graceful
 mock shutdown, start-time mismatch refusal and absence of both Linux identities
-after owned launcher termination; survivor-present cleanup is still untested.
+after owned launcher termination; that cohort did not exercise survivor cleanup.
 The [WSL mock PTY capture](output/s6-pty/README.md) now verifies synthetic
 ASCII/Unicode/multiline paste, Linux resize/SIGINT events and normal mock exit
 through Electron, xterm and the requested experimental ConPTY backend.
 The [current nine-row S6 assessment](output/s6-assessment/README.md) consolidates
-these bounded observations, preserves the original failures and identifies
-live-survivor crash/restart recovery as the next mock task. It supersedes the
+these bounded observations and preserves the original failures. It supersedes the
 historical S6 status in the Phase 0 snapshot and initial plan; S6 remains partial.
+The subsequent [live-survivor recovery capture](output/s6-recovery/README.md)
+now records two live Linux mocks after an intentional Electron main crash,
+restart admission/mismatch refusals, pidfd-bound supervisor signaling and verified
+absence of both original identities before expiry. This controlled detached
+fixture does not qualify provider trees or concurrent recovery. Next is an
+eligible Linux-native CLI route under S4 before provider-backed S6 work.
 Full [S6](output/s6-assessment/README.md),
 S4 route qualification, unresolved
 S5 limits and the remaining S1–S3 requirements stay visible in the readiness ledger.
