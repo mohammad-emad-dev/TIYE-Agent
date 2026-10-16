@@ -72,6 +72,12 @@ from process exit, and continued stdout/stderr reads during a blocked writer.
 Three adversarial scenarios and six capture tests passed; write cancellation
 remains uncertain and no callback is retried. Next is consolidation of the
 transport evidence and remaining real-CLI/provider qualification requirements.
+The [dated transport readiness consolidation](output/s4-codex-transport-assessment/README.md)
+now maps six evidence cohorts to eight open requirement groups and overlays all
+nine partial S6 rows. It includes a conditional Linux native plan; selected-route
+scope, native authentication and model access remain unqualified. The prepared
+provider inquiry is still unsent. This summary supersedes earlier next-step
+pointers for this Codex workstream and does not clear Phase 1.
 Full [S6](output/s6-assessment/README.md),
 S4 route qualification, unresolved
 S5 limits and the remaining S1–S3 requirements stay visible in the readiness ledger.

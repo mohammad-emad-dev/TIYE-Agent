@@ -1,0 +1,48 @@
+{
+  "schema": "tiye-codex-transport-readiness-v1",
+  "assessedOn": "2026-10-16",
+  "baselineCommit": "621e059b61bdccf5aa36235ff190613379267eca",
+  "decision": "HOLD",
+  "fullS4Qualified": false,
+  "fullS6Qualified": false,
+  "productionEligible": false,
+  "phase1Construction": "HOLD",
+  "newNativeExperiments": 0,
+  "providerRequestRun": false,
+  "currentPolicyRecheck": false,
+  "operatorAccountDeclarationReceived": true,
+  "providerInquirySent": false,
+  "waivedRequirements": [],
+  "cohorts": [
+    {"id": "linux-prerequisite", "evidence": "output/s4-codex-candidate/installation.json", "level": "pinned-linux-version-help-only"},
+    {"id": "schema", "evidence": "output/s4-codex-schema/evidence.json", "level": "generated-declarations-only", "schemaFiles": 314},
+    {"id": "replay", "evidence": "output/s4-codex-replay/evidence.json", "level": "offline-client-policy", "tests": 14, "steps": 17},
+    {"id": "framing", "evidence": "output/s4-codex-framing/evidence.json", "level": "offline-byte-framing-policy", "tests": 11, "steps": 9},
+    {"id": "stdio", "evidence": "output/s4-codex-stdio/evidence.json", "level": "native-windows-fixed-python-peers", "tests": 8, "scenarios": 8},
+    {"id": "pipe-lifecycle", "evidence": "output/s4-codex-pipe-lifecycle/evidence.json", "level": "native-windows-fixed-python-peers", "tests": 6, "scenarios": 3}
+  ],
+  "requirements": [
+    {"id": "route", "status": "unqualified", "evidence": ["output/s4-codex-candidate/route.json", "output/s4-codex-candidate/PROVIDER-CLARIFICATION.md"], "acceptance": "Resolve applicability of selected official access route to TIYE paid local orchestration, record dated scope and any required acceptance/registration. Refresh current official policy before native use; do not infer eligibility from host reviews or personal login.", "dependsOn": []},
+    {"id": "native-auth-model", "status": "unqualified", "evidence": ["output/s4-codex-candidate/README.md", "output/s4-codex-schema/capabilities.json"], "acceptance": "After route eligibility, verify official user-controlled Linux authentication and exact model/effort/account/region applicability. Retain sanitized outcomes without tokens; a slug or schema field is not entitlement.", "dependsOn": ["route"]},
+    {"id": "native-session", "status": "unqualified", "evidence": ["output/s4-codex-schema/README.md", "output/s4-codex-replay/README.md"], "acceptance": "Qualify installed CLI lifecycle, selected supported control surface, request/response and owned thread/turn correlation, one disposable task and independent file/diff witness. Generated schemas and mock completion are insufficient.", "dependsOn": ["native-auth-model"]},
+    {"id": "native-approval", "status": "unqualified", "evidence": ["output/s4-codex-replay/README.md", "output/s4-codex-framing/README.md"], "acceptance": "Measure actual command/file approvals and denial/cancel/resolution behavior with bounded harmless effects. Distinguish operation/session/execpolicy/network scope; no implicit wider grant. Bind future product approval to exact effect/target/operation and new attempt.", "dependsOn": ["native-session"]},
+    {"id": "native-failure-recovery", "status": "unqualified", "evidence": ["output/s4-codex-stdio/README.md", "output/s4-codex-pipe-lifecycle/README.md", "output/s6-recovery/README.md"], "acceptance": "Measure installed CLI errors, interruption, connection loss/hang and documented resume behavior with owned identity cleanup. Reconcile uncertain instruction/effect; no automatic resend or callback replay. Mock faults do not establish vendor behavior.", "dependsOn": ["native-session"]},
+    {"id": "transport-choice", "status": "partial", "evidence": ["output/s4-codex-schema/README.md", "output/s4-codex-stdio/README.md", "output/s4-codex-pipe-lifecycle/README.md"], "acceptance": "Record supported version/transport/capability matrix and supported route scope. Native Windows Python pipes neither replace the architecture PTY adapter nor establish Linux CLI app-server stability, all-buffer bounds or production transport selection.", "dependsOn": ["route", "native-session", "native-failure-recovery"]},
+    {"id": "wsl-nine-rows", "status": "partial", "evidence": ["output/s6-assessment/coverage.json", "output/s6-recovery/README.md", "output/s4-codex-candidate/README.md"], "acceptance": "Close intended WSL CLI parity/filesystem/path/tool/environment/ownership cases against all nine test-plan rows. Preserve current failures and one-Git-side rule; latest overlays do not complete S6.", "dependsOn": ["native-auth-model"]},
+    {"id": "other-feasibility-gates", "status": "partial", "evidence": ["output/phase0-readiness/ASSESSMENT.md"], "acceptance": "Retain S1-S3 and S5 open limits, including representative projects, error/resume/platform cases and performance acceptance/remediation. Product core/UI is later work, not a circular feasibility prerequisite.", "dependsOn": []}
+  ],
+  "s6Overlay": [
+    {"step": 1, "status": "partial", "evidence": ["output/s6-discovery/README.md"], "remaining": "Reusable app-side discovery, initialization and failure handling."},
+    {"step": 2, "status": "partial", "evidence": ["output/s6-discovery/README.md", "output/s4-codex-candidate/README.md"], "update": "Later explicit-path Codex0.157.1 version/help capture; initial PATH absence remains historical.", "remaining": "Eligible CLI route and reusable executable/version/capability discovery; native auth/model not qualified."},
+    {"step": 3, "status": "partial", "evidence": ["output/s6-pty/README.md"], "remaining": "Qualified CLI/S1 input/display parity, physical interaction, rendering and crash limits."},
+    {"step": 4, "status": "partial", "evidence": ["output/s6-path-git/README.md", "output/s6-cross-git/README.md"], "remaining": "Qualified CLI on intended Windows/Linux filesystems, representative setup/cost. Preserve mounted-path init failure."},
+    {"step": 5, "status": "partial", "evidence": ["output/s6-path-git/README.md"], "remaining": "Mounted Unicode case, invalid/unrelated roots and symlink containment; lexical conversion alone is insufficient."},
+    {"step": 6, "status": "partial", "evidence": ["output/s6-connectivity/README.md"], "remaining": "Eligible CLI tool attachment, available network modes and crash/helper cleanup. Direct NAT loopback refused; mock relay success and inconclusive shutdown check retained."},
+    {"step": 7, "status": "partial", "evidence": ["output/s6-environment/README.md"], "remaining": "Native CLI attribution/adherence and official credential delivery; public mock tuple/decoded briefing only measured."},
+    {"step": 8, "status": "partial", "evidence": ["output/s6-lifecycle/README.md", "output/s6-recovery/README.md"], "update": "Later live detached supervisor/child after Electron crash, duplicate/mismatch refusal and pidfd recovery verified.", "remaining": "Natural provider process/PTY trees, concurrent launch/recovery, actual PID reuse, timeout cleanup and other recorded fault limits."},
+    {"step": 9, "status": "partial", "evidence": ["output/s6-cross-git/README.md"], "remaining": "Cross-side sharing unqualified. Keep one Git execution side for project and all linked worktrees; do not bypass trust gates or rewrite pointers."}
+  ],
+  "next": "Resolve selected-route scope using the existing unsent clarification draft, then finalize a version-specific bounded Linux native qualification protocol. Do not execute inference before route eligibility.",
+  "historicalRecordsPreserved": ["output/phase0-readiness/ASSESSMENT.md", "output/s6-assessment/coverage.json", "feasibility/s6-wsl/PLAN.md"],
+  "architectureReferences": ["architecture/TIYE-Agent-Feasibility-Test-Plan.md", "architecture/TIYE-Agent-Architecture.md", "architecture/TIYE-Agent-Product-Specification.md"]
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "tiye-transport-assessment-review-v1",
+  "reviews": [
+    {
+      "reviewer": "codex",
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "scope": "supplied-facts-and-claim-boundaries",
+      "status": "completed",
+      "exitCode": 0,
+      "startedAt": "2026-10-16T17:00:51.748Z",
+      "finishedAt": "2026-10-16T17:01:17.206Z",
+      "observedToolEvents": 0,
+      "contextOnly": true,
+      "artifactSha256": {
+        "brief.txt": "5403c880b4b56044615fb3d418ffd5f573694c53d2808e2791500b50ec03167b",
+        "events.jsonl": "60b40f65cec55b3d8c7dd7b1ffe7209171751d1d56430a9fe9d21af0c9517575",
+        "final.txt": "fbe23ab0e8388a0bdb72a0cd717f3398f580e99040b57d95fd305a1065beaeb7",
+        "stderr.txt": "f20fe5858dc1f1be569cf0389078c6b3cff910f20158d3e719e9a5e503a79e41",
+        "result.json": "b7e6db905a342a6e95fb060ca68b1424f9cb7b70bbff3599987a1c6017d08725"
+      }
+    },
+    {
+      "reviewer": "muse",
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "effort": "xhigh",
+      "scope": "supplied-facts-and-claim-boundaries",
+      "status": "completed",
+      "exitCode": 0,
+      "startedAt": "2026-10-16T17:01:01.922Z",
+      "finishedAt": "2026-10-16T17:01:20.815Z",
+      "observedToolEvents": 0,
+      "contextOnly": true,
+      "artifactSha256": {
+        "brief.txt": "5403c880b4b56044615fb3d418ffd5f573694c53d2808e2791500b50ec03167b",
+        "events.jsonl": "ab84ec965d5ca63a0c11e375150fe758493a0ea215662f8bfa3d354e09c16780",
+        "final.txt": "a0eb82c36ea1dfba731ab14a536954c27eea9c6bdf2252287fdc6afd3683a5c2",
+        "stderr.txt": null,
+        "result.json": "c64d885da9305a026e9693c065e472a0e82d70f095880579106b480658c486cd"
+      }
+    }
+  ],
+  "gemini": {
+    "dispatched": false,
+    "reason": "Recorded consumer route excluded from delegation and integration"
+  },
+  "fallbacks": {
+    "dispatched": false,
+    "reason": "Both requested eligible review models completed"
+  },
+  "scope": "Facts/claim-boundary reviews, not drafted-document redlines or independent workspace verification. Parent verified final documents and local artifacts.",
+  "dispositions": [
+    "Kept schema declarations, offline policy and native Windows Python observations as separate evidence levels; no summed coverage score.",
+    "Account declaration received; no published values, native entitlement inference or new declaration request.",
+    "Pinned binary/version/help only; exact internal-use login variant and effort-string warning retained without generalizing to all routes.",
+    "Dated snapshot with no current policy recheck; provider scope unresolved, inquiry unsent and API route unselected. No legal conclusion or route waiver.",
+    "All nine S6 rows partial, later explicit-path CLI and controlled live-survivor evidence overlaid without erasing original failures or inferring provider recovery.",
+    "Preserved one-Git-side, mounted initialization failure, UNC trust refusal, NAT/refused loopback and inconclusive shutdown limits.",
+    "Next technical protocol conditional on route eligibility; no blind resend or callback reuse, no finished UI/core prerequisite or inferred product-scope change."
+  ],
+  "parentVerification": {
+    "docsGuard": "Final links, symbols, commands, counts and limitations checked against local sources. No current upstream policy claim made.",
+    "assessmentChecker": "Six indexed Codex cohort inputs, required source/artifact hashes, exact saved counts, dependency acyclicity and partial/HOLD flags verified offline.",
+    "recoveryChecker": "Existing saved live-survivor checker passed without process launch or signal.",
+    "newNativeExperiments": 0,
+    "providerRequestRun": false,
+    "fullS4Qualified": false,
+    "fullS6Qualified": false,
+    "phase1Construction": "HOLD"
+  }
+}
