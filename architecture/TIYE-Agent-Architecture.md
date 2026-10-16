@@ -890,6 +890,16 @@ one-run-per-route observation supports no IPC fix or causal regression claim.
 Worker scheduling and producer/PTY ACK-path tracing are next; the input latency
 gate remains failed and no transport change is adopted for the product.
 
+The [worker/producer ACK trace](../feasibility/s5-performance/ui/input-ack-path/README.md)
+retains all 35 producer write-stage records plus 6,349 worker and 6,217 producer
+timer ticks, with 17 and 37 retained late ticks respectively. Raw ACKs, diagnostic
+files and hashes reconcile. Focus still fails at 192.02 ms: the main input-notice
+to ACK interval is 189.56 ms, but the separate worker command-to-ACK and producer
+input-to-write-callback intervals are 0.37 ms and 0.08 ms. No retained local timer
+gap overlaps those short intervals; this does not locate or rule out scheduling
+delay. Main-clock worker command-receipt notices and a controlled-delay check are
+next. No causal fix, clock synchronization or full-S5 qualification is established.
+
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
 a disposable source root, ran an offline local-dependency setup, copied
