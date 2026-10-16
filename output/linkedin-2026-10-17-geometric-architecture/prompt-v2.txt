@@ -1,0 +1,19 @@
+Use case: ads-marketing
+Asset: square LinkedIn architectural technology poster for TIYE Agent
+Input image 1 is the approved previous design concept and STYLE REFERENCE
+Create a new image closely matching its premium dark isometric glass-room architectural render style and typography hierarchy with the current subject of process supervision
+Keep midnight navy background glossy dark ground translucent glass cuboid rooms cyan luminous edges warm amber connections photorealistic miniature modern architectural materials and generous negative space
+Upper third has small spaced TIYE AGENT label followed by two very large clean sans serif headline lines matching the reference
+Below the headline show an elegant transparent glass enclosure on a raised square platform containing three separate smaller glass workspace modules with desks and monitors connected by fine amber light paths
+A separate smaller glass observation module stands outside the main enclosure connected to it by a single amber path as a metaphor for an independent supervisor
+Make it a beautiful architectural scale model with tangible spatial depth realistic glass reflections and carefully balanced blue and warm light
+This is conceptual artwork for a Windows process supervision prototype not an application screenshot or proof of production readiness
+Exact text only with no punctuation
+Top label "TIYE AGENT"
+Large first headline in white "Clear ownership"
+Large second headline in amber "Controlled shutdown"
+Small centered bottom line "Windows supervision prototype"
+Preserve the visual family of the reference closely
+No Pharaonic or Egyptian elements no pyramids no temple shapes no winged sun no hieroglyphs no historical ornaments
+No flat schematic no flowchart boxes no decorative gold linework no robots no people no percentages no additional text
+Opaque background
