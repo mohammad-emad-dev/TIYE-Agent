@@ -1,0 +1,33 @@
+Use case: infographic-diagram
+Asset: portrait LinkedIn project progress overview for TIYE Agent
+Input image 1 is the user-selected design reference
+Recreate its SAME layout and graphic design concept very closely
+Warm cream background dark navy typography teal accents thin navy rounded panel borders pale teal status bands simple terminal line icons at top right vertical three-node status timeline large numerical evidence panel and bottom next milestone band
+Preserve its portrait aspect ratio editorial spacing alignment font hierarchy large TIYE AGENT heading restrained flat infographic style
+Update only the content to this exact text
+Top "PROJECT UPDATE • 17 OCT 2026"
+Title "TIYE AGENT"
+Subtitle "A desktop workspace for AI coding agents"
+Status band label "CURRENT STAGE"
+Status band title "Architecture & feasibility validation"
+Three timeline rows
+"DOCUMENTED" next to "Product specification & architecture"
+"IN PROGRESS" next to "Windows process supervision"
+"UPCOMING" next to "Linux recovery & core engine"
+Evidence panel heading "VERIFIED IN THE WINDOWS PROTOTYPE"
+Three balanced columns with large numbers
+"6" with caption "Synthetic process tests passed"
+"1" with caption "Shutdown race fixed"
+"1" with caption "Failed capture preserved"
+Below evidence panel use simple terminal icon and label "LATEST COMPONENT"
+Component line "Windows Job Objects & independent watchdog"
+Bottom pale teal band with flag icon
+"NEXT MILESTONE"
+"Integrate supervision into the launcher"
+Small footer "Windows fixture evidence only • Core engine and full product UI still ahead"
+No other text
+Do not copy old counts 2 22 or 21 or the old milestone
+No percentages no production ready claims no commas or sentence-ending periods
+No glass cubes no dark background no 3D rooms no Egyptian or Pharaonic motifs
+Crisp legible text with sufficient margins and no clipping
+Opaque background
