@@ -1,0 +1,102 @@
+{
+  "schema": "tiye-codex-offline-replay-review-v1",
+  "reviewedOn": "2026-10-16",
+  "baselineCommit": "e7730e5ed16afaa9f70e2b1abb197f50b746c9c1",
+  "delegates": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "timeout",
+      "exitCode": 1,
+      "toolEventCount": 0,
+      "contextOnly": true,
+      "independentWorkspaceVerification": false,
+      "artifactDirectory": "D:\\TIYE Agent\\.git\\replay-review-codex",
+      "artifactSha256": {
+        "brief.txt": "9da67dc0c09b604c4c3d02c1ec27bf210548c54d9b09f71d8538330bc4165e16",
+        "events.jsonl": "4832fafb71c97716d1a9eeb6a7ba7c228e5072d3666beda713ef750f789526b9",
+        "final.txt": null,
+        "stderr.txt": "d7f4c65d781cbca5a429d77b19f644b2c673440597cb513824b77f2b85a68849",
+        "result.json": "ae6b087c2490c59f86535d5b08c4c8d6f746ef7369158a8cd2299eab74cfecda"
+      }
+    },
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "effortOrVariant": "xhigh",
+      "status": "timeout",
+      "exitCode": 1,
+      "toolEventCount": 0,
+      "contextOnly": true,
+      "independentWorkspaceVerification": false,
+      "artifactDirectory": "D:\\TIYE Agent\\.git\\replay-review-muse",
+      "artifactSha256": {
+        "brief.txt": "9da67dc0c09b604c4c3d02c1ec27bf210548c54d9b09f71d8538330bc4165e16",
+        "events.jsonl": "83cc48da5fe0a740e4cb4fb73eff892378432ce426cf0a937bd403bb677428de",
+        "final.txt": null,
+        "stderr.txt": null,
+        "result.json": "597850dc3b03cdc9a9c9fa30296ce3574cf805285f8a2277b0f5d73c4bfa8472"
+      }
+    },
+    {
+      "model": "opencode/space-bunny-free",
+      "effortOrVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "toolEventCount": 0,
+      "contextOnly": true,
+      "independentWorkspaceVerification": false,
+      "artifactDirectory": "D:\\TIYE Agent\\.git\\replay-review-space",
+      "artifactSha256": {
+        "brief.txt": "82619fb56c8aa4e95347142adcb8b88d2afeae37ef93168a17eb1e88fd31d04d",
+        "events.jsonl": "a459f9f3beba4534c04e4bedc520e71c1882dc0bd9b3772bded0e2613a6c7e4b",
+        "final.txt": "e423eeda3a61a385facd26f13496c04a4d803e83bb3f6a83071bc73808c71bfe",
+        "stderr.txt": null,
+        "result.json": "b6fa0fdcea4e235a24cb937f059b723b05ca39f5184b3a281a5edd31b7d36e5b"
+      }
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "timeout",
+      "exitCode": 1,
+      "toolEventCount": 0,
+      "contextOnly": true,
+      "independentWorkspaceVerification": false,
+      "artifactDirectory": "D:\\TIYE Agent\\.git\\replay-review-deepseek",
+      "artifactSha256": {
+        "brief.txt": "82619fb56c8aa4e95347142adcb8b88d2afeae37ef93168a17eb1e88fd31d04d",
+        "events.jsonl": "d28709991b054a83979c8575a90b6d7790634889b1132f2fd58b1e15cd218c2f",
+        "final.txt": null,
+        "stderr.txt": null,
+        "result.json": "594c8c36a75d595b4a6465cb8c1220cab3a932e1936f53cf88f125e333a0f423"
+      }
+    }
+  ],
+  "agyDispatched": false,
+  "agyReason": "Recorded consumer-route exclusion",
+  "parentVerification": {
+    "sealedTestsExitCode": 0,
+    "behaviorTestMethods": 14,
+    "walkthroughSteps": 17,
+    "offlineEvidenceCheckExitCode": 0,
+    "priorTrackedEvidenceUnmodified": true,
+    "testGuardApplied": true,
+    "docsGuardApplied": true
+  },
+  "reviewDisposition": [
+    "Clarified canonical decoded-JSON fingerprint rather than raw-wire identity",
+    "Documented exact string/integer request ID policy; floats rejected by request_key type guard",
+    "Clarified explicit ignored-response result and separate client/server namespaces; existing behavior test covers unmatched id99",
+    "Rejected treating a refused wider decision as terminal withdrawal of the callback: policy refuses wider grants only and allows a later explicit operation decision or denial",
+    "The transcript already records all three wider-grant refusals; no missing-refusal-event claim adopted",
+    "Added owned unmatched-resolution tombstones before final evidence recording; primary code briefs predated this guard, fallback design brief included it",
+    "Parent verified the actual source and results; only Space fallback completed, without tool or workspace verification"
+  ],
+  "artifactSha256": {
+    "evidence.json": "179572e622eb2511ea9447f70ea93c6206b84e1d531680d4378f1b99b04033d1",
+    "README.md": "31b2b40b52c527585c9bc5f252b2bfe168811df1752c2d0eaf80f07a2eaccf80",
+    "tests.stderr.bin": "733732df2ee56e15c745f5240b8bc3d4422b9f4492aaf78a23aa1e6964761f9e",
+    "tests.stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "transcript.json": "f2c984a641fb1cd1701baa502499ae16f9577085a3b0caaac7e80eea80272147"
+  }
+}

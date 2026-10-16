@@ -1,0 +1,10 @@
+{
+  "schema": "tiye-codex-offline-replay-protocol-v1",
+  "schemaSource": "output/s4-codex-schema/schemas.zip",
+  "schemaVersion": "0.157.1",
+  "execution": "Python standard-library unittest and one synthetic packet walkthrough; no CLI, WSL, socket, auth or model execution",
+  "testDeadlineSeconds": 30,
+  "scope": "One preselected thread/turn and connection-local typed request IDs; limited shape checks, not a JSON Schema validator",
+  "policy": ["Protocol completion is not task success", "Single-use reply planning with complete callback fingerprint", "Distinct session/execpolicy/network grants refused", "Conflicting identities or outcomes pause", "No automatic resubmission or effect execution"],
+  "limits": ["No actual Codex ordering, approval enforcement or cache behavior", "No transport framing, reconnect, persistence or restart recovery", "No user authentication or proof of informed human consent", "No concurrent owner or process effects", "S4/S6 remain partial; Phase1 HOLD"]
+}

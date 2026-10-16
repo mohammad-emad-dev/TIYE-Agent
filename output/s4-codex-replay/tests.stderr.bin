@@ -1,0 +1,19 @@
+test_bad_json_duplicate_keys_and_oversize_are_refused (test_replay.ReplayTests.test_bad_json_duplicate_keys_and_oversize_are_refused) ... ok
+test_callback_identity_not_item_id_binds_approval (test_replay.ReplayTests.test_callback_identity_not_item_id_binds_approval) ... ok
+test_completion_requires_owned_thread_and_turn (test_replay.ReplayTests.test_completion_requires_owned_thread_and_turn) ... ok
+test_conflicting_response_pauses_instead_of_overwriting (test_replay.ReplayTests.test_conflicting_response_pauses_instead_of_overwriting) ... ok
+test_duplicate_approval_has_no_new_authority_and_changed_operation_pauses (test_replay.ReplayTests.test_duplicate_approval_has_no_new_authority_and_changed_operation_pauses) ... ok
+test_duplicate_terminal_is_idempotent_but_conflict_pauses (test_replay.ReplayTests.test_duplicate_terminal_is_idempotent_but_conflict_pauses) ... ok
+test_failed_interrupted_and_nonterminal_are_not_task_success (test_replay.ReplayTests.test_failed_interrupted_and_nonterminal_are_not_task_success) ... ok
+test_foreign_and_nullable_command_approvals_do_not_invent_preview (test_replay.ReplayTests.test_foreign_and_nullable_command_approvals_do_not_invent_preview) ... ok
+test_malformed_packets_never_create_authority (test_replay.ReplayTests.test_malformed_packets_never_create_authority) ... ok
+test_operation_replies_are_single_use_for_each_callback (test_replay.ReplayTests.test_operation_replies_are_single_use_for_each_callback) ... ok
+test_resolution_is_correlated_and_blocks_late_reply (test_replay.ReplayTests.test_resolution_is_correlated_and_blocks_late_reply) ... ok
+test_response_ids_remain_typed_and_ack_does_not_complete_turn (test_replay.ReplayTests.test_response_ids_remain_typed_and_ack_does_not_complete_turn) ... ok
+test_terminal_blocks_pending_and_new_approval_replies (test_replay.ReplayTests.test_terminal_blocks_pending_and_new_approval_replies) ... ok
+test_wider_grants_are_distinct_and_never_produce_reply (test_replay.ReplayTests.test_wider_grants_are_distinct_and_never_produce_reply) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 1.495s
+
+OK

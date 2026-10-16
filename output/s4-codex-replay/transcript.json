@@ -1,0 +1,232 @@
+[
+  {
+    "action": "expect-response",
+    "input": {
+      "id": 1,
+      "method": "turn/interrupt"
+    },
+    "result": null,
+    "status": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "receive",
+    "input": {
+      "syntheticUtf8Packet": "{\"method\":\"turn/completed\",\"params\":{\"threadId\":\"foreign\",\"turn\":{\"id\":\"turn-owned\",\"items\":[],\"status\":\"completed\"}}}"
+    },
+    "result": {
+      "event": "ignored-foreign-turn"
+    },
+    "status": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "receive",
+    "input": {
+      "syntheticUtf8Packet": "{\"id\":1,\"result\":{}}"
+    },
+    "result": {
+      "event": "request-acknowledged",
+      "method": "turn/interrupt"
+    },
+    "status": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "receive",
+    "input": {
+      "syntheticUtf8Packet": "{\"id\":7,\"method\":\"item/commandExecution/requestApproval\",\"params\":{\"threadId\":\"thread-owned\",\"turnId\":\"turn-owned\",\"itemId\":\"item-same\",\"approvalId\":\"callback-7\",\"startedAtMs\":1000,\"command\":\"echo public-fixture\"}}"
+    },
+    "result": {
+      "event": "approval-pending",
+      "fingerprint": "4e0b1c22598bd5f56a486f0c89b3d9bd89230c3d7c7d8295a8cce7e3ae6851e6"
+    },
+    "status": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "decide",
+    "input": {
+      "id": 7,
+      "decision": "acceptForSession",
+      "fingerprint": "4e0b1c22598bd5f56a486f0c89b3d9bd89230c3d7c7d8295a8cce7e3ae6851e6"
+    },
+    "result": {
+      "event": "wider-grant-refused",
+      "scope": "session",
+      "reply": null
+    },
+    "status": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "decide",
+    "input": {
+      "id": 7,
+      "decision": {
+        "acceptWithExecpolicyAmendment": {
+          "execpolicy_amendment": [
+            "echo"
+          ]
+        }
+      },
+      "fingerprint": "4e0b1c22598bd5f56a486f0c89b3d9bd89230c3d7c7d8295a8cce7e3ae6851e6"
+    },
+    "result": {
+      "event": "wider-grant-refused",
+      "scope": "execpolicy",
+      "reply": null
+    },
+    "status": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "decide",
+    "input": {
+      "id": 7,
+      "decision": {
+        "applyNetworkPolicyAmendment": {
+          "network_policy_amendment": {
+            "host": "fixture.invalid",
+            "action": "allow"
+          }
+        }
+      },
+      "fingerprint": "4e0b1c22598bd5f56a486f0c89b3d9bd89230c3d7c7d8295a8cce7e3ae6851e6"
+    },
+    "result": {
+      "event": "wider-grant-refused",
+      "scope": "network-policy",
+      "reply": null
+    },
+    "status": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "decide",
+    "input": {
+      "id": 7,
+      "decision": "accept",
+      "fingerprint": "wrong-operation-fingerprint"
+    },
+    "result": {
+      "refused": "operation-changed"
+    },
+    "status": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "decide",
+    "input": {
+      "id": 7,
+      "decision": "decline",
+      "fingerprint": "4e0b1c22598bd5f56a486f0c89b3d9bd89230c3d7c7d8295a8cce7e3ae6851e6"
+    },
+    "result": {
+      "event": "reply-planned",
+      "scope": "denial",
+      "reply": {
+        "id": 7,
+        "result": {
+          "decision": "decline"
+        }
+      }
+    },
+    "status": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "decide",
+    "input": {
+      "id": 7,
+      "decision": "decline",
+      "fingerprint": "4e0b1c22598bd5f56a486f0c89b3d9bd89230c3d7c7d8295a8cce7e3ae6851e6"
+    },
+    "result": {
+      "refused": "approval-not-pending"
+    },
+    "status": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "receive",
+    "input": {
+      "syntheticUtf8Packet": "{\"method\":\"serverRequest/resolved\",\"params\":{\"threadId\":\"thread-owned\",\"requestId\":7}}"
+    },
+    "result": {
+      "event": "approval-resolved"
+    },
+    "status": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "receive",
+    "input": {
+      "syntheticUtf8Packet": "{\"id\":\"7\",\"method\":\"item/commandExecution/requestApproval\",\"params\":{\"threadId\":\"thread-owned\",\"turnId\":\"turn-owned\",\"itemId\":\"item-same\",\"approvalId\":\"callback-7\",\"startedAtMs\":1000,\"command\":\"echo public-fixture\"}}"
+    },
+    "result": {
+      "event": "approval-pending",
+      "fingerprint": "48eb4c84601bcf92358660591095e8a502d5c8364e26d66342c7e8f3c0266d8f"
+    },
+    "status": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "receive",
+    "input": {
+      "syntheticUtf8Packet": "{\"method\":\"turn/completed\",\"params\":{\"threadId\":\"thread-owned\",\"turn\":{\"id\":\"stale-turn\",\"items\":[],\"status\":\"completed\"}}}"
+    },
+    "result": {
+      "event": "ignored-foreign-turn"
+    },
+    "status": "running",
+    "taskSuccess": null
+  },
+  {
+    "action": "receive",
+    "input": {
+      "syntheticUtf8Packet": "{\"method\":\"turn/completed\",\"params\":{\"threadId\":\"thread-owned\",\"turn\":{\"id\":\"turn-owned\",\"items\":[],\"status\":\"completed\"}}}"
+    },
+    "result": {
+      "event": "protocol-completed",
+      "taskSuccess": null
+    },
+    "status": "protocol-completed",
+    "taskSuccess": null
+  },
+  {
+    "action": "decide",
+    "input": {
+      "id": "7",
+      "decision": "accept",
+      "fingerprint": "48eb4c84601bcf92358660591095e8a502d5c8364e26d66342c7e8f3c0266d8f"
+    },
+    "result": {
+      "refused": "approval-not-pending"
+    },
+    "status": "protocol-completed",
+    "taskSuccess": null
+  },
+  {
+    "action": "receive",
+    "input": {
+      "syntheticUtf8Packet": "{\"method\":\"turn/completed\",\"params\":{\"threadId\":\"thread-owned\",\"turn\":{\"id\":\"turn-owned\",\"items\":[],\"status\":\"completed\"}}}"
+    },
+    "result": {
+      "event": "duplicate-terminal"
+    },
+    "status": "protocol-completed",
+    "taskSuccess": null
+  },
+  {
+    "action": "receive",
+    "input": {
+      "syntheticUtf8Packet": "{\"method\":\"turn/completed\",\"params\":{\"threadId\":\"thread-owned\",\"turn\":{\"id\":\"turn-owned\",\"items\":[],\"status\":\"failed\"}}}"
+    },
+    "result": {
+      "event": "conflicting-terminal"
+    },
+    "status": "needs-attention",
+    "taskSuccess": null
+  }
+]

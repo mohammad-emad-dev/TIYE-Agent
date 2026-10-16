@@ -50,6 +50,10 @@ version-specific JSON declarations for lifecycle and approval surfaces. These
 are not runtime capability or access qualification; the captured external-token
 login variant carries an internal-use-only warning. Next is offline protocol
 replay for completion correlation and distinct approval scopes.
+The [offline replay fixture](output/s4-codex-replay/README.md) now verifies those
+client-policy cases with 14 behavior tests and a 17-step synthetic transcript.
+It plans no transport activity and qualifies no provider behavior. Next is
+bounded JSONL byte-stream framing and disconnect handling.
 Full [S6](output/s6-assessment/README.md),
 S4 route qualification, unresolved
 S5 limits and the remaining S1–S3 requirements stay visible in the readiness ledger.
