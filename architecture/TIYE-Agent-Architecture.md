@@ -1483,7 +1483,14 @@ graceful mock shutdown, start-time mismatch refusal without signals, and both
 Linux identities absent after termination of the owned Windows WSL launcher.
 Recovery sent no signals because no live survivor was observed. Keep survivor
 cleanup, actual Electron/PTY crashes and broader process-tree behavior unqualified;
-launcher exit alone is not ownership or cleanup proof. The assessment defines
+launcher exit alone is not ownership or cleanup proof.
+The [WSL mock PTY capture](../output/s6-pty/README.md) now records synthetic
+renderer paste through ConPTY to Ubuntu, payload hashes and xterm buffer matches,
+Linux resize/SIGINT events, exit 0 and original Linux identity absence. The
+multiline expectation includes xterm's LF-to-CR paste conversion. This does not
+qualify provider CLI parity, real input devices, physical painting or abnormal
+process-tree recovery. Consolidate the remaining S6 requirements before another
+native cohort. The assessment defines
 core entry conditions and a proposed first slice under Section 3.8. It does
 not waive feasibility gates or require a finished UI before building the core.
 

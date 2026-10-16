@@ -1,0 +1,131 @@
+{
+  "schema": "tiye-s6-pty-native-v1",
+  "state": "bounded-pty-observations-completed",
+  "nonce": "75badbd82734c40d",
+  "inputs": [
+    "\u001b[?1;2c",
+    "\u001b[O",
+    "\u001b[200~ASCII fixture 'quotes' $HOME\u001b[201~",
+    "\u001b[200~Unicode مرحبا 你好 こんにちは 안녕\u001b[201~",
+    "\u001b[200~line one مرحبا\rline two 日本\rline three\u001b[201~",
+    "\u0003",
+    "\u001b[200~STOP 75badbd82734c40d\u001b[201~"
+  ],
+  "payloads": [
+    {
+      "ordinal": 1,
+      "sentText": "ASCII fixture 'quotes' $HOME",
+      "receivedText": "ASCII fixture 'quotes' $HOME",
+      "receivedUtf8Bytes": 28,
+      "linuxSha256": "0e4412c207ecababd2c8ec3d38db36b09707df7bd432671129e2b4b520ccbfa7",
+      "visibleBufferMatched": true
+    },
+    {
+      "ordinal": 2,
+      "sentText": "Unicode مرحبا 你好 こんにちは 안녕",
+      "receivedText": "Unicode مرحبا 你好 こんにちは 안녕",
+      "receivedUtf8Bytes": 48,
+      "linuxSha256": "78473a4dbee944cf681eff89e55becb751b14fbe657bf9802f1df1babdb33aa4",
+      "visibleBufferMatched": true
+    },
+    {
+      "ordinal": 3,
+      "sentText": "line one مرحبا\nline two 日本\nline three",
+      "receivedText": "line one مرحبا\rline two 日本\rline three",
+      "receivedUtf8Bytes": 46,
+      "linuxSha256": "7b8df94c973242f8fa2de1616edbe5c68b8fa97104e93a1349ab60ce0dd79c48",
+      "visibleBufferMatched": true
+    }
+  ],
+  "fullS6Qualified": false,
+  "productionEligible": false,
+  "windowsWorkerPid": 13040,
+  "windowsWslPid": 19528,
+  "isatty": "111",
+  "linuxIdentity": {
+    "pid": 1373,
+    "startTicks": 343557,
+    "uid": 1000,
+    "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda",
+    "state": "S",
+    "nonceMatched": true,
+    "children": [],
+    "status": "verified-live"
+  },
+  "mode": {
+    "echo": 0,
+    "isig": 1
+  },
+  "initialSize": [
+    120,
+    24
+  ],
+  "resizedSize": [
+    100,
+    16
+  ],
+  "linuxSigintObserved": true,
+  "beforeStop": {
+    "cols": 100,
+    "rows": 16,
+    "lines": [
+      "TIYE_READY 75badbd82734c40d 111",
+      "TIYE_PID 75badbd82734c40d 1373 343557 1000",
+      "TIYE_MODE 75badbd82734c40d echo=0 isig=1",
+      "TIYE_SIZE 75badbd82734c40d 120 24",
+      "TIYE_ACK 75badbd82734c40d 1 28 0e4412c207ecababd2c8ec3d38db36b09707df7bd432671129e2b4b520ccbfa7",
+      "VISIBLE ASCII fixture 'quotes' $HOME",
+      "TIYE_ACK 75badbd82734c40d 2 48 78473a4dbee944cf681eff89e55becb751b14fbe657bf9802f1df1babdb33aa4",
+      "VISIBLE Unicode مرحبا 你好 こんにちは 안녕",
+      "TIYE_ACK 75badbd82734c40d 3 46 7b8df94c973242f8fa2de1616edbe5c68b8fa97104e93a1349ab60ce0dd79c48",
+      "VISIBLE line one مرحبا",
+      "VISIBLE line two 日本",
+      "VISIBLE line three",
+      "TIYE_SIZE 75badbd82734c40d 100 16",
+      "TIYE_SIGINT 75badbd82734c40d",
+      "",
+      ""
+    ],
+    "receivedBytes": 756,
+    "receivedSha256": "176505e639321b59171aba28c2f05ea3906497e8444d5b87dc95a336c1cab09e"
+  },
+  "terminalExitCode": 0,
+  "workerExitCode": 0,
+  "workerSignal": null,
+  "afterStopIdentity": {
+    "status": "gone",
+    "bootIdSha256": "43c6620d634d0cdc2ebeae554a9897efcbe64944ebc545853b4c866f307ccfda"
+  },
+  "renderer": {
+    "cols": 100,
+    "rows": 16,
+    "lines": [
+      "TIYE_READY 75badbd82734c40d 111",
+      "TIYE_PID 75badbd82734c40d 1373 343557 1000",
+      "TIYE_MODE 75badbd82734c40d echo=0 isig=1",
+      "TIYE_SIZE 75badbd82734c40d 120 24",
+      "TIYE_ACK 75badbd82734c40d 1 28 0e4412c207ecababd2c8ec3d38db36b09707df7bd432671129e2b4b520ccbfa7",
+      "VISIBLE ASCII fixture 'quotes' $HOME",
+      "TIYE_ACK 75badbd82734c40d 2 48 78473a4dbee944cf681eff89e55becb751b14fbe657bf9802f1df1babdb33aa4",
+      "VISIBLE Unicode مرحبا 你好 こんにちは 안녕",
+      "TIYE_ACK 75badbd82734c40d 3 46 7b8df94c973242f8fa2de1616edbe5c68b8fa97104e93a1349ab60ce0dd79c48",
+      "VISIBLE line one مرحبا",
+      "VISIBLE line two 日本",
+      "VISIBLE line three",
+      "TIYE_SIZE 75badbd82734c40d 100 16",
+      "TIYE_SIGINT 75badbd82734c40d",
+      "TIYE_STOP 75badbd82734c40d",
+      ""
+    ],
+    "receivedBytes": 792,
+    "receivedSha256": "d97d342d1fc3a5cf4e6f4ea5bd6cae18d2ed508dbc7a4873eaa8922006417adf"
+  },
+  "transcriptBytes": 792,
+  "transcriptSha256": "d97d342d1fc3a5cf4e6f4ea5bd6cae18d2ed508dbc7a4873eaa8922006417adf",
+  "versions": {
+    "electron": "38.8.6",
+    "node": "22.22.0",
+    "nodePty": "1.1.0",
+    "xterm": "5.5.0"
+  }
+}

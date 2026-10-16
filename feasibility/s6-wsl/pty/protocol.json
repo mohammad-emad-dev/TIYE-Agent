@@ -1,0 +1,15 @@
+{
+  "schema": "tiye-s6-pty-protocol-v1",
+  "attempts": 1,
+  "retries": 0,
+  "initialSize": [120, 24],
+  "resizedSize": [100, 16],
+  "pastes": ["ASCII fixture 'quotes' $HOME", "Unicode مرحبا 你好 こんにちは 안녕", "line one مرحبا\nline two 日本\nline three"],
+  "pasteNormalization": "xterm Terminal.paste replaces CRLF/LF with CR before bracketed framing",
+  "linuxMockTtlSeconds": 30,
+  "hostDeadlineSeconds": 45,
+  "backend": "Experimental bundled ConPTY; one Windows PTY worker and one Linux mock",
+  "checks": ["Linux isatty on fd0/fd1/fd2", "ECHO off and ISIG on", "Linux payload hashes", "xterm buffer content", "SIGWINCH size", "Linux SIGINT", "nonce STOP", "PTY and worker exit 0", "original Linux identity gone"],
+  "fullS6Qualified": false,
+  "productionEligible": false
+}

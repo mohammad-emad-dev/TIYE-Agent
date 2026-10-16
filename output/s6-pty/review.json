@@ -1,0 +1,133 @@
+{
+  "schema": "tiye-s6-pty-review-v1",
+  "reviewedOn": "2026-10-16",
+  "baselineCommit": "7448f4433627637885c3362eaf40d71f16f58348",
+  "result": "bounded-mock-pty-passed",
+  "fullS6Qualified": false,
+  "phase1Ready": false,
+  "productionEligible": false,
+  "scope": "One Electron/xterm/bundled-ConPTY-requested Windows worker to one Ubuntu mock; synthetic input and normal exit",
+  "delegates": [
+    {
+      "model": "opencode/space-bunny-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "c807364ef9716f9c2b78aa06066f65dac0ba8a4d607b645de0fbe4df1d2ba2df",
+        "events.jsonl": "4527784eaec0efd9530050640629569e40682699c3a32dba85da06467c331768",
+        "final.txt": "0b0f4d8cc58e0bf504f71407f3853edc6f68f4c08bafaf5143c0bb3bdd3fdd5f",
+        "stderr.txt": null,
+        "result.json": "5fd0594ac30d07e4f2bb03bfe9efc24545a703b8ceff44b5e4ebc0a294c3c4d8"
+      }
+    },
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "c807364ef9716f9c2b78aa06066f65dac0ba8a4d607b645de0fbe4df1d2ba2df",
+        "events.jsonl": "e7923e05c8350291f68a5328840c1d6d5aa2f6871f6d1a535dc98d0a795009e6",
+        "final.txt": "f8ad61ea41d0850beaffce90e2e15f88bd691190255e916f9ef8b74a0adc6206",
+        "stderr.txt": null,
+        "result.json": "7892593f3a54a5a7245b7f4778bfb4a56186d14dafe2bb876293aba451bce304"
+      }
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "requestedVariant": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "c807364ef9716f9c2b78aa06066f65dac0ba8a4d607b645de0fbe4df1d2ba2df",
+        "events.jsonl": "e41973a10934533234e5400d8e19b794cd3f057dd338ef91de11c0507125f010",
+        "final.txt": "eec24985121786ebceb8d795a0db1b6252bed9053862a67e0baeae19fc7e27fd",
+        "stderr.txt": null,
+        "result.json": "19f2d896dab0c3144ca333271d7e0701b0b95eddc424c8f18b81fba0a197de15"
+      }
+    }
+  ],
+  "notDispatched": [
+    {
+      "model": "GPT-6.1 Luna max",
+      "reason": "Exact model previously unsupported, not retried"
+    },
+    {
+      "model": "Gemini 3.8 Flash High through agy",
+      "reason": "Recorded consumer-wrapper exclusion remains in force"
+    }
+  ],
+  "parentVerification": {
+    "buildExitCode": 0,
+    "nativeCoordinatorExitCode": 0,
+    "savedEvidenceCheckerWithRuntimeExitCode": 0,
+    "attempts": 1,
+    "retries": 0,
+    "payloadCases": 3,
+    "decodedTranscriptBytes": 792,
+    "rendererReceiptHashMatches": true,
+    "linuxSigintObserved": true,
+    "linuxResizeObserved": true,
+    "terminalExitCode": 0,
+    "workerExitCode": 0,
+    "originalLinuxIdentityAbsent": true,
+    "screenshotVisuallyInspected": true,
+    "visualObservation": "Visible mock Unicode and multiline rows plus size/SIGINT events in saved screenshot; no physical-paint or shaping qualification",
+    "localLinksVerified": 26,
+    "priorSnapshotPathsUnchanged": [
+      "feasibility/s6-wsl/PLAN.md",
+      "feasibility/s5-performance/ui/toolchain.js",
+      "output/s6-lifecycle/evidence.json",
+      "output/s6-lifecycle/review.json",
+      "output/s6-environment/evidence.json",
+      "output/s6-connectivity/evidence.json",
+      "output/s6-cross-git/evidence.json",
+      "output/phase0-readiness/ASSESSMENT.md"
+    ]
+  },
+  "artifactHashes": {
+    "output/s6-pty/coordinator.json": "cd460503eb8c8016c2322ac4f27ab7a62c646c224e530566efeb69c5ead647b4",
+    "output/s6-pty/decoded-vt.log": "d97d342d1fc3a5cf4e6f4ea5bd6cae18d2ed508dbc7a4873eaa8922006417adf",
+    "output/s6-pty/electron.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-pty/electron.stdout.log": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+    "output/s6-pty/native.json": "8ea76cad723ce146a53eb713f3004097934ddabbddf2b1bf48c589f11ab1828b",
+    "output/s6-pty/prelaunch.json": "cff8b3fb99c91db1635c7b545366f0cd096b435e270ea4647bdaf159b6e4f6f7",
+    "output/s6-pty/README.md": "96fb95b3ee80a6371ebe34bf3bcd4fff001c353673c7b85082ec0819ac7f9e60",
+    "output/s6-pty/terminal-before-stop.png": "e83c21d1997079977b0be6e31ff816b4e8f826e4fa905570c7e740aabf1d4386",
+    "output/s6-pty/worker.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "feasibility/s6-wsl/pty/.gitignore": "fe56da5f27d174b011ca65d2c1c9be83ca19ce1428e1594f8ed3ca037e8814ed",
+    "feasibility/s6-wsl/pty/build.cjs": "51c34d080a9a1ce88bedabd9dca1a82eef633770949b5e0f6ce0a0bc2dbb0204",
+    "feasibility/s6-wsl/pty/check.py": "dc75a76f4209997290747b591387f0c0dc609daa5f34a2e9a452efb81dfb7432",
+    "feasibility/s6-wsl/pty/index.html": "9323345f1077d5f4630e1407970b0c89d822624beccc38f84ee5101c9e2bf75a",
+    "feasibility/s6-wsl/pty/inspect.py": "0bf7d1776bb6d5619bfa243cad64ba301277db855b36210008145163c0b29118",
+    "feasibility/s6-wsl/pty/main.cjs": "657ce5f7be36d8cebcdce5c071986be3894be5dd0a7d6fd624e122bd1b500917",
+    "feasibility/s6-wsl/pty/mock.py": "71ded519932659fa2a15dd88c33a00d5b4a37d0fe76e18989f214731c3e70240",
+    "feasibility/s6-wsl/pty/preload.cjs": "58818027679ba0500aba31dced87d6b77f83c2a076b87a467d2cb40b78c1538f",
+    "feasibility/s6-wsl/pty/protocol.json": "6b7cfe39e7be608477d5c3245da3a8ff5abac5bfa3138d5405510eaa67c2a055",
+    "feasibility/s6-wsl/pty/renderer.js": "788ba203c509024a32cf26d30ee6c20b4474824b8d7d2caecae7e13ce48333ae",
+    "feasibility/s6-wsl/pty/run.cjs": "8f9df6809a569663e56f22d1df3a2fe2c6e28a2de1de16e9df66535ccb1e9341",
+    "feasibility/s6-wsl/pty/worker.cjs": "08188c5f7c7871bf83ea9916043ed5912cb675835706460775c46c905c9699f2",
+    "README.md": "811e0ab069915beb4692fdd19127ea2e31d83cb4767461d6ae4d813261230f51",
+    "architecture/TIYE-Agent-Architecture.md": "e46e5a5581d16160af95f7ce5ddae9e2da505510c04eb50b825d2f5c532c6a59"
+  },
+  "limitations": [
+    "Local integrity record, not external attestation",
+    "Delegates reviewed supplied context before native results; raw delegate artifacts remain local",
+    "Synthetic xterm hooks, not physical keyboard/clipboard or provider CLI parity",
+    "node-pty decoded VT strings, no independent raw Linux stdout-byte witness",
+    "Paste LF-to-CR conversion expected and verified against installed source",
+    "Bundled ConPTY requested; selected binaries hashed, no fresh loaded-module enumeration",
+    "Initial no-child observation only; no broad helper-tree, abnormal-exit or survivor cleanup qualification",
+    "Temporary Electron runtime retained; build/dependency paths ignored; no new S5 latency cohort"
+  ]
+}

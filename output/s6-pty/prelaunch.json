@@ -1,0 +1,25 @@
+{
+  "schema": "tiye-s6-pty-prelaunch-v1",
+  "sourceBuildBinaryHashes": {
+    "feasibility/s6-wsl/pty/protocol.json": "6b7cfe39e7be608477d5c3245da3a8ff5abac5bfa3138d5405510eaa67c2a055",
+    "feasibility/s6-wsl/pty/mock.py": "71ded519932659fa2a15dd88c33a00d5b4a37d0fe76e18989f214731c3e70240",
+    "feasibility/s6-wsl/pty/inspect.py": "0bf7d1776bb6d5619bfa243cad64ba301277db855b36210008145163c0b29118",
+    "feasibility/s6-wsl/pty/main.cjs": "657ce5f7be36d8cebcdce5c071986be3894be5dd0a7d6fd624e122bd1b500917",
+    "feasibility/s6-wsl/pty/worker.cjs": "08188c5f7c7871bf83ea9916043ed5912cb675835706460775c46c905c9699f2",
+    "feasibility/s6-wsl/pty/preload.cjs": "58818027679ba0500aba31dced87d6b77f83c2a076b87a467d2cb40b78c1538f",
+    "feasibility/s6-wsl/pty/renderer.js": "788ba203c509024a32cf26d30ee6c20b4474824b8d7d2caecae7e13ce48333ae",
+    "feasibility/s6-wsl/pty/index.html": "9323345f1077d5f4630e1407970b0c89d822624beccc38f84ee5101c9e2bf75a",
+    "feasibility/s6-wsl/pty/build.cjs": "51c34d080a9a1ce88bedabd9dca1a82eef633770949b5e0f6ce0a0bc2dbb0204",
+    "feasibility/s6-wsl/pty/run.cjs": "8f9df6809a569663e56f22d1df3a2fe2c6e28a2de1de16e9df66535ccb1e9341",
+    "feasibility/s6-wsl/pty/dist/renderer.js": "b3e4825a9eb8aad45d2d453249582891dad7b42cd9ebc4fc250a426d56aec64f",
+    "feasibility/s6-wsl/pty/dist/preload.cjs": "58818027679ba0500aba31dced87d6b77f83c2a076b87a467d2cb40b78c1538f",
+    "feasibility/s6-wsl/pty/dist/index.html": "9323345f1077d5f4630e1407970b0c89d822624beccc38f84ee5101c9e2bf75a",
+    "feasibility/s6-wsl/pty/dist/xterm.css": "ba8e6985669488981ccf40c0cefe3aba80722cb6c92de7ad628b0bd717faf2b6",
+    "feasibility/s1-terminal/node_modules/node-pty/prebuilds/win32-x64/conpty.node": "ee8f4e6f4dad71939eecfda11de249400e34bfefe4c8b48af13f3b5476f4035b",
+    "feasibility/s1-terminal/node_modules/node-pty/prebuilds/win32-x64/conpty/conpty.dll": "7c7430632052ff703540b68371ec43821820aa1335d8e11dfbcd9ff00e9daaed",
+    "feasibility/s1-terminal/node_modules/node-pty/prebuilds/win32-x64/conpty/OpenConsole.exe": "d1fe7faa62f9e955e2ac2371f95d7e5513df4d496255097158f979c94782c5fc",
+    "feasibility/s5-performance/ui/toolchain.js": "b0c6a440964fe2f64397b6f43e552c911bc79adae409aee052a1849b16101c68",
+    "feasibility/s1-terminal/node_modules/@xterm/xterm/src/browser/Clipboard.ts": "074e645cf075f5caa16b2bea3544b517f77065821fbf79a1215ab1984c0e5382"
+  },
+  "runtimeRetained": true
+}

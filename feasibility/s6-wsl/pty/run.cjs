@@ -1,0 +1,32 @@
+'use strict';
+const fs = require('node:fs'), path = require('node:path'), os = require('node:os'), crypto = require('node:crypto');
+const {spawn} = require('node:child_process');
+const {s1Require, s1Modules} = require('../../s5-performance/ui/toolchain');
+const root = path.resolve(__dirname, '../../..'), output = path.join(root, 'output/s6-pty');
+const hash = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+async function main() {
+  fs.mkdirSync(output);
+  const sources = ['protocol.json', 'mock.py', 'inspect.py', 'main.cjs', 'worker.cjs', 'preload.cjs', 'renderer.js', 'index.html', 'build.cjs', 'run.cjs'].map(name => path.join(__dirname, name));
+  const builds = ['renderer.js', 'preload.cjs', 'index.html', 'xterm.css'].map(name => path.join(__dirname, 'dist', name));
+  const binaries = ['conpty.node', 'conpty/conpty.dll', 'conpty/OpenConsole.exe'].map(name => path.join(s1Modules, 'node-pty/prebuilds/win32-x64', name));
+  const inputs = [...sources, ...builds, ...binaries, path.join(root, 'feasibility/s5-performance/ui/toolchain.js'), path.join(s1Modules, '@xterm/xterm/src/browser/Clipboard.ts')];
+  const hashes = Object.fromEntries(inputs.map(file => [path.relative(root, file).replaceAll('\\', '/'), hash(file)]));
+  const runtime = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'tiye-s6-pty-'));
+  fs.writeFileSync(path.join(runtime, '.owner'), crypto.randomUUID(), {flag: 'wx'});
+  fs.writeFileSync(path.join(output, 'prelaunch.json'), JSON.stringify({schema: 'tiye-s6-pty-prelaunch-v1', sourceBuildBinaryHashes: hashes, runtimeRetained: true}, null, 2) + '\n');
+  const environment = {...process.env, TIYE_S6_PTY_OUTPUT: output, TIYE_S6_PTY_RUNTIME: runtime};
+  delete environment.ELECTRON_RUN_AS_NODE;
+  const child = spawn(s1Require('electron'), [path.join(__dirname, 'main.cjs')], {env: environment, stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true});
+  const stdout = [], stderr = [];
+  child.stdout.on('data', bytes => stdout.push(bytes)); child.stderr.on('data', bytes => stderr.push(bytes));
+  let timedOut = false;
+  const deadline = setTimeout(() => { timedOut = true; child.kill(); }, 45000);
+  const exit = await new Promise((resolve, reject) => { child.once('error', reject); child.once('close', (code, signal) => resolve({code, signal})); });
+  clearTimeout(deadline);
+  fs.writeFileSync(path.join(output, 'electron.stdout.log'), Buffer.concat(stdout)); fs.writeFileSync(path.join(output, 'electron.stderr.log'), Buffer.concat(stderr));
+  const unchanged = inputs.every(file => hash(file) === hashes[path.relative(root, file).replaceAll('\\', '/')]);
+  fs.writeFileSync(path.join(output, 'coordinator.json'), JSON.stringify({schema: 'tiye-s6-pty-coordinator-v1', exit, timedOut, sourceBuildBinariesUnchanged: unchanged, runtime, runtimeRetained: true, fullS6Qualified: false}, null, 2) + '\n');
+  console.log(JSON.stringify({exit, timedOut, sourceBuildBinariesUnchanged: unchanged, output}));
+  if (exit.code !== 0 || timedOut || !unchanged) process.exitCode = 1;
+}
+main().catch(error => { console.error(error.message); process.exitCode = 1; });
