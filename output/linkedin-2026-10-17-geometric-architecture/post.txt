@@ -1,0 +1,15 @@
+The hard part starts when a process refuses to stop...
+
+This week we worked on the Windows supervision layer for TIYE Agent
+
+A shutdown race showed up...
+Windows reported an empty job before the root process handle signaled completion
+
+We kept the failed capture and fixed the wait sequence
+
+Six process tests now pass covering deadlines and owner crashes
+
+TIYE is still in architecture validation...
+building clear ownership and observable recovery into the foundations
+
+#TIYEAgent #SoftwareArchitecture #AgenticAI
