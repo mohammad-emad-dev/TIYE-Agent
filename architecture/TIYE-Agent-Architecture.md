@@ -1457,7 +1457,11 @@ the bounded S5 latency series is complete without full-S5 qualification, and
 S6 now has an initialized Ubuntu WSL 2 distribution with
 [bounded prerequisite discovery](../output/s6-discovery/README.md): Linux-native
 Git is available, while Node and candidate agent CLIs were not found on the
-tested PATH. Path/Git fixtures and full S6 remain open. The assessment defines
+tested PATH. The [bounded path/Git fixture](../output/s6-path-git/README.md)
+completed on Ubuntu's filesystem, while Linux Git initialization on the
+Windows-mounted temporary path failed with a `config.lock` permission error.
+Path conversion is not Git interoperability proof; cross-side Git and full S6
+remain open. The assessment defines
 core entry conditions and a proposed first slice under Section 3.8. It does
 not waive feasibility gates or require a finished UI before building the core.
 

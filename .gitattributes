@@ -70,4 +70,5 @@ output/s5-input-backend-pair/** -text
 output/phase0-readiness/** -text
 output/s6-prerequisites/** -text
 output/s6-discovery/** -text
+output/s6-path-git/** -text
 feasibility/s6-wsl/** -text

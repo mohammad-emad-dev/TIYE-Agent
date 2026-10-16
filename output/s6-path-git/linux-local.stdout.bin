@@ -1,0 +1,35 @@
+git version 2.53.0
+Initialized empty Git repository in /tmp/tiye-s6-pathgit-SORHuYub/repo space مرحبا 日本/.git/
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+command line:	core.hookspath=/dev/null
+command line:	init.templatedir=
+command line:	core.autocrlf=false
+command line:	core.eol=lf
+command line:	core.quotepath=false
+command line:	commit.gpgsign=false
+command line:	user.name=TIYE-Fixture
+command line:	user.email=fixture@example.invalid
+[main (root-commit) e983682] base
+ 1 file changed, 1 insertion(+)
+ create mode 100644 payload مرحبا 日本.txt
+HEAD is now at e983682 base
+canonicalRepo=/tmp/tiye-s6-pathgit-SORHuYub/repo space مرحبا 日本
+canonicalWorktree=/tmp/tiye-s6-pathgit-SORHuYub/worktree space مرحبا 日本
+[fixture-edit cd8fea0] edit
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+Updating e983682..cd8fea0
+Fast-forward
+ payload مرحبا 日本.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+blobSha256=793f9a1d798cc7cddb572138b4ebbeda638a0a6f31c1ee55a262f228c93fb4e9
+fileSha256=793f9a1d798cc7cddb572138b4ebbeda638a0a6f31c1ee55a262f228c93fb4e9
+base=e983682c9d224b75fa641a45db0fa6291ac2b824
+edited=cd8fea0b3bcbd21300e685454a7f88a2978eb1c0
+worktree /tmp/tiye-s6-pathgit-SORHuYub/repo space مرحبا 日本
+HEAD cd8fea0b3bcbd21300e685454a7f88a2978eb1c0
+branch refs/heads/main
+
+fixtureComplete=true

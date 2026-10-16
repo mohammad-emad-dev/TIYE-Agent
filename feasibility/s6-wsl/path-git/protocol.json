@@ -1,0 +1,16 @@
+{
+  "schema": "tiye-s6-path-git-protocol-v1",
+  "distribution": "Ubuntu",
+  "order": ["windows-mounted", "linux-local"],
+  "gitOwner": "Linux /usr/bin/git for both fixtures",
+  "attemptsPerFixture": 1,
+  "retries": 0,
+  "queryTimeoutSeconds": 30,
+  "totalDeadlineSeconds": 300,
+  "fixtures": "New marker-owned Windows temporary directory and Linux /tmp directory; retain roots",
+  "content": "TIYE path/git مرحبا 日本\nsecond line\n",
+  "checks": ["base commit", "worktree add", "worktree edit and commit", "fast-forward merge", "blob and working file bytes", "refs", "clean status", "remove clean worktree", "reopen", "path round trips"],
+  "nativeWindowsGitInteropTested": false,
+  "fullS6Qualified": false,
+  "productionEligible": false
+}

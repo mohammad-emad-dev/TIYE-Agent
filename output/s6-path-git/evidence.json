@@ -1,0 +1,224 @@
+{
+  "schema": "tiye-s6-path-git-v1",
+  "state": "incomplete",
+  "sourceHashes": {
+    "feasibility/s6-wsl/path-git/run.py": "05344d474c9b25e8a04ed267c4d18fbfe7406397d8f4cb66885bdba516d8e301",
+    "feasibility/s6-wsl/path-git/fixture.sh": "6e916196b8cb202c6dc56d79e101cea40abef06bdb7e81070df3e2a00c585fe8",
+    "feasibility/s6-wsl/path-git/protocol.json": "81f12e4ef7dc897ae4481a6ffe66266e7651729d7baa23f5d4111382aeb1fc3c"
+  },
+  "queries": [
+    {
+      "label": "uid",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--exec",
+        "/usr/bin/env",
+        "-i",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LC_ALL=C.UTF-8",
+        "GIT_CONFIG_NOSYSTEM=1",
+        "GIT_CONFIG_GLOBAL=/dev/null",
+        "/usr/bin/id",
+        "-u"
+      ],
+      "startedAt": "2026-10-16T11:06:02.199004+00:00",
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 100.84349999669939,
+      "stdout": {
+        "artifact": "uid.stdout.bin",
+        "bytes": 5,
+        "sha256": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9"
+      },
+      "stderr": {
+        "artifact": "uid.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "windows-to-linux",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--exec",
+        "/usr/bin/env",
+        "-i",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LC_ALL=C.UTF-8",
+        "GIT_CONFIG_NOSYSTEM=1",
+        "GIT_CONFIG_GLOBAL=/dev/null",
+        "wslpath",
+        "-u",
+        "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\tiye-s6-pathgit-2gn80w7f"
+      ],
+      "startedAt": "2026-10-16T11:06:02.310431+00:00",
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 127.69850000040606,
+      "stdout": {
+        "artifact": "windows-to-linux.stdout.bin",
+        "bytes": 66,
+        "sha256": "5dca32da360cd864847ca38086458e4c20ce3c49bbbbc56e4910c9b2cdfb0f50"
+      },
+      "stderr": {
+        "artifact": "windows-to-linux.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "windows-roundtrip",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--exec",
+        "/usr/bin/env",
+        "-i",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LC_ALL=C.UTF-8",
+        "GIT_CONFIG_NOSYSTEM=1",
+        "GIT_CONFIG_GLOBAL=/dev/null",
+        "wslpath",
+        "-w",
+        "/mnt/c/Users/Mohammad/AppData/Local/Temp/tiye-s6-pathgit-2gn80w7f"
+      ],
+      "startedAt": "2026-10-16T11:06:02.438766+00:00",
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 105.14369999873452,
+      "stdout": {
+        "artifact": "windows-roundtrip.stdout.bin",
+        "bytes": 62,
+        "sha256": "a52c359d1cac4ce6a599e8b8ce8170c5b5d958ee849ced8321df966218156628"
+      },
+      "stderr": {
+        "artifact": "windows-roundtrip.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "linux-root",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--exec",
+        "/usr/bin/env",
+        "-i",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LC_ALL=C.UTF-8",
+        "GIT_CONFIG_NOSYSTEM=1",
+        "GIT_CONFIG_GLOBAL=/dev/null",
+        "mktemp",
+        "-d",
+        "/tmp/tiye-s6-pathgit-XXXXXXXX"
+      ],
+      "startedAt": "2026-10-16T11:06:02.545582+00:00",
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 104.05829999945126,
+      "stdout": {
+        "artifact": "linux-root.stdout.bin",
+        "bytes": 30,
+        "sha256": "2c0676d2fff5f2f791642aa7caf639c8002e3cb511974aec60ea5b1c1483339b"
+      },
+      "stderr": {
+        "artifact": "linux-root.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "linux-marker",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--exec",
+        "/usr/bin/env",
+        "-i",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LC_ALL=C.UTF-8",
+        "GIT_CONFIG_NOSYSTEM=1",
+        "GIT_CONFIG_GLOBAL=/dev/null",
+        "/bin/sh",
+        "-s",
+        "--",
+        "/tmp/tiye-s6-pathgit-SORHuYub",
+        "54ef6495bb504553a140a8b500256813"
+      ],
+      "startedAt": "2026-10-16T11:06:02.650428+00:00",
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 105.40780000155792,
+      "stdout": {
+        "artifact": "linux-marker.stdout.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "artifact": "linux-marker.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "windows-mounted",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--exec",
+        "/usr/bin/env",
+        "-i",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LC_ALL=C.UTF-8",
+        "GIT_CONFIG_NOSYSTEM=1",
+        "GIT_CONFIG_GLOBAL=/dev/null",
+        "/bin/sh",
+        "-s",
+        "--",
+        "/mnt/c/Users/Mohammad/AppData/Local/Temp/tiye-s6-pathgit-2gn80w7f",
+        "54ef6495bb504553a140a8b500256813"
+      ],
+      "startedAt": "2026-10-16T11:06:02.756957+00:00",
+      "exitCode": 128,
+      "timedOut": false,
+      "elapsedMs": 161.1519000143744,
+      "stdout": {
+        "artifact": "windows-mounted.stdout.bin",
+        "bytes": 19,
+        "sha256": "97452bcde974ef512f9552791fc4f6a3219a724877671fba270baca1a6075b74"
+      },
+      "stderr": {
+        "artifact": "windows-mounted.stderr.bin",
+        "bytes": 208,
+        "sha256": "4b3c2957b24bd388a60f38ff488cbff8300e198a8456fd932ad2cac4c6fbd657"
+      }
+    }
+  ],
+  "fixtures": [],
+  "paths": [
+    {
+      "kind": "windows-root",
+      "input": "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\tiye-s6-pathgit-2gn80w7f",
+      "linux": "/mnt/c/Users/Mohammad/AppData/Local/Temp/tiye-s6-pathgit-2gn80w7f",
+      "returned": "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\tiye-s6-pathgit-2gn80w7f",
+      "equal": true
+    }
+  ],
+  "fullS6Qualified": false,
+  "nativeWindowsGitInteropTested": false,
+  "productionEligible": false,
+  "rootsRetained": true,
+  "windowsRoot": "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\tiye-s6-pathgit-2gn80w7f",
+  "linuxRoot": "/tmp/tiye-s6-pathgit-SORHuYub",
+  "failure": "windows-mounted failed; no retry",
+  "sourceHashesUnchangedAfterRun": true
+}

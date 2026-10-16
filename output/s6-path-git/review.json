@@ -1,0 +1,127 @@
+{
+  "schema": "tiye-s6-path-git-review-v1",
+  "reviewedOn": "2026-10-16",
+  "baselineCommit": "d49d1436855ed432eaa4e17df37bf25bf83c6c7e",
+  "result": "partial",
+  "scope": "Linux-owned Git on two filesystem fixtures and bounded path conversions; original Windows init failure retained",
+  "fullS6Qualified": false,
+  "phase1Ready": false,
+  "productionEligible": false,
+  "delegates": [
+    {
+      "model": "opencode/space-bunny-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "74fce290510ab9688e89c4969634d402d1a1c0ec688b4ca1ae1075425a3ed42b",
+        "events.jsonl": "3d1d483e20ed2e7ecbf6cecb38c35725d87d095466823c8a5b93cafa34b4f509",
+        "final.txt": "79f332f7eb2cf6348760c5fd69c7d2ed416b1c4185911f33a1a5f821d7518d56",
+        "stderr.txt": null,
+        "result.json": "6ec95ebbb8ec4ee59991863c9190ed6a755677f88dfa829435eccc0bee129efe"
+      }
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "requestedVariant": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "74fce290510ab9688e89c4969634d402d1a1c0ec688b4ca1ae1075425a3ed42b",
+        "events.jsonl": "93a5f8a6c0a70dd6cf21fce6ccb181776187775ea6281bff5f670419c4b1a201",
+        "final.txt": "7ca48a30d9957876706fa6772633f18daafa5c57e7e6cba7bc159c88917540fe",
+        "stderr.txt": null,
+        "result.json": "27582c05006b7c4ef0e0504d58b1a4e8c2156789a1eafcf0bf5e4ab200ffb4ac"
+      }
+    },
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "74fce290510ab9688e89c4969634d402d1a1c0ec688b4ca1ae1075425a3ed42b",
+        "events.jsonl": "ea49e5bf9e0d5e781fdd955bb1a0702b7dbdfcf0bfbdc926b0ad92514e9b89d7",
+        "final.txt": "ef91c7f22b08ab4ac0235cd7a591e651874c03e9e8d877fc372bfa376c160a5a",
+        "stderr.txt": null,
+        "result.json": "ecfb83f9878964998480331e4ae250fdeb900378357e9ddb0d9a3097af636333"
+      }
+    }
+  ],
+  "notDispatched": [
+    {
+      "model": "GPT-6.1 Luna max",
+      "reason": "Exact model previously unsupported; not retried"
+    },
+    {
+      "model": "Gemini 3.8 Flash High through agy",
+      "reason": "Recorded consumer-wrapper exclusion remains in force"
+    }
+  ],
+  "parentVerification": {
+    "originalCoordinatorExitCode": 1,
+    "originalFailureExpectedAndPreserved": true,
+    "unattemptedLinuxFollowupExitCode": 0,
+    "windowsFixtureAttempts": 1,
+    "linuxFixtureAttempts": 1,
+    "retries": 0,
+    "storedPartialEvidenceCheckerExitCode": 0,
+    "nativeWindowsGitInteropTested": false,
+    "localLinksVerified": 17,
+    "priorEvidencePathsUnchanged": [
+      "feasibility/s6-wsl/PLAN.md",
+      "feasibility/s6-wsl/discover.py",
+      "output/s6-discovery/discovery.json",
+      "output/s6-discovery/review.json",
+      "output/s6-prerequisites/installation.json",
+      "output/phase0-readiness/ASSESSMENT.md"
+    ]
+  },
+  "artifactHashes": {
+    "output/s6-path-git/evidence.json": "699c37d37c4c02d02eb49c90f98fa2206bbdc522b88d621879702b878fbd20a9",
+    "output/s6-path-git/linux-followup.json": "202ab1d4b983b838bddab6b010999f0312120175ac983022f2f38c4ea2bc77c1",
+    "output/s6-path-git/linux-local-path-roundtrip.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-path-git/linux-local-path-roundtrip.stdout.bin": "24352d5ae3e0792388d8502b08131e9d74ffc364ac1a13ae73fe5de0c6572a46",
+    "output/s6-path-git/linux-local-path-to-windows.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-path-git/linux-local-path-to-windows.stdout.bin": "f3fed9459cfc910b6e481451bb56f81813afba277a7359581badf7275f74fcfb",
+    "output/s6-path-git/linux-local.stderr.bin": "98e570339b48fb4d6dd742249adf8a2b47e077aaae053ef33c5b54a8e1b8a3e6",
+    "output/s6-path-git/linux-local.stdout.bin": "c1ddcee31c87405a2cfc14cfc3b7fca95f772e9a1f0e77012c48bfa63bffb43c",
+    "output/s6-path-git/linux-marker.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-path-git/linux-marker.stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-path-git/linux-root.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-path-git/linux-root.stdout.bin": "2c0676d2fff5f2f791642aa7caf639c8002e3cb511974aec60ea5b1c1483339b",
+    "output/s6-path-git/README.md": "21981becf4cbd71e1107c1399f777c01b0a4816427ea3dfe19f86ab9fd61f7c1",
+    "output/s6-path-git/uid.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-path-git/uid.stdout.bin": "83c02ac2d48c863dab2ccf6870455aadfc2cec073b8db269b517c879d76aa6d9",
+    "output/s6-path-git/windows-mounted.stderr.bin": "4b3c2957b24bd388a60f38ff488cbff8300e198a8456fd932ad2cac4c6fbd657",
+    "output/s6-path-git/windows-mounted.stdout.bin": "97452bcde974ef512f9552791fc4f6a3219a724877671fba270baca1a6075b74",
+    "output/s6-path-git/windows-roundtrip.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-path-git/windows-roundtrip.stdout.bin": "a52c359d1cac4ce6a599e8b8ce8170c5b5d958ee849ced8321df966218156628",
+    "output/s6-path-git/windows-to-linux.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/s6-path-git/windows-to-linux.stdout.bin": "5dca32da360cd864847ca38086458e4c20ce3c49bbbbc56e4910c9b2cdfb0f50",
+    "feasibility/s6-wsl/path-git/check.py": "fbb5f1d9abdcf5b069afea9a46756c08976c504cff01f160a18fcab63038f858",
+    "feasibility/s6-wsl/path-git/finish-linux.py": "07f3d6065222fd16f60c14b42f33b3ed8c3ed205c26ce25258c329609a937d03",
+    "feasibility/s6-wsl/path-git/fixture.sh": "6e916196b8cb202c6dc56d79e101cea40abef06bdb7e81070df3e2a00c585fe8",
+    "feasibility/s6-wsl/path-git/protocol.json": "81f12e4ef7dc897ae4481a6ffe66266e7651729d7baa23f5d4111382aeb1fc3c",
+    "feasibility/s6-wsl/path-git/run.py": "05344d474c9b25e8a04ed267c4d18fbfe7406397d8f4cb66885bdba516d8e301",
+    "README.md": "91eb5e902a41ae42780a87e02b3c3204aafdb890eea4f708280c3479f41439cc",
+    "architecture/TIYE-Agent-Architecture.md": "3f74222fd827085f4810d618eb695967761717c3be75b9b5df9312e03925ecf9"
+  },
+  "limitations": [
+    "Local integrity record, not external attestation",
+    "Delegate reviews used supplied context before the measured failure, no independent result verification",
+    "Raw delegate artifacts remain local",
+    "No mount/config/ownership repair or retry; isolated fixture roots retained",
+    "No invalid-path/symlink containment or whole-tree cleanup qualification",
+    "The Linux follow-up used a separately recorded coordinator after original stop, not a successful two-profile original run"
+  ]
+}
