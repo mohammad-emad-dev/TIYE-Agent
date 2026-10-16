@@ -1,0 +1,105 @@
+{
+  "schema": "tiye-s4-codex-candidate-v1",
+  "reviewedOn": "2026-10-16",
+  "baselineCommit": "def19b293e702d7cd219387fe5c0fd34e5d919fb",
+  "proposedProvider": "OpenAI",
+  "cli": "codex",
+  "requestedModel": "gpt-6-luna",
+  "requestedEffort": "max",
+  "productScope": "paid-local-desktop-with-free-tier",
+  "operatorRouteChoiceReceived": true,
+  "operatorAccountDeclarationReceived": true,
+  "accountValuesRetained": false,
+  "declarationAssessment": {
+    "state": "awaiting-policy-and-native-qualification",
+    "category": "route-policy-and-native-pending",
+    "liveEligible": false,
+    "fullS4Qualified": false,
+    "productionEligible": false,
+    "routeId": "openai-codex-cli",
+    "declarationSyntaxValidated": true,
+    "blockers": [
+      "route-policy-unreviewed",
+      "native-auth-unqualified"
+    ]
+  },
+  "classification": "unreviewed",
+  "integrationEligible": false,
+  "nativeAuthQualified": false,
+  "modelAccessQualified": false,
+  "fullS4Qualified": false,
+  "fullS6Qualified": false,
+  "productionEligible": false,
+  "phase1Construction": "HOLD",
+  "linuxPrerequisite": {
+    "version": "0.157.1",
+    "status": "version-help-only",
+    "evidence": "installation.json"
+  },
+  "routes": [
+    {
+      "id": "codex-app-server-managed-chatgpt",
+      "eligible": false,
+      "status": "awaiting-paid-local-commercial-scope-clarification",
+      "blanketCliProhibitionClaimed": false
+    },
+    {
+      "id": "official-codex-cli-user-auth",
+      "eligible": false,
+      "status": "account-declared-policy-and-native-pending"
+    },
+    {
+      "id": "sign-in-with-chatgpt",
+      "eligible": false,
+      "status": "exploratory-commercial-private-client-acceptance-unrecorded"
+    },
+    {
+      "id": "openai-api-key",
+      "eligible": false,
+      "status": "separate-unselected-billing-route"
+    }
+  ],
+  "remaining": [
+    "Commercial/local orchestration scope and applicable account conditions",
+    "Selected-route registration or acceptance if required",
+    "Regional/account/model availability on this exact Linux installation",
+    "Native auth, approvals, correlated task and cleanup qualification"
+  ],
+  "providerInquirySent": false,
+  "appRegistered": false,
+  "apiBillingSubstitution": false,
+  "sources": [
+    {
+      "id": "app-server",
+      "url": "https://learn.chatgpt.com/docs/app-server#auth-endpoints"
+    },
+    {
+      "id": "auth",
+      "url": "https://learn.chatgpt.com/docs/auth"
+    },
+    {
+      "id": "siwc-quickstart",
+      "url": "https://developers.openai.com/siwc/quickstart"
+    },
+    {
+      "id": "siwc-client",
+      "url": "https://developers.openai.com/siwc/request-client-id"
+    },
+    {
+      "id": "model",
+      "url": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+    },
+    {
+      "id": "changelog",
+      "url": "https://learn.chatgpt.com/docs/changelog"
+    },
+    {
+      "id": "release",
+      "url": "https://github.com/openai/codex/releases/tag/rust-v0.157.1"
+    },
+    {
+      "id": "asset-digest",
+      "url": "https://github.com/openai/codex/releases/expanded_assets/rust-v0.157.1"
+    }
+  ]
+}

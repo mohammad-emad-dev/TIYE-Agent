@@ -40,7 +40,11 @@ now records two live Linux mocks after an intentional Electron main crash,
 restart admission/mismatch refusals, pidfd-bound supervisor signaling and verified
 absence of both original identities before expiry. This controlled detached
 fixture does not qualify provider trees or concurrent recovery. Next is an
-eligible Linux-native CLI route under S4 before provider-backed S6 work.
+eligible Linux-native CLI route under S4 before provider-backed S6 work. The
+[Codex candidate review](output/s4-codex-candidate/README.md) now records a pinned
+Linux Codex 0.157.1 installation and successful version/help checks. Account
+declaration is complete; commercial integration scope and native authentication
+remain unqualified. The prepared provider clarification draft has not been sent.
 Full [S6](output/s6-assessment/README.md),
 S4 route qualification, unresolved
 S5 limits and the remaining S1–S3 requirements stay visible in the readiness ledger.
