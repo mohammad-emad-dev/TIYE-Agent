@@ -1,0 +1,36 @@
+{
+  "schema": "tiye-s6-setup-state-v1",
+  "recordedAt": "2026-10-16T10:57:20.267276+00:00",
+  "scope": "Post-install Windows-side distribution inventory and selected non-secret registry values only",
+  "command": [
+    "wsl.exe",
+    "--list",
+    "--verbose"
+  ],
+  "exitCode": 0,
+  "registryProjection": [
+    {
+      "distribution": "docker-desktop",
+      "isDefault": true,
+      "defaultUidNonzero": false,
+      "wslVersion": 2
+    },
+    {
+      "distribution": "Ubuntu",
+      "isDefault": false,
+      "defaultUidNonzero": false,
+      "wslVersion": 2
+    }
+  ],
+  "ubuntuUserInitializationConfirmed": false,
+  "initializationIndicator": "default-uid-zero-or-unset",
+  "linuxDiscoveryRun": false,
+  "fullS6Qualified": false,
+  "productionEligible": false,
+  "limitations": [
+    "DefaultUid alone does not prove a usable Linux account or completed first-run setup",
+    "No full registry baseline was captured; Docker configuration byte equality is not claimed",
+    "Prior inventory lists Docker Desktop as default; this observation confirms it remains default",
+    "No distribution launched by this task; user must complete interactive initialization"
+  ]
+}

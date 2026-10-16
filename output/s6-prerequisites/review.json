@@ -1,0 +1,123 @@
+{
+  "schema": "tiye-s6-prerequisites-review-v1",
+  "reviewedOn": "2026-10-16",
+  "baselineCommit": "7072f7dfec4912acb85e3c71cdfb0275c7406ceb",
+  "scope": "Ubuntu installation and Windows-side prerequisite gate only; Linux discovery awaits operator setup",
+  "fullS6Qualified": false,
+  "phase1Ready": false,
+  "productionEligible": false,
+  "delegates": [
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "requestedVariant": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "startedAt": "2026-10-16T10:55:40.893Z",
+      "finishedAt": "2026-10-16T10:56:17.847Z",
+      "reportedTouchedFiles": [
+        "?? output/s6-prerequisites/"
+      ],
+      "observedToolEventCount": 0,
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "2e1f0dbab8e8a743e7a27c09ddc72166557e0c1a1046756e6a13ea0462d71b3b",
+        "events.jsonl": "599af7d141584c3330dd97605e692205b8af5cda5c5ddc1dbb60b164b1178073",
+        "final.txt": "c109b894595f8f582775ae586cd4766de8f98a14d42e59c4fa84710a353aa9d3",
+        "stderr.txt": null,
+        "result.json": "2a2643babc16cc90d11284129aea78082a5e8fd4912c9b9d5666cb87c3134d88"
+      }
+    },
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "startedAt": "2026-10-16T10:55:40.909Z",
+      "finishedAt": "2026-10-16T10:55:49.038Z",
+      "reportedTouchedFiles": [],
+      "observedToolEventCount": 0,
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "2e1f0dbab8e8a743e7a27c09ddc72166557e0c1a1046756e6a13ea0462d71b3b",
+        "events.jsonl": "b7161956673a64c3db1a292948a2be017480816bac29b94251664f9a4995383b",
+        "final.txt": "c0662a1fabb3b20b1db7bd7ffcb429fd274abdb4674262de18703480569b2770",
+        "stderr.txt": null,
+        "result.json": "334c1395bbebac56f4c7c000c744a05164079a22cc031f3667394ce28121faa6"
+      }
+    },
+    {
+      "model": "opencode/space-bunny-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "startedAt": "2026-10-16T10:55:40.899Z",
+      "finishedAt": "2026-10-16T10:55:55.388Z",
+      "reportedTouchedFiles": [
+        "?? output/s6-prerequisites/"
+      ],
+      "observedToolEventCount": 0,
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "2e1f0dbab8e8a743e7a27c09ddc72166557e0c1a1046756e6a13ea0462d71b3b",
+        "events.jsonl": "81d2853f39906448f6ee5ae9a42bd2ca9c192456adb6166957037c6a9fec3ff6",
+        "final.txt": "72a571ae7a1c3aadd2e29b6ddbf251bbee8ea34cd53e4cbd530ad637a0a46abb",
+        "stderr.txt": null,
+        "result.json": "3c332613eb2256b051e3a482b52850672e1abdb0d059fb137628680bf79e9d63"
+      }
+    }
+  ],
+  "notDispatched": [
+    {
+      "model": "GPT-6.1 Luna max",
+      "reason": "Exact model previously unsupported on account; not retried"
+    },
+    {
+      "model": "Gemini 3.8 Flash High through agy",
+      "reason": "Recorded consumer wrapper exclusion remains in force"
+    }
+  ],
+  "parentVerification": {
+    "installerExitCode": 0,
+    "rawInstallerStdoutHashAndLengthVerified": true,
+    "rawInstallerSuccessMessageVerified": true,
+    "registeredDistributionCountBefore": 1,
+    "registeredDistributionCountAfter": 2,
+    "ubuntuWslVersion": 2,
+    "ubuntuDefaultUidNonzero": false,
+    "dockerStillDefaultObserved": true,
+    "linuxDiscoveryRun": false,
+    "newPerformanceCaptures": 0,
+    "localLinksAndAnchorsVerified": 17,
+    "priorEvidencePathsUnchanged": [
+      "architecture/TIYE-Agent-Feasibility-Test-Plan.md",
+      "output/phase0-readiness/ASSESSMENT.md",
+      "output/phase0-readiness/wsl-prerequisites.json",
+      "output/phase0-readiness/review.json",
+      "feasibility/s4-provider-access/antigravity-consumer/route.json"
+    ]
+  },
+  "sourceHashes": {
+    "architecture/TIYE-Agent-Feasibility-Test-Plan.md": "82d118ffcf0d523f1fcfae430d1488662416a7081c219b1248055e9ef32fa764",
+    "output/phase0-readiness/ASSESSMENT.md": "9bb6d1f5e9f1a64fc4a6324f05f4fc531473a3b8795827a14f413e5fb8fd0a2e",
+    "output/phase0-readiness/wsl-prerequisites.json": "c4d2a3cd1a03c98f8c73d427353a49d048b3aacb92fcc6dd134d5746d148fb6f",
+    "output/phase0-readiness/review.json": "c629ddbd53f96a3efbecc4a8356a2e5f3466abd1ac3814646861d46e251db12c",
+    "feasibility/s4-provider-access/antigravity-consumer/route.json": "ca417022de82a8e5877a429c5777d335b886aea1968024ecb4bc1e44c048e1fe"
+  },
+  "artifactHashes": {
+    "output/s6-prerequisites/install-stdout.utf16le": "d839fa2e53b576e6f7e2d902150f5bf0defea66efa337bd61e40b17e2db10eb3",
+    "output/s6-prerequisites/installation.json": "0c747b92799840b509b8015bd84ac47b706484638186ee30819f74e850c0bfd9",
+    "output/s6-prerequisites/README.md": "06eedb6bcad419cba8e7775bbd27ac4850300fd7ae1caed27582a324e6b20e32",
+    "output/s6-prerequisites/registered-distributions.txt": "475df7fcd053906fa2ea84be066db3b3985d2eca32ac0e297b70ac8e25f8a916",
+    "output/s6-prerequisites/setup-state.json": "532a51c54a3538ce831cabfbb2a1679fe219099aae3cb1853e00fe6336e2a69f",
+    "feasibility/s6-wsl/PLAN.md": "2c75da13935c3b59772844dbaee8601ee620a4243cc2845f67373a95c599c9e3",
+    "README.md": "b935e27fabd3319a8fda7c155497c817ae5779b0c2771cdf0f4196ef84b6c0a4",
+    "architecture/TIYE-Agent-Architecture.md": "00e7c4bbaf8c110a7872b52f12cb06172d33e49e556761d8c34153e039198802"
+  },
+  "limitations": [
+    "Local integrity record, not external attestation",
+    "No complete registry baseline; no Docker configuration equality claim",
+    "DefaultUid is a prerequisite indicator, not completed-user-setup proof",
+    "Delegate reviews used supplied context only; changed-worktree reports correspond to parent-created output; raw delegate artifacts remain local",
+    "No S1-S5 native cohort rerun and no provider work performed in Ubuntu"
+  ]
+}

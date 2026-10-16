@@ -1,0 +1,29 @@
+{
+  "schema": "tiye-s6-installation-v1",
+  "startedAt": "2026-10-16T10:55:50.924409+00:00",
+  "command": [
+    "wsl.exe",
+    "--install",
+    "Ubuntu",
+    "--no-launch",
+    "--version",
+    "2"
+  ],
+  "state": "registered-awaiting-initialization",
+  "ubuntuRegisteredBefore": false,
+  "distributionCountBefore": 1,
+  "operatorAuthorization": "User approved Ubuntu and requested continuation",
+  "fullS6Qualified": false,
+  "finishedAt": "2026-10-16T10:56:36.007965+00:00",
+  "exitCode": 0,
+  "ubuntuRegisteredAfter": true,
+  "distributionCountAfter": 2,
+  "preexistingDistributionsStillRegistered": true,
+  "stdoutBytes": 244,
+  "stdoutSha256": "d839fa2e53b576e6f7e2d902150f5bf0defea66efa337bd61e40b17e2db10eb3",
+  "stderrBytes": 0,
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "rawInstallerLogsRetainedInGit": true,
+  "rawStdoutArtifact": "install-stdout.utf16le",
+  "stdoutEncoding": "utf-16-le"
+}

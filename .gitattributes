@@ -68,3 +68,4 @@ output/s5-input-backend-pair-failed-direct/** -text
 output/s5-input-backend-pair-failed-direct/*.log -whitespace
 output/s5-input-backend-pair/** -text
 output/phase0-readiness/** -text
+output/s6-prerequisites/** -text

@@ -1,0 +1,3 @@
+  NAME              STATE           VERSION
+* docker-desktop    Running         2
+  Ubuntu            Stopped         2

@@ -14,9 +14,10 @@ TIYE Agent is in architecture validation. The repository contains product and te
 Run feasibility tests S1 through S6 and record versions, measurements, and pass/partial/fail results in the forms provided by the test plan. S1 must validate main-owned terminals and process cleanup; S2 must establish a reliable delegated-task round trip; S3 must measure worktrees and verify the stated permission limits. Update the architecture from the results before starting the core event store and team engine.
 
 The bounded input-latency diagnostic series is complete; it does not close S5.
-The next execution step is S6 prerequisite discovery after a development WSL
-distribution is selected. The read-only inventory found only Docker Desktop's
-managed distribution. S4 route qualification, unresolved S5 limits and the
-remaining S1–S3 requirements stay visible in the readiness ledger.
+Ubuntu is now installed as a separate WSL 2 distribution for S6. The
+[installation record](output/s6-prerequisites/README.md) explains the pending
+first-run account setup and the [S6 plan](feasibility/s6-wsl/PLAN.md) defines the
+next prerequisite-discovery cohort. S4 route qualification, unresolved S5 limits
+and the remaining S1–S3 requirements stay visible in the readiness ledger.
 
 The event store implementation must follow Architecture 3.8: persist command and effect intent before external action, reconcile uncertain outcomes after a crash, and avoid automatic duplicate execution.
