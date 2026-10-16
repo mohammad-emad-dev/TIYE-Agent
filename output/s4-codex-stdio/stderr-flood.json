@@ -1,0 +1,39 @@
+{
+  "mode": "stderr-flood",
+  "pid": 1820,
+  "returnCode": 1,
+  "deadlineSecondsAfterSpawn": 1.5,
+  "elapsedSecondsAfterSpawn": 0.030496299994410947,
+  "fault": "stderr-budget-exceeded",
+  "killRequested": true,
+  "directChildReaped": true,
+  "ioTasksSettled": true,
+  "cleanupErrors": [],
+  "observedBytes": {
+    "stdout": 0,
+    "stderr": 8192
+  },
+  "retainedBytes": {
+    "stdout": 0,
+    "stderr": 4096
+  },
+  "readCalls": {
+    "stdout": 0,
+    "stderr": 2
+  },
+  "limits": {
+    "stdout": 8192,
+    "stderr": 4096
+  },
+  "events": [
+    {
+      "source": "local-abort",
+      "event": "stream-closed"
+    }
+  ],
+  "writes": [],
+  "transportOpen": false,
+  "protocolStatus": "needs-attention",
+  "taskSuccess": null,
+  "outcome": "needs-attention"
+}

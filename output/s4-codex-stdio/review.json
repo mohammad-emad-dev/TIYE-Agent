@@ -1,0 +1,133 @@
+{
+  "schema": "tiye-native-synthetic-stdio-review-v1",
+  "reviews": [
+    {
+      "reviewer": "codex",
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "scope": "design",
+      "status": "timeout",
+      "exitCode": 1,
+      "startedAt": "2026-10-16T16:28:30.145Z",
+      "finishedAt": "2026-10-16T16:30:00.488Z",
+      "observedToolEvents": 0,
+      "contextOnly": true,
+      "artifactSha256": {
+        "brief.txt": "b1cdea392df3d03d5d0e446d946a08bb556e0b81728008bb4736e72d75bc200e",
+        "events.jsonl": "187ebcf8833e2016b3b725c39b76e1a550b7708ddda7a7236eb04a84240c831d",
+        "final.txt": null,
+        "stderr.txt": "da0c960a08c40a0a0c64c8df674ed91019796516520a92b3883011d43e62d6a0",
+        "result.json": "621eae0b30f3d9e4e60ce46bcd92d574dbb23694c4ca8e86cd19656608454c05"
+      }
+    },
+    {
+      "reviewer": "muse",
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "effort": "xhigh",
+      "scope": "design",
+      "status": "completed",
+      "exitCode": 0,
+      "startedAt": "2026-10-16T16:28:40.216Z",
+      "finishedAt": "2026-10-16T16:29:24.885Z",
+      "observedToolEvents": 0,
+      "contextOnly": true,
+      "artifactSha256": {
+        "brief.txt": "b1cdea392df3d03d5d0e446d946a08bb556e0b81728008bb4736e72d75bc200e",
+        "events.jsonl": "2cc34d7119624161f5d331d7d40cbeb4009b51ca7081174b05d76cc854b2c28b",
+        "final.txt": "55b22914017b1949e277669709344f9f6f917c383f276dad63d711bd7b41a7f8",
+        "stderr.txt": null,
+        "result.json": "ba4ac63aedc80eefb000f998b7eb5cebe13f05be6af0348af9b1f15b89635f45"
+      }
+    },
+    {
+      "reviewer": "space",
+      "model": "opencode/space-bunny-free",
+      "effort": "xhigh",
+      "scope": "candidate-code",
+      "status": "timeout",
+      "exitCode": 1,
+      "startedAt": "2026-10-16T16:30:39.757Z",
+      "finishedAt": "2026-10-16T16:32:10.116Z",
+      "observedToolEvents": 0,
+      "contextOnly": true,
+      "artifactSha256": {
+        "brief.txt": "b84a96c6dd41c1e15a3fd39ccc3cda2dc126b7584439e9be77ae29499a63583d",
+        "events.jsonl": "aad4b5055c2812c57658b492c906498fb50446cde0261984e665e16c255e874e",
+        "final.txt": null,
+        "stderr.txt": null,
+        "result.json": "0d373c07b5cfa7d1dcef04d4b2131ed3ffd965115938a59d0977f9930feeec2d"
+      }
+    },
+    {
+      "reviewer": "deepseek",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "scope": "candidate-code-and-tests",
+      "status": "timeout",
+      "exitCode": 1,
+      "startedAt": "2026-10-16T16:32:33.356Z",
+      "finishedAt": "2026-10-16T16:34:03.861Z",
+      "observedToolEvents": 0,
+      "contextOnly": true,
+      "artifactSha256": {
+        "brief.txt": "392162370f9878c8372920538724ca01f2a567ca14475f1ec20374f0efae37d2",
+        "events.jsonl": "2533d43e532dcbeb38e453268ef01f0a6dbfc3e8d7534ccb8ac2e9ca015e6b49",
+        "final.txt": null,
+        "stderr.txt": null,
+        "result.json": "9b6cd94a665ce7836b2976546aeee9141a0e428ce8b9e93ddf49912fc9a20e09"
+      }
+    }
+  ],
+  "gemini": {
+    "dispatched": false,
+    "reason": "Recorded consumer route excluded from delegation and integration"
+  },
+  "provenance": "Supplied-context reviews of design/candidate revisions, not independent workspace verification. Final source freeze preceded final native recording. touchedFiles can reflect concurrent parent edits; recursive tool event audit found zero.",
+  "museDesignDisposition": [
+    {
+      "findings": "1-2: split UTF8 and bounded read sizes",
+      "decision": "Already covered: bytes go to frozen line framer before decoding; stdout read(7), stderr read(4096). Capture verifies Unicode and minimum stdout read count."
+    },
+    {
+      "findings": "3-5,10: EOF/exit separation, timeout and cleanup order, concurrent draining",
+      "decision": "Separate stdout/stderr/wait tasks under activity deadline; cleanup in finally afterward kills owned direct child and waits before settling remaining tasks. Prefix capture intentionally does not claim full postkill drain. Abort closure labeled separately from observed EOF."
+    },
+    {
+      "findings": "6: multiple denial race",
+      "decision": "One stdout coroutine owns callback/reply handling; no competing writer. Added explicit refusal of any second planned synthetic denial before final recording. Frozen callbacks are single-use."
+    },
+    {
+      "findings": "7: closed-input write can block or be cancelled",
+      "decision": "Barrier precedes single bounded fault write; activity deadline covers send/drain/closure. Added cancellation uncertainty state. Final capture observed ConnectionResetError, no retry."
+    },
+    {
+      "findings": "8: successful local drain is not peer acceptance",
+      "decision": "No writes in eof-pending. Exact peer replyObserved plus completion and exit0 required for roundtrip capture. No task success claimed."
+    },
+    {
+      "findings": "9: observed vs retained bytes",
+      "decision": "Counters include overflow read, retained prefixes capped separately. Explicitly not total child output or all postkill bytes."
+    },
+    {
+      "findings": "11: writer/Proactor cleanup",
+      "decision": "Bounded writer close/wait, transport abort on timeout; direct child wait and task settlement gates pass. No independent OS handle inventory or total transport cleanup qualification claimed."
+    },
+    {
+      "findings": "12: absolute peer path and Python startup environment",
+      "decision": "Absolute fixed path and scenario allowlist already present; added -I before final recording. No generic arbitrary-command launcher or full environment-isolation claim."
+    },
+    {
+      "findings": "13: raw hashes and exclusive recorder",
+      "decision": "Hashes use actual retained bytes; output directory and scenario files created exclusively. Saved --check uses in-process assertions and hashes, never launches another peer."
+    }
+  ],
+  "parentVerification": {
+    "testGuard": "Eight behavior tests against real captured peers, no mocks; flood/cleanup variants use subTest. No remaining violations.",
+    "docsGuard": "Local links, commands, limits, EOF/abort labels, measured return codes and nonclaims checked against source and final artifacts.",
+    "exploratoryRuns": "One exploratory cohort and one preflight cohort before final capture; not substituted for final evidence. Preliminary output in ignored .git paths.",
+    "priorEvidence": "Frozen framing and replay saved checks passed unchanged.",
+    "fullS4Qualified": false,
+    "fullS6Qualified": false,
+    "phase1Construction": "HOLD"
+  }
+}

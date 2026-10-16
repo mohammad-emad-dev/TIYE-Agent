@@ -1,0 +1,43 @@
+{
+  "mode": "hang",
+  "pid": 19684,
+  "returnCode": 1,
+  "deadlineSecondsAfterSpawn": 1.5,
+  "elapsedSecondsAfterSpawn": 1.5088241000194103,
+  "fault": "activity-deadline",
+  "killRequested": true,
+  "directChildReaped": true,
+  "ioTasksSettled": true,
+  "cleanupErrors": [],
+  "observedBytes": {
+    "stdout": 177,
+    "stderr": 0
+  },
+  "retainedBytes": {
+    "stdout": 177,
+    "stderr": 0
+  },
+  "readCalls": {
+    "stdout": 26,
+    "stderr": 0
+  },
+  "limits": {
+    "stdout": 8192,
+    "stderr": 4096
+  },
+  "events": [
+    {
+      "event": "approval-pending",
+      "fingerprint": "706b98216b16db3de7adabc3e59eadd1ec7d08d5ed797c0007cee0dc371a847c"
+    },
+    {
+      "source": "local-abort",
+      "event": "stream-closed"
+    }
+  ],
+  "writes": [],
+  "transportOpen": false,
+  "protocolStatus": "needs-attention",
+  "taskSuccess": null,
+  "outcome": "needs-attention"
+}

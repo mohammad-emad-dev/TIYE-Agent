@@ -59,6 +59,13 @@ that local policy with 11 behavior tests and a 9-step synthetic transcript,
 including split UTF-8, byte budgets, malformed records and revoked reply plans
 after closure. It qualifies no native transport. Next is a bounded subprocess
 stdio fixture using a synthetic peer for actual pipes and exit handling.
+The [native Windows synthetic stdio capture](output/s4-codex-stdio/README.md)
+now covers eight scenarios with eight capture tests: Unicode input/output,
+peer-observed denial, pending approval at EOF, truncation, nonzero exit, a real
+closed-input write error, bounded stdout/stderr floods and deadline cleanup.
+Only the owned synthetic direct child is covered; no real CLI or provider route
+is qualified. Next are independent stdout/process lifetime and blocked-writer
+cases with a synthetic peer.
 Full [S6](output/s6-assessment/README.md),
 S4 route qualification, unresolved
 S5 limits and the remaining S1–S3 requirements stay visible in the readiness ledger.

@@ -88,4 +88,6 @@ output/s4-codex-replay/** -text
 output/s4-codex-replay/*.bin -whitespace
 output/s4-codex-framing/** -text
 output/s4-codex-framing/*.bin -whitespace
+output/s4-codex-stdio/** -text
+output/s4-codex-stdio/*.bin -whitespace
 feasibility/s6-wsl/** -text

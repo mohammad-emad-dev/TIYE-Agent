@@ -1,0 +1,13 @@
+test_closed_input_observes_write_error_and_never_retries (test_capture.CaptureTests.test_closed_input_observes_write_error_and_never_retries) ... ok
+test_deadline_terminates_waiting_peer_without_sending_approval (test_capture.CaptureTests.test_deadline_terminates_waiting_peer_without_sending_approval) ... ok
+test_eof_with_pending_approval_sends_nothing_and_refuses_late_reply (test_capture.CaptureTests.test_eof_with_pending_approval_sends_nothing_and_refuses_late_reply) ... ok
+test_every_case_closes_local_connection_reaps_child_and_preserves_limits (test_capture.CaptureTests.test_every_case_closes_local_connection_reaps_child_and_preserves_limits) ... ok
+test_floods_retain_only_prefix_and_record_observed_overflow (test_capture.CaptureTests.test_floods_retain_only_prefix_and_record_observed_overflow) ... ok
+test_nonzero_exit_overrides_protocol_completion_for_harness_outcome (test_capture.CaptureTests.test_nonzero_exit_overrides_protocol_completion_for_harness_outcome) ... ok
+test_roundtrip_peer_confirms_unicode_and_exact_denial_before_completion (test_capture.CaptureTests.test_roundtrip_peer_confirms_unicode_and_exact_denial_before_completion) ... ok
+test_unterminated_completion_is_truncation_despite_zero_exit (test_capture.CaptureTests.test_unterminated_completion_is_truncation_despite_zero_exit) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.004s
+
+OK

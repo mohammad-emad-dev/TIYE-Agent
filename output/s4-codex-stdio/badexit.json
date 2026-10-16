@@ -1,0 +1,43 @@
+{
+  "mode": "badexit",
+  "pid": 12156,
+  "returnCode": 23,
+  "deadlineSecondsAfterSpawn": 1.5,
+  "elapsedSecondsAfterSpawn": 0.03166019998025149,
+  "fault": "nonzero-peer-exit",
+  "killRequested": false,
+  "directChildReaped": true,
+  "ioTasksSettled": true,
+  "cleanupErrors": [],
+  "observedBytes": {
+    "stdout": 124,
+    "stderr": 0
+  },
+  "retainedBytes": {
+    "stdout": 124,
+    "stderr": 0
+  },
+  "readCalls": {
+    "stdout": 18,
+    "stderr": 0
+  },
+  "limits": {
+    "stdout": 8192,
+    "stderr": 4096
+  },
+  "events": [
+    {
+      "event": "protocol-completed",
+      "taskSuccess": null
+    },
+    {
+      "source": "stdout-eof",
+      "event": "stream-closed"
+    }
+  ],
+  "writes": [],
+  "transportOpen": false,
+  "protocolStatus": "protocol-completed",
+  "taskSuccess": null,
+  "outcome": "needs-attention"
+}

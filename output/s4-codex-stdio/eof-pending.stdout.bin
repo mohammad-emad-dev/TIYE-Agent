@@ -1,0 +1,1 @@
+{"id":7,"method":"item/commandExecution/requestApproval","params":{"threadId":"thread-owned","turnId":"turn-owned","itemId":"synthetic-item","startedAtMs":1000,"command":null}}

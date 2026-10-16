@@ -1,0 +1,47 @@
+{
+  "mode": "eof-pending",
+  "pid": 16112,
+  "returnCode": 0,
+  "deadlineSecondsAfterSpawn": 1.5,
+  "elapsedSecondsAfterSpawn": 0.03123200000845827,
+  "fault": null,
+  "killRequested": false,
+  "directChildReaped": true,
+  "ioTasksSettled": true,
+  "cleanupErrors": [],
+  "observedBytes": {
+    "stdout": 177,
+    "stderr": 0
+  },
+  "retainedBytes": {
+    "stdout": 177,
+    "stderr": 0
+  },
+  "readCalls": {
+    "stdout": 26,
+    "stderr": 0
+  },
+  "limits": {
+    "stdout": 8192,
+    "stderr": 4096
+  },
+  "events": [
+    {
+      "event": "approval-pending",
+      "fingerprint": "706b98216b16db3de7adabc3e59eadd1ec7d08d5ed797c0007cee0dc371a847c"
+    },
+    {
+      "source": "stdout-eof",
+      "event": "stream-closed"
+    },
+    {
+      "event": "post-eof-reply-refused",
+      "reason": "connection-closed"
+    }
+  ],
+  "writes": [],
+  "transportOpen": false,
+  "protocolStatus": "needs-attention",
+  "taskSuccess": null,
+  "outcome": "needs-attention"
+}

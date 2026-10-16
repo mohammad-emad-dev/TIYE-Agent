@@ -1,0 +1,78 @@
+{
+  "mode": "roundtrip",
+  "pid": 14968,
+  "returnCode": 0,
+  "deadlineSecondsAfterSpawn": 1.5,
+  "elapsedSecondsAfterSpawn": 0.03094640001654625,
+  "fault": null,
+  "killRequested": false,
+  "directChildReaped": true,
+  "ioTasksSettled": true,
+  "cleanupErrors": [],
+  "observedBytes": {
+    "stdout": 483,
+    "stderr": 33
+  },
+  "retainedBytes": {
+    "stdout": 483,
+    "stderr": 33
+  },
+  "readCalls": {
+    "stdout": 70,
+    "stderr": 1
+  },
+  "limits": {
+    "stdout": 8192,
+    "stderr": 4096
+  },
+  "events": [
+    {
+      "event": "unmodeled-method"
+    },
+    {
+      "event": "approval-pending",
+      "fingerprint": "706b98216b16db3de7adabc3e59eadd1ec7d08d5ed797c0007cee0dc371a847c"
+    },
+    {
+      "event": "reply-planned",
+      "scope": "denial",
+      "reply": {
+        "id": 7,
+        "result": {
+          "decision": "decline"
+        }
+      }
+    },
+    {
+      "event": "unmodeled-method"
+    },
+    {
+      "event": "protocol-completed",
+      "taskSuccess": null
+    },
+    {
+      "source": "stdout-eof",
+      "event": "stream-closed"
+    },
+    {
+      "event": "post-eof-reply-refused",
+      "reason": "connection-closed"
+    }
+  ],
+  "writes": [
+    {
+      "kind": "public-start",
+      "byteCount": 52,
+      "state": "locally-drained"
+    },
+    {
+      "kind": "synthetic-denial",
+      "byteCount": 41,
+      "state": "locally-drained"
+    }
+  ],
+  "transportOpen": false,
+  "protocolStatus": "protocol-completed",
+  "taskSuccess": null,
+  "outcome": "protocol-only-complete"
+}

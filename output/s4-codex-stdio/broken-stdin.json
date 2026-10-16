@@ -1,0 +1,49 @@
+{
+  "mode": "broken-stdin",
+  "pid": 17444,
+  "returnCode": 1,
+  "deadlineSecondsAfterSpawn": 1.5,
+  "elapsedSecondsAfterSpawn": 0.03017740001087077,
+  "fault": "write-failed",
+  "killRequested": true,
+  "directChildReaped": true,
+  "ioTasksSettled": true,
+  "cleanupErrors": [],
+  "observedBytes": {
+    "stdout": 45,
+    "stderr": 0
+  },
+  "retainedBytes": {
+    "stdout": 45,
+    "stderr": 0
+  },
+  "readCalls": {
+    "stdout": 7,
+    "stderr": 0
+  },
+  "limits": {
+    "stdout": 8192,
+    "stderr": 4096
+  },
+  "events": [
+    {
+      "event": "unmodeled-method"
+    },
+    {
+      "source": "local-abort",
+      "event": "stream-closed"
+    }
+  ],
+  "writes": [
+    {
+      "kind": "closed-input-fault-injection",
+      "byteCount": 65536,
+      "state": "uncertain-write",
+      "errorType": "ConnectionResetError"
+    }
+  ],
+  "transportOpen": false,
+  "protocolStatus": "needs-attention",
+  "taskSuccess": null,
+  "outcome": "needs-attention"
+}

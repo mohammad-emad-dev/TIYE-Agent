@@ -1,0 +1,40 @@
+{
+  "mode": "truncated",
+  "pid": 13288,
+  "returnCode": 0,
+  "deadlineSecondsAfterSpawn": 1.5,
+  "elapsedSecondsAfterSpawn": 0.030524499976309016,
+  "fault": "truncated-record",
+  "killRequested": true,
+  "directChildReaped": true,
+  "ioTasksSettled": true,
+  "cleanupErrors": [],
+  "observedBytes": {
+    "stdout": 123,
+    "stderr": 0
+  },
+  "retainedBytes": {
+    "stdout": 123,
+    "stderr": 0
+  },
+  "readCalls": {
+    "stdout": 18,
+    "stderr": 0
+  },
+  "limits": {
+    "stdout": 8192,
+    "stderr": 4096
+  },
+  "events": [
+    {
+      "source": "stdout-eof",
+      "event": "stream-failed",
+      "reason": "truncated-record"
+    }
+  ],
+  "writes": [],
+  "transportOpen": false,
+  "protocolStatus": "needs-attention",
+  "taskSuccess": null,
+  "outcome": "needs-attention"
+}

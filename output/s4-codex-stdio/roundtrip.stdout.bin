@@ -1,0 +1,4 @@
+{"method":"fixture/echo","params":{"fixture":"start","text":"مرحبا 日本 😀"}}
+{"id":7,"method":"item/commandExecution/requestApproval","params":{"threadId":"thread-owned","turnId":"turn-owned","itemId":"synthetic-item","startedAtMs":1000,"command":null}}
+{"method":"fixture/replyObserved","params":{"reply":{"id":7,"result":{"decision":"decline"}}}}
+{"method":"turn/completed","params":{"threadId":"thread-owned","turn":{"id":"turn-owned","items":[],"status":"completed"}}}

@@ -1,0 +1,82 @@
+{
+  "schema": "tiye-native-synthetic-stdio-v1",
+  "state": "synthetic-native-stdio-verified",
+  "scenarios": [
+    "roundtrip",
+    "eof-pending",
+    "truncated",
+    "badexit",
+    "broken-stdin",
+    "stdout-flood",
+    "stderr-flood",
+    "hang"
+  ],
+  "sourceSha256": {
+    "feasibility/s6-wsl/codex-framing/framing.py": "f1aaf415660293fa01fa86496921547443eb5497c132f00413e43b91dae75a1d",
+    "feasibility/s6-wsl/codex-framing/run.py": "b250766fa0c0d3fd2ef1f47e2266ce76ece07719185d5306dde381ac6dce40a6",
+    "feasibility/s6-wsl/codex-framing/test_framing.py": "eac14ba5c842a4ca0f4a9755923d9ef7f1c65a3356f01b91136b3ec8f0d9fdd3",
+    "feasibility/s6-wsl/codex-replay/replay.py": "9d2ebd8a23215efde6e3cfb6576cd2d0310b2282e93e643f302c2d6d96bc3385",
+    "feasibility/s6-wsl/codex-replay/run.py": "585f9f12c78078f3e9b2c7a4cc619fcbc632f749cba980c6d54855cf52b5eb06",
+    "feasibility/s6-wsl/codex-replay/test_replay.py": "1ade3c3b3b86c979c642b6d77d7f7cc99501b1ed46948f1aab869a85d91f65f7",
+    "feasibility/s6-wsl/codex-stdio/harness.py": "7e22393d43a7cc1a8e36882169e8fd7d7788367fc76acc806af3fcda2785290a",
+    "feasibility/s6-wsl/codex-stdio/peer.py": "6852bfbc1d5ed54287b94278b4123cf7e60657940ed6fdb9291ed5842a897ab9",
+    "feasibility/s6-wsl/codex-stdio/run.py": "366f20833d7e440ac4e9465d81f7bd926d1bb3c70290c0163228e440c85869a4",
+    "feasibility/s6-wsl/codex-stdio/test_capture.py": "383032eef881c4c486561970d4f01fe81309ea18d2ab89719271fdf6b49d6d8f"
+  },
+  "schemaArchiveSha256": "e428d95d952017d9880841e83b75d592463180ba6cb94d86b5da826b913ef406",
+  "runtime": {
+    "python": "3.14.7",
+    "platform": "Windows-11-10.0.26300-SP0"
+  },
+  "tests": {
+    "exitCode": 0,
+    "command": [
+      "C:\\Program Files\\Python314\\python.exe",
+      "-B",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "D:\\TIYE Agent\\feasibility\\s6-wsl\\codex-stdio",
+      "-p",
+      "test_capture.py",
+      "-v"
+    ],
+    "deadlineSeconds": 30
+  },
+  "nativeWindowsSyntheticPeerRun": true,
+  "providerRequestRun": false,
+  "fullS4Qualified": false,
+  "fullS6Qualified": false,
+  "phase1Construction": "HOLD",
+  "artifactSha256": {
+    "badexit.json": "22b21b5d06df3b3a8aaa2e3e0f08795581edd2404c99221dc7c2a8230e374346",
+    "badexit.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "badexit.stdout.bin": "f9a3c79d1f5f75048ecf0e4c44fe9248137b71bc3f1525ae5378a29288fe5e94",
+    "broken-stdin.json": "2d18c7190e5d018c5729a408ba530f1966e5688256b50ab90766c66ab00e4249",
+    "broken-stdin.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "broken-stdin.stdout.bin": "b8aedbc577dd9e3619045630414b2678f72447093ae580192914f511a8417329",
+    "eof-pending.json": "7bbdcc49ac3a4870ce517829ff3d577a6367407ddfc8b7ddba369edef3bee60d",
+    "eof-pending.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "eof-pending.stdout.bin": "0cd92de75bdadfac54a54e1e781d5a7d0b71db80870f85537af4cff37650f7a0",
+    "hang.json": "ccfae4db32e93aba8477d9e2857bba6c002e23886b2a636d4540880dcaf33d0a",
+    "hang.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "hang.stdout.bin": "0cd92de75bdadfac54a54e1e781d5a7d0b71db80870f85537af4cff37650f7a0",
+    "roundtrip.json": "63b188682bba8d65f154ca504da972ffa2dc534038793628e8fb03a097e77f00",
+    "roundtrip.stderr.bin": "f515ca03f8fd0d947071d79390eb71a6814916d7c01aac8517b549b3b895442c",
+    "roundtrip.stdout.bin": "b516686521d3f6dcd3bd10c34110cd44ca245ee830785e4727fb64a15918901e",
+    "stderr-flood.json": "c0c2b8936ef793bf6c5333f8143166a02842e8c2e1a06b1f85282099ee7e52f4",
+    "stderr-flood.stderr.bin": "ccda6c08aee28331768d1ac1a86581078e659a43c8500ec2eecbe189239d077d",
+    "stderr-flood.stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout-flood.json": "6bd669f33ccbf2132e956cf8ee577cb8a7d11c7ae2c5bb92604dab156fb84135",
+    "stdout-flood.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout-flood.stdout.bin": "18f8d2eb4a387bbc1e37ec099a7326805739bc9c99ecf0f14b808a5bcb65bf49",
+    "tests.stderr.bin": "264588641e5ccc023fbdd596e701db5ecb8d4c22dbeae6235fa05094357838bd",
+    "tests.stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "truncated.json": "a1b993ec5ab91fafea379811970f650c3dace99992407e9a6417a578af205d7f",
+    "truncated.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "truncated.stdout.bin": "b7775bc765cdc22f4bba862b75a4ff6e2ec49f56a38e6775483f018f8831e4db"
+  }
+}
