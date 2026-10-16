@@ -1,0 +1,516 @@
+{
+  "schema": "tiye-s5-probe-transport-comparison-v1",
+  "diagnosticOnly": true,
+  "runOrder": [
+    "pipe",
+    "ipc"
+  ],
+  "freshRuns": 2,
+  "repeatsPerProfile": 1,
+  "randomized": false,
+  "causalEffectEstablished": false,
+  "historicalSpikeFixed": false,
+  "identicalExecutedSourceAndBuildHashes": true,
+  "sameWaveformSettings": true,
+  "ordinalDeadlinesMatched": 35,
+  "ordinalViewMismatches": [],
+  "runs": [
+    {
+      "transport": "pipe",
+      "completed": 35,
+      "over100": [
+        20,
+        35
+      ],
+      "applicationDispatchToRenderNotice": {
+        "count": 35,
+        "medianMs": 13.537099999999555,
+        "p95Ms": 103.8064000000013,
+        "maxMs": 105.71259999999893,
+        "over50Ms": 5,
+        "over500Ms": 0
+      },
+      "inputNoticeToAckIngress": {
+        "count": 35,
+        "medianMs": 0.8565000000235159,
+        "p95Ms": 98.14639999999781,
+        "maxMs": 102.6823000000004,
+        "over50Ms": 4,
+        "over500Ms": 0
+      },
+      "apiCallback": {
+        "api": "stdin.write",
+        "notWorkerReceipt": true,
+        "duration": {
+          "count": 35,
+          "medianMs": 0.09049999999115244,
+          "p95Ms": 98.25130000000354,
+          "maxMs": 102.08350000000792,
+          "over50Ms": 4,
+          "over500Ms": 0
+        }
+      },
+      "byView": {
+        "grid": {
+          "count": 18,
+          "medianMs": 13.538300000000163,
+          "p95Ms": 16.510800000018207,
+          "maxMs": 16.510800000018207,
+          "over50Ms": 0,
+          "over500Ms": 0
+        },
+        "focus": {
+          "count": 17,
+          "medianMs": 12.31359999999404,
+          "p95Ms": 105.71259999999893,
+          "maxMs": 105.71259999999893,
+          "over50Ms": 5,
+          "over500Ms": 0
+        }
+      }
+    },
+    {
+      "transport": "ipc",
+      "completed": 35,
+      "over100": [
+        6,
+        22,
+        35
+      ],
+      "applicationDispatchToRenderNotice": {
+        "count": 35,
+        "medianMs": 13.448499999998603,
+        "p95Ms": 286.6119000000035,
+        "maxMs": 386.5934999999881,
+        "over50Ms": 4,
+        "over500Ms": 0
+      },
+      "inputNoticeToAckIngress": {
+        "count": 35,
+        "medianMs": 0.7289999999920838,
+        "p95Ms": 277.85889999999927,
+        "maxMs": 378.35169999999925,
+        "over50Ms": 3,
+        "over500Ms": 0
+      },
+      "apiCallback": {
+        "api": "child.send",
+        "notWorkerReceipt": true,
+        "duration": {
+          "count": 35,
+          "medianMs": 0.08580000000074506,
+          "p95Ms": 276.92369999999937,
+          "maxMs": 377.9702999999863,
+          "over50Ms": 3,
+          "over500Ms": 0
+        }
+      },
+      "byView": {
+        "grid": {
+          "count": 18,
+          "medianMs": 13.448499999998603,
+          "p95Ms": 286.6119000000035,
+          "maxMs": 286.6119000000035,
+          "over50Ms": 2,
+          "over500Ms": 0
+        },
+        "focus": {
+          "count": 17,
+          "medianMs": 13.4233000000022,
+          "p95Ms": 386.5934999999881,
+          "maxMs": 386.5934999999881,
+          "over50Ms": 2,
+          "over500Ms": 0
+        }
+      }
+    }
+  ],
+  "perOrdinal": [
+    {
+      "ordinal": 1,
+      "dueMs": 5000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 13.68159999999989,
+      "ipcTotalMs": 13.229000000001179,
+      "pipeInputNoticeToAckMs": 1.6924999999991996,
+      "ipcInputNoticeToAckMs": 2.0596999999997934
+    },
+    {
+      "ordinal": 2,
+      "dueMs": 10000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 13.537099999999555,
+      "ipcTotalMs": 13.407400000000052,
+      "pipeInputNoticeToAckMs": 0.8084999999991851,
+      "ipcInputNoticeToAckMs": 0.7206999999998516
+    },
+    {
+      "ordinal": 3,
+      "dueMs": 15000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 13.318100000000413,
+      "ipcTotalMs": 15.372400000000198,
+      "pipeInputNoticeToAckMs": 0.6504999999997381,
+      "ipcInputNoticeToAckMs": 0.6621999999988475
+    },
+    {
+      "ordinal": 4,
+      "dueMs": 20000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 13.377199999998993,
+      "ipcTotalMs": 14.408100000000559,
+      "pipeInputNoticeToAckMs": 1.0391000000017812,
+      "ipcInputNoticeToAckMs": 0.5946000000003551
+    },
+    {
+      "ordinal": 5,
+      "dueMs": 25000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 12.310800000002928,
+      "ipcTotalMs": 17.500200000002224,
+      "pipeInputNoticeToAckMs": 0.781699999999546,
+      "ipcInputNoticeToAckMs": 0.7131000000008498
+    },
+    {
+      "ordinal": 6,
+      "dueMs": 30000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 14.342300000003888,
+      "ipcTotalMs": 286.6119000000035,
+      "pipeInputNoticeToAckMs": 0.8137999999962631,
+      "ipcInputNoticeToAckMs": 277.85889999999927
+    },
+    {
+      "ordinal": 7,
+      "dueMs": 35000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 11.322500000002037,
+      "ipcTotalMs": 15.551999999996042,
+      "pipeInputNoticeToAckMs": 0.7256999999954132,
+      "ipcInputNoticeToAckMs": 0.7001000000018394
+    },
+    {
+      "ordinal": 8,
+      "dueMs": 40000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 14.464599999999336,
+      "ipcTotalMs": 9.53809999999794,
+      "pipeInputNoticeToAckMs": 0.8029999999998836,
+      "ipcInputNoticeToAckMs": 0.8432000000029802
+    },
+    {
+      "ordinal": 9,
+      "dueMs": 45000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 9.452900000003865,
+      "ipcTotalMs": 11.813799999996263,
+      "pipeInputNoticeToAckMs": 0.916799999999057,
+      "ipcInputNoticeToAckMs": 1.1336000000010245
+    },
+    {
+      "ordinal": 10,
+      "dueMs": 50000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 10.447399999997288,
+      "ipcTotalMs": 13.4233000000022,
+      "pipeInputNoticeToAckMs": 0.9072999999989406,
+      "ipcInputNoticeToAckMs": 0.760999999998603
+    },
+    {
+      "ordinal": 11,
+      "dueMs": 55000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 10.433100000002014,
+      "ipcTotalMs": 10.434999999997672,
+      "pipeInputNoticeToAckMs": 0.7743000000045868,
+      "ipcInputNoticeToAckMs": 0.7250999999960186
+    },
+    {
+      "ordinal": 12,
+      "dueMs": 60000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 80.06230000000505,
+      "ipcTotalMs": 21.780299999998533,
+      "pipeInputNoticeToAckMs": 49.89220000000205,
+      "ipcInputNoticeToAckMs": 15.394899999999325
+    },
+    {
+      "ordinal": 13,
+      "dueMs": 65000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 12.434999999997672,
+      "ipcTotalMs": 13.448499999998603,
+      "pipeInputNoticeToAckMs": 2.038300000000163,
+      "ipcInputNoticeToAckMs": 1.4682000000029802
+    },
+    {
+      "ordinal": 14,
+      "dueMs": 70000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 14.601299999994808,
+      "ipcTotalMs": 15.432300000000396,
+      "pipeInputNoticeToAckMs": 1.9244000000035157,
+      "ipcInputNoticeToAckMs": 2.7053000000014435
+    },
+    {
+      "ordinal": 15,
+      "dueMs": 75000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 13.538300000000163,
+      "ipcTotalMs": 14.761499999993248,
+      "pipeInputNoticeToAckMs": 1.5834999999933643,
+      "ipcInputNoticeToAckMs": 1.746900000012829
+    },
+    {
+      "ordinal": 16,
+      "dueMs": 80000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 13.98530000000028,
+      "ipcTotalMs": 13.391799999997602,
+      "pipeInputNoticeToAckMs": 1.048800000004121,
+      "ipcInputNoticeToAckMs": 1.3300000000017462
+    },
+    {
+      "ordinal": 17,
+      "dueMs": 85000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 14.338900000002468,
+      "ipcTotalMs": 11.338199999998324,
+      "pipeInputNoticeToAckMs": 0.8042999999888707,
+      "ipcInputNoticeToAckMs": 0.6834999999991851
+    },
+    {
+      "ordinal": 18,
+      "dueMs": 90000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 14.275800000003073,
+      "ipcTotalMs": 51.30950000000303,
+      "pipeInputNoticeToAckMs": 0.7193999999872176,
+      "ipcInputNoticeToAckMs": 15.636399999988498
+    },
+    {
+      "ordinal": 19,
+      "dueMs": 95000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 9.507599999997183,
+      "ipcTotalMs": 11.45570000000589,
+      "pipeInputNoticeToAckMs": 0.7945999999938067,
+      "ipcInputNoticeToAckMs": 0.651400000002468
+    },
+    {
+      "ordinal": 20,
+      "dueMs": 100000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 105.71259999999893,
+      "ipcTotalMs": 14.648000000001048,
+      "pipeInputNoticeToAckMs": 102.6823000000004,
+      "ipcInputNoticeToAckMs": 0.690100000007078
+    },
+    {
+      "ordinal": 21,
+      "dueMs": 105000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 12.462100000004284,
+      "ipcTotalMs": 15.489900000000489,
+      "pipeInputNoticeToAckMs": 0.6586999999999534,
+      "ipcInputNoticeToAckMs": 0.5875000000087311
+    },
+    {
+      "ordinal": 22,
+      "dueMs": 110000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 9.584499999997206,
+      "ipcTotalMs": 105.99569999999949,
+      "pipeInputNoticeToAckMs": 0.7109000000054948,
+      "ipcInputNoticeToAckMs": 77.20339999999851
+    },
+    {
+      "ordinal": 23,
+      "dueMs": 115000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 10.256299999993644,
+      "ipcTotalMs": 10.476899999994203,
+      "pipeInputNoticeToAckMs": 0.7137999999977183,
+      "ipcInputNoticeToAckMs": 0.6057999999902677
+    },
+    {
+      "ordinal": 24,
+      "dueMs": 120000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 77.03059999999823,
+      "ipcTotalMs": 15.543900000004214,
+      "pipeInputNoticeToAckMs": 67.14589999998861,
+      "ipcInputNoticeToAckMs": 0.5774999999994179
+    },
+    {
+      "ordinal": 25,
+      "dueMs": 125000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 13.471300000004703,
+      "ipcTotalMs": 13.010199999989709,
+      "pipeInputNoticeToAckMs": 2.095400000005611,
+      "ipcInputNoticeToAckMs": 2.2788000000000466
+    },
+    {
+      "ordinal": 26,
+      "dueMs": 130000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 13.39680000001681,
+      "ipcTotalMs": 14.073500000027707,
+      "pipeInputNoticeToAckMs": 1.3238999999884982,
+      "ipcInputNoticeToAckMs": 1.0610999999917112
+    },
+    {
+      "ordinal": 27,
+      "dueMs": 135000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 15.413200000009965,
+      "ipcTotalMs": 12.937699999980396,
+      "pipeInputNoticeToAckMs": 1.6199999999953434,
+      "ipcInputNoticeToAckMs": 1.3202999999921303
+    },
+    {
+      "ordinal": 28,
+      "dueMs": 140000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 14.464199999987613,
+      "ipcTotalMs": 13.043499999999767,
+      "pipeInputNoticeToAckMs": 1.3476000000082422,
+      "ipcInputNoticeToAckMs": 0.7656999999890104
+    },
+    {
+      "ordinal": 29,
+      "dueMs": 145000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 16.510800000018207,
+      "ipcTotalMs": 11.273099999991246,
+      "pipeInputNoticeToAckMs": 0.690600000001723,
+      "ipcInputNoticeToAckMs": 0.6608999999880325
+    },
+    {
+      "ordinal": 30,
+      "dueMs": 150000,
+      "pipeView": "grid",
+      "ipcView": "grid",
+      "viewMatches": true,
+      "pipeTotalMs": 11.652999999991152,
+      "ipcTotalMs": 14.3357000000251,
+      "pipeInputNoticeToAckMs": 0.7161000000196509,
+      "ipcInputNoticeToAckMs": 0.595499999995809
+    },
+    {
+      "ordinal": 31,
+      "dueMs": 155000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 93.96150000000489,
+      "ipcTotalMs": 10.495699999999488,
+      "pipeInputNoticeToAckMs": 87.79949999999371,
+      "ipcInputNoticeToAckMs": 0.6824000000196975
+    },
+    {
+      "ordinal": 32,
+      "dueMs": 160000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 15.293199999985518,
+      "ipcTotalMs": 13.657500000001164,
+      "pipeInputNoticeToAckMs": 0.8113000000012107,
+      "ipcInputNoticeToAckMs": 0.7289999999920838
+    },
+    {
+      "ordinal": 33,
+      "dueMs": 165000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 10.861899999988964,
+      "ipcTotalMs": 10.512900000001537,
+      "pipeInputNoticeToAckMs": 0.8565000000235159,
+      "ipcInputNoticeToAckMs": 0.5780000000086147
+    },
+    {
+      "ordinal": 34,
+      "dueMs": 170000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 12.31359999999404,
+      "ipcTotalMs": 13.30240000001504,
+      "pipeInputNoticeToAckMs": 0.6854999999923166,
+      "ipcInputNoticeToAckMs": 0.6020000000135042
+    },
+    {
+      "ordinal": 35,
+      "dueMs": 175000,
+      "pipeView": "focus",
+      "ipcView": "focus",
+      "viewMatches": true,
+      "pipeTotalMs": 103.8064000000013,
+      "ipcTotalMs": 386.5934999999881,
+      "pipeInputNoticeToAckMs": 98.14639999999781,
+      "ipcInputNoticeToAckMs": 378.35169999999925
+    }
+  ],
+  "scope": "One fixed-order observation per transport; API callback semantics differ; same application endpoints. No causal reduction, root cause, general reliability, memory/hour or production qualification."
+}

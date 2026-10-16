@@ -45,3 +45,8 @@ output/s5-input-scheduled-views/** -text
 output/s5-input-scheduled-views/*.log -whitespace
 output/s5-input-search-overlap/** -text
 output/s5-input-search-overlap/*.log -whitespace
+output/s5-input-transport-pipe/** -text
+output/s5-input-transport-pipe/*.log -whitespace
+output/s5-input-transport-ipc/** -text
+output/s5-input-transport-ipc/*.log -whitespace
+output/s5-input-transport/** -text

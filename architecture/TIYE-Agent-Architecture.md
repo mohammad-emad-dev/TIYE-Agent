@@ -880,6 +880,16 @@ worker-local command-to-ACK interval; no root cause or cross-clock decomposition
 is established. A controlled parent-to-worker transport comparison is next.
 Earlier failures remain unchanged; full S5 and product eligibility remain open.
 
+The [probe transport comparison](../feasibility/s5-performance/ui/input-transport/README.md)
+runs pipe then IPC with identical frozen sources/binaries and matched deadlines.
+All 70 probes, route echoes, views and controlled search overlaps verify.
+Pipe has two input samples over 100 ms (maximum 105.71 ms); IPC has three
+(maximum 386.59 ms). Long worker-local command-to-ACK intervals also occur,
+including 249.47 ms for IPC's slowest application probe. This fixed-order,
+one-run-per-route observation supports no IPC fix or causal regression claim.
+Worker scheduling and producer/PTY ACK-path tracing are next; the input latency
+gate remains failed and no transport change is adopted for the product.
+
 **Feasibility baseline, 14 October 2026.** The S3 prototype in
 `feasibility/s3-worktrees` created integration plus two member worktrees outside
 a disposable source root, ran an offline local-dependency setup, copied
