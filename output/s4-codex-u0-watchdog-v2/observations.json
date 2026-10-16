@@ -1,0 +1,155 @@
+[
+  {
+    "case": "deadline",
+    "identities": [
+      {
+        "pid": 13004,
+        "creationTime": 134366601338079567,
+        "nonce": "abd51fbe6cd34796ac791a54bff76a40"
+      },
+      {
+        "pid": 9184,
+        "creationTime": 134366601338602662,
+        "nonce": "abd51fbe6cd34796ac791a54bff76a40"
+      }
+    ],
+    "report": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "abd51fbe6cd34796ac791a54bff76a40",
+      "deadlineSeconds": 2,
+      "rootExitSeen": false,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 13004,
+      "stopReason": "deadline",
+      "activeProcessesObservedBeforeStop": 3,
+      "stopDecisionElapsedSeconds": 2.000390599999264,
+      "stopDecisionLatenessSeconds": 0.00039059999926394084,
+      "terminationRequestReturnedSeconds": 2.0004292999992686,
+      "rootHandleSignaled": true,
+      "finalRootExitCode": 124,
+      "cleanupObservationSeconds": 0.0021157000001039705,
+      "elapsedSeconds": 2.002571699999862
+    },
+    "independentHandlesSignaled": true
+  },
+  {
+    "case": "nonzero-exit",
+    "rootIdentity": {
+      "pid": 6404,
+      "creationTime": 134366601358917707,
+      "nonce": "c9de5053b96245d39f6f94b279ca0ffb"
+    },
+    "report": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "c9de5053b96245d39f6f94b279ca0ffb",
+      "deadlineSeconds": 4,
+      "rootExitSeen": true,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 6404,
+      "rootExitCode": 7,
+      "stopReason": "job-empty",
+      "stopDecisionElapsedSeconds": 0.08449970000037865,
+      "rootHandleSignaled": true,
+      "finalRootExitCode": 7,
+      "cleanupObservationSeconds": 1.52000002344721e-05,
+      "elapsedSeconds": 0.08453410000038275
+    },
+    "independentRootSignaled": true
+  },
+  {
+    "case": "normal",
+    "rootIdentity": {
+      "pid": 13876,
+      "creationTime": 134366601360564897,
+      "nonce": "b222de521e48418b8feeb6c279f9e54d"
+    },
+    "report": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "b222de521e48418b8feeb6c279f9e54d",
+      "deadlineSeconds": 4,
+      "rootExitSeen": true,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 13876,
+      "rootExitCode": 0,
+      "stopReason": "job-empty",
+      "stopDecisionElapsedSeconds": 0.08306659999925614,
+      "rootHandleSignaled": true,
+      "finalRootExitCode": 0,
+      "cleanupObservationSeconds": 1.5300000086426735e-05,
+      "elapsedSeconds": 0.08310439999968366
+    },
+    "independentRootSignaled": true
+  },
+  {
+    "case": "owner-crash-before-resume",
+    "rootIdentity": {
+      "pid": 12624,
+      "creationTime": 134366601362012004,
+      "nonce": "4eae46e4f1864138aa5f8be03564c883"
+    },
+    "independentRootSignaled": true,
+    "childCodeWitnessAbsent": true
+  },
+  {
+    "case": "root-exit-with-child",
+    "identities": [
+      {
+        "pid": 17648,
+        "creationTime": 134366601362772342,
+        "nonce": "1194381029ba4f799646216da3c989be"
+      },
+      {
+        "pid": 14852,
+        "creationTime": 134366601363252267,
+        "nonce": "1194381029ba4f799646216da3c989be"
+      }
+    ],
+    "report": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "1194381029ba4f799646216da3c989be",
+      "deadlineSeconds": 2,
+      "rootExitSeen": true,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 17648,
+      "rootExitCode": 0,
+      "stopReason": "deadline",
+      "activeProcessesObservedBeforeStop": 2,
+      "stopDecisionElapsedSeconds": 2.000467099999696,
+      "stopDecisionLatenessSeconds": 0.0004670999996960745,
+      "terminationRequestReturnedSeconds": 2.000497699999869,
+      "rootHandleSignaled": true,
+      "finalRootExitCode": 0,
+      "cleanupObservationSeconds": 1.2900000001536682e-05,
+      "elapsedSeconds": 2.000529899999492
+    },
+    "childObservedLiveAfterRootExit": true,
+    "independentHandlesSignaled": true
+  },
+  {
+    "case": "watchdog-crash",
+    "identities": [
+      {
+        "pid": 12760,
+        "creationTime": 134366601384172396,
+        "nonce": "f6bfdcaa4ef54ab59593bd0ae6eaa54a"
+      },
+      {
+        "pid": 19028,
+        "creationTime": 134366601384830205,
+        "nonce": "f6bfdcaa4ef54ab59593bd0ae6eaa54a"
+      }
+    ],
+    "sentinelIdentity": {
+      "pid": 16708,
+      "creationTime": 134366601382909134,
+      "nonce": "f6bfdcaa4ef54ab59593bd0ae6eaa54a"
+    },
+    "independentHandlesSignaled": true,
+    "unrelatedSentinelStillLive": true,
+    "normalCompletionReportAbsent": true
+  }
+]

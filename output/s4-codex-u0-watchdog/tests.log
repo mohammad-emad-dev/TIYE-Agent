@@ -1,0 +1,37 @@
+test_deadline_terminates_owned_root_and_descendant (test_watchdog.WatchdogTests.test_deadline_terminates_owned_root_and_descendant) ... FAIL
+test_nonzero_root_exit_is_not_replaced_with_cleanup_success (test_watchdog.WatchdogTests.test_nonzero_root_exit_is_not_replaced_with_cleanup_success) ... ok
+test_normal_exit_is_observed_without_deadline_termination (test_watchdog.WatchdogTests.test_normal_exit_is_observed_without_deadline_termination) ... ok
+test_owner_crash_before_resume_terminates_never_started_child (test_watchdog.WatchdogTests.test_owner_crash_before_resume_terminates_never_started_child) ... ok
+test_root_exit_does_not_hide_live_descendant (test_watchdog.WatchdogTests.test_root_exit_does_not_hide_live_descendant) ... ok
+test_watchdog_crash_closes_job_and_spares_unrelated_process (test_watchdog.WatchdogTests.test_watchdog_crash_closes_job_and_spares_unrelated_process) ... ok
+
+======================================================================
+FAIL: test_deadline_terminates_owned_root_and_descendant (test_watchdog.WatchdogTests.test_deadline_terminates_owned_root_and_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\TIYE Agent\feasibility\s6-wsl\codex-u0-watchdog\test_watchdog.py", line 103, in test_deadline_terminates_owned_root_and_descendant
+    report = self.finish(watchdog, expected_exit=124)
+  File "D:\TIYE Agent\feasibility\s6-wsl\codex-u0-watchdog\test_watchdog.py", line 82, in finish
+    self.assertEqual(process.returncode, expected_exit, stderr.decode('utf-8', errors='replace'))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 124 : Traceback (most recent call last):
+  File "D:\TIYE Agent\feasibility\s6-wsl\codex-u0-watchdog\watchdog.py", line 74, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "D:\TIYE Agent\feasibility\s6-wsl\codex-u0-watchdog\watchdog.py", line 70, in main
+    return supervise(json.loads(args.config.read_text(encoding='utf-8')))
+  File "D:\TIYE Agent\feasibility\s6-wsl\codex-u0-watchdog\watchdog.py", line 28, in supervise
+    with ChildJob(config['argv'], config['cwd']) as child:
+         ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\TIYE Agent\feasibility\s6-wsl\codex-u0-watchdog\winjob.py", line 381, in __exit__
+    self.close()
+    ~~~~~~~~~~^^
+  File "D:\TIYE Agent\feasibility\s6-wsl\codex-u0-watchdog\winjob.py", line 362, in close
+    raise error
+OSError: TerminateProcess during close failed: [WinError 5] Access is denied.
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 4.817s
+
+FAILED (failures=1)

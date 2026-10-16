@@ -104,3 +104,10 @@ The [first U0 launcher implementation](output/s4-codex-u0-launcher/README.md)
 now has synthetic subprocess tests, strict handshake handling, bounded capture
 and a persistent launch block. Native admission is still pending independent
 watchdog, ownership/recovery and privacy checks; no Linux Codex run is claimed.
+
+The [corrected Windows watchdog component](output/s4-codex-u0-watchdog-v2/README.md) adds
+creation-time Job Object assignment and a separate supervisor, with six synthetic
+cases including descendant survival and owner crashes. U0 integration, Linux
+ownership/recovery and native admission remain pending; Phase 1 remains HOLD.
+The first saved capture exposed a job-accounting/process-exit race and is
+[preserved as a failed baseline](output/s4-codex-u0-watchdog/STATUS.md).

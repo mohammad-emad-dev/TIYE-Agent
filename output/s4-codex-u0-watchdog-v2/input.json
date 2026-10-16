@@ -1,0 +1,23 @@
+{
+  "sourceSha256": {
+    "feasibility/s6-wsl/codex-u0-watchdog-v2/.gitignore": "9967fbf6a68b4488fb0a6eb19a6c36b1d408a47312b8825b6d38062e10d5c07a",
+    "feasibility/s6-wsl/codex-u0-watchdog-v2/peer.py": "f8a0569d8429b6aebbe8627e18e02a183a59b5e51efd09ff13776dd92118a92f",
+    "feasibility/s6-wsl/codex-u0-watchdog-v2/run.py": "67cb2e31d3dbad6a3abdfc5fbdb99ec23811c2b812989a201cbd1f5082dc524c",
+    "feasibility/s6-wsl/codex-u0-watchdog-v2/test_watchdog.py": "34307d9f35df45f70238a4cb6eb5d275e90768842a470e4db38b02e07ebc85bd",
+    "feasibility/s6-wsl/codex-u0-watchdog-v2/watchdog.py": "b5aec82280f45f68c5fa567c0fd1e69bb7677a7ca34cbe40dace6cd13199cc46",
+    "feasibility/s6-wsl/codex-u0-watchdog-v2/winjob.py": "cba5dd28c2449b0a23447d44a6dc9ff0190414f13392f76296a3c99a80cbc23a"
+  },
+  "cases": [
+    "normal",
+    "nonzero-exit",
+    "deadline",
+    "root-exit-with-child",
+    "watchdog-crash",
+    "owner-crash-before-resume"
+  ],
+  "failedBaselineEvidenceSha256": "554d537a2d2679d44880242c620d3ac20f093d23c3529a966b48d75a0040ef6e",
+  "deadlineCasesSeconds": 2,
+  "cleanupObservationSeconds": 2,
+  "scope": "Synthetic Windows Job Object fixture only",
+  "nativeAdmissionGranted": false
+}

@@ -1,0 +1,118 @@
+[
+  {
+    "case": "nonzero-exit",
+    "rootIdentity": {
+      "pid": 17644,
+      "creationTime": 134366600584516341,
+      "nonce": "139d0f7d6ce745cb8a9f1f8c538a82c9"
+    },
+    "report": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "139d0f7d6ce745cb8a9f1f8c538a82c9",
+      "deadlineSeconds": 4,
+      "rootExitSeen": true,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 17644,
+      "rootExitCode": 7,
+      "stopReason": "job-empty",
+      "stopDecisionElapsedSeconds": 0.08347279999998136,
+      "finalRootExitCode": 7,
+      "cleanupObservationSeconds": 1.2299999980314169e-05,
+      "elapsedSeconds": 0.08350410000002739
+    },
+    "independentRootSignaled": true
+  },
+  {
+    "case": "normal",
+    "rootIdentity": {
+      "pid": 14152,
+      "creationTime": 134366600586227195,
+      "nonce": "2d89e976050e4f2b98fff86909575259"
+    },
+    "report": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "2d89e976050e4f2b98fff86909575259",
+      "deadlineSeconds": 4,
+      "rootExitSeen": true,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 14152,
+      "rootExitCode": 0,
+      "stopReason": "job-empty",
+      "stopDecisionElapsedSeconds": 0.0838685999997324,
+      "finalRootExitCode": 0,
+      "cleanupObservationSeconds": 1.140000040322775e-05,
+      "elapsedSeconds": 0.08390089999920747
+    },
+    "independentRootSignaled": true
+  },
+  {
+    "case": "owner-crash-before-resume",
+    "rootIdentity": {
+      "pid": 18440,
+      "creationTime": 134366600587737400,
+      "nonce": "6b139d8b2daf4da9b02b930e2bc403a6"
+    },
+    "independentRootSignaled": true,
+    "childCodeWitnessAbsent": true
+  },
+  {
+    "case": "root-exit-with-child",
+    "identities": [
+      {
+        "pid": 3796,
+        "creationTime": 134366600588654596,
+        "nonce": "98ad0e17d78041c2b76c7ef3eba25e1e"
+      },
+      {
+        "pid": 19124,
+        "creationTime": 134366600589179394,
+        "nonce": "98ad0e17d78041c2b76c7ef3eba25e1e"
+      }
+    ],
+    "report": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "98ad0e17d78041c2b76c7ef3eba25e1e",
+      "deadlineSeconds": 2,
+      "rootExitSeen": true,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 3796,
+      "rootExitCode": 0,
+      "stopReason": "deadline",
+      "activeProcessesObservedBeforeStop": 2,
+      "stopDecisionElapsedSeconds": 2.0002347999998165,
+      "stopDecisionLatenessSeconds": 0.0002347999998164596,
+      "terminationRequestReturnedSeconds": 2.000264999999672,
+      "finalRootExitCode": 0,
+      "cleanupObservationSeconds": 8.799999704933725e-06,
+      "elapsedSeconds": 2.000293399999464
+    },
+    "childObservedLiveAfterRootExit": true,
+    "independentHandlesSignaled": true
+  },
+  {
+    "case": "watchdog-crash",
+    "identities": [
+      {
+        "pid": 19156,
+        "creationTime": 134366600609988344,
+        "nonce": "05b45cec9c8d4634ab54d321c81dfcd2"
+      },
+      {
+        "pid": 16104,
+        "creationTime": 134366600610456405,
+        "nonce": "05b45cec9c8d4634ab54d321c81dfcd2"
+      }
+    ],
+    "sentinelIdentity": {
+      "pid": 15960,
+      "creationTime": 134366600608789989,
+      "nonce": "05b45cec9c8d4634ab54d321c81dfcd2"
+    },
+    "independentHandlesSignaled": true,
+    "unrelatedSentinelStillLive": true,
+    "normalCompletionReportAbsent": true
+  }
+]

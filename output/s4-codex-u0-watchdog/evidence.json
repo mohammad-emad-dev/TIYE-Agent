@@ -1,0 +1,28 @@
+{
+  "projectDate": "2026-10-17",
+  "host": "Windows-11-10.0.26300-SP0",
+  "python": "3.14.7",
+  "sourceSha256": {
+    "feasibility/s6-wsl/codex-u0-watchdog/.gitignore": "9967fbf6a68b4488fb0a6eb19a6c36b1d408a47312b8825b6d38062e10d5c07a",
+    "feasibility/s6-wsl/codex-u0-watchdog/peer.py": "f8a0569d8429b6aebbe8627e18e02a183a59b5e51efd09ff13776dd92118a92f",
+    "feasibility/s6-wsl/codex-u0-watchdog/run.py": "2abb8160576663b4e4dd7295d594efd64d25c77349e62787b22df4fec3f601d5",
+    "feasibility/s6-wsl/codex-u0-watchdog/test_watchdog.py": "5eefd838d6119b7a54a72be41a44a2600003ce1e55cdad13880e1c788adaa624",
+    "feasibility/s6-wsl/codex-u0-watchdog/watchdog.py": "19f3ebada953a1c2b31a725863c42a05376b9b47216edf1f09f0110a30d07de4",
+    "feasibility/s6-wsl/codex-u0-watchdog/winjob.py": "f8464c2be3827c987c434c2afdcaaa3371c8b3f3bb3cf0eba1ed635e0d8d5f25"
+  },
+  "artifactSha256": {
+    "input.json": "00669f437f032a8622c1d291e008fcd89c3855c4c61f16b54c3201c70d3abd29",
+    "tests.log": "6a5c6ae40b50a0fe14da9fb5be67fb67355796700803a7d524b1ad2e980f1a9d",
+    "observations.json": "2bc5881d7f8c9a6133905dfddac40d1523e512959cf487e25ad932511e6d6f7c",
+    "README.md": "623e90a24e690fd0a3f4ebd3ba284052d992382c5943d2c88ed2599782aee816",
+    "review.json": "6101e15609a4cf81a7ff2c721e5ae1436a59de36feab737666278a22acf0dab0"
+  },
+  "testCount": 6,
+  "testsSuccessful": false,
+  "elapsedSeconds": 4.844355799999903,
+  "sourcesUnchanged": true,
+  "nativeCodexRuns": 0,
+  "wslRuns": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD"
+}

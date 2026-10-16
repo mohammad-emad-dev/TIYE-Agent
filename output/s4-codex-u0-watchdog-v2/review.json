@@ -1,0 +1,64 @@
+{
+  "projectDate": "2026-10-17",
+  "reviews": [
+    {
+      "model": "gpt-6-luna",
+      "requestedEffort": "max",
+      "status": "completed",
+      "scope": "Initial wrapper source returned in final reply; no tool use or self-reported test execution",
+      "observedAgentToolEvents": [],
+      "touchedFilesReport": [
+        "?? feasibility/s6-wsl/codex-u0-watchdog/"
+      ],
+      "artifactSha256": {
+        "brief.txt": "0fff0d6a3798014a7b85d32c4fce820a101183c6a22a98b7932c684510dd5898",
+        "events.jsonl": "5ba6a2fbe1cf378c8db88412d9ffa6155acad7cc534cfa2c149dd406fc47748d",
+        "final.txt": "ad42d8b14ae1b9e9c3a81a6c29993a6f2a582e5863f642fc0ab24591b68d749f",
+        "stderr.txt": "844d42ed87b449ed09e310fcc8a5e0ed48483282dbb1652de3640e50075149ab",
+        "result.json": "e42f8a50d1e2f32fd32d281c376a0ad76d3e8a9661b0c1965d64302c47eb7c9b"
+      }
+    },
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "requestedEffort": "xhigh",
+      "status": "completed",
+      "scope": "Supplied earlier code snapshot only; no independent workspace verification",
+      "observedAgentToolEvents": [],
+      "touchedFilesReport": [
+        "?? feasibility/s6-wsl/codex-u0-watchdog/"
+      ],
+      "artifactSha256": {
+        "brief.txt": "fdb1b3d9342e92922deab5362856fc58042d8be45ff00a3bfe3c44d5df423f37",
+        "events.jsonl": "f1cdf43cde62a52c79fe8955eeafe4a97f40223de15a6b997cdb6acd114aca20",
+        "final.txt": "684039042cf5b0e62a8e40dcd54a6593af86e705820a5c34f8f8f94f36e0c9f8",
+        "stderr.txt": null,
+        "result.json": "91415c7ea18d863a525c9e970fc9bc73e43be4cd510f403e3c7f7f389de4d77b"
+      }
+    }
+  ],
+  "codexReturnedSourceSha256": "418b22041ccfcd572e4a4866b200d92c44a34cc5635596d0868d8f918dbdef20",
+  "finalRevisionReviewedBy": "Parent",
+  "parentDispositions": [
+    "Parent: replaced post-creation assignment with STARTUPINFOEX job-list assignment, checked against Microsoft documentation and SDK macros.",
+    "Muse1: close now requests bounded cleanup before dropping active job/process handles; unresolved cleanup raises with the retained owner.",
+    "Muse2: failed constructor cleanup retains process/thread handles on an unverified wait and attaches owner to the raised exception.",
+    "Muse3: split public construction/resume so ownership can be recorded before code runs; added real owner-crash-before-resume observation. No forced crash inside CreateProcessW is claimed.",
+    "Muse4: membership snapshot field renamed, stop decision/lateness, termination return, cleanup observation and total time recorded separately.",
+    "Muse5: deadline cases now enforce <0.5s local decision lateness separately from cleanup. Counts remain >=N because exact membership count is not the independent death witness.",
+    "Parent: supervisor preserves exit7 and returns124 on deadline; added nonzero-exit regression.",
+    "Parent: fixed isolated-interpreter module loading using the explicit source directory. Initial four-case development run failed before target launch; later runs and final capture are separate.",
+    "Parent Test Guard: six distinct real Windows lifecycle behaviors, no internal mocks, held handles checked by creation identity and separate unrelated sentinel control.",
+    "Final v1 capture exposed job-accounting zero before root-handle signal; preserved v1 unchanged. v2 waits the held root handle within cleanup budget, reports it separately and avoids a premature duplicate TerminateProcess. Parent reviewed v2."
+  ],
+  "diagnostics": [
+    "Codex relay emitted configured MCP authentication-startup errors; no auth/config changes were made.",
+    "Relay emitted Node shell-argument deprecation warnings; fixed task arguments were used. No network-silence inference from zero agent tool events."
+  ],
+  "gemini": "Not dispatched: recorded consumer route excluded",
+  "fallback": "DeepSeek not needed: both requested delegates completed",
+  "wslRuns": 0,
+  "nativeCodexRuns": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD",
+  "failedBaselineEvidenceSha256": "554d537a2d2679d44880242c620d3ac20f093d23c3529a966b48d75a0040ef6e"
+}

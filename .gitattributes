@@ -96,4 +96,8 @@ output/s4-codex-transport-assessment/** -text
 output/s4-codex-native-protocol/** -text
 output/s4-codex-u0-launcher/** -text
 output/s4-codex-u0-launcher/*.bin -whitespace
+output/s4-codex-u0-watchdog/** -text
+output/s4-codex-u0-watchdog/*.log -whitespace
+output/s4-codex-u0-watchdog-v2/** -text
+output/s4-codex-u0-watchdog-v2/*.log -whitespace
 feasibility/s6-wsl/** -text
