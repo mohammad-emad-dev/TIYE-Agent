@@ -83,4 +83,5 @@ output/s6-assessment/** -text
 output/s6-recovery/** -text
 output/s6-recovery/*.log -whitespace
 output/s4-codex-candidate/** -text
+output/s4-codex-schema/** -text
 feasibility/s6-wsl/** -text

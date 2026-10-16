@@ -1,0 +1,19 @@
+{
+  "schema": "tiye-codex-schema-protocol-v1",
+  "distribution": "Ubuntu",
+  "cliVersion": "0.157.1",
+  "binaryIdentitySource": "output/s4-codex-candidate/installation.json",
+  "commands": [["--version"], ["app-server", "generate-json-schema", "--help"], ["app-server", "generate-json-schema", "--out", "<fresh-owned-schema-directory>"]],
+  "experimentalOptIn": false,
+  "attempts": 1,
+  "retries": 0,
+  "childDeadlineSeconds": 12,
+  "linuxStageDeadlineSeconds": 45,
+  "maxSchemaFiles": 2000,
+  "maxSchemaBytes": 30000000,
+  "environment": "Explicit fixed PATH/locale, fresh HOME/CODEX_HOME/TMPDIR; no inherited auth variables or profiles",
+  "scope": "Generate version-specific JSON schema only; no app-server listener, handshake, auth, account read, thread, turn or model request",
+  "retention": "Keep complete generated JSON schemas in a ZIP evidence artifact, exact command streams in native stdout, per-file hashes and retained Linux root",
+  "qualification": "Declared wire shapes only, not native behavior or permissions; S4/S6 partial and Phase1 HOLD",
+  "documentation": "https://learn.chatgpt.com/docs/app-server"
+}

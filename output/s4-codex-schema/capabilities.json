@@ -1,0 +1,281 @@
+{
+  "schema": "tiye-codex-declared-capabilities-v1",
+  "cliVersion": "0.157.1",
+  "evidenceLevel": "generated-schema-only",
+  "schemaFileCount": 314,
+  "archiveSha256": "e428d95d952017d9880841e83b75d592463180ba6cb94d86b5da826b913ef406",
+  "declaredMethods": {
+    "ClientRequest": {
+      "initialize": {
+        "requiredEnvelopeFields": [
+          "id",
+          "method",
+          "params"
+        ],
+        "paramsRef": "#/definitions/InitializeParams"
+      },
+      "thread/start": {
+        "requiredEnvelopeFields": [
+          "id",
+          "method",
+          "params"
+        ],
+        "paramsRef": "#/definitions/ThreadStartParams"
+      },
+      "thread/resume": {
+        "requiredEnvelopeFields": [
+          "id",
+          "method",
+          "params"
+        ],
+        "paramsRef": "#/definitions/ThreadResumeParams"
+      },
+      "turn/start": {
+        "requiredEnvelopeFields": [
+          "id",
+          "method",
+          "params"
+        ],
+        "paramsRef": "#/definitions/TurnStartParams"
+      },
+      "turn/interrupt": {
+        "requiredEnvelopeFields": [
+          "id",
+          "method",
+          "params"
+        ],
+        "paramsRef": "#/definitions/TurnInterruptParams"
+      },
+      "account/login/start": {
+        "requiredEnvelopeFields": [
+          "id",
+          "method",
+          "params"
+        ],
+        "paramsRef": "#/definitions/LoginAccountParams"
+      },
+      "model/list": {
+        "requiredEnvelopeFields": [
+          "id",
+          "method",
+          "params"
+        ],
+        "paramsRef": "#/definitions/ModelListParams"
+      }
+    },
+    "ClientNotification": {
+      "initialized": {
+        "requiredEnvelopeFields": [
+          "method"
+        ],
+        "paramsRef": null
+      }
+    },
+    "ServerRequest": {
+      "item/commandExecution/requestApproval": {
+        "requiredEnvelopeFields": [
+          "id",
+          "method",
+          "params"
+        ],
+        "paramsRef": "#/definitions/CommandExecutionRequestApprovalParams"
+      },
+      "item/fileChange/requestApproval": {
+        "requiredEnvelopeFields": [
+          "id",
+          "method",
+          "params"
+        ],
+        "paramsRef": "#/definitions/FileChangeRequestApprovalParams"
+      }
+    },
+    "ServerNotification": {
+      "turn/completed": {
+        "requiredEnvelopeFields": [
+          "method",
+          "params"
+        ],
+        "paramsRef": "#/definitions/TurnCompletedNotification"
+      },
+      "item/agentMessage/delta": {
+        "requiredEnvelopeFields": [
+          "method",
+          "params"
+        ],
+        "paramsRef": "#/definitions/AgentMessageDeltaNotification"
+      },
+      "serverRequest/resolved": {
+        "requiredEnvelopeFields": [
+          "method",
+          "params"
+        ],
+        "paramsRef": "#/definitions/ServerRequestResolvedNotification"
+      }
+    }
+  },
+  "parameterShapes": {
+    "v1/InitializeParams.json": {
+      "required": [
+        "clientInfo"
+      ],
+      "properties": [
+        "capabilities",
+        "clientInfo"
+      ]
+    },
+    "v2/ThreadStartParams.json": {
+      "required": [],
+      "properties": [
+        "approvalPolicy",
+        "approvalsReviewer",
+        "baseInstructions",
+        "config",
+        "cwd",
+        "developerInstructions",
+        "ephemeral",
+        "model",
+        "modelProvider",
+        "personality",
+        "sandbox",
+        "serviceName",
+        "serviceTier",
+        "sessionStartSource",
+        "threadSource"
+      ]
+    },
+    "v2/TurnStartParams.json": {
+      "required": [
+        "input",
+        "threadId"
+      ],
+      "properties": [
+        "approvalPolicy",
+        "approvalsReviewer",
+        "clientUserMessageId",
+        "cwd",
+        "disabledPluginIds",
+        "effort",
+        "input",
+        "model",
+        "outputSchema",
+        "personality",
+        "sandboxPolicy",
+        "serviceTier",
+        "serviceTierForTurn",
+        "summary",
+        "threadId",
+        "toolOutput",
+        "turnTrigger"
+      ]
+    },
+    "v2/TurnInterruptParams.json": {
+      "required": [
+        "threadId",
+        "turnId"
+      ],
+      "properties": [
+        "threadId",
+        "turnId"
+      ]
+    },
+    "v2/TurnCompletedNotification.json": {
+      "required": [
+        "threadId",
+        "turn"
+      ],
+      "properties": [
+        "threadId",
+        "turn"
+      ]
+    },
+    "CommandExecutionRequestApprovalParams.json": {
+      "required": [
+        "itemId",
+        "startedAtMs",
+        "threadId",
+        "turnId"
+      ],
+      "properties": [
+        "approvalId",
+        "command",
+        "commandActions",
+        "cwd",
+        "environmentId",
+        "itemId",
+        "kind",
+        "networkApprovalContext",
+        "proposedExecpolicyAmendment",
+        "proposedNetworkPolicyAmendments",
+        "reason",
+        "startedAtMs",
+        "threadId",
+        "turnId"
+      ]
+    },
+    "FileChangeRequestApprovalParams.json": {
+      "required": [
+        "itemId",
+        "startedAtMs",
+        "threadId",
+        "turnId"
+      ],
+      "properties": [
+        "grantRoot",
+        "itemId",
+        "reason",
+        "startedAtMs",
+        "threadId",
+        "turnId"
+      ]
+    }
+  },
+  "turnCompletion": {
+    "required": [
+      "threadId",
+      "turn"
+    ],
+    "turnRequired": [
+      "id",
+      "items",
+      "status"
+    ],
+    "statusEnum": [
+      "completed",
+      "interrupted",
+      "failed",
+      "inProgress"
+    ],
+    "proposedCompletionRule": "Match owned threadId and turn.id; status completed is protocol completion only; task success needs application outcome evidence",
+    "runtimeTested": false
+  },
+  "commandApprovalDecisionVariants": [
+    "accept",
+    "acceptForSession",
+    "acceptWithExecpolicyAmendment",
+    "applyNetworkPolicyAmendment",
+    "decline",
+    "cancel"
+  ],
+  "fileGrantRootDescription": "[UNSTABLE] When set, the agent is asking the user to allow writes under this root for the remainder of the session (unclear if this is honored today).",
+  "reasoningEffort": {
+    "description": "A non-empty reasoning effort value advertised by the model.",
+    "minLength": 1,
+    "type": "string"
+  },
+  "externalTokenLogin": {
+    "variant": "chatgptAuthTokens",
+    "description": "[UNSTABLE] FOR OPENAI INTERNAL USE ONLY - DO NOT USE. The access token must contain the same scopes that Codex-managed ChatGPT auth tokens have.",
+    "useInTIYEApproved": false,
+    "scope": "This exact login variant in this version only"
+  },
+  "notEstablished": [
+    "Authentication or model entitlement",
+    "Runtime ordering or cancellation behavior",
+    "Approval enforcement or containment",
+    "Commercial integration eligibility",
+    "Terminal adapter replacement or production transport choice"
+  ],
+  "fullS4Qualified": false,
+  "fullS6Qualified": false,
+  "phase1Construction": "HOLD"
+}

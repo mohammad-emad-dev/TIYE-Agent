@@ -45,6 +45,11 @@ eligible Linux-native CLI route under S4 before provider-backed S6 work. The
 Linux Codex 0.157.1 installation and successful version/help checks. Account
 declaration is complete; commercial integration scope and native authentication
 remain unqualified. The prepared provider clarification draft has not been sent.
+The [subsequent schema capture](output/s4-codex-schema/README.md) records 314
+version-specific JSON declarations for lifecycle and approval surfaces. These
+are not runtime capability or access qualification; the captured external-token
+login variant carries an internal-use-only warning. Next is offline protocol
+replay for completion correlation and distinct approval scopes.
 Full [S6](output/s6-assessment/README.md),
 S4 route qualification, unresolved
 S5 limits and the remaining S1–S3 requirements stay visible in the readiness ledger.

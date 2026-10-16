@@ -1,0 +1,80 @@
+{
+  "schema": "tiye-codex-schema-review-v1",
+  "reviewedOn": "2026-10-16",
+  "baselineCommit": "a2eafc9771dcb8d72c54c3b22d0b8bdb99161e1b",
+  "delegates": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "toolEventCount": 0,
+      "contextOnly": true,
+      "independentWorkspaceVerification": false,
+      "artifactDirectory": "D:\\TIYE Agent\\.git\\s4-schema-review-codex",
+      "artifactSha256": {
+        "brief.txt": "5703f61f77ee06272e4d85aeccf469229d7c7c176c3f2240f167181c2cd33208",
+        "events.jsonl": "5b527047ebd71bd76f6bd6e5a5ad8f2fb2d82425e0ebc94e54a1dbc41c488311",
+        "final.txt": "d092e26c61c9b0d1ac784ff53ca3b61df588109fb826c0cce27a4e6f509fbf44",
+        "stderr.txt": "80bc763a34b90569d9ecc75e12ccdcb62e988951497d0d3221d121ad7f025ab1",
+        "result.json": "56306ac2c5bfa3d9e84ed4638e0517fb54dc264093dbf91ccdeab0e30d24cdbb"
+      },
+      "findings": "No material findings. The interpretation consistently limits claims to what the generated schemas show, separates protocol completion from task success, and leaves runtime enforcement, authentication, commercial access, and production support unresolved."
+    },
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "effortOrVariant": "xhigh",
+      "status": "completed",
+      "toolEventCount": 0,
+      "contextOnly": true,
+      "independentWorkspaceVerification": false,
+      "artifactDirectory": "D:\\TIYE Agent\\.git\\s4-schema-review-muse",
+      "artifactSha256": {
+        "brief.txt": "5703f61f77ee06272e4d85aeccf469229d7c7c176c3f2240f167181c2cd33208",
+        "events.jsonl": "266f983522c655d12015d3d112126232b45cd4ea4a2a019615b2c4afbdcb354f",
+        "final.txt": "bf84a4847482cd3ba6460f36c043b19f984262db529a5b955e966cf26a009d1d",
+        "stderr.txt": null,
+        "result.json": "89ba29ac688af342cf61e27746ff98c8cbda8566f055c2ff3187b346168fd073"
+      },
+      "findings": "Reviewed corrected interpretation as supplied, no tool use.\n\n1. Provenance separation correctly scoped: distinct explicit directories retain independent provenance going forward; does not retroactively de-interleave prior shared timestamp-directory streams.\n\n2. Stability and completion correctly non-inferred: unstable fields present without experimental opt-in means no runtime stability; `completed` is protocol completion only, task success still requires correlated `threadId`/`turn.id` result plus application outcome. `interrupted/failed/inProgress` correctly excluded.\n\n3. Auth/production correctly bounded: `chatgptAuthTokens` login variant internal-use-only, no TIYE use approved; separate SIWC/Responses-provider routes not prohibited. Commercial access unresolved, S4/S6 partial, Phase1 HOLD maintained. Offline replay covers client handling only, no production adapter/transport change implied."
+    }
+  ],
+  "fallbacksDispatched": [],
+  "agyDispatched": false,
+  "agyReason": "Existing consumer-route exclusion retained",
+  "earlierRelayCollision": {
+    "directory": "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\delegate-relay\\TIYE Agent-2026-10-16T15-57-14-797Z",
+    "artifactSha256": {
+      "brief.txt": "4c21b152cf0733afee4379b3b4dc2b44f25d3370ee464c577ae878c62bb664bf",
+      "events.jsonl": "e34a902d629ae4f1a37655e87e34297e5b33e2deac946fc8971657bde93210a5",
+      "final.txt": "43968403977cf6f846c91ab0a6e3af0ec6f0e36148dc605415510ee567ee56ce",
+      "stderr.txt": "8a7d3bd7811a9a3fefea302428085b77befb80a1e8a9ecf210fd7ef7de22d043",
+      "result.json": "79e8ee9d693ad09b1ba08aeba79df1a873bd61e04d4f623b7555e701c4f63393"
+    },
+    "observed": "Both relays chose the same millisecond-based directory; events interleaved and final artifacts shared",
+    "independentProvenanceAccepted": false,
+    "resolution": "Repeated supplied-context reviews with explicit distinct artifact directories"
+  },
+  "reviewDisposition": [
+    "Changed proposed completion rule: protocol completed is not task success; inspect application outcome",
+    "Kept acceptForSession distinct from persistent amendments; no cross-session persistence claim",
+    "No runtime activation, enforcement, ordering, entitlement or production support inferred from schemas",
+    "Binary was hashed freshly before/after native run; counts/exits alone are not integrity proof",
+    "Offline replay cannot establish server enforcement; runtime qualification remains separate"
+  ],
+  "parentVerification": {
+    "checkerExitCode": 0,
+    "sourceSyntaxPassed": true,
+    "priorTrackedEvidenceUnmodified": true,
+    "docsGuardApplied": true
+  },
+  "derivedCheckerSha256": "640e88054e3fac2c7181e731356bb9c8aab2a9be4924886cf9c56fd29db462cf",
+  "derivedCheckerAddedAfterNativeCapture": true,
+  "artifactSha256": {
+    "capabilities.json": "3b6ac3be131c7a270b32c9946d556c87480a7840bc73dfae44df9309c51d9661",
+    "evidence.json": "aa1fe705712e9cfb0a7c845f07a1744ce2b9f3d2d1c83c9f036ae1a4e92fc700",
+    "README.md": "ae4bbeb295c1e4b70c84dc5c927efac9853913f9d09cce63fb2f6475a9322748",
+    "schemas.zip": "e428d95d952017d9880841e83b75d592463180ba6cb94d86b5da826b913ef406",
+    "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout.bin": "11a72eb977f0c31eb50a56fa395f4da0a010dbefa2a07581b897cfc3d8c0d277"
+  }
+}
