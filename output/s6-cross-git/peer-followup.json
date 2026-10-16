@@ -1,0 +1,223 @@
+{
+  "schema": "tiye-s6-cross-peer-followup-v1",
+  "state": "remaining-peer-read-recorded",
+  "originalEvidenceSha256": "7c6931b02c29528224ae463659ca804caf7da9282bcc61a9e27ed2cf3b37a14a",
+  "sourceHashes": {
+    "feasibility/s6-wsl/cross-git/finish-peer-read.py": "aec1c06ecd370b69c9e12d080ee18896565c278980ead82b848dd397d58a2f54",
+    "feasibility/s6-wsl/cross-git/protocol.json": "641009ed528d4bf87c164978781f27e346f1688c3ab80093a9dc532a2fbf64c8"
+  },
+  "queries": [
+    {
+      "label": "linux-owner-metadata",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--exec",
+        "/usr/bin/env",
+        "-i",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LC_ALL=C.UTF-8",
+        "GIT_CONFIG_NOSYSTEM=1",
+        "GIT_CONFIG_GLOBAL=/dev/null",
+        "GIT_OPTIONAL_LOCKS=0",
+        "/bin/sh",
+        "-s",
+        "--",
+        "/tmp/tiye-s6-crossgit-xLmxpjS5",
+        "24bbfb802c3e4b789624f3d61614e508",
+        "/tmp/tiye-s6-crossgit-xLmxpjS5/worktree space \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c"
+      ],
+      "foreignRead": false,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 112.35310000483878,
+      "stdout": {
+        "artifact": "linux-owner-metadata.stdout.bin",
+        "bytes": 296,
+        "sha256": "154a077a6ec20d6564bf08aea1f88edbc810b3535af450a3da60da56b53b5fa7"
+      },
+      "stderr": {
+        "artifact": "linux-owner-metadata.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "linux-worktree-to-windows",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--exec",
+        "/usr/bin/env",
+        "-i",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LC_ALL=C.UTF-8",
+        "GIT_CONFIG_NOSYSTEM=1",
+        "GIT_CONFIG_GLOBAL=/dev/null",
+        "GIT_OPTIONAL_LOCKS=0",
+        "wslpath",
+        "-w",
+        "/tmp/tiye-s6-crossgit-xLmxpjS5/worktree space \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c"
+      ],
+      "foreignRead": false,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 105.92539998469874,
+      "stdout": {
+        "artifact": "linux-worktree-to-windows.stdout.bin",
+        "bytes": 86,
+        "sha256": "acd83ebd7fc8df71e99f9d455e8d8b1c84890ab9bc80cab821b2642e6253b427"
+      },
+      "stderr": {
+        "artifact": "linux-worktree-to-windows.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "linux-snapshot-before",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--exec",
+        "/usr/bin/env",
+        "-i",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LC_ALL=C.UTF-8",
+        "GIT_CONFIG_NOSYSTEM=1",
+        "GIT_CONFIG_GLOBAL=/dev/null",
+        "GIT_OPTIONAL_LOCKS=0",
+        "/bin/sh",
+        "-s",
+        "--",
+        "/tmp/tiye-s6-crossgit-xLmxpjS5"
+      ],
+      "foreignRead": false,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 109.18080000556074,
+      "stdout": {
+        "artifact": "linux-snapshot-before.stdout.bin",
+        "bytes": 3638,
+        "sha256": "47ccc833d8be00a163ac549603fec62b8f26a19911520fa0c011c9799cc98d82"
+      },
+      "stderr": {
+        "artifact": "linux-snapshot-before.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "windows-reads-linux",
+      "command": [
+        "C:\\Program Files\\Git\\cmd\\git.exe",
+        "-c",
+        "core.hooksPath=C:\\Users\\Mohammad\\AppData\\Local\\Temp\\tiye-s6-crossgit-hr3rcceu\\empty-hooks",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "commit.gpgsign=false",
+        "-C",
+        "\\\\wsl.localhost\\Ubuntu\\tmp\\tiye-s6-crossgit-xLmxpjS5\\worktree space \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c",
+        "rev-parse",
+        "--verify",
+        "HEAD"
+      ],
+      "foreignRead": true,
+      "exitCode": 128,
+      "timedOut": false,
+      "elapsedMs": 61.653200013097376,
+      "stdout": {
+        "artifact": "windows-reads-linux.stdout.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "artifact": "windows-reads-linux.stderr.bin",
+        "bytes": 454,
+        "sha256": "6a1ec524dfd98df72b7a9d9ea38809a64d9afd795f8c3a17a53d0546d35b2bf0"
+      }
+    },
+    {
+      "label": "linux-snapshot-after",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--exec",
+        "/usr/bin/env",
+        "-i",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LC_ALL=C.UTF-8",
+        "GIT_CONFIG_NOSYSTEM=1",
+        "GIT_CONFIG_GLOBAL=/dev/null",
+        "GIT_OPTIONAL_LOCKS=0",
+        "/bin/sh",
+        "-s",
+        "--",
+        "/tmp/tiye-s6-crossgit-xLmxpjS5"
+      ],
+      "foreignRead": false,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 117.44800000451505,
+      "stdout": {
+        "artifact": "linux-snapshot-after.stdout.bin",
+        "bytes": 3638,
+        "sha256": "47ccc833d8be00a163ac549603fec62b8f26a19911520fa0c011c9799cc98d82"
+      },
+      "stderr": {
+        "artifact": "linux-snapshot-after.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "label": "linux-owner-after",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--exec",
+        "/usr/bin/env",
+        "-i",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "LC_ALL=C.UTF-8",
+        "GIT_CONFIG_NOSYSTEM=1",
+        "GIT_CONFIG_GLOBAL=/dev/null",
+        "GIT_OPTIONAL_LOCKS=0",
+        "/usr/bin/git",
+        "-C",
+        "/tmp/tiye-s6-crossgit-xLmxpjS5/worktree space \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c",
+        "rev-parse",
+        "--verify",
+        "HEAD"
+      ],
+      "foreignRead": false,
+      "exitCode": 0,
+      "timedOut": false,
+      "elapsedMs": 117.75740000302903,
+      "stdout": {
+        "artifact": "linux-owner-after.stdout.bin",
+        "bytes": 41,
+        "sha256": "11eeca2f1c0461e7ab710b307b1e9d967bf2ac5bee2c89bcddc5e23452ac9340"
+      },
+      "stderr": {
+        "artifact": "linux-owner-after.stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "fullS6Qualified": false,
+  "productionEligible": false,
+  "fixtureRecreated": false,
+  "metadataRewritten": false,
+  "linuxOwnerMetadata": "gitfile=gitdir: /tmp/tiye-s6-crossgit-xLmxpjS5/repo space \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c/.git/worktrees/worktree-space-\u0645\u0631\u062d\u0628\u0627-\u65e5\u672c\ngitdir=/tmp/tiye-s6-crossgit-xLmxpjS5/repo space \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c/.git/worktrees/worktree-space-\u0645\u0631\u062d\u0628\u0627-\u65e5\u672c\ncommondir=../..\n9f5fb74a8661e4c7bdc90e4c4d389b27091d2349\n",
+  "unc": "\\\\wsl.localhost\\Ubuntu\\tmp\\tiye-s6-crossgit-xLmxpjS5\\worktree space \u0645\u0631\u062d\u0628\u0627 \u65e5\u672c",
+  "linuxSnapshotEqual": true,
+  "sourceHashesUnchangedAfterRun": true
+}

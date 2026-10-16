@@ -1460,7 +1460,13 @@ Git is available, while Node and candidate agent CLIs were not found on the
 tested PATH. The [bounded path/Git fixture](../output/s6-path-git/README.md)
 completed on Ubuntu's filesystem, while Linux Git initialization on the
 Windows-mounted temporary path failed with a `config.lock` permission error.
-Path conversion is not Git interoperability proof; cross-side Git and full S6
+The [native Windows/cross-side cohort](../output/s6-cross-git/README.md) records
+successful owner-side controls and both peer reads refusing access: Linux Git
+does not resolve the Windows pointer, and Windows Git refuses the Linux UNC
+worktree as dubious ownership. Pin one Git execution side per project before
+creating worktrees; automatic cross-side use, pointer rewriting and implicit
+`safe.directory` exceptions are unsupported in the prototype. Path conversion
+is not Git interoperability proof; broader cross-side coverage and full S6
 remain open. The assessment defines
 core entry conditions and a proposed first slice under Section 3.8. It does
 not waive feasibility gates or require a finished UI before building the core.

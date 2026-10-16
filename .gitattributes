@@ -71,4 +71,6 @@ output/phase0-readiness/** -text
 output/s6-prerequisites/** -text
 output/s6-discovery/** -text
 output/s6-path-git/** -text
+output/s6-cross-git/** -text
+output/s6-cross-git/peer-preflight.json -whitespace
 feasibility/s6-wsl/** -text

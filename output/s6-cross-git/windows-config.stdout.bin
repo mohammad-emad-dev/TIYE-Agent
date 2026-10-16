@@ -1,0 +1,15 @@
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=false
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	core.symlinks=false
+file:.git/config	core.ignorecase=true
+command line:	core.hookspath=/dev/null
+command line:	init.templatedir=
+command line:	core.autocrlf=false
+command line:	core.eol=lf
+command line:	commit.gpgsign=false
+command line:	user.name=TIYE-Fixture
+command line:	user.email=fixture@example.invalid
+command line:	core.hookspath=C:\Users\Mohammad\AppData\Local\Temp\tiye-s6-crossgit-hr3rcceu\empty-hooks
+command line:	init.templatedir=C:\Users\Mohammad\AppData\Local\Temp\tiye-s6-crossgit-hr3rcceu\empty-template

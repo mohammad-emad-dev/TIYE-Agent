@@ -1,0 +1,29 @@
+git version 2.53.0
+Initialized empty Git repository in /tmp/tiye-s6-crossgit-xLmxpjS5/repo space مرحبا 日本/.git/
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+command line:	core.hookspath=/dev/null
+command line:	init.templatedir=
+command line:	core.autocrlf=false
+command line:	core.eol=lf
+command line:	commit.gpgsign=false
+command line:	user.name=TIYE-Fixture
+command line:	user.email=fixture@example.invalid
+[main (root-commit) 067edc9] base
+ 1 file changed, 1 insertion(+)
+ create mode 100644 payload.txt
+HEAD is now at 067edc9 base
+[fixture-edit 9f5fb74] edit
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+Updating 067edc9..9f5fb74
+Fast-forward
+ payload.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+repo=/tmp/tiye-s6-crossgit-xLmxpjS5/repo space مرحبا 日本
+worktree=/tmp/tiye-s6-crossgit-xLmxpjS5/worktree space مرحبا 日本
+head=9f5fb74a8661e4c7bdc90e4c4d389b27091d2349
+blobSha256=ca307c5e94731d59471db41cbd06820bfb0c74153bc1d35dafe72be04c0d6923
+gitfile=gitdir: /tmp/tiye-s6-crossgit-xLmxpjS5/repo space مرحبا 日本/.git/worktrees/worktree-space-مرحبا-日本
+commondir=

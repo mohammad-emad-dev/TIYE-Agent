@@ -1,0 +1,14 @@
+{
+  "schema": "tiye-s6-cross-git-protocol-v1",
+  "attemptsPerProbe": 1,
+  "retries": 0,
+  "queryTimeoutSeconds": 30,
+  "totalDeadlineSeconds": 300,
+  "foreignRead": ["rev-parse", "--verify", "HEAD"],
+  "order": ["Windows-owned fixture", "Linux reads Windows worktree", "Linux-owned fixture", "Windows reads Linux worktree"],
+  "content": "TIYE cross Git مرحبا 日本\nsecond line\n",
+  "mutationPolicy": "Foreign reads only; no metadata, safe.directory, mount or ownership repair",
+  "retention": "Keep both owned roots and linked worktrees for inspection",
+  "fullS6Qualified": false,
+  "productionEligible": false
+}
