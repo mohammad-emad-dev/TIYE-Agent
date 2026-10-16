@@ -1,0 +1,131 @@
+{
+  "schema": "tiye-phase0-readiness-review-v1",
+  "reviewedOn": "2026-10-16",
+  "baselineCommit": "c1e53cda210b170ec450b8e8170f6f3d40908a43",
+  "phase1ConstructionDecision": "hold",
+  "productionEligible": false,
+  "newNativePerformanceCaptures": 0,
+  "scope": "Document synthesis plus read-only WSL prerequisite inventory, not fresh S1-S6 qualification",
+  "sourceHashes": {
+    "architecture/TIYE-Agent-Feasibility-Test-Plan.md": "82d118ffcf0d523f1fcfae430d1488662416a7081c219b1248055e9ef32fa764",
+    "feasibility/s1-terminal/RESULTS.md": "f05c7532e4df0128c79eb14d69af687a21c90ea701078484fe3100e99bd79704",
+    "feasibility/s2-control/RESULTS.md": "6acb1d50f51398466cea9c17287d1a6b98b8d28cd3a6a979c775c7c395e393b0",
+    "feasibility/s3-worktrees/ASSESSMENT.md": "8fb297e17f9c69caafd5bc548b127cef9476069be83406b53c8c673addadf6d2",
+    "feasibility/s3-worktrees/evidence/assessment.json": "053728bfffdc0aca24094f5228b57534684e5f8991c2fb1d1112b8cc2ae45a22",
+    "feasibility/s4-provider-access/RESULTS.md": "0880f5252788c94b55dcf00a631060bcca38eb8bf5de504ca3194d9555278470",
+    "feasibility/s4-provider-access/readiness/README.md": "79a64b829506c9b9ef452cb32383a5fde37a627d0822ca913b6bce74a6e41a2f",
+    "feasibility/s4-provider-access/antigravity-consumer/route.json": "ca417022de82a8e5877a429c5777d335b886aea1968024ecb4bc1e44c048e1fe",
+    "feasibility/s5-performance/ui/input-backend-pair/README.md": "542458758d897a2711521c7b3b71a850bd67aa7fca6e13b79d709677dbbda65c",
+    "output/s5-input-backend-pair/comparison.json": "ace82c4a617ca137d581e61de8dbd00d1e88c3b33f9ed53264923f26847a8849"
+  },
+  "sourceComparisonToBaseline": {
+    "architecture/TIYE-Agent-Feasibility-Test-Plan.md": "exact-bytes",
+    "feasibility/s1-terminal/RESULTS.md": "exact-bytes",
+    "feasibility/s2-control/RESULTS.md": "equivalent-after-checkout-line-ending-normalization",
+    "feasibility/s3-worktrees/ASSESSMENT.md": "exact-bytes",
+    "feasibility/s3-worktrees/evidence/assessment.json": "exact-bytes",
+    "feasibility/s4-provider-access/RESULTS.md": "exact-bytes",
+    "feasibility/s4-provider-access/readiness/README.md": "exact-bytes",
+    "feasibility/s4-provider-access/antigravity-consumer/route.json": "exact-bytes",
+    "feasibility/s5-performance/ui/input-backend-pair/README.md": "exact-bytes",
+    "output/s5-input-backend-pair/comparison.json": "exact-bytes"
+  },
+  "delegates": [
+    {
+      "model": "opencode/muse-spark-1.3-contributor-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "startedAt": "2026-10-16T10:50:07.634Z",
+      "finishedAt": "2026-10-16T10:50:17.883Z",
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "d546235e024a35c41cdac933ef6c90a11cd2b15365236ae7003d348cbec9ba82",
+        "events.jsonl": "0ff868eeb5b5bac318bc5d147345672388a12ec486b488d194a9dd86cf6bdd92",
+        "final.txt": "46d8d3f4a88abbcaa3487ac5e599973f2555ee8a26f430dea699d3555f9136a6",
+        "stderr.txt": null,
+        "result.json": "d1b0e81b999bc890c0b32f99fef6a3c6e93421fed08c469bb1094c9ed8d51746"
+      }
+    },
+    {
+      "model": "opencode/space-bunny-free",
+      "requestedVariant": "xhigh",
+      "status": "completed",
+      "exitCode": 0,
+      "startedAt": "2026-10-16T10:50:07.631Z",
+      "finishedAt": "2026-10-16T10:50:16.000Z",
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "d546235e024a35c41cdac933ef6c90a11cd2b15365236ae7003d348cbec9ba82",
+        "events.jsonl": "844c0e2492a06ec02d6cc8040f9205343e5c596db19b56dc02aaa0f3831bbfc2",
+        "final.txt": "3806a53202986a0129a777f8c758c8e88be311fa2c97a23f03e971255273e623",
+        "stderr.txt": null,
+        "result.json": "41d91c9a9c379a56d60e01959873b2bc402554f0b7dbe4c1a0b17691af07576c"
+      }
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "requestedVariant": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "startedAt": "2026-10-16T10:50:07.654Z",
+      "finishedAt": "2026-10-16T10:50:22.427Z",
+      "observedToolEventCount": 0,
+      "reportedTouchedFiles": [],
+      "independentWorkspaceVerification": false,
+      "artifactHashes": {
+        "brief.txt": "d546235e024a35c41cdac933ef6c90a11cd2b15365236ae7003d348cbec9ba82",
+        "events.jsonl": "9d56a4f1a4b4e7d68822373a67f00aa53d080c00b2333cbb07835adb5411f685",
+        "final.txt": "9f537e93b26d962e88c61d4a3650d7fa92bc32883cad509d9b0d24c61d55e235",
+        "stderr.txt": null,
+        "result.json": "053f8b1505e33ef5529a963ca0f95a2e9165c0234fa61c46b5e1cfc493fa08d9"
+      }
+    }
+  ],
+  "notDispatched": [
+    {
+      "requested": "GPT-6.1 Luna max",
+      "reason": "Exact model previously unsupported on this account; not retried"
+    },
+    {
+      "requested": "Gemini 3.8 Flash High through agy",
+      "reason": "Recorded consumer-wrapper exclusion remains in force"
+    }
+  ],
+  "parentVerification": [
+    {
+      "command": "rtk proxy npm run assess:check",
+      "cwd": "feasibility/s3-worktrees",
+      "exitCode": 0,
+      "result": "VERIFIED_BOUNDED_EVIDENCE_S3_PARTIAL"
+    },
+    {
+      "command": "rtk proxy npm run check",
+      "cwd": "feasibility/s4-provider-access",
+      "exitCode": 0,
+      "testsPassed": 5
+    },
+    {
+      "command": "rtk proxy node feasibility/s5-performance/ui/input-backend-pair/check-pair.js",
+      "cwd": ".",
+      "exitCode": 0,
+      "result": "Stored pair evidence and comparison verified; no capture launched"
+    }
+  ],
+  "operatorFollowUp": "Operator said Docker is now running; no development distribution selected and no installation authorization inferred",
+  "reviewedFileHashes": {
+    "README.md": "d37f99788abd5d320f2913c88a5c2f7983bb55150dc8e582c50b6da2ff1eca28",
+    "architecture/TIYE-Agent-Architecture.md": "7530dd919be08d8efefe2b8f1f849cfa253bac9d1fa298ba0d59dd40114f8df7",
+    "output/phase0-readiness/ASSESSMENT.md": "9bb6d1f5e9f1a64fc4a6324f05f4fc531473a3b8795827a14f413e5fb8fd0a2e",
+    "output/phase0-readiness/wsl-prerequisites.json": "c4d2a3cd1a03c98f8c73d427353a49d048b3aacb92fcc6dd134d5746d148fb6f"
+  },
+  "limitations": [
+    "Local integrity record, not external attestation",
+    "Historical claims use existing records; S1/S2 native probes were not rerun",
+    "Delegate reviews used supplied context only; raw delegate artifacts remain local"
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "schema": "tiye-phase0-wsl-prerequisites-v1",
+  "scope": "Read-only Windows WSL prerequisite inventory; no distribution launched or inspected",
+  "executableFound": true,
+  "commands": [
+    {
+      "arguments": [
+        "--status"
+      ],
+      "startedAt": "2026-10-16T10:50:51.987697+00:00",
+      "finishedAt": "2026-10-16T10:50:52.025789+00:00",
+      "exitCode": 0,
+      "stdoutBytes": 116,
+      "stdoutSha256": "c71b6a2d1d76688ef0869a8882a92dba854413cbee0a97c9036dc2a44634880d",
+      "stderrBytes": 0,
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "arguments": [
+        "--version"
+      ],
+      "startedAt": "2026-10-16T10:50:52.025839+00:00",
+      "finishedAt": "2026-10-16T10:50:52.055864+00:00",
+      "exitCode": 0,
+      "stdoutBytes": 448,
+      "stdoutSha256": "dde36b0aa8b67ba7ced9d3b73c5fc81dd28c3d3e986525282fce373f131978c6",
+      "stderrBytes": 0,
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "arguments": [
+        "--list",
+        "--quiet"
+      ],
+      "startedAt": "2026-10-16T10:50:52.055891+00:00",
+      "finishedAt": "2026-10-16T10:50:52.091552+00:00",
+      "exitCode": 0,
+      "stdoutBytes": 32,
+      "stdoutSha256": "3dd2352afc4226bd8928f812c7113765fd00397dc243aa66e1f5a5d78e58eaf7",
+      "stderrBytes": 0,
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "inventoryCompleted": true,
+  "versionsReportedByWsl": {
+    "wsl": "2.7.14.0",
+    "kernel": "6.18.33.2-2",
+    "windows": "10.0.26300.9550"
+  },
+  "registeredDistributionCount": 1,
+  "onlyRegisteredDistributionIsDockerDesktop": true,
+  "developmentDistributionSelected": false,
+  "nativeCliQualified": false,
+  "fullS6Qualified": false,
+  "productionEligible": false,
+  "decision": "Await a user-designated development distribution; do not use the Docker-managed distribution as a test workspace",
+  "rawOutputRetained": false,
+  "limitations": [
+    "Command hashes record observed output integrity; raw output is not retained for independent replay",
+    "English version labels are parsed only when present; null means unavailable",
+    "No distribution state, Linux binaries, CLI authentication, filesystem, networking, terminal or cleanup behavior tested",
+    "Earlier exploratory invocation of the same three queries preceded this recorded inventory"
+  ]
+}

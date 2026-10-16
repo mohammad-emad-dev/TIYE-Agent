@@ -1451,6 +1451,13 @@ These short tests answer the questions that everything else depends on. Their re
 
 This is the order of **construction**, not release stages. The product ships complete (Spec 1.1).
 
+The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
+consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
+the bounded S5 latency series is complete without full-S5 qualification, and
+S6 awaits a selected development WSL distribution. The assessment defines
+core entry conditions and a proposed first slice under Section 3.8. It does
+not waive feasibility gates or require a finished UI before building the core.
+
 | Phase | Work | Why in this order |
 |---|---|---|
 | 0 | Feasibility tests S1 to S6 | Remove the biggest unknowns first |

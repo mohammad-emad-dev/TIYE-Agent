@@ -1,6 +1,6 @@
 # TIYE Agent
 
-TIYE Agent is currently in architecture validation. The repository contains product and technical documents, an isolated [S1 terminal prototype](feasibility/s1-terminal/README.md), and an [S2 control-channel fixture](feasibility/s2-control/README.md). The [S1 results](feasibility/s1-terminal/RESULTS.md) and [S2 results](feasibility/s2-control/RESULTS.md) record bounded observations: ten unassisted task reports, three instruction wordings, an `ask_leader` call, one controlled nudge recovery, and short-session briefing retention, with independent correctness checks. Both feasibility gates remain open; permissions and approval/error/recovery behavior are the next S2 measurements.
+TIYE Agent is in architecture validation. The repository contains product and technical documents, terminal/control/worktree prototypes, provider-access research and performance experiments. The product core service, event store and team engine are not implemented. The [Phase 0 readiness assessment](output/phase0-readiness/ASSESSMENT.md) consolidates the evidence and remaining requirements as of 16 October 2026; product construction remains on hold.
 
 ## Document order
 
@@ -12,5 +12,11 @@ TIYE Agent is currently in architecture validation. The repository contains prod
 ## Next implementation gate
 
 Run feasibility tests S1 through S6 and record versions, measurements, and pass/partial/fail results in the forms provided by the test plan. S1 must validate main-owned terminals and process cleanup; S2 must establish a reliable delegated-task round trip; S3 must measure worktrees and verify the stated permission limits. Update the architecture from the results before starting the core event store and team engine.
+
+The bounded input-latency diagnostic series is complete; it does not close S5.
+The next execution step is S6 prerequisite discovery after a development WSL
+distribution is selected. The read-only inventory found only Docker Desktop's
+managed distribution. S4 route qualification, unresolved S5 limits and the
+remaining S1–S3 requirements stay visible in the readiness ledger.
 
 The event store implementation must follow Architecture 3.8: persist command and effect intent before external action, reconcile uncertain outcomes after a crash, and avoid automatic duplicate execution.
