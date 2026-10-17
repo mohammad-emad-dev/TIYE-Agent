@@ -150,3 +150,11 @@ pending or the peer has received initialized. All three original process
 instances must be removed before teardown, with independent pidfd/cgroup checks
 and an unrelated live sentinel. Protocol completion remains unobserved after
 worker death. Windows-supervisor integration and native admission remain open.
+
+The [Windows/WSL ownership capture](output/s6-cross-owner/README.md) now connects
+the Job Object supervisor to a Linux service through a receipt-driven heartbeat
+lease. Two mock cases kill the Windows watchdog or owner while Linux protocol
+work is live. Windows handle exit and Linux pidfd/cgroup cleanup are observed
+independently; failed process statuses and uncertain protocol completion remain
+visible. Live protocol forwarding, capture/privacy review and native admission
+remain open.

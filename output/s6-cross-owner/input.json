@@ -1,0 +1,25 @@
+{
+  "sourceSha256": {
+    "feasibility/s6-wsl/cross-owner/bridge.py": "f6b49da6ca124a29765bb83440d3940d780151c73796701de40a28bf9594e7fb",
+    "feasibility/s6-wsl/cross-owner/host.py": "91b40825968cde31ca23399c5c6bf18c7a16e86de8e79749da7418724767a69c",
+    "feasibility/s6-wsl/cross-owner/lease.py": "2e9741e56c49698e3e1e4b10b975cd92137cb86c69b31230322601026203fe2f",
+    "feasibility/s6-wsl/cross-owner/observer.py": "e7fdbd04a40751ce8224c186d9df5edcea969c7d3c346c51282b3c51944509cb",
+    "feasibility/s6-wsl/cross-owner/owned.py": "6d74e34ea7e22aacb4dcd0088d166feaf0f541ed17a298543177b04836653f95",
+    "feasibility/s6-wsl/cross-owner/peer.py": "082ef1bec9ba2cc3af5c5664a1f81fc6d6e6bc3ae629cb9c2c88a81f5c06c699",
+    "feasibility/s6-wsl/cross-owner/protocol_peer.py": "a5884bf55acd4d2427567cadb25a5ab27a175ff5ea373d5ba5bd8ff2dd08c91b",
+    "feasibility/s6-wsl/cross-owner/run.py": "da6488be91c44a07132d0cd1f9414800ebaf0ca2cf4aba2e4af3ef31531ec355",
+    "feasibility/s6-wsl/cross-owner/service.py": "05dab4774eb9c3cf2525976b3ce781291f487d7d0dc2b2cd36d0168a7400c887",
+    "feasibility/s6-wsl/cross-owner/test_cross.py": "f37c7d6f60f49818ef589e7942cc69882aff99b1fc2b057140e92f54cd4929b3",
+    "feasibility/s6-wsl/cross-owner/transport.py": "599a0022531737d2fbf17a09d93215cb8f8dcfd68f4dc16a6c1cb85e1163bbdc",
+    "feasibility/s6-wsl/cross-owner/watchdog.py": "b5aec82280f45f68c5fa567c0fd1e69bb7677a7ca34cbe40dace6cd13199cc46",
+    "feasibility/s6-wsl/cross-owner/windows.py": "0682a8b0ddcbb233c9c6c2144088fd40bc0c502c9ac469314f358fe796abc9b4",
+    "feasibility/s6-wsl/cross-owner/winjob.py": "cba5dd28c2449b0a23447d44a6dc9ff0190414f13392f76296a3c99a80cbc23a"
+  },
+  "distribution": "Ubuntu",
+  "uid": 1000,
+  "cases": [
+    "root-crash",
+    "watchdog-crash"
+  ],
+  "nativeAdmissionGranted": false
+}

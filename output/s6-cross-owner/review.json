@@ -1,0 +1,92 @@
+{
+  "projectDate": "2026-10-17",
+  "reviews": [
+    {
+      "requestedModel": "gpt-6-luna",
+      "requestedEffort": "max",
+      "role": "Initial lease monitor source generation",
+      "relayStatus": "completed",
+      "finalMessagePresent": true,
+      "artifactSha256": {
+        "brief.txt": "f956f4338e6614ff5d5520ba83bfdcabd4cf82a5ba5ac88f1aaaaed7d81a6375",
+        "events.jsonl": "a1fb566c7fcbcdbbb05f72df73a6d7b12d31a86f9a722bff2244473e6eafd58b",
+        "final.txt": "b15c5e44d2760927c8781ff03e58fb7287d344d057cee2c442b36921f8c3bc64",
+        "result.json": "9c1592b88bf031085191507739f183bbb594c80ce3c5533944057fd7efd0b7e4",
+        "stderr.txt": "0bd1c80738d6c50a444295ed3798c323ef847de0a2fe481399a354b1eaf8233d"
+      }
+    },
+    {
+      "requestedModel": "opencode/muse-spark-1.3-contributor-free",
+      "requestedEffort": "xhigh",
+      "role": "Design review attempt",
+      "relayStatus": "failed",
+      "finalMessagePresent": false,
+      "artifactSha256": {
+        "brief.txt": "a47c080958832110fc951d36c4d9717f0bdaa808b28ca7f062aca89ee021fe8e",
+        "events.jsonl": "cc16398397e2dd715f87cfc3bd3296acb18339d79a51409d7987cef194de7f66",
+        "result.json": "c103c39ab705e245a016f987c3326f8b7ac06a9489aaf2798e6129b65d46466e"
+      }
+    },
+    {
+      "requestedModel": "opencode/deepseek-v4.1-flash-free",
+      "requestedEffort": "max",
+      "role": "Design review",
+      "relayStatus": "completed",
+      "finalMessagePresent": true,
+      "artifactSha256": {
+        "brief.txt": "a47c080958832110fc951d36c4d9717f0bdaa808b28ca7f062aca89ee021fe8e",
+        "events.jsonl": "7decaf36fefdd5eb0cc28f25ae0161701940d6f03552b7ab62709ad9c0ab360a",
+        "final.txt": "81963eed8c123449b6cc5e9dd829e16d68c542df081f952e14f455783209d8e6",
+        "result.json": "bd77b1e53ced29f2e64c6ed255026bc05b7d869ba71b71cb9bcc438ed8526961"
+      }
+    },
+    {
+      "requestedModel": "opencode/deepseek-v4.1-flash-free",
+      "requestedEffort": "max",
+      "role": "Supplied-source review of lease/bridge/observer/host/test/validator/Windows identity helper",
+      "relayStatus": "completed",
+      "finalMessagePresent": true,
+      "artifactSha256": {
+        "brief.txt": "318a79ce89aad71eafc7b5039252a923185f1dffaa76223f56442883fd038951",
+        "events.jsonl": "f5f814729c8119b8c8e2d182e1fa1614a8ccedfa0602982a846bafe80395b75f",
+        "final.txt": "ad18a01993a2b04440b485f141c04b4973972916f88564491702a40ea62b09b0",
+        "result.json": "37e77a9995ff6606b15e2678d5b80485b74039283d9596a4270a54f6f6492e34"
+      }
+    }
+  ],
+  "finalCodeReviewedBy": "Parent; DeepSeek supplied-source review preceded final parent fixes",
+  "independentWholeCohortReview": false,
+  "gemini": "Not dispatched: recorded consumer Agy route excluded from integration and delegation",
+  "nativeProviderRunsInFixture": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD",
+  "parentDispositions": [
+    "Codex supplied initial lease module. Parent narrowed temporary cleanup to FileNotFoundError and grouped expiry sample arguments; failure still exits even if reporting fails.",
+    "DeepSeek design stale-heartbeat/suspend/writer concerns retained as limitations: receipt-time lease, controlled single writer/fresh private folder, no distributed lease guarantee or cross-clock comparison.",
+    "Design statement that setsid leaves cgroup is incorrect: sessions and cgroups are separate, and actual membership plus held pidfds are observed. No session sweep or arbitrary process scan added.",
+    "Design nonce/correlation concerns addressed by fresh private root, unit name nonce, held process identity nonce, arm/expiry record matching and same invocation checks.",
+    "Design deadline case changed before execution: actual second case directly terminates held Windows owner77. Both known handles live before intervention. No deadline test claimed.",
+    "Final source review policy gap fixed: expected properties must match both descriptor and independent pre-action query in live observer and saved validator.",
+    "Final review cleanup error gap fixed: Linux service/sentinel/pidfd cleanup each attempted, original exception preserved with notes, otherwise cleanup failures raise. An unavailable descriptor after launch failure still relies on RuntimeMax8 rather than unsafe guessed service control.",
+    "Final review Windows cleanup gap fixed: after normal fixture teardown, any still-live held Windows root/WSL handle gets scoped TerminateProcess and bounded death wait before close. Fallback happens after pass observations; it cannot turn failed handle-exit assertions into a passing test.",
+    "Final review expiry fields treated as correlation/self-consistency only. Independent outcome evidence is Linux pre-held pidfds, proc absence, cgroup empty/removal, live sentinel, Windows held handles and timing before runtime fallback.",
+    "Parent added output-reader join, explicit stream closure, empty diagnostics checks, watchdog-ready/root correlation, observed Linux runtime versions, bridge umask077 and terminal main71/Resultexit-code assertions after supplied review snapshot.",
+    "clean-code-guard: no new dependency or broad machine cleanup; typed held-handle APIs, fixed executable arguments, narrow cleanup errors and preserved primary failures. Historical sources unchanged.",
+    "test-guard: real Windows Job Object, real Ubuntu pipes/services, independent Linux observer and three held pidfds; two distinct owner failure paths; no manufactured protocol completion.",
+    "docs-guard: commands, intervals, stage, timing limits, inherited Windows environment and partial review scope checked against candidate source. Buffered receipt/suspend/adversary/recovery/normalStop unqualified."
+  ],
+  "diagnostics": [
+    "Codex emitted configured MCP auth/startup diagnostics despite ignore-user-config; account configuration unchanged and reply-only is not proof of network silence.",
+    "Muse route failed; both DeepSeek fallback calls returned actual design/source review text.",
+    "Relay touchedFiles included concurrent parent changes; delegates were asked reply-only, parent applied all source."
+  ],
+  "snapshotOrigins": {
+    "winjob.py": "exact codex-u0-watchdog-v2 source snapshot",
+    "watchdog.py": "exact codex-u0-watchdog-v2 source snapshot",
+    "service.py": "exact service-inflight snapshot",
+    "transport.py": "exact service-inflight snapshot",
+    "owned.py": "exact service-inflight snapshot",
+    "protocol_peer.py": "exact service-inflight snapshot"
+  },
+  "reviewLimit": "Final parent fixes and four small additions were not re-reviewed independently; no independent final whole-source approval claimed"
+}
