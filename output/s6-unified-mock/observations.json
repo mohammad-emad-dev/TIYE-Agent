@@ -1,0 +1,1092 @@
+[
+  {
+    "case": "foreign",
+    "linux": {
+      "event": "result",
+      "nonce": "8649559075244ec3a7e630e3ecc5ca59",
+      "mode": "foreign",
+      "profile": {
+        "windowsWatchdogSeconds": 90,
+        "windowsProtocolSeconds": 75,
+        "spawnSeconds": 30,
+        "initializeSeconds": 15,
+        "cleanupPhaseSeconds": 5,
+        "serviceRuntimeSeconds": 60,
+        "serviceStopSeconds": 5,
+        "observationSeconds": 15,
+        "leaseSeconds": 1,
+        "retainedStdoutBytes": 4194304,
+        "retainedStderrBytes": 1048576,
+        "mockOnly": true,
+        "nativeAdmissionGranted": false
+      },
+      "descriptor": {
+        "unit": "tiye-service-8649559075244ec3a7e630e3ecc5ca59.service",
+        "invocationId": "7b12a0c3892048b394ae50412a791bdb",
+        "controlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-8649559075244ec3a7e630e3ecc5ca59.service",
+        "mainPid": 430,
+        "properties": {
+          "Id": "tiye-service-8649559075244ec3a7e630e3ecc5ca59.service",
+          "LoadState": "loaded",
+          "ActiveState": "active",
+          "SubState": "running",
+          "Transient": "yes",
+          "InvocationID": "7b12a0c3892048b394ae50412a791bdb",
+          "ExitType": "main",
+          "Restart": "no",
+          "TimeoutStopUSec": "5s",
+          "RuntimeMaxUSec": "1min",
+          "MainPID": "430",
+          "Result": "success",
+          "ExecMainCode": "0",
+          "ExecMainStatus": "0",
+          "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-8649559075244ec3a7e630e3ecc5ca59.service",
+          "Delegate": "no",
+          "UMask": "0077",
+          "KillMode": "control-group",
+          "SendSIGKILL": "yes"
+        },
+        "beforeQuery": {
+          "returnCode": 0,
+          "stderr": "",
+          "properties": {
+            "Id": "tiye-service-8649559075244ec3a7e630e3ecc5ca59.service",
+            "LoadState": "loaded",
+            "ActiveState": "active",
+            "SubState": "running",
+            "Transient": "yes",
+            "InvocationID": "7b12a0c3892048b394ae50412a791bdb",
+            "ExitType": "main",
+            "Restart": "no",
+            "TimeoutStopUSec": "5s",
+            "RuntimeMaxUSec": "1min",
+            "MainPID": "430",
+            "Result": "success",
+            "ExecMainCode": "0",
+            "ExecMainStatus": "0",
+            "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-8649559075244ec3a7e630e3ecc5ca59.service",
+            "Delegate": "no",
+            "UMask": "0077",
+            "KillMode": "control-group",
+            "SendSIGKILL": "yes"
+          }
+        }
+      },
+      "identities": [
+        {
+          "role": "main",
+          "pid": 430,
+          "startTicks": 408,
+          "uid": 1000,
+          "nonce": "8649559075244ec3a7e630e3ecc5ca59",
+          "ppid": 364,
+          "sid": 430,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-8649559075244ec3a7e630e3ecc5ca59.service",
+          "observedMonotonic": 4.129082704
+        },
+        {
+          "role": "leaf",
+          "pid": 432,
+          "startTicks": 412,
+          "uid": 1000,
+          "nonce": "8649559075244ec3a7e630e3ecc5ca59",
+          "ppid": 430,
+          "sid": 432,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-8649559075244ec3a7e630e3ecc5ca59.service",
+          "observedMonotonic": 4.160448898
+        },
+        {
+          "pid": 433,
+          "startTicks": 412,
+          "uid": 1000,
+          "nonce": "8649559075244ec3a7e630e3ecc5ca59",
+          "sid": 433,
+          "ppid": 430,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-8649559075244ec3a7e630e3ecc5ca59.service",
+          "initializeRequest": {
+            "id": 1,
+            "method": "initialize",
+            "params": {
+              "clientInfo": {
+                "name": "tiye_feasibility",
+                "title": "TIYE feasibility",
+                "version": "0.0.1"
+              },
+              "capabilities": {
+                "experimentalApi": false
+              }
+            }
+          }
+        }
+      ],
+      "observer": {
+        "pid": 320,
+        "uid": 1000,
+        "cgroup": "0::/init.scope"
+      },
+      "sentinel": {
+        "role": "sentinel",
+        "pid": 421,
+        "startTicks": 373,
+        "uid": 1000,
+        "nonce": "8649559075244ec3a7e630e3ecc5ca59",
+        "ppid": 320,
+        "sid": 320,
+        "cgroup": "0::/init.scope",
+        "observedMonotonic": 3.767664998
+      },
+      "receipt": {
+        "nonce": "8649559075244ec3a7e630e3ecc5ca59",
+        "pid": 433,
+        "initializeRequest": {
+          "id": 1,
+          "method": "initialize",
+          "params": {
+            "clientInfo": {
+              "name": "tiye_feasibility",
+              "title": "TIYE feasibility",
+              "version": "0.0.1"
+            },
+            "capabilities": {
+              "experimentalApi": false
+            }
+          }
+        },
+        "initializedNotification": null,
+        "stdinEof": true
+      },
+      "reaped": {
+        "nonce": "8649559075244ec3a7e630e3ecc5ca59",
+        "pid": 433,
+        "returnCode": 0
+      },
+      "serviceCommand": {
+        "nonce": "8649559075244ec3a7e630e3ecc5ca59",
+        "argv": [
+          "/usr/bin/systemd-run",
+          "--user",
+          "--quiet",
+          "--wait",
+          "--pipe",
+          "--expand-environment=no",
+          "--unit=tiye-service-8649559075244ec3a7e630e3ecc5ca59.service",
+          "--service-type=exec",
+          "--property=ExitType=main",
+          "--property=KillMode=control-group",
+          "--property=TimeoutStopSec=5s",
+          "--property=RuntimeMaxSec=60s",
+          "--property=SendSIGKILL=yes",
+          "--property=Restart=no",
+          "--property=Delegate=no",
+          "--property=UMask=0077",
+          "--property=LimitCORE=0",
+          "--property=WorkingDirectory=/tmp/tiye-unified-mock-2mn_8gif",
+          "--",
+          "/usr/bin/env",
+          "-i",
+          "PATH=/usr/bin:/bin",
+          "LC_ALL=C.UTF-8",
+          "HOME=/tmp/tiye-unified-mock-2mn_8gif/home",
+          "CODEX_HOME=/tmp/tiye-unified-mock-2mn_8gif/codex-home",
+          "TMPDIR=/tmp/tiye-unified-mock-2mn_8gif/tmp",
+          "/usr/bin/python3",
+          "-I",
+          "-S",
+          "-B",
+          "-u",
+          "/tmp/tiye-unified-mock-2mn_8gif/worker.py",
+          "main",
+          "/tmp/tiye-unified-mock-2mn_8gif",
+          "8649559075244ec3a7e630e3ecc5ca59",
+          "foreign"
+        ],
+        "profile": {
+          "windowsWatchdogSeconds": 90,
+          "windowsProtocolSeconds": 75,
+          "spawnSeconds": 30,
+          "initializeSeconds": 15,
+          "cleanupPhaseSeconds": 5,
+          "serviceRuntimeSeconds": 60,
+          "serviceStopSeconds": 5,
+          "observationSeconds": 15,
+          "leaseSeconds": 1,
+          "retainedStdoutBytes": 4194304,
+          "retainedStderrBytes": 1048576,
+          "mockOnly": true,
+          "nativeAdmissionGranted": false
+        },
+        "busEnvironmentKeys": [
+          "DBUS_SESSION_BUS_ADDRESS",
+          "LC_ALL",
+          "PATH",
+          "XDG_RUNTIME_DIR"
+        ]
+      },
+      "afterQuery": {
+        "returnCode": 0,
+        "stderr": "",
+        "properties": {
+          "Id": "tiye-service-8649559075244ec3a7e630e3ecc5ca59.service",
+          "LoadState": "not-found",
+          "ActiveState": "inactive",
+          "SubState": "dead",
+          "Transient": "no",
+          "InvocationID": "",
+          "ExitType": "main",
+          "Restart": "no",
+          "TimeoutStopUSec": "1min 30s",
+          "RuntimeMaxUSec": "infinity",
+          "MainPID": "0",
+          "Result": "success",
+          "ExecMainCode": "0",
+          "ExecMainStatus": "0",
+          "ControlGroup": "",
+          "Delegate": "no",
+          "UMask": "0002",
+          "KillMode": "control-group",
+          "SendSIGKILL": "yes"
+        }
+      },
+      "managerTerminalAvailable": false,
+      "cgroupAfter": "removed",
+      "cleanupSeconds": 0.08949161299999986,
+      "workerLifetimeSeconds": 0.1342943769999998,
+      "heldPidfdsSignaled": true,
+      "originalProcEntriesAbsent": true,
+      "unrelatedSentinelLive": true
+    },
+    "protocol": {
+      "nonce": "8649559075244ec3a7e630e3ecc5ca59",
+      "mode": "foreign",
+      "profile": {
+        "windowsWatchdogSeconds": 90,
+        "windowsProtocolSeconds": 75,
+        "spawnSeconds": 30,
+        "initializeSeconds": 15,
+        "cleanupPhaseSeconds": 5,
+        "serviceRuntimeSeconds": 60,
+        "serviceStopSeconds": 5,
+        "observationSeconds": 15,
+        "leaseSeconds": 1,
+        "retainedStdoutBytes": 4194304,
+        "retainedStderrBytes": 1048576,
+        "mockOnly": true,
+        "nativeAdmissionGranted": false
+      },
+      "report": {
+        "fault": "uncorrelated-or-error-response",
+        "writes": [
+          {
+            "bytes": 169,
+            "state": "locally-drained"
+          }
+        ],
+        "signals": [],
+        "cleanupErrors": [],
+        "spawnUncertain": false,
+        "directChildReaped": true,
+        "returnCode": 0,
+        "readerEof": {
+          "stdout": true,
+          "stderr": true
+        },
+        "elapsedSeconds": 0.3190422000043327,
+        "observedBytes": {
+          "stdout": 113,
+          "stderr": 0
+        },
+        "retainedBytes": {
+          "stdout": 113,
+          "stderr": 0
+        },
+        "discardedBytes": {
+          "stdout": 0,
+          "stderr": 0
+        }
+      },
+      "handshakeAccepted": false,
+      "handshakeFault": "uncorrelated-or-error-response",
+      "leaseExitCode": 0,
+      "heartbeatErrors": [],
+      "rawBase64": {
+        "stdout": "eyJpZCI6MiwicmVzdWx0Ijp7ImNvZGV4SG9tZSI6Ii9maXh0dXJlIiwicGxhdGZvcm1GYW1pbHkiOiJ1bml4IiwicGxhdGZvcm1PcyI6ImxpbnV4IiwidXNlckFnZW50IjoiZml4dHVyZS3OuyJ9fQo=",
+        "stderr": ""
+      }
+    },
+    "windowsIdentities": {
+      "nonce": "8649559075244ec3a7e630e3ecc5ca59",
+      "root": {
+        "pid": 7944,
+        "creationTime": 134367348564488355,
+        "nonce": "8649559075244ec3a7e630e3ecc5ca59"
+      },
+      "lease": {
+        "pid": 12716,
+        "creationTime": 134367348565626950,
+        "nonce": "8649559075244ec3a7e630e3ecc5ca59"
+      },
+      "protocol": {
+        "pid": 5200,
+        "creationTime": 134367348565666170,
+        "nonce": "8649559075244ec3a7e630e3ecc5ca59"
+      }
+    },
+    "windowsHeldHandlesSignaled": true,
+    "watchdog": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "8649559075244ec3a7e630e3ecc5ca59",
+      "deadlineSeconds": 90,
+      "rootExitSeen": true,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 7944,
+      "rootExitCode": 0,
+      "stopReason": "job-empty",
+      "stopDecisionElapsedSeconds": 0.47211699999752454,
+      "rootHandleSignaled": true,
+      "finalRootExitCode": 0,
+      "cleanupObservationSeconds": 1.9400002202019095e-05,
+      "elapsedSeconds": 0.4721628999977838
+    },
+    "runtime": {
+      "event": "prepared",
+      "nonce": "8649559075244ec3a7e630e3ecc5ca59",
+      "linuxRoot": "/tmp/tiye-unified-mock-2mn_8gif",
+      "uid": 1000,
+      "linux": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+      "python": "3.14.4"
+    },
+    "bundleSha256": "e1e000da661c360c19eba7f5e10fec0fca08b46c1428bc553fb1d530a2568e9e"
+  },
+  {
+    "case": "invalid-raw",
+    "linux": {
+      "event": "result",
+      "nonce": "102170648cb6486ab0f661e8125ed52e",
+      "mode": "invalid-raw",
+      "profile": {
+        "windowsWatchdogSeconds": 90,
+        "windowsProtocolSeconds": 75,
+        "spawnSeconds": 30,
+        "initializeSeconds": 15,
+        "cleanupPhaseSeconds": 5,
+        "serviceRuntimeSeconds": 60,
+        "serviceStopSeconds": 5,
+        "observationSeconds": 15,
+        "leaseSeconds": 1,
+        "retainedStdoutBytes": 4194304,
+        "retainedStderrBytes": 1048576,
+        "mockOnly": true,
+        "nativeAdmissionGranted": false
+      },
+      "descriptor": {
+        "unit": "tiye-service-102170648cb6486ab0f661e8125ed52e.service",
+        "invocationId": "3d3b48405b074580902596d379adff08",
+        "controlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-102170648cb6486ab0f661e8125ed52e.service",
+        "mainPid": 452,
+        "properties": {
+          "Id": "tiye-service-102170648cb6486ab0f661e8125ed52e.service",
+          "LoadState": "loaded",
+          "ActiveState": "active",
+          "SubState": "running",
+          "Transient": "yes",
+          "InvocationID": "3d3b48405b074580902596d379adff08",
+          "ExitType": "main",
+          "Restart": "no",
+          "TimeoutStopUSec": "5s",
+          "RuntimeMaxUSec": "1min",
+          "MainPID": "452",
+          "Result": "success",
+          "ExecMainCode": "0",
+          "ExecMainStatus": "0",
+          "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-102170648cb6486ab0f661e8125ed52e.service",
+          "Delegate": "no",
+          "UMask": "0077",
+          "KillMode": "control-group",
+          "SendSIGKILL": "yes"
+        },
+        "beforeQuery": {
+          "returnCode": 0,
+          "stderr": "",
+          "properties": {
+            "Id": "tiye-service-102170648cb6486ab0f661e8125ed52e.service",
+            "LoadState": "loaded",
+            "ActiveState": "active",
+            "SubState": "running",
+            "Transient": "yes",
+            "InvocationID": "3d3b48405b074580902596d379adff08",
+            "ExitType": "main",
+            "Restart": "no",
+            "TimeoutStopUSec": "5s",
+            "RuntimeMaxUSec": "1min",
+            "MainPID": "452",
+            "Result": "success",
+            "ExecMainCode": "0",
+            "ExecMainStatus": "0",
+            "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-102170648cb6486ab0f661e8125ed52e.service",
+            "Delegate": "no",
+            "UMask": "0077",
+            "KillMode": "control-group",
+            "SendSIGKILL": "yes"
+          }
+        }
+      },
+      "identities": [
+        {
+          "role": "main",
+          "pid": 452,
+          "startTicks": 472,
+          "uid": 1000,
+          "nonce": "102170648cb6486ab0f661e8125ed52e",
+          "ppid": 364,
+          "sid": 452,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-102170648cb6486ab0f661e8125ed52e.service",
+          "observedMonotonic": 4.785293454
+        },
+        {
+          "role": "leaf",
+          "pid": 454,
+          "startTicks": 478,
+          "uid": 1000,
+          "nonce": "102170648cb6486ab0f661e8125ed52e",
+          "ppid": 452,
+          "sid": 454,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-102170648cb6486ab0f661e8125ed52e.service",
+          "observedMonotonic": 4.818729751
+        },
+        {
+          "pid": 455,
+          "startTicks": 478,
+          "uid": 1000,
+          "nonce": "102170648cb6486ab0f661e8125ed52e",
+          "sid": 455,
+          "ppid": 452,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-102170648cb6486ab0f661e8125ed52e.service",
+          "initializeRequest": {
+            "id": 1,
+            "method": "initialize",
+            "params": {
+              "clientInfo": {
+                "name": "tiye_feasibility",
+                "title": "TIYE feasibility",
+                "version": "0.0.1"
+              },
+              "capabilities": {
+                "experimentalApi": false
+              }
+            }
+          }
+        }
+      ],
+      "observer": {
+        "pid": 442,
+        "uid": 1000,
+        "cgroup": "0::/init.scope"
+      },
+      "sentinel": {
+        "role": "sentinel",
+        "pid": 444,
+        "startTicks": 440,
+        "uid": 1000,
+        "nonce": "102170648cb6486ab0f661e8125ed52e",
+        "ppid": 442,
+        "sid": 442,
+        "cgroup": "0::/init.scope",
+        "observedMonotonic": 4.434738916
+      },
+      "receipt": {
+        "nonce": "102170648cb6486ab0f661e8125ed52e",
+        "pid": 455,
+        "initializeRequest": {
+          "id": 1,
+          "method": "initialize",
+          "params": {
+            "clientInfo": {
+              "name": "tiye_feasibility",
+              "title": "TIYE feasibility",
+              "version": "0.0.1"
+            },
+            "capabilities": {
+              "experimentalApi": false
+            }
+          }
+        },
+        "initializedNotification": null,
+        "stdinEof": true
+      },
+      "reaped": {
+        "nonce": "102170648cb6486ab0f661e8125ed52e",
+        "pid": 455,
+        "returnCode": 0
+      },
+      "serviceCommand": {
+        "nonce": "102170648cb6486ab0f661e8125ed52e",
+        "argv": [
+          "/usr/bin/systemd-run",
+          "--user",
+          "--quiet",
+          "--wait",
+          "--pipe",
+          "--expand-environment=no",
+          "--unit=tiye-service-102170648cb6486ab0f661e8125ed52e.service",
+          "--service-type=exec",
+          "--property=ExitType=main",
+          "--property=KillMode=control-group",
+          "--property=TimeoutStopSec=5s",
+          "--property=RuntimeMaxSec=60s",
+          "--property=SendSIGKILL=yes",
+          "--property=Restart=no",
+          "--property=Delegate=no",
+          "--property=UMask=0077",
+          "--property=LimitCORE=0",
+          "--property=WorkingDirectory=/tmp/tiye-unified-mock-k83ey1hd",
+          "--",
+          "/usr/bin/env",
+          "-i",
+          "PATH=/usr/bin:/bin",
+          "LC_ALL=C.UTF-8",
+          "HOME=/tmp/tiye-unified-mock-k83ey1hd/home",
+          "CODEX_HOME=/tmp/tiye-unified-mock-k83ey1hd/codex-home",
+          "TMPDIR=/tmp/tiye-unified-mock-k83ey1hd/tmp",
+          "/usr/bin/python3",
+          "-I",
+          "-S",
+          "-B",
+          "-u",
+          "/tmp/tiye-unified-mock-k83ey1hd/worker.py",
+          "main",
+          "/tmp/tiye-unified-mock-k83ey1hd",
+          "102170648cb6486ab0f661e8125ed52e",
+          "invalid-raw"
+        ],
+        "profile": {
+          "windowsWatchdogSeconds": 90,
+          "windowsProtocolSeconds": 75,
+          "spawnSeconds": 30,
+          "initializeSeconds": 15,
+          "cleanupPhaseSeconds": 5,
+          "serviceRuntimeSeconds": 60,
+          "serviceStopSeconds": 5,
+          "observationSeconds": 15,
+          "leaseSeconds": 1,
+          "retainedStdoutBytes": 4194304,
+          "retainedStderrBytes": 1048576,
+          "mockOnly": true,
+          "nativeAdmissionGranted": false
+        },
+        "busEnvironmentKeys": [
+          "DBUS_SESSION_BUS_ADDRESS",
+          "LC_ALL",
+          "PATH",
+          "XDG_RUNTIME_DIR"
+        ]
+      },
+      "afterQuery": {
+        "returnCode": 0,
+        "stderr": "",
+        "properties": {
+          "Id": "tiye-service-102170648cb6486ab0f661e8125ed52e.service",
+          "LoadState": "not-found",
+          "ActiveState": "inactive",
+          "SubState": "dead",
+          "Transient": "no",
+          "InvocationID": "",
+          "ExitType": "main",
+          "Restart": "no",
+          "TimeoutStopUSec": "1min 30s",
+          "RuntimeMaxUSec": "infinity",
+          "MainPID": "0",
+          "Result": "success",
+          "ExecMainCode": "0",
+          "ExecMainStatus": "0",
+          "ControlGroup": "",
+          "Delegate": "no",
+          "UMask": "0002",
+          "KillMode": "control-group",
+          "SendSIGKILL": "yes"
+        }
+      },
+      "managerTerminalAvailable": false,
+      "cgroupAfter": "removed",
+      "cleanupSeconds": 0.08821339100000003,
+      "workerLifetimeSeconds": 0.13341223400000057,
+      "heldPidfdsSignaled": true,
+      "originalProcEntriesAbsent": true,
+      "unrelatedSentinelLive": true
+    },
+    "protocol": {
+      "nonce": "102170648cb6486ab0f661e8125ed52e",
+      "mode": "invalid-raw",
+      "profile": {
+        "windowsWatchdogSeconds": 90,
+        "windowsProtocolSeconds": 75,
+        "spawnSeconds": 30,
+        "initializeSeconds": 15,
+        "cleanupPhaseSeconds": 5,
+        "serviceRuntimeSeconds": 60,
+        "serviceStopSeconds": 5,
+        "observationSeconds": 15,
+        "leaseSeconds": 1,
+        "retainedStdoutBytes": 4194304,
+        "retainedStderrBytes": 1048576,
+        "mockOnly": true,
+        "nativeAdmissionGranted": false
+      },
+      "report": {
+        "fault": "invalid-json:UnicodeDecodeError",
+        "writes": [
+          {
+            "bytes": 169,
+            "state": "locally-drained"
+          }
+        ],
+        "signals": [],
+        "cleanupErrors": [],
+        "spawnUncertain": false,
+        "directChildReaped": true,
+        "returnCode": 0,
+        "readerEof": {
+          "stdout": true,
+          "stderr": true
+        },
+        "elapsedSeconds": 0.29847750000772066,
+        "observedBytes": {
+          "stdout": 2,
+          "stderr": 0
+        },
+        "retainedBytes": {
+          "stdout": 2,
+          "stderr": 0
+        },
+        "discardedBytes": {
+          "stdout": 0,
+          "stderr": 0
+        }
+      },
+      "handshakeAccepted": false,
+      "handshakeFault": "invalid-json:UnicodeDecodeError",
+      "leaseExitCode": 0,
+      "heartbeatErrors": [],
+      "rawBase64": {
+        "stdout": "/wo=",
+        "stderr": ""
+      }
+    },
+    "windowsIdentities": {
+      "nonce": "102170648cb6486ab0f661e8125ed52e",
+      "root": {
+        "pid": 18956,
+        "creationTime": 134367348571165026,
+        "nonce": "102170648cb6486ab0f661e8125ed52e"
+      },
+      "lease": {
+        "pid": 13880,
+        "creationTime": 134367348572385067,
+        "nonce": "102170648cb6486ab0f661e8125ed52e"
+      },
+      "protocol": {
+        "pid": 9372,
+        "creationTime": 134367348572419594,
+        "nonce": "102170648cb6486ab0f661e8125ed52e"
+      }
+    },
+    "windowsHeldHandlesSignaled": true,
+    "watchdog": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "102170648cb6486ab0f661e8125ed52e",
+      "deadlineSeconds": 90,
+      "rootExitSeen": true,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 18956,
+      "rootExitCode": 0,
+      "stopReason": "job-empty",
+      "stopDecisionElapsedSeconds": 0.47245960000145715,
+      "rootHandleSignaled": true,
+      "finalRootExitCode": 0,
+      "cleanupObservationSeconds": 1.829999382607639e-05,
+      "elapsedSeconds": 0.4725046000094153
+    },
+    "runtime": {
+      "event": "prepared",
+      "nonce": "102170648cb6486ab0f661e8125ed52e",
+      "linuxRoot": "/tmp/tiye-unified-mock-k83ey1hd",
+      "uid": 1000,
+      "linux": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+      "python": "3.14.4"
+    },
+    "bundleSha256": "39fe819135648dbb495e51258e1be5167bba5c28b74c518098238e4f2a69fe65"
+  },
+  {
+    "case": "native-refusal",
+    "returnCode": 2,
+    "stdoutBase64": "",
+    "stderrBase64": "dXNhZ2U6IHJ1bi5weSBbLWhdIFstLW5hdGl2ZV0gWy0tY2FwdHVyZV0gWy0tZGV2ZWxvcF0NCnJ1bi5weTogZXJyb3I6IG5hdGl2ZS1leGVjdXRpb24tZGlzYWJsZWQ6IGZpeGVkIG1vY2sgbGF1bmNoZXIgb25seQ0K",
+    "nativeLaunched": false
+  },
+  {
+    "case": "valid",
+    "linux": {
+      "event": "result",
+      "nonce": "be138d51be034b47ab23fe0de80d1e7d",
+      "mode": "valid",
+      "profile": {
+        "windowsWatchdogSeconds": 90,
+        "windowsProtocolSeconds": 75,
+        "spawnSeconds": 30,
+        "initializeSeconds": 15,
+        "cleanupPhaseSeconds": 5,
+        "serviceRuntimeSeconds": 60,
+        "serviceStopSeconds": 5,
+        "observationSeconds": 15,
+        "leaseSeconds": 1,
+        "retainedStdoutBytes": 4194304,
+        "retainedStderrBytes": 1048576,
+        "mockOnly": true,
+        "nativeAdmissionGranted": false
+      },
+      "descriptor": {
+        "unit": "tiye-service-be138d51be034b47ab23fe0de80d1e7d.service",
+        "invocationId": "7d21ba6c143b4e48b2040108c2e95655",
+        "controlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-be138d51be034b47ab23fe0de80d1e7d.service",
+        "mainPid": 474,
+        "properties": {
+          "Id": "tiye-service-be138d51be034b47ab23fe0de80d1e7d.service",
+          "LoadState": "loaded",
+          "ActiveState": "active",
+          "SubState": "running",
+          "Transient": "yes",
+          "InvocationID": "7d21ba6c143b4e48b2040108c2e95655",
+          "ExitType": "main",
+          "Restart": "no",
+          "TimeoutStopUSec": "5s",
+          "RuntimeMaxUSec": "1min",
+          "MainPID": "474",
+          "Result": "success",
+          "ExecMainCode": "0",
+          "ExecMainStatus": "0",
+          "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-be138d51be034b47ab23fe0de80d1e7d.service",
+          "Delegate": "no",
+          "UMask": "0077",
+          "KillMode": "control-group",
+          "SendSIGKILL": "yes"
+        },
+        "beforeQuery": {
+          "returnCode": 0,
+          "stderr": "",
+          "properties": {
+            "Id": "tiye-service-be138d51be034b47ab23fe0de80d1e7d.service",
+            "LoadState": "loaded",
+            "ActiveState": "active",
+            "SubState": "running",
+            "Transient": "yes",
+            "InvocationID": "7d21ba6c143b4e48b2040108c2e95655",
+            "ExitType": "main",
+            "Restart": "no",
+            "TimeoutStopUSec": "5s",
+            "RuntimeMaxUSec": "1min",
+            "MainPID": "474",
+            "Result": "success",
+            "ExecMainCode": "0",
+            "ExecMainStatus": "0",
+            "ControlGroup": "/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-be138d51be034b47ab23fe0de80d1e7d.service",
+            "Delegate": "no",
+            "UMask": "0077",
+            "KillMode": "control-group",
+            "SendSIGKILL": "yes"
+          }
+        }
+      },
+      "identities": [
+        {
+          "role": "main",
+          "pid": 474,
+          "startTicks": 546,
+          "uid": 1000,
+          "nonce": "be138d51be034b47ab23fe0de80d1e7d",
+          "ppid": 364,
+          "sid": 474,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-be138d51be034b47ab23fe0de80d1e7d.service",
+          "observedMonotonic": 5.514012666
+        },
+        {
+          "role": "leaf",
+          "pid": 476,
+          "startTicks": 551,
+          "uid": 1000,
+          "nonce": "be138d51be034b47ab23fe0de80d1e7d",
+          "ppid": 474,
+          "sid": 476,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-be138d51be034b47ab23fe0de80d1e7d.service",
+          "observedMonotonic": 5.540198555
+        },
+        {
+          "pid": 477,
+          "startTicks": 551,
+          "uid": 1000,
+          "nonce": "be138d51be034b47ab23fe0de80d1e7d",
+          "sid": 477,
+          "ppid": 474,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/tiye-service-be138d51be034b47ab23fe0de80d1e7d.service",
+          "initializeRequest": {
+            "id": 1,
+            "method": "initialize",
+            "params": {
+              "clientInfo": {
+                "name": "tiye_feasibility",
+                "title": "TIYE feasibility",
+                "version": "0.0.1"
+              },
+              "capabilities": {
+                "experimentalApi": false
+              }
+            }
+          }
+        }
+      ],
+      "observer": {
+        "pid": 464,
+        "uid": 1000,
+        "cgroup": "0::/init.scope"
+      },
+      "sentinel": {
+        "role": "sentinel",
+        "pid": 466,
+        "startTicks": 518,
+        "uid": 1000,
+        "nonce": "be138d51be034b47ab23fe0de80d1e7d",
+        "ppid": 464,
+        "sid": 464,
+        "cgroup": "0::/init.scope",
+        "observedMonotonic": 5.212612741
+      },
+      "receipt": {
+        "nonce": "be138d51be034b47ab23fe0de80d1e7d",
+        "pid": 477,
+        "initializeRequest": {
+          "id": 1,
+          "method": "initialize",
+          "params": {
+            "clientInfo": {
+              "name": "tiye_feasibility",
+              "title": "TIYE feasibility",
+              "version": "0.0.1"
+            },
+            "capabilities": {
+              "experimentalApi": false
+            }
+          }
+        },
+        "initializedNotification": {
+          "method": "initialized"
+        },
+        "stdinEof": true
+      },
+      "reaped": {
+        "nonce": "be138d51be034b47ab23fe0de80d1e7d",
+        "pid": 477,
+        "returnCode": 0
+      },
+      "serviceCommand": {
+        "nonce": "be138d51be034b47ab23fe0de80d1e7d",
+        "argv": [
+          "/usr/bin/systemd-run",
+          "--user",
+          "--quiet",
+          "--wait",
+          "--pipe",
+          "--expand-environment=no",
+          "--unit=tiye-service-be138d51be034b47ab23fe0de80d1e7d.service",
+          "--service-type=exec",
+          "--property=ExitType=main",
+          "--property=KillMode=control-group",
+          "--property=TimeoutStopSec=5s",
+          "--property=RuntimeMaxSec=60s",
+          "--property=SendSIGKILL=yes",
+          "--property=Restart=no",
+          "--property=Delegate=no",
+          "--property=UMask=0077",
+          "--property=LimitCORE=0",
+          "--property=WorkingDirectory=/tmp/tiye-unified-mock-ma9u0nzq",
+          "--",
+          "/usr/bin/env",
+          "-i",
+          "PATH=/usr/bin:/bin",
+          "LC_ALL=C.UTF-8",
+          "HOME=/tmp/tiye-unified-mock-ma9u0nzq/home",
+          "CODEX_HOME=/tmp/tiye-unified-mock-ma9u0nzq/codex-home",
+          "TMPDIR=/tmp/tiye-unified-mock-ma9u0nzq/tmp",
+          "/usr/bin/python3",
+          "-I",
+          "-S",
+          "-B",
+          "-u",
+          "/tmp/tiye-unified-mock-ma9u0nzq/worker.py",
+          "main",
+          "/tmp/tiye-unified-mock-ma9u0nzq",
+          "be138d51be034b47ab23fe0de80d1e7d",
+          "valid"
+        ],
+        "profile": {
+          "windowsWatchdogSeconds": 90,
+          "windowsProtocolSeconds": 75,
+          "spawnSeconds": 30,
+          "initializeSeconds": 15,
+          "cleanupPhaseSeconds": 5,
+          "serviceRuntimeSeconds": 60,
+          "serviceStopSeconds": 5,
+          "observationSeconds": 15,
+          "leaseSeconds": 1,
+          "retainedStdoutBytes": 4194304,
+          "retainedStderrBytes": 1048576,
+          "mockOnly": true,
+          "nativeAdmissionGranted": false
+        },
+        "busEnvironmentKeys": [
+          "DBUS_SESSION_BUS_ADDRESS",
+          "LC_ALL",
+          "PATH",
+          "XDG_RUNTIME_DIR"
+        ]
+      },
+      "afterQuery": {
+        "returnCode": 0,
+        "stderr": "",
+        "properties": {
+          "Id": "tiye-service-be138d51be034b47ab23fe0de80d1e7d.service",
+          "LoadState": "not-found",
+          "ActiveState": "inactive",
+          "SubState": "dead",
+          "Transient": "no",
+          "InvocationID": "",
+          "ExitType": "main",
+          "Restart": "no",
+          "TimeoutStopUSec": "1min 30s",
+          "RuntimeMaxUSec": "infinity",
+          "MainPID": "0",
+          "Result": "success",
+          "ExecMainCode": "0",
+          "ExecMainStatus": "0",
+          "ControlGroup": "",
+          "Delegate": "no",
+          "UMask": "0002",
+          "KillMode": "control-group",
+          "SendSIGKILL": "yes"
+        }
+      },
+      "managerTerminalAvailable": false,
+      "cgroupAfter": "removed",
+      "cleanupSeconds": 0.09852032799999932,
+      "workerLifetimeSeconds": 0.1334995569999995,
+      "heldPidfdsSignaled": true,
+      "originalProcEntriesAbsent": true,
+      "unrelatedSentinelLive": true
+    },
+    "protocol": {
+      "nonce": "be138d51be034b47ab23fe0de80d1e7d",
+      "mode": "valid",
+      "profile": {
+        "windowsWatchdogSeconds": 90,
+        "windowsProtocolSeconds": 75,
+        "spawnSeconds": 30,
+        "initializeSeconds": 15,
+        "cleanupPhaseSeconds": 5,
+        "serviceRuntimeSeconds": 60,
+        "serviceStopSeconds": 5,
+        "observationSeconds": 15,
+        "leaseSeconds": 1,
+        "retainedStdoutBytes": 4194304,
+        "retainedStderrBytes": 1048576,
+        "mockOnly": true,
+        "nativeAdmissionGranted": false
+      },
+      "report": {
+        "fault": null,
+        "writes": [
+          {
+            "bytes": 169,
+            "state": "locally-drained"
+          },
+          {
+            "bytes": 25,
+            "state": "locally-drained"
+          }
+        ],
+        "signals": [],
+        "cleanupErrors": [],
+        "spawnUncertain": false,
+        "directChildReaped": true,
+        "returnCode": 0,
+        "readerEof": {
+          "stdout": true,
+          "stderr": true
+        },
+        "elapsedSeconds": 0.2657264000008581,
+        "observedBytes": {
+          "stdout": 113,
+          "stderr": 34
+        },
+        "retainedBytes": {
+          "stdout": 113,
+          "stderr": 34
+        },
+        "discardedBytes": {
+          "stdout": 0,
+          "stderr": 0
+        }
+      },
+      "handshakeAccepted": true,
+      "handshakeFault": null,
+      "leaseExitCode": 0,
+      "heartbeatErrors": [],
+      "rawBase64": {
+        "stdout": "eyJpZCI6MSwicmVzdWx0Ijp7ImNvZGV4SG9tZSI6Ii9maXh0dXJlIiwicGxhdGZvcm1GYW1pbHkiOiJ1bml4IiwicGxhdGZvcm1PcyI6ImxpbnV4IiwidXNlckFnZW50IjoiZml4dHVyZS3OuyJ9fQo=",
+        "stderr": "aW5pdGlhbGl6ZWQtbm90aWZpY2F0aW9uLW9ic2VydmVkCg=="
+      }
+    },
+    "windowsIdentities": {
+      "nonce": "be138d51be034b47ab23fe0de80d1e7d",
+      "root": {
+        "pid": 9768,
+        "creationTime": 134367348578940951,
+        "nonce": "be138d51be034b47ab23fe0de80d1e7d"
+      },
+      "lease": {
+        "pid": 4288,
+        "creationTime": 134367348579988521,
+        "nonce": "be138d51be034b47ab23fe0de80d1e7d"
+      },
+      "protocol": {
+        "pid": 20236,
+        "creationTime": 134367348580018349,
+        "nonce": "be138d51be034b47ab23fe0de80d1e7d"
+      }
+    },
+    "windowsHeldHandlesSignaled": true,
+    "watchdog": {
+      "schema": "tiye-windows-job-watchdog-v1",
+      "nonce": "be138d51be034b47ab23fe0de80d1e7d",
+      "deadlineSeconds": 90,
+      "rootExitSeen": true,
+      "windowsJobEmpty": true,
+      "linuxCleanup": "unverified",
+      "rootPid": 9768,
+      "rootExitCode": 0,
+      "stopReason": "job-empty",
+      "stopDecisionElapsedSeconds": 0.4108604000066407,
+      "rootHandleSignaled": true,
+      "finalRootExitCode": 0,
+      "cleanupObservationSeconds": 3.0800001695752144e-05,
+      "elapsedSeconds": 0.4109214000054635
+    },
+    "runtime": {
+      "event": "prepared",
+      "nonce": "be138d51be034b47ab23fe0de80d1e7d",
+      "linuxRoot": "/tmp/tiye-unified-mock-ma9u0nzq",
+      "uid": 1000,
+      "linux": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+      "python": "3.14.4"
+    },
+    "bundleSha256": "1c76b2f549fad741914627742ab97321a867e7ecab56b54a99dd5de99da619a6"
+  }
+]

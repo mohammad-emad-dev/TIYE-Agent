@@ -1,0 +1,90 @@
+{
+  "date": "2026-10-17",
+  "scope": "New unified fixed mock launcher only; no native execution or admission",
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "role": "reply-only initial protocol peer draft"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "variant": "max",
+      "status": "completed",
+      "role": "reply-only design review and supplied-source review"
+    }
+  ],
+  "privateArtifactSha256": {
+    "codex-brief.txt": "c4e317c0e5fe440017d29dd9a9ece53c8b9f42bb736500b93e7d845bb78b66c2",
+    "final-brief.txt": "85568f4f855f37e29eec1e6d9ebfa0fab5188617bb990d84be5cbfbdb83ff7af",
+    "review-brief.txt": "efa96cec524f9a8ee3864a6593ab596632c57d68853c8a9791443ee2179a0b66",
+    "codex/brief.txt": "c4e317c0e5fe440017d29dd9a9ece53c8b9f42bb736500b93e7d845bb78b66c2",
+    "codex/events.jsonl": "98ad46887d60ff07f24d6764693e0c21e6c3eef23c9448b7ba7a7c85a03a1115",
+    "codex/final.txt": "ae89d173f4dce7cb6ee9535bc73326c00a525276b44c85042fc764bf8fe0bbd1",
+    "codex/result.json": "618003077cbc273e0c3817c52d8a4cf6147e6f9339c6f578471c5f67350b4025",
+    "codex/stderr.txt": "d2741a182da904ceaffc76182d7c08baa5b1f57515d0aaa2866da8c7c21d1eef",
+    "final-review/brief.txt": "85568f4f855f37e29eec1e6d9ebfa0fab5188617bb990d84be5cbfbdb83ff7af",
+    "final-review/events.jsonl": "89346e644eac2add34bccdcda05f06e6bcc1e0ac71f6f1a7c0712beb56f81199",
+    "final-review/final.txt": "fc692c493002caa1688c0d58df190d3e8ab1496785f5f692c89778db160afe8b",
+    "final-review/result.json": "2781720d44761c3e90c3e49baf2c71d951793210f869afa631b188efac1b5719",
+    "glm/brief.txt": "efa96cec524f9a8ee3864a6593ab596632c57d68853c8a9791443ee2179a0b66",
+    "glm/events.jsonl": "697743fa388bf63150bd035d6ab5062fba77c3c8375f8b55a177c3d8aaa16692",
+    "glm/final.txt": "2690839de637c48e656fca7e3a58f4405caeb5b990b6420f4ab0cb4a527bf152",
+    "glm/result.json": "7978b0fabdfcd95bd901e1ca8769dc711875416a901c9f8e9cc91f87585b1c4d"
+  },
+  "reviewCoverage": {
+    "suppliedSource": [
+      "profile.py",
+      "entry.py",
+      "worker.py",
+      "host.py",
+      "observer.py",
+      "protocol_peer.py",
+      "validation.py"
+    ],
+    "excludedFromDelegateSourceReview": [
+      "test_unified.py",
+      "run.py",
+      "copied ownership, transport and lease helpers"
+    ],
+    "limitation": "Later parent changes were reviewed by the parent and verified by capture; delegates did not independently review the final complete source tree"
+  },
+  "parentDispositions": [
+    "Corrected initial peer draft: initialize has no required protocolVersion; response omits jsonrpc to match the frozen parser",
+    "Initial lease now uses strict nonce/sequence/timestamp parsing and fails on missing or stale receipts",
+    "Unit preflight now requires completed returnCode 0 plus explicit not-found; timeout already refused",
+    "Unique per-case directories intentionally reject pre-existing home paths; rerun into a fresh cohort",
+    "Peer environment now explicitly limited to PATH LC_ALL HOME CODEX_HOME TMPDIR",
+    "Heartbeat writer is joined before stdin is closed; unexpected write failures remain failures; no error suppression added",
+    "Peer timeout now explicitly kills and waits its owned child and records timedOut before returning failure; manager deadline can still terminate main first and that cannot pass",
+    "Coordinator waits for independent ready and held Windows handles before release; it does not wait for host completion",
+    "Observer starts before host launch and holds live worker/peer/leaf pidfds before peer release",
+    "Unit garbage collection is terminal metadata unavailable; never infer Result success from not-found. Actual wait exit0, peer receipt/reap0 and independent lifecycle witnesses required",
+    "Record exact prepared service argv, reject terminal query timeout, validate profile and watchdog90, retain future native candidate only as unexecuted reference"
+  ],
+  "guardReview": {
+    "clean-code-guard": "Parent reviewed new ownership and failure paths; copied helpers retain their original scoped limitations",
+    "test-guard": "Assertions require actual bytes plus peer receipt and independent process/cgroup witnesses before teardown; negative cases require exact parser faults; no native flag may launch",
+    "docs-guard": "Report separates protocol refusal from cleanup completion, explicitly records GC metadata absence and lists open admission/privacy/L2 work"
+  },
+  "sourceOrigins": {
+    "copiedHelpers": "Prior cross-owner snapshots: Windows Job/watchdog/identity, transport, lease and service query/control; old service launch removed",
+    "changedBridge": "Separate control heartbeat bridge with 95-second fixture TTL",
+    "new": "Unified pipe entry, worker, actual peer, Windows host, observer/coordinator, profile and validators"
+  },
+  "diagnostics": {
+    "codex": "Configured external MCP authentication warnings were emitted despite ignore-user-config; reply-only does not establish network silence",
+    "touchedFiles": "Relay working-tree snapshots include parent concurrent edits and are not evidence of delegate mutation",
+    "rawDelegateLogsPublished": false
+  },
+  "modelRouting": {
+    "gemini": "Excluded consumer route retained; not dispatched",
+    "deepseekFallback": "Not needed; requested Codex and GLM completed"
+  },
+  "reference": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd-run.xml",
+  "nativeProviderRunsByFixture": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD",
+  "next": "L2: normal Stop, owner/transport loss, blocked or uncertain writes, and persistent attempt refusal on this exact path"
+}

@@ -1,0 +1,51 @@
+{
+  "sourceSha256": {
+    "feasibility/s6-wsl/unified-mock/bridge.py": "4f38441a13d07870507247267aa160a448c9766049122a386d8f0d84335b86c3",
+    "feasibility/s6-wsl/unified-mock/common.py": "a4b13223829903dda469bdb6c8aedc0a0eda4f937c939bb4d49611cdaa800b81",
+    "feasibility/s6-wsl/unified-mock/entry.py": "99b4402896f762344cecbba281fd622bbb1fd843520b6ca499d245ed477ecb51",
+    "feasibility/s6-wsl/unified-mock/host.py": "785aedc8533eb2aa56beeadc10225f0feb984513df5c174b8b86e06d360d78db",
+    "feasibility/s6-wsl/unified-mock/lease.py": "2e9741e56c49698e3e1e4b10b975cd92137cb86c69b31230322601026203fe2f",
+    "feasibility/s6-wsl/unified-mock/observer.py": "276a31cef7eaf9649685cb327b9bf6b8ed30e62aa317cd42e742542eb335bd00",
+    "feasibility/s6-wsl/unified-mock/profile.py": "59ce913934330bee931095356d6bb72dfcef10f43e255aa1202e6a3afea411f2",
+    "feasibility/s6-wsl/unified-mock/protocol_peer.py": "8903787eca278fff2ae45c5c3e183067006ce93792f167b2109ae444aae4851f",
+    "feasibility/s6-wsl/unified-mock/run.py": "c8a38bca740031b6c92b01d7e01bd9253449b9704d1566f4f60b066aac006194",
+    "feasibility/s6-wsl/unified-mock/service.py": "ebbb699aaa6aa683d3d8ec351c06c142f08dc1d5eead1ef2c22afc406abb7878",
+    "feasibility/s6-wsl/unified-mock/test_unified.py": "94ccd6230aff95e0f5c02bb8c0ecad474388e379f87cf34e201c9bf6f314437f",
+    "feasibility/s6-wsl/unified-mock/transport.py": "599a0022531737d2fbf17a09d93215cb8f8dcfd68f4dc16a6c1cb85e1163bbdc",
+    "feasibility/s6-wsl/unified-mock/validation.py": "19335f292839fb185f48be900afeb4f19b0238c738bb2b0e99a6d5ff4a3e5188",
+    "feasibility/s6-wsl/unified-mock/watchdog.py": "b5aec82280f45f68c5fa567c0fd1e69bb7677a7ca34cbe40dace6cd13199cc46",
+    "feasibility/s6-wsl/unified-mock/windows.py": "0682a8b0ddcbb233c9c6c2144088fd40bc0c502c9ac469314f358fe796abc9b4",
+    "feasibility/s6-wsl/unified-mock/winjob.py": "cba5dd28c2449b0a23447d44a6dc9ff0190414f13392f76296a3c99a80cbc23a",
+    "feasibility/s6-wsl/unified-mock/worker.py": "eda5b3c08716b0ddb7fd0f2792be70246f24301574c1fa3ecd2da5b01572bb91"
+  },
+  "distribution": "Ubuntu",
+  "uid": 1000,
+  "cases": [
+    "valid",
+    "foreign",
+    "invalid-raw",
+    "native-refusal"
+  ],
+  "profile": {
+    "windowsWatchdogSeconds": 90,
+    "windowsProtocolSeconds": 75,
+    "spawnSeconds": 30,
+    "initializeSeconds": 15,
+    "cleanupPhaseSeconds": 5,
+    "serviceRuntimeSeconds": 60,
+    "serviceStopSeconds": 5,
+    "observationSeconds": 15,
+    "leaseSeconds": 1,
+    "retainedStdoutBytes": 4194304,
+    "retainedStderrBytes": 1048576,
+    "mockOnly": true,
+    "nativeAdmissionGranted": false
+  },
+  "futureNativeCandidate": {
+    "binary": "/home/mohammad/.local/share/tiye-feasibility/codex-0.157.1-rx5vmnt1/package/bin/codex",
+    "binarySha256": "3e2584f3f3829a43a0495011a1cecb2facbe64a2403e2b682351fd9c2983f970",
+    "installationSha256": "af65a690078c47be0d1eb7bde13eb89a38c6a461e444461253c52c5c6b5608ff",
+    "executed": false
+  },
+  "nativeAdmissionGranted": false
+}

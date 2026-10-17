@@ -1,0 +1,9 @@
+test_foreign_response_suppresses_notification_through_real_forwarding (test_unified.UnifiedTests.test_foreign_response_suppresses_notification_through_real_forwarding) ... ok
+test_invalid_utf8_bytes_are_retained_and_refused_through_real_forwarding (test_unified.UnifiedTests.test_invalid_utf8_bytes_are_retained_and_refused_through_real_forwarding) ... ok
+test_native_execution_flag_is_refused_before_launch (test_unified.UnifiedTests.test_native_execution_flag_is_refused_before_launch) ... ok
+test_valid_protocol_crosses_windows_wsl_service_and_returns_receipt (test_unified.UnifiedTests.test_valid_protocol_crosses_windows_wsl_service_and_returns_receipt) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 6.099s
+
+OK

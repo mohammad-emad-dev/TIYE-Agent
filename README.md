@@ -166,3 +166,10 @@ separate source-bound admission. All nine existing offline checkers pass; this
 review launches no native process and grants no admission. Its
 [next implementation brief](output/launcher-admission-review/NEXT-STEP.md) defines
 the unified mock launcher before any native attempt. Phase 1 remains HOLD.
+
+The [unified mock launcher](output/s6-unified-mock/README.md) now forwards actual
+protocol bytes across Windows, WSL and a managed Linux service, with a separate
+ownership heartbeat. Three wire cases and native-flag refusal verify handshake
+success, positive parser rejection, peer receipts and independent Windows/Linux
+cleanup under a new frozen budget profile. Normal Stop and uncertain-failure
+cases on this exact path, privacy and native admission remain open.
