@@ -128,3 +128,10 @@ where the root and separate-session child are alive when Stop begins. It records
 TERM/KILL escalation and adoption after forced root death, with independent
 exit witnesses and a live unrelated sentinel. This is controlled component
 evidence; native provider admission and the product construction gate remain open.
+
+The [Linux transient-service capture](output/s6-linux-service/README.md) now tests
+manager-backed cleanup after main-process crash and runtime expiry, plus normal
+main exit and mismatched-invocation refusal. This supplies a lifecycle-boundary
+candidate for native integration, with independent pidfd and cgroup witnesses.
+It does not qualify Windows-owner crash, hostile service/cgroup escape or provider
+access; the existing admission and construction gates remain open.

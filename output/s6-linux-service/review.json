@@ -1,0 +1,82 @@
+{
+  "projectDate": "2026-10-17",
+  "reviews": [
+    {
+      "requestedModel": "gpt-6-luna",
+      "requestedEffort": "max",
+      "relayStatus": "completed",
+      "finalMessagePresent": true,
+      "role": "Initial service helper source generation",
+      "cliVersion": "codex-cli 0.157.1",
+      "artifactSha256": {
+        "brief.txt": "9ab85d7821a0da74f6fac5eb45d889de403bfc8cf2eb9aa4d75695bc65caca51",
+        "events.jsonl": "cea89859b790514cf420e37319850ca48618b4af0116bf155d8246cc391dc322",
+        "final.txt": "f10d335fefde7f8a380960de9ade1764c144c21580fd48b31d39a37b2841e089",
+        "result.json": "c56353ef3452f7778f4ba2db593d6f17b4f5981691e36d6d0459d628851ec28e",
+        "stderr.txt": "47537ba8efc209e0e1d36b4d4ff26d27d6410e85f7668c814bb1efa14debd8c5"
+      }
+    },
+    {
+      "requestedModel": "opencode/muse-spark-1.3-contributor-free",
+      "requestedEffort": "xhigh",
+      "relayStatus": "failed",
+      "finalMessagePresent": false,
+      "role": "Supplied-source review attempt",
+      "cliVersion": "opencode v2.0.28",
+      "artifactSha256": {
+        "brief.txt": "2a437883b7c35bd41cec52ab3a95b30f54632b6aed3de88f54d659d720c01549",
+        "events.jsonl": "f24713e3263e7da3a9397046978635cd579862af09d7fe01caecbc8071735806",
+        "result.json": "ab212795b68c56b72ba604aef988554270558851f3e0488c909afa891075bd00"
+      }
+    },
+    {
+      "requestedModel": "opencode/deepseek-v4.1-flash-free",
+      "requestedEffort": "max",
+      "relayStatus": "completed",
+      "finalMessagePresent": false,
+      "role": "Supplied-source review attempt",
+      "cliVersion": "opencode v2.0.28",
+      "artifactSha256": {
+        "brief.txt": "2a437883b7c35bd41cec52ab3a95b30f54632b6aed3de88f54d659d720c01549",
+        "events.jsonl": "e81ed6bec9fb7930ff68222ffe3642c3389346d366dab1307a2c0f2abffcfa16",
+        "result.json": "a1848ece6d29ba73b2d87d7c182c28bfa9fec0dd563f8bf8a004ec52a2557d81"
+      }
+    }
+  ],
+  "finalCodeReviewedBy": "Parent",
+  "independentCompletedCodeReview": false,
+  "reviewAvailability": "Muse unavailable; DeepSeek returned no review text despite relay exit0. No independent completed review claimed.",
+  "parentDispositions": [
+    "Codex supplied the initial systemd helper source. Parent inspected exact query/control behavior and wrote all independent fixtures, runner and assertions.",
+    "Parent allowed a cleared cgroup path only for the same inactive/failed invocation with MainPID0. Active unit control still requires the exact descriptor cgroup. This fixes cleanup of actual terminal units observed on this manager.",
+    "Parent added UMask0077 and observed-property validation; pathlike fixture support; preserved prelaunch, launch and post-stop queries before reset; query timeouts/unverified command outcomes cannot establish absence or silently pass.",
+    "Parent observed normal main status0 with unit Result=timeout due to the deliberately stubborn child. The final tests/checker require that distinction instead of rewriting it as unit success.",
+    "Parent strengthened negative invocation to a different well-formed nonzero ID, with both held process instances independently observed live after refusal, then separately verified legitimate scoped Stop.",
+    "Source-bundle runner uses fixed service/peer/test filenames, explicit Ubuntu and UID1000, allowlisted environments, fixed command bounds, exclusive input creation and raw-result/hash checks. Public fixture output contains no provider/account data.",
+    "Clean Code Guard: direct inspected APIs, fixed command argument arrays, no added dependencies, no global unit shutdown or arbitrary process search. Identity queries and service control remain non-atomic and are documented as such.",
+    "Test Guard: actual user-manager transient services, held observer pidfds before intervention, same-cgroup/separate-session witnesses, original proc absence and cgroup empty/removal before teardown, unrelated sentinel live.",
+    "Docs Guard: checked flags and properties against upstream v259 sources and installed systemd259.5; preserved manager failure statuses, timing limits, unavailable reviews and admission limits.",
+    "Final parent source changes after supplied review snapshot: preserve full launch query, reject unverified final query, capture explicit-stop pre-reset receipt, assert normal main exit0 versus unit timeout, strengthen saved checker and nonzero negative identity. Parent reviewed these changes."
+  ],
+  "sourcesConsulted": [
+    "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd.kill.xml",
+    "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd.service.xml",
+    "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd-run.xml"
+  ],
+  "baselineEvidenceSha256": {
+    "s6-linux-owner": "a6c4163bd25e53e2df1d2dbfef6dc6473b7a5ea70b7ac41087886f073c47d21e",
+    "s6-linux-stop": "2b455749bd02fabffa9f4e5a4f03d5d9717dfdf1786c664eb0ae0058b023065c"
+  },
+  "diagnostics": [
+    "Official freedesktop HTML docs returned403; upstream v259 repository sources were read instead.",
+    "Codex emitted configured MCP auth/startup diagnostics despite ignore-user-config. No service/account configuration was altered for delegation; reply-only scope is not network silence.",
+    "Relays emitted Node shell-argument deprecation warnings. Fixed task/model arguments were used.",
+    "Model exit0 without a final review message is not accepted as review approval."
+  ],
+  "gemini": "Not dispatched: recorded consumer Agy route excluded from integration and delegation",
+  "fixtureEffects": "Only fixed mock processes and unique transient user units; teardown scopes control to matching descriptors",
+  "nativeProviderRunsInFixture": 0,
+  "nativeAdmissionGranted": false,
+  "fullS6Qualified": false,
+  "phase1": "HOLD"
+}

@@ -1,0 +1,31 @@
+{
+  "sourceSha256": {
+    "feasibility/s6-wsl/linux-service/peer.py": "67140a8924b09de937d2bee2f01b02dc3686976560fa27fa8fabf75a043759d3",
+    "feasibility/s6-wsl/linux-service/run.py": "7f767216df4f902d4832e1611a08e8e2783dff99bfcc65a305366263ca25993f",
+    "feasibility/s6-wsl/linux-service/service.py": "05dab4774eb9c3cf2525976b3ce781291f487d7d0dc2b2cd36d0168a7400c887",
+    "feasibility/s6-wsl/linux-service/test_linux.py": "d0a2fbb770248c9d8a922eee03a82632653ffd4902206e50a21dfbaff1647dca"
+  },
+  "bundleSha256": "a7f6ae10f3185a52d7305c6e1c787a46e85f8f590fe8781fc5ca8d90939aa266",
+  "nonce": "1baeeb45c44c48389ac31f9b6d3960ea",
+  "argv": [
+    "C:\\WINDOWS\\System32\\wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--cd",
+    "/tmp",
+    "--exec",
+    "/usr/bin/env",
+    "-i",
+    "PATH=/usr/bin:/bin",
+    "LC_ALL=C.UTF-8",
+    "/usr/bin/python3",
+    "-I",
+    "-S",
+    "-B",
+    "-c",
+    "import base64,hashlib,json,os,platform,subprocess,sys,tempfile\nfrom pathlib import Path\nif os.getuid()!=1000: raise ValueError('expected-non-root-uid1000')\nincoming=sys.stdin.buffer.read(65537)\nif len(incoming)>65536: raise ValueError('bundle-budget')\nbundle=json.loads(incoming)\nif set(bundle['files'])!={'service.py','peer.py','test_linux.py'}: raise ValueError('bundle-files')\nos.umask(0o077)\nroot=Path(tempfile.mkdtemp(prefix='tiye-linux-service-',dir='/tmp'))\n(root/'owner.json').write_text(json.dumps({'nonce':bundle['nonce']}))\nfor name,encoded in bundle['files'].items():\n raw=base64.b64decode(encoded,validate=True)\n if hashlib.sha256(raw).hexdigest()!=bundle['sha256'][name]: raise ValueError('bundle-hash')\n with (root/name).open('xb') as stream: stream.write(raw)\nrun=subprocess.run([sys.executable,'-I','-S','-B',str(root/'test_linux.py')],\n stdin=subprocess.DEVNULL,capture_output=True,timeout=25,\n env={'PATH':'/usr/bin:/bin','LC_ALL':'C.UTF-8'})\nprint(json.dumps({'runtimeRoot':str(root),'nonce':bundle['nonce'],'uid':os.getuid(),\n 'linux':platform.platform(),'python':platform.python_version(),'testExitCode':run.returncode,\n 'stdoutBase64':base64.b64encode(run.stdout).decode('ascii'),\n 'stderrBase64':base64.b64encode(run.stderr).decode('ascii')}))\nsys.exit(0 if run.returncode==0 else 1)\n"
+  ],
+  "hostDeadlineSeconds": 35,
+  "fixtureProcessTtlSeconds": 10,
+  "nativeProviderRuns": 0
+}

@@ -1,0 +1,24 @@
+{
+  "projectDate": "2026-10-17",
+  "windows": "Windows-11-10.0.26300-SP0",
+  "sourceSha256": {
+    "feasibility/s6-wsl/linux-service/peer.py": "67140a8924b09de937d2bee2f01b02dc3686976560fa27fa8fabf75a043759d3",
+    "feasibility/s6-wsl/linux-service/run.py": "7f767216df4f902d4832e1611a08e8e2783dff99bfcc65a305366263ca25993f",
+    "feasibility/s6-wsl/linux-service/service.py": "05dab4774eb9c3cf2525976b3ce781291f487d7d0dc2b2cd36d0168a7400c887",
+    "feasibility/s6-wsl/linux-service/test_linux.py": "d0a2fbb770248c9d8a922eee03a82632653ffd4902206e50a21dfbaff1647dca"
+  },
+  "sourcesUnchanged": true,
+  "hostExitCode": 0,
+  "timedOut": false,
+  "elapsedSeconds": 9.825652999999875,
+  "nativeProviderRuns": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD",
+  "artifactSha256": {
+    "input.json": "4f6f3762f4a5788d9c43159612516a82e31599109075bf4a63686e4583d4d927",
+    "README.md": "e4eb23482a775a1f49ffe7b13367e1af69ff11a21bb3469220cad4deccb1e0d6",
+    "review.json": "d2536def509ca3cbfb84623e10d8f5c4d899d069e42d80fe9e86052033839b4e",
+    "wsl.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wsl.stdout.bin": "78f5039bb7dc12903f4fc04a5cddd570489c4a5991e060cf9e17de098862f39f"
+  }
+}
