@@ -179,3 +179,8 @@ adds real pending Stop, initialized owner loss and transport loss, with independ
 Windows/Linux cleanup witnesses and a conservative process-restart attempt fence.
 Blocked writes and privacy/admission reviews remain open; native execution stays
 disabled and Phase 1 remains HOLD.
+
+The [synthetic pending-write cohort](output/s6-unified-write-pressure/README.md)
+measures real suspended drains on the unified path and preserves uncertain
+attempts across process restart. Its 8 MiB synthetic writes qualify plumbing
+only; native protocol admission and privacy reviews remain open.

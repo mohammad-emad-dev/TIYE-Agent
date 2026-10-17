@@ -1,0 +1,11 @@
+test_failed_stop_callback_still_closes_and_reaps_owned_client (test_unified.UnifiedTests.test_failed_stop_callback_still_closes_and_reaps_owned_client) ... ok
+test_native_execution_flag_is_refused_before_launch (test_unified.UnifiedTests.test_native_execution_flag_is_refused_before_launch) ... ok
+test_owner_loss_with_pending_write_expires_lease_and_removes_tree (test_unified.UnifiedTests.test_owner_loss_with_pending_write_expires_lease_and_removes_tree) ... ok
+test_partial_journals_refuse_before_any_launch (test_unified.UnifiedTests.test_partial_journals_refuse_before_any_launch) ... ok
+test_stop_cancels_pending_pressure_write_and_removes_owned_tree (test_unified.UnifiedTests.test_stop_cancels_pending_pressure_write_and_removes_owned_tree) ... ok
+test_transport_loss_marks_write_uncertain_and_removes_tree (test_unified.UnifiedTests.test_transport_loss_marks_write_uncertain_and_removes_tree) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 7.801s
+
+OK

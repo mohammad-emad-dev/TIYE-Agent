@@ -1,0 +1,151 @@
+{
+  "date": "2026-10-17",
+  "scope": "Synthetic 8 MiB local transport queue pressure and uncertain attempt refusal on the unified mock launcher; no native-frame qualification",
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "variant": null,
+      "status": "completed",
+      "exitCode": 0,
+      "artifact": "codex",
+      "role": "Reply-only supplied-source draft of pending-drain handling and control watcher"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": null,
+      "variant": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "artifact": "glm",
+      "role": "Reply-only design review"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": null,
+      "variant": "max",
+      "status": "timeout",
+      "exitCode": 1,
+      "artifact": "source-review",
+      "role": "Reply-only focused transport source review"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": null,
+      "variant": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "artifact": "fallback-review",
+      "role": "Authorized fallback focused source review if previous review timed out"
+    }
+  ],
+  "privateArtifactSha256": {
+    "build-review.py": "ab5fe2142ffade4df93e77a3a0f0a02b3c019520bdf7ea4b4ee68e392977488d",
+    "codex-brief.txt": "fe0aebf5bc61ac2fd04e7e33d5bd853f248e9e505afc4d9bf771fc4fa5b9588b",
+    "glm-brief.txt": "870b8d1f632a5ed4d22f6425ba45fff016e84cd05f6ddce3f0e784373e7657cc",
+    "source-review-brief.txt": "90be431eedf35039f8a202791674d7e3c78bb94284346ab0189f8a3df2afcd12",
+    "codex/brief.txt": "fe0aebf5bc61ac2fd04e7e33d5bd853f248e9e505afc4d9bf771fc4fa5b9588b",
+    "codex/events.jsonl": "3819985c390d504c6eac726c676bc6eb28dc30c27e55167b0c3bb8c889d3ae4a",
+    "codex/final.txt": "bb14a752293b80d8859c68683ca836d1586fc732fbb553a4fb9fdcb9b0359651",
+    "codex/result.json": "7db4efc45cfa6fa10868c512912ba2493a17286e423114f94dc03e334b27d9ab",
+    "codex/stderr.txt": "a59c9d0cc10ca88e2021fecc2b6dce55d8b53ddefda19fb7785388fc2778338e",
+    "fallback-review/brief.txt": "90be431eedf35039f8a202791674d7e3c78bb94284346ab0189f8a3df2afcd12",
+    "fallback-review/events.jsonl": "8e272d8eaf12da60ed5af2236ce9cd2c03b254f40a75d6973c2b625e6742b93d",
+    "fallback-review/final.txt": "2a0ab1949a598531691cc1ba9d81b9994aa3a57ca1ac7206170a5d0bcf433c14",
+    "fallback-review/result.json": "b84a1da4132ef6fc78733c06eb62c9305bf4a70eaf8c454f249f8c7b9600f85c",
+    "glm/brief.txt": "870b8d1f632a5ed4d22f6425ba45fff016e84cd05f6ddce3f0e784373e7657cc",
+    "glm/events.jsonl": "cb9947bb96b4501c1c4fdacdb320396686d25eaf7965c0b3cfd4cc7bd2b34376",
+    "glm/final.txt": "9b8f22d57a5bc9a1c31d8980d5b515ef3d7a75ab928bb8b5f337c6a044845c7c",
+    "glm/result.json": "489c5e252164fa42f19d1e1c976bbfab2fd005fea277ec86d5d80bd7907f9c5e",
+    "source-review/brief.txt": "90be431eedf35039f8a202791674d7e3c78bb94284346ab0189f8a3df2afcd12",
+    "source-review/events.jsonl": "6733879a1a177784576610002e9e9e8f670def262a3e1b8e8342602b242c9abe",
+    "source-review/result.json": "4f1ea066ae219724425d6e5c7666d010598ff6131fd53e8153ad3c307c49eb30"
+  },
+  "privateDevelopment": [
+    {
+      "cohort": "540a623d9fbf4f7e91b32aa7bc0d3b5f",
+      "testsSuccessful": true,
+      "evidenceSha256": "ea6144cd0aa8c9ffc13871a8a265cca53d16a6b1d6d6e4ca6930d7d3cf29c214",
+      "testsLogSha256": "6da0b7788f33fe293a6aa7537c1110a5cbc2b2d2bd0697620857f6b59be0d431"
+    },
+    {
+      "cohort": "61e58f049d394452bd4b2f277e2cf4a3",
+      "testsSuccessful": false,
+      "evidenceSha256": "bd394603934df1992de46a6d89a0cced637119a4859ed1555d6a83969cf0f19a",
+      "testsLogSha256": "76a611416d12b5cdfae4132efe6ac5299bfc594ddf806f39144b2028c6263d73"
+    }
+  ],
+  "reviewCoverage": {
+    "codex": "Reply-only draft using supplied transport methods; no implementation/test claim from delegate",
+    "glmDesign": "Architecture and claimed pressure boundary supplied in brief",
+    "source": "Focused send_pressure/work/cleanup and stdin finish excerpt; not the whole artifact. Later baseline/test assertions were parent additions",
+    "parent": "Reviewed all changed code/tests/docs against sealed lifecycle cohort; owns real Windows/WSL captures and offline hash/verdict checks",
+    "limitation": "Partial independent source review is not a complete artifact audit or native admission"
+  },
+  "parentDispositions": [
+    "Retained prior sealed source/evidence by creating a separate cohort",
+    "Corrected Codex draft watermark unpacking: installed asyncio source returns (low, high), not (high, low)",
+    "Removed draft broad except Exception from control watcher; errors propagate through work with specific OSError/ProtocolFault handling",
+    "Added started drain wrapper and two actual pending/buffer samples, not merely a large write or an unscheduled task",
+    "Persist third-write sequence/bytes/attempted/unknown before write; journal never claims delivery and any existing record refuses fresh host launch",
+    "Control polling runs separately from blocked activity; Stop observation timestamp must precede cancellation outcome",
+    "Abort queued local stdin before cleanup but keep abort/control inside the protected cleanup path; process death requires independent witnesses",
+    "Transport failure is recorded as actual write-failed or transport-ended and uncertain/cancelled state rather than a forced errno",
+    "First development run exposed wait_closed BrokenPipeError after injected client loss. The error is retained separately only with uncertain write, reaped child, both EOFs, closing transport and zero queue; other close errors still reject",
+    "Small handshake baseline records actual queue sizes and remains locally drained; third-write witness equals the saved Windows marker",
+    "GLM design scope accepted: 8 MiB is plumbing-only, queue counters are not kernel capacity or delivery. Adjacent samples do not establish throughput/duration",
+    "Owner-loss evidence states pending at the observation barrier, not an atomic sample at the later external kill; no dead-host outcome is fabricated",
+    "GLM focused source review timed out without a final verdict; DeepSeek fallback completed and its findings were independently assessed, not treated as approval",
+    "DeepSeek finding1 rejected: transport flow-control pause suspends drain(), not task scheduling. Actual started task + pending state and measured counters passed on the real non-reading peer. Removing those checks would weaken the witness",
+    "DeepSeek finding2 scope clarified: abort intentionally discards queued local input before Stop; zero queue afterward is local closure accounting, not a peer-flush or delivery discriminator. Error, pre-abort byte count, child exit, both EOFs and closing transport are all retained",
+    "DeepSeek finding3 rejected: await drain_task inside the sampling loop remains inside the outer try, so OSError reaches the write-failed handler. The actual injected transport-loss run recorded write-failed and uncertain-write",
+    "DeepSeek finding4 rejected for the measured profile: EOF waits at most cleanup5s, not the entire protocol75s; work reserves three cleanup phases. Near-deadline OS/startup failure remains explicitly unqualified and outer Job is the backstop",
+    "DeepSeek finding5 rejected: failed event is set only by fail() after saving fault; watch_control raises ProtocolFault on EOF and work calls watcher.result(). It cannot return normally on the shown EOF branch"
+  ],
+  "sourceOrigins": {
+    "identicalLifecycleSnapshots": [
+      "bridge.py",
+      "common.py",
+      "entry.py",
+      "lease.py",
+      "service.py",
+      "watchdog.py",
+      "windows.py",
+      "winjob.py",
+      "worker.py"
+    ],
+    "otherSources": "Parent adaptations of lifecycle snapshots, integrating corrected Codex draft"
+  },
+  "guardReview": {
+    "clean-code-guard": {
+      "fixed": [
+        "Watermark tuple order",
+        "Broad watcher exception handler",
+        "Abort could bypass protected cleanup",
+        "Broken-pipe outcome lacked qualified closure accounting"
+      ],
+      "scope": "Focused pass on new behavior and failure paths; fixture helper style retained, no production adapter abstraction added"
+    },
+    "test-guard": "Six real-process/file/pipe tests, including three distinct interruption phases, partial-file subcases and actual callback-failure regression. No internal logic mocked; no pressure pass from a timer or a large allocation",
+    "docs-guard": "Commands, flags and links checked; separates synthetic pressure from native input capacity, queue counters from delivery, and process restart from power-loss/concurrent storage guarantees"
+  },
+  "diagnostics": {
+    "codex": "Ambient configured MCP authentication warnings despite ignore-user-config; reply-only does not establish network silence",
+    "touchedFiles": "Relay snapshots can include parent concurrent edits; not evidence of delegate mutation",
+    "rawDelegateLogsPublished": false
+  },
+  "modelRouting": {
+    "gemini": "Recorded consumer-route exclusion retained; not dispatched",
+    "deepseek": "Used only if a requested lane failed; consult actual delegation result entries"
+  },
+  "remaining": [
+    "Final source-bound L1/L2 review",
+    "Native-profile small-frame pressure under independently constrained real pipes",
+    "P1 ambient access",
+    "P2 capture permissions/publication",
+    "A1 native admission"
+  ],
+  "nativeProviderRunsByFixture": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD"
+}

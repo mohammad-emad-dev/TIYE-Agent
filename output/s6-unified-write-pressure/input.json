@@ -1,0 +1,57 @@
+{
+  "sourceSha256": {
+    "feasibility/s6-wsl/unified-write-pressure/bridge.py": "4f38441a13d07870507247267aa160a448c9766049122a386d8f0d84335b86c3",
+    "feasibility/s6-wsl/unified-write-pressure/common.py": "a4b13223829903dda469bdb6c8aedc0a0eda4f937c939bb4d49611cdaa800b81",
+    "feasibility/s6-wsl/unified-write-pressure/entry.py": "99b4402896f762344cecbba281fd622bbb1fd843520b6ca499d245ed477ecb51",
+    "feasibility/s6-wsl/unified-write-pressure/host.py": "818878d23744629d57186df9aa700203b5d10eee51dd4fd6b46f52b71058582d",
+    "feasibility/s6-wsl/unified-write-pressure/journal.py": "f50b3a8927ab5f475c1bc9843b6d240113c53e492c17be23737095cf63b3cdf7",
+    "feasibility/s6-wsl/unified-write-pressure/lease.py": "2e9741e56c49698e3e1e4b10b975cd92137cb86c69b31230322601026203fe2f",
+    "feasibility/s6-wsl/unified-write-pressure/observer.py": "0493d33c6e8c9c541bced64d3fce59e296ddfc6cf93b71ab33255715959b3de1",
+    "feasibility/s6-wsl/unified-write-pressure/profile.py": "fdccaeff34d35a0be264ef739c6b103cf96ace99f9f32daf8df411c4baedd4b6",
+    "feasibility/s6-wsl/unified-write-pressure/protocol_peer.py": "0013f4f5ffce4edd0499d431ab27c92a99caa19c754a492c20748db32f754422",
+    "feasibility/s6-wsl/unified-write-pressure/run.py": "4c1b996a171c1aad3cd6e07c049954ba33475c901abccb3fbbcc7f68df1037d5",
+    "feasibility/s6-wsl/unified-write-pressure/service.py": "ebbb699aaa6aa683d3d8ec351c06c142f08dc1d5eead1ef2c22afc406abb7878",
+    "feasibility/s6-wsl/unified-write-pressure/stop.py": "0533f15a27dd20e1a961a98dc0cd866e74e1a017ae83d59d3721b9e39d572fb9",
+    "feasibility/s6-wsl/unified-write-pressure/test_unified.py": "1c53440bf45c7162f69e2678b6bc63871343252d2cdabc07331f6e61df5ec181",
+    "feasibility/s6-wsl/unified-write-pressure/transport.py": "4351d6e8d14696d868e51b57166081078de314b523bc96452ea19230760bd38e",
+    "feasibility/s6-wsl/unified-write-pressure/validation.py": "ebe908ea42410f58b29a0adaf4de4d734ffc3024ba4287e08cb22aa2f238fa61",
+    "feasibility/s6-wsl/unified-write-pressure/watchdog.py": "5f6b318444339ef85ea19858fb040842ca89bea31c8e97c3fbace7a26e7690a0",
+    "feasibility/s6-wsl/unified-write-pressure/windows.py": "0682a8b0ddcbb233c9c6c2144088fd40bc0c502c9ac469314f358fe796abc9b4",
+    "feasibility/s6-wsl/unified-write-pressure/winjob.py": "cba5dd28c2449b0a23447d44a6dc9ff0190414f13392f76296a3c99a80cbc23a",
+    "feasibility/s6-wsl/unified-write-pressure/worker.py": "eda5b3c08716b0ddb7fd0f2792be70246f24301574c1fa3ecd2da5b01572bb91"
+  },
+  "distribution": "Ubuntu",
+  "uid": 1000,
+  "cases": [
+    "pressure-stop",
+    "pressure-owner-loss",
+    "pressure-transport-loss",
+    "partial-journal-refusal",
+    "native-refusal",
+    "cleanup-hook-failure"
+  ],
+  "profile": {
+    "windowsWatchdogSeconds": 90,
+    "windowsProtocolSeconds": 75,
+    "spawnSeconds": 30,
+    "initializeSeconds": 15,
+    "cleanupPhaseSeconds": 5,
+    "serviceRuntimeSeconds": 60,
+    "serviceStopSeconds": 5,
+    "observationSeconds": 15,
+    "leaseSeconds": 1,
+    "retainedStdoutBytes": 4194304,
+    "retainedStderrBytes": 1048576,
+    "pressureBytes": 8388608,
+    "pressureIsNativeProtocol": false,
+    "mockOnly": true,
+    "nativeAdmissionGranted": false
+  },
+  "futureNativeCandidate": {
+    "binary": "/home/mohammad/.local/share/tiye-feasibility/codex-0.157.1-rx5vmnt1/package/bin/codex",
+    "binarySha256": "3e2584f3f3829a43a0495011a1cecb2facbe64a2403e2b682351fd9c2983f970",
+    "installationSha256": "af65a690078c47be0d1eb7bde13eb89a38c6a461e444461253c52c5c6b5608ff",
+    "executed": false
+  },
+  "nativeAdmissionGranted": false
+}
