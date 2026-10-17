@@ -1,0 +1,32 @@
+{
+  "sourceSha256": {
+    "feasibility/s6-wsl/linux-owner/owner.py": "6b18c99d9a50c7ca397e55cf415bef3652610215f96b2ed564c82fb4bcbb38f1",
+    "feasibility/s6-wsl/linux-owner/peer.py": "32744cb8447f2c73020b76781bf029edbc3344eb2fe1b9ef1009c48e474be5e1",
+    "feasibility/s6-wsl/linux-owner/run.py": "8cd0dea00362723d533a449822d9354094e98cecbc3238901e13874d15790575",
+    "feasibility/s6-wsl/linux-owner/supervisor.py": "ef213256f27c98c940e43fb214292a0a1b03369c5d4935df1a4050460bf721f5",
+    "feasibility/s6-wsl/linux-owner/test_linux.py": "d42f8b564eb15d6d07dab82c80e287e84c1bd51b6cf9b2553703ec7ffd52668c"
+  },
+  "bundleSha256": "e76199af0a49cca9e27056a76f44b6d3eac35075155b72ffea90a1475b99fa3a",
+  "nonce": "42a1a2b264b34d40bdc2fa217502af64",
+  "argv": [
+    "C:\\WINDOWS\\System32\\wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--cd",
+    "/tmp",
+    "--exec",
+    "/usr/bin/env",
+    "-i",
+    "PATH=/usr/bin:/bin",
+    "LC_ALL=C.UTF-8",
+    "/usr/bin/python3",
+    "-I",
+    "-S",
+    "-B",
+    "-c",
+    "import base64,hashlib,json,os,platform,subprocess,sys,tempfile\nfrom pathlib import Path\nif os.getuid()!=1000: raise ValueError('expected-non-root-uid1000')\nincoming=sys.stdin.buffer.read(65537)\nif len(incoming)>65536: raise ValueError('bundle-budget')\nbundle=json.loads(incoming)\nif set(bundle['files'])!={'owner.py','peer.py','supervisor.py','test_linux.py'}: raise ValueError('bundle-files')\nos.umask(0o077)\nroot=Path(tempfile.mkdtemp(prefix='tiye-linux-owner-',dir='/tmp'))\n(root/'owner.json').write_text(json.dumps({'nonce':bundle['nonce']}))\nfor name,encoded in bundle['files'].items():\n raw=base64.b64decode(encoded,validate=True)\n if hashlib.sha256(raw).hexdigest()!=bundle['sha256'][name]: raise ValueError('bundle-hash')\n with (root/name).open('xb') as stream: stream.write(raw)\nrun=subprocess.run([sys.executable,'-I','-S','-B',str(root/'test_linux.py')],\n stdin=subprocess.DEVNULL,capture_output=True,timeout=25,\n env={'PATH':'/usr/bin:/bin','LC_ALL':'C.UTF-8'})\nprint(json.dumps({'runtimeRoot':str(root),'nonce':bundle['nonce'],'uid':os.getuid(),\n 'linux':platform.platform(),'python':platform.python_version(),'testExitCode':run.returncode,\n 'stdoutBase64':base64.b64encode(run.stdout).decode('ascii'),\n 'stderrBase64':base64.b64encode(run.stderr).decode('ascii')}))\nsys.exit(0 if run.returncode==0 else 1)\n"
+  ],
+  "hostDeadlineSeconds": 35,
+  "fixtureProcessTtlSeconds": 10,
+  "nativeProviderRuns": 0
+}

@@ -111,3 +111,14 @@ cases including descendant survival and owner crashes. U0 integration, Linux
 ownership/recovery and native admission remain pending; Phase 1 remains HOLD.
 The first saved capture exposed a job-accounting/process-exit race and is
 [preserved as a failed baseline](output/s4-codex-u0-watchdog/STATUS.md).
+
+The [synthetic Windows U0 supervision integration](output/s4-codex-u0-supervised/README.md)
+now combines the frozen transport and watchdog with six tests covering eight
+controlled cases. This is not a native WSL integration or admission record.
+
+The [Linux ownership component](output/s6-linux-owner/README.md) now exercises
+orphan adoption across separate sessions, identity-bound refusal and TERM/KILL
+escalation in four controlled Ubuntu cases. This advances Stop/cleanup behavior;
+it does not establish arbitrary provider-tree containment or owner-crash recovery.
+Next is a separately reviewed Linux/native host integration and capture/privacy
+review. Product core construction remains on HOLD under the existing gate.

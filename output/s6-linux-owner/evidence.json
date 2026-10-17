@@ -1,0 +1,25 @@
+{
+  "projectDate": "2026-10-17",
+  "windows": "Windows-11-10.0.26300-SP0",
+  "sourceSha256": {
+    "feasibility/s6-wsl/linux-owner/owner.py": "6b18c99d9a50c7ca397e55cf415bef3652610215f96b2ed564c82fb4bcbb38f1",
+    "feasibility/s6-wsl/linux-owner/peer.py": "32744cb8447f2c73020b76781bf029edbc3344eb2fe1b9ef1009c48e474be5e1",
+    "feasibility/s6-wsl/linux-owner/run.py": "8cd0dea00362723d533a449822d9354094e98cecbc3238901e13874d15790575",
+    "feasibility/s6-wsl/linux-owner/supervisor.py": "ef213256f27c98c940e43fb214292a0a1b03369c5d4935df1a4050460bf721f5",
+    "feasibility/s6-wsl/linux-owner/test_linux.py": "d42f8b564eb15d6d07dab82c80e287e84c1bd51b6cf9b2553703ec7ffd52668c"
+  },
+  "sourcesUnchanged": true,
+  "hostExitCode": 0,
+  "timedOut": false,
+  "elapsedSeconds": 4.809492899999896,
+  "nativeProviderRuns": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD",
+  "artifactSha256": {
+    "input.json": "0037e8456e8f6d4a2bc867cc927ee67de5f4e3aa125664cbe167538ad79ddd77",
+    "README.md": "f3edb1f916a8b05de81859d6eea6de1ed84548cfc502b3754b8a391914ed98e6",
+    "review.json": "aae2e65480da8cc1d677ad27a0c3c5a5700347d401cdaef4d3637903614942af",
+    "wsl.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wsl.stdout.bin": "a5dd5e683959bea736b2728ac3fdad0d795ad5c70ce1b9d14ac03a80d03cb034"
+  }
+}

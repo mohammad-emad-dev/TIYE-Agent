@@ -1,0 +1,70 @@
+{
+  "projectDate": "2026-10-17",
+  "reviews": [
+    {
+      "requestedModel": "gpt-6-luna",
+      "requestedEffort": "max",
+      "relayStatus": "completed",
+      "finalMessagePresent": true,
+      "cliVersion": "codex-cli 0.157.1",
+      "assessment": "Returned initial owner.py source only; no claimed tests or tools",
+      "artifactSha256": {
+        "brief.txt": "2d497369a45621aa920890f8d0b90cb7c2885f63b15a7b0f138b3179fa7f2596",
+        "events.jsonl": "a4daa989806fa7269d350a1ea8f4b827170de6571676f0727a5762e402d03688",
+        "final.txt": "9026a5f9fb8b405e72d4a408f27d9242c2d1b818ce76a5d83c794d7dca184491",
+        "result.json": "d90a6ac05ca55d99305a51fffbebfe0e61b9c4277897c261031a4339037e9e9a",
+        "stderr.txt": "83822cd5fcbbcd7aa7af0d0b03237c34af27719cd4d69e02adf8325d84e10c79"
+      }
+    },
+    {
+      "requestedModel": "opencode/muse-spark-1.3-contributor-free",
+      "requestedEffort": "xhigh",
+      "relayStatus": "failed",
+      "finalMessagePresent": false,
+      "cliVersion": "opencode v2.0.28",
+      "assessment": "Unavailable provider.no-route; no review returned",
+      "artifactSha256": {
+        "brief.txt": "a3d1b6000f0540b5a21526980c0bc5c8ab549edb2a07a3e69acb85d5174ca416",
+        "events.jsonl": "9a90e0bed4a5375caa9b01825f7d4d5afcf531a42e7151191ec868a24853d70e",
+        "result.json": "ed4311a747933f7c27a981e208ff8de9598eeb1bf94904985dcd74d8c55e58a3"
+      }
+    },
+    {
+      "requestedModel": "opencode/deepseek-v4.1-flash-free",
+      "requestedEffort": "max",
+      "relayStatus": "completed",
+      "finalMessagePresent": false,
+      "cliVersion": "opencode v2.0.28",
+      "assessment": "Relay exited0 after step_start only; final message empty; not a completed review",
+      "artifactSha256": {
+        "brief.txt": "a3d1b6000f0540b5a21526980c0bc5c8ab549edb2a07a3e69acb85d5174ca416",
+        "events.jsonl": "8f6c6510964615b93ccc087d9e466ec51cfbe16ea56c2042ba374bdcbce92b6e",
+        "result.json": "1ae42bb730fee63ad03cc30d5f520b677ae2e6d252a62ffa191fc0dfd8e1cfc6"
+      }
+    }
+  ],
+  "finalCodeReviewedBy": "Parent",
+  "independentCompletedCodeReview": false,
+  "parentDispositions": [
+    "Codex initial source supplied concrete pidfd/subreaper ownership and immutable expected identities. Parent reviewed and landed it with explicit changes below; no delegate test claims accepted.",
+    "Parent added a single-thread precondition and refusal when an already-reaped PID reappears in the direct-child snapshot.",
+    "Parent added Owner.empty(): after sweep/reaping, independently recheck the direct-child list rather than infer emptiness from tracked liveCount alone. Controlled known descendant exit is separately witnessed by the observer pidfd and /proc absence.",
+    "Parent mismatch fixture replaces expected metadata only, preserving actual child identity. Two adopted children are held independently; only the last expected live identity is altered. Both are observed live after refusal before restoring expectations and requesting cleanup. No hardcoded zero-signal count is accepted as proof.",
+    "Parent implemented fixed finite peers, dedicated supervisor, four independent observer cases, bounded source-bundle WSL runner and offline checker. Whole new source frozen before final capture and checked after it.",
+    "Parent checked Linux man-pages for subreaper adoption and pidfd no-reuse preconditions. Caller must remain sole reaper with SIGCHLD default; hostile namespaces, concurrent threads and arbitrary process trees remain outside the claim.",
+    "Clean Code Guard: direct verified stdlib/ctypes APIs; no added packages, broad swallowed errors, arbitrary process search, numeric-PID owner signals or unsupported provider success fallback.",
+    "Test Guard: actual Ubuntu processes, held observer pidfds before intervention, different-session/adopted-parent witnesses, root exit7 preserved, TERM-ignoring leaf needs KILL, unrelated sibling sentinel live. Fixture TTL is not accepted cleanup.",
+    "Docs Guard: checked command flags, local links and source/evidence claims; default verifier is offline, explicit captures are controlled mocks only. Boundary and version limitations remain visible.",
+    "Final parent code inspection included the all-before-any validation loop, pidfd signal exception semantics, exclusive capture refusal, source/hash receipts, test failure preservation and declared environment limits."
+  ],
+  "diagnostics": [
+    "Codex emitted configured MCP startup/authentication diagnostics despite ignore-user-config; no account/service configuration changed. Reply-only task scope does not imply network silence.",
+    "Relays emitted Node shell-argument deprecation warnings; fixed task/model arguments were used.",
+    "Muse provider reported Model unavailable. DeepSeek produced only step_start and no review message; its relay completed status is not treated as successful review."
+  ],
+  "gemini": "Not dispatched: recorded consumer Agy route remains excluded from integration and delegation",
+  "nativeProviderRunsInFixture": 0,
+  "nativeAdmissionGranted": false,
+  "fullS6Qualified": false,
+  "phase1": "HOLD"
+}
