@@ -1,0 +1,96 @@
+{
+  "projectDate": "2026-10-17",
+  "reviews": [
+    {
+      "requestedModel": "gpt-6-luna",
+      "requestedEffort": "max",
+      "role": "Initial strict review-document validator generation",
+      "relayStatus": "completed",
+      "finalMessagePresent": true,
+      "artifactSha256": {
+        "brief.txt": "0ffe7cb803f864ed79a18f949d77159625d978dc6b1301528724b847ab241d30",
+        "events.jsonl": "f6a396cd32e24c6af8564f2e8744de665d0e0f9c056504bae1297bfb99d35d1a",
+        "final.txt": "2d3aa966de24a961041dc3901934d4c987d6e6c0aa3826e4337df4c41bdae37c",
+        "result.json": "7651f1eb0f5594619196bbe8b3d59c6c328722a39f217b8a56cafc08b66a7968",
+        "stderr.txt": "bfe07fe65ac15cff7e5c8389d4d90df22e134714d3fd9cecca6be9a891de6cb6"
+      }
+    },
+    {
+      "requestedModel": "opencode/muse-spark-1.3-contributor-free",
+      "requestedEffort": "xhigh",
+      "role": "Design review attempt",
+      "relayStatus": "failed",
+      "finalMessagePresent": false,
+      "artifactSha256": {
+        "brief.txt": "eed8951293bb066b4cf225e71bcefb0f42a1eae9ad771881636d208dbf696430",
+        "events.jsonl": "e49c7cd68f5dd4f419ef5c6f579b2d15df737714e61a625fd07c74dd10c94dfc",
+        "result.json": "ae0b7a4ecbc55bd47105c9bdb89697eeaa40ba84df0ff0ef6faf7ed212980123"
+      }
+    },
+    {
+      "requestedModel": "opencode/deepseek-v4.1-flash-free",
+      "requestedEffort": "max",
+      "role": "Supplied-context readiness review",
+      "relayStatus": "completed",
+      "finalMessagePresent": true,
+      "artifactSha256": {
+        "brief.txt": "eed8951293bb066b4cf225e71bcefb0f42a1eae9ad771881636d208dbf696430",
+        "events.jsonl": "a428c1a210afdcb15dd37c56b90152052279025505c6271aadef7eb34f8ea713",
+        "final.txt": "c5f5982232a3bcbbe5f3aca573bcd23b3ba221102e8a68b0cf0722ca6f9852cd",
+        "result.json": "749d55bca66c7ef5abc1b6693e585b64b1bc13c8b948caf8b1f2c1c5bf773bbf"
+      }
+    },
+    {
+      "requestedModel": "opencode/deepseek-v4.1-flash-free",
+      "requestedEffort": "max",
+      "role": "Supplied checker/validator/test/ledger review before final parent manifest checks",
+      "relayStatus": "completed",
+      "finalMessagePresent": true,
+      "artifactSha256": {
+        "brief.txt": "da5ad31fadc4362e4b36819dec98695e519206ecd5134e9cb70affccbce7d6d7",
+        "events.jsonl": "29ff8e32a9f23706b0dbf9e92ada4433dd9709991b56cf990bb16d71e58b148c",
+        "final.txt": "d8ba9d6c78025afa6b5d497aadae1d249bc249146614e02446472e9ebd50f833",
+        "result.json": "f212bef350d2f65bb6aef39ab81552d7c00d405cace5c0cf8f12625dec018a4e"
+      }
+    }
+  ],
+  "finalCodeReviewedBy": "Parent; DeepSeek reviewed earlier supplied source snapshot",
+  "independentFinalWholeArtifactReview": false,
+  "gemini": "Not dispatched: recorded consumer Agy route excluded from integration and delegation",
+  "nativeU0Runs": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD",
+  "parentDispositions": [
+    "Codex supplied initial validator. Parent added NUL rejection, full local artifact/evidence checker and behavioral regression tests; no launcher module or native runtime imported.",
+    "All nine existing cohort offline checkers ran successfully in parent tools; no fixture rerun or WSL/native experiment was performed by this assessment.",
+    "DeepSeek context review: nine frozen cohorts are dated, overlapping component observations rather than coverage or completed U0. Original native launcher and old Linux abort path remain unchanged and unadmitted.",
+    "DeepSeek context review: all five requirements must bind to one exact launcher. Cross-owner nullserviceIO/internalpipes/8second limits do not satisfy native forwarding and longer protocol budgets. Receipt is administrative, not route eligibility.",
+    "DeepSeek source review found no blocking false pass or unsafe action at declared offline scope, and noted result files could be absent from hash manifest. Parent required all consumed result artifacts, added missing-manifest regression, classified Linux envelope profiles by cohort ID and required nonempty source manifest.",
+    "Parent also rejects private .git store references to prevent accidental private raw evidence becoming a public hash-index input.",
+    "sourcesUnchanged legacy absence remains allowed for original U0 evidence; actual current source hashes are verified. Per-case semantics remain the responsibility of the nine original offline checkers. Index is local consistency, not authenticity or executable admission.",
+    "The review-only scope and exact keys cannot be used directly as the legacy U0 admission record; this does not secure that old launcher from a local operator who fabricates its separate booleans.",
+    "clean-code-guard: explicit ValueError instead of assertion gates, no subprocess/network/imported launcher code, canonical confined paths, duplicate JSON refusal, narrow scoped exclusive sealing; no new dependency.",
+    "test-guard: six distinct behaviors with real temporary files; state/path variants use subtests, missing-result regression addresses review finding, no internal mocks. Both normal and optimized Python runs pass.",
+    "docs-guard: checked nine count/result formats, existing source contracts and new checker CLI. Privacy is a review plan, not certified controls; separate runtime outcomes, provider route and product HOLD remain visible."
+  ],
+  "verification": {
+    "originalOfflineCheckers": {
+      "count": 9,
+      "allExitCodesZero": true,
+      "newFixtureRuns": 0
+    },
+    "reviewRegressionTests": {
+      "uniqueTests": 6,
+      "normalPythonPassed": true,
+      "optimizedPythonPassed": true
+    },
+    "newNativeExperiments": 0,
+    "currentProviderPolicyRecheck": false
+  },
+  "reviewLimits": [
+    "DeepSeek did not inspect every historical cohort source or final parent additions. No independent full final-artifact approval claimed.",
+    "Codex emitted configured MCP auth/startup diagnostics despite ignore-user-config; account configuration unchanged and reply-only does not imply network silence.",
+    "Relay touchedFiles included concurrent parent changes; delegates were requested reply-only; parent applied and verified source."
+  ],
+  "scope": "offline readiness and artifact integrity only; not executable admission"
+}

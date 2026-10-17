@@ -158,3 +158,11 @@ work is live. Windows handle exit and Linux pidfd/cgroup cleanup are observed
 independently; failed process statuses and uncertain protocol completion remain
 visible. Live protocol forwarding, capture/privacy review and native admission
 remain open.
+
+The [dated launcher admission review](output/launcher-admission-review/README.md)
+now indexes nine mock cohorts and five remaining requirements: one native-capable
+launcher, its Stop/uncertainty cases, ambient-access review, capture privacy and
+separate source-bound admission. All nine existing offline checkers pass; this
+review launches no native process and grants no admission. Its
+[next implementation brief](output/launcher-admission-review/NEXT-STEP.md) defines
+the unified mock launcher before any native attempt. Phase 1 remains HOLD.

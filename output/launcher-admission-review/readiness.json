@@ -1,0 +1,142 @@
+{
+  "schema": "tiye-launcher-readiness-v1",
+  "projectDate": "2026-10-17",
+  "scope": "launcher-readiness-review-only",
+  "decision": "HOLD",
+  "nativeAdmissionGranted": false,
+  "nativeU0Runs": 0,
+  "phase1": "HOLD",
+  "executionBoundary": "no-launch-no-auth-no-inference",
+  "requirements": [
+    {
+      "id": "L1",
+      "status": "partial",
+      "dependsOn": [],
+      "evidence": [
+        "output/s4-codex-u0-launcher/README.md",
+        "output/s6-cross-owner/README.md",
+        "output/s6-service-transport/README.md"
+      ],
+      "acceptance": "Freeze one launcher source set combining actual protocol forwarding, Windows supervision, Linux lifecycle/lease, pinned binary checks and protocol-sized deadlines. Pass its complete mock execution path with native execution disabled; component passes do not transfer automatically."
+    },
+    {
+      "id": "L2",
+      "status": "partial",
+      "dependsOn": [
+        "L1"
+      ],
+      "evidence": [
+        "output/s6-linux-stop/README.md",
+        "output/s6-service-inflight/README.md",
+        "output/s6-cross-owner/README.md"
+      ],
+      "acceptance": "On the same L1 launcher verify normal Stop, EOF/error cleanup, owner loss and interrupted-write outcomes with independent tree witnesses; preserve failure, unknown outcome and persistent one-attempt lock. Full product reconnect/recovery is not a prerequisite for transport-only U0."
+    },
+    {
+      "id": "P1",
+      "status": "open",
+      "dependsOn": [
+        "L1"
+      ],
+      "evidence": [
+        "output/s4-codex-native-protocol/README.md",
+        "feasibility/s6-wsl/codex-u0/linux.py",
+        "output/s6-cross-owner/README.md"
+      ],
+      "acceptance": "Review the exact L1 executable, environment, runtime identity and accessible credential/filesystem/keyring/socket/network surfaces without disclosing secrets. Record enforced boundaries and unresolved reach explicitly; fresh HOME/env and cgroup ownership do not establish isolation or unauthenticated behavior."
+    },
+    {
+      "id": "P2",
+      "status": "open",
+      "dependsOn": [
+        "L1"
+      ],
+      "evidence": [
+        "output/s4-codex-u0-launcher/README.md",
+        "output/s4-codex-native-protocol/README.md",
+        "output/launcher-admission-review/CAPTURE-PRIVACY.md"
+      ],
+      "acceptance": "Review effective Windows capture ACLs and Linux runtime permissions for the exact L1 path; keep native raw captures and raw hashes privately, inspect fields before public derivation, and bind a safe derivative to private provenance. Git exclusion is not access control; no privacy approval is issued here."
+    },
+    {
+      "id": "A1",
+      "status": "blocked",
+      "dependsOn": [
+        "L1",
+        "L2",
+        "P1",
+        "P2"
+      ],
+      "evidence": [
+        "output/s4-codex-u0-launcher/README.md",
+        "output/launcher-admission-review/NEXT-STEP.md"
+      ],
+      "acceptance": "After L1/L2/P1/P2 evidence is reviewed for one identical source/binary/input set, issue a separate explicit source-bound U0 admission with attempt/deadline/cleanup/privacy limits. This review-only record cannot authorize launch or satisfy the legacy launcher admission contract."
+    }
+  ],
+  "cohorts": [
+    {
+      "id": "s4-codex-u0-launcher",
+      "evidence": "output/s4-codex-u0-launcher/evidence.json",
+      "checker": "feasibility/s6-wsl/codex-u0/check.py",
+      "tests": 13,
+      "cases": 13
+    },
+    {
+      "id": "s4-codex-u0-watchdog-v2",
+      "evidence": "output/s4-codex-u0-watchdog-v2/evidence.json",
+      "checker": "feasibility/s6-wsl/codex-u0-watchdog-v2/run.py",
+      "tests": 6,
+      "cases": 6
+    },
+    {
+      "id": "s4-codex-u0-supervised",
+      "evidence": "output/s4-codex-u0-supervised/evidence.json",
+      "checker": "feasibility/s6-wsl/codex-u0-supervised/record.py",
+      "tests": 6,
+      "cases": 8
+    },
+    {
+      "id": "s6-linux-owner",
+      "evidence": "output/s6-linux-owner/evidence.json",
+      "checker": "feasibility/s6-wsl/linux-owner/run.py",
+      "tests": 4,
+      "cases": 4
+    },
+    {
+      "id": "s6-linux-stop",
+      "evidence": "output/s6-linux-stop/evidence.json",
+      "checker": "feasibility/s6-wsl/linux-stop/run.py",
+      "tests": 3,
+      "cases": 3
+    },
+    {
+      "id": "s6-linux-service",
+      "evidence": "output/s6-linux-service/evidence.json",
+      "checker": "feasibility/s6-wsl/linux-service/run.py",
+      "tests": 4,
+      "cases": 4
+    },
+    {
+      "id": "s6-service-transport",
+      "evidence": "output/s6-service-transport/evidence.json",
+      "checker": "feasibility/s6-wsl/service-transport/run.py",
+      "tests": 3,
+      "cases": 3
+    },
+    {
+      "id": "s6-service-inflight",
+      "evidence": "output/s6-service-inflight/evidence.json",
+      "checker": "feasibility/s6-wsl/service-inflight/run.py",
+      "tests": 4,
+      "cases": 4
+    },
+    {
+      "id": "s6-cross-owner",
+      "evidence": "output/s6-cross-owner/evidence.json",
+      "checker": "feasibility/s6-wsl/cross-owner/run.py",
+      "tests": 2,
+      "cases": 2
+    }
+  ]
+}

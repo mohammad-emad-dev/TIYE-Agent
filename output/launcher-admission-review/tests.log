@@ -1,0 +1,27 @@
+Normal Python
+[rtk] /!\ No hook installed — run `rtk init -g` for automatic token savings
+test_dated_review_validates_without_granting_execution (test_review.ReviewTests.test_dated_review_validates_without_granting_execution) ... ok
+test_duplicate_json_cannot_hide_an_earlier_decision (test_review.ReviewTests.test_duplicate_json_cannot_hide_an_earlier_decision) ... ok
+test_evidence_paths_cannot_escape_or_redirect_a_cohort (test_review.ReviewTests.test_evidence_paths_cannot_escape_or_redirect_a_cohort) ... ok
+test_modified_source_bytes_invalidate_saved_evidence (test_review.ReviewTests.test_modified_source_bytes_invalidate_saved_evidence) ... ok
+test_promoted_state_or_removed_prerequisite_is_rejected (test_review.ReviewTests.test_promoted_state_or_removed_prerequisite_is_rejected) ... ok
+test_result_missing_from_hash_manifest_cannot_count_as_evidence (test_review.ReviewTests.test_result_missing_from_hash_manifest_cannot_count_as_evidence) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.008s
+
+OK
+
+Optimized Python (-O)
+[rtk] /!\ No hook installed — run `rtk init -g` for automatic token savings
+test_dated_review_validates_without_granting_execution (test_review.ReviewTests.test_dated_review_validates_without_granting_execution) ... ok
+test_duplicate_json_cannot_hide_an_earlier_decision (test_review.ReviewTests.test_duplicate_json_cannot_hide_an_earlier_decision) ... ok
+test_evidence_paths_cannot_escape_or_redirect_a_cohort (test_review.ReviewTests.test_evidence_paths_cannot_escape_or_redirect_a_cohort) ... ok
+test_modified_source_bytes_invalidate_saved_evidence (test_review.ReviewTests.test_modified_source_bytes_invalidate_saved_evidence) ... ok
+test_promoted_state_or_removed_prerequisite_is_rejected (test_review.ReviewTests.test_promoted_state_or_removed_prerequisite_is_rejected) ... ok
+test_result_missing_from_hash_manifest_cannot_count_as_evidence (test_review.ReviewTests.test_result_missing_from_hash_manifest_cannot_count_as_evidence) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.008s
+
+OK
