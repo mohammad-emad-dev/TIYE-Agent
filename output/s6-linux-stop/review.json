@@ -1,0 +1,70 @@
+{
+  "projectDate": "2026-10-17",
+  "reviews": [
+    {
+      "requestedModel": "gpt-6-luna",
+      "requestedEffort": "max",
+      "relayStatus": "completed",
+      "finalMessagePresent": true,
+      "role": "Initial stop.py source generation",
+      "cliVersion": "codex-cli 0.157.1",
+      "artifactSha256": {
+        "brief.txt": "077deca37c486152d89aa36ae82ac3ebbf2aeeb0a927201ee1f5c10d430c7304",
+        "events.jsonl": "83db74b9a730bcf1a8880df34a79f6832503ea9a2bfbd0e13039c0f8141d92e1",
+        "final.txt": "642f098eb472974f2ef3b86658d5f13c3f7b9347a82efe31e1328d38ee453ab1",
+        "result.json": "3ca29d6802d18435815e7073031166c85875125aaf0bf9670845b0808c3e62b1",
+        "stderr.txt": "4ed47e281043002288a9dfb72e08876f2f33ae7c2d26f895878ed7dd85713596"
+      }
+    },
+    {
+      "requestedModel": "opencode/muse-spark-1.3-contributor-free",
+      "requestedEffort": "xhigh",
+      "relayStatus": "failed",
+      "finalMessagePresent": false,
+      "role": "Supplied-context code review attempt",
+      "cliVersion": "opencode v2.0.28",
+      "artifactSha256": {
+        "brief.txt": "bbf9829629896436f7055d7a3a4638243b24b516fd84bdfb1c4e4945ad28c090",
+        "events.jsonl": "dd0f61ab43ab084589f185c7132b3d95e593f5d0be45100e69e03af02bfe7ab6",
+        "result.json": "8f71b57eaff7dd18ddcb8cd95c86585b0512c044f60dfa68423ac8fc09b85de0"
+      }
+    },
+    {
+      "requestedModel": "opencode/deepseek-v4.1-flash-free",
+      "requestedEffort": "max",
+      "relayStatus": "completed",
+      "finalMessagePresent": false,
+      "role": "Supplied-context code review attempt",
+      "cliVersion": "opencode v2.0.28",
+      "artifactSha256": {
+        "brief.txt": "bbf9829629896436f7055d7a3a4638243b24b516fd84bdfb1c4e4945ad28c090",
+        "events.jsonl": "2b8222ee58e2868291fb5c9933e2e55ada98f53f74a5fbab2664f80a879a661c",
+        "result.json": "7790a5a9736ed6f31d2c84a8abfb484cae9461fa690f1bb7b4c7cbfc8d6ebb10"
+      }
+    }
+  ],
+  "finalCodeReviewedBy": "Parent",
+  "independentReviewTextReturned": false,
+  "parentDispositions": [
+    "Codex generated stop.py using the concrete supplied Owner API. Parent changed phase selection to re-read monotonic time after discovery, then reviewed the resulting function. No delegated test claims accepted.",
+    "Parent derived a new Owner snapshot from the frozen Linux owner. send_once retains all-before-any validation and records successful signal requests per held descriptor and signal. Descriptors are held until close, so suppression cannot be confused with descriptor reuse during the run.",
+    "Repeated discovery continues in both TERM and KILL phases. A newly adopted child in the KILL phase receives KILL without extending the overall work budget or restarting a grace interval.",
+    "Parent implemented three actual active-work fixtures with independent held pidfds before Stop, separate-session child, exact observed/reaped exit codes and unrelated live sentinel. No fixture TTL is accepted as cleanup.",
+    "Parent checked the Owner diff, phase/overall bounds, source-bundle allowlist, explicit environments, exclusive capture refusal, offline raw-result validation and public artifact hashes.",
+    "Clean Code Guard: concrete APIs, no compatibility adapters or extra dependencies, no generic unused send method in the new owner, no hidden success after signal/identity failure.",
+    "Test Guard: distinct graceful/leaf-stubborn/both-stubborn scenarios, real Ubuntu processes, observer start-time/nonce checks before intervention, direct/adopted identity agreement after it, exact signal count and exit status assertions.",
+    "Docs Guard: normal-await budgets and observation tolerance distinguished from hard OS bounds; emergency cleanup cannot turn failed normal cleanup into pass; no completed UI or arbitrary provider-tree containment claim."
+  ],
+  "baselineEvidenceSha256": "a6c4163bd25e53e2df1d2dbfef6dc6473b7a5ea70b7ac41087886f073c47d21e",
+  "diagnostics": [
+    "Codex emitted configured MCP authentication/startup diagnostics despite ignore-user-config. No service or account configuration was changed. Reply-only scope is not proof of network silence.",
+    "Relays emitted Node shell-argument deprecation warnings; all task/model arguments were fixed.",
+    "Delegate CLI exit/status is not independent runtime verification; missing review text is not counted as approval."
+  ],
+  "reviewAvailability": "Muse returned provider.no-route. DeepSeek exited0 without review text. Parent performed final code/test/documentation review; no independent completed review is claimed.",
+  "gemini": "Not dispatched: recorded consumer Agy route excluded from integration and delegation",
+  "nativeProviderRunsInFixture": 0,
+  "nativeAdmissionGranted": false,
+  "fullS6Qualified": false,
+  "phase1": "HOLD"
+}

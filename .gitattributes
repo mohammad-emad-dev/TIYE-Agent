@@ -102,4 +102,5 @@ output/s4-codex-u0-watchdog-v2/** -text
 output/s4-codex-u0-watchdog-v2/*.log -whitespace
 output/s4-codex-u0-supervised/** -text
 output/s6-linux-owner/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-linux-stop/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/** -text

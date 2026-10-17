@@ -122,3 +122,9 @@ escalation in four controlled Ubuntu cases. This advances Stop/cleanup behavior;
 it does not establish arbitrary provider-tree containment or owner-crash recovery.
 Next is a separately reviewed Linux/native host integration and capture/privacy
 review. Product core construction remains on HOLD under the existing gate.
+
+The [active Linux Stop capture](output/s6-linux-stop/README.md) adds three cases
+where the root and separate-session child are alive when Stop begins. It records
+TERM/KILL escalation and adoption after forced root death, with independent
+exit witnesses and a live unrelated sentinel. This is controlled component
+evidence; native provider admission and the product construction gate remain open.

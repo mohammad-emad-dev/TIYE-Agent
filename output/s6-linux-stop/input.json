@@ -1,0 +1,33 @@
+{
+  "sourceSha256": {
+    "feasibility/s6-wsl/linux-stop/owner.py": "992401dfedd570b90998c063c47e4cc1ff6057b05bd64c966a57ed7d08865c98",
+    "feasibility/s6-wsl/linux-stop/peer.py": "7b88a09588b78957eba7a27d0a9cb070d19721c27af1c6337b3e7d78e8c0398f",
+    "feasibility/s6-wsl/linux-stop/run.py": "df81f343897d22ba103b1c9fcdf09bd85cf4c644dbbb7ada141171423683c118",
+    "feasibility/s6-wsl/linux-stop/stop.py": "0e8c3d7a4a9f3a5fab2f6d929c7b5afef9d76cdf90d3c8691adac7a6db8e546e",
+    "feasibility/s6-wsl/linux-stop/supervisor.py": "362a27c823d093dd62fe734fe846626cfaa65d23fbbcf13cbd1092a331bb44e1",
+    "feasibility/s6-wsl/linux-stop/test_linux.py": "fbc87720f3d125cabd8b8f7eac5d2a5051d1b90e2bea0d47ca9af6bea1686796"
+  },
+  "bundleSha256": "263da4c56666612cf44dc70a21ac6dc123119fd9631b77973acdb160eac0ac9f",
+  "nonce": "3faa88cc22c74d07b9d30c8a506f3e61",
+  "argv": [
+    "C:\\WINDOWS\\System32\\wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--cd",
+    "/tmp",
+    "--exec",
+    "/usr/bin/env",
+    "-i",
+    "PATH=/usr/bin:/bin",
+    "LC_ALL=C.UTF-8",
+    "/usr/bin/python3",
+    "-I",
+    "-S",
+    "-B",
+    "-c",
+    "import base64,hashlib,json,os,platform,subprocess,sys,tempfile\nfrom pathlib import Path\nif os.getuid()!=1000: raise ValueError('expected-non-root-uid1000')\nincoming=sys.stdin.buffer.read(65537)\nif len(incoming)>65536: raise ValueError('bundle-budget')\nbundle=json.loads(incoming)\nif set(bundle['files'])!={'owner.py','peer.py','supervisor.py','stop.py','test_linux.py'}: raise ValueError('bundle-files')\nos.umask(0o077)\nroot=Path(tempfile.mkdtemp(prefix='tiye-linux-stop-',dir='/tmp'))\n(root/'owner.json').write_text(json.dumps({'nonce':bundle['nonce']}))\nfor name,encoded in bundle['files'].items():\n raw=base64.b64decode(encoded,validate=True)\n if hashlib.sha256(raw).hexdigest()!=bundle['sha256'][name]: raise ValueError('bundle-hash')\n with (root/name).open('xb') as stream: stream.write(raw)\nrun=subprocess.run([sys.executable,'-I','-S','-B',str(root/'test_linux.py')],\n stdin=subprocess.DEVNULL,capture_output=True,timeout=25,\n env={'PATH':'/usr/bin:/bin','LC_ALL':'C.UTF-8'})\nprint(json.dumps({'runtimeRoot':str(root),'nonce':bundle['nonce'],'uid':os.getuid(),\n 'linux':platform.platform(),'python':platform.python_version(),'testExitCode':run.returncode,\n 'stdoutBase64':base64.b64encode(run.stdout).decode('ascii'),\n 'stderrBase64':base64.b64encode(run.stderr).decode('ascii')}))\nsys.exit(0 if run.returncode==0 else 1)\n"
+  ],
+  "hostDeadlineSeconds": 35,
+  "fixtureProcessTtlSeconds": 10,
+  "nativeProviderRuns": 0
+}
