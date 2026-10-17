@@ -1,0 +1,67 @@
+{
+  "projectDate": "2026-10-17",
+  "reviews": [
+    {
+      "requestedModel": "gpt-6-luna",
+      "requestedEffort": "max",
+      "role": "Initial worker source generation",
+      "relayStatus": "completed",
+      "finalMessagePresent": true,
+      "artifactSha256": {
+        "brief.txt": "ace5d16a4c9e4d444181b1798270c56eb94ef98b31ee7b1f6a910b1a1baf0445",
+        "events.jsonl": "f97ad23143e403103156bf8468ea436c17bcb4bf6fb9226d544bd618a0bc6480",
+        "final.txt": "98f8b20ce5216e3faf1483bf1a8a68bb30a341e73b1b2cec67069c730d1c382c",
+        "result.json": "9f8c10cba5e5836b29086f7c48f29d506b2b2a597cc6ce83bcfbf10294f0fad8",
+        "stderr.txt": "c259b33d3c1d07f8f24e32768138065cd88ee3bbe0a91515744cdcab8bd09a66"
+      }
+    },
+    {
+      "requestedModel": "opencode/muse-spark-1.3-contributor-free",
+      "requestedEffort": "xhigh",
+      "role": "Design review attempt",
+      "relayStatus": "failed",
+      "finalMessagePresent": false,
+      "artifactSha256": {
+        "brief.txt": "79df5a0d80ce1a83f763bd9f50382239d1ccbf45820cf9a9f05df0b953c01e53",
+        "events.jsonl": "0ef794835cecadd6f58e69f91d5a04a76e547b55d5744f3f0c234542365e5bed",
+        "result.json": "71e34c9106fea4f1dd876d0e1369586298001d7339edda78dde7ecfc2664500a"
+      }
+    },
+    {
+      "requestedModel": "opencode/deepseek-v4.1-flash-free",
+      "requestedEffort": "max",
+      "role": "Design review only, not final-source review",
+      "relayStatus": "completed",
+      "finalMessagePresent": true,
+      "artifactSha256": {
+        "brief.txt": "79df5a0d80ce1a83f763bd9f50382239d1ccbf45820cf9a9f05df0b953c01e53",
+        "events.jsonl": "1a5dbcba5d53e2d5ddd36a15fbe109ad7ee9eaee9ccd4ef2e7924531592d4044",
+        "final.txt": "aa3186f764445c2dfe42df951a6bcf8369521237fe3d921f48a3dd5d210ee285",
+        "result.json": "e56024743d86e30542aaa97c0371ce55de00f3b7412e6b4d2d384673bdf35dbb"
+      }
+    }
+  ],
+  "finalCodeReviewedBy": "Parent",
+  "independentCompletedCodeReview": false,
+  "gemini": "Not dispatched: recorded consumer Agy route excluded from integration and delegation",
+  "nativeProviderRunsInFixture": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD",
+  "parentDispositions": [
+    "Corrected Codex draft: exact initialized notification, identity marker paths, fixed environment, TERM ignore before readiness marker, safe descriptor close, protocol child membership capture.",
+    "Initial real Linux integration failed all cases on inherited stdin-abort AttributeError. Kept failure log and source hashes; fixed only new candidate using bounded public close/wait_closed.",
+    "DeepSeek design review points 1,2,4 were already addressed by real manager control-group cleanup, observed Restart=no and ExitType=main, external held pidfds, proc absence and cgroup empty/removal assertions. The actual service is Type=exec, not the assumed Type=simple. No assertion of all KillMode variants.",
+    "DeepSeek survivor-shape, migration, concurrent-instance, handshake-race and provider limitations remain explicit; no broad native qualification claimed.",
+    "clean-code-guard: fixed wrong wire protocol, marker contract, environment fallback, closed-pipe abort and nullable pidfd close; fixture source remains separate from historical cohorts.",
+    "test-guard: three distinct protocol/lifecycle scenarios; real process and user-manager boundaries; independent cleanup evidence before teardown. Crash is after completed protocol, not during active child ownership.",
+    "docs-guard: report distinguishes live service execution from mocked protocol, after-handshake crash from in-flight crash, source generation from design review, and main exit0 from unit timeout."
+  ],
+  "sourcesConsulted": [
+    "https://docs.python.org/3.14/library/asyncio-stream.html#asyncio.StreamWriter.wait_closed"
+  ],
+  "diagnostics": [
+    "Codex emitted configured MCP startup/auth diagnostics despite ignore-user-config; reply-only is not proof of network silence.",
+    "OpenCode Muse route failed; fallback DeepSeek returned actual design-review text.",
+    "Delegate touchedFiles reflected concurrently created parent files; delegates were asked reply-only. Parent applied and verified final source."
+  ]
+}

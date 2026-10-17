@@ -1,0 +1,30 @@
+{
+  "projectDate": "2026-10-17",
+  "windows": "Windows-11-10.0.26300-SP0",
+  "sourceSha256": {
+    "feasibility/s6-wsl/service-transport/owned.py": "6d74e34ea7e22aacb4dcd0088d166feaf0f541ed17a298543177b04836653f95",
+    "feasibility/s6-wsl/service-transport/peer.py": "0a2d73bc3fba13091480246372d04f388fc26df7716b8705fabbcf2669f6336c",
+    "feasibility/s6-wsl/service-transport/protocol_peer.py": "b1ad1c8979712e5e4726d37ba95f2b99593551d9abd25338fb5cc77b091a9cec",
+    "feasibility/s6-wsl/service-transport/run.py": "b36cd4d67b5253070cd66ded42fed32ae496fefaaeeae2201d71c991ab904b5f",
+    "feasibility/s6-wsl/service-transport/service.py": "05dab4774eb9c3cf2525976b3ce781291f487d7d0dc2b2cd36d0168a7400c887",
+    "feasibility/s6-wsl/service-transport/test_linux.py": "4e23e063cc1c13dca62cf3e4416221a1f5285d4e2b7b27b21336d43f939c32b4",
+    "feasibility/s6-wsl/service-transport/transport.py": "599a0022531737d2fbf17a09d93215cb8f8dcfd68f4dc16a6c1cb85e1163bbdc",
+    "feasibility/s6-wsl/service-transport/validation.py": "f3c1276d756d2fe9759fd182d48dbf2428570e131717817b6b5ec65d93177d96",
+    "feasibility/s6-wsl/service-transport/witness.py": "fbc563b86c8ba8cc022ad2dfd7945a7cc98dd48fe9240c5f3af47edf88994343"
+  },
+  "sourcesUnchanged": true,
+  "hostExitCode": 0,
+  "timedOut": false,
+  "elapsedSeconds": 2.6319647999989684,
+  "nativeProviderRuns": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD",
+  "artifactSha256": {
+    "development-failure.json": "28dcfd1ab0634089df0e3e8b908bd166bc49210e6a27565d199e8d290a32d7b5",
+    "input.json": "f059d2ba4d87b4e650cc0efd66f138bc634e1126be77e104845c53ad36e13ae8",
+    "README.md": "7a61b1c492f4791427ba104458726b1a7f5ecb43a04d1583c6687fb25d862ddc",
+    "review.json": "f98671a2b42e86164e30f9588a03551ccd6defe2d950eecf8bf0619135cb20b3",
+    "wsl.stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "wsl.stdout.bin": "d72537e076448e4fe3ae372e880a2dd83e940ce0561d555141875877916c516a"
+  }
+}

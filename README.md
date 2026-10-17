@@ -135,3 +135,11 @@ main exit and mismatched-invocation refusal. This supplies a lifecycle-boundary
 candidate for native integration, with independent pidfd and cgroup witnesses.
 It does not qualify Windows-owner crash, hostile service/cgroup escape or provider
 access; the existing admission and construction gates remain open.
+
+The [managed Linux mock transport](output/s6-service-transport/README.md) composes
+the protocol transport with the service lifecycle in three Ubuntu cases. It
+records valid handshakes, foreign-response rejection without notification, and
+cleanup after worker exit/crash. Integration exposed and corrected a Linux
+stdin-close compatibility defect in a new source cohort. Live Windows forwarding
+and worker failure during an active handshake remain open; no native admission
+or product construction gate is cleared.
