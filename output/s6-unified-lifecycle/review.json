@@ -1,0 +1,178 @@
+{
+  "date": "2026-10-17",
+  "scope": "Three controlled unified launcher interruptions and a single-owner local process-restart attempt fence; partial L2 only",
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "variant": null,
+      "status": "completed",
+      "exitCode": 0,
+      "role": "Implementation requested; delegate reported policy-blocked reads and no edits/tests",
+      "artifact": "codex"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": null,
+      "variant": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "role": "Reply-only architecture review completed",
+      "artifact": "glm"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": null,
+      "variant": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "role": "Reply-only fallback journal draft, corrected by parent",
+      "artifact": "deepseek"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": null,
+      "variant": "max",
+      "status": "timeout",
+      "exitCode": 1,
+      "role": "GLM supplied-source review timed out without a final report",
+      "artifact": "source-review"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": null,
+      "variant": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "role": "Reply-only focused host/journal/transport review",
+      "artifact": "fallback-review"
+    }
+  ],
+  "privateArtifactSha256": {
+    "build-review.py": "db4fe7ee1a4b57e3c0df957d4f63967d8f0d938fb8896224bc585d96d5e4abf4",
+    "codex-brief.txt": "56a7bbccc090e2a793bf5d09429186dbc6fd7e63b044b16e98082ede9e7c10eb",
+    "fallback-brief.txt": "b2820b1d3c96676f38e6dbde1cb9a47dae56cb7b4dc2da03ffaa01869e205544",
+    "fallback-review-brief.txt": "0ec59cc3764f6e4ccd4b3dfa6b24e36eeb12a433cd3b27ee7302ec82767f7da6",
+    "glm-brief.txt": "5ceae4adee8effe6dd38fdb3ccbe809b966fa8ceb448c91ce55fcbaa8607b3a9",
+    "source-review-brief.txt": "ab6d8806c7288106ae6390d4f296db8215677f30354541bd10f97f0efeeacd5b",
+    "codex/brief.txt": "56a7bbccc090e2a793bf5d09429186dbc6fd7e63b044b16e98082ede9e7c10eb",
+    "codex/events.jsonl": "2ce4fe18e77c8b49ec81c45d19ee4803c5e386c0d33f13fc543e52bec291cfee",
+    "codex/final.txt": "7da071ed89c56c6c8a00b1ce073d2cb86e9f3270ed9256fc3581df253f00ca55",
+    "codex/result.json": "caeee2fd84366e176acc2c9321906f0b3a4d048c297d3151285938e62394323a",
+    "codex/stderr.txt": "bada316d6182c98a4baa294b80c34aa6f699099c3cde42048f72ff0b0c80208d",
+    "deepseek/brief.txt": "b2820b1d3c96676f38e6dbde1cb9a47dae56cb7b4dc2da03ffaa01869e205544",
+    "deepseek/events.jsonl": "5fece4b268ef946ac168676ed425f8e0be2f3d97100e54c2a984ab94debe3825",
+    "deepseek/final.txt": "d04853c9cabbffc29f54ef421d998a4e0e8d382ab13dcec836b5522ae3106d1c",
+    "deepseek/result.json": "ca64f17eec6cc294934bad76920c8ce9171f6682b0aa2b9a17d6c4ac4f80ec8c",
+    "fallback-review/brief.txt": "0ec59cc3764f6e4ccd4b3dfa6b24e36eeb12a433cd3b27ee7302ec82767f7da6",
+    "fallback-review/events.jsonl": "c331929eb83c648f3052cb97508166aa4cff9aaa8919521131eac879c5aa9fbb",
+    "fallback-review/final.txt": "c7bd26a1ec0c75bc5c5b75be8b312667c241b9eff8b5f62dee785239a69f7220",
+    "fallback-review/result.json": "f97663de5998093e56aadc29351e5ff49a010e6934b0f537a47a46745a3c89e3",
+    "glm/brief.txt": "5ceae4adee8effe6dd38fdb3ccbe809b966fa8ceb448c91ce55fcbaa8607b3a9",
+    "glm/events.jsonl": "b8f002f652a06acfee0c32dea214532e5d8a6999e7720a9c1d00380fc8ee9faa",
+    "glm/final.txt": "f7ed43ad761c03a6994797b19e64f72043ee5ad2c785d6adf29b21c7db3305e9",
+    "glm/result.json": "09b959b074fba49446c46792e4f83acc5d62e1414e242ddb0ef08caed55af94d",
+    "source-review/brief.txt": "ab6d8806c7288106ae6390d4f296db8215677f30354541bd10f97f0efeeacd5b",
+    "source-review/events.jsonl": "b05769d0223708c427e0bd496f95e09c0d5627d9f0310a45cd7bd4671998c3d6",
+    "source-review/result.json": "12aafb8b1964cd0ce3827a6bdd8b0ff9bb8764092ad12643e97d49667ece4812"
+  },
+  "privateDevelopment": [
+    {
+      "cohort": "1e2b9f0f738f4dc89a464658a0ab6757",
+      "testsSuccessful": false,
+      "evidenceSha256": "961a31b6c31d1d8135e52751edc642ee67d414167dc8ff1886114efd724c1a77",
+      "testsLogSha256": "4dd59fc3de2833228b92332242f593f719048acfed2b5d4ceaef42889f5d1b64"
+    },
+    {
+      "cohort": "881f141341de4e2abe10346022b45fa3",
+      "testsSuccessful": true,
+      "evidenceSha256": "c4cb02cad19df94345df934ad305a8eaf1e2530337ad8c4588a42534dd20b58f",
+      "testsLogSha256": "815a5784338caba6959adb7aa7b0a13ead69d0b3456ba313a9ba0dcd05306b87"
+    },
+    {
+      "cohort": "cfe5f62098d34742934d401a55bd5ce5",
+      "testsSuccessful": true,
+      "evidenceSha256": "a00149b78c06dd1e0fcf3a61b497b338478700b2c2f701b3a8c536f64edb7c51",
+      "testsLogSha256": "8e7eb682872f0a278c152924c724eba562ba6374944c400c0d28ba1fb95bb588"
+    }
+  ],
+  "reviewCoverage": {
+    "glmDesign": "Architecture supplied in brief, no repository inspection requested",
+    "glmSource": "Eight supplied files, no final review returned before timeout; not credited as completed review",
+    "deepseekSource": [
+      "host.py",
+      "journal.py",
+      "transport.py"
+    ],
+    "parent": "Inspected all changed code and tests against the sealed unified-mock source; ran real Windows/Ubuntu development and capture gates",
+    "limitation": "Independent source review is partial, not an audit of the final entire launcher artifact; generic helpers and observer/test/validator are parent-reviewed"
+  },
+  "parentDispositions": [
+    "Codex relay exited 0 but the task did not complete: execution policy rejected rtk reads and delegate reported no implementation/tests. Do not treat relay completion as implementation success",
+    "GLM source-review timeout retained without a fabricated verdict; authorized DeepSeek fallback used",
+    "GLM design raised runtime attribution: retained service60s, require worker lifetime<30s and independent observation<15s. Protocol75s is total envelope, not 15+75; no runtime fallback can explain a passing case",
+    "setsid is not assumed to escape a cgroup; observer verifies real membership/parentage/session and holds live pidfds before intervention",
+    "Unit GC means manager terminal metadata unavailable; actual process/cgroup witnesses establish scoped cleanup, not terminal Result success",
+    "Journal refusal occurs through actual fresh host subprocess reserve before launch and does not depend on parsing existing content; empty/malformed files also refuse",
+    "Corrected DeepSeek draft binary handle writing text: UTF-8 bytes now written to exclusive binary file; removed unused standalone CLI; first-write transition occurs once",
+    "Stop-client timeout now explicitly kills and waits its owned process; journal temporary cleanup preserves the original error with a note",
+    "Initial development failures retained: Windows CRLF text stderr vs LF expectation, partial-case directory reused after failed subcase, incorrect nonzero assumption for explicit systemd Stop",
+    "Host refusal now emits exact binary LF message; partial cases use stable separate directories; explicit Stop client0 is required separately from protocol normal-stop and identity-bound control evidence",
+    "Final checks compare saved raw bytes to base64/accounting, bind attempt to host source SHA, require all known handles signaled and injection-to-completion<15s",
+    "DeepSeek focused source review found callback exceptions could bypass direct-client close/reap and allow host0. Cleanup now always runs in finally, known callback errors are retained, and host0 requires complete reaping and no cleanup errors",
+    "Heartbeat cleanup is idempotent, records wait timeout, attempts bounded kill/reap and cannot replace the original control error with an unreported wait failure",
+    "Stop response is validated for nonce and dictionary shape before publishing stop-result.json; unvalidated bytes remain stop-response.bin diagnostics",
+    "Added actual local-child callback-failure regression: error retained, input echoed only after EOF, both reader EOFs and direct reaping status0 required without signals",
+    "Minor journal Unicode decode contract corrected; arbitrary malformed in-memory serialization and hostile concurrent file mutation remain outside single-owner scope"
+  ],
+  "guardReview": {
+    "clean-code-guard": {
+      "fixed": [
+        "Binary journal write type",
+        "Unused journal CLI removed",
+        "Owned Stop-client timeout reap",
+        "Journal cleanup preserves original exception",
+        "Journal replacement split from state transition",
+        "Callback failure cannot bypass direct cleanup",
+        "Host rejects incomplete cleanup",
+        "Heartbeat timeout recorded with bounded kill/reap",
+        "Stop reply boundary shape checked"
+      ],
+      "scope": "Focused guard pass on new behavior; frozen fixture ownership helpers retained, no production abstraction introduced"
+    },
+    "test-guard": "Six meaningful infrastructure tests with real Windows processes, Ubuntu systemd, pipes and files. Failure callback is the deliberate external-control failure boundary; actual child/transport/reaping run without mocks. Distinct phase/intervention assertions share fixture setup; partial-file variants use subTest",
+    "docs-guard": "Commands/flags and links checked against new source and capture files. Documents process-restart-only fence, unavailable GC metadata and still-open blocked writes/privacy/native admission"
+  },
+  "sourceOrigins": {
+    "identicalUnifiedMockSnapshots": [
+      "bridge.py",
+      "common.py",
+      "entry.py",
+      "lease.py",
+      "service.py",
+      "windows.py",
+      "winjob.py",
+      "worker.py"
+    ],
+    "otherSources": "New cohort copies adapted by parent; DeepSeek journal draft integrated and corrected; sealed measured files unchanged"
+  },
+  "diagnostics": {
+    "codex": "Configured Higgsfield MCP authentication warnings occurred despite ignore-user-config; no network-silence claim",
+    "touchedFiles": "Read-only relay status snapshots include parent concurrent edits; not evidence of delegate mutations",
+    "rawPrivateLogsPublished": false
+  },
+  "modelRouting": {
+    "gemini": "Previously excluded consumer route retained; not dispatched",
+    "fallback": "Authorized DeepSeek V4.1 Flash Free max used after Codex policy failure and GLM source-review timeout"
+  },
+  "remaining": [
+    "Blocked/uncertain writes on actual path and persistent refusal at that boundary",
+    "Full L1/L2 artifact review",
+    "P1 ambient access",
+    "P2 effective capture permissions/publication",
+    "A1 source-bound native admission"
+  ],
+  "nativeProviderRunsByFixture": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD"
+}

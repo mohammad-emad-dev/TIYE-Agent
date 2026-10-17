@@ -111,3 +111,5 @@ output/launcher-admission-review/** -text whitespace=blank-at-eol,blank-at-eof,s
 output/s6-unified-mock/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/** -text
 feasibility/s6-wsl/unified-mock/** -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/unified-lifecycle/** -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+output/s6-unified-lifecycle/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

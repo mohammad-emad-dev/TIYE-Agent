@@ -173,3 +173,9 @@ ownership heartbeat. Three wire cases and native-flag refusal verify handshake
 success, positive parser rejection, peer receipts and independent Windows/Linux
 cleanup under a new frozen budget profile. Normal Stop and uncertain-failure
 cases on this exact path, privacy and native admission remain open.
+
+The [unified launcher interruption cohort](output/s6-unified-lifecycle/README.md)
+adds real pending Stop, initialized owner loss and transport loss, with independent
+Windows/Linux cleanup witnesses and a conservative process-restart attempt fence.
+Blocked writes and privacy/admission reviews remain open; native execution stays
+disabled and Phase 1 remains HOLD.

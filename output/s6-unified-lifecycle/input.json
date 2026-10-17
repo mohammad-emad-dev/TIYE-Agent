@@ -1,0 +1,55 @@
+{
+  "sourceSha256": {
+    "feasibility/s6-wsl/unified-lifecycle/bridge.py": "4f38441a13d07870507247267aa160a448c9766049122a386d8f0d84335b86c3",
+    "feasibility/s6-wsl/unified-lifecycle/common.py": "a4b13223829903dda469bdb6c8aedc0a0eda4f937c939bb4d49611cdaa800b81",
+    "feasibility/s6-wsl/unified-lifecycle/entry.py": "99b4402896f762344cecbba281fd622bbb1fd843520b6ca499d245ed477ecb51",
+    "feasibility/s6-wsl/unified-lifecycle/host.py": "6cec55b3d0d1a837e6aa0fb868790201e815ba4f32b071f8b1e72ff9856a939b",
+    "feasibility/s6-wsl/unified-lifecycle/journal.py": "4ecfc828caedb8d417b849a766f76df94d33833b6af09ebf03cf967c9fb2a292",
+    "feasibility/s6-wsl/unified-lifecycle/lease.py": "2e9741e56c49698e3e1e4b10b975cd92137cb86c69b31230322601026203fe2f",
+    "feasibility/s6-wsl/unified-lifecycle/observer.py": "6fa84a1407e9661c3e4c86ad7620736ee7917202be3204535de8e9f7ce4e4ffd",
+    "feasibility/s6-wsl/unified-lifecycle/profile.py": "c725e29bc583bc95805eef9071ba44df84d3a43101e333f35ee48e09f8138227",
+    "feasibility/s6-wsl/unified-lifecycle/protocol_peer.py": "a2ca115d550ebf6757e053901765ee4666838609ac9fc301d4190dbadceffc08",
+    "feasibility/s6-wsl/unified-lifecycle/run.py": "ec1e89a386d748cb601e9441dc0e22addb4b4d0f56ad6f089c1834efacb79dff",
+    "feasibility/s6-wsl/unified-lifecycle/service.py": "ebbb699aaa6aa683d3d8ec351c06c142f08dc1d5eead1ef2c22afc406abb7878",
+    "feasibility/s6-wsl/unified-lifecycle/stop.py": "0fd8307ca229917903b6f0b0f5e2f294604af3d2793cc55fd6560864c31be638",
+    "feasibility/s6-wsl/unified-lifecycle/test_unified.py": "3f5f97f5b5549f169bc876578cf6a6f9d4b5ebafe6b179e5604f1f99998f388d",
+    "feasibility/s6-wsl/unified-lifecycle/transport.py": "1d6f1ab9c375b6c5b25d7fe39944ce13ce080a9b81c385745265435719a74f69",
+    "feasibility/s6-wsl/unified-lifecycle/validation.py": "722090b0f22d2285d233b45652f92eae848446ba1fd617c972a8dc7a7b6c02b0",
+    "feasibility/s6-wsl/unified-lifecycle/watchdog.py": "5f6b318444339ef85ea19858fb040842ca89bea31c8e97c3fbace7a26e7690a0",
+    "feasibility/s6-wsl/unified-lifecycle/windows.py": "0682a8b0ddcbb233c9c6c2144088fd40bc0c502c9ac469314f358fe796abc9b4",
+    "feasibility/s6-wsl/unified-lifecycle/winjob.py": "cba5dd28c2449b0a23447d44a6dc9ff0190414f13392f76296a3c99a80cbc23a",
+    "feasibility/s6-wsl/unified-lifecycle/worker.py": "eda5b3c08716b0ddb7fd0f2792be70246f24301574c1fa3ecd2da5b01572bb91"
+  },
+  "distribution": "Ubuntu",
+  "uid": 1000,
+  "cases": [
+    "stop-pending",
+    "owner-loss",
+    "transport-loss",
+    "partial-journal-refusal",
+    "native-refusal",
+    "cleanup-hook-failure"
+  ],
+  "profile": {
+    "windowsWatchdogSeconds": 90,
+    "windowsProtocolSeconds": 75,
+    "spawnSeconds": 30,
+    "initializeSeconds": 15,
+    "cleanupPhaseSeconds": 5,
+    "serviceRuntimeSeconds": 60,
+    "serviceStopSeconds": 5,
+    "observationSeconds": 15,
+    "leaseSeconds": 1,
+    "retainedStdoutBytes": 4194304,
+    "retainedStderrBytes": 1048576,
+    "mockOnly": true,
+    "nativeAdmissionGranted": false
+  },
+  "futureNativeCandidate": {
+    "binary": "/home/mohammad/.local/share/tiye-feasibility/codex-0.157.1-rx5vmnt1/package/bin/codex",
+    "binarySha256": "3e2584f3f3829a43a0495011a1cecb2facbe64a2403e2b682351fd9c2983f970",
+    "installationSha256": "af65a690078c47be0d1eb7bde13eb89a38c6a461e444461253c52c5c6b5608ff",
+    "executed": false
+  },
+  "nativeAdmissionGranted": false
+}
