@@ -1,0 +1,20 @@
+{
+  "kind": "development diagnostic excerpt; source snapshot not retained publicly",
+  "testCount": 4,
+  "passed": false,
+  "log": "test_initialized_stop_cleans_live_protocol_child (__main__.InflightTests.test_initialized_stop_cleans_live_protocol_child) ... FAIL\ntest_initialized_worker_crash_cleans_live_protocol_child (__main__.InflightTests.test_initialized_worker_crash_cleans_live_protocol_child) ... ok\ntest_pending_initialize_stop_cleans_live_protocol_child (__main__.InflightTests.test_pending_initialize_stop_cleans_live_protocol_child) ... ok\ntest_pending_initialize_worker_crash_cleans_live_protocol_child (__main__.InflightTests.test_pending_initialize_worker_crash_cleans_live_protocol_child) ... ok\n\n======================================================================\nFAIL: test_initialized_stop_cleans_live_protocol_child (__main__.InflightTests.test_initialized_stop_cleans_live_protocol_child)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tiye-service-inflight-872v1m23/test_linux.py\", line 90, in test_initialized_stop_cleans_live_protocol_child\n    self.exercise('initialized', 'stop')\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tiye-service-inflight-872v1m23/test_linux.py\", line 69, in exercise\n    self.assertFalse((self.folder / 'protocol.json').exists())\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: True is not false\n\n----------------------------------------------------------------------\nRan 4 tests in 3.835s\n\nFAILED (failures=1)\n",
+  "sourceSha256": {
+    "feasibility/s6-wsl/service-inflight/owned.py": "6d74e34ea7e22aacb4dcd0088d166feaf0f541ed17a298543177b04836653f95",
+    "feasibility/s6-wsl/service-inflight/peer.py": "4bbb026f830763fb7c2b9ac4ffb6a798cef7cf7086352106a2b7b4b19f3137fc",
+    "feasibility/s6-wsl/service-inflight/protocol_peer.py": "a5884bf55acd4d2427567cadb25a5ab27a175ff5ea373d5ba5bd8ff2dd08c91b",
+    "feasibility/s6-wsl/service-inflight/run.py": "acadc831641c72659eb50ecb648cb50cfbfa972cdde203ab3951337d7123e761",
+    "feasibility/s6-wsl/service-inflight/service.py": "05dab4774eb9c3cf2525976b3ce781291f487d7d0dc2b2cd36d0168a7400c887",
+    "feasibility/s6-wsl/service-inflight/test_linux.py": "b3d105a79da7cb7d53c0d7646acf5c2083322607fec52b48a60593a2909e6fbd",
+    "feasibility/s6-wsl/service-inflight/transport.py": "599a0022531737d2fbf17a09d93215cb8f8dcfd68f4dc16a6c1cb85e1163bbdc",
+    "feasibility/s6-wsl/service-inflight/validation.py": "fe7a4115449310dd8ff113a457b7cecedcc6bb5410ef05fb42501ef2f8d046f4",
+    "feasibility/s6-wsl/service-inflight/witness.py": "fbc563b86c8ba8cc022ad2dfd7945a7cc98dd48fe9240c5f3af47edf88994343"
+  },
+  "rawStdoutSha256": "f61f8b18e9747dd6c0f23fae3c7bfb95e78cf02a1665322cbfe068c8afe26d6a",
+  "resolution": "fixed fixture grace2seconds, stricter intervention and total bounds; absent final protocol report assertion retained",
+  "limit": "original0.3second competing-cleanup ordering remains unqualified"
+}

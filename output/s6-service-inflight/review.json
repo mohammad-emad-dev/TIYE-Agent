@@ -1,0 +1,94 @@
+{
+  "projectDate": "2026-10-17",
+  "reviews": [
+    {
+      "requestedModel": "gpt-6-luna",
+      "requestedEffort": "max",
+      "role": "Initial fixed mock peer generation",
+      "relayStatus": "completed",
+      "finalMessagePresent": true,
+      "artifactSha256": {
+        "brief.txt": "225f2f07dc4f42c63096396e0a20426f27d381e3efcae65a55ff128a19f033b9",
+        "events.jsonl": "2c1a588b24d92bd64639f11a1f6b3f192157cd854f761b1e1dd46c76c5bafee7",
+        "final.txt": "26e13fbf06b34572f74ed530fa733f8678aa1fbe3f37093723cd5252813dfb8a",
+        "result.json": "05bce4e08ab4a280c1510cd558e23ed01081489fa16edf77b6529faea89f63ff",
+        "stderr.txt": "8acec58eedb1c219d70b2d2955965ea22bf21b82c15b9ff504a47aa38fffca61"
+      }
+    },
+    {
+      "requestedModel": "opencode/muse-spark-1.3-contributor-free",
+      "requestedEffort": "xhigh",
+      "role": "Design review attempt",
+      "relayStatus": "failed",
+      "finalMessagePresent": false,
+      "artifactSha256": {
+        "brief.txt": "328040dc487b91e169d15736b649eb64275a6db5b3729d5353761d7b12257456",
+        "events.jsonl": "089e01cbc26ffa307e2f891a4efc5e3164fb0daa30a6070905a6296b96b0daa8",
+        "result.json": "fa5b875bf809ffa152a06daa481de875e18b6001eac29140b0875958156adee6"
+      }
+    },
+    {
+      "requestedModel": "opencode/deepseek-v4.1-flash-free",
+      "requestedEffort": "max",
+      "role": "Design review",
+      "relayStatus": "completed",
+      "finalMessagePresent": true,
+      "artifactSha256": {
+        "brief.txt": "328040dc487b91e169d15736b649eb64275a6db5b3729d5353761d7b12257456",
+        "events.jsonl": "5e2d9b4ca5bee135cf6a29c0d72ba83ffbc24050edda71d3b10fc823ceac1245",
+        "final.txt": "683ce5e549fc4b28f98062a5aa79f2ec0d3380be1c24cd23e3291b95a7a61f48",
+        "result.json": "c225f17d8f28331ed739db16efb2b59380b2e7e6298be880ee3704aa46391752"
+      }
+    },
+    {
+      "requestedModel": "opencode/deepseek-v4.1-flash-free",
+      "requestedEffort": "max",
+      "role": "Supplied-source review of peer.py, protocol_peer.py, test_linux.py, validation.py",
+      "relayStatus": "completed",
+      "finalMessagePresent": true,
+      "artifactSha256": {
+        "brief.txt": "4c0e528a4e3bde51e74d9524ac1581bd91b06e8fb02bad24ea6c7d30e1b17832",
+        "events.jsonl": "aace18508d405bc9df985979d416d4d4d8d50908ca66d281b60121c17d6fcc64",
+        "final.txt": "6dc6e69f030346581efb48225fdedaef6462304051cd70cad3e87bc1461cc506",
+        "result.json": "33dc1c0043b399ebf44976a008c296755f77065bd1edd14f91041e4a1665fad2"
+      }
+    }
+  ],
+  "finalCodeReviewedBy": "Parent; DeepSeek reviewed four supplied final source files",
+  "independentCompletedSuppliedSourceReview": true,
+  "independentWholeCohortReview": false,
+  "independentlyReviewedSourceSha256": {
+    "peer.py": "94b03a29b089933aa62b40b32828f668bff75706e6f740f8cefdab63e383f974",
+    "protocol_peer.py": "a5884bf55acd4d2427567cadb25a5ab27a175ff5ea373d5ba5bd8ff2dd08c91b",
+    "test_linux.py": "7344899ebc1117c5f3f91209641e828bcb22724700f42ee24899eaa7d91e7445",
+    "validation.py": "9a6b66f26926f283fbc0f669c015cab13f1f4304785cf7d6fbd45febcdfa323d"
+  },
+  "gemini": "Not dispatched: recorded consumer Agy route excluded from integration and delegation",
+  "nativeProviderRunsInFixture": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD",
+  "parentDispositions": [
+    "Codex supplied protocol peer. Parent normalized startTicks to int and cgroup whitespace, used Path.read_text, retained received initialize/initialized objects, prevented negative TTL sleep.",
+    "First development case initialized-Stop failed final-report absence: inherited0.3second grace allowed own transport cleanup to compete with service Stop. This finding was retained; no assertion was weakened. Final fixed fixture grace2seconds per wait plus action<1second/total<3second bounds isolates intended boundary. Originalshort-grace ordering remains unqualified.",
+    "DeepSeek design attribution concern: systemd IS intended boundary. Crash cases do not call serviceStop before independent observations. RuntimeMax8/TTL15 excluded by launch-to-cleanup<3, with active matching invocation and all pidfds live immediately before action.",
+    "DeepSeek design PID/identity/query concerns: held pidfds and startticks/cgroup revalidated after unitquery; terminal Id/InvocationID required. Query-then-control remains non-atomic; no same-user adversary claim.",
+    "DeepSeek design migration/tree concerns: observer and sentinel outside unit subtree, original CG empty/removed, fixed nonescaping processes. Hostile cgroup moves and arbitrary provider trees remain out of scope.",
+    "Protocol stages are validated received objects in fresh per-instance pipes. No final report/reap success is inferred from absent worker output after death.",
+    "Final source review returned no blockers in four supplied files. Parent accepts its strict timing flake risk and partial-source scope. No independent whole-cohort review claimed.",
+    "clean-code-guard: fixed identity field contracts and TTL sleep; preserved historical sources; no dependency, ambient environment fallback, broad unit shutdown or swallowed error added.",
+    "test-guard: four distinct live-stage/action scenarios use real user-manager services, real pipes, three held pidfds, proc absence and cgroup empty/removal before teardown. All assertions for interruption and incomplete protocol outcome retained.",
+    "docs-guard: verified commands, timing constants and service status fields against candidate source; retained failed diagnostic, timing-specific limits, partial review scope and native HOLD."
+  ],
+  "diagnostics": [
+    "Codex configured MCP auth/startup diagnostics persisted despite ignore-user-config; no account configuration changed; reply-only is not proof of network silence.",
+    "Muse failed provider route; both authorized DeepSeek fallback calls returned actual review text.",
+    "Relay touchedFiles included concurrent parent changes; no delegate tools or file writes requested; parent applied source and verified it."
+  ],
+  "snapshotOrigins": {
+    "service.py": "exact prior service-transport snapshot",
+    "transport.py": "exact corrected service-transport snapshot",
+    "owned.py": "exact prior service-transport snapshot",
+    "witness.py": "exact prior service-transport snapshot"
+  },
+  "fixtureEffects": "fixed mock processes and nonce-named transient user units only"
+}

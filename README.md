@@ -143,3 +143,10 @@ cleanup after worker exit/crash. Integration exposed and corrected a Linux
 stdin-close compatibility defect in a new source cohort. Live Windows forwarding
 and worker failure during an active handshake remain open; no native admission
 or product construction gate is cleared.
+
+The [live Linux protocol interruption capture](output/s6-service-inflight/README.md)
+adds four cases covering worker crash and explicit Stop while initialization is
+pending or the peer has received initialized. All three original process
+instances must be removed before teardown, with independent pidfd/cgroup checks
+and an unrelated live sentinel. Protocol completion remains unobserved after
+worker death. Windows-supervisor integration and native admission remain open.
