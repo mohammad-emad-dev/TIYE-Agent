@@ -1,0 +1,24 @@
+{
+  "sourceSetSha256": "35f03dc5d5ecae81d041019f4410744ee0fd9a00aee67be6084b2c15f4b73cf4",
+  "qualifiedMockCases": [
+    "valid",
+    "foreign",
+    "invalid-raw",
+    "stop-pending",
+    "owner-loss",
+    "transport-loss",
+    "pressure-stop",
+    "pressure-owner-loss",
+    "pressure-transport-loss"
+  ],
+  "states": {
+    "L1": "PARTIAL",
+    "L2": "PARTIAL",
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "A1": "BLOCKED"
+  },
+  "phase1": "HOLD",
+  "nativeAdmissionGranted": false,
+  "historicalLedgersChanged": false
+}

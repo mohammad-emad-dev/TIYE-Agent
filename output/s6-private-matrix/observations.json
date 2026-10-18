@@ -1,0 +1,290 @@
+[
+  {
+    "case": "valid",
+    "sourceSetSha256": "35f03dc5d5ecae81d041019f4410744ee0fd9a00aee67be6084b2c15f4b73cf4",
+    "prelaunch": {
+      "rootVerified": true,
+      "runVerified": true,
+      "intentVerified": true
+    },
+    "privateRootProtected": true,
+    "privateRunProtected": true,
+    "fileCount": 17,
+    "privateBytes": 39352,
+    "filePermissionsVerified": true,
+    "windowsCleanupObserved": true,
+    "linuxCleanupObserved": true,
+    "sentinelLive": true,
+    "restartRefused": true,
+    "journalDelivery": "unknown",
+    "protocolOutcome": "handshake-and-clean-eof",
+    "ownerReport": "retained",
+    "peerReceiptObserved": true,
+    "stopObserved": false,
+    "pressure": null,
+    "retention": {
+      "required": true,
+      "deleted": false,
+      "deletionAllowed": false
+    }
+  },
+  {
+    "case": "foreign",
+    "sourceSetSha256": "35f03dc5d5ecae81d041019f4410744ee0fd9a00aee67be6084b2c15f4b73cf4",
+    "prelaunch": {
+      "rootVerified": true,
+      "runVerified": true,
+      "intentVerified": true
+    },
+    "privateRootProtected": true,
+    "privateRunProtected": true,
+    "fileCount": 17,
+    "privateBytes": 38683,
+    "filePermissionsVerified": true,
+    "windowsCleanupObserved": true,
+    "linuxCleanupObserved": true,
+    "sentinelLive": true,
+    "restartRefused": true,
+    "journalDelivery": "unknown",
+    "protocolOutcome": "rejected-uncorrelated-response",
+    "ownerReport": "retained",
+    "peerReceiptObserved": true,
+    "stopObserved": false,
+    "pressure": null,
+    "retention": {
+      "required": true,
+      "deleted": false,
+      "deletionAllowed": false
+    }
+  },
+  {
+    "case": "invalid-raw",
+    "sourceSetSha256": "35f03dc5d5ecae81d041019f4410744ee0fd9a00aee67be6084b2c15f4b73cf4",
+    "prelaunch": {
+      "rootVerified": true,
+      "runVerified": true,
+      "intentVerified": true
+    },
+    "privateRootProtected": true,
+    "privateRunProtected": true,
+    "fileCount": 17,
+    "privateBytes": 38229,
+    "filePermissionsVerified": true,
+    "windowsCleanupObserved": true,
+    "linuxCleanupObserved": true,
+    "sentinelLive": true,
+    "restartRefused": true,
+    "journalDelivery": "unknown",
+    "protocolOutcome": "rejected-invalid-utf8",
+    "ownerReport": "retained",
+    "peerReceiptObserved": true,
+    "stopObserved": false,
+    "pressure": null,
+    "retention": {
+      "required": true,
+      "deleted": false,
+      "deletionAllowed": false
+    }
+  },
+  {
+    "case": "stop-pending",
+    "sourceSetSha256": "35f03dc5d5ecae81d041019f4410744ee0fd9a00aee67be6084b2c15f4b73cf4",
+    "prelaunch": {
+      "rootVerified": true,
+      "runVerified": true,
+      "intentVerified": true
+    },
+    "privateRootProtected": true,
+    "privateRunProtected": true,
+    "fileCount": 20,
+    "privateBytes": 45362,
+    "filePermissionsVerified": true,
+    "windowsCleanupObserved": true,
+    "linuxCleanupObserved": true,
+    "sentinelLive": true,
+    "restartRefused": true,
+    "journalDelivery": "unknown",
+    "protocolOutcome": "cancelled-before-response",
+    "ownerReport": "retained",
+    "peerReceiptObserved": false,
+    "stopObserved": true,
+    "pressure": null,
+    "retention": {
+      "required": true,
+      "deleted": false,
+      "deletionAllowed": false
+    }
+  },
+  {
+    "case": "owner-loss",
+    "sourceSetSha256": "35f03dc5d5ecae81d041019f4410744ee0fd9a00aee67be6084b2c15f4b73cf4",
+    "prelaunch": {
+      "rootVerified": true,
+      "runVerified": true,
+      "intentVerified": true
+    },
+    "privateRootProtected": true,
+    "privateRunProtected": true,
+    "fileCount": 14,
+    "privateBytes": 32029,
+    "filePermissionsVerified": true,
+    "windowsCleanupObserved": true,
+    "linuxCleanupObserved": true,
+    "sentinelLive": true,
+    "restartRefused": true,
+    "journalDelivery": "unknown",
+    "protocolOutcome": "unknown-after-owner-loss",
+    "ownerReport": "absent",
+    "peerReceiptObserved": false,
+    "stopObserved": false,
+    "pressure": null,
+    "retention": {
+      "required": true,
+      "deleted": false,
+      "deletionAllowed": false
+    }
+  },
+  {
+    "case": "transport-loss",
+    "sourceSetSha256": "35f03dc5d5ecae81d041019f4410744ee0fd9a00aee67be6084b2c15f4b73cf4",
+    "prelaunch": {
+      "rootVerified": true,
+      "runVerified": true,
+      "intentVerified": true
+    },
+    "privateRootProtected": true,
+    "privateRunProtected": true,
+    "fileCount": 17,
+    "privateBytes": 38531,
+    "filePermissionsVerified": true,
+    "windowsCleanupObserved": true,
+    "linuxCleanupObserved": true,
+    "sentinelLive": true,
+    "restartRefused": true,
+    "journalDelivery": "unknown",
+    "protocolOutcome": "unknown-after-transport-loss",
+    "ownerReport": "retained",
+    "peerReceiptObserved": false,
+    "stopObserved": false,
+    "pressure": null,
+    "retention": {
+      "required": true,
+      "deleted": false,
+      "deletionAllowed": false
+    }
+  },
+  {
+    "case": "pressure-stop",
+    "sourceSetSha256": "35f03dc5d5ecae81d041019f4410744ee0fd9a00aee67be6084b2c15f4b73cf4",
+    "prelaunch": {
+      "rootVerified": true,
+      "runVerified": true,
+      "intentVerified": true
+    },
+    "privateRootProtected": true,
+    "privateRunProtected": true,
+    "fileCount": 21,
+    "privateBytes": 49471,
+    "filePermissionsVerified": true,
+    "windowsCleanupObserved": true,
+    "linuxCleanupObserved": true,
+    "sentinelLive": true,
+    "restartRefused": true,
+    "journalDelivery": "unknown",
+    "protocolOutcome": "cancelled-pending-write-uncertain",
+    "ownerReport": "retained",
+    "peerReceiptObserved": false,
+    "stopObserved": true,
+    "pressure": {
+      "syntheticBytes": 8388608,
+      "pendingDrainObserved": true,
+      "samplesAboveHigh": true,
+      "plumbingOnly": true,
+      "nativeFrameCapacityQualified": false,
+      "delivery": "unknown",
+      "outcome": "uncertain-write-cancelled",
+      "stdinAbortRequested": true
+    },
+    "retention": {
+      "required": true,
+      "deleted": false,
+      "deletionAllowed": false
+    }
+  },
+  {
+    "case": "pressure-owner-loss",
+    "sourceSetSha256": "35f03dc5d5ecae81d041019f4410744ee0fd9a00aee67be6084b2c15f4b73cf4",
+    "prelaunch": {
+      "rootVerified": true,
+      "runVerified": true,
+      "intentVerified": true
+    },
+    "privateRootProtected": true,
+    "privateRunProtected": true,
+    "fileCount": 15,
+    "privateBytes": 33776,
+    "filePermissionsVerified": true,
+    "windowsCleanupObserved": true,
+    "linuxCleanupObserved": true,
+    "sentinelLive": true,
+    "restartRefused": true,
+    "journalDelivery": "unknown",
+    "protocolOutcome": "pending-write-unknown-after-owner-loss",
+    "ownerReport": "absent",
+    "peerReceiptObserved": false,
+    "stopObserved": false,
+    "pressure": {
+      "syntheticBytes": 8388608,
+      "pendingDrainObserved": true,
+      "samplesAboveHigh": true,
+      "plumbingOnly": true,
+      "nativeFrameCapacityQualified": false,
+      "delivery": "unknown",
+      "outcome": "unknown-owner-dead",
+      "stdinAbortRequested": null
+    },
+    "retention": {
+      "required": true,
+      "deleted": false,
+      "deletionAllowed": false
+    }
+  },
+  {
+    "case": "pressure-transport-loss",
+    "sourceSetSha256": "35f03dc5d5ecae81d041019f4410744ee0fd9a00aee67be6084b2c15f4b73cf4",
+    "prelaunch": {
+      "rootVerified": true,
+      "runVerified": true,
+      "intentVerified": true
+    },
+    "privateRootProtected": true,
+    "privateRunProtected": true,
+    "fileCount": 18,
+    "privateBytes": 41622,
+    "filePermissionsVerified": true,
+    "windowsCleanupObserved": true,
+    "linuxCleanupObserved": true,
+    "sentinelLive": true,
+    "restartRefused": true,
+    "journalDelivery": "unknown",
+    "protocolOutcome": "pending-write-unknown-after-transport-loss",
+    "ownerReport": "retained",
+    "peerReceiptObserved": false,
+    "stopObserved": false,
+    "pressure": {
+      "syntheticBytes": 8388608,
+      "pendingDrainObserved": true,
+      "samplesAboveHigh": true,
+      "plumbingOnly": true,
+      "nativeFrameCapacityQualified": false,
+      "delivery": "unknown",
+      "outcome": "uncertain-write",
+      "stdinAbortRequested": true
+    },
+    "retention": {
+      "required": true,
+      "deleted": false,
+      "deletionAllowed": false
+    }
+  }
+]

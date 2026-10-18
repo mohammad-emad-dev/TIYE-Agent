@@ -1,0 +1,18 @@
+test_valid_handshake_has_peer_receipt_and_clean_completion (integration.IntegratedTests.test_valid_handshake_has_peer_receipt_and_clean_completion) ... ok
+test_foreign_response_refuses_notification (integration.IntegratedTests.test_foreign_response_refuses_notification) ... ok
+test_invalid_utf8_is_preserved_and_refuses_notification (integration.IntegratedTests.test_invalid_utf8_is_preserved_and_refuses_notification) ... ok
+test_pending_stop_revokes_notification (integration.IntegratedTests.test_pending_stop_revokes_notification) ... ok
+test_initialized_owner_loss_expires_lease (integration.IntegratedTests.test_initialized_owner_loss_expires_lease) ... ok
+test_initialized_transport_loss_retires_heartbeat (integration.IntegratedTests.test_initialized_transport_loss_retires_heartbeat) ... ok
+test_stop_cancels_pending_pressure_write_and_removes_owned_tree (integration.IntegratedTests.test_stop_cancels_pending_pressure_write_and_removes_owned_tree) ... ok
+test_owner_loss_with_pending_write_expires_lease_and_removes_tree (integration.IntegratedTests.test_owner_loss_with_pending_write_expires_lease_and_removes_tree) ... ok
+test_transport_loss_marks_write_uncertain_and_removes_tree (integration.IntegratedTests.test_transport_loss_marks_write_uncertain_and_removes_tree) ... ok
+test_storage_failure_prevents_any_process_spawn (integration.StorageGateTests.test_storage_failure_prevents_any_process_spawn) ... ok
+test_changed_intent_refuses_before_spawn (integration.StorageGateTests.test_changed_intent_refuses_before_spawn) ... ok
+test_unexpected_inventory_refuses_audit (integration.StorageGateTests.test_unexpected_inventory_refuses_audit) ... ok
+test_oversize_actual_file_refuses_before_read_or_publication (integration.StorageGateTests.test_oversize_actual_file_refuses_before_read_or_publication) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 14.204s
+
+OK

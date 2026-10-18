@@ -125,3 +125,5 @@ feasibility/s6-wsl/private-capture-store/** -text whitespace=blank-at-eol,blank-
 output/s6-private-capture-store/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/private-launcher/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-private-launcher/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/private-matrix/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-private-matrix/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -213,3 +213,9 @@ that storage to clean completion, pending Stop and uncertain owner loss. It
 retains raw configuration/streams/journals privately and publishes only selected
 verdicts. Five live tests cover those paths and two storage launch gates. The
 remaining private mock matrix and privacy/native-admission requirements stay open.
+
+The [private mock lifecycle matrix](output/s6-private-matrix/README.md) extends
+that path to all nine wire/lifecycle/pressure scenarios with four storage guards.
+Raw data stays private and pressure delivery remains uncertain. The source-bound
+assessment keeps L1/L2 partial, P1/P2 open and native admission blocked; next is
+bounded ambient-access qualification with synthetic resources.
