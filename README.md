@@ -184,3 +184,9 @@ The [synthetic pending-write cohort](output/s6-unified-write-pressure/README.md)
 measures real suspended drains on the unified path and preserves uncertain
 attempts across process restart. Its 8 MiB synthetic writes qualify plumbing
 only; native protocol admission and privacy reviews remain open.
+
+The [18 October launcher evidence review](output/launcher-evidence-review/README.md)
+reconciles the three distinct unified source sets and their 16 saved test
+executions. L1/L2 remain partial, P1/P2 open and A1 blocked. The next bounded
+implementation consolidates the existing mock regressions on one source tree;
+this review grants no native execution permission.

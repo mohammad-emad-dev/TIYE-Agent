@@ -1,0 +1,242 @@
+{
+  "schema": "tiye-launcher-evidence-review-v1",
+  "projectDate": "2026-10-18",
+  "scope": "saved-launcher-evidence-review",
+  "decision": "HOLD",
+  "executionBoundary": "offline-no-native-no-auth-no-inference",
+  "nativeAdmissionGranted": false,
+  "nativeU0Runs": 0,
+  "phase1": "HOLD",
+  "mayAuthorizeExecution": false,
+  "sameArtifactRegressionSuite": false,
+  "nativeFramePressureQualified": false,
+  "requirements": [
+    {
+      "id": "L1",
+      "status": "partial",
+      "dependsOn": [],
+      "credited": "Measured real forwarding, strict rejection, Windows Job and Linux lifecycle components with reviewed mock budgets",
+      "remaining": [
+        "One final source set with valid and strict negative controls together with lifecycle regressions",
+        "Integrate source-bound candidate path/digest/argv guards in a mock-tested preparation path before considering any native attempt"
+      ]
+    },
+    {
+      "id": "L2",
+      "status": "partial",
+      "dependsOn": [
+        "L1"
+      ],
+      "credited": "Controlled pending Stop, initialized loss, synthetic pressure and persistent one-path restart refusal have independent witnesses",
+      "remaining": [
+        "Consolidate normal forwarding, strict negatives and interruption cases on the identical final executable sources",
+        "Retain unknown outcomes and refusal on the fixed prepared attempt path; label synthetic8MiB pressure separately from the native profile. Full product reconnect/recovery is not required for bounded transport-only U0."
+      ]
+    },
+    {
+      "id": "P1",
+      "status": "open",
+      "dependsOn": [
+        "L1"
+      ],
+      "credited": "Fresh environments/private runtime directories and lifecycle control are observations only",
+      "remaining": [
+        "Review final executable/argv/default loading and effective identity/env/filesystem/credential helper/keyring/socket/network reach without reading or publishing secrets"
+      ]
+    },
+    {
+      "id": "P2",
+      "status": "open",
+      "dependsOn": [
+        "L1"
+      ],
+      "credited": "Synthetic public captures and a capture plan exist; native capture privacy is not approved",
+      "remaining": [
+        "Review effective Windows capture ACLs and Linux modes for the exact final runtime/capture paths",
+        "Freeze private raw retention and safe field-allowlisted derivative/provenance process before native capture"
+      ]
+    },
+    {
+      "id": "A1",
+      "status": "blocked",
+      "dependsOn": [
+        "L1",
+        "L2",
+        "P1",
+        "P2"
+      ],
+      "credited": "No unified native admission exists and no new runtime binary verification was performed",
+      "remaining": [
+        "Only a separate source/binary/input-bound admission after L1/L2/P1/P2 can permit a bounded native U0 attempt",
+        "This review and its seal never authorize launch or authenticated work"
+      ]
+    }
+  ],
+  "cohorts": [
+    {
+      "id": "s6-unified-mock",
+      "tests": 4,
+      "cases": [
+        "foreign",
+        "invalid-raw",
+        "native-refusal",
+        "valid"
+      ],
+      "sourceSetSha256": "d3c9a099960abbc86c2fe2d996b9c36d9c251e83362d9ac36db6c186ec3481dd",
+      "sourceSha256ByBasename": {
+        "bridge.py": "4f38441a13d07870507247267aa160a448c9766049122a386d8f0d84335b86c3",
+        "common.py": "a4b13223829903dda469bdb6c8aedc0a0eda4f937c939bb4d49611cdaa800b81",
+        "entry.py": "99b4402896f762344cecbba281fd622bbb1fd843520b6ca499d245ed477ecb51",
+        "host.py": "785aedc8533eb2aa56beeadc10225f0feb984513df5c174b8b86e06d360d78db",
+        "lease.py": "2e9741e56c49698e3e1e4b10b975cd92137cb86c69b31230322601026203fe2f",
+        "observer.py": "276a31cef7eaf9649685cb327b9bf6b8ed30e62aa317cd42e742542eb335bd00",
+        "profile.py": "59ce913934330bee931095356d6bb72dfcef10f43e255aa1202e6a3afea411f2",
+        "protocol_peer.py": "8903787eca278fff2ae45c5c3e183067006ce93792f167b2109ae444aae4851f",
+        "run.py": "c8a38bca740031b6c92b01d7e01bd9253449b9704d1566f4f60b066aac006194",
+        "service.py": "ebbb699aaa6aa683d3d8ec351c06c142f08dc1d5eead1ef2c22afc406abb7878",
+        "test_unified.py": "94ccd6230aff95e0f5c02bb8c0ecad474388e379f87cf34e201c9bf6f314437f",
+        "transport.py": "599a0022531737d2fbf17a09d93215cb8f8dcfd68f4dc16a6c1cb85e1163bbdc",
+        "validation.py": "19335f292839fb185f48be900afeb4f19b0238c738bb2b0e99a6d5ff4a3e5188",
+        "watchdog.py": "b5aec82280f45f68c5fa567c0fd1e69bb7677a7ca34cbe40dace6cd13199cc46",
+        "windows.py": "0682a8b0ddcbb233c9c6c2144088fd40bc0c502c9ac469314f358fe796abc9b4",
+        "winjob.py": "cba5dd28c2449b0a23447d44a6dc9ff0190414f13392f76296a3c99a80cbc23a",
+        "worker.py": "eda5b3c08716b0ddb7fd0f2792be70246f24301574c1fa3ecd2da5b01572bb91"
+      },
+      "nativeRuns": 0,
+      "nativeAdmissionGranted": false,
+      "profile": {
+        "windowsWatchdogSeconds": 90,
+        "windowsProtocolSeconds": 75,
+        "spawnSeconds": 30,
+        "initializeSeconds": 15,
+        "cleanupPhaseSeconds": 5,
+        "serviceRuntimeSeconds": 60,
+        "serviceStopSeconds": 5,
+        "observationSeconds": 15,
+        "leaseSeconds": 1,
+        "retainedStdoutBytes": 4194304,
+        "retainedStderrBytes": 1048576,
+        "mockOnly": true,
+        "nativeAdmissionGranted": false
+      },
+      "futureCandidateReferenceSha256": "a21693654c7f5f13d86c6429f96568c95e443d4fe606d8f24e446ccf492bddb9",
+      "futureCandidateExecuted": false,
+      "runtimeBinaryRechecked": false
+    },
+    {
+      "id": "s6-unified-lifecycle",
+      "tests": 6,
+      "cases": [
+        "cleanup-hook-failure",
+        "native-refusal",
+        "owner-loss",
+        "partial-journal-refusal",
+        "stop-pending",
+        "transport-loss"
+      ],
+      "sourceSetSha256": "bc1e7b208160e226ce3325344e82930c4f6bfde11ba6f63fec8647df5af588e9",
+      "sourceSha256ByBasename": {
+        "bridge.py": "4f38441a13d07870507247267aa160a448c9766049122a386d8f0d84335b86c3",
+        "common.py": "a4b13223829903dda469bdb6c8aedc0a0eda4f937c939bb4d49611cdaa800b81",
+        "entry.py": "99b4402896f762344cecbba281fd622bbb1fd843520b6ca499d245ed477ecb51",
+        "host.py": "6cec55b3d0d1a837e6aa0fb868790201e815ba4f32b071f8b1e72ff9856a939b",
+        "journal.py": "4ecfc828caedb8d417b849a766f76df94d33833b6af09ebf03cf967c9fb2a292",
+        "lease.py": "2e9741e56c49698e3e1e4b10b975cd92137cb86c69b31230322601026203fe2f",
+        "observer.py": "6fa84a1407e9661c3e4c86ad7620736ee7917202be3204535de8e9f7ce4e4ffd",
+        "profile.py": "c725e29bc583bc95805eef9071ba44df84d3a43101e333f35ee48e09f8138227",
+        "protocol_peer.py": "a2ca115d550ebf6757e053901765ee4666838609ac9fc301d4190dbadceffc08",
+        "run.py": "ec1e89a386d748cb601e9441dc0e22addb4b4d0f56ad6f089c1834efacb79dff",
+        "service.py": "ebbb699aaa6aa683d3d8ec351c06c142f08dc1d5eead1ef2c22afc406abb7878",
+        "stop.py": "0fd8307ca229917903b6f0b0f5e2f294604af3d2793cc55fd6560864c31be638",
+        "test_unified.py": "3f5f97f5b5549f169bc876578cf6a6f9d4b5ebafe6b179e5604f1f99998f388d",
+        "transport.py": "1d6f1ab9c375b6c5b25d7fe39944ce13ce080a9b81c385745265435719a74f69",
+        "validation.py": "722090b0f22d2285d233b45652f92eae848446ba1fd617c972a8dc7a7b6c02b0",
+        "watchdog.py": "5f6b318444339ef85ea19858fb040842ca89bea31c8e97c3fbace7a26e7690a0",
+        "windows.py": "0682a8b0ddcbb233c9c6c2144088fd40bc0c502c9ac469314f358fe796abc9b4",
+        "winjob.py": "cba5dd28c2449b0a23447d44a6dc9ff0190414f13392f76296a3c99a80cbc23a",
+        "worker.py": "eda5b3c08716b0ddb7fd0f2792be70246f24301574c1fa3ecd2da5b01572bb91"
+      },
+      "nativeRuns": 0,
+      "nativeAdmissionGranted": false,
+      "profile": {
+        "windowsWatchdogSeconds": 90,
+        "windowsProtocolSeconds": 75,
+        "spawnSeconds": 30,
+        "initializeSeconds": 15,
+        "cleanupPhaseSeconds": 5,
+        "serviceRuntimeSeconds": 60,
+        "serviceStopSeconds": 5,
+        "observationSeconds": 15,
+        "leaseSeconds": 1,
+        "retainedStdoutBytes": 4194304,
+        "retainedStderrBytes": 1048576,
+        "mockOnly": true,
+        "nativeAdmissionGranted": false
+      },
+      "futureCandidateReferenceSha256": "a21693654c7f5f13d86c6429f96568c95e443d4fe606d8f24e446ccf492bddb9",
+      "futureCandidateExecuted": false,
+      "runtimeBinaryRechecked": false
+    },
+    {
+      "id": "s6-unified-write-pressure",
+      "tests": 6,
+      "cases": [
+        "cleanup-hook-failure",
+        "native-refusal",
+        "partial-journal-refusal",
+        "pressure-owner-loss",
+        "pressure-stop",
+        "pressure-transport-loss"
+      ],
+      "sourceSetSha256": "1a44074c03cbc20b3d9e3a4595655bd6576f81c0cb23ff102a5c52ee812b5724",
+      "sourceSha256ByBasename": {
+        "bridge.py": "4f38441a13d07870507247267aa160a448c9766049122a386d8f0d84335b86c3",
+        "common.py": "a4b13223829903dda469bdb6c8aedc0a0eda4f937c939bb4d49611cdaa800b81",
+        "entry.py": "99b4402896f762344cecbba281fd622bbb1fd843520b6ca499d245ed477ecb51",
+        "host.py": "818878d23744629d57186df9aa700203b5d10eee51dd4fd6b46f52b71058582d",
+        "journal.py": "f50b3a8927ab5f475c1bc9843b6d240113c53e492c17be23737095cf63b3cdf7",
+        "lease.py": "2e9741e56c49698e3e1e4b10b975cd92137cb86c69b31230322601026203fe2f",
+        "observer.py": "0493d33c6e8c9c541bced64d3fce59e296ddfc6cf93b71ab33255715959b3de1",
+        "profile.py": "fdccaeff34d35a0be264ef739c6b103cf96ace99f9f32daf8df411c4baedd4b6",
+        "protocol_peer.py": "0013f4f5ffce4edd0499d431ab27c92a99caa19c754a492c20748db32f754422",
+        "run.py": "4c1b996a171c1aad3cd6e07c049954ba33475c901abccb3fbbcc7f68df1037d5",
+        "service.py": "ebbb699aaa6aa683d3d8ec351c06c142f08dc1d5eead1ef2c22afc406abb7878",
+        "stop.py": "0533f15a27dd20e1a961a98dc0cd866e74e1a017ae83d59d3721b9e39d572fb9",
+        "test_unified.py": "1c53440bf45c7162f69e2678b6bc63871343252d2cdabc07331f6e61df5ec181",
+        "transport.py": "4351d6e8d14696d868e51b57166081078de314b523bc96452ea19230760bd38e",
+        "validation.py": "ebe908ea42410f58b29a0adaf4de4d734ffc3024ba4287e08cb22aa2f238fa61",
+        "watchdog.py": "5f6b318444339ef85ea19858fb040842ca89bea31c8e97c3fbace7a26e7690a0",
+        "windows.py": "0682a8b0ddcbb233c9c6c2144088fd40bc0c502c9ac469314f358fe796abc9b4",
+        "winjob.py": "cba5dd28c2449b0a23447d44a6dc9ff0190414f13392f76296a3c99a80cbc23a",
+        "worker.py": "eda5b3c08716b0ddb7fd0f2792be70246f24301574c1fa3ecd2da5b01572bb91"
+      },
+      "nativeRuns": 0,
+      "nativeAdmissionGranted": false,
+      "profile": {
+        "windowsWatchdogSeconds": 90,
+        "windowsProtocolSeconds": 75,
+        "spawnSeconds": 30,
+        "initializeSeconds": 15,
+        "cleanupPhaseSeconds": 5,
+        "serviceRuntimeSeconds": 60,
+        "serviceStopSeconds": 5,
+        "observationSeconds": 15,
+        "leaseSeconds": 1,
+        "retainedStdoutBytes": 4194304,
+        "retainedStderrBytes": 1048576,
+        "pressureBytes": 8388608,
+        "pressureIsNativeProtocol": false,
+        "mockOnly": true,
+        "nativeAdmissionGranted": false
+      },
+      "futureCandidateReferenceSha256": "a21693654c7f5f13d86c6429f96568c95e443d4fe606d8f24e446ccf492bddb9",
+      "futureCandidateExecuted": false,
+      "runtimeBinaryRechecked": false
+    }
+  ],
+  "nextStep": {
+    "id": "consolidated-mock-regressions",
+    "nativeExecutionAllowed": false,
+    "description": "One frozen launcher source set with fixed mock peer variants for valid/foreign/invalid UTF8, pending Stop, initialized owner/transport loss, synthetic pending writes and persistent restart refusal; no arbitrary binary selector or native execution"
+  }
+}
