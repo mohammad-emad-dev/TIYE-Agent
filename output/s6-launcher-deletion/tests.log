@@ -1,0 +1,6 @@
+5 live managed deletion cases passed
+complete ... PASS
+resume ... PASS
+metadata-quarantine ... PASS
+owner-loss-refused ... PASS
+unknown-file-refused ... PASS

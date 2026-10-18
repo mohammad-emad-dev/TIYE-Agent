@@ -1,0 +1,15 @@
+{
+  "scope": "reply-only-supplied-deletion-design-review",
+  "codex": {"model": "gpt-6-luna", "effort": "max", "status": "completed"},
+  "opencode": {"model": "opencode/glm-5.3-flash-free", "variant": "max", "status": "completed"},
+  "gemini": "not-dispatched-recorded-route-exclusion",
+  "fallbackUsed": false,
+  "finalSourceReviewedByDelegates": false,
+  "testsRunByDelegates": false,
+  "adopted": ["control-files-bound-separately", "caller-token-persisted-before-delete", "remaining-inventory-checks", "post-review-mutation-refusal", "terminal-metadata-quarantine"],
+  "notClaimed": ["general-power-loss-recovery", "same-uid-hostile-filesystem-protection", "concurrent-deletion-lock", "automatic-re-review-of-partial-groups"],
+  "P1": "OPEN",
+  "P2": "OPEN",
+  "A1": "BLOCKED",
+  "nativeAdmissionGranted": false
+}
