@@ -1,0 +1,33 @@
+COMMAND -B -X utf8 feasibility/s6-wsl/native-preparation/run.py
+EXIT 0
+Offline preparation verified; native disabled; L1/L2 PARTIAL P1/P2 OPEN A1 BLOCKED
+
+COMMAND -B -X utf8 -m unittest discover -s feasibility/s6-wsl/native-preparation -p test_preparation.py -v
+EXIT 0
+test_admission_and_eligibility_promotions_refused (test_preparation.PreparationTests.test_admission_and_eligibility_promotions_refused) ... ok
+test_candidate_and_binding_changes_refused (test_preparation.PreparationTests.test_candidate_and_binding_changes_refused) ... ok
+test_changed_actual_source_and_saved_installation_refused (test_preparation.PreparationTests.test_changed_actual_source_and_saved_installation_refused) ... ok
+test_cross_cohort_credit_refused (test_preparation.PreparationTests.test_cross_cohort_credit_refused) ... ok
+test_native_flag_refused_before_package_read (test_preparation.PreparationTests.test_native_flag_refused_before_package_read) ... usage: python.exe -m unittest [-h] [--write] [--native]
+python.exe -m unittest: error: native execution is disabled; this checker cannot launch a provider
+ok
+test_noncanonical_artifact_paths_refused (test_preparation.PreparationTests.test_noncanonical_artifact_paths_refused) ... ok
+test_saved_package_reconciles (test_preparation.PreparationTests.test_saved_package_reconciles) ... ok
+test_unknown_fields_and_duplicate_json_refused (test_preparation.PreparationTests.test_unknown_fields_and_duplicate_json_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.127s
+
+OK
+
+COMMAND -B -X utf8 feasibility/s6-wsl/private-matrix/run.py
+EXIT 0
+Private matrix saved: 9 lifecycle cases + 4 storage guards; native disabled; privacy OPEN
+
+COMMAND -B -X utf8 feasibility/s6-wsl/ambient-access/run.py
+EXIT 0
+Owned ambient probe verified: shared-account file/socket reach; privacy OPEN; native disabled
+
+COMMAND -B -X utf8 feasibility/s6-wsl/codex-prerequisite/check.py
+EXIT 0
+Saved Linux Codex version/help prerequisite verified; no authentication, model access or product qualification

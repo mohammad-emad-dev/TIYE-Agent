@@ -1,0 +1,12 @@
+{
+  "scope": "reply-only-supplied-facts-risk-review",
+  "codex": {"model": "gpt-6-luna", "effort": "max", "status": "completed"},
+  "opencode": {"model": "opencode/glm-5.3-flash-free", "variant": "max", "status": "completed"},
+  "gemini": "not-dispatched-recorded-consumer-route-exclusion",
+  "fallbackUsed": false,
+  "finalSourceReviewedByDelegates": false,
+  "testsRunByDelegates": false,
+  "adopted": ["separate-cohort-credit", "no-policy-or-native-promotion", "intent-is-not-enforcement", "retention-is-not-deletion"],
+  "rejected": ["unsubstantiated-clock-assumptions", "redundant-mode000-variance-as-current-gate"],
+  "nativeAdmissionGranted": false
+}
