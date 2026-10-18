@@ -1,0 +1,220 @@
+[
+  {
+    "case": "junction",
+    "actualReparseRefused": true,
+    "targetUnchanged": true
+  },
+  {
+    "case": "cleanup-failure",
+    "failureReported": true,
+    "retentionSurvivedFailure": true,
+    "retryAfterUnlock": {
+      "filesDeleted": true,
+      "directoryRetainedUntilClose": true
+    }
+  },
+  {
+    "case": "existing-run",
+    "bytesUnchanged": true,
+    "descriptorUnchanged": true
+  },
+  {
+    "case": "uncertain-retention",
+    "childReturnCode": 7,
+    "payloadRetained": true,
+    "completionAbsent": true
+  },
+  {
+    "case": "file-query-failure",
+    "emptyFileRetained": true,
+    "payloadWritten": false
+  },
+  {
+    "case": "owner-io",
+    "parentBefore": {
+      "ownerMatchesCurrentToken": true,
+      "daclProtected": false,
+      "daclPresent": true,
+      "directory": true,
+      "aces": [
+        {
+          "role": "other",
+          "mask": 1048608,
+          "flags": 0
+        },
+        {
+          "role": "other",
+          "mask": 1179817,
+          "flags": 0
+        },
+        {
+          "role": "other",
+          "mask": 1179817,
+          "flags": 19
+        },
+        {
+          "role": "other",
+          "mask": 2032127,
+          "flags": 16
+        },
+        {
+          "role": "other",
+          "mask": 268435456,
+          "flags": 27
+        },
+        {
+          "role": "current-user",
+          "mask": 2032127,
+          "flags": 19
+        },
+        {
+          "role": "system",
+          "mask": 2032127,
+          "flags": 19
+        },
+        {
+          "role": "administrators",
+          "mask": 2032127,
+          "flags": 19
+        }
+      ]
+    },
+    "root": {
+      "ownerMatchesCurrentToken": true,
+      "daclProtected": true,
+      "daclPresent": true,
+      "directory": true,
+      "aces": [
+        {
+          "role": "current-user",
+          "mask": 2032127,
+          "flags": 3
+        },
+        {
+          "role": "system",
+          "mask": 2032127,
+          "flags": 3
+        },
+        {
+          "role": "administrators",
+          "mask": 2032127,
+          "flags": 3
+        }
+      ]
+    },
+    "run": {
+      "ownerMatchesCurrentToken": true,
+      "daclProtected": true,
+      "daclPresent": true,
+      "directory": true,
+      "aces": [
+        {
+          "role": "current-user",
+          "mask": 2032127,
+          "flags": 3
+        },
+        {
+          "role": "system",
+          "mask": 2032127,
+          "flags": 3
+        },
+        {
+          "role": "administrators",
+          "mask": 2032127,
+          "flags": 3
+        }
+      ]
+    },
+    "files": {
+      "retention.json": {
+        "ownerMatchesCurrentToken": true,
+        "daclProtected": true,
+        "daclPresent": true,
+        "directory": false,
+        "aces": [
+          {
+            "role": "current-user",
+            "mask": 2032127,
+            "flags": 0
+          },
+          {
+            "role": "system",
+            "mask": 2032127,
+            "flags": 0
+          },
+          {
+            "role": "administrators",
+            "mask": 2032127,
+            "flags": 0
+          }
+        ]
+      },
+      "stdout.bin": {
+        "ownerMatchesCurrentToken": true,
+        "daclProtected": true,
+        "daclPresent": true,
+        "directory": false,
+        "aces": [
+          {
+            "role": "current-user",
+            "mask": 2032127,
+            "flags": 0
+          },
+          {
+            "role": "system",
+            "mask": 2032127,
+            "flags": 0
+          },
+          {
+            "role": "administrators",
+            "mask": 2032127,
+            "flags": 0
+          }
+        ]
+      },
+      "completion.json": {
+        "ownerMatchesCurrentToken": true,
+        "daclProtected": true,
+        "daclPresent": true,
+        "directory": false,
+        "aces": [
+          {
+            "role": "current-user",
+            "mask": 2032127,
+            "flags": 0
+          },
+          {
+            "role": "system",
+            "mask": 2032127,
+            "flags": 0
+          },
+          {
+            "role": "administrators",
+            "mask": 2032127,
+            "flags": 0
+          }
+        ]
+      }
+    },
+    "ownerReadWrite": true,
+    "childReturnCode": 0,
+    "rawPayloadExported": false,
+    "cleanup": {
+      "filesDeleted": true,
+      "directoryRetainedUntilClose": true
+    }
+  },
+  {
+    "case": "owner-mismatch",
+    "payloadCreated": false
+  },
+  {
+    "case": "permission-failures",
+    "boundaries": [
+      "CreateDirectoryW",
+      "GetSecurityInfo"
+    ],
+    "payloadCreated": false,
+    "runCreated": false
+  }
+]

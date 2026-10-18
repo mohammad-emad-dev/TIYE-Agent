@@ -1,0 +1,32 @@
+{
+  "projectDate": "2026-10-18",
+  "sourceSha256": {
+    "feasibility/s6-wsl/private-capture-store/publication.py": "97a9a2578c611a70336b73eed07e29cd38340414601b645e03cce954ffdcd2b9",
+    "feasibility/s6-wsl/private-capture-store/run.py": "8d59f94364d389bc42be8ad1d9f8bdd0ccba1be031430a55d1b3dde2998570fe",
+    "feasibility/s6-wsl/private-capture-store/store.py": "c636cfb5151ba72a8afd6779165304a174fff39f32a094cca14cecb8758d78e9",
+    "feasibility/s6-wsl/private-capture-store/test_publication.py": "5abfded2a6f16c2ec89ca399c007b7a60e545f65fbed82e1dfd7961e6bf73689",
+    "feasibility/s6-wsl/private-capture-store/test_store.py": "dead0907b2e594f7e4adf7f11ef332e38da5e768c7cb6d7f15c89058775a35e4",
+    "feasibility/s6-wsl/private-capture-store/winacl.py": "5762b44a137bdcf833e45990dda4c731758b4016c7c514e4a09ba96d78bdcc84"
+  },
+  "limits": {
+    "nativeAdmissionGranted": false,
+    "nativeProviderRuns": 0,
+    "phase1": "HOLD",
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "alternateTokenTested": false,
+    "hostileFilesystemQualified": false,
+    "launcherIntegrated": false
+  },
+  "testCount": 8,
+  "testsSuccessful": true,
+  "elapsedSeconds": 0.32127960000070743,
+  "artifactSha256": {
+    "input.json": "a70347b0c6f65b833d8b8299c6d301c29469289293907a8e3a51b1db0adfd638",
+    "NEXT-STEP.md": "71315b457db09d230fc81b38bea8a6dfdfdfc4dec6e902fdd676bc6a4014831d",
+    "observations.json": "260527cc6db42274d70a8492a4106cf6bd9d8533a3b777dc2f98bf7a282a496b",
+    "README.md": "b72a4e1f15575fe2d7b74be45680994969eabad85118153bd95e3b1e773a4348",
+    "review.json": "af7c3cfabb57b001e44bd6bf6d17227f29c562dc2db32314cf11d949c4da521f",
+    "tests.log": "e02556ec60391359176184512cfea20a34af9709fc31ce6ffac1663643a61b79"
+  }
+}

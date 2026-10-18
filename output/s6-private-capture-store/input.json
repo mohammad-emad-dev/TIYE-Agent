@@ -1,0 +1,21 @@
+{
+  "sourceSha256": {
+    "feasibility/s6-wsl/private-capture-store/publication.py": "97a9a2578c611a70336b73eed07e29cd38340414601b645e03cce954ffdcd2b9",
+    "feasibility/s6-wsl/private-capture-store/run.py": "8d59f94364d389bc42be8ad1d9f8bdd0ccba1be031430a55d1b3dde2998570fe",
+    "feasibility/s6-wsl/private-capture-store/store.py": "c636cfb5151ba72a8afd6779165304a174fff39f32a094cca14cecb8758d78e9",
+    "feasibility/s6-wsl/private-capture-store/test_publication.py": "5abfded2a6f16c2ec89ca399c007b7a60e545f65fbed82e1dfd7961e6bf73689",
+    "feasibility/s6-wsl/private-capture-store/test_store.py": "dead0907b2e594f7e4adf7f11ef332e38da5e768c7cb6d7f15c89058775a35e4",
+    "feasibility/s6-wsl/private-capture-store/winacl.py": "5762b44a137bdcf833e45990dda4c731758b4016c7c514e4a09ba96d78bdcc84"
+  },
+  "limits": {
+    "nativeAdmissionGranted": false,
+    "nativeProviderRuns": 0,
+    "phase1": "HOLD",
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "alternateTokenTested": false,
+    "hostileFilesystemQualified": false,
+    "launcherIntegrated": false
+  },
+  "subjectAccessReviewSha256": "b7a1f0f6c4faea44fb4bb8db2ec8d05580b4c4a7204e7b431124301af92b6271"
+}

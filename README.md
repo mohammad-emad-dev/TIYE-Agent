@@ -201,3 +201,9 @@ binds the sealed launcher to current Windows DACL and Linux path metadata.
 Broad inherited Windows grants and missing historical Linux paths leave privacy
 requirements open. Next is protected private storage for future captures;
 native execution remains disabled and Phase 1 remains HOLD.
+
+The [private capture storage prototype](output/s6-private-capture-store/README.md)
+creates and checks protected Windows directories/files before synthetic payloads,
+refuses existing/reparse paths and preserves uncertain or failed cleanup records.
+It is not yet integrated with the launcher. Alternate-account denial and privacy
+requirements remain open; the next step is a new mock capture using this store.

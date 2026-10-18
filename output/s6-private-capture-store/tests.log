@@ -1,0 +1,13 @@
+test_actual_junction_is_refused_and_target_unchanged (test_store.StorageTests.test_actual_junction_is_refused_and_target_unchanged) ... ok
+test_cleanup_failure_is_reported_and_retention_survives (test_store.StorageTests.test_cleanup_failure_is_reported_and_retention_survives) ... ok
+test_existing_run_is_refused_without_mutation (test_store.StorageTests.test_existing_run_is_refused_without_mutation) ... ok
+test_failed_child_keeps_uncertain_capture (test_store.StorageTests.test_failed_child_keeps_uncertain_capture) ... ok
+test_file_query_failure_leaves_empty_file_without_payload (test_store.StorageTests.test_file_query_failure_leaves_empty_file_without_payload) ... ok
+test_owner_io_and_completion_gate_precede_explicit_cleanup (test_store.StorageTests.test_owner_io_and_completion_gate_precede_explicit_cleanup) ... ok
+test_owner_mismatch_refuses_before_run_creation (test_store.StorageTests.test_owner_mismatch_refuses_before_run_creation) ... ok
+test_permission_api_failures_leave_no_run_or_payload (test_store.StorageTests.test_permission_api_failures_leave_no_run_or_payload) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.321s
+
+OK
