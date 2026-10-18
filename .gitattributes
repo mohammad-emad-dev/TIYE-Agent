@@ -131,3 +131,4 @@ feasibility/s6-wsl/ambient-access/** -text whitespace=blank-at-eol,blank-at-eof,
 feasibility/s6-wsl/ambient-access/launcher/** -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
 output/s6-ambient-access/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-native-preparation/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-linux-capture-store/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

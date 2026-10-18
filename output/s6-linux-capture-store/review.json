@@ -1,0 +1,13 @@
+{
+  "scope": "reply-only-supplied-design-review",
+  "codex": {"model": "gpt-6-luna", "effort": "max", "status": "completed"},
+  "opencode": {"model": "opencode/glm-5.3-flash-free", "variant": "max", "status": "completed"},
+  "gemini": "not-dispatched-recorded-route-exclusion",
+  "fallbackUsed": false,
+  "finalSourceReviewedByDelegates": false,
+  "testsRunByDelegates": false,
+  "adopted": ["clear-inherited-descriptors", "effective-uid-denial", "fsync-ordering", "bounded-resume-and-quarantine", "partial-write-refusal"],
+  "rejected": ["unmeasured-nosuid-noexec-isolation", "errno-locale-dependence"],
+  "P2": "OPEN",
+  "nativeAdmissionGranted": false
+}

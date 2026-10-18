@@ -1,0 +1,22 @@
+{
+  "sources": {
+    "feasibility/s6-wsl/linux-capture-store/linux_tests.py": "f35b1073078b563df83c87a330440bb22b7bc92a522b8f0f665b2c0dbe696966",
+    "feasibility/s6-wsl/linux-capture-store/run.py": "051870776338fbcc70da0add894fae3a42924573deddfbbfdabf90ed121bcebf",
+    "feasibility/s6-wsl/linux-capture-store/store.py": "21a9829128adda85f7e008cafebe38a19ee78e060295f0c21c4321521539eb27",
+    "feasibility/s6-wsl/linux-capture-store/test_publication.py": "43c817aca503887b802622014fb6dab1d24e82518c23fb764d7aa6798ce7f039",
+    "feasibility/s6-wsl/private-capture-store/store.py": "c636cfb5151ba72a8afd6779165304a174fff39f32a094cca14cecb8758d78e9",
+    "feasibility/s6-wsl/private-capture-store/winacl.py": "5762b44a137bdcf833e45990dda4c731758b4016c7c514e4a09ba96d78bdcc84"
+  },
+  "limits": {
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "A1": "BLOCKED",
+    "phase1": "HOLD",
+    "nativeAdmissionGranted": false,
+    "launcherIntegrated": false,
+    "windowsAlternateTokenTested": false,
+    "powerLossRecoveryQualified": false,
+    "hostileFilesystemQualified": false,
+    "sameUidIsolation": false
+  }
+}

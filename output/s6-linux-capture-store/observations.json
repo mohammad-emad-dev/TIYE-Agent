@@ -1,0 +1,28 @@
+{
+  "schema": "tiye-linux-synthetic-store-v1",
+  "liveTests": 9,
+  "cases": {
+    "test_content_drift_and_changed_review_refuse_deletion": true,
+    "test_effective_directory_and_file_denial": true,
+    "test_exact_and_excess_payload_limits": true,
+    "test_missing_completion_after_metadata_unlink_is_quarantined": true,
+    "test_process_exit_after_payload_unlink_can_resume": true,
+    "test_real_partial_write_fault_cannot_seal": true,
+    "test_reviewed_transaction_removed_nonrecursively": true,
+    "test_uncertain_capture_cannot_be_deleted": true,
+    "test_unknown_symlink_hardlink_and_mode_refuse_deletion": true
+  },
+  "scope": "synthetic-linux-store-only",
+  "limits": {
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "A1": "BLOCKED",
+    "phase1": "HOLD",
+    "nativeAdmissionGranted": false,
+    "launcherIntegrated": false,
+    "windowsAlternateTokenTested": false,
+    "powerLossRecoveryQualified": false,
+    "hostileFilesystemQualified": false,
+    "sameUidIsolation": false
+  }
+}
