@@ -1,0 +1,124 @@
+{
+  "sources": {
+    "launcher": {
+      "feasibility/s6-wsl/consolidated-launcher/bridge.py": "4f38441a13d07870507247267aa160a448c9766049122a386d8f0d84335b86c3",
+      "feasibility/s6-wsl/consolidated-launcher/common.py": "a4b13223829903dda469bdb6c8aedc0a0eda4f937c939bb4d49611cdaa800b81",
+      "feasibility/s6-wsl/consolidated-launcher/entry.py": "99b4402896f762344cecbba281fd622bbb1fd843520b6ca499d245ed477ecb51",
+      "feasibility/s6-wsl/consolidated-launcher/host.py": "e2dd206255bcf3ccdeb2bb2c68f913513f32e57cfa3f758a6e174cf1a84b7f07",
+      "feasibility/s6-wsl/consolidated-launcher/journal.py": "f50b3a8927ab5f475c1bc9843b6d240113c53e492c17be23737095cf63b3cdf7",
+      "feasibility/s6-wsl/consolidated-launcher/lease.py": "2e9741e56c49698e3e1e4b10b975cd92137cb86c69b31230322601026203fe2f",
+      "feasibility/s6-wsl/consolidated-launcher/observer.py": "ff794beaad2956e3990b713924a6adae907b32888256a05c4200f35eecb81bc3",
+      "feasibility/s6-wsl/consolidated-launcher/prepare.py": "0c297c6603413220872a5d1a55d9cdeb1d80fccd86236011e833930952bbf49d",
+      "feasibility/s6-wsl/consolidated-launcher/profile.py": "74d910b87cd4028f23b872d7d220aa85e00735fb15f5027b13cd04c9c6543d8e",
+      "feasibility/s6-wsl/consolidated-launcher/protocol_peer.py": "b839614f0e58bba60f38e84c84c95f41c6fa671a057028f82585844dea322c19",
+      "feasibility/s6-wsl/consolidated-launcher/run.py": "dd793e14a4c40b5563e80b8e51c9c970bf4e5dfbc27cb46b22bb4748e5ea4312",
+      "feasibility/s6-wsl/consolidated-launcher/service.py": "ebbb699aaa6aa683d3d8ec351c06c142f08dc1d5eead1ef2c22afc406abb7878",
+      "feasibility/s6-wsl/consolidated-launcher/stop.py": "ac7b0d30a71cf4f9b3f706a6449915b7ed7092dcf2461e4c28bd35b21d35d215",
+      "feasibility/s6-wsl/consolidated-launcher/test_unified.py": "c0d6a7430e46d2bf799696559fcf50461be49635348d3ac1a62cd0ed86e897df",
+      "feasibility/s6-wsl/consolidated-launcher/transport.py": "353746f1b5ae439f84e5ce8376f6b307780fac11fd1f59c5c5c960ac64f71d5f",
+      "feasibility/s6-wsl/consolidated-launcher/validation.py": "ffebd1bc8e3a290339a1f4bc8d3ff0ba7190f1899b22ab5fc65fccaef2243880",
+      "feasibility/s6-wsl/consolidated-launcher/watchdog.py": "5f6b318444339ef85ea19858fb040842ca89bea31c8e97c3fbace7a26e7690a0",
+      "feasibility/s6-wsl/consolidated-launcher/windows.py": "0682a8b0ddcbb233c9c6c2144088fd40bc0c502c9ac469314f358fe796abc9b4",
+      "feasibility/s6-wsl/consolidated-launcher/winjob.py": "cba5dd28c2449b0a23447d44a6dc9ff0190414f13392f76296a3c99a80cbc23a",
+      "feasibility/s6-wsl/consolidated-launcher/worker.py": "eda5b3c08716b0ddb7fd0f2792be70246f24301574c1fa3ecd2da5b01572bb91"
+    },
+    "storage": {
+      "feasibility/s6-wsl/private-capture-store/publication.py": "97a9a2578c611a70336b73eed07e29cd38340414601b645e03cce954ffdcd2b9",
+      "feasibility/s6-wsl/private-capture-store/run.py": "8d59f94364d389bc42be8ad1d9f8bdd0ccba1be031430a55d1b3dde2998570fe",
+      "feasibility/s6-wsl/private-capture-store/store.py": "c636cfb5151ba72a8afd6779165304a174fff39f32a094cca14cecb8758d78e9",
+      "feasibility/s6-wsl/private-capture-store/test_publication.py": "5abfded2a6f16c2ec89ca399c007b7a60e545f65fbed82e1dfd7961e6bf73689",
+      "feasibility/s6-wsl/private-capture-store/test_store.py": "dead0907b2e594f7e4adf7f11ef332e38da5e768c7cb6d7f15c89058775a35e4",
+      "feasibility/s6-wsl/private-capture-store/winacl.py": "5762b44a137bdcf833e45990dda4c731758b4016c7c514e4a09ba96d78bdcc84"
+    },
+    "integration": {
+      "feasibility/s6-wsl/private-launcher/contract.py": "fd7995317897e84b014865c2dc1a9fe7ca746cfa31f71f21950ce16db5873c49",
+      "feasibility/s6-wsl/private-launcher/integration.py": "26666a72751fa2e652dbd9e716b960fa75f6b489bcb5691ff70c13bb3551e8d6",
+      "feasibility/s6-wsl/private-launcher/private_storage.py": "0cf01964289e886a44e22e4bb4202e91a092a4a2c4dce2e7d2c1567bc4feac65",
+      "feasibility/s6-wsl/private-launcher/publication.py": "22cd51212789ab553b73ca41e0cf81e9cebb080cb9d6f3f40049e5b9a6e3b74c",
+      "feasibility/s6-wsl/private-launcher/run.py": "8c718a802909e343ba840e92b9708252805724b6a69e17b211ceadf89d8e2496",
+      "feasibility/s6-wsl/private-launcher/test_publication.py": "2db039cb3b406f320028e3716bf34536258862770e7c751123278c42e603f33c"
+    }
+  },
+  "sourceSetSha256": "129b20a4cf461a84af564811a634f2009a3258ef12827b00bd3bf78678676c70",
+  "contract": {
+    "modes": [
+      "valid",
+      "stop-pending",
+      "owner-loss"
+    ],
+    "filenames": {
+      "valid": [
+        "attempt.json",
+        "host-config.json",
+        "host-ready.json",
+        "lease.stderr.bin",
+        "observer.stderr.bin",
+        "observer.stdout.bin",
+        "private-evidence.json",
+        "protocol-result.json",
+        "protocol-stderr.bin",
+        "protocol-stdout.bin",
+        "retention.json",
+        "storage-audit.json",
+        "watchdog-config.json",
+        "watchdog-ready.json",
+        "watchdog-report.json",
+        "watchdog.stderr.bin",
+        "witness.json"
+      ],
+      "stop-pending": [
+        "attempt.json",
+        "host-config.json",
+        "host-ready.json",
+        "lease.stderr.bin",
+        "observer.stderr.bin",
+        "observer.stdout.bin",
+        "private-evidence.json",
+        "protocol-result.json",
+        "protocol-stderr.bin",
+        "protocol-stdout.bin",
+        "retention.json",
+        "stop-request.json",
+        "stop-response.bin",
+        "stop-result.json",
+        "storage-audit.json",
+        "watchdog-config.json",
+        "watchdog-ready.json",
+        "watchdog-report.json",
+        "watchdog.stderr.bin",
+        "witness.json"
+      ],
+      "owner-loss": [
+        "attempt.json",
+        "host-config.json",
+        "host-ready.json",
+        "lease.stderr.bin",
+        "observer.stderr.bin",
+        "observer.stdout.bin",
+        "private-evidence.json",
+        "retention.json",
+        "storage-audit.json",
+        "watchdog-config.json",
+        "watchdog-ready.json",
+        "watchdog-report.json",
+        "watchdog.stderr.bin",
+        "witness.json"
+      ]
+    },
+    "postRunFileBudget": 8388608,
+    "postRunCaseBudget": 33554432,
+    "liveDiskQuota": false,
+    "automaticDeletion": false,
+    "nativeExecutionAllowed": false
+  },
+  "limits": {
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "phase1": "HOLD",
+    "nativeAdmissionGranted": false,
+    "nativeProviderRuns": 0,
+    "alternateTokenTested": false,
+    "linuxStorageQualified": false,
+    "hostileFilesystemQualified": false
+  }
+}

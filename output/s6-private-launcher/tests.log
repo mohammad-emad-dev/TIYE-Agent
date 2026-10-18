@@ -1,0 +1,10 @@
+test_valid_handshake_has_peer_receipt_and_clean_completion (integration.IntegratedTests.test_valid_handshake_has_peer_receipt_and_clean_completion) ... ok
+test_pending_stop_revokes_notification (integration.IntegratedTests.test_pending_stop_revokes_notification) ... ok
+test_initialized_owner_loss_expires_lease (integration.IntegratedTests.test_initialized_owner_loss_expires_lease) ... ok
+test_storage_failure_prevents_any_process_spawn (integration.StorageGateTests.test_storage_failure_prevents_any_process_spawn) ... ok
+test_changed_intent_refuses_before_spawn (integration.StorageGateTests.test_changed_intent_refuses_before_spawn) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 6.684s
+
+OK

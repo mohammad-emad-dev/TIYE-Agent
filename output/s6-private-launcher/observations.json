@@ -1,0 +1,86 @@
+[
+  {
+    "case": "valid",
+    "sourceSetSha256": "129b20a4cf461a84af564811a634f2009a3258ef12827b00bd3bf78678676c70",
+    "prelaunch": {
+      "rootVerified": true,
+      "runVerified": true,
+      "intentVerified": true
+    },
+    "privateRootProtected": true,
+    "privateRunProtected": true,
+    "fileCount": 17,
+    "privateBytes": 39364,
+    "filePermissionsVerified": true,
+    "windowsCleanupObserved": true,
+    "linuxCleanupObserved": true,
+    "sentinelLive": true,
+    "restartRefused": true,
+    "journalDelivery": "unknown",
+    "protocolOutcome": "handshake-and-clean-eof",
+    "ownerReport": "retained",
+    "peerReceiptObserved": true,
+    "stopObserved": false,
+    "retention": {
+      "required": true,
+      "deleted": false,
+      "deletionAllowed": false
+    }
+  },
+  {
+    "case": "stop-pending",
+    "sourceSetSha256": "129b20a4cf461a84af564811a634f2009a3258ef12827b00bd3bf78678676c70",
+    "prelaunch": {
+      "rootVerified": true,
+      "runVerified": true,
+      "intentVerified": true
+    },
+    "privateRootProtected": true,
+    "privateRunProtected": true,
+    "fileCount": 20,
+    "privateBytes": 45358,
+    "filePermissionsVerified": true,
+    "windowsCleanupObserved": true,
+    "linuxCleanupObserved": true,
+    "sentinelLive": true,
+    "restartRefused": true,
+    "journalDelivery": "unknown",
+    "protocolOutcome": "cancelled-before-response",
+    "ownerReport": "retained",
+    "peerReceiptObserved": false,
+    "stopObserved": true,
+    "retention": {
+      "required": true,
+      "deleted": false,
+      "deletionAllowed": false
+    }
+  },
+  {
+    "case": "owner-loss",
+    "sourceSetSha256": "129b20a4cf461a84af564811a634f2009a3258ef12827b00bd3bf78678676c70",
+    "prelaunch": {
+      "rootVerified": true,
+      "runVerified": true,
+      "intentVerified": true
+    },
+    "privateRootProtected": true,
+    "privateRunProtected": true,
+    "fileCount": 14,
+    "privateBytes": 32051,
+    "filePermissionsVerified": true,
+    "windowsCleanupObserved": true,
+    "linuxCleanupObserved": true,
+    "sentinelLive": true,
+    "restartRefused": true,
+    "journalDelivery": "unknown",
+    "protocolOutcome": "unknown-after-owner-loss",
+    "ownerReport": "absent",
+    "peerReceiptObserved": false,
+    "stopObserved": false,
+    "retention": {
+      "required": true,
+      "deleted": false,
+      "deletionAllowed": false
+    }
+  }
+]

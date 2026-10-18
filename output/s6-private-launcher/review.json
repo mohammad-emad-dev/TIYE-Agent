@@ -1,0 +1,65 @@
+{
+  "projectDate": "2026-10-18",
+  "priorCommit": "0a7ee02",
+  "delegation": {
+    "codex": "gpt-6-luna / max; completed reply-only contract review",
+    "opencode": "opencode/glm-5.3-flash-free / max; completed reply-only contract review",
+    "fallback": "Not needed",
+    "gemini": "Recorded consumer route exclusion retained; not dispatched",
+    "scope": "No final source review or delegated execution of live tests",
+    "provenance": {
+      "codex": {
+        "status": "completed",
+        "artifacts": {
+          "brief.txt": "cbbd06b60b8fcc19235e86eca4f23727ffdf95d30c3984ddaf87350596aee5ed",
+          "events.jsonl": "25cd3f0c742f985db5ddb03e6d40145c674e2904b900c51d6ea5a58fd0814f97",
+          "final.txt": "5cb32a62a9f8ddf6f0a93326123ea430c96a03498b72ddba1d81820c11f198a4",
+          "result.json": "6e90ff10d3d234ac9c02d1fcc7662ba5ac89b5a5998a192e86eae386aceee3e6",
+          "stderr.txt": "074633132bad39a7f4a6aa935d5ecb3f51241ea02b9955d8269ec202a3ea9980"
+        }
+      },
+      "glm": {
+        "status": "completed",
+        "artifacts": {
+          "brief.txt": "a0bdcd77677c0d34b8135bfc4f71305b3fc4477ef45da5c91789883a90c12f67",
+          "events.jsonl": "eba1660914821030fa563e585122747da4456a8dd29d33b1f91107adc64f6355",
+          "final.txt": "f898e5daa80eb6556640d6eec27dc7d005311198ac14c8f93d963434c4caaf00",
+          "result.json": "10acf07e02daf686a09b101e3818bfe0ea54225cf5cf8f462ed8a788d9d27f04"
+        }
+      }
+    },
+    "ambientWarning": "Codex Higgsfield MCP authentication warning despite ignore-user-config; no network-silence claim"
+  },
+  "dispositions": [
+    "Accepted source/bundle fingerprint, prelaunch routing, exact held-file audit and unknown-owner concerns",
+    "Journal replacement temp verified by source to be mkstemp in the same private directory",
+    "Frozen producers retain ordinary creation/inheritance; not a per-open confinement retrofit",
+    "Post-run 8MiB/file and 32MiB/case audit is not a live disk quota",
+    "Full lifecycle validation and storage audits precede selected publication; all captures retained",
+    "Initial intent bytes are hash-checked again before launch; corrupted nonempty intent refuses",
+    "Private audit stores file hashes/descriptors; its own hash excluded to avoid recursion",
+    "Offline checker verifies public selection integrity; does not replay private raw data"
+  ],
+  "guards": {
+    "clean-code-guard": {
+      "fixed": [
+        "integration.py: register storage cleanup immediately, including setup failure",
+        "private_storage.py: preserve original setup error with close failure as note",
+        "private_storage.py: compare intent content digest, not merely nonempty bytes"
+      ],
+      "flaggedForAuthor": []
+    },
+    "test-guard": "Five live tests: three real lifecycle paths plus OS-boundary/query and actual intent-corruption gates; four offline publication regressions",
+    "docs-guard": "Parent vs final file permissions, post-run budgets, retained uncertainty, limited review and remaining privacy scope explicit"
+  },
+  "limits": {
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "phase1": "HOLD",
+    "nativeAdmissionGranted": false,
+    "alternateTokenTested": false,
+    "linuxStorageQualified": false,
+    "hostileFilesystemQualified": false
+  },
+  "next": "Complete the private mock regression matrix in a new measured cohort"
+}

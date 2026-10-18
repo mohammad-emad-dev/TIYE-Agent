@@ -207,3 +207,9 @@ creates and checks protected Windows directories/files before synthetic payloads
 refuses existing/reparse paths and preserves uncertain or failed cleanup records.
 It is not yet integrated with the launcher. Alternate-account denial and privacy
 requirements remain open; the next step is a new mock capture using this store.
+
+The [private launcher capture](output/s6-private-launcher/README.md) now connects
+that storage to clean completion, pending Stop and uncertain owner loss. It
+retains raw configuration/streams/journals privately and publishes only selected
+verdicts. Five live tests cover those paths and two storage launch gates. The
+remaining private mock matrix and privacy/native-admission requirements stay open.
