@@ -1,0 +1,29 @@
+{
+  "sources": {
+    "feasibility/s6-wsl/private-capture-store/store.py": "c636cfb5151ba72a8afd6779165304a174fff39f32a094cca14cecb8758d78e9",
+    "feasibility/s6-wsl/private-capture-store/winacl.py": "5762b44a137bdcf833e45990dda4c731758b4016c7c514e4a09ba96d78bdcc84",
+    "feasibility/s6-wsl/windows-token-access/probe.py": "b84d941b98087969d4fecb48b0ea3e430a6213060d0663986c05070994264601",
+    "feasibility/s6-wsl/windows-token-access/run.py": "27c3411c2f7e1223969a550220d335afad5c29dd1a348689c302982ab89e8b15",
+    "feasibility/s6-wsl/windows-token-access/test_publication.py": "fa76498f85dcb4eb8adc126766a1cada6bccd2e5c144d7f10ca67db5f04bbe1e"
+  },
+  "limits": {
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "A1": "BLOCKED",
+    "phase1": "HOLD",
+    "nativeAdmissionGranted": false,
+    "otherAccountTested": false,
+    "administratorIsolation": false,
+    "launcherIntegrated": false,
+    "hostileFilesystemQualified": false,
+    "confinementEstablished": false
+  },
+  "artifacts": {
+    "input.json": "64d7a9e520f482527b46dd45015bddf50e8dec6e0f88ed497a66c4de9d437817",
+    "NEXT-STEP.md": "eca72641c003f1b9de30663ea15a096d50a8ae9cbca4640815466d0c6d80a05d",
+    "observations.json": "61737e46bd59de87e95022d0d59065606db591f5fe64efbb56fbff4b318c3d16",
+    "README.md": "d228a3b2e80f1383fbe21298869b091bc2eeca6215d587273ed71ea11837b89c",
+    "review.json": "60c1b160a29d38b4a88e9d3549d11469e94c91eaa65c194a4b93faaeb09dc183",
+    "tests.log": "31504c1404cf07792ff9652f034a698fd980059355cd1921d4680ce550a64dc7"
+  }
+}

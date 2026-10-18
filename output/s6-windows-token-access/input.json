@@ -1,0 +1,21 @@
+{
+  "sources": {
+    "feasibility/s6-wsl/private-capture-store/store.py": "c636cfb5151ba72a8afd6779165304a174fff39f32a094cca14cecb8758d78e9",
+    "feasibility/s6-wsl/private-capture-store/winacl.py": "5762b44a137bdcf833e45990dda4c731758b4016c7c514e4a09ba96d78bdcc84",
+    "feasibility/s6-wsl/windows-token-access/probe.py": "b84d941b98087969d4fecb48b0ea3e430a6213060d0663986c05070994264601",
+    "feasibility/s6-wsl/windows-token-access/run.py": "27c3411c2f7e1223969a550220d335afad5c29dd1a348689c302982ab89e8b15",
+    "feasibility/s6-wsl/windows-token-access/test_publication.py": "fa76498f85dcb4eb8adc126766a1cada6bccd2e5c144d7f10ca67db5f04bbe1e"
+  },
+  "limits": {
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "A1": "BLOCKED",
+    "phase1": "HOLD",
+    "nativeAdmissionGranted": false,
+    "otherAccountTested": false,
+    "administratorIsolation": false,
+    "launcherIntegrated": false,
+    "hostileFilesystemQualified": false,
+    "confinementEstablished": false
+  }
+}

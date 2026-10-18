@@ -1,0 +1,113 @@
+{
+  "schema": "tiye-windows-token-access-v1",
+  "scope": "same-account-restricted-token-only",
+  "pairedRequests": 20,
+  "ownerBaselineBeforeAfter": true,
+  "reverted": true,
+  "controlPathsOpened": true,
+  "payloadUnchanged": true,
+  "cases": {
+    "root": {
+      "data-or-list": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "write-or-create": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "read-control": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "write-dacl": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      }
+    },
+    "run": {
+      "data-or-list": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "write-or-create": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "read-control": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "write-dacl": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      }
+    },
+    "payload": {
+      "data-or-list": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "write-or-create": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "read-control": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "write-dacl": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      }
+    },
+    "retention": {
+      "data-or-list": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "write-or-create": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "read-control": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "write-dacl": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      }
+    },
+    "leaf": {
+      "data-or-list": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "write-or-create": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "read-control": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      },
+      "write-dacl": {
+        "restrictedDenied5": true,
+        "controlOpened": true
+      }
+    }
+  },
+  "limits": {
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "A1": "BLOCKED",
+    "phase1": "HOLD",
+    "nativeAdmissionGranted": false,
+    "otherAccountTested": false,
+    "administratorIsolation": false,
+    "launcherIntegrated": false,
+    "hostileFilesystemQualified": false,
+    "confinementEstablished": false
+  }
+}

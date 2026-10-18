@@ -1,0 +1,4 @@
+20 protected requests denied with error 5
+20 matching positive controls opened
+Owner before/after baselines and active-token witnesses passed
+Impersonation reverted; canary bytes unchanged

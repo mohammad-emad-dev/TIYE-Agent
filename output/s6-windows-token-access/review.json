@@ -1,0 +1,14 @@
+{
+  "scope": "reply-only-supplied-design-review",
+  "codex": {"model": "gpt-6-luna", "effort": "max", "status": "completed"},
+  "opencode": {"model": "opencode/glm-5.3-flash-free", "variant": "max", "status": "completed"},
+  "gemini": "not-dispatched-recorded-route-exclusion",
+  "fallbackUsed": false,
+  "finalSourceReviewedByDelegates": false,
+  "testsRunByDelegates": false,
+  "adopted": ["paired-controls", "active-token-witness", "owner-baseline-before-after", "same-parent-leaf-control"],
+  "rejected": ["change-notify-privilege-removed", "both-access-checks-must-fail"],
+  "exploratoryFailures": ["zero-access-visibility-check-denied", "privilege-name-lookup-during-impersonation-failed"],
+  "P2": "OPEN",
+  "nativeAdmissionGranted": false
+}
