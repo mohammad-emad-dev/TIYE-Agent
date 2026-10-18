@@ -1,0 +1,32 @@
+{
+  "checkedDate": "2026-10-18",
+  "checks": [
+    {
+      "command": "rtk proxy python -B -X utf8 feasibility/s6-wsl/native-preparation/run.py",
+      "exitCode": 0,
+      "scope": "existing-saved-evidence-checker-no-live-replay"
+    },
+    {
+      "command": "rtk proxy python -B -X utf8 feasibility/s6-wsl/linux-capture-store/run.py",
+      "exitCode": 0,
+      "scope": "existing-saved-evidence-checker-no-live-replay"
+    },
+    {
+      "command": "rtk proxy python -B -X utf8 feasibility/s6-wsl/windows-token-access/run.py",
+      "exitCode": 0,
+      "scope": "existing-saved-evidence-checker-no-live-replay"
+    },
+    {
+      "command": "rtk proxy python -B -X utf8 feasibility/s6-wsl/launcher-retention/run.py",
+      "exitCode": 0,
+      "scope": "existing-saved-evidence-checker-no-live-replay"
+    },
+    {
+      "command": "rtk proxy python -B -X utf8 feasibility/s6-wsl/launcher-deletion/run.py",
+      "exitCode": 0,
+      "scope": "existing-saved-evidence-checker-no-live-replay"
+    }
+  ],
+  "docsGuard": "links-and-claims-checked-against-cited-records-and-official-pages",
+  "newLiveExperiments": 0
+}

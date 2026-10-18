@@ -1,0 +1,59 @@
+{
+  "schema": "tiye-admission-reconciliation-v1",
+  "date": "2026-10-18",
+  "basisCommit": "efd8d43",
+  "providerInquiry": {
+    "channel": "https://openai.com/form/sign-in-with-chatgpt-interest/",
+    "status": "submitted-form-receipt-confirmed",
+    "confirmationEvidence": "submission-confirmation.jpg",
+    "caseIdentifierProvided": false,
+    "substantiveProviderResponseReceived": false,
+    "integrationEligible": false,
+    "clientRegistered": false,
+    "modelAccessQualified": false,
+    "contactFieldsPublished": false,
+    "supersedesInquiryStatusOnly": [
+      "output/s4-codex-candidate/route.json",
+      "output/s6-native-preparation/package.json"
+    ]
+  },
+  "states": {
+    "L1": "PARTIAL",
+    "L2": "PARTIAL",
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "A1": "BLOCKED"
+  },
+  "nativeExecutionAllowed": false,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD",
+  "nextDeliverable": "exact-first-native-acceptance-contract-without-execution",
+  "bindings": {
+    "output/launcher-admission-review/CAPTURE-PRIVACY.md": "0fa2bdff4063ed36725c98c6eb605e9fd85dbb61b348c5f7d042ce4c88902d86",
+    "output/launcher-admission-review/README.md": "813473ed0cf2f856d78313c59512bb79631c5a20a61a763b0c20338a3e020068",
+    "output/s4-codex-candidate/route.json": "d8399d32a9b2ab802e3da515579878b526cb3d4fb4ec250a6a595b73a3864064",
+    "output/s6-admission-reconciliation/INQUIRY.md": "d251a1ab13a844a38454440eb4244d54fa800b4a322a442752aa1acbfb61b025",
+    "output/s6-admission-reconciliation/README.md": "412e9a9c898b962a57e1805f1578d73737d6d19375b55e3f13168ef8652f1c70",
+    "output/s6-admission-reconciliation/reviews.json": "f7ab2964888ba3db7144fd67d3b0c304ccae59cf25e95b498ba9c4a1c8a34747",
+    "output/s6-admission-reconciliation/submission-confirmation.jpg": "7b6ad84bbe34d069002f2eeb8dd5b3f177eadeb4cdce9b37c17887fbbdc25dae",
+    "output/s6-admission-reconciliation/verification.json": "5fd52bfed6bcaba65a72236c68cf7b9372265c4e778b3e99781c96cd936195c8",
+    "output/s6-launcher-deletion/evidence.json": "f861e108a087f7e30fc45cb2d1dfd789b0092c95892e964a79cd8051c83e07bd",
+    "output/s6-launcher-deletion/input.json": "6477844bb1b1713be66f00e44ddbb993e86ec8e2cbb73644c95513b03ecd9495",
+    "output/s6-launcher-deletion/observations.json": "3df7584ec86b75fd60e5aa24564c1dec435b2213c3d7ce0f96adf15262b6cf09",
+    "output/s6-launcher-deletion/README.md": "6d1657418f5c416d91714c65e9ee9a04deeb7274d879f62361cafc797bb170c1",
+    "output/s6-launcher-retention/evidence.json": "500015e10eb5c9d84038f23286050e5ccb206f862efe17534d4a75f17762d9f4",
+    "output/s6-launcher-retention/input.json": "27349ab0c97c33c5b4c408b74921a97361dca68a58a587417ed94d3731abf152",
+    "output/s6-launcher-retention/observations.json": "4501b527a2961ae00b48de3acaacae3e01b568b56d191f0c37b28ee7b06d9d1b",
+    "output/s6-launcher-retention/README.md": "de9c18d841a927ff989eea6613f9a0c2d6b8f0cc3b6d0a667e87adf23b494c5c",
+    "output/s6-linux-capture-store/evidence.json": "c227c501e654481b5b4ecfbdcec17e31d47c82e8dd7c20dca5b4cfa2d1d5c1ed",
+    "output/s6-linux-capture-store/input.json": "ed437c7616053d6c4dae40eafda1660e6ce3b6ff13b139670459d622c4b6f2a8",
+    "output/s6-linux-capture-store/observations.json": "68973652c48aa5f2b4b77a7e464e2879f4f3c245d09691d4aebfb222975e0094",
+    "output/s6-linux-capture-store/README.md": "334d344786f4288e7d3e6ec899cc9f4fd374e07a9874c43da76f56a3abd58006",
+    "output/s6-native-preparation/package.json": "d480b3d6a9499dc3c00ea9b7fbb13720ea97f3a2b77c0ce7ef10b1ee96fc97ff",
+    "output/s6-native-preparation/README.md": "e0d868debb49ec71c4cf5b7bf5447546103787690579e897f01473398b5c1a24",
+    "output/s6-windows-token-access/evidence.json": "71ebad215d73b61c0c6cde63b7211e1fcff9ea6fd45751e30de953ddc244a194",
+    "output/s6-windows-token-access/input.json": "64d7a9e520f482527b46dd45015bddf50e8dec6e0f88ed497a66c4de9d437817",
+    "output/s6-windows-token-access/observations.json": "61737e46bd59de87e95022d0d59065606db591f5fe64efbb56fbff4b318c3d16",
+    "output/s6-windows-token-access/README.md": "d228a3b2e80f1383fbe21298869b091bc2eeca6215d587273ed71ea11837b89c"
+  }
+}

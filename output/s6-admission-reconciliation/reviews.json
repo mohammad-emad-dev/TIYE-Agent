@@ -1,0 +1,22 @@
+{
+  "reviews": [
+    {
+      "model": "gpt-6-luna",
+      "setting": "max",
+      "status": "completed",
+      "scope": "supplied-context-reply-only-not-final-file-or-runtime-review",
+      "report": "The sequencing is technically sound if the reconciliation is evidence-only and provider-route resolution remains a hard gate before native auth or inference. The receipt confirms submission only; the synthetic cohorts support only their stated, separate lifecycle findings. Neither establishes native readiness.\n\nDefine the first-native composition and its required versus deferred failure behavior, then resolve the route, refresh candidate identity, and record concrete task-bound admission before any attempt.\n\nThe most important missing requirement is a testable native-path security and acceptance contract: credential provenance and flow, what may be captured or persisted, redaction and cleanup, and explicit pass, fail, and stop criteria. Without it, a native attempt cannot be evaluated safely. Keep power-loss, hostile concurrency, secure-erasure, and production-readiness claims out of scope.",
+      "localResultSha256": "a81b90cf84295c2e7637ee3c5e801cb129c558d781497c11b0ef71d612220782"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "setting": "max",
+      "status": "completed",
+      "scope": "supplied-context-reply-only-not-final-file-or-runtime-review",
+      "report": "**Assessment:** The sequencing is technically sound. Treating the form receipt as submission-only, keeping the historical snapshot immutable with a superseding dated record, and refusing to generalize synthetic cohorts to native credentials, power loss, hostile mutation, or production readiness are correctly calibrated. Holding native work behind provider-route resolution (A1 BLOCKED) rather than attempting inference against an unresolved route avoids wasted effort; treating API-billing and Gemini delegation as separate decisions is also correct.\n\n**Overclaims to guard:** (1) \"No more equivalent mock lifecycle cases are planned\" can read as cohort completeness \u2014 state it as scope-bounded sufficiency for retention/deletion only. (2) \"Exact reviewed group deletion with durable caller record\" must not read as a security guarantee; it has no concurrent-mutation or secure-erasure coverage. (3) \"L1/L2 PARTIAL\" is status, not measurable progress \u2014 ensure the reconciliation does not imply proximity to a bar that is not defined.\n\n**Most important missing requirement:** explicit gate-exit criteria. The mapping records HOLD/PARTIAL/OPEN/BLOCKED states but defines no evidence-based conditions that flip Phase 1 HOLD, complete L1/L2, or close P1/P2, nor an owner and re-inquiry cadence for A1. Without these, the deliverable is a status snapshot, not a decision instrument; propose adding them before the next native-preparation step.",
+      "localResultSha256": "b94bd3ecea7db8982047dd7352ef50d4e20e16acecec105d765ebd41d596e77f"
+    }
+  ],
+  "gemini": "not-dispatched-recorded-consumer-route-exclusion",
+  "fallbackUsed": false
+}
