@@ -1,0 +1,14 @@
+test_absent_path_cannot_contain_file_bytes_or_imply_effective_access (test_check.ReviewChecks.test_absent_path_cannot_contain_file_bytes_or_imply_effective_access) ... ok
+test_admission_or_privacy_promotion_is_refused (test_check.ReviewChecks.test_admission_or_privacy_promotion_is_refused) ... ok
+test_changed_subject_hash_is_refused (test_check.ReviewChecks.test_changed_subject_hash_is_refused) ... ok
+test_measurement_overclaims_and_identity_fields_are_refused (test_check.ReviewChecks.test_measurement_overclaims_and_identity_fields_are_refused) ... ok
+test_missing_acl_and_historical_scope_are_refused (test_check.ReviewChecks.test_missing_acl_and_historical_scope_are_refused) ... ok
+test_path_escape_and_changed_bytes_are_refused (test_check.ReviewChecks.test_path_escape_and_changed_bytes_are_refused) ... ok
+test_private_retention_claim_is_refused (test_check.ReviewChecks.test_private_retention_claim_is_refused) ... ok
+test_saved_review_verifies (test_check.ReviewChecks.test_saved_review_verifies) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.212s
+
+OK
+Access review verified: P1/P2 OPEN; current metadata only; native admission disabled

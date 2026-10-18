@@ -119,3 +119,5 @@ feasibility/s6-wsl/launcher-evidence-review/** -text whitespace=blank-at-eol,-bl
 output/launcher-evidence-review/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/consolidated-launcher/** -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
 output/s6-consolidated-launcher/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/capture-access-review/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-capture-access-review/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

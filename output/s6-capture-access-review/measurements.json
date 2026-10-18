@@ -1,0 +1,6087 @@
+{
+  "observedUtc": "2026-10-18T12:48:31.135338+00:00",
+  "limits": {
+    "nativeAdmissionGranted": false,
+    "nativeProviderRuns": 0,
+    "phase1": "HOLD",
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "historicalEffectiveAccessProven": false,
+    "currentEffectiveAccessEvaluated": false
+  },
+  "windowsDacl": [
+    {
+      "target": "output/s6-consolidated-launcher",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "administrators",
+          "rights": 268435456,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 3,
+          "propagationFlags": 2
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 268435456,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 3,
+          "propagationFlags": 2
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 3758161920,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 3,
+          "propagationFlags": 2
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 2684354560,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 3,
+          "propagationFlags": 2
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/evidence.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/input.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/observations.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/README.md",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/review.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_candidate_preparation_refuses_changed_inputs_without_execution/candidate-fixture.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_candidate_preparation_refuses_changed_inputs_without_execution/different-path.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_candidate_preparation_refuses_changed_inputs_without_execution/observer.stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_failed_stop_callback_still_closes_and_reaps_owned_client/observer.stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_foreign_response_refuses_notification/attempt.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_foreign_response_refuses_notification/host-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_foreign_response_refuses_notification/host-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_foreign_response_refuses_notification/lease.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_foreign_response_refuses_notification/observer.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_foreign_response_refuses_notification/observer.stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_foreign_response_refuses_notification/protocol-result.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_foreign_response_refuses_notification/protocol-stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_foreign_response_refuses_notification/protocol-stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_foreign_response_refuses_notification/watchdog-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_foreign_response_refuses_notification/watchdog-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_foreign_response_refuses_notification/watchdog-report.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_foreign_response_refuses_notification/watchdog.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_owner_loss_expires_lease/attempt.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_owner_loss_expires_lease/host-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_owner_loss_expires_lease/host-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_owner_loss_expires_lease/lease.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_owner_loss_expires_lease/observer.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_owner_loss_expires_lease/observer.stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_owner_loss_expires_lease/watchdog-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_owner_loss_expires_lease/watchdog-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_owner_loss_expires_lease/watchdog-report.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_owner_loss_expires_lease/watchdog.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_transport_loss_retires_heartbeat/attempt.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_transport_loss_retires_heartbeat/host-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_transport_loss_retires_heartbeat/host-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_transport_loss_retires_heartbeat/lease.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_transport_loss_retires_heartbeat/observer.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_transport_loss_retires_heartbeat/observer.stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_transport_loss_retires_heartbeat/protocol-result.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_transport_loss_retires_heartbeat/protocol-stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_transport_loss_retires_heartbeat/protocol-stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_transport_loss_retires_heartbeat/watchdog-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_transport_loss_retires_heartbeat/watchdog-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_transport_loss_retires_heartbeat/watchdog-report.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_initialized_transport_loss_retires_heartbeat/watchdog.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_invalid_utf8_is_preserved_and_refuses_notification/attempt.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_invalid_utf8_is_preserved_and_refuses_notification/host-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_invalid_utf8_is_preserved_and_refuses_notification/host-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_invalid_utf8_is_preserved_and_refuses_notification/lease.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_invalid_utf8_is_preserved_and_refuses_notification/observer.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_invalid_utf8_is_preserved_and_refuses_notification/observer.stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_invalid_utf8_is_preserved_and_refuses_notification/protocol-result.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_invalid_utf8_is_preserved_and_refuses_notification/protocol-stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_invalid_utf8_is_preserved_and_refuses_notification/protocol-stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_invalid_utf8_is_preserved_and_refuses_notification/watchdog-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_invalid_utf8_is_preserved_and_refuses_notification/watchdog-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_invalid_utf8_is_preserved_and_refuses_notification/watchdog-report.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_invalid_utf8_is_preserved_and_refuses_notification/watchdog.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_native_execution_flag_is_refused_before_launch/observer.stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_owner_loss_with_pending_write_expires_lease_and_removes_tree/attempt.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_owner_loss_with_pending_write_expires_lease_and_removes_tree/host-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_owner_loss_with_pending_write_expires_lease_and_removes_tree/host-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_owner_loss_with_pending_write_expires_lease_and_removes_tree/lease.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_owner_loss_with_pending_write_expires_lease_and_removes_tree/observer.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_owner_loss_with_pending_write_expires_lease_and_removes_tree/observer.stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_owner_loss_with_pending_write_expires_lease_and_removes_tree/pressure-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_owner_loss_with_pending_write_expires_lease_and_removes_tree/watchdog-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_owner_loss_with_pending_write_expires_lease_and_removes_tree/watchdog-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_owner_loss_with_pending_write_expires_lease_and_removes_tree/watchdog-report.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_owner_loss_with_pending_write_expires_lease_and_removes_tree/watchdog.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_partial_journals_refuse_before_any_launch/0/attempt.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_partial_journals_refuse_before_any_launch/0/host-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_partial_journals_refuse_before_any_launch/1/attempt.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_partial_journals_refuse_before_any_launch/1/host-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_partial_journals_refuse_before_any_launch/observer.stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/attempt.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/host-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/host-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/lease.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/observer.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/observer.stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/protocol-result.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/protocol-stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/protocol-stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/stop-request.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/stop-response.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/stop-result.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/watchdog-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/watchdog-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/watchdog-report.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_pending_stop_revokes_notification/watchdog.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/attempt.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/host-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/host-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/lease.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/observer.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/observer.stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/pressure-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/protocol-result.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/protocol-stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/protocol-stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/stop-request.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/stop-response.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/stop-result.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/watchdog-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/watchdog-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/watchdog-report.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_stop_cancels_pending_pressure_write_and_removes_owned_tree/watchdog.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_transport_loss_marks_write_uncertain_and_removes_tree/attempt.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_transport_loss_marks_write_uncertain_and_removes_tree/host-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_transport_loss_marks_write_uncertain_and_removes_tree/host-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_transport_loss_marks_write_uncertain_and_removes_tree/lease.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_transport_loss_marks_write_uncertain_and_removes_tree/observer.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_transport_loss_marks_write_uncertain_and_removes_tree/observer.stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_transport_loss_marks_write_uncertain_and_removes_tree/pressure-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_transport_loss_marks_write_uncertain_and_removes_tree/protocol-result.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_transport_loss_marks_write_uncertain_and_removes_tree/protocol-stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_transport_loss_marks_write_uncertain_and_removes_tree/protocol-stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_transport_loss_marks_write_uncertain_and_removes_tree/watchdog-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_transport_loss_marks_write_uncertain_and_removes_tree/watchdog-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_transport_loss_marks_write_uncertain_and_removes_tree/watchdog-report.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_transport_loss_marks_write_uncertain_and_removes_tree/watchdog.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_valid_handshake_has_peer_receipt_and_clean_completion/attempt.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_valid_handshake_has_peer_receipt_and_clean_completion/host-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_valid_handshake_has_peer_receipt_and_clean_completion/host-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_valid_handshake_has_peer_receipt_and_clean_completion/lease.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_valid_handshake_has_peer_receipt_and_clean_completion/observer.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_valid_handshake_has_peer_receipt_and_clean_completion/observer.stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_valid_handshake_has_peer_receipt_and_clean_completion/protocol-result.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_valid_handshake_has_peer_receipt_and_clean_completion/protocol-stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_valid_handshake_has_peer_receipt_and_clean_completion/protocol-stdout.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_valid_handshake_has_peer_receipt_and_clean_completion/watchdog-config.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_valid_handshake_has_peer_receipt_and_clean_completion/watchdog-ready.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_valid_handshake_has_peer_receipt_and_clean_completion/watchdog-report.json",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/test_valid_handshake_has_peer_receipt_and_clean_completion/watchdog.stderr.bin",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "output/s6-consolidated-launcher/tests.log",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        }
+      ]
+    },
+    {
+      "target": "private-delegation-root",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "administrators",
+          "rights": 268435456,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 3,
+          "propagationFlags": 2
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 268435456,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 3,
+          "propagationFlags": 2
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 3758161920,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 3,
+          "propagationFlags": 2
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 2684354560,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 3,
+          "propagationFlags": 2
+        }
+      ]
+    },
+    {
+      "target": "private-development-root",
+      "ownerRole": "current-user",
+      "daclState": "present",
+      "daclProtected": false,
+      "daclCanonical": true,
+      "aces": [
+        {
+          "principalRole": "administrators",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "administrators",
+          "rights": 268435456,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 3,
+          "propagationFlags": 2
+        },
+        {
+          "principalRole": "system",
+          "rights": 2032127,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "system",
+          "rights": 268435456,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 3,
+          "propagationFlags": 2
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 1245631,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "authenticated-users",
+          "rights": 3758161920,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 3,
+          "propagationFlags": 2
+        },
+        {
+          "principalRole": "users",
+          "rights": 1179817,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 0,
+          "propagationFlags": 0
+        },
+        {
+          "principalRole": "users",
+          "rights": 2684354560,
+          "accessType": "Allow",
+          "inherited": true,
+          "inheritanceFlags": 3,
+          "propagationFlags": 2
+        }
+      ]
+    }
+  ],
+  "linuxMetadata": {
+    "uid": 1000,
+    "scope": "current-observer-not-historical-service",
+    "roots": {
+      "/tmp/tiye-consolidated-launcher-2e0n8xvw": {
+        ".": {
+          "exists": false
+        },
+        "home": {
+          "exists": false
+        },
+        "codex-home": {
+          "exists": false
+        },
+        "tmp": {
+          "exists": false
+        },
+        "main.json": {
+          "exists": false
+        },
+        "protocol-live.json": {
+          "exists": false
+        },
+        "lease.json": {
+          "exists": false
+        },
+        "descriptor.json": {
+          "exists": false
+        },
+        "service-command.json": {
+          "exists": false
+        }
+      },
+      "/tmp/tiye-consolidated-launcher-3esqey_f": {
+        ".": {
+          "exists": false
+        },
+        "home": {
+          "exists": false
+        },
+        "codex-home": {
+          "exists": false
+        },
+        "tmp": {
+          "exists": false
+        },
+        "main.json": {
+          "exists": false
+        },
+        "protocol-live.json": {
+          "exists": false
+        },
+        "lease.json": {
+          "exists": false
+        },
+        "descriptor.json": {
+          "exists": false
+        },
+        "service-command.json": {
+          "exists": false
+        }
+      },
+      "/tmp/tiye-consolidated-launcher-8fio5xw9": {
+        ".": {
+          "exists": false
+        },
+        "home": {
+          "exists": false
+        },
+        "codex-home": {
+          "exists": false
+        },
+        "tmp": {
+          "exists": false
+        },
+        "main.json": {
+          "exists": false
+        },
+        "protocol-live.json": {
+          "exists": false
+        },
+        "lease.json": {
+          "exists": false
+        },
+        "descriptor.json": {
+          "exists": false
+        },
+        "service-command.json": {
+          "exists": false
+        }
+      },
+      "/tmp/tiye-consolidated-launcher-a4i_xuxe": {
+        ".": {
+          "exists": false
+        },
+        "home": {
+          "exists": false
+        },
+        "codex-home": {
+          "exists": false
+        },
+        "tmp": {
+          "exists": false
+        },
+        "main.json": {
+          "exists": false
+        },
+        "protocol-live.json": {
+          "exists": false
+        },
+        "lease.json": {
+          "exists": false
+        },
+        "descriptor.json": {
+          "exists": false
+        },
+        "service-command.json": {
+          "exists": false
+        }
+      },
+      "/tmp/tiye-consolidated-launcher-abkfqaqi": {
+        ".": {
+          "exists": false
+        },
+        "home": {
+          "exists": false
+        },
+        "codex-home": {
+          "exists": false
+        },
+        "tmp": {
+          "exists": false
+        },
+        "main.json": {
+          "exists": false
+        },
+        "protocol-live.json": {
+          "exists": false
+        },
+        "lease.json": {
+          "exists": false
+        },
+        "descriptor.json": {
+          "exists": false
+        },
+        "service-command.json": {
+          "exists": false
+        }
+      },
+      "/tmp/tiye-consolidated-launcher-gkluutdn": {
+        ".": {
+          "exists": false
+        },
+        "home": {
+          "exists": false
+        },
+        "codex-home": {
+          "exists": false
+        },
+        "tmp": {
+          "exists": false
+        },
+        "main.json": {
+          "exists": false
+        },
+        "protocol-live.json": {
+          "exists": false
+        },
+        "lease.json": {
+          "exists": false
+        },
+        "descriptor.json": {
+          "exists": false
+        },
+        "service-command.json": {
+          "exists": false
+        }
+      },
+      "/tmp/tiye-consolidated-launcher-m_ve10hg": {
+        ".": {
+          "exists": false
+        },
+        "home": {
+          "exists": false
+        },
+        "codex-home": {
+          "exists": false
+        },
+        "tmp": {
+          "exists": false
+        },
+        "main.json": {
+          "exists": false
+        },
+        "protocol-live.json": {
+          "exists": false
+        },
+        "lease.json": {
+          "exists": false
+        },
+        "descriptor.json": {
+          "exists": false
+        },
+        "service-command.json": {
+          "exists": false
+        }
+      },
+      "/tmp/tiye-consolidated-launcher-rrzyb6qi": {
+        ".": {
+          "exists": false
+        },
+        "home": {
+          "exists": false
+        },
+        "codex-home": {
+          "exists": false
+        },
+        "tmp": {
+          "exists": false
+        },
+        "main.json": {
+          "exists": false
+        },
+        "protocol-live.json": {
+          "exists": false
+        },
+        "lease.json": {
+          "exists": false
+        },
+        "descriptor.json": {
+          "exists": false
+        },
+        "service-command.json": {
+          "exists": false
+        }
+      },
+      "/tmp/tiye-consolidated-launcher-vpg823j0": {
+        ".": {
+          "exists": false
+        },
+        "home": {
+          "exists": false
+        },
+        "codex-home": {
+          "exists": false
+        },
+        "tmp": {
+          "exists": false
+        },
+        "main.json": {
+          "exists": false
+        },
+        "protocol-live.json": {
+          "exists": false
+        },
+        "lease.json": {
+          "exists": false
+        },
+        "descriptor.json": {
+          "exists": false
+        },
+        "service-command.json": {
+          "exists": false
+        }
+      }
+    },
+    "mountpointMetadata": {
+      "/mnt/d": {
+        "exists": true,
+        "mode": "0777",
+        "type": 16384,
+        "ownerMatchesProbeUid": true,
+        "groupMatchesProbeGid": true
+      }
+    },
+    "posixAclEvaluated": false,
+    "effectiveAccessEvaluated": false
+  }
+}

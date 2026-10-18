@@ -195,3 +195,9 @@ The [consolidated mock launcher](output/s6-consolidated-launcher/README.md)
 runs forwarding/refusal, lifecycle and synthetic pending-write scenarios on one
 source set, alongside native-refusal and candidate-preparation guards. Native
 execution stays disabled; ambient-access and capture-permission reviews remain.
+
+The [consolidated capture access review](output/s6-capture-access-review/README.md)
+binds the sealed launcher to current Windows DACL and Linux path metadata.
+Broad inherited Windows grants and missing historical Linux paths leave privacy
+requirements open. Next is protected private storage for future captures;
+native execution remains disabled and Phase 1 remains HOLD.
