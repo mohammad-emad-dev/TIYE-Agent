@@ -219,3 +219,9 @@ that path to all nine wire/lifecycle/pressure scenarios with four storage guards
 Raw data stays private and pressure delivery remains uncertain. The source-bound
 assessment keeps L1/L2 partial, P1/P2 open and native admission blocked; next is
 bounded ambient-access qualification with synthetic resources.
+
+The [owned ambient-access probe](output/s6-ambient-access/README.md) now measures
+same-account reads/writes outside fresh HOME, a mode-000 read denial and owned
+Unix/loopback connections from the managed mock peer. Resource and process cleanup
+are checked separately. These observations support the documented shared-account
+CLI trust model; credentials, confinement and native admission remain unqualified.

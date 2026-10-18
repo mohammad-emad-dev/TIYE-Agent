@@ -1,0 +1,16 @@
+{
+  "sourceSetSha256": "fb309f577f85a01f0237fa9679940117c5cd81a154db939a9eca40f58ea86828",
+  "qualifiedMockCases": [
+    "owned-ambient-probe"
+  ],
+  "states": {
+    "L1": "PARTIAL",
+    "L2": "PARTIAL",
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "A1": "BLOCKED"
+  },
+  "phase1": "HOLD",
+  "nativeAdmissionGranted": false,
+  "historicalLedgersChanged": false
+}

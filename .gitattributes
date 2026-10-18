@@ -127,3 +127,6 @@ feasibility/s6-wsl/private-launcher/** -text whitespace=blank-at-eol,blank-at-eo
 output/s6-private-launcher/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/private-matrix/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-private-matrix/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/ambient-access/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/ambient-access/launcher/** -text whitespace=blank-at-eol,-blank-at-eof,space-before-tab,cr-at-eol
+output/s6-ambient-access/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

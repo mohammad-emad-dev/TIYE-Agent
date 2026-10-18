@@ -1,0 +1,6 @@
+test_valid_handshake_has_peer_receipt_and_clean_completion (integration.AmbientTest.test_valid_handshake_has_peer_receipt_and_clean_completion) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 4.670s
+
+OK

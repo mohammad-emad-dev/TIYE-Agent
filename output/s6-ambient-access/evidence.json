@@ -1,0 +1,67 @@
+{
+  "projectDate": "2026-10-18",
+  "sources": {
+    "launcher": {
+      "feasibility/s6-wsl/ambient-access/launcher/ambient_probe.py": "9a21190a0acce4279659f1759f3c088703a51b7d6daac89ad09040e07ac93231",
+      "feasibility/s6-wsl/ambient-access/launcher/bridge.py": "4f38441a13d07870507247267aa160a448c9766049122a386d8f0d84335b86c3",
+      "feasibility/s6-wsl/ambient-access/launcher/common.py": "a4b13223829903dda469bdb6c8aedc0a0eda4f937c939bb4d49611cdaa800b81",
+      "feasibility/s6-wsl/ambient-access/launcher/entry.py": "99b4402896f762344cecbba281fd622bbb1fd843520b6ca499d245ed477ecb51",
+      "feasibility/s6-wsl/ambient-access/launcher/host.py": "e2dd206255bcf3ccdeb2bb2c68f913513f32e57cfa3f758a6e174cf1a84b7f07",
+      "feasibility/s6-wsl/ambient-access/launcher/journal.py": "f50b3a8927ab5f475c1bc9843b6d240113c53e492c17be23737095cf63b3cdf7",
+      "feasibility/s6-wsl/ambient-access/launcher/lease.py": "2e9741e56c49698e3e1e4b10b975cd92137cb86c69b31230322601026203fe2f",
+      "feasibility/s6-wsl/ambient-access/launcher/observer.py": "ff794beaad2956e3990b713924a6adae907b32888256a05c4200f35eecb81bc3",
+      "feasibility/s6-wsl/ambient-access/launcher/prepare.py": "0c297c6603413220872a5d1a55d9cdeb1d80fccd86236011e833930952bbf49d",
+      "feasibility/s6-wsl/ambient-access/launcher/profile.py": "74d910b87cd4028f23b872d7d220aa85e00735fb15f5027b13cd04c9c6543d8e",
+      "feasibility/s6-wsl/ambient-access/launcher/protocol_peer.py": "47614fed7ae80f803822b3b6ebfb241b67f9a4c01b424b880bc57e7717dc0356",
+      "feasibility/s6-wsl/ambient-access/launcher/run.py": "dd793e14a4c40b5563e80b8e51c9c970bf4e5dfbc27cb46b22bb4748e5ea4312",
+      "feasibility/s6-wsl/ambient-access/launcher/service.py": "ebbb699aaa6aa683d3d8ec351c06c142f08dc1d5eead1ef2c22afc406abb7878",
+      "feasibility/s6-wsl/ambient-access/launcher/stop.py": "ac7b0d30a71cf4f9b3f706a6449915b7ed7092dcf2461e4c28bd35b21d35d215",
+      "feasibility/s6-wsl/ambient-access/launcher/test_unified.py": "c0d6a7430e46d2bf799696559fcf50461be49635348d3ac1a62cd0ed86e897df",
+      "feasibility/s6-wsl/ambient-access/launcher/transport.py": "353746f1b5ae439f84e5ce8376f6b307780fac11fd1f59c5c5c960ac64f71d5f",
+      "feasibility/s6-wsl/ambient-access/launcher/validation.py": "ffebd1bc8e3a290339a1f4bc8d3ff0ba7190f1899b22ab5fc65fccaef2243880",
+      "feasibility/s6-wsl/ambient-access/launcher/watchdog.py": "5f6b318444339ef85ea19858fb040842ca89bea31c8e97c3fbace7a26e7690a0",
+      "feasibility/s6-wsl/ambient-access/launcher/windows.py": "0682a8b0ddcbb233c9c6c2144088fd40bc0c502c9ac469314f358fe796abc9b4",
+      "feasibility/s6-wsl/ambient-access/launcher/winjob.py": "cba5dd28c2449b0a23447d44a6dc9ff0190414f13392f76296a3c99a80cbc23a",
+      "feasibility/s6-wsl/ambient-access/launcher/worker.py": "eda5b3c08716b0ddb7fd0f2792be70246f24301574c1fa3ecd2da5b01572bb91"
+    },
+    "storage": {
+      "feasibility/s6-wsl/private-capture-store/publication.py": "97a9a2578c611a70336b73eed07e29cd38340414601b645e03cce954ffdcd2b9",
+      "feasibility/s6-wsl/private-capture-store/run.py": "8d59f94364d389bc42be8ad1d9f8bdd0ccba1be031430a55d1b3dde2998570fe",
+      "feasibility/s6-wsl/private-capture-store/store.py": "c636cfb5151ba72a8afd6779165304a174fff39f32a094cca14cecb8758d78e9",
+      "feasibility/s6-wsl/private-capture-store/test_publication.py": "5abfded2a6f16c2ec89ca399c007b7a60e545f65fbed82e1dfd7961e6bf73689",
+      "feasibility/s6-wsl/private-capture-store/test_store.py": "dead0907b2e594f7e4adf7f11ef332e38da5e768c7cb6d7f15c89058775a35e4",
+      "feasibility/s6-wsl/private-capture-store/winacl.py": "5762b44a137bdcf833e45990dda4c731758b4016c7c514e4a09ba96d78bdcc84"
+    },
+    "integration": {
+      "feasibility/s6-wsl/ambient-access/contract.py": "dd578c422182f078aa6dbc65e47473c0f6c54c9ab17eb1f6b64f33fc328de4c0",
+      "feasibility/s6-wsl/ambient-access/integration.py": "f11e03f68bfcbe19eb7f1a04566943e3082b59d94bdd1620504e352ce7399060",
+      "feasibility/s6-wsl/ambient-access/private_storage.py": "0cf01964289e886a44e22e4bb4202e91a092a4a2c4dce2e7d2c1567bc4feac65",
+      "feasibility/s6-wsl/ambient-access/publication.py": "2ef618d252928e3c6a9c077bf5c741b6b139367bea597c93d0eb4992155fd167",
+      "feasibility/s6-wsl/ambient-access/resource_bootstrap.py": "a8d5df038397968dedc79706c9cb92e18e79c0f3667aa68039c39f694a1b69f2",
+      "feasibility/s6-wsl/ambient-access/run.py": "6762a5dc249b7994f0b44be6dd2541b246155caf923e2723533ea45f20ee5614",
+      "feasibility/s6-wsl/ambient-access/test_publication.py": "77c8dfd99f86394cd6361fbe78d5fc33fac5caeeb0e8beb65accfe7082c97277"
+    }
+  },
+  "sourceSetSha256": "fb309f577f85a01f0237fa9679940117c5cd81a154db939a9eca40f58ea86828",
+  "testCount": 1,
+  "testsSuccessful": true,
+  "limits": {
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "phase1": "HOLD",
+    "nativeAdmissionGranted": false,
+    "nativeProviderRuns": 0,
+    "alternateTokenTested": false,
+    "linuxStorageQualified": false,
+    "hostileFilesystemQualified": false
+  },
+  "artifactSha256": {
+    "assessment.json": "b7279aa41c6e7fef8f09cde440a4e10d1d4de798b67abd6f54ecce887dda2b71",
+    "input.json": "caa8398ea9c4aaec9bf5c8b3a4713445653768e4a5c8d3cfe8860fbb866b759d",
+    "NEXT-STEP.md": "84fae606e9bc0cb50dc27e3f410bb5385b8fd434417f78f9b349bf1cdd3e35f0",
+    "observations.json": "2f4166348652632a712e99318c4fd484db6d29c3fbd65b9328a8b405a13779e4",
+    "README.md": "3f7eb0fc43b8472285f3dfc2833f949617e0af3c6347d63783d8bc28605dd20a",
+    "review.json": "29377774a0a7445b686c9cc74e8713d83183fa7a1741a2d0b95b7f5817040fe0",
+    "tests.log": "8f2d891dc78a5c1da3cdb7f97f32a1ffffe33831dc7c39f5cf98fd0041b9c3f6"
+  }
+}

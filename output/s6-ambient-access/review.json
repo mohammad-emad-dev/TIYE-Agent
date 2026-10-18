@@ -1,0 +1,72 @@
+{
+  "projectDate": "2026-10-18",
+  "priorCommit": "1eb0557",
+  "architectureReferencesAtReview": {
+    "architecture/TIYE-Agent-Architecture.md": "e46e5a5581d16160af95f7ce5ddae9e2da505510c04eb50b825d2f5c532c6a59",
+    "architecture/TIYE-Agent-Product-Specification.md": "c7c4925497baa535111049bb799a6d3d4687c1e081157b4845cc08f95875ef41"
+  },
+  "trustDecision": "Retain existing shared-account CLI mode; no OS filesystem/network isolation promised",
+  "delegation": {
+    "codex": "gpt-6-luna / max; completed reply-only design review",
+    "opencode": "opencode/glm-5.3-flash-free / max; completed reply-only design review",
+    "fallback": "Not needed",
+    "gemini": "Recorded consumer route exclusion retained; not dispatched",
+    "scope": "No final source audit or delegated live-test execution",
+    "provenance": {
+      "codex": {
+        "status": "completed",
+        "artifacts": {
+          "brief.txt": "d1a84c1edee035522620653e3b1965a0523803994a26fdfafd6966233427deb7",
+          "events.jsonl": "82037f23ead92a04d6c000852c00f3b883c14bfee0df2fedd695c8ff3910d759",
+          "final.txt": "cb9034748b09efb5dd4b78d30e1a77fa74aa20a950a386d79d2dfc99e33ee74b",
+          "result.json": "8fd54b79e815f73fa44406b5efe24ef075fd56022e928053b3bea6808831a2c6",
+          "stderr.txt": "2685ce716507a2fdf84f196ba1972be3b1eccbcffa899651bc7d06604602a3d7"
+        }
+      },
+      "glm": {
+        "status": "completed",
+        "artifacts": {
+          "brief.txt": "7bd12de78d74facb4281d031f2199c82b15a94bfdc0abee8cb12148ed207fd70",
+          "events.jsonl": "d23e54d360b12b661031aff317a713bcc019888688e150883ad2f4757d1be358",
+          "final.txt": "4d7591e7837abfa1b305bd7401136e14f7b9c59b3f66fb9d4596bd8e6fa691d3",
+          "result.json": "bb4b23c93b0098a7f3b7bae7dcde905c67a39b4c54d1c231dbce3ed16a184f80"
+        }
+      }
+    },
+    "ambientWarning": "Codex Higgsfield MCP auth warning despite ignore-user-config; no network-silence claim"
+  },
+  "dispositions": [
+    "Actual peer UID tuple/capEff/capAmb/umask/env5/cwd/fresh-home and namespace context checked",
+    "SO_PEERCRED tied to held protocol peer PID/UID/GID, not the worker; TCP is nonce/endpoint correlation only",
+    "Owned synthetic resource root and fixed paths only; no credentials/keyrings/home enumeration/external contacts",
+    "Read/write hashes and mode000 errno13 independently required; no general confinement inference",
+    "Resource owner is independent observer; sockets/threads/files/root cleanup checked after service peer death",
+    "Final identity checks are bounded, not inode-reuse/race-proof security claims",
+    "Full raw paths/ports/PIDs and capability metadata stay in protected capture; public nonclaims enforced",
+    "Failed/partial resource setup can retain a quarantined directory; failed cleanup cannot publish success",
+    "Architecture references are reviewed at the recorded commit/date; not a perpetual claim about later document edits"
+  ],
+  "guards": {
+    "clean-code-guard": {
+      "fixed": [
+        "ambient_probe.py/publication.py: assert actual effective identity/capability/umask/namespace context",
+        "resource_bootstrap.py: read peer write through no-follow descriptor with owner/type/size checks",
+        "resource_bootstrap.py: close/join partial setup and preserve original error with cleanup note"
+      ],
+      "flaggedForAuthor": []
+    },
+    "test-guard": "One actual end-to-end managed-peer probe; six offline validator regressions with explicitly synthetic records, no mocked model state",
+    "docs-guard": "Observed canary reach vs credentials/confinement separated; account-mode decision derived from existing architecture"
+  },
+  "limits": {
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "phase1": "HOLD",
+    "A1": "BLOCKED",
+    "nativeAdmissionGranted": false,
+    "realCredentialsTested": false,
+    "externalNetworkTested": false,
+    "confinementProven": false
+  },
+  "next": "Preparation-only source/candidate/access/admission package; reuse existing declarations, keep native execution disabled"
+}

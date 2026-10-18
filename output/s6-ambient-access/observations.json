@@ -1,0 +1,22 @@
+[
+  {
+    "case": "owned-ambient-probe",
+    "sourceSetSha256": "fb309f577f85a01f0237fa9679940117c5cd81a154db939a9eca40f58ea86828",
+    "scope": "shared-account-cli-mock",
+    "freshEnvironmentObserved": true,
+    "outsideFreshHomeRead": true,
+    "outsideFreshHomeWrite": true,
+    "mode000ReadDenied": true,
+    "unixConnectObserved": true,
+    "unixPeerCredentialsBound": true,
+    "tcpLoopbackConnectObserved": true,
+    "tcpPidAttributed": false,
+    "ownedResourceCleanupVerified": true,
+    "lifecycleCleanupVerified": true,
+    "realCredentialsTested": false,
+    "externalNetworkTested": false,
+    "confinementProven": false,
+    "retentionRequired": true,
+    "deletionAllowed": false
+  }
+]
