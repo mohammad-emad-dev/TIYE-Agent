@@ -1,0 +1,144 @@
+{
+  "date": "2026-10-18",
+  "scope": "Single-source fixed mock regression consolidation plus preparation-only candidate guards; no native admission",
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "variant": null,
+      "status": "completed",
+      "exitCode": 0,
+      "role": "Reply-only candidate preparation implementation draft",
+      "artifact": "codex"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": null,
+      "variant": "max",
+      "status": "failed",
+      "exitCode": 1,
+      "role": "Architecture review request failed without report",
+      "artifact": "glm"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": null,
+      "variant": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "role": "Authorized DeepSeek architecture review",
+      "artifact": "fallback"
+    },
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "variant": null,
+      "status": "completed",
+      "exitCode": 0,
+      "role": "Reply-only focused Codex baseline coordination and candidate preparation source review",
+      "artifact": "source-review"
+    }
+  ],
+  "privateArtifactSha256": {
+    "codex-brief.txt": "3142497f8e7f30c0c9ee9d08341b426788b6fe6c7c55a96afc4a871f4dba2b3e",
+    "glm-brief.txt": "7797e91781020546388cb06a08efaf4790079e036618e672b6f7051d59d56f52",
+    "source-review-brief.txt": "07694b030d6e5ba720bbb2a71310fd04ad17a890a6c0588b7a92d9929d56e4bf",
+    "codex/brief.txt": "3142497f8e7f30c0c9ee9d08341b426788b6fe6c7c55a96afc4a871f4dba2b3e",
+    "codex/events.jsonl": "629f5d16d4df4f825c32d4567710745dbc01eb50c79c5880bbc3b4e0d39777e2",
+    "codex/final.txt": "3faef3469bc3e8422347a4d182cb4af27d7cfbf57b507a7e2b9bd12e1931152c",
+    "codex/result.json": "4ffb6d1a5fbcf683fbe1e29e2fab160ab113efd64af890becd0fd5674667e695",
+    "codex/stderr.txt": "01f072f724cdf643931702b1f6b62a349e7942af1e0ce3b9454667731a10687e",
+    "fallback/brief.txt": "7797e91781020546388cb06a08efaf4790079e036618e672b6f7051d59d56f52",
+    "fallback/events.jsonl": "1b2df5fc866b0f242cbb4a0d5cd029e17dde9741409cb73bf2aec206c3ffe24d",
+    "fallback/final.txt": "802678c1928dbf3b0dc6210fc84ae137e153fb01e1152b14b4279d5cb76488f9",
+    "fallback/result.json": "86feb14890c699ed0c78a5b824e63fc9e7ce2d38552df3c2650e7269ab40d801",
+    "glm/brief.txt": "7797e91781020546388cb06a08efaf4790079e036618e672b6f7051d59d56f52",
+    "glm/events.jsonl": "e25bbb36207f0be607736c8910fb54b3373f8138ef1c87dd2ddf425eb336b178",
+    "glm/result.json": "c1925823b6328e41fd24ece4ff977fddb82b5571ca05cc179d24b6060db7bc0c",
+    "source-review/brief.txt": "07694b030d6e5ba720bbb2a71310fd04ad17a890a6c0588b7a92d9929d56e4bf",
+    "source-review/events.jsonl": "f836a2847b534646caffcf5f1fbd8a8b99456cfa5aca8aff5344c71b56cf0e1b",
+    "source-review/final.txt": "3c3ef7ad41f06532df7bdecc6cf79421c2b873777cf610933b08c64a421e0a99",
+    "source-review/result.json": "751b4cb24b09dfc63100137e5dec582e0119c24e2f1ebedbc7c128f85b04106b",
+    "source-review/stderr.txt": "cc674fcb2c91f2f3a1ca0723751d2755c04fbfb231e114956298dcef9b734cf7"
+  },
+  "privateDevelopment": [
+    {
+      "cohort": "2d82cad3b226416eb9d29dd2c888bb83",
+      "testsSuccessful": true,
+      "evidenceSha256": "bc5e429986081a957401a486b5edbb223b850697c25c9aaec0af2f960c3ae08e",
+      "testsLogSha256": "d60bd90de838c0e32fd6c8b6b1ec0a98d964756b12ed02d51b2741eb7609e16b"
+    },
+    {
+      "cohort": "744f8318b78144bfa6993bb0e7964ec8",
+      "testsSuccessful": true,
+      "evidenceSha256": "7dac0f53afa98b3e070564d3c5930fcd857174d14fa36d0a1537aaedfd8998b1",
+      "testsLogSha256": "52110fb5257b5fa7a83c78316485d92e21fab8dc395ed90d7a64bfd4c1904dce"
+    }
+  ],
+  "sourceOrigins": {
+    "identicalPressureSnapshots": [
+      "bridge.py",
+      "common.py",
+      "entry.py",
+      "journal.py",
+      "lease.py",
+      "service.py",
+      "watchdog.py",
+      "windows.py",
+      "winjob.py",
+      "worker.py"
+    ],
+    "otherFiles": "Parent consolidation of fixed scenarios into common host/transport/peer/observer/profile/test/validator/run source; corrected Codex preparation draft integrated"
+  },
+  "reviewCoverage": {
+    "codexDraft": "prepare.py from supplied requirements only; delegate did not edit or run tests",
+    "fallback": "Architecture/coordination brief only; no repository inspection requested",
+    "codexSource": "Supplied host before-cleanup/expected-fault snippets, peer, observer baseline/expiry section and preparation module; no concrete blockers reported",
+    "parent": "All changed sources, validators, tests and report reviewed against historical cohorts; real Windows/WSL development runs and final capture owned by parent",
+    "limitation": "Partial independent source review is not a full artifact or privacy audit. Sent/received byte hashes and handle-count checks were parent additions after the source snapshot"
+  },
+  "parentDispositions": [
+    "GLM failed without a report; preserved actual failure and used authorized DeepSeek fallback",
+    "Kept baseline heartbeat alive until protocol client exit, rather than allowing lease expiry to mask clean completion",
+    "Unified baseline receipt/release and interruption hang behavior inside one fixed peer enum, with one shared observer and no alternate transport implementation",
+    "Adopted fallback suggestions for explicit held-handle count and exact received/sent byte correlation; three held handles and matching initialize/initialized SHA-256 are checked",
+    "Fallback concern Stop masked by lease is covered by identity/InvocationID/control return checks and explicit absence of lease-expiry record; heartbeat remains active through explicit Stop",
+    "Fallback concern zombie/reaped0 is covered by worker wait record plus original pidfd signal, /proc absence and original cgroup empty before teardown",
+    "Fallback request for per-case distinct replay messages rejected: common refusal-before-parse is the intended fence. Each case has nonce/source-bound record, actual fresh host23, exact refusal text and byte-unchanged journal",
+    "Kept two real pending-drain samples and independent observer identity gates; do not replace actual kill paths with mere closed flags or weaken source/profile/argv binding",
+    "Did not add optional fake-peer observer self-tests: unchanged fixed ownership helpers and real independent witnesses remain the measured scope; arbitrary tree/watcher failure is unqualified",
+    "Candidate guards create a plan only; expected inputs come from the saved installation and full current manifest/profile. Real-byte checks use only non-executable Windows fixtures",
+    "Native CLI remains unselectable: fixed Python worker plus unconditional --native refusal, native counts0 and HOLD. Historical ledgers not promoted by green tests"
+  ],
+  "guardReview": {
+    "clean-code-guard": {
+      "fixed": [
+        "Baseline ownership lifetime separated from interruption lease retirement",
+        "Completion helper reduced to receipt object rather than more than four scalar arguments",
+        "Sender/peer byte hashes correlated to actual first/second writes",
+        "Exactly three held process handles required"
+      ],
+      "scope": "New consolidated behavior and preparation code reviewed; existing ownership helpers preserved; no broad error swallowing or new dependency"
+    },
+    "test-guard": "Thirteen scenario/guard tests use actual Windows processes, WSL systemd, pipes and real files; common fixture setup with phase-specific assertions; candidate and partial-file variants use subTest. No mocked production internals",
+    "docs-guard": "Report distinguishes nine service paths from four local guards, preparation from execution, synthetic pressure from native frames, and one-source regression result from admission. Commands/links/counts verified"
+  },
+  "modelRouting": {
+    "gemini": "Recorded consumer-route exclusion retained; not dispatched",
+    "deepseek": "Used after GLM failure"
+  },
+  "diagnostics": {
+    "codex": "Ambient configured MCP authentication warnings despite ignore-user-config; no network-silence claim",
+    "touchedFiles": "Relay snapshots include parent concurrent edits, not proof of delegate mutation",
+    "rawDelegateLogsPublished": false
+  },
+  "remaining": [
+    "Exact-artifact P1 ambient access review",
+    "Exact-path P2 effective capture permissions/private retention/publication",
+    "Live candidate identity/startup review and separate source-bound admission assessment",
+    "Untested deadline/startup/Stop-response/manager/suspend/concurrency/arbitrary-tree boundaries"
+  ],
+  "nativeProviderRunsByFixture": 0,
+  "nativeAdmissionGranted": false,
+  "phase1": "HOLD"
+}

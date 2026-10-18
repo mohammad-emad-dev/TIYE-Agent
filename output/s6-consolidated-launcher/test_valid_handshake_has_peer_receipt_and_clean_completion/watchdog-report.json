@@ -1,0 +1,16 @@
+{
+  "schema": "tiye-windows-job-watchdog-v1",
+  "nonce": "2df3d1fd3a3f4b56a03158a39522608d",
+  "deadlineSeconds": 90,
+  "rootExitSeen": true,
+  "windowsJobEmpty": true,
+  "linuxCleanup": "unverified",
+  "rootPid": 19532,
+  "rootExitCode": 0,
+  "stopReason": "job-empty",
+  "stopDecisionElapsedSeconds": 0.3486748000141233,
+  "rootHandleSignaled": true,
+  "finalRootExitCode": 0,
+  "cleanupObservationSeconds": 1.7999991541728377e-05,
+  "elapsedSeconds": 0.34871469999779947
+}

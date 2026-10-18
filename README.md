@@ -190,3 +190,8 @@ reconciles the three distinct unified source sets and their 16 saved test
 executions. L1/L2 remain partial, P1/P2 open and A1 blocked. The next bounded
 implementation consolidates the existing mock regressions on one source tree;
 this review grants no native execution permission.
+
+The [consolidated mock launcher](output/s6-consolidated-launcher/README.md)
+runs forwarding/refusal, lifecycle and synthetic pending-write scenarios on one
+source set, alongside native-refusal and candidate-preparation guards. Native
+execution stays disabled; ambient-access and capture-permission reviews remain.

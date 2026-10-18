@@ -1,0 +1,1 @@
+{"nonce": "2706dc9db89b44ba9aa5823d0e55785c", "bytes": 8388608, "lowWater": 16384, "highWater": 65536, "drainStarted": true, "drainPending": true, "samples": [{"bufferBytes": 8388608, "observedMonotonic": 144045.8487253}, {"bufferBytes": 8388608, "observedMonotonic": 144045.8487889}], "plumbingOnly": true, "nativeProtocolFrame": false}

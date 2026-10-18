@@ -1,0 +1,18 @@
+test_candidate_preparation_refuses_changed_inputs_without_execution (test_unified.UnifiedTests.test_candidate_preparation_refuses_changed_inputs_without_execution) ... ok
+test_failed_stop_callback_still_closes_and_reaps_owned_client (test_unified.UnifiedTests.test_failed_stop_callback_still_closes_and_reaps_owned_client) ... ok
+test_foreign_response_refuses_notification (test_unified.UnifiedTests.test_foreign_response_refuses_notification) ... ok
+test_initialized_owner_loss_expires_lease (test_unified.UnifiedTests.test_initialized_owner_loss_expires_lease) ... ok
+test_initialized_transport_loss_retires_heartbeat (test_unified.UnifiedTests.test_initialized_transport_loss_retires_heartbeat) ... ok
+test_invalid_utf8_is_preserved_and_refuses_notification (test_unified.UnifiedTests.test_invalid_utf8_is_preserved_and_refuses_notification) ... ok
+test_native_execution_flag_is_refused_before_launch (test_unified.UnifiedTests.test_native_execution_flag_is_refused_before_launch) ... ok
+test_owner_loss_with_pending_write_expires_lease_and_removes_tree (test_unified.UnifiedTests.test_owner_loss_with_pending_write_expires_lease_and_removes_tree) ... ok
+test_partial_journals_refuse_before_any_launch (test_unified.UnifiedTests.test_partial_journals_refuse_before_any_launch) ... ok
+test_pending_stop_revokes_notification (test_unified.UnifiedTests.test_pending_stop_revokes_notification) ... ok
+test_stop_cancels_pending_pressure_write_and_removes_owned_tree (test_unified.UnifiedTests.test_stop_cancels_pending_pressure_write_and_removes_owned_tree) ... ok
+test_transport_loss_marks_write_uncertain_and_removes_tree (test_unified.UnifiedTests.test_transport_loss_marks_write_uncertain_and_removes_tree) ... ok
+test_valid_handshake_has_peer_receipt_and_clean_completion (test_unified.UnifiedTests.test_valid_handshake_has_peer_receipt_and_clean_completion) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 13.265s
+
+OK
