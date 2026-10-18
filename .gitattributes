@@ -133,3 +133,4 @@ output/s6-ambient-access/** -text whitespace=blank-at-eol,blank-at-eof,space-bef
 output/s6-native-preparation/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-linux-capture-store/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-windows-token-access/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-launcher-retention/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

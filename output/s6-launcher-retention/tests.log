@@ -1,0 +1,4 @@
+3 live managed composition cases passed
+valid: retained storage sealed after matched process/protocol witnesses
+owner-loss: storage remains uncertain despite process cleanup
+unexpected-runtime: payload writes and seal refused

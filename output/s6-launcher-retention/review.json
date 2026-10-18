@@ -1,0 +1,16 @@
+{
+  "scope": "reply-only-supplied-composition-design-review",
+  "codex": {"model": "gpt-6-luna", "effort": "max", "status": "completed"},
+  "opencode": {"model": "opencode/glm-5.3-flash-free", "variant": "max", "status": "completed"},
+  "gemini": "not-dispatched-recorded-route-exclusion",
+  "fallbackUsed": false,
+  "finalSourceReviewedByDelegates": false,
+  "testsRunByDelegates": false,
+  "adopted": ["source-run-boot-binding", "matched-independent-witnesses", "uncertainty-before-seal", "bounded-fixed-inventory", "repeat-finalization-refusal"],
+  "rejected": ["mock-receipt-described-as-nonsynthetic", "general-recovery-or-attestation-claim"],
+  "integratedDeletionQualified": false,
+  "P1": "OPEN",
+  "P2": "OPEN",
+  "A1": "BLOCKED",
+  "nativeAdmissionGranted": false
+}

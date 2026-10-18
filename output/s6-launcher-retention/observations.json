@@ -1,0 +1,83 @@
+[
+  {
+    "case": "valid",
+    "sourceSetSha256": "eb47c738e46f4a6f477df88617d99899485cbf16249fb56919ca2ce0b97ecaca",
+    "scope": "managed-mock-storage-composition",
+    "decision": "sealed",
+    "reason": "normal-receipt",
+    "lifecycleValidated": true,
+    "identityBound": true,
+    "observerBound": true,
+    "runtimeRetained": true,
+    "completionAbsent": false,
+    "payloadsAbsent": false,
+    "archiveReadback": true,
+    "limits": {
+      "P1": "OPEN",
+      "P2": "OPEN",
+      "A1": "BLOCKED",
+      "phase1": "HOLD",
+      "nativeAdmissionGranted": false,
+      "nativeProviderRuns": 0,
+      "integratedDeletionQualified": false,
+      "sameUidIsolation": false,
+      "powerLossRecoveryQualified": false,
+      "allNineModesQualified": false
+    },
+    "repeatFinalizationRefused": true
+  },
+  {
+    "case": "owner-loss",
+    "sourceSetSha256": "eb47c738e46f4a6f477df88617d99899485cbf16249fb56919ca2ce0b97ecaca",
+    "scope": "managed-mock-storage-composition",
+    "decision": "uncertainty-retained",
+    "reason": "owner-loss",
+    "lifecycleValidated": true,
+    "identityBound": true,
+    "observerBound": true,
+    "runtimeRetained": true,
+    "completionAbsent": true,
+    "payloadsAbsent": false,
+    "archiveReadback": true,
+    "limits": {
+      "P1": "OPEN",
+      "P2": "OPEN",
+      "A1": "BLOCKED",
+      "phase1": "HOLD",
+      "nativeAdmissionGranted": false,
+      "nativeProviderRuns": 0,
+      "integratedDeletionQualified": false,
+      "sameUidIsolation": false,
+      "powerLossRecoveryQualified": false,
+      "allNineModesQualified": false
+    },
+    "repeatFinalizationRefused": true
+  },
+  {
+    "case": "unexpected-runtime",
+    "sourceSetSha256": "eb47c738e46f4a6f477df88617d99899485cbf16249fb56919ca2ce0b97ecaca",
+    "scope": "managed-mock-storage-composition",
+    "decision": "quarantined",
+    "reason": "unexpected-runtime-inventory",
+    "lifecycleValidated": true,
+    "identityBound": true,
+    "observerBound": true,
+    "runtimeRetained": true,
+    "completionAbsent": true,
+    "payloadsAbsent": true,
+    "archiveReadback": false,
+    "limits": {
+      "P1": "OPEN",
+      "P2": "OPEN",
+      "A1": "BLOCKED",
+      "phase1": "HOLD",
+      "nativeAdmissionGranted": false,
+      "nativeProviderRuns": 0,
+      "integratedDeletionQualified": false,
+      "sameUidIsolation": false,
+      "powerLossRecoveryQualified": false,
+      "allNineModesQualified": false
+    },
+    "repeatFinalizationRefused": true
+  }
+]
