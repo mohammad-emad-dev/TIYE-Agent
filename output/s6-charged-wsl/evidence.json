@@ -1,0 +1,61 @@
+{
+  "sources": {
+    "feasibility/s6-wsl/charged-wsl/cohort.py": "3a2bb616132df5a24b1d67e70a5e1ad5cd6246c123483f03e40019035a853461",
+    "feasibility/s6-wsl/charged-wsl/composition.py": "c9cfc3f9dc6d4e65bea10a373ee62269e024f81fbdb865daff8e33383d3a1a5a",
+    "feasibility/s6-wsl/charged-wsl/guardian.py": "2d5812b9bcad98187c01f6d8f8cfc8bc2bb4c5da99dae07bad5c3633f15d7725",
+    "feasibility/s6-wsl/charged-wsl/linux_runtime.py": "4ab2fbceacc02dd6ccab23ee0fa45d442d962d19d89a07995d14a9641c7be175",
+    "feasibility/s6-wsl/charged-wsl/run.py": "c3a8af39887359b5bbb6ce22ad443b2a8833cd8912edc65529cd74c6d7a03b78",
+    "feasibility/s6-wsl/charged-wsl/test_charged.py": "a4fa44204cbd7c0278c4acf18cad795c68679298aa606cd97e2b4b1871e72d2f",
+    "feasibility/s6-wsl/charged-wsl/test_publication.py": "6703fb6b18a4bc39ec692f0b967a480efa191df29b5040d2681dc779c322dfbf",
+    "feasibility/s6-wsl/charged-wsl/worker.py": "26181fd38239de24f84be4023be2e009d8672a5f1604d0afd5fe58da948222ad",
+    "feasibility/s6-wsl/consolidated-launcher/windows.py": "0682a8b0ddcbb233c9c6c2144088fd40bc0c502c9ac469314f358fe796abc9b4",
+    "feasibility/s6-wsl/consolidated-launcher/winjob.py": "cba5dd28c2449b0a23447d44a6dc9ff0190414f13392f76296a3c99a80cbc23a",
+    "feasibility/s6-wsl/native-preflight/policy.py": "4025d7a46f49c491e6b3c3222d256e7bbac5c6856d7db87aadf2b927032fc7ce",
+    "feasibility/s6-wsl/private-capture-store/store.py": "c636cfb5151ba72a8afd6779165304a174fff39f32a094cca14cecb8758d78e9",
+    "feasibility/s6-wsl/private-capture-store/winacl.py": "5762b44a137bdcf833e45990dda4c731758b4016c7c514e4a09ba96d78bdcc84",
+    "feasibility/s6-wsl/resource-launcher/deadlines.py": "eda8bb274db1e58687509779908d5d14684bbbf21b4b5eb4e970eca46cc69ec9",
+    "feasibility/s6-wsl/resource-launcher/fixture.py": "508075ad509786afbafb5086b67187bb764768d159191fd02bc1cfec899ec3f8",
+    "feasibility/s6-wsl/resource-launcher/launcher.py": "fc79c2bc68d29932d4373e327d4e75566ea2ce855b3562f645213fd842be0153",
+    "feasibility/s6-wsl/resource-launcher/resources.py": "bc60ebb38ff6313db44a51de6f6a06a6b7238f84594da1f595a6fa30137545a6",
+    "feasibility/s6-wsl/resource-watchdog/audit.py": "966e93b54e8e489e13cb62f02974a97ee2b0efd8c862ce3fdec7b306738fcc78",
+    "feasibility/s6-wsl/resource-watchdog/composition.py": "0f445dbcebd56794a54978973c8748c1207d9bd8319ec3c71d257821acb6fe2b",
+    "feasibility/s6-wsl/resource-watchdog/control.py": "57a107b16478e7b1c8a17a8c37ed8145088abd50fa6a2e454508bc20a7b7c1a8",
+    "feasibility/s6-wsl/resource-watchdog/guardian.py": "0c747adecec72126362bc74553d1a8db28c2f3391543f1d12d816b0a6fb20b9b",
+    "feasibility/s6-wsl/resource-watchdog/integration.py": "9d0fac05cb95f7f9ac6bcda56faa2aa97d3ebe136a422efda369d6d8b820e24d",
+    "feasibility/s6-wsl/resource-watchdog/run.py": "96c36f3c81c2ae94fcfbdc786a5e1f69360297034fad60162ac822c38268ab9b",
+    "feasibility/s6-wsl/resource-watchdog/test_publication.py": "4acc0300c0b447431f05ed6411f5c483554e1b7e239693d6f5cfa6f4f3805476",
+    "feasibility/s6-wsl/resource-watchdog/test_watchdog.py": "4b7511c38d2356558dbfb4f2dbe9fec495b03ea626938c071342695f8b87b798",
+    "feasibility/s6-wsl/resource-watchdog/worker.py": "a3d013755b7f98ebc06312be697fc6fa93190f4a3fcc3b8e4ed7b1bcfec4c79e",
+    "feasibility/s6-wsl/stream-writer/writer.py": "67c647ad34eb196f32a74b533241a0efcdfdfa2bf8dda6b22af4213a41a3924f"
+  },
+  "artifacts": {
+    "README.md": "7bb99c6985920830b2d1f3959f720d3dd710c80943a8dad47989f036bf61429c",
+    "observations.json": "f57a580681b4ed7ba51e4283b6541ea46d0e35e4c513de48bd2735115f2b1773",
+    "review.json": "042e67e7028b5ffd57c4f373bb9c5cf2e496b9e1ad27c571d5b55ca509efe164"
+  },
+  "references": {
+    "output/s6-native-contract/contract.json": "8a03fbaafeea7ed34fa4093a765543483c3782896fb269a835b310b0ddd61a6d",
+    "output/s6-native-preflight/reconciliation.json": "afab08b51b3c70c35d7c8c11a04d6d45b157fa94545fc3b9e55debda632d414c",
+    "output/s6-resource-watchdog/evidence.json": "6bb94424da7be50e72de6d2822b762afdad6343b27b5b9a1f30abb50cf19e989"
+  },
+  "windowsSlices": {
+    "collector": {
+      "controller": 131072,
+      "stream": 32768,
+      "observer": 65536
+    },
+    "worker": {
+      "controller": 393216,
+      "stream": 98304,
+      "observer": 196608
+    }
+  },
+  "linuxSlices": {
+    "bootstrap": 65536,
+    "worker": 16384,
+    "observer": 32768
+  },
+  "linuxReservedBytes": 16384,
+  "windowsDeadlineSeconds": 5,
+  "nativeExecutionAllowed": false
+}

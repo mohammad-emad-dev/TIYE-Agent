@@ -1,0 +1,65 @@
+{
+  "scope": "supplied-context-design-review-no-tools-no-final-source-audit",
+  "routes": {
+    "luna": {
+      "status": "completed",
+      "report": "**Serious gaps to close**\n\n- Define the 12-second deadline\u2019s start event and clock, and whether it is enforced outside any potentially stalled Windows event loop. The Linux 1-second silence exit and systemd\u2019s cleanup behavior need to be reconciled with that deadline.\n- A pidfd snapshot can miss descendants forked afterward. Require a kernel-enforced cgroup kill or another race-safe drain, and prove no process can escape or migrate from the exact cgroup. A new session alone does not provide containment.\n- Specify how the observer authenticates the transient unit and invocation, and how it knows it held every relevant pidfd before loss injection. Define precisely what \u201call held processes signaled\u201d means.\n- Define the heartbeat nonce\u2019s origin, secrecy, replay handling, and whether the leaf can inherit or forge the input channel. Specify how the guardian\u2019s job and transport behave on guardian loss.\n- Make the 1 MiB accounting atomic across concurrent writers, including temporary files, partial writes, and collector failure. Define which Linux files count toward 128 KiB and how exhaustion affects cleanup.\n\n**Tests:** Inject each loss at startup and during leaf fork/write; race descendant creation with cleanup; test stale invocation IDs, PID reuse, malformed/replayed heartbeats, disk-full and symlink attacks, and collector/observer crashes. Assert exit codes, deadline bounds, empty cgroup before rescue, and sentinel survival."
+    },
+    "glm": {
+      "status": "completed",
+      "report": "**Gaps**\n1. **RuntimeMaxSec=20 vs sleep-dependent win.** With a healthy heartbeat the unit is still SIGTERMed at 20s, producing the same observable (cgroup-empty) as owner loss \u2014 need a distinguishing signal beyond pidfd/container checks.\n2. **TimeoutStopSec=2 + stubborn leaf.** Leaf in unkillable/D state means the cgroup may not empty within the window, violating your \"empty before rescue stop\" gate; the fallback is undefined.\n3. **Cross-clock race.** Windows 12s deadline, Linux >1s silence, 20s RuntimeMaxSec can fire near-simultaneously; outcome attribution (owner vs guardian vs bridge) isn't specified.\n4. **Composition injection vs immutability.** Injection mutates \"reused immutable code\" \u2014 define verification (hash binding, reject-on-reinject, fail-closed).\n5. **Leaf terminal record vs systemd stop storm.** If the main exits first while the leaf persists mid-write, a whole-cgroup stop can truncate that record; \"exit71 even if persistence fails\" conflates intentional failure vs teardown kill.\n6. **Linux budget enforcement.** No owner named if a write pushes past 128KiB.\n\n**Tests**\n- Healthy-heartbeat run to the 20s cap; compare against owner-loss fingerprints.\n- Loss injected mid-leaf-write; check containment and record truncation.\n- Stubborn-leaf death test for rescue-stop gating.\n- pidfd TOCTOU loop with pre-kill, pid reuse.\n- Budget pressure: total > 1MiB / 128KiB, nofollow via hardlink/swap attempts.\n- Simultaneous host+transport loss (17 vs 77 both paths)."
+    }
+  },
+  "gemini": "not-dispatched-recorded-consumer-route-exclusion",
+  "fallback": "not-required",
+  "adopted": [
+    "Independent Linux pidfd and exact cgroup witness before loss injection; Windows process death never substitutes for Linux evidence",
+    "Bound invocation ID and service policies; observe cgroup-empty and sentinel survival before any rescue",
+    "Leaf uses a new session in the same cgroup and receives DEVNULL instead of the lease channel",
+    "Disjoint Windows accounting roles and independent Linux runtime roles; no shared-counter or global filesystem quota claim",
+    "No cross-OS absolute clock comparisons; distinguish lease expiry from system runtime fallback",
+    "Source-bound runtime module composition with unchanged historical files and explicit identity checks"
+  ],
+  "scopedDecisions": [
+    {
+      "proposal": "12-second Windows watchdog in initial design brief",
+      "decision": "Retained the previously verified five-second guardian; prepared Linux runtime precedes guardian launch and live tests require Linux ready before injection. Native 90-second timing is not qualified."
+    },
+    {
+      "proposal": "Prove no hostile descendant can escape or migrate",
+      "decision": "Not claimed. This cohort uses fixed source with one leaf and same-account authority; hostile forks/migration and kernel-stuck tasks remain unqualified."
+    },
+    {
+      "proposal": "Exercise healthy heartbeat to system runtime cap and disk-full/crash variants",
+      "decision": "Not part of this three-loss cohort. It requires lease terminal evidence, matching available main exit status71, and the stall result before the Windows deadline. Failure-pressure, hostile filesystem and observer crash coverage remain explicit gaps."
+    }
+  ],
+  "regression": {
+    "observed": "One real owner-exit rerun lost cgroup.events after the directory existence probe while systemd removed the owned cgroup",
+    "fixed": "Read events directly; a missing events file counts as empty only if the owned cgroup directory is also absent",
+    "test": "Temporary filesystem disappearance states plus the real three-case systemd/pidfd cohort; failed raw evidence remains private"
+  },
+  "parentGuardPass": {
+    "fixes": [
+      {
+        "file": "linux_runtime.py",
+        "change": "Separated witness setup, observe command, cleanup check, terminal evidence and finalizer; close sentinel/descriptors even after rescue-query error"
+      },
+      {
+        "file": "linux_runtime.py",
+        "change": "Handled the actual cgroup-removal race and bounded systemctl output before extending buffers"
+      },
+      {
+        "file": "cohort.py",
+        "change": "Validated finite typed observation time, runtime owner totals, source binding and bounded event framing; keep unsettled reader handles retained"
+      },
+      {
+        "file": "worker.py",
+        "change": "Used a concrete drain target instead of five function arguments and rejected short heartbeat writes without retry"
+      }
+    ],
+    "clean-code-guard": "4 fixes recorded; native timing and hostile-process qualification intentionally excluded",
+    "test-guard": "clean; three real Windows/Ubuntu cases, pure lease/budget boundaries, filesystem regression, no mocked provider responses",
+    "docs-guard": "checked commands, budget domains, frozen five-second clock, source wiring, unknown Job-empty result and separate development delegation"
+  }
+}

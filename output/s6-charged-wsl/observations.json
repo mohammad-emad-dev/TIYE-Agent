@@ -1,0 +1,46 @@
+{
+  "scope": "synthetic-windows-job-and-wsl-lease",
+  "unitTests": 6,
+  "cases": [
+    {
+      "mode": "guardian-loss",
+      "verified": true,
+      "windowsHeldProcessesSignaled": true,
+      "windowsJobEmpty": null,
+      "linuxPidfdsSignaled": true,
+      "linuxCgroupEmpty": true,
+      "linuxSentinelSurvived": true,
+      "leaseExpiredBeforeWindowsDeadline": null,
+      "leaseReason": "eof",
+      "workerEvidenceUncertain": true,
+      "nativeExecutionAllowed": false
+    },
+    {
+      "mode": "stall",
+      "verified": true,
+      "windowsHeldProcessesSignaled": true,
+      "windowsJobEmpty": true,
+      "linuxPidfdsSignaled": true,
+      "linuxCgroupEmpty": true,
+      "linuxSentinelSurvived": true,
+      "leaseExpiredBeforeWindowsDeadline": true,
+      "leaseReason": "expired",
+      "workerEvidenceUncertain": true,
+      "nativeExecutionAllowed": false
+    },
+    {
+      "mode": "owner-exit",
+      "verified": true,
+      "windowsHeldProcessesSignaled": true,
+      "windowsJobEmpty": true,
+      "linuxPidfdsSignaled": true,
+      "linuxCgroupEmpty": true,
+      "linuxSentinelSurvived": true,
+      "leaseExpiredBeforeWindowsDeadline": null,
+      "leaseReason": "eof",
+      "workerEvidenceUncertain": true,
+      "nativeExecutionAllowed": false
+    }
+  ],
+  "nativeExecutionAllowed": false
+}
