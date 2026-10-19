@@ -1,0 +1,10 @@
+{
+  "scope": "nonexecuting-policy-tests-with-saved-witness-input",
+  "coordinatorTests": 12,
+  "publicationTests": 2,
+  "normalPassed": true,
+  "optimizedPassed": true,
+  "liveCrossOsScheduleQualified": false,
+  "durableRecoveryQualified": false,
+  "nativeExecutionAllowed": false
+}

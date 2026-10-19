@@ -1,0 +1,35 @@
+{
+  "scope": "supplied-context-design-review-not-final-code-audit",
+  "delegates": [
+    {"model": "gpt-6-luna", "effort": "max", "status": "completed", "exitCode": 0},
+    {"model": "opencode/glm-5.3-flash-free", "variant": "max", "status": "completed", "exitCode": 0}
+  ],
+  "gemini": "Excluded by previously recorded consumer-route decision",
+  "fallback": "Not needed",
+  "adopted": [
+    "Snapshot operation cutoff so phase preemption cannot extend its time",
+    "No wait_for cancellation grace; retain pending tasks and consume late errors",
+    "Run outcome stays unknown after later successful cleanup",
+    "Guardian-loss Job-null cannot become full group cleanup evidence",
+    "Explicitly separate injected boundary clock from event-loop wait clock",
+    "Saved witness compatibility cannot supply live timing or identity credit",
+    "Restart refusal is not durable attempt identity reservation"
+  ],
+  "notAdopted": [
+    "GLM described sentinel inside Windows Job; actual independent sentinel is outside the owned group",
+    "No extra event-loop grace at deadline; exact-cutoff completion is conservatively unknown",
+    "Do not reserve additional KILL time by silently changing the frozen schedule"
+  ],
+  "parentGuardPasses": {
+    "cleanCode": "Fixed phase-preemption deadline extension and expired-work cleanup entry; reused exact frozen policy instead of copying it",
+    "testGuard": "Real task/clock boundaries, saved public witness input, parameterized subcases; corrected accidental selection of guardian-loss witness for positive cleanup cases",
+    "docsGuard": "Distinguished nonexecuting policy, saved witness compatibility, two clock domains and unimplemented durable/live runtime recovery"
+  },
+  "stillUnqualified": [
+    "Live shared-deadline Windows/Ubuntu adapters and unknown spawn",
+    "Durable reservation, restart identity verification and collector loss",
+    "Blocked synchronous I/O, suspension and OS scheduling bounds",
+    "Native effective configuration/helper policy and U0 admission"
+  ],
+  "nativeExecutionAllowed": false
+}

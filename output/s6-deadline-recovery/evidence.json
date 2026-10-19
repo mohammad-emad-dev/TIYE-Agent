@@ -1,0 +1,20 @@
+{
+  "sources": {
+    "feasibility/s6-wsl/deadline-recovery/coordinator.py": "e91dbee35ab1b38345924d175ff934ba224108e835493c6d8f9b5c7c251a485a",
+    "feasibility/s6-wsl/deadline-recovery/run.py": "47a4bbdc27ac0c1ff0177a1e0677c5b5f9be5a371136bcf2820e2c51a46468b2",
+    "feasibility/s6-wsl/deadline-recovery/test_coordinator.py": "ef14eb6b46355f5d9ea730fe297364bd54f7e605a6bce9d98771f26cad11107f",
+    "feasibility/s6-wsl/deadline-recovery/test_publication.py": "1c8dc8b90b230045051e983a0570210625887ebfed00bbaf1987c66b92340300",
+    "feasibility/s6-wsl/native-preflight/policy.py": "4025d7a46f49c491e6b3c3222d256e7bbac5c6856d7db87aadf2b927032fc7ce"
+  },
+  "artifacts": {
+    "README.md": "a240dd1ee47e146b09418d3fcd1a242823e8c2085745ea84dce04bc43d8f86c0",
+    "observations.json": "63fcb8dbdf64bfe2590ac41ae51e219bf0ee3f03b3249494b04bfd0d75dbed7e",
+    "review.json": "b6c218c5968ad8a8103aed0ff4ff7898155905b9110cb847c4a5ba601c8eea18"
+  },
+  "references": {
+    "output/s6-charged-wsl/evidence.json": "0c4db2b776693413cbae5d2e7752be478ef9f0b7615069c5a1b3bb2722312b9c",
+    "output/s6-charged-wsl/observations.json": "f57a580681b4ed7ba51e4283b6541ea46d0e35e4c513de48bd2735115f2b1773",
+    "output/s6-native-contract/contract.json": "8a03fbaafeea7ed34fa4093a765543483c3782896fb269a835b310b0ddd61a6d"
+  },
+  "nativeExecutionAllowed": false
+}
