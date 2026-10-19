@@ -142,3 +142,5 @@ feasibility/s6-wsl/stream-writer/** -text whitespace=blank-at-eol,blank-at-eof,s
 output/s6-stream-writer/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/stream-launcher/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-stream-launcher/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/native-preflight/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-native-preflight/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

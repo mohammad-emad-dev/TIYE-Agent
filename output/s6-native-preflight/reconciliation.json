@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-19",
+  "metadataAllocations": {
+    "controller": 524288,
+    "stream": 131072,
+    "observer": 262144
+  },
+  "reservedBytes": 131072,
+  "metadataTotalBytes": 1048576,
+  "phaseCapsSeconds": {
+    "host-start": 30,
+    "child-start": 15,
+    "initialize": 15,
+    "eof": 5,
+    "term": 5,
+    "kill": 5,
+    "observe": 15
+  },
+  "hostCutoffsSeconds": {
+    "work": 60,
+    "cleanup": 75,
+    "final": 90
+  },
+  "accountingRule": "one-owner-per-persisted-write-gross-full-replacements-no-refund-for-uncertainty",
+  "finalSizeRule": "separate-actual-size-audit-with-same-owner-allocations",
+  "reservedBytesWritable": false,
+  "baseline": {
+    "controllerPerFilePostrunBytes": 8388608,
+    "controllerPerCasePostrunBytes": 33554432,
+    "currentWriterMetadataComponentBytes": 1048576,
+    "baselineIsSharedLiveQuota": false
+  },
+  "deadlineRule": "one-monotonic-origin-early-fault-revokes-work-cleanup-max15-clipped75-observation-only-to90",
+  "requiresIntegration": [
+    "all-controller-stream-observer-metadata-persistence",
+    "all-waits-and-independent-watchdog",
+    "actual-service-lease-cross-OS-timing",
+    "native-effective-configuration-and-helper-inventory"
+  ],
+  "integrated": false,
+  "nativeExecutionAllowed": false,
+  "phase1": "HOLD",
+  "states": {
+    "L1": "PARTIAL",
+    "L2": "PARTIAL",
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "A1": "BLOCKED"
+  }
+}

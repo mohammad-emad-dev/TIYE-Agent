@@ -1,0 +1,25 @@
+{
+  "sources": {
+    "feasibility/s6-wsl/native-preflight/inspect_linux.py": "c6be164f9447594c8a9e885b498293bb21dfc75d4f16356857f5bc2ec98e268e",
+    "feasibility/s6-wsl/native-preflight/inspect_windows.py": "89ef596050a25824e3ad6e4c6316f7f3bf1c06b289b95502b9f7727e9e92e82e",
+    "feasibility/s6-wsl/native-preflight/policy.py": "4025d7a46f49c491e6b3c3222d256e7bbac5c6856d7db87aadf2b927032fc7ce",
+    "feasibility/s6-wsl/native-preflight/run.py": "1d671601277849fb1bf3d46e1d98902c6db2e99397d76b4e5bc75c2387d16d4a",
+    "feasibility/s6-wsl/native-preflight/test_policy.py": "5d258f272b456b05b0c3742098413b642d1f64d3a94f122fb626ae5eb209e52b",
+    "feasibility/s6-wsl/private-capture-store/store.py": "c636cfb5151ba72a8afd6779165304a174fff39f32a094cca14cecb8758d78e9",
+    "feasibility/s6-wsl/private-capture-store/winacl.py": "5762b44a137bdcf833e45990dda4c731758b4016c7c514e4a09ba96d78bdcc84"
+  },
+  "nativeExecutionAllowed": false,
+  "artifactSha256": {
+    "README.md": "9c5a43a98280a0394b1af87ba579dd7d0034016f8e3666dd6ff046050467f1ff",
+    "findings.json": "cb89fc83010988cb7ab60a2824d329bf89cd1da10915ba0545b97ee487cc6c07",
+    "inspection.json": "97a3874075990e7c65619eac82fa71d50d0742a7ec68018fba918109eac3ee36",
+    "review.json": "208f2c6bbdaae7a792f9117c87adbc8a9607d3b4d861234cab14c020f14f6f0c",
+    "reconciliation.json": "afab08b51b3c70c35d7c8c11a04d6d45b157fa94545fc3b9e55debda632d414c"
+  },
+  "bindings": {
+    "output/s4-codex-candidate/installation.json": "af65a690078c47be0d1eb7bde13eb89a38c6a461e444461253c52c5c6b5608ff",
+    "output/s6-native-contract/contract.json": "8a03fbaafeea7ed34fa4093a765543483c3782896fb269a835b310b0ddd61a6d",
+    "output/s6-stream-launcher/observations.json": "ace20f74a1049cf7fb81d57e2afc00de6bf49090180a62246b753c3e39b7fac1",
+    "feasibility/s6-wsl/consolidated-launcher/profile.py": "74d910b87cd4028f23b872d7d220aa85e00735fb15f5027b13cd04c9c6543d8e"
+  }
+}

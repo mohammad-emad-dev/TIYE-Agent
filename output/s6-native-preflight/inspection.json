@@ -1,0 +1,9 @@
+{
+  "scope": "listed-package-bytes-only-no-execution",
+  "filesMatched": 44,
+  "allListedDigestsMatched": true,
+  "uidMatched": true,
+  "candidateExecuted": false,
+  "credentialFilesRead": false,
+  "authStatusRequested": false
+}

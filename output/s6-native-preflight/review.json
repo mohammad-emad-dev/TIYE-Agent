@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-19",
+  "basisCommit": "058caa1",
+  "reviews": [
+    {
+      "model": "gpt-6-luna",
+      "setting": "max",
+      "status": "completed",
+      "report": "**Review:** U0 is still source-informed, not proof of no auth attempt: startup constructs auth managers, and configuration can come from system and managed layers. Keep the symlink quarantine; placing `CODEX_HOME` beside `TMPDIR` avoids only the documented `starts_with` branch. It does not qualify helper targets or remove environment, helper, and network risks.\n\nFor the limits, keep the controller\u2019s 32 MiB post-run bound separate from the 1 MiB metadata cap. The proposed allocations total exactly 1 MiB: controller 512 KiB, stream 128 KiB, observer 256 KiB, and a non-writable reserve of 128 KiB. Define whether controller output belongs to the metadata budget.\n\nUse one shared reservation ledger, charge before each write, and never refund uncertain operations. Give each persisted write one accounting owner so producer-to-sink paths don\u2019t charge the same write twice; count genuine duplicate writes separately. Replacements should reserve the full new write without refunding the old charge, or metadata should be append-only. Also enforce a 1 MiB final-file cap: cumulative reservations and final size are different limits.\n\nUse one monotonic origin and make phase limits subordinate to absolute cutoffs. The 30/15/15-second phases fit the 60-second work window; cleanup\u2019s 5/5/5 fits 60\u201375. Clarify whether T+75 ends cleanup and what may run until T+90. Otherwise, that final 15-second interval is undefined and deadlines may drift.",
+      "scope": "supplied-context-not-final-source-runtime-or-binary-review",
+      "localResultSha256": "44413b3ee12a080e5b45fc52b4bf4823c18ab7002541d63aca3f636733463a21"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "setting": "max",
+      "status": "completed",
+      "report": "Review (Plan mode, reply-only, no tools):\n\nYour pinned-source methodology is sound: exact-commit fetches with recorded hashes prove what you read, not what the saved binary contains \u2014 correctly treated as non-attestation. Keep docs claims date-stamped since they aren't version-pinned.\n\narg0 reasoning holds with the stated caveat: `starts_with(env::temp_dir())` is the only refusal branch, so sibling-siting arguments remain untested inferences. The rule \"no relaxation of symlink quarantine without naming exact helper targets\" is the right invariant.\n\nAuth findings are appropriately hedged: `.ok().flatten()` cannot distinguish absent from failed; flag-gated CODEX_API_KEY not permitted in app-server; keyring/file fallback unprobed. Environment/network exposure stays unqualified risk \u2014 correct.\n\nPolicy-primitive hazards:\n1. Double accounting: postrun 32MiB and shared 1MiB are incommensurable; write an explicit rule that neither redeems the other's charges.\n2. Replacements: pure \"charge before write, no refund\" double-counts replaced metadata; require net-delta charging (old size released only for completed overwrites, never for uncertain ones).\n3. Incomplete enforcement: reserve must fail closed (unwritable unless explicitly apportioned), readers/observers must charge too, and the 512+128+256+128 composition must be asserted at admission.\n4. Deadlines: single monotonic origin is good; clipping phases means cleanup can shrink to zero after overrun \u2014 define whether t75/t90 are hard walls or degraded-exit gaps, and accept suspend/halt behavior of monotonic clocks.\n\nU0 initialize-only, no native launcher or Gemini route: consistent scope blocking.",
+      "scope": "supplied-context-not-final-source-runtime-or-binary-review",
+      "localResultSha256": "a580708a68899c85d77584cd06edef7f915001d54f16c5eea6ae54d068a771ec"
+    }
+  ],
+  "adopted": [
+    "source-versus-binary-attestation-distinction",
+    "separate-current-docs-and-pinned-source",
+    "exact-helper-inventory-no-broad-symlink-exception",
+    "account-auth-attempt-vs-absence-distinction",
+    "single-accounting-owner-at-lowest-persistence-point",
+    "separate-final-size-audit",
+    "explicit-cleanup-and-observation-cutoffs",
+    "reserve-unwritable-without-new-review"
+  ],
+  "notAdopted": [
+    {
+      "suggestion": "refund-completed-replacements-or-use-net-delta-only",
+      "reason": "This explicitly conservative gross-write ledger charges each real persisted copy/replacement and never grants a refund; final resident size is audited separately."
+    },
+    {
+      "suggestion": "false-api-key-flag-means-no-API-or-auth-route-possible",
+      "reason": "It gates that load path only; other environment, provider, config and managed routes remain under review."
+    }
+  ],
+  "gemini": "not-dispatched-recorded-consumer-route-exclusion",
+  "fallbackUsed": false,
+  "parentGuards": {
+    "clean-code-guard": {
+      "fixed": [
+        "Strict result value types in inspector",
+        "Nonblocking no-follow selected-file opens",
+        "Streamed cached-source hashing"
+      ],
+      "flagged": []
+    },
+    "test-guard": "real-thread-ledger-test-explicit-clock-inputs-no-mocked-internals",
+    "docs-guard": "pinned-lines-commands-links-counts-and-scope-checked"
+  },
+  "verification": {
+    "listedPackageFilesMatched": 44,
+    "candidateExecuted": false,
+    "policyTests": 8,
+    "normalAndOptimizedPythonPassed": true,
+    "previousStreamLauncherSavedChecker": "passed",
+    "nativeAdmissionGranted": false
+  }
+}
