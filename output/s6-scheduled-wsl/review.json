@@ -1,0 +1,36 @@
+{
+  "scope": "supplied-context-design-review-not-final-source-audit",
+  "delegates": [
+    {"model": "gpt-6-luna", "effort": "max", "status": "completed", "exitCode": 0},
+    {"model": "opencode/glm-5.3-flash-free", "variant": "max", "status": "completed", "exitCode": 0}
+  ],
+  "gemini": "Excluded by previously recorded consumer-route decision",
+  "fallback": "Not needed",
+  "adopted": [
+    "Actual Windows monotonic origin drives all coordinator waits",
+    "Retain unsettled to_thread tasks; settle explicitly before harness executor shutdown",
+    "Require independent Linux evidence plus exact Windows handles and positive Job-empty report for full cleanup",
+    "Preserve guardian-loss unknown and cancellation unknown after late settlement",
+    "Bind the full wrapper source set in a separate protected harness attempt",
+    "Require cleanup confirmation before shared cleanup cutoff in addition to observation bound"
+  ],
+  "rejectedAssumptions": [
+    "Observer needs Job breakaway: collector launches it outside the owned Job before guardian creation",
+    "Transport depends on WSL loopback forwarding: this composition uses stdio pipes",
+    "Linux pidfds are held by service main: independent observer holds them",
+    "Fixed cumulative T+30/T+45 milestones: frozen policy has entry-relative phase caps clipped to T+60",
+    "Forced interpreter exit solves retained ownership: no such recovery path is implemented or qualified"
+  ],
+  "parentGuardPasses": {
+    "cleanCode": "Added conservative shared cleanup cutoff check; separated fixture adapter, async lifecycle and source binding; reused sealed runtime without modifying it",
+    "testGuard": "Renamed session attribute to avoid shadowing unittest TestCase.run; cancellation test retains real launched runtime and pending operation; no mocked native behavior",
+    "docsGuard": "Distinguished synthetic initialize/loss injection from native protocol, post-return launch acknowledgment from blocked Popen, and measured phases from uncredited executor settlement"
+  },
+  "stillUnqualified": [
+    "Native executable configuration/helper policy, native protocol admission and provider eligibility",
+    "Native TERM/KILL adapters and OS-enforced shared deadlines",
+    "Indefinitely blocked spawn, collector loss and durable restart discovery",
+    "Suspension, arbitrary stuck I/O, hostile descendants and storage failure"
+  ],
+  "nativeExecutionAllowed": false
+}

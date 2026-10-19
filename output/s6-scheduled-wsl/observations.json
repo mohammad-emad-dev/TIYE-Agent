@@ -1,0 +1,167 @@
+{
+  "scope": "synthetic-scheduled-windows-ubuntu-adapters",
+  "liveTests": 4,
+  "cases": [
+    {
+      "mode": "spawn-unacknowledged",
+      "scope": "synthetic-scheduled-windows-ubuntu-adapters",
+      "outcome": "unknown",
+      "cleanupVerified": false,
+      "unsettledOperations": 1,
+      "cleanupCutoffSeconds": null,
+      "automaticRetryAllowed": false,
+      "nativeExecutionAllowed": false,
+      "phases": [
+        {
+          "phase": "host-start",
+          "startSeconds": 0.00021520000882446766,
+          "endSeconds": 2.8680730999913067,
+          "cutoffSeconds": 30.00017869999283,
+          "completedWithinPhase": true
+        }
+      ]
+    },
+    {
+      "mode": "guardian-loss",
+      "scope": "synthetic-scheduled-windows-ubuntu-adapters",
+      "outcome": "unknown",
+      "cleanupVerified": false,
+      "unsettledOperations": 0,
+      "cleanupCutoffSeconds": 15.443427799997153,
+      "automaticRetryAllowed": false,
+      "nativeExecutionAllowed": false,
+      "phases": [
+        {
+          "phase": "host-start",
+          "startSeconds": 0.00011389999417588115,
+          "endSeconds": 0.11117259997990914,
+          "cutoffSeconds": 30.000054799980717,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "child-start",
+          "startSeconds": 0.1112274999904912,
+          "endSeconds": 0.12061689997790381,
+          "cutoffSeconds": 15.111179699975764,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "initialize",
+          "startSeconds": 0.12067479998222552,
+          "endSeconds": 0.4434226999874227,
+          "cutoffSeconds": 15.120621799986111,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "eof",
+          "startSeconds": 0.44348629997693934,
+          "endSeconds": 0.4440906999807339,
+          "cutoffSeconds": 5.443427799997153,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "observe",
+          "startSeconds": 0.44413239997811615,
+          "endSeconds": 0.501054499996826,
+          "cutoffSeconds": 15.444094899983611,
+          "completedWithinPhase": true
+        }
+      ]
+    },
+    {
+      "mode": "owner-exit",
+      "scope": "synthetic-scheduled-windows-ubuntu-adapters",
+      "outcome": "cleanup-observed",
+      "cleanupVerified": true,
+      "unsettledOperations": 0,
+      "cleanupCutoffSeconds": 15.44422360000317,
+      "automaticRetryAllowed": false,
+      "nativeExecutionAllowed": false,
+      "phases": [
+        {
+          "phase": "host-start",
+          "startSeconds": 8.999998681247234e-05,
+          "endSeconds": 0.11279009998543188,
+          "cutoffSeconds": 30.000048799993237,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "child-start",
+          "startSeconds": 0.11285119998501614,
+          "endSeconds": 0.12202759998035617,
+          "cutoffSeconds": 15.112796700006584,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "initialize",
+          "startSeconds": 0.12209570000413805,
+          "endSeconds": 0.44421889999648556,
+          "cutoffSeconds": 15.122032599989325,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "eof",
+          "startSeconds": 0.44427099998574704,
+          "endSeconds": 0.45121100000687875,
+          "cutoffSeconds": 5.44422360000317,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "observe",
+          "startSeconds": 0.45125959999859333,
+          "endSeconds": 0.5502703999809455,
+          "cutoffSeconds": 15.451215499982936,
+          "completedWithinPhase": true
+        }
+      ]
+    },
+    {
+      "mode": "stall",
+      "scope": "synthetic-scheduled-windows-ubuntu-adapters",
+      "outcome": "cleanup-observed",
+      "cleanupVerified": true,
+      "unsettledOperations": 0,
+      "cleanupCutoffSeconds": 15.44468399998732,
+      "automaticRetryAllowed": false,
+      "nativeExecutionAllowed": false,
+      "phases": [
+        {
+          "phase": "host-start",
+          "startSeconds": 8.369999704882503e-05,
+          "endSeconds": 0.10330719998455606,
+          "cutoffSeconds": 30.000044199987315,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "child-start",
+          "startSeconds": 0.10336959999403916,
+          "endSeconds": 0.11238989999401383,
+          "cutoffSeconds": 15.103312199993525,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "initialize",
+          "startSeconds": 0.1124439999985043,
+          "endSeconds": 0.4446789999783505,
+          "cutoffSeconds": 15.112394399999175,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "eof",
+          "startSeconds": 0.44472689999383874,
+          "endSeconds": 0.45120999999926426,
+          "cutoffSeconds": 5.444683999987319,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "observe",
+          "startSeconds": 0.45125449998886324,
+          "endSeconds": 5.234263199992711,
+          "cutoffSeconds": 15.451214299973799,
+          "completedWithinPhase": true
+        }
+      ]
+    }
+  ],
+  "nativeExecutionAllowed": false
+}

@@ -152,3 +152,5 @@ feasibility/s6-wsl/charged-wsl/** -text whitespace=blank-at-eol,blank-at-eof,spa
 output/s6-charged-wsl/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/deadline-recovery/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-deadline-recovery/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/scheduled-wsl/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-scheduled-wsl/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
