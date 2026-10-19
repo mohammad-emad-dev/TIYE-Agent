@@ -1,0 +1,90 @@
+{
+  "commit": "36650394c5b38c2990ccf2a3457165ca3e9d9726",
+  "sourceFiles": [
+    {
+      "path": "codex-rs/cli/src/main.rs",
+      "bytes": 177095,
+      "sha256": "88fd769091e831d50b99f8b5b573424c86a2323665a840461b191d62f47bb817",
+      "url": "https://github.com/openai/codex/blob/36650394c5b38c2990ccf2a3457165ca3e9d9726/codex-rs/cli/src/main.rs"
+    },
+    {
+      "path": "codex-rs/app-server/src/lib.rs",
+      "bytes": 65386,
+      "sha256": "655c8f3d3c07dc4f1c340537eb7739e4e42eea7f32643b712ef2fb11710e0071",
+      "url": "https://github.com/openai/codex/blob/36650394c5b38c2990ccf2a3457165ca3e9d9726/codex-rs/app-server/src/lib.rs"
+    },
+    {
+      "path": "codex-rs/arg0/src/lib.rs",
+      "bytes": 28533,
+      "sha256": "476895d5adc6c8c897e53c8ec7a5d49556f9798d1d9a2918168c85f14c1ae5d7",
+      "url": "https://github.com/openai/codex/blob/36650394c5b38c2990ccf2a3457165ca3e9d9726/codex-rs/arg0/src/lib.rs"
+    },
+    {
+      "path": "codex-rs/core/src/config/mod.rs",
+      "bytes": 197899,
+      "sha256": "0ca738441c0c0a3085e1d06da7606747f79f7d66f04cf363052c9b28a1abeaff",
+      "url": "https://github.com/openai/codex/blob/36650394c5b38c2990ccf2a3457165ca3e9d9726/codex-rs/core/src/config/mod.rs"
+    },
+    {
+      "path": "codex-rs/login/src/auth/storage.rs",
+      "bytes": 18076,
+      "sha256": "2e95a8998687e926675d41b5d941c3c3546a652c03d9680e6c7385e59bf459af",
+      "url": "https://github.com/openai/codex/blob/36650394c5b38c2990ccf2a3457165ca3e9d9726/codex-rs/login/src/auth/storage.rs"
+    },
+    {
+      "path": "codex-rs/login/src/auth/manager.rs",
+      "bytes": 118938,
+      "sha256": "01cb49b1cca566dddc47def60b52848da0717c7de6a33d8b7160b6fc4cafd881",
+      "url": "https://github.com/openai/codex/blob/36650394c5b38c2990ccf2a3457165ca3e9d9726/codex-rs/login/src/auth/manager.rs"
+    },
+    {
+      "path": "codex-rs/login/src/auth/mod.rs",
+      "bytes": 723,
+      "sha256": "5d72ae39f74e2ed944b13bab4dbaab03d5e0ae1a5ec908d14cf4513606fe7b83",
+      "url": "https://github.com/openai/codex/blob/36650394c5b38c2990ccf2a3457165ca3e9d9726/codex-rs/login/src/auth/mod.rs"
+    },
+    {
+      "path": "codex-rs/utils/home-dir/src/lib.rs",
+      "bytes": 5096,
+      "sha256": "1338259489ade54b01caa1468b6d25fc5a183657fa94cca0add8b91865635ef5",
+      "url": "https://github.com/openai/codex/blob/36650394c5b38c2990ccf2a3457165ca3e9d9726/codex-rs/utils/home-dir/src/lib.rs"
+    },
+    {
+      "path": "codex-rs/config/src/loader/README.md",
+      "bytes": 4025,
+      "sha256": "98f0251ec2669627da874bb56e56ac4dbe96c17f9438e46e97638cbfd7611154",
+      "url": "https://github.com/openai/codex/blob/36650394c5b38c2990ccf2a3457165ca3e9d9726/codex-rs/config/src/loader/README.md"
+    },
+    {
+      "path": "codex-rs/config/src/loader/mod.rs",
+      "bytes": 73805,
+      "sha256": "0e3131c8186b391ecb425620bee2a8649d10364d062eee21a15d1cbe48dbbb0d",
+      "url": "https://github.com/openai/codex/blob/36650394c5b38c2990ccf2a3457165ca3e9d9726/codex-rs/config/src/loader/mod.rs"
+    },
+    {
+      "path": "codex-rs/config/src/loader/local.rs",
+      "bytes": 13467,
+      "sha256": "67ea1e125708d88286cfe2c4787c4e02225a8a90c27b8764fee7135f24570d52",
+      "url": "https://github.com/openai/codex/blob/36650394c5b38c2990ccf2a3457165ca3e9d9726/codex-rs/config/src/loader/local.rs"
+    },
+    {
+      "path": "codex-rs/config/src/loader/managed_requirements.rs",
+      "bytes": 4945,
+      "sha256": "00595b2320674364053537213638735da20739a8864c92947bd4acb869fcf448",
+      "url": "https://github.com/openai/codex/blob/36650394c5b38c2990ccf2a3457165ca3e9d9726/codex-rs/config/src/loader/managed_requirements.rs"
+    },
+    {
+      "path": "codex-rs/install-context/src/lib.rs",
+      "bytes": 33763,
+      "sha256": "b7305f28586f61f7a3cc7d3c53c95dacabca05529b1ba3aa4b5e42d306db2ae5",
+      "url": "https://github.com/openai/codex/blob/36650394c5b38c2990ccf2a3457165ca3e9d9726/codex-rs/install-context/src/lib.rs"
+    },
+    {
+      "path": "codex-rs/config/src/loader/layer_io.rs",
+      "bytes": 7307,
+      "sha256": "a090443bc10317e086cd552c29ec4558917bdade0b397abd5229f81f93042022",
+      "url": "https://github.com/openai/codex/blob/36650394c5b38c2990ccf2a3457165ca3e9d9726/codex-rs/config/src/loader/layer_io.rs"
+    }
+  ],
+  "nativeExecutionAllowed": false
+}

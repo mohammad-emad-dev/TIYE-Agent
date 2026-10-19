@@ -1,0 +1,36 @@
+{
+  "scope": "source-derived-profile-not-native-admission",
+  "candidateVersion": "0.157.1",
+  "upstreamCommit": "36650394c5b38c2990ccf2a3457165ca3e9d9726",
+  "draft": {
+    "argvTail": ["-c", "cli_auth_credentials_store=\"file\"", "-c", "analytics.enabled=false", "-c", "feedback.enabled=false", "app-server", "--strict-config", "--listen", "stdio://"],
+    "argvStatus": "proposal-requires-separate-contract-and-startup-review",
+    "initialLinuxEnvironment": {"PATH": "/usr/bin:/bin", "LC_ALL": "C.UTF-8", "HOME": "<exclusive-root>/home", "CODEX_HOME": "<exclusive-root>/codex-home", "TMPDIR": "<exclusive-root>/tmp"},
+    "expectedPathOrder": ["<codex-home>/tmp/arg0/<new-session-directory>", "<pinned-package>/codex-path", "/usr/bin", "/bin"],
+    "pathStatus": "source-derived-if-alias-setup-succeeds-not-observed",
+    "helperAliasNames": ["apply_patch", "applypatch", "codex-linux-sandbox", "codex-execve-wrapper"],
+    "helperAliasTarget": "exact-pinned-binary-absolute-path-no-relative-targets",
+    "helperRegularFiles": [".lock"],
+    "helperParent": "<codex-home>/tmp/arg0",
+    "helperSessionPrefix": "codex-arg0",
+    "helperLifecycle": "only-exclusive-new-session-eligible-for-review-no-reused-root-leftovers-uncertain",
+    "dotenv": "require-CODEX_HOME/.env-absent-before-and-after-startup-no-content-import",
+    "unexpectedInventory": "quarantine-retain-uncertainty-no-automatic-delete-or-relaunch",
+    "configuration": "do-not-ignore-or-bypass-system-requirements-managed-or-cloud-policy",
+    "authority": "same-account-filesystem-network-and-credential-reach-remain-not-sandboxed"
+  },
+  "remainingEvidence": [
+    "Fresh private runtime allocation and before/after inventories including dotenv absence",
+    "Actual effective configuration origins including auth policy and startup service constructors",
+    "Actual generated helper identities final PATH and helper lifecycle",
+    "Bounded native runtime write set and startup network/credential behavior review",
+    "Exact final launcher binary source input environment binding and separate U0 admission"
+  ],
+  "candidateExecuted": false,
+  "nativeHelpersObserved": false,
+  "effectiveConfigurationResolved": false,
+  "networkSilenceEstablished": false,
+  "credentialDiscoveryAbsenceEstablished": false,
+  "nativeAdmissionGranted": false,
+  "nativeExecutionAllowed": false
+}

@@ -1,0 +1,32 @@
+{
+  "scope": "supplied-context-design-review-not-final-source-audit",
+  "delegates": [
+    {"model": "gpt-6-luna", "effort": "max", "status": "completed", "exitCode": 0},
+    {"model": "opencode/glm-5.3-flash-free", "variant": "max", "status": "timeout", "exitCode": 1},
+    {"model": "opencode/deepseek-v4.1-flash-free", "variant": "max", "status": "completed", "exitCode": 0}
+  ],
+  "gemini": "Excluded by previously recorded consumer-route decision",
+  "adopted": [
+    "Exact package file and directory set rather than listed-file hash checks alone",
+    "No-follow descriptor traversal and stable directory/file metadata checks",
+    "Narrow helper target-string and lock policy with real synthetic Linux filesystem tests",
+    "Explicit dotenv absence requirement and initial-versus-final PATH distinction",
+    "Stat-only fixed config probes with unresolved rather than absence on errors",
+    "Document package provenance, ACL/mount and same-account race limits",
+    "Require a new contract/admission for the proposed strict-config override argv"
+  ],
+  "rejectedClaims": [
+    "DeepSeek implied dotenv can inject CODEX_ names; reviewed source filters those names and permits other names",
+    "Passive inspection is independent attestation: it is only bounded local consistency evidence",
+    "Fresh HOME alone bypasses system/managed/cloud policy or establishes no authentication"
+  ],
+  "parentGuardPasses": {
+    "cleanCode": "Added exact tree bounds and setuid/setgid refusal; reject special files before open; retain handles on teardown errors; reused the sealed file hash routine",
+    "testGuard": "Added FIFO, writable-root and hardlink cases; placed the second hardlink outside the inventory so rejection exercises link count rather than an extra-name check",
+    "docsGuard": "Marked profile as proposed, exact helper checks as synthetic, config absence as point metadata observation and native admission as denied"
+  },
+  "nativeHelpersObserved": false,
+  "effectiveConfigurationResolved": false,
+  "nativeAdmissionGranted": false,
+  "nativeExecutionAllowed": false
+}

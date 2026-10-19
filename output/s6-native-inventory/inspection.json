@@ -1,0 +1,21 @@
+{
+  "scope": "passive-complete-package-and-fixed-config-metadata",
+  "filesMatched": 44,
+  "exactPackageInventoryMatched": true,
+  "policyTests": 3,
+  "configPresence": {
+    "/etc/codex/config.toml": "absent-parent",
+    "/etc/codex/requirements.toml": "absent-parent",
+    "/etc/codex/managed_config.toml": "absent-parent",
+    "/tmp/.codex/config.toml": "absent-parent",
+    "/.codex/config.toml": "absent-parent",
+    "/tmp/config.toml": "absent-entry",
+    "/config.toml": "absent-entry"
+  },
+  "candidateExecuted": false,
+  "credentialContentsRead": false,
+  "keyringQueried": false,
+  "nativeHelpersObserved": false,
+  "effectiveConfigurationResolved": false,
+  "nativeExecutionAllowed": false
+}
