@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-19",
+  "basisCommit": "47aebf1",
+  "scope": "offline-contract-and-integrity-no-native-experiment",
+  "checks": [
+    {
+      "command": "rtk proxy python -B -X utf8 feasibility/s6-wsl/native-contract/check.py",
+      "outcome": "passed",
+      "nativeExecutionAllowed": false
+    },
+    {
+      "command": "rtk proxy python -B -X utf8 -m unittest discover -s feasibility/s6-wsl/native-contract -p test_contract.py -v",
+      "outcome": "passed",
+      "tests": 5
+    },
+    {
+      "command": "rtk proxy python -O -B -X utf8 -m unittest discover -s feasibility/s6-wsl/native-contract -p test_contract.py -v",
+      "outcome": "passed",
+      "tests": 5,
+      "reason": "verify-refusal-checks-survive-assertion-removal"
+    },
+    {
+      "command": "rtk proxy python -B -X utf8 feasibility/s6-wsl/native-contract/check.py --native",
+      "outcome": "refused-as-expected-unrecognized-option",
+      "observedWrapperExitCode": 1
+    },
+    {
+      "command": "rtk proxy python -B -X utf8 feasibility/s6-wsl/native-preparation/run.py",
+      "outcome": "passed-historical-offline-preparation-native-disabled"
+    }
+  ],
+  "parentReview": {
+    "docsGuard": "local-links-and-claims-checked-scope-correction-explicit",
+    "testGuard": "real-temporary-files-parameterized-mutations-no-mocks",
+    "privacy": "no-contact-fields-credential-values-or-absolute-private-installation-paths-in-new-deliverables"
+  },
+  "limitations": [
+    "plan-integrity-not-runtime-admission-or-qualification",
+    "native-capture-writer-remains-unimplemented",
+    "no-policy-eligibility-decision-or-inbox-access",
+    "no-wsl-or-provider-integration-run"
+  ]
+}

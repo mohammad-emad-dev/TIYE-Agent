@@ -1,0 +1,61 @@
+{
+  "reviews": [
+    {
+      "model": "gpt-6-luna",
+      "setting": "max",
+      "status": "completed",
+      "report": "**Review:** The plan correctly separates U0 from later route eligibility, but its acceptance criteria need sharper bounds before any \u201cunauthenticated\u201d label or execution admission.\n\n- **Credential boundary:** Require a documented, non-secret inspection of the pinned binary\u2019s startup behavior, config sources, helper launches, environment inheritance, sockets, keychains, and network access. Explicitly define the environment allowlist and deny ambient credential paths. Fresh directories alone do not prove isolation. If any boundary remains unverified, classify the run as *authentication status unknown* and refuse admission.\n- **Capture budgets:** The 4 MiB stdout, 1 MiB stderr, 256 KiB record, and 16 KiB input limits do not compose with the existing 64 KiB allocator/file limits. Specify whether budgets include framing, metadata, buffers, and temporary storage; set a total memory/disk ceiling. Define overflow behavior: retain only the permitted prefix, mark truncation and uncertainty, continue drain-and-discard, then terminate by deadline. Never spill into unbounded storage. Until a bounded writer is implemented and evidenced, native execution stays unavailable.\n- **Timing:** Define one monotonic deadline starting before spawn. Specify how the 30/15/15-second phase caps interact with the 60-second work cutoff, cleanup, observation, and the 90-second host deadline, including watchdog failure.\n- **Protocol and recovery:** Pin packet schemas and byte accounting. Unexpected packets or server requests must receive no reply and trigger termination. Record delivery uncertainty; prohibit retry or relaunch until explicit recovery review.\n\nThe offline checker should validate these invariants and always return `nativeExecutionAllowed=false`; it cannot establish runtime isolation or admission.",
+      "scope": "supplied-context-reply-only-no-tools-no-final-code-review",
+      "localResultSha256": "752ab434e9a0be458f4b953a0abdbdc0819cc77fea60447ddc764e25922bf4df"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "setting": "max",
+      "status": "completed",
+      "report": "**Contradictions (blocking):**\n\n1. **Timing arithmetic:** startup30+child15+init15=60 exactly consumes the work cutoff; any overrun silently eats cleanup/observation inside the 90s envelope with slack=0. Missing: elapsed-based cap derivation, monotone phase-entry/exit timestamps as acceptance, and documented watchdog deadline arithmetic (60+15+15=90).\n\n2. **Budgets don't compose:** 4MiB stdout / 1MiB stderr exceed store caps (64KiB/file, 96KiB total) and record 256KiB has no chunking spec. Missing per-stream acceptance: chunk size/count, ordering index, truncation marker emitted at first overflow, invariant persisted\u226496KiB with a counted-drop tally, overflow must not block handshake observation, and drain-discard only post-exit.\n\n3. **Input 16KiB** ambiguous (per-message vs cumulative) \u2014 pin as total outbound with hard refusal on excess.\n\n4. **Credential flow:** absence of ambient credentials is unprovable; fresh dirs alone can't yield \"unauthenticated.\" Replace with testable invariants: deny-by-default env diff, CODEX_HOME distinct child of HOME, no symlink/JUNCTION roots, recorded process tree showing no helper spawn, scoped classification when probes are indeterminate. Use hash-only addressing; the private installation path must never enter contract artifacts.\n\n5. **Admission cannot be minted:** since the checker is permanently false, define the admission criterion as artifact IDs plus recorded human attestation fields, explicit and checkable.\n\n6. **T0 marker file:** missing pre/post fixture checksum-diff verification and deterministic rollback-to-initial-state proof.\n\n7. **Provenance:** require metadata-parsed version string cross-checked against the pinned hash \u2014 no runtime account requests.\n\nNo relaunch/deletion acceptance is specified: require persisted process-group termination evidence before observing recovery.",
+      "scope": "supplied-context-reply-only-no-tools-no-final-code-review",
+      "localResultSha256": "f7ff98854b6976479bd1aab7cf86dd88c4007dcbd08ecc2577d2962cb5d55e1b"
+    }
+  ],
+  "adopted": [
+    "explicit-U0-versus-authenticated-route-scope",
+    "credential-provenance-and-boundary-classification",
+    "unimplemented-native-writer-and-incompatible-fixture-limits",
+    "single-monotonic-deadline-and-timestamps",
+    "explicit-per-record-and-total-outbound-budgets",
+    "private-source-artifact-bound-future-admission",
+    "independent-marker-and-all-files-inventory"
+  ],
+  "notAdopted": [
+    {
+      "suggestion": "drain-discard-only-post-exit",
+      "reason": "Can deadlock a live writer; bounded drain/discard starts on fault during cleanup."
+    },
+    {
+      "suggestion": "continue-handshake-through-capture-overflow",
+      "reason": "Overflow stops protocol progress and prevents a complete pass."
+    },
+    {
+      "suggestion": "force-native-capture-into-existing-96-KiB-total",
+      "reason": "Native budgets need a separately implemented writer; the store is not substituted."
+    },
+    {
+      "suggestion": "fresh-root-layout-or-no-helpers-proves-credential-isolation",
+      "reason": "Review actual selected-version behavior and identities; neither root layout nor no-helper assumption proves isolation."
+    },
+    {
+      "suggestion": "require-rollback-proof-for-marker-task",
+      "reason": "The disposable fixture is retained for independent inspection; no automatic rollback is part of qualification."
+    },
+    {
+      "suggestion": "deny-all-ambient-access-inferred-from-review",
+      "reason": "Classify actual enforcement and unresolved reach explicitly; review alone does not impose a sandbox."
+    }
+  ],
+  "gemini": "not-dispatched-recorded-consumer-route-exclusion",
+  "fallbackUsed": false,
+  "parentReview": [
+    "test-guard-applied-real-temp-files-data-driven-mutations-no-mocks",
+    "docs-guard-applied-source-and-link-claims-checked"
+  ]
+}

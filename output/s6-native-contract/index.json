@@ -1,0 +1,24 @@
+{
+  "schema": "tiye-native-contract-index-v1",
+  "bindings": {
+    "feasibility/s6-wsl/consolidated-launcher/profile.py": "74d910b87cd4028f23b872d7d220aa85e00735fb15f5027b13cd04c9c6543d8e",
+    "feasibility/s6-wsl/linux-capture-store/store.py": "21a9829128adda85f7e008cafebe38a19ee78e060295f0c21c4321521539eb27",
+    "feasibility/s6-wsl/native-contract/check.py": "434c512f5bb1328c75c2b187e57b1e183fd9088426561082a72a0e5af0bdc155",
+    "feasibility/s6-wsl/native-contract/test_contract.py": "3772bcf069eb7181371c05af77608d62590fde77384dc7d2a3ee44b308465c84",
+    "feasibility/s6-wsl/private-capture-store/store.py": "c636cfb5151ba72a8afd6779165304a174fff39f32a094cca14cecb8758d78e9",
+    "output/launcher-admission-review/CAPTURE-PRIVACY.md": "0fa2bdff4063ed36725c98c6eb605e9fd85dbb61b348c5f7d042ce4c88902d86",
+    "output/launcher-admission-review/README.md": "813473ed0cf2f856d78313c59512bb79631c5a20a61a763b0c20338a3e020068",
+    "output/s4-codex-candidate/installation.json": "af65a690078c47be0d1eb7bde13eb89a38c6a461e444461253c52c5c6b5608ff",
+    "output/s4-codex-native-protocol/README.md": "e1d18607ba13e1040f57e41dce58751e53a8d4a7c615521411a7c43a8da93a32",
+    "output/s6-admission-reconciliation/README.md": "412e9a9c898b962a57e1805f1578d73737d6d19375b55e3f13168ef8652f1c70",
+    "output/s6-admission-reconciliation/status.json": "c38c80ae364eb65d62b3afbb19a180052b5d8c065681dddd75c84012bbc24057",
+    "output/s6-launcher-deletion/input.json": "6477844bb1b1713be66f00e44ddbb993e86ec8e2cbb73644c95513b03ecd9495",
+    "output/s6-launcher-deletion/README.md": "6d1657418f5c416d91714c65e9ee9a04deeb7274d879f62361cafc797bb170c1",
+    "output/s6-launcher-retention/input.json": "27349ab0c97c33c5b4c408b74921a97361dca68a58a587417ed94d3731abf152",
+    "output/s6-launcher-retention/README.md": "de9c18d841a927ff989eea6613f9a0c2d6b8f0cc3b6d0a667e87adf23b494c5c",
+    "output/s6-native-contract/contract.json": "8a03fbaafeea7ed34fa4093a765543483c3782896fb269a835b310b0ddd61a6d",
+    "output/s6-native-contract/README.md": "56dd22cc187fea0a7157c67be037dda496dc48ab5c054249720696adb0e4bdd6",
+    "output/s6-native-contract/review.json": "61133e15c01e47e81d59cb3e6d2a138369ab427d385858f12aa04f315c70a813",
+    "output/s6-native-contract/verification.json": "bd1e46f8aeb8d49740f3c81091c963d6f19ea621de573b03de67f573ba49f165"
+  }
+}
