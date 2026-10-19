@@ -1,0 +1,76 @@
+{
+  "schema": "tiye-stream-writer-v1",
+  "sources": {
+    "feasibility/s6-wsl/private-capture-store/store.py": "c636cfb5151ba72a8afd6779165304a174fff39f32a094cca14cecb8758d78e9",
+    "feasibility/s6-wsl/private-capture-store/winacl.py": "5762b44a137bdcf833e45990dda4c731758b4016c7c514e4a09ba96d78bdcc84",
+    "feasibility/s6-wsl/stream-writer/run.py": "0baeda3f963f7578a73157d16a2a285a9a04dd29971e1728177d62a05b5d0430",
+    "feasibility/s6-wsl/stream-writer/test_publication.py": "4287c57e411f31ea3ce1d92f223b30856cd209886bab8ecea52c846c97fe488f",
+    "feasibility/s6-wsl/stream-writer/test_writer.py": "5cec189910a09d5096789f412d2fe76bf526810f9dc83e78a1f966f115d4f55d",
+    "feasibility/s6-wsl/stream-writer/writer.py": "67c647ad34eb196f32a74b533241a0efcdfdfa2bf8dda6b22af4213a41a3924f"
+  },
+  "tests": 8,
+  "cases": [
+    {
+      "case": "short-write-prefix",
+      "verified": true
+    },
+    {
+      "case": "injected-write-error",
+      "verified": true
+    },
+    {
+      "case": "stdout-overflow",
+      "verified": true
+    },
+    {
+      "case": "stderr-overflow",
+      "verified": true
+    },
+    {
+      "case": "exact-caps-protected",
+      "verified": true
+    },
+    {
+      "case": "finite-concurrent-pipes-drain",
+      "verified": true
+    },
+    {
+      "case": "record-exact-with-lf",
+      "verified": true
+    },
+    {
+      "case": "record-overflow-fragmented",
+      "verified": true
+    },
+    {
+      "case": "injected-fsync-failure",
+      "verified": true
+    },
+    {
+      "case": "partial-manifest-quarantine",
+      "verified": true
+    },
+    {
+      "case": "completion-fsync-failure",
+      "verified": true
+    },
+    {
+      "case": "reader-failure-missing-eof",
+      "verified": true
+    },
+    {
+      "case": "unexpected-inventory",
+      "verified": true
+    },
+    {
+      "case": "metadata-drift",
+      "verified": true
+    },
+    {
+      "case": "payload-drift",
+      "verified": true
+    }
+  ],
+  "nativeExecutionAllowed": false,
+  "phase1": "HOLD"
+}

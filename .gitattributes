@@ -138,3 +138,5 @@ output/s6-launcher-deletion/** -text whitespace=blank-at-eol,blank-at-eof,space-
 output/s6-admission-reconciliation/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-native-contract/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/native-contract/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/stream-writer/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-stream-writer/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

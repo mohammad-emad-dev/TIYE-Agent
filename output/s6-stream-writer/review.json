@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-19",
+  "basisCommit": "c3b532f",
+  "reviews": [
+    {
+      "model": "gpt-6-luna",
+      "setting": "max",
+      "status": "completed",
+      "report": "The design has clear scope and failure behavior. The biggest implementation hazards are:\n\n- **Byte accounting at boundaries:** Define exact behavior when a chunk crosses a stream cap or stdout record limit: persist only the remaining allowed prefix, then fault and discard all later feeds. Count bytes, with LF excluded from the record length; test fragmented and empty records.\n- **Blocking under the writer lock:** Serializing writes is simple, but a filesystem call can stall while holding the lock. That can stall both producer threads and prevent prompt shutdown. Keep the caller-owned abort deadline explicit; don\u2019t imply the stop event can interrupt a blocked write.\n- **Fault races:** Set the first fault atomically with feed/write state so a competing producer can\u2019t persist bytes after failure. Treat EOF from both streams as necessary, but never sufficient, for completion.\n- **Windows handle security:** Verify ACLs and file type/link count on the held handles, and ensure ancestor pinning and creation resist reparse-point or rename races. Avoid reopening paths for readback.\n- **Completion integrity:** Enforce the aggregate metadata limit before each write. A partial manifest must never validate; consumers should accept completion only after checking the manifest, exact inventory, sizes, and hashes.\n- **Hash semantics:** Hash only bytes actually accepted by writes, including a short-write prefix. Keep raw hashes private and avoid exposing unbounded failure counters.\n\nThe stated exclusions\u2014especially hard I/O deadlines and power-loss guarantees\u2014should remain explicit.",
+      "scope": "supplied-context-design-review-not-final-source-or-fixture-review",
+      "localResultSha256": "ce9a69eb849c448865880c1be0202e8f1f424807af23210bb6f8e75739821553"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "setting": "max",
+      "status": "timeout",
+      "report": "",
+      "scope": "supplied-context-design-review-not-final-source-or-fixture-review",
+      "localResultSha256": "d47ff8d4d63a9260360b2f2d6bbc0e50e61a6f647b28c3e43582152b1854d6c5"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "setting": "max",
+      "status": "completed",
+      "report": "Strong overall; freeze these hazards before coding:\n\n1. **Fault atomicity:** a stop Event alone cannot prevent an in-flight `os.write` from persisting after reader failure. Put fault check, write, count/hash under one lock; define post-fault in-flight bytes as persisted-but-unaccounted/uncertain\u2014never claim \u201cnever persist.\u201d Test it.\n\n2. **Security:** apply the protected DACL atomically at `CREATE_NEW`, including an ACE for the process/owner; setting owner to SYSTEM/Admin may require privileges. Verify exact SDDL, no reparse/device, file ID/volume, and link count on held handles. Define readback reopen sharing\u2014the original no-share-read handle blocks it\u2014and close order.\n\n3. **Completion artifacts:** specify manifest/marker order, fsync, inventory allowlist, and validation. Marker creation can fail after a valid manifest; quarantine may itself fail on ENOSPC. Make quarantine logical\u2014no marker plus status\u2014and never require deletion.\n\n4. **API ownership:** define who closes pipe/file handles, stop/join behavior, and blocked write/read with no deadline. Enforce \u226416 KiB chunks and exact cap/record LF boundaries.\n\n5. **Reused helpers:** prove no old 64 KiB cap or shared state leaks in; real ACL tests may require admin\u2014define skip/fail policy.\n\nMinor: OSError after a partial write is uncountable; mark uncertain.",
+      "scope": "supplied-context-design-review-not-final-source-or-fixture-review",
+      "localResultSha256": "54e273378e04229bf27c8e7f88a05fc6f129f61a79cacf6632a504eb5ab98ddd"
+    }
+  ],
+  "adopted": [
+    "serialized-fault-write-accounting-transition",
+    "held-handle-security-and-incremental-readback",
+    "explicit-partial-and-opaque-write-error-accounting",
+    "parseable-manifest-not-sufficient-after-fsync-failure",
+    "caller-owned-pipe-and-process-lifecycle-with-blocking-I/O-limits",
+    "no-old-write-api-cap-reuse"
+  ],
+  "rejected": [
+    {
+      "suggestion": "in-flight-writes-persist-after-the-serialized-fault-transition",
+      "reason": "The same lock covers fault and write transitions; an external failure request can wait behind blocked I/O, which is explicitly unqualified."
+    },
+    {
+      "suggestion": "readback-requires-reopening-an-unreadable-handle",
+      "reason": "Writer descriptors are O_RDWR and readback uses the same handles; original create helper permits read sharing."
+    },
+    {
+      "suggestion": "owner-is-set-to-SYSTEM-or-administrators",
+      "reason": "Owner is the current user; SYSTEM and Administrators are DACL grantees, not assigned owners."
+    }
+  ],
+  "gemini": "not-dispatched-recorded-consumer-route-exclusion",
+  "fallback": "GLM-timeout-then-authorized-DeepSeek-Free-max-completed",
+  "touchedFileListing": "Parent-created-untracked-writer-directory-appeared-during-reviews-not-proof-of-delegate-edits",
+  "parentGuards": {
+    "clean-code-guard": {
+      "fixed": [
+        "Separated unknown persistence from known discarded bytes",
+        "Separated allocation, finalization and file-close responsibilities"
+      ],
+      "flagged": []
+    },
+    "test-guard": "Real-Windows-files-pipes-and-explicit-OS-I/O-boundary-fault-injection-no-internal-mocks",
+    "docs-guard": "API-commands-links-budgets-and-case-counts-checked-against-source-and-final-selected-results"
+  },
+  "verification": {
+    "liveTests": 8,
+    "liveScenarios": 15,
+    "publicationTests": 2,
+    "savedNativeContractChecker": "passed-unchanged-native-disabled",
+    "privateRawEvidenceRetained": true,
+    "nativeProviderRuns": 0,
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "A1": "BLOCKED",
+    "phase1": "HOLD"
+  }
+}
