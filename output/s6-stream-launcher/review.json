@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-19",
+  "basisCommit": "8afa87a",
+  "reviews": [
+    {
+      "model": "gpt-6-luna",
+      "setting": "max",
+      "status": "completed",
+      "report": "**Review:** The design is viable if the new writer stays behind an explicit source map and configuration fingerprint. Preserve every sealed source; record hashes and provenance for the wrapper, writer, peer extension, and validators. Verify the `Capture` subclass still matches the reused handshake, control, write, and cleanup contracts.\n\nFeed real 16 KiB chunks directly to the protected writer. On writer stop, cancel transport work; on reader error, fault the writer. During bounded cleanup, continue draining or discarding. Finish as storage-only only when there is no protocol fault, both streams reached EOF, and direct cleanup is owned. Report retained, discarded, and uncertain counts separately. Keep legacy raw fields explicitly suppressed and empty: they prove neither original bytes nor byte equality.\n\nFor initialized owner loss, allow only prelaunch intent and a retained prefix\u2014never a forged final result. Guard against stale process results and same-path restart. The overflow case must emit actual stderr over 1 MiB only after initialized/live protocol and observer-confirmed pidfds, with no synthetic pipe injection. Evidence must show overflow revoked protocol progress, retired the heartbeat, independently verified Windows and Linux cleanup, and produced no completed storage.\n\nKeep the Linux extension separately source-bound. Reuse lifecycle, identity, phase, and attempt validators; document the protocol-validator adaptation and do not claim a full legacy-validator pass. Run all four immutable cases: valid, pending Stop, initialized owner loss, actual overflow. A blocking filesystem syscall may stall the event loop; watchdogs remain independent, but guarantee no hard filesystem-latency bound. Assess account/model eligibility separately; record Gemini\u2019s exclusion as a route decision.",
+      "scope": "supplied-context-design-review-not-final-code-or-runtime-review",
+      "localResultSha256": "e6fb11a736c521d681d6fe07d0ac477e48fa4cb8290700e72f2dc0f8cda750a2"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "setting": "max",
+      "status": "completed",
+      "report": "**Verdict: structurally sound; approve pending hardening of four flagged failure modes.**\n\n1. **Stale process result** \u2014 Risk: late watchdog/job outcome overwriting writer-derived finish or resurrecting a dead attempt. Evidence required: epoch/attempt token in every result; controller drops non-matching late results; regression test injecting a stale watchdog result post-finish asserting no state change and no second cleanup pass.\n\n2. **Source binding** \u2014 Risk: wrapper imports drifting from sealed originals. Evidence: config fingerprint verified at import time, fail-closed on mismatch; sealed-source checksums recorded in the run manifest; no copies or re-derived logic anywhere; peer validator adaptation documented as not claiming full old-validator pass.\n\n3. **Overflow cleanup** \u2014 Risks: ordering races and forged storage. Evidence: event ledger proving overflow \u2192 protocol-progress revocation \u2192 heartbeat retirement \u2192 observer pidfd certification *before* controller signal \u2192 verified Windows+Linux cleanup with zero completed storage; retained/discard/uncertain sourced only from the writer (owner death yields intent + prefix, never final); bounded drain byte count logged; post-run size audit on controller metadata.\n\n4. **Raw-field suppression** \u2014 Risk: empty legacy fields misread as \"nothing captured\" or tested for byte equality. Evidence: keys *omitted*, never zero-valued, in serialized output; test asserting key absence; test forbidding any comparison between legacy raw fields and writer bytes.\n\nResiduals: document fsync-stall lifetime vs. outer watchdog/lease; pending-Stop requires cancellation-before-drain proof; adapter must fail closed when prelaunch intent lacks a writer prefix. Model routing out of scope; Gemini exclusion honored.",
+      "scope": "supplied-context-design-review-not-final-code-or-runtime-review",
+      "localResultSha256": "6a252cae09631b3bbc85f9cdc3fd88d10a0639beb7662553bc386905b63c3b46"
+    }
+  ],
+  "adopted": [
+    "explicit-composition-and-config-digest-binding",
+    "separate-nonce-rootpid-result-checks",
+    "actual-bounded-chunks-no-full-raw-base64",
+    "independent-observer-ready-before-overflow-signal",
+    "fault-work-stop-cleanup-hook-order-witness",
+    "owner-death-no-final-result-fabrication",
+    "bounded-private-postrun-permission-hash-inventory-audits"
+  ],
+  "notAdopted": [
+    {
+      "suggestion": "omit-all-legacy-raw-fields",
+      "reason": "Sealed host uses these compatibility fields; the new wrapper explicitly marks suppression, checks emptiness only and never compares them to original bytes."
+    },
+    {
+      "suggestion": "pending-Stop-demonstrates-cancellation-before-a-pending-write-drain",
+      "reason": "This case awaits the initialize response after one locally drained write; pressure-write cancellation is outside this composition."
+    },
+    {
+      "suggestion": "no-peer-extension-copy-or-derived-logic",
+      "reason": "The source-bound extension deliberately changes one synthetic producer to emit real stderr after observation; its bytes and scope are recorded rather than claiming unchanged execution."
+    },
+    {
+      "suggestion": "late-result-injection-proves-a-general-state-reconciliation-service",
+      "reason": "Only stateless binding refusal is implemented/tested; no product event store or late-event reconciliation service is claimed."
+    }
+  ],
+  "developmentFinding": {
+    "initialOverflowExpectedCode": 77,
+    "observedLeaseExitCode": 71,
+    "disposition": "Corrected fixture-specific expectation; failed private run excluded; final cases rerun."
+  },
+  "gemini": "not-dispatched-recorded-consumer-route-exclusion",
+  "fallbackUsed": false,
+  "parentGuards": {
+    "clean-code-guard": {
+      "fixed": [
+        "Bound final results to exact configuration and attempt",
+        "Distinguished real lease exit from deliberate client-kill exit"
+      ],
+      "flagged": []
+    },
+    "test-guard": "Real-Windows-and-Ubuntu-managed-processes-no-mocks-offline-data-driven-refusal-cases",
+    "docs-guard": "Commands-links-source-counts-and-bounded-claims-checked"
+  },
+  "verification": {
+    "managedLiveCases": 4,
+    "offlineRefusalTests": 4,
+    "priorWriterSavedChecker": "passed",
+    "priorNativeContractChecker": "passed",
+    "nativeProviderRuns": 0,
+    "L1": "PARTIAL",
+    "L2": "PARTIAL",
+    "P1": "OPEN",
+    "P2": "OPEN",
+    "A1": "BLOCKED",
+    "phase1": "HOLD"
+  }
+}

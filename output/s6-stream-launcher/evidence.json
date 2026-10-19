@@ -1,0 +1,8 @@
+{
+  "scope": "saved-mock-composition-no-native",
+  "artifactSha256": {
+    "README.md": "fcbc4f25c5b0a50b082238cdec8724d8fa9202bfe84b2bf67124977e0b2115e3",
+    "review.json": "9f29cd31ff3d4bc9a46e0809ca99b58782ba3f67bf80a9e91a08bb755599cd2c",
+    "observations.json": "ace20f74a1049cf7fb81d57e2afc00de6bf49090180a62246b753c3e39b7fac1"
+  }
+}
