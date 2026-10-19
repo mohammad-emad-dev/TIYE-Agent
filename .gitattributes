@@ -146,3 +146,5 @@ feasibility/s6-wsl/native-preflight/** -text whitespace=blank-at-eol,blank-at-eo
 output/s6-native-preflight/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/resource-launcher/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-resource-launcher/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/resource-watchdog/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-resource-watchdog/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

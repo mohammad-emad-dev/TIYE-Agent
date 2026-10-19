@@ -1,0 +1,57 @@
+{
+  "scope": "supplied-context-design-review-no-tools-no-final-source-audit",
+  "routes": {
+    "luna": {
+      "status": "completed",
+      "report": "Overall: this is a bounded synthetic Windows step. Clarify these contracts before calling it verified.\n\n- Define \u201cno inherited handles\u201d precisely: the worker inherits none; the guardian\u2019s stdout/stderr need an explicitly whitelisted route to the controller. Keep the Job handle private and non-inheritable. Create the worker suspended, assign it before resume, and fail closed on setup or assignment errors.\n- Root exit 17 does not prove the Job is empty. Terminate and observe the whole Job, then wait for active-process-zero within the 2-second cleanup bound. Define the timeout outcome.\n- For external guardian-kill coverage, ensure no other Job handle keeps the Job open. Witness process handles are fine. Verify the descendant exits and the unrelated sentinel survives.\n- Define the 5-second deadline\u2019s start point and use a monotonic clock. Clarify the sleep95 units, and verify the real protocol descendant is inside the Job.\n- Test report timing and schema, pipe-drain failure, protected-file ACLs and size limits, and that reserved bytes stay unwritable. Keep identities and raw output private.\n- Call the quotas ledger/accounting caps unless OS limits enforce them. Describe results as synthetic Windows behavior; the 5-second deadline does not validate a native 90-second schedule or any WSL/native behavior."
+    },
+    "glm": {
+      "status": "completed",
+      "report": "**Serious gaps**\n\n1. **Witness handle type unspecified.** Must hold *process* handles only. Any duplicated kill-on-close Job handle elsewhere keeps the Job alive after guardian death and falsifies the kill-on-close case. Add a handle-audit assertion.\n2. **Guardian-killed case:** controller sees EOF, not the JSON. Require explicit assertions: witness-reported tree death, sentinel alive, partial drain persisted under the controller's metadata sublease.\n3. **5s anchor ambiguous** \u2014 launch vs ready record? Specify; deadline applies only post-ready.\n4. **Root exit-17:** define semantics \u2014 immediate Job terminate or wait to deadline? Assert descendant death too, not just root.\n5. **2s cleanup observation:** define report fields on timeout (killed/exited/exitCodes/timedOut); don't silently treat 2s as success.\n6. **Resume order:** suspended creation \u2192 assign \u2192 resume must be asserted in ChildJob; a pre-assign resume escapes the Job.\n\n**Tests to require:** reserve-write-fails negative test; per-file budget charge checks (worker controller for intent/ready/result, collector controller for release); sentinel alive in every destructive case; concurrent drain to avoid pipe deadlock; ledger exactly-once on constructor; partition sums checked against code constants (224+672+128=1024KiB is self-consistent, but verify against real constants, not narrative).\n\n**Overclaims:** drop \"proving kill-on-close\" until the handle audit exists; keep the 90s no-mapping disclaimer in the report itself."
+    }
+  },
+  "gemini": "not-dispatched-recorded-consumer-route-exclusion",
+  "fallback": "not-required",
+  "adopted": [
+    "Keep Job handle private; witness holds only process handles; separate guardian IPC from worker handle inheritance",
+    "Terminate and observe remaining Job on root exit; do not equate root exit with Job-empty",
+    "No Job-empty claim without guardian report; verify held root/protocol handles and unrelated sentinel separately",
+    "Anchor deadline before suspended Job creation; no native 90-second or Linux cleanup credit",
+    "Use static disjoint accounting subleases and charge every control/diagnostic persisted copy",
+    "Keep reporting I/O after Job close; retain uncertain worker evidence after termination"
+  ],
+  "clarifications": [
+    {
+      "suggestion": "Start five-second deadline only after ready",
+      "decision": "Not adopted; startup and suspended process creation are included, with a monotonic origin immediately before ChildJob creation"
+    },
+    {
+      "suggestion": "Global handle-audit proof for guardian-loss case",
+      "decision": "Source confirms non-inheritable Job and no Job-handle duplication in this composition; no global OS handle audit is claimed. Held-process death is reported separately from unavailable Job accounting"
+    }
+  ],
+  "regression": {
+    "observed": "Owner-exit case once reached deadline because exclusive publication raced a reader and Win32 sharing error 32 entered generic fault cleanup",
+    "fixed": "Retry only missing files and that exact publication-sharing race within existing wait windows; malformed records and binding mismatches fail immediately",
+    "verification": "Real open publisher handle refuses read; closed publication reads successfully; final four-case cohort passed normal and optimized Python"
+  },
+  "parentGuardPass": {
+    "fixes": [
+      {
+        "file": "control.py",
+        "change": "Classified only sharing error 32 as pending publication; binding/schema errors remain terminal"
+      },
+      {
+        "file": "integration.py",
+        "change": "Serialized concurrent collector persistence and registered held-process cleanup immediately"
+      },
+      {
+        "file": "guardian.py",
+        "change": "Captured decision time before termination request and recorded separate request-return/observation/post-close timing"
+      }
+    ],
+    "clean-code-guard": "3 fixed, 0 flagged for author; qualification limits documented",
+    "test-guard": "clean; real OS jobs, held processes, private files and publication race; no mocked provider responses",
+    "docs-guard": "checked commands, allocations, clock anchor, observed/unknown distinctions and remaining qualification gaps"
+  }
+}

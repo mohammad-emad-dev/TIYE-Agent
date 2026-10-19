@@ -1,0 +1,53 @@
+{
+  "scope": "synthetic-windows-job-resource-composition",
+  "unitTests": 8,
+  "cases": [
+    {
+      "mode": "stall",
+      "verified": true,
+      "guardianReported": true,
+      "windowsJobEmpty": true,
+      "heldRootAndProtocolSignaled": true,
+      "unrelatedSentinelSurvived": true,
+      "workerStorageCompleted": false,
+      "workerEvidenceUncertain": true,
+      "nativeExecutionAllowed": false
+    },
+    {
+      "mode": "guardian-loss",
+      "verified": true,
+      "guardianReported": false,
+      "windowsJobEmpty": null,
+      "heldRootAndProtocolSignaled": true,
+      "unrelatedSentinelSurvived": true,
+      "workerStorageCompleted": false,
+      "workerEvidenceUncertain": true,
+      "nativeExecutionAllowed": false
+    },
+    {
+      "mode": "owner-exit",
+      "verified": true,
+      "guardianReported": true,
+      "windowsJobEmpty": true,
+      "heldRootAndProtocolSignaled": true,
+      "unrelatedSentinelSurvived": true,
+      "workerStorageCompleted": false,
+      "workerEvidenceUncertain": true,
+      "nativeExecutionAllowed": false
+    },
+    {
+      "mode": "valid",
+      "verified": true,
+      "guardianReported": true,
+      "windowsJobEmpty": true,
+      "heldRootAndProtocolSignaled": null,
+      "unrelatedSentinelSurvived": null,
+      "workerStorageCompleted": true,
+      "workerEvidenceUncertain": false,
+      "nativeExecutionAllowed": false
+    }
+  ],
+  "nativeExecutionAllowed": false,
+  "deadlineSeconds": 5,
+  "observationSeconds": 2
+}
