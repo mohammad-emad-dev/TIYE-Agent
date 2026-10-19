@@ -1,0 +1,43 @@
+{
+  "scope": "supplied-context-design-review-no-tools-no-final-source-audit",
+  "routes": {
+    "luna": {
+      "status": "completed",
+      "report": "The main gap is proving that revocation stops **all parent-side work**, not just cancelling tasks. `asyncio.wait` bounds how long the caller waits, but pending tasks can keep running and write later. Define what revoked work is allowed to do, and ensure it cannot persist metadata or protected-file bytes after revocation.\n\nTests should cover:\n\n- Initial metadata retention and stream allocation are charged before persistence; quota exhaustion blocks the write.\n- Each protected-file write charges its owner first. Inject failed, short, and uncertain writes and verify none refund budget. Check every write path, including retries.\n- On work timeout, verify revocation precedes EOF, TERM, and KILL; each phase bounds process wait and both pumps; no late task writes occur.\n- Success, diagnostic quota exhaustion, and work timeout fixtures stay finite and never execute a provider.\n- The parent alone owns the ledger; children receive only pipes and fixed scripts.\n- The legacy WSL launcher remains unqualified; tests do not imply process-tree cleanup, WSL behavior, or native readiness.\n\nAlso test deadline calculations against the existing `NativeSchedule` monotonic origin. Avoid `wait_for` tests that accidentally grant cancellation-grace time."
+    },
+    "glm": {
+      "status": "completed",
+      "report": "**Most serious gaps**\n\n1. **Retry-vs-charge ambiguity** \u2014 whether a retried short write re-charges is unstated (per-attempt double-charges; per-byte is deterministic). Fix the rule before fixtures, since diagnostic-quota exhaustion depends on it.\n2. **Orphan charges** \u2014 a child dying after charge/before write consumes budget with no write; mid-run exhaustion behavior (persistence suppressed vs. abort) is unspecified and is itself a distinct failure mode.\n3. **Pump windows vs backpressure** \u2014 pumps stopping while a child still writes can block the child on a full pipe; phase advancement must not depend on child cooperation, and post-revoke data must be deterministically discarded.\n4. **Frozen-subclass choke point** \u2014 inherited StreamCapture paths may bypass the subclass charge; all persisted writes (including initial retention) must funnel through one verified point.\n5. **Ledger ownership is not file exclusivity** \u2014 exclusive-create protects files; single-owner needs explicit fencing/no-re-entry guarantee.\n\n**Necessary tests**\n- Orphan-charge determinism: child death post-charge/pre-write, ledger uncorrupted.\n- Short writes at exactly 4 MiB/1 MiB caps and beyond: truncation and bounded memory.\n- Continuous-output child through pump-window expiry: no deadlock; deadlines hold on the shared host monotonic origin.\n- Mid-run exhaustion: defined terminal state, child reaped, phases still bounded.\n- KILL escalation actually reached, not only EOF.\n- Second-owner attempt refused; ledger bytes unchanged.\n- Provider route refusal asserted (recorded policy); no native/WSL readiness credited."
+    }
+  },
+  "gemini": "not-dispatched-recorded-consumer-route-exclusion",
+  "fallback": "not-required",
+  "adopted": [
+    "One parent owns all controlled persistence; do not generalize a thread ledger to WSL processes",
+    "Charge retention and completion before I/O; no retries or refunds on uncertain/short writes",
+    "Revoke fresh work and suppress raw/diagnostic persistence after faults while keeping pumps draining",
+    "Bound waits with remaining phase time; retain uncertain spawn ownership",
+    "Keep WSL, descendant cleanup, blocked I/O and native admission unqualified"
+  ],
+  "notAdopted": [
+    {
+      "suggestion": "Treat retried writes as net byte charging",
+      "reason": "This composition never retries; its existing contract charges each gross attempt with no refund"
+    },
+    {
+      "suggestion": "Claim all KILL escalation and orphan-charge cases covered",
+      "reason": "No such claim; Windows TERM kills the fixed direct child and OS-death-after-charge remains unqualified"
+    }
+  ],
+  "parentGuardPass": {
+    "clean-code-guard": {
+      "fixed": [
+        "Fenced fresh spawns and initialize writes after revocation or expiry",
+        "Included pumps in cleanup waits and faulted undrained capture before observation"
+      ],
+      "remainingLimitations": "documented experimental scope; no independent watchdog or hard I/O deadline"
+    },
+    "test-guard": "clean; real protected files and child pipes, OS write failures injected explicitly",
+    "docs-guard": "checked commands, allocations, scope exclusions and source paths"
+  }
+}

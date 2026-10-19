@@ -1,0 +1,26 @@
+{
+  "sources": {
+    "feasibility/s6-wsl/native-preflight/policy.py": "4025d7a46f49c491e6b3c3222d256e7bbac5c6856d7db87aadf2b927032fc7ce",
+    "feasibility/s6-wsl/private-capture-store/store.py": "c636cfb5151ba72a8afd6779165304a174fff39f32a094cca14cecb8758d78e9",
+    "feasibility/s6-wsl/private-capture-store/winacl.py": "5762b44a137bdcf833e45990dda4c731758b4016c7c514e4a09ba96d78bdcc84",
+    "feasibility/s6-wsl/resource-launcher/deadlines.py": "eda8bb274db1e58687509779908d5d14684bbbf21b4b5eb4e970eca46cc69ec9",
+    "feasibility/s6-wsl/resource-launcher/fixture.py": "508075ad509786afbafb5086b67187bb764768d159191fd02bc1cfec899ec3f8",
+    "feasibility/s6-wsl/resource-launcher/launcher.py": "fc79c2bc68d29932d4373e327d4e75566ea2ce855b3562f645213fd842be0153",
+    "feasibility/s6-wsl/resource-launcher/resources.py": "bc60ebb38ff6313db44a51de6f6a06a6b7238f84594da1f595a6fa30137545a6",
+    "feasibility/s6-wsl/resource-launcher/run.py": "d4600bfc3d93d741afeeeeac2cf067127cf04f1d6afba6bc5bbb7765ddd6932b",
+    "feasibility/s6-wsl/resource-launcher/test_publication.py": "7e87e9bbc75be42d5e2d94441389d91aa3ebc31a468213aa4eb04a5683e5a432",
+    "feasibility/s6-wsl/resource-launcher/test_resources.py": "65b241bd673d4c0155378682eeadcee35d053001024a2b5add60285a3f3fe47d",
+    "feasibility/s6-wsl/stream-writer/writer.py": "67c647ad34eb196f32a74b533241a0efcdfdfa2bf8dda6b22af4213a41a3924f"
+  },
+  "artifacts": {
+    "README.md": "b63b77d6a1164e9c176d1fa267e66540712215e746e81382c7aa3b2f2d44e523",
+    "observations.json": "133c1812882c51a132b93525aeb3945c3f3a956a5a9a88f66102a113934d79de",
+    "review.json": "5dd9211fe3fd80226f91dd84edb856bd38e057f8131d1198addd739f28591a7f"
+  },
+  "references": {
+    "output/s6-native-contract/contract.json": "8a03fbaafeea7ed34fa4093a765543483c3782896fb269a835b310b0ddd61a6d",
+    "output/s6-native-preflight/reconciliation.json": "afab08b51b3c70c35d7c8c11a04d6d45b157fa94545fc3b9e55debda632d414c",
+    "output/s6-stream-launcher/observations.json": "ace20f74a1049cf7fb81d57e2afc00de6bf49090180a62246b753c3e39b7fac1"
+  },
+  "nativeExecutionAllowed": false
+}
