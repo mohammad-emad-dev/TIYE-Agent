@@ -1,0 +1,28 @@
+{
+  "scope": "supplied-context-design-review-not-final-source-audit",
+  "delegates": [
+    {"model": "gpt-6-luna", "effort": "max", "status": "completed", "exitCode": 0},
+    {"model": "opencode/glm-5.3-flash-free", "variant": "max", "status": "timeout", "exitCode": 1},
+    {"model": "opencode/deepseek-v4.1-flash-free", "variant": "max", "status": "timeout", "exitCode": 1}
+  ],
+  "adopted": [
+    "Held pidfd and executable descriptor with start/device/inode checks across active observation",
+    "No-follow bounded allowlist traversal and refusal before denied-content reads",
+    "Session identity checks around frozen path-based helper validation",
+    "Explicit distinction between launch environment and effective runtime PATH",
+    "Retain interrupted helper state and uncertainty without automatic retry",
+    "Publish closed verdicts; runtime paths remain protected"
+  ],
+  "notClaimed": [
+    "Final-source audit by delegated models",
+    "Syscall tracing proving all credential/configuration reads absent",
+    "Adversarial concurrent replacement or partial helper creation qualification",
+    "Native startup, effective configuration, descendant cleanup or U0 admission"
+  ],
+  "parentGuardPasses": {
+    "cleanCode": "Retained executable descriptor through observation rather than closing it after first identity check; checked helper-session identity around path-based frozen helper validation",
+    "testGuard": "Real Linux process/pidfd and filesystem cases; isolated synthetic environment; retained resources on unsettled child rather than clearing ownership; removed unused fixture mode and Path import",
+    "docsGuard": "Distinguished fully ready interrupted helper state from partial creation, detective limits from quotas, proc launch environment from final PATH, and synthetic observer from native admission"
+  },
+  "nativeExecutionAllowed": false
+}

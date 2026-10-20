@@ -1,0 +1,14 @@
+{
+  "scope": "synthetic-linux-startup-observer",
+  "tests": 4,
+  "beforeActiveAfterVerified": true,
+  "heldPidfdExitVerified": true,
+  "interruptedAliasesRetained": true,
+  "forbiddenInventoryRefused": true,
+  "automaticRetryAllowed": false,
+  "candidateExecuted": false,
+  "nativeHelpersObserved": false,
+  "effectivePathQualified": false,
+  "effectiveConfigurationResolved": false,
+  "nativeExecutionAllowed": false
+}

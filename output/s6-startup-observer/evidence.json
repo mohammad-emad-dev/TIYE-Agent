@@ -1,0 +1,29 @@
+{
+  "sources": {
+    "feasibility/s6-wsl/native-inventory/inspect_windows.py": "d13c053d09c4cba686a6946006d0992b9c23561e4268dfb0b09c4ee78779e7d0",
+    "feasibility/s6-wsl/native-inventory/linux.py": "0e0bfa5bdf450c3fb6ceaef6ce0a1a8a452c5029791efc07a6ed97aae03f7490",
+    "feasibility/s6-wsl/native-preflight/policy.py": "4025d7a46f49c491e6b3c3222d256e7bbac5c6856d7db87aadf2b927032fc7ce",
+    "feasibility/s6-wsl/private-capture-store/store.py": "c636cfb5151ba72a8afd6779165304a174fff39f32a094cca14cecb8758d78e9",
+    "feasibility/s6-wsl/private-capture-store/winacl.py": "5762b44a137bdcf833e45990dda4c731758b4016c7c514e4a09ba96d78bdcc84",
+    "feasibility/s6-wsl/resource-launcher/resources.py": "bc60ebb38ff6313db44a51de6f6a06a6b7238f84594da1f595a6fa30137545a6",
+    "feasibility/s6-wsl/resource-watchdog/composition.py": "0f445dbcebd56794a54978973c8748c1207d9bd8319ec3c71d257821acb6fe2b",
+    "feasibility/s6-wsl/startup-observer/check.py": "d55b0b04ca8500f9d868c72a9fb88ec3e48d185bf992fbed951b72b433f05eaf",
+    "feasibility/s6-wsl/startup-observer/observer.py": "22f83709f3c180fdfa64546c472f9a968e53921782005996130a8664b6abfefe",
+    "feasibility/s6-wsl/startup-observer/run_windows.py": "70829638de908a7f50c846d608817203793625333483896f9a2087a8a474cacc",
+    "feasibility/s6-wsl/startup-observer/test_publication.py": "25a93f15dd83ab413f9283f856c1f4cef962e66b67818a777111ee628fd63bcc",
+    "feasibility/s6-wsl/startup-observer/tests_linux.py": "13207e53b25320254a8ce38c4dc7282a21960703939724e344e67fc64ab8802d",
+    "feasibility/s6-wsl/stream-writer/writer.py": "67c647ad34eb196f32a74b533241a0efcdfdfa2bf8dda6b22af4213a41a3924f"
+  },
+  "artifacts": {
+    "README.md": "db237ab814238ace8a3a4568ef67e95853f101f53d23943d0845d50a9c3e1f6b",
+    "observations.json": "c3663e3e66431d82113c24837eab782145029a487614c291e8a092898195199d",
+    "review.json": "2d03c23b025543cb361a6260c88b4ceb6e4d47f54c6eb44f9b125a943edfa612"
+  },
+  "references": {
+    "output/s6-native-contract/contract.json": "8a03fbaafeea7ed34fa4093a765543483c3782896fb269a835b310b0ddd61a6d",
+    "output/s6-native-inventory/evidence.json": "bd93f76e0b393396abe22104f5e811e3227b65802882c3ff3fcccdde4533ea7e",
+    "output/s6-native-inventory/profile.json": "34aa8337ce5429ef5e8a611482fbb3c46ae67566b68f90afe2e3acbdcb7c9706",
+    "output/s6-scheduled-wsl/evidence.json": "1302eb484ba810b8033a677b8f37ef883ae62e4f9b3d5a31629e92bf6f5656f4"
+  },
+  "nativeExecutionAllowed": false
+}
