@@ -1,0 +1,50 @@
+{
+  "scope": "fixed-disposable-filesystem-limit-fixtures",
+  "cases": [
+    {
+      "case": "file",
+      "checks": [
+        "short-write-at-limit",
+        "write-EFBIG",
+        "truncate-EFBIG"
+      ],
+      "capless": true,
+      "noNewPrivileges": true,
+      "plainUnmountVerified": true
+    },
+    {
+      "case": "bytes",
+      "checks": [
+        "bytes-ENOSPC",
+        "blocks-exhausted-inodes-available"
+      ],
+      "capless": true,
+      "noNewPrivileges": true,
+      "plainUnmountVerified": true
+    },
+    {
+      "case": "inodes",
+      "checks": [
+        "inodes-ENOSPC",
+        "inodes-exhausted-blocks-available"
+      ],
+      "capless": true,
+      "noNewPrivileges": true,
+      "plainUnmountVerified": true
+    },
+    {
+      "case": "privilege",
+      "checks": [
+        "hard-limit-raise-refused",
+        "remount-refused",
+        "exec-EACCES"
+      ],
+      "capless": true,
+      "noNewPrivileges": true,
+      "plainUnmountVerified": true
+    }
+  ],
+  "hostMountNamespaceUnchanged": true,
+  "candidateExecuted": false,
+  "nativeExecutionAllowed": false
+}

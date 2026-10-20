@@ -1,0 +1,37 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "sourceEditsRequested": false
+    }
+  ],
+  "parentReview": "implementation-test-and-documentation-guard-pass",
+  "resolved": [
+    "per-mount-not-process-total-scope",
+    "SIGXFSZ-ignored-and-short-write-checked",
+    "pipe-report-outside-regular-file-limit",
+    "separate-byte-and-inode-mounts",
+    "actual-post-exec-capability-and-namespace-checks",
+    "supervisor-capabilities-and-ephemeral-retention-limitations-explicit",
+    "config-read-does-not-prove-final-PATH",
+    "GLM-truncate-bypass-suggestion-rejected-by-actual-EFBIG-measurement"
+  ],
+  "nativeExecutionAllowed": false
+}
