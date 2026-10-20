@@ -158,3 +158,5 @@ feasibility/s6-wsl/native-inventory/** -text whitespace=blank-at-eol,blank-at-eo
 output/s6-native-inventory/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/startup-observer/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-startup-observer/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/observed-u0/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-observed-u0/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

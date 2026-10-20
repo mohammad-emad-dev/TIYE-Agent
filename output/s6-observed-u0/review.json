@@ -1,0 +1,34 @@
+{
+  "scope": "supplied-context-design-review-not-final-source-audit",
+  "delegates": [
+    {"model": "gpt-6-luna", "effort": "max", "status": "completed", "exitCode": 0},
+    {"model": "opencode/glm-5.3-flash-free", "variant": "max", "status": "completed", "exitCode": 0},
+    {"model": "opencode/deepseek-v4.1-flash-free", "variant": "max", "status": "timeout", "exitCode": 1}
+  ],
+  "adopted": [
+    "Independent observer holds invocation/cgroup/pidfds and startup root through active and retained snapshots",
+    "Active snapshot gates readiness; retained snapshot follows witnessed group cleanup",
+    "Separate decompression, service-ledger and startup-footprint bounds",
+    "Strict bounded UTF-8 correlated response before initialized local write",
+    "Never infer peer receipt, native configuration or quota enforcement from fixture startup",
+    "Keep guardian-loss Job-null unknown even when Linux startup observations succeed"
+  ],
+  "rejectedClaims": [
+    "GLM implied exactly two records should still be sent on reply timeout; initialized must not be sent after a failed reply",
+    "GLM implied guardian loss cannot yield retained snapshot; the independent observer survives and the live case obtains that snapshot",
+    "No synthetic helper policy narrows actual same-account auth/network authority"
+  ],
+  "parentGuardPasses": {
+    "cleanCode": "Preserved the composed result emitter across the readiness interception; replaced final-state boolean argument with explicit expected verdict records; retained descriptors through independent cleanup",
+    "testGuard": "Three actual cross-OS compositions and real compressed-stream boundary checks; strict reply cases are pure validation tests rather than fabricated native responses",
+    "docsGuard": "Separated synthetic initialize from native admission, local notification write from peer receipt, and after-ready cases from unqualified pre-lease loss"
+  },
+  "stillUnqualified": [
+    "Native configuration/helper/PATH behavior, native raw protocol capture and runtime writes",
+    "Malformed oversized and timed-out replies in the live integrated service",
+    "Pre-lease owner loss, blocked writes/spawn, collector loss and durable recovery",
+    "Native OS hard deadlines, arbitrary descendants, suspension and storage failure"
+  ],
+  "nativeExecutionAllowed": false,
+  "nativeAdmissionGranted": false
+}
