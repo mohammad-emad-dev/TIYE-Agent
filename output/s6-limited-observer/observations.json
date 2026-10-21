@@ -1,0 +1,166 @@
+{
+  "scope": "synthetic-supervised-private-mount-and-retention",
+  "tests": 4,
+  "cases": [
+    {
+      "mode": "guardian-loss",
+      "scope": "synthetic-scheduled-windows-ubuntu-adapters",
+      "outcome": "unknown",
+      "cleanupVerified": false,
+      "unsettledOperations": 0,
+      "cleanupCutoffSeconds": 18.963659400003962,
+      "automaticRetryAllowed": false,
+      "nativeExecutionAllowed": false,
+      "phases": [
+        {
+          "phase": "host-start",
+          "startSeconds": 0.0001414999715052545,
+          "endSeconds": 3.2930795999709517,
+          "cutoffSeconds": 30.000100400007796,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "child-start",
+          "startSeconds": 3.2937496000085957,
+          "endSeconds": 3.310411499987822,
+          "cutoffSeconds": 18.29308889998356,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "initialize",
+          "startSeconds": 3.3104749000049196,
+          "endSeconds": 3.9636542999651283,
+          "cutoffSeconds": 18.310417799977586,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "eof",
+          "startSeconds": 3.9637057000072673,
+          "endSeconds": 3.964407099992968,
+          "cutoffSeconds": 8.963659400003962,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "observe",
+          "startSeconds": 3.9644511999795213,
+          "endSeconds": 4.247547700011637,
+          "cutoffSeconds": 18.96441109996522,
+          "completedWithinPhase": true
+        }
+      ],
+      "filesystemLimitsVerified": true,
+      "retainedSnapshotVerified": true,
+      "initializeResponseVerified": true,
+      "initializedPeerReceiptEstablished": false,
+      "candidateExecuted": false,
+      "nativeAdmissionGranted": false
+    },
+    {
+      "mode": "owner-exit",
+      "scope": "synthetic-scheduled-windows-ubuntu-adapters",
+      "outcome": "cleanup-observed",
+      "cleanupVerified": true,
+      "unsettledOperations": 0,
+      "cleanupCutoffSeconds": 15.832478400028776,
+      "automaticRetryAllowed": false,
+      "nativeExecutionAllowed": false,
+      "phases": [
+        {
+          "phase": "host-start",
+          "startSeconds": 0.00010490004206076264,
+          "endSeconds": 0.1882098000496626,
+          "cutoffSeconds": 30.000058500037994,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "child-start",
+          "startSeconds": 0.18826480000279844,
+          "endSeconds": 0.20835280005121604,
+          "cutoffSeconds": 15.188215100031812,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "initialize",
+          "startSeconds": 0.20840600004885346,
+          "endSeconds": 0.8324734000489116,
+          "cutoffSeconds": 15.208357500028796,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "eof",
+          "startSeconds": 0.8325280999997631,
+          "endSeconds": 0.8504685000516474,
+          "cutoffSeconds": 5.832478400028776,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "observe",
+          "startSeconds": 0.8505246000131592,
+          "endSeconds": 1.1784997000358999,
+          "cutoffSeconds": 15.850473800033797,
+          "completedWithinPhase": true
+        }
+      ],
+      "filesystemLimitsVerified": true,
+      "retainedSnapshotVerified": true,
+      "initializeResponseVerified": true,
+      "initializedPeerReceiptEstablished": false,
+      "candidateExecuted": false,
+      "nativeAdmissionGranted": false
+    },
+    {
+      "mode": "stall",
+      "scope": "synthetic-scheduled-windows-ubuntu-adapters",
+      "outcome": "cleanup-observed",
+      "cleanupVerified": true,
+      "unsettledOperations": 0,
+      "cleanupCutoffSeconds": 15.692526199971326,
+      "automaticRetryAllowed": false,
+      "nativeExecutionAllowed": false,
+      "phases": [
+        {
+          "phase": "host-start",
+          "startSeconds": 0.00010289996862411499,
+          "endSeconds": 0.17203800001880154,
+          "cutoffSeconds": 30.000053099996876,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "child-start",
+          "startSeconds": 0.172092100023292,
+          "endSeconds": 0.1841503999894485,
+          "cutoffSeconds": 15.172042999998666,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "initialize",
+          "startSeconds": 0.18419519998133183,
+          "endSeconds": 0.6925211999914609,
+          "cutoffSeconds": 15.184154200018384,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "eof",
+          "startSeconds": 0.692568400001619,
+          "endSeconds": 0.7022716000210494,
+          "cutoffSeconds": 5.692526199971326,
+          "completedWithinPhase": true
+        },
+        {
+          "phase": "observe",
+          "startSeconds": 0.7023150000022724,
+          "endSeconds": 5.465194299991708,
+          "cutoffSeconds": 15.702275999996345,
+          "completedWithinPhase": true
+        }
+      ],
+      "filesystemLimitsVerified": true,
+      "retainedSnapshotVerified": true,
+      "initializeResponseVerified": true,
+      "initializedPeerReceiptEstablished": false,
+      "candidateExecuted": false,
+      "nativeAdmissionGranted": false
+    }
+  ],
+  "nativeExecutionAllowed": false
+}

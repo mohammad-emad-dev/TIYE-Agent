@@ -1,0 +1,57 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "timeout",
+      "scope": "supplied-design-review-only",
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "timeout",
+      "scope": "supplied-design-review-only",
+      "sourceEditsRequested": false
+    }
+  ],
+  "parentReview": {
+    "clean-code-guard": {
+      "fixed": 3,
+      "flaggedForAuthor": 0,
+      "fixes": [
+        "close-transferred-descriptors-before-rejection",
+        "close-guard-pipe-on-spawn-failure",
+        "group-traversal-state-to-bound-parameter-count"
+      ]
+    },
+    "test-guard": "real-system-boundaries-and-specific-refusal-reasons",
+    "docs-guard": "implementation-and-observations-checked"
+  },
+  "verification": {
+    "windowsPythonModes": [
+      "normal",
+      "optimized"
+    ],
+    "developmentTestsPerRun": 4,
+    "lifecycleCasesPerRun": 3,
+    "transferRefusalScenarios": 7,
+    "retentionRefusalScenarios": 4,
+    "linuxOptimizationQualified": false,
+    "retainedCopyReopenedAfterObserverExit": true
+  },
+  "limits": [
+    "known-synthetic-post-ready-content-only",
+    "observer-loss-retention-not-qualified",
+    "no-global-disk-or-RSS-bound",
+    "guardian-loss-Windows-Job-outcome-remains-unknown"
+  ],
+  "nativeExecutionAllowed": false
+}
