@@ -1,0 +1,77 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "registered-pending-background-relay",
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "registered-pending-background-relay",
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "registered-pending-background-relay",
+      "sourceEditsRequested": false
+    }
+  ],
+  "parentReview": {
+    "clean-code-guard": {
+      "fixed": 5,
+      "flaggedForAuthor": 0,
+      "fixes": [
+        "serialize-enrollment-and-release-in-one-loop",
+        "revoke-original-authority-before-persistence",
+        "bound-complete-successor-identity-before-kernel-lookups",
+        "acknowledge-verified-enrollment-before-fault-command",
+        "recheck-live-keeper-before-and-after-held-observer-signal"
+      ]
+    },
+    "test-guard": "three-actual-observer-fault-cases-five-live-authority-refusals-per-case-and-two-boundary-tests",
+    "docs-guard": "authority-history-timing-and-scope-checked-against-source-and-observations"
+  },
+  "verification": {
+    "windowsPythonModes": [
+      "normal",
+      "optimized"
+    ],
+    "testsPerRun": 5,
+    "lifecycleCasesPerRun": 3,
+    "authorityRefusalsPerCase": 5,
+    "publicSchemaPromotionRefusals": 7,
+    "linuxOptimizationQualified": false,
+    "observerSigkillUsesPreboundPidfd": true,
+    "allSnapshotsUnknown": true,
+    "allSnapshotsCleanupUnverified": true
+  },
+  "modelSuggestionsResolved": [
+    "serialize-authority-transitions",
+    "pending-enrollment-revokes-original-release",
+    "keeper-live-before-and-after-fault",
+    "unknown-receipt-remains-immutable"
+  ],
+  "modelSuggestionsNotAdopted": [
+    {
+      "suggestion": "signed-kill-provenance-receipt",
+      "reason": "fixed-injected-fault-is-not-general-crash-attribution-and-no-production-recovery-credit-is-granted"
+    }
+  ],
+  "limits": [
+    "one-pre-enrolled-standby-only",
+    "known-synthetic-fixture-only",
+    "enrollment-interruption-and-standby-loss-not-qualified",
+    "keeper-failure-not-qualified",
+    "no-native-admission"
+  ],
+  "nativeExecutionAllowed": false
+}
