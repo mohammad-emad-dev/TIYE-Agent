@@ -1,0 +1,83 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "registered-pending-background-relay",
+      "finalReportAvailable": true,
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "failed",
+      "scope": "supplied-design-review-only",
+      "execution": "registered-pending-background-relay",
+      "finalReportAvailable": false,
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "failed",
+      "scope": "supplied-design-review-only",
+      "execution": "registered-pending-background-relay",
+      "finalReportAvailable": false,
+      "sourceEditsRequested": false
+    }
+  ],
+  "parentReview": {
+    "clean-code-guard": {
+      "fixed": 5,
+      "flaggedForAuthor": 1,
+      "fixes": [
+        "separate-live-memory-state-from-receipt-validity",
+        "validate-complete-unknown-receipt",
+        "pin-and-settle-known-fixture-sentinel",
+        "bound-private-keeper-fault-diagnostic",
+        "reject-stale-runtime-before-live-tests-and-preserve-source-cap"
+      ],
+      "remaining": [
+        "earlier-pre-fault-worker-terminal-evidence-failure-not-yet-explained"
+      ]
+    },
+    "test-guard": "three-real-interruption-cases-four-authority-refusals-per-case-and-two-boundary-tests",
+    "docs-guard": "live-state-only-scope-explicit-teardown-and-failed-attempts-checked"
+  },
+  "verification": {
+    "windowsPythonModes": [
+      "normal",
+      "optimized"
+    ],
+    "testsPerRun": 5,
+    "lifecycleCasesPerRun": 3,
+    "authorityRefusalsPerCase": 4,
+    "hostStatusMutationRefusals": 7,
+    "publicSchemaPromotionRefusals": 7,
+    "preboundRecoveryLiveRegressionTests": 5,
+    "linuxOptimizationQualified": false,
+    "allSnapshotsUnknown": true,
+    "allSnapshotsCleanupUnverified": true
+  },
+  "modelSuggestionsResolved": [
+    "live-memory-state-does-not-prove-disk-commit",
+    "pending-owner-receipt-never-marked-verified",
+    "no-authority-change-during-inspection"
+  ],
+  "modelSuggestionsDeferred": [
+    {
+      "suggestion": "generation-checksum-and-crash-durable-commit-marker",
+      "reason": "cold-restart-recovery-is-not-qualified-by-this-live-keeper-inspection"
+    }
+  ],
+  "limits": [
+    "original-observer-and-keeper-remain-alive",
+    "known-synthetic-fixtures-only",
+    "no-hardware-EIO-or-reboot-claim",
+    "pre-fault-worker-shutdown-failure-unresolved",
+    "no-native-admission"
+  ],
+  "nativeExecutionAllowed": false
+}

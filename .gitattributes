@@ -176,3 +176,5 @@ feasibility/s6-wsl/scheduled-unknown/** -text whitespace=blank-at-eol,blank-at-e
 output/s6-scheduled-unknown/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/prebound-recovery/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-prebound-recovery/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/enrollment-interruption/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-enrollment-interruption/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
