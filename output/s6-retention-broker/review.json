@@ -1,0 +1,66 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "short-foreground-without-progress-polling",
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "short-foreground-without-progress-polling",
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "short-foreground-without-progress-polling",
+      "sourceEditsRequested": false
+    }
+  ],
+  "parentReview": {
+    "clean-code-guard": {
+      "fixed": 3,
+      "flaggedForAuthor": 0,
+      "fixes": [
+        "close-all-transferred-fds-on-rejection-without-manufactured-peer-credentials",
+        "hold-uncertain-mount-across-invalid-admin-requests",
+        "arm-observer-fault-only-after-outer-pidfd-binding"
+      ]
+    },
+    "test-guard": "real-pidfd-signal-service-cleanup-and-post-exit-copy-challenge",
+    "docs-guard": "scope-and-implementation-claims-checked"
+  },
+  "verification": {
+    "windowsPythonModes": [
+      "normal",
+      "optimized"
+    ],
+    "scenariosPerRun": 3,
+    "linuxOptimizationQualified": false,
+    "copyReopenedAfterBrokerExit": true,
+    "unknownRetainedAcrossControlEof": true,
+    "invalidReleaseDoesNotDispose": true
+  },
+  "modelSuggestionsResolved": [
+    "descriptor-accepted-before-producer-ack",
+    "copy-after-worker-pidfds-and-cgroup-empty",
+    "post-cleanup-challenge-prevents-stale-copy",
+    "host-path-does-not-expose-private-mount",
+    "unknown-holder-stays-alive-until-explicit-fixed-test-release"
+  ],
+  "limits": [
+    "standalone-linux-not-Windows-Job-composition",
+    "observer-process-loss-only",
+    "broker-failure-and-owner-recovery-not-qualified",
+    "no-native-admission"
+  ],
+  "nativeExecutionAllowed": false
+}

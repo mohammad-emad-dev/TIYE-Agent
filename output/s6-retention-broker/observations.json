@@ -1,0 +1,37 @@
+{
+  "scope": "fixed-synthetic-observer-loss-broker",
+  "cases": [
+    {
+      "mode": "observer-exit",
+      "observerEndedVerified": true,
+      "serviceCleanupVerified": true,
+      "copyVerified": true,
+      "retainedAfterBrokerExit": true,
+      "unknownHeldAcrossControlEof": false,
+      "invalidReleaseRefusedWithoutDisposal": false,
+      "nativeExecutionAllowed": false
+    },
+    {
+      "mode": "observer-kill",
+      "observerEndedVerified": true,
+      "serviceCleanupVerified": true,
+      "copyVerified": true,
+      "retainedAfterBrokerExit": true,
+      "unknownHeldAcrossControlEof": false,
+      "invalidReleaseRefusedWithoutDisposal": false,
+      "nativeExecutionAllowed": false
+    },
+    {
+      "mode": "unexpected-node",
+      "observerEndedVerified": true,
+      "serviceCleanupVerified": true,
+      "copyVerified": false,
+      "retainedAfterBrokerExit": false,
+      "unknownHeldAcrossControlEof": true,
+      "invalidReleaseRefusedWithoutDisposal": true,
+      "nativeExecutionAllowed": false
+    }
+  ],
+  "candidateExecuted": false,
+  "nativeExecutionAllowed": false
+}
