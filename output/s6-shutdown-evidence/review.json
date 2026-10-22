@@ -1,0 +1,80 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "registered-pending-background-relay",
+      "finalReportAvailable": true,
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "failed",
+      "scope": "supplied-design-review-only",
+      "execution": "registered-pending-background-relay",
+      "finalReportAvailable": false,
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "failed",
+      "scope": "supplied-design-review-only",
+      "execution": "registered-pending-background-relay",
+      "finalReportAvailable": false,
+      "sourceEditsRequested": false
+    }
+  ],
+  "historicalFinding": {
+    "stopReason": "owner-exit",
+    "stopDecisionSeconds": 0.6585381999611855,
+    "deadlineSeconds": 5,
+    "rawReportSha256": "e39c5f2543610fd2facda18eabd01f968df2531decd4d92bb5c5a89dbdf51a34",
+    "exactHistoricalCauseProven": false
+  },
+  "parentReview": {
+    "clean-code-guard": {
+      "fixed": 2,
+      "flaggedForAuthor": 1,
+      "fixes": [
+        "return-closed-protocol-faults-with-last-accepted-sequence",
+        "cover-lease-and-terminal-persistence-with-unconditional-stop"
+      ],
+      "remaining": [
+        "exact-historical-failure-cause-unattributed"
+      ]
+    },
+    "test-guard": "thirteen-real-service-cases-with-original-code-control-and-kernel-file-collision",
+    "docs-guard": "scope-original-control-and-no-full-Windows-cleanup-claim-checked"
+  },
+  "verification": {
+    "windowsPythonModes": [
+      "normal",
+      "optimized"
+    ],
+    "casesPerRun": 13,
+    "protocolFaultCases": 8,
+    "normalLeaseCases": 3,
+    "originalCodeControlCases": 1,
+    "persistenceRefusalCases": 1,
+    "publicSchemaPromotionRefusals": 5,
+    "linuxOptimizationQualified": false,
+    "allOverallOutcomesUnknown": true
+  },
+  "modelSuggestionsResolved": [
+    "fault-record-does-not-grant-cleanup-credit",
+    "preserve-last-valid-sequence",
+    "unconditional-worker-stop-on-persistence-failure"
+  ],
+  "limits": [
+    "direct-service-fixture-only",
+    "full-Windows-keeper-integration-pending",
+    "read-IO-and-hardware-storage-errors-not-injected",
+    "historical-attribution-unproven",
+    "no-native-admission"
+  ],
+  "nativeExecutionAllowed": false
+}
