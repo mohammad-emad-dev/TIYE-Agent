@@ -1,0 +1,83 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": true,
+      "sourceEditsRequested": false,
+      "resultSha256": "87bd09077b1ed8aa0897fc9c8da5b96b0431ef5d7cc83f7490b89c87502bebfc"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "failed",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": false,
+      "sourceEditsRequested": false,
+      "resultSha256": "978b72c1323bdf5e95a57a9842637a96475d416b04220eec54e53cc234a0fc4e"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "failed",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": false,
+      "sourceEditsRequested": false,
+      "resultSha256": "4878cd6dc29bf3483eaa9d5004d557586b5a09f060552768b1daeb8e219ebbb3"
+    }
+  ],
+  "parentReview": {
+    "clean-code-guard": {
+      "fixed": 3,
+      "flaggedForAuthor": 2,
+      "fixes": [
+        "normal-terminal-verifier-gates-retention",
+        "unknown-receipt-or-channel-failure-preserves-custody",
+        "narrow-empty-Job-race-validation-keeps-observed-root-status"
+      ],
+      "remaining": [
+        "unqualified-terminal-and-receipt-failure-injection",
+        "initial-failed-attempt-ownership-not-requalified"
+      ]
+    },
+    "test-guard": "five-real-Windows-schedules-and-two-boundary-tests-in-both-host-Python-modes",
+    "docs-guard": "protocol-diagnostics-unknown-custody-and-unqualified-recovery-scopes-checked"
+  },
+  "verification": {
+    "windowsPythonModes": [
+      "normal",
+      "optimized"
+    ],
+    "testsPerRun": 7,
+    "liveCasesPerRun": 5,
+    "protocolFaultCasesPerRun": 3,
+    "normalControlCasesPerRun": 2,
+    "publicSchemaMutationRefusals": 12,
+    "selectedObservationSha256ByMode": {
+      "normal": "7eada657dc375cabcfe153e7ce8ca81079b63557e704e1249b499ff87e33db06",
+      "optimized": "33737ed79647fe3ffa62c7649f875dba065d40ac62a16a1e8c1da6e2fb124ed9"
+    },
+    "allOverallOutcomesUnknown": true,
+    "explicitFixtureDisposalDoesNotGrantCleanupCredit": true,
+    "linuxOptimizationQualified": false
+  },
+  "initialFailedQualification": {
+    "failedCases": 2,
+    "cause": "guardian-job-empty-observed-before-owner-exit-branch",
+    "protocolFaultReportsObserved": true,
+    "teardownCredited": false,
+    "remainingOwnershipRequalified": false,
+    "diagnosticsRetainedLocally": true
+  },
+  "limits": [
+    "missing-and-invalid-terminal-file-injection-not-performed-in-this-cohort",
+    "unknown-receipt-and-channel-IO-faults-not-injected",
+    "prebound-recovery-enrollment-not-requalified",
+    "historical-failure-attribution-unproven",
+    "keeper-loss-and-reboot-recovery-unqualified",
+    "no-native-admission"
+  ],
+  "nativeExecutionAllowed": false
+}

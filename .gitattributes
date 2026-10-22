@@ -180,3 +180,5 @@ feasibility/s6-wsl/enrollment-interruption/** -text whitespace=blank-at-eol,blan
 output/s6-enrollment-interruption/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/shutdown-evidence/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-shutdown-evidence/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/supervised-shutdown/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-supervised-shutdown/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
