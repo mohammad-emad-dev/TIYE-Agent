@@ -1,0 +1,69 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "short-foreground-without-progress-polling",
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "short-foreground-without-progress-polling",
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "short-foreground-without-progress-polling",
+      "sourceEditsRequested": false
+    }
+  ],
+  "parentReview": {
+    "clean-code-guard": {
+      "fixed": 3,
+      "flaggedForAuthor": 0,
+      "fixes": [
+        "close-partially-bound-recovery-descriptors",
+        "independently-bind-service-invocation-and-worker-pidfds",
+        "correlate-recovery-acknowledgements-and-reject-unexpected-stderr"
+      ]
+    },
+    "test-guard": "four-real-lifecycle-cases-and-five-specific-receipt-refusals",
+    "docs-guard": "implementation-scope-and-observation-claims-checked"
+  },
+  "verification": {
+    "windowsPythonModes": [
+      "normal",
+      "optimized"
+    ],
+    "testsPerRun": 5,
+    "lifecycleCasesPerRun": 4,
+    "receiptRefusalVariants": 5,
+    "linuxOptimizationQualified": false,
+    "observerSigkillUsesPreboundPidfd": true,
+    "recoveryIndependentlyHoldsWorkerPidfds": true,
+    "copyReopenedAfterVerifierExit": true,
+    "guardianLossWindowsJobRemainsUnknown": true
+  },
+  "modelSuggestionsResolved": [
+    "keeper-owns-mount-before-producer-ack",
+    "actual-observer-exit-and-live-keeper-before-killed-ack",
+    "identity-and-invocation-bound-receipt-after-held-keeper-exit",
+    "independent-copy-and-cgroup-checks-before-exclusive-audit",
+    "actual-Windows-Job-and-held-process-checks"
+  ],
+  "limits": [
+    "known-synthetic-content-only",
+    "unknown-holding-not-yet-integrated",
+    "keeper-and-recovery-witness-failures-not-qualified",
+    "no-native-admission"
+  ],
+  "nativeExecutionAllowed": false
+}
