@@ -172,3 +172,5 @@ output/s6-supervised-broker/** -text whitespace=blank-at-eol,blank-at-eof,space-
 feasibility/s6-wsl/unknown-keeper/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 
 output/s6-unknown-keeper/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/scheduled-unknown/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-scheduled-unknown/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -1,0 +1,78 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "registered-pending-background-relay",
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "registered-pending-background-relay",
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "registered-pending-background-relay",
+      "sourceEditsRequested": false
+    }
+  ],
+  "parentReview": {
+    "clean-code-guard": {
+      "fixed": 5,
+      "flaggedForAuthor": 0,
+      "fixes": [
+        "explicit-disposal-precedes-final-close",
+        "live-custody-probes-before-and-after-observer-mount-close",
+        "unconfirmed-observer-exit-cannot-authorize-final-close",
+        "strict-identity-and-boolean-result-bindings",
+        "bounded-framed-disposal-input"
+      ]
+    },
+    "test-guard": "three-real-OS-lifecycle-cases-and-two-boundary-tests",
+    "docs-guard": "scope-timing-ownership-and-nonclaims-checked-against-code"
+  },
+  "verification": {
+    "windowsPythonModes": [
+      "normal",
+      "optimized"
+    ],
+    "testsPerRun": 5,
+    "lifecycleCasesPerRun": 3,
+    "resultRefusalVariants": 12,
+    "publicSchemaPromotionRefusals": 7,
+    "linuxOptimizationQualified": false,
+    "allSnapshotsUnknown": true,
+    "allSnapshotsCleanupUnverified": true,
+    "disposalOutsideCreditedSchedule": true
+  },
+  "modelSuggestionsResolved": [
+    "two-stage-disposal-and-close",
+    "recheck-live-bound-custody"
+  ],
+  "modelSuggestionsNotAdopted": [
+    {
+      "suggestion": "force-final-drain-for-any-live-holder",
+      "reason": "unqualified-ownership-cannot-authorize-disposal"
+    },
+    {
+      "suggestion": "durable-custody-across-keeper-failure",
+      "reason": "existing-producer-handoff-plus-live-probes-are-observed-but-keeper-failure-remains-unqualified"
+    }
+  ],
+  "limits": [
+    "known-synthetic-unexpected-inventory-only",
+    "original-observer-alive",
+    "replacement-owner-and-keeper-failure-not-qualified",
+    "no-native-admission"
+  ],
+  "nativeExecutionAllowed": false
+}
