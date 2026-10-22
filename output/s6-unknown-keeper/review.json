@@ -1,0 +1,62 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "execution": "short-foreground-without-progress-polling",
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "timeout",
+      "scope": "supplied-design-review-only",
+      "execution": "short-foreground-without-progress-polling",
+      "sourceEditsRequested": false
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "timeout",
+      "scope": "supplied-design-review-only",
+      "execution": "short-foreground-without-progress-polling",
+      "sourceEditsRequested": false
+    }
+  ],
+  "parentReview": {
+    "clean-code-guard": {
+      "fixed": 3,
+      "flaggedForAuthor": 0,
+      "fixes": [
+        "recheck-pinned-observer-liveness-before-release",
+        "retain-mount-on-receipt-or-control-write-failure",
+        "bind-selected-sealed-helper-sources"
+      ]
+    },
+    "test-guard": "actual-service-and-keeper-lifecycle-with-reconnect-and-negative-release-requests",
+    "docs-guard": "claims-checked-against-code-and-selected-observations"
+  },
+  "verification": {
+    "windowsPythonModes": [
+      "normal",
+      "optimized"
+    ],
+    "linuxCasesPerRun": 2,
+    "linuxOptimizationQualified": false,
+    "sealedSupervisedRegressionTests": 5,
+    "publicSchemaPromotionRefusals": 3
+  },
+  "modelSuggestionsResolved": [
+    "original-observer-pidfd-and-full-identity-rechecked-before-release"
+  ],
+  "limits": [
+    "fixed-synthetic-unexpected-inventory-only",
+    "windows-unknown-propagation-not-qualified",
+    "observer-loss-unknown-recovery-not-qualified",
+    "keeper-failure-not-qualified",
+    "no-native-admission"
+  ],
+  "nativeExecutionAllowed": false
+}

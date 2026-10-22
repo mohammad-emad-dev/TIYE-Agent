@@ -1,0 +1,25 @@
+{
+  "scope": "fixed-supervised-unknown-keeper",
+  "cases": [
+    {
+      "mode": "retained",
+      "serviceCleanupVerified": true,
+      "copyVerified": true,
+      "unknownHeldAcrossControlEof": false,
+      "invalidRequestsRefused": false,
+      "explicitFixtureDisposal": false,
+      "outcome": "retained"
+    },
+    {
+      "mode": "refused",
+      "serviceCleanupVerified": true,
+      "copyVerified": false,
+      "unknownHeldAcrossControlEof": true,
+      "invalidRequestsRefused": true,
+      "explicitFixtureDisposal": true,
+      "outcome": "unknown"
+    }
+  ],
+  "candidateExecuted": false,
+  "nativeExecutionAllowed": false
+}

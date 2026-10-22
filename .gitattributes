@@ -168,3 +168,7 @@ feasibility/s6-wsl/retention-broker/** -text whitespace=blank-at-eol,blank-at-eo
 output/s6-retention-broker/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/supervised-broker/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-supervised-broker/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+feasibility/s6-wsl/unknown-keeper/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+output/s6-unknown-keeper/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
