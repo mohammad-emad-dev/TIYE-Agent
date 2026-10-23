@@ -215,3 +215,4 @@ output/phase2a-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-befo
 output/phase2a-session/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 
 output/phase2a-inboxes/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/phase2a-stop/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

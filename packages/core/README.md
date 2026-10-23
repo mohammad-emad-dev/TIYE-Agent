@@ -238,15 +238,17 @@ The owner approved bounded internal engine construction at proposal `8f2d0a2`;
 the [approval record](../../output/phase2a-approval/README.md) activates that scope.
 This first component adds a durable session/roster only; the full engine is still
 under construction. Its inbox/planning extension is described below; engine
-dispatch, reporting and stop/recovery are not yet admitted.
+dispatch, reporting and interrupted-attempt recovery are not yet admitted.
+Logical stop of undispatched work is described below.
 
 - `TaskStore.createEngine(directory)` creates fresh schema 3 with the existing
   command/event/task/effect/approval tables plus a sessions projection table.
   `openEngine(directory)` requires that exact version; ordinary create/open still
   use schema 2. There is no automatic migration, reset or downgrade.
-- `store.owner()` returns a frozen coordinator handle with `createSession(bytes)`
-  and `session()`. Creation returns durable accepted/rejected; session returns a
-  fresh roster snapshot or null. One accepted roster is allowed per database.
+- `store.owner()` returns a frozen coordinator handle with `createSession(bytes)`,
+  `stop(bytes)` and `session()`. Creation returns durable accepted/rejected;
+  session returns a fresh roster snapshot or null. One accepted roster is allowed
+  per database.
 - `store.member(memberId)` returns a frozen handle with `context()` bound to a
   member in the accepted roster. It exposes that member's identity, name,
   instructions, session ID and leader/member role, with no owner operation or raw
@@ -261,12 +263,14 @@ are specified in the [source-reviewed execution plan](../../output/phase2a-sessi
 Its wire grammar requires compact canonical JSON rather than the task-create
 lexer's whitespace/numeric alias allowances. Both text validators share the same
 Unicode/byte bounds. A session reserves one event for future logical stop; this
-component does not implement stop or the later assignment-capacity budget.
+foundation originally held this slot without implementing stop. The extensions
+below add assignment budgets and logical stop.
 
 See [session verification](../../output/phase2a-session/README.md). Fresh schema 3
 and schema 2 use the same owner/lease, storage validation, replay and effect code;
 there is no independent engine writer. The inbox/planning extension adds logical
-reservations; dispatch, result reporting and stop/recovery remain ahead. Full integration
+reservations and logical stop; dispatch, result reporting and interrupted-attempt
+recovery remain ahead. Full integration
 and release remain HOLD.
 
 ### Durable inboxes and planning reservations
@@ -294,22 +298,57 @@ existing task projection. Session-only schema 3 roots keep their table layout;
 old source refuses the new inbox event types. Snapshot adds derived `assignments`.
 
 **This component admits planning only.** Assigned-effect claim/cancel/settle/resolve
-mutations are refused while engine stop, recovery and terminal handling remain
-unqualified. Approval may label an active reservation `running`, meaning logical
+mutations are refused while interrupted-attempt recovery and report handling
+remain unqualified. Approval may label an active reservation `running`, meaning logical
 admitted work only; it is never proof of dispatch or CLI activity. Registry states
-cannot authorize an action. Every assigned effect stays planned, and no slot is
-released automatically. Unassigned legacy effects keep their prior qualified
+cannot authorize an action. Every assigned effect stays planned until owner stop
+cancels it. Approval never releases a slot. Unassigned legacy effects keep their prior qualified
 lifecycle. Raw planning entry points cannot attach another effect to assigned tasks.
 
 Each accepted enqueue holds eight future events; start and a new exact approval
 consume one each. Assigned effects are excluded from legacy effect reserves to
 avoid double counting. Every append must fit event count + assignment budgets +
-unassigned effect reserves + one session-stop slot <= 1,000. Rejected requests
+unassigned effect reserves + one active-session stop slot <= 1,000. Rejected requests
 consume only unreserved space or refuse admission; they cannot spend held budget.
 Exact redelivery remains available at capacity. The lifetime ceiling is 100
-assignments, but capacity can bind earlier while terminal budget release is absent.
+assignments, including closed assignments; capacity can bind earlier.
 
 The exact DTO/hash contract, source review and tests are in the
 [inbox execution plan](../../output/phase2a-inboxes/TEST-PLAN.md) and
 [verification summary](../../output/phase2a-inboxes/README.md). Full Phase 2A is
 still in progress; existing approval covers its remaining stop/recovery/result work.
+
+### Logical stop of undispatched session work
+
+The coordinator's frozen owner handle exposes `stop(bytes)`. Its exact DTO is
+`{type:"team.session.stop",version:1,commandId,sessionId}`. IDs are canonical UUID-v4;
+wire input uses the same compact canonical JSON and 16 KiB bound as other engine
+commands. Actor is bound to `owner`, with no wire authority field or member/scheduler
+stop method. The SHA-256 hash covers UTF-8 JSON of
+`["team.session.stop",1,"owner",commandId,sessionId]` without a trailing newline.
+
+Only an existing active session accepts a new stop command. One event changes
+the session to `stopped`, cancels all its queued tasks and planned effects/tasks,
+marks their assignments `closed:true`, and sets their remaining event budgets to
+zero. These writes commit with the command decision in the existing transaction.
+Assignment rows remain in event-derived history and count toward the lifetime cap;
+closed rows disappear from inbox and active-reservation views. The immutable
+session cannot restart or be replaced in that database.
+
+The reserved active-session stop slot is released by that event, so stop can
+commit as event 1,000. A new command for an unknown or stopped session durably
+rejects only if unreserved space exists; otherwise admission throws without a
+decision. Exact redelivery returns its original accepted/rejected result first,
+including earlier enqueue/start decisions after stop and stop at full capacity.
+Reusing an ID with a changed payload or command type throws. Approval has no
+command ID; cancelled effects refuse both first approval and approval retries.
+
+New enqueue/start and raw approval/claim cannot revive stopped assignments.
+The reducer requires every assignment being closed to be queued or have a planned
+effect. Dispatched assigned effects remain impossible in this component; future
+uncertain-attempt stop handling must preserve reservations rather than use this
+undispatched closure rule. Existing schema 2 behavior is unchanged. Reopen only
+replays; it never dispatches. Old readers refuse the new stop event vocabulary;
+there is no migration or downgrade support. See the
+[stop execution plan](../../output/phase2a-stop/TEST-PLAN.md) and
+[verification](../../output/phase2a-stop/README.md).

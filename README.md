@@ -27,8 +27,10 @@ review and preflight remain required before execution.
 The [first Phase 2A component](output/phase2a-session/README.md) implements durable
 session creation and bound roster contexts in fresh schema 3 stores. The
 [durable inbox component](output/phase2a-inboxes/README.md) adds per-member FIFO
-queues and atomic planning reservations with concurrency limits. Assigned dispatch,
-result reporting and stop/recovery remain under construction.
+queues and atomic planning reservations with concurrency limits. The
+[session stop component](output/phase2a-stop/README.md) atomically cancels queued
+and planned assignments and closes new session admission. Assigned dispatch,
+result reporting and interrupted-attempt recovery remain under construction.
 This supersedes the historical unimplemented-core and pending-construction wording
 for this bounded slice only. Team engine, real effects, full integration and release
 remain outside its scope; provider/native gates are unchanged. The original

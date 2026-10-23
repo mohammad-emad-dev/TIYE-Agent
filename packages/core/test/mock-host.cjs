@@ -34,6 +34,7 @@ input.on('line', line => {
   else if (request.op === 'registry') result = store.registry();
   else if (request.op === 'sessionCreate') result = store.owner().createSession(Buffer.from(JSON.stringify(request.command)));
   else if (request.op === 'sessionSnapshot') result = store.owner().session();
+  else if (request.op === 'sessionStop') result = store.owner().stop(Buffer.from(JSON.stringify(request.command)));
   else if (request.op === 'enqueue') result = store.member(store.owner().session().leaderId).enqueue(Buffer.from(JSON.stringify(request.command)));
   else if (request.op === 'startTask') result = store.scheduler().start(Buffer.from(JSON.stringify(request.command)));
   else if (request.op === 'inboxes') result = store.scheduler().inboxes();

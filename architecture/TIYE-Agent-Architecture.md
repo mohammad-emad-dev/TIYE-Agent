@@ -1499,8 +1499,11 @@ implements durable roster creation in fresh schema 3 using the shared core write
 The [inbox/planning component](../output/phase2a-inboxes/README.md) adds durable FIFO
 assignments and atomic effect-plan reservations with member/global concurrency caps.
 Assignments are event-derived in the same database; task views are replay-checked.
-Assigned dispatch stays blocked until stop/recovery and terminal handling qualify.
-Reports and the complete engine lifecycle are not yet implemented.
+The [session stop component](../output/phase2a-stop/README.md) closes queued and
+planned assignments atomically, preserves lifetime history and blocks further
+session admission. Its stop slot remains available at the 1,000-event ceiling.
+Assigned dispatch stays blocked until recovery and report handling qualify.
+Reports and interrupted-attempt recovery are not yet implemented.
 The full Phase 2A exit review remains pending.
 
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)

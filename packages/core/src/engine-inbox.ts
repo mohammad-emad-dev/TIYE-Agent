@@ -6,7 +6,7 @@ import type { MockEffect, MockProjection, TaskState } from './effects-model';
 
 export interface Assignment {
   sessionId: string; taskId: string; memberId: string; enqueueSequence: number;
-  effectId: string | null; remainingEvents: number;
+  effectId: string | null; remainingEvents: number; closed: boolean;
 }
 export interface MemberInbox { memberId: string; queuedTaskIds: string[]; activeTaskId: string | null }
 export interface EngineScheduler {
@@ -69,8 +69,8 @@ export function inboxDecision(command: InboxCommand, actor: string, context: Inb
     && context.tasks.get(command.taskId) === 'created' && !context.assignments.has(command.taskId)
     && context.assignments.size < 100 ? 'accepted' : 'rejected';
   const assignments = [...context.assignments.values()], assignment = context.assignments.get(command.taskId);
-  const first = assignments.find(row => row.memberId === command.memberId && row.effectId === null);
-  const active = assignments.filter(row => row.effectId !== null);
+  const first = assignments.find(row => !row.closed && row.memberId === command.memberId && row.effectId === null);
+  const active = assignments.filter(row => !row.closed && row.effectId !== null);
   return actor === 'scheduler' && assignment?.sessionId === command.sessionId && assignment.memberId === command.memberId
     && first?.taskId === command.taskId && assignment.effectId === null && context.tasks.get(command.taskId) === 'queued'
     && !active.some(row => row.memberId === command.memberId) && active.length < session.maxConcurrent
@@ -91,7 +91,7 @@ export function reduceInbox(body: unknown, sequence: number, context: InboxConte
   if (result === 'rejected') return;
   if (command.type === 'team.task.enqueue') {
     context.assignments.set(command.taskId, { sessionId: command.sessionId, taskId: command.taskId,
-      memberId: command.memberId, enqueueSequence: sequence, effectId: null, remainingEvents: 8 });
+      memberId: command.memberId, enqueueSequence: sequence, effectId: null, remainingEvents: 8, closed: false });
     context.tasks.set(command.taskId, 'queued');
   } else {
     const assignment = context.assignments.get(command.taskId)!;
@@ -103,6 +103,6 @@ export function reduceInbox(body: unknown, sequence: number, context: InboxConte
 
 export function memberInboxes(session: EngineSession | undefined, assignments: Assignment[]): MemberInbox[] {
   return session?.members.map(member => ({ memberId: member.memberId,
-    queuedTaskIds: assignments.filter(row => row.memberId === member.memberId && row.effectId === null).map(row => row.taskId),
-    activeTaskId: assignments.find(row => row.memberId === member.memberId && row.effectId !== null)?.taskId ?? null })) ?? [];
+    queuedTaskIds: assignments.filter(row => !row.closed && row.memberId === member.memberId && row.effectId === null).map(row => row.taskId),
+    activeTaskId: assignments.find(row => !row.closed && row.memberId === member.memberId && row.effectId !== null)?.taskId ?? null })) ?? [];
 }

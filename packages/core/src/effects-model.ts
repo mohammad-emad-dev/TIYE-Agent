@@ -4,6 +4,7 @@ import { hashRecord } from './record';
 import { MockPlan, validatePlan, planHash, taskPlanHash, invocation, approvalBinding } from './mock-plan';
 export { MockPlan, Invocation, validatePlan, planHash, taskPlanHash, invocation, approvalBinding } from './mock-plan';
 import { Assignment, reduceInbox } from './engine-inbox';
+import { reduceStop } from './engine-stop';
 export { hashRecord } from './record';
 
 export type EffectState = 'planned' | 'dispatching' | 'completed' | 'needs_attention' | 'cancelled' | 'abandoned';
@@ -143,6 +144,11 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
       reduceSession(body, { commands, sessions });
       continue;
     }
+    if (event.type === 'team.session.stop') {
+      requireCore(engine, 'engine-event-in-schema2');
+      reduceStop(body, { commands, sessions, tasks, effects, assignments });
+      continue;
+    }
     if (event.type === 'task.create') {
       const command = validateCommand(body);
       requireCore(!commands.has(command.commandId), 'duplicate-task-command');
@@ -180,6 +186,7 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
         && !approvals.has(effect.plan.effectId), 'invalid-mock-approval');
       approvals.set(effect.plan.effectId, request.binding as string);
       if (assignment) {
+        requireCore(!assignment.closed && sessions.get(assignment.sessionId)?.status === 'active', 'stopped-assignment');
         requireCore(assignment.remainingEvents > 0, 'assignment-budget-exhausted');
         assignment.remainingEvents--; tasks.set(effect.plan.taskId, 'running');
       }

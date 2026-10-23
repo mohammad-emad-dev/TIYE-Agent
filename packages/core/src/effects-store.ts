@@ -9,6 +9,7 @@ import { configure } from './store';
 import { databasePath, reserveFreshDatabase, RootIdentity, storageRoot, verifyRoot } from './storage';
 import { decodeSession, EngineMemberHandle, EngineOwner, sessionHash } from './engine-session';
 import { decodeInbox, EngineScheduler, inboxContext, inboxDecision, inboxHash, InboxCommand, memberInboxes } from './engine-inbox';
+import { decodeStop, stopDecision, stopHash } from './engine-stop';
 
 const LIMIT = 1000;
 const APPLICATION_ID = 0x54495946;
@@ -106,6 +107,7 @@ export class MockEffectStore {
     requireCore(this.#version === 3, 'engine-root-required');
     this.snapshot();
     return Object.freeze({ createSession: (bytes: Uint8Array) => this.#createSession(bytes),
+      stop: (bytes: Uint8Array) => this.#stopSession(bytes),
       session: () => this.snapshot().sessions?.[0]?.[1] ?? null });
   }
 
@@ -153,6 +155,16 @@ export class MockEffectStore {
     const result = projection.sessions!.length === 0 ? 'accepted' : 'rejected';
     this.append('team.session.create', { command, actor: 'owner', result });
     return result;
+  }
+
+  #stopSession(bytes: Uint8Array): 'accepted' | 'rejected' {
+    const command = decodeStop(bytes), projection = this.snapshot();
+    const previous = projection.commands.find(([id]) => id === command.commandId);
+    if (previous) {
+      requireCore(previous[1].hash === stopHash(command), 'mock-command-conflict'); return previous[1].result;
+    }
+    const result = stopDecision(command, inboxContext(projection));
+    this.append('team.session.stop', { command, actor: 'owner', result }); return result;
   }
 
   execute(bytes: Uint8Array): Decision {
@@ -248,7 +260,7 @@ export class MockEffectStore {
     requireCore(history.length < LIMIT, 'mock-history-limit');
     const event = { sequence: history.length + 1, type, body: JSON.stringify(body) };
     const projection = replayMock([...history, event], this.#version === 3);
-    const sessionStopReserve = projection.sessions?.length ? 1 : 0;
+    const sessionStopReserve = projection.sessions?.some(([, session]) => session.status === 'active') ? 1 : 0;
     requireCore(history.length + 1 + reservedEvents(projection) + sessionStopReserve <= LIMIT, 'mock-reserved-history-limit');
     this.#database.exec('BEGIN IMMEDIATE');
     try {

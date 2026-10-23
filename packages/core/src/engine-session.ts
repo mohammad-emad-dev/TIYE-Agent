@@ -4,7 +4,7 @@ import type { MemberInbox } from './engine-inbox';
 
 export interface EngineMember { memberId: string; name: string; instructions: string }
 export interface EngineSession {
-  sessionId: string; leaderId: string; members: EngineMember[]; maxConcurrent: number; status: 'active';
+  sessionId: string; leaderId: string; members: EngineMember[]; maxConcurrent: number; status: 'active' | 'stopped';
 }
 export interface CreateSession {
   type: 'team.session.create'; version: 1; commandId: string; sessionId: string;
@@ -12,6 +12,7 @@ export interface CreateSession {
 }
 export interface EngineOwner {
   createSession(bytes: Uint8Array): 'accepted' | 'rejected';
+  stop(bytes: Uint8Array): 'accepted' | 'rejected';
   session(): EngineSession | null;
 }
 export interface MemberContext extends EngineMember { sessionId: string; role: 'leader' | 'member' }
