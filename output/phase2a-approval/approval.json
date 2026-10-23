@@ -1,0 +1,17 @@
+{
+  "schema": "tiye-phase2a-approval-v1",
+  "date": "2026-10-23",
+  "authority": "project-owner-explicit-chat-response",
+  "response": "Approve the internal Phase 2A amendment",
+  "proposalCommit": "8f2d0a2",
+  "proposalArtifacts": {
+    "output/team-engine-entry/AMENDMENT.md": "af0b8dd616f646dc9a916c87d7096b719559f6caeca2aa56517e2da8e37c2c34",
+    "output/team-engine-entry/CONTRACT.md": "037a543b50c5f2b04655dd9b33d41dd145c481be583151ba0775d1aed64af907"
+  },
+  "scope": "INTERNAL_PHASE2A_SYNTHETIC_ONLY",
+  "developmentAuthorized": true,
+  "executionRequiresParentSourceReview": true,
+  "nativeProviderExecutionAllowed": false,
+  "releaseAllowed": false,
+  "fullIntegrationReadiness": "HOLD"
+}

@@ -1480,6 +1480,22 @@ namespace and event-backed titles. It does not merge or migrate older roots.
 Production dispatch, database migration, team engine and dependent integration
 work remain outstanding. This does not close any native/provider or release gate.
 
+**Approved internal Phase 2A construction, 23 October 2026.** The owner approved
+the [frozen Phase 2A amendment](../output/team-engine-entry/AMENDMENT.md) and its
+[bounded contract](../output/team-engine-entry/CONTRACT.md) at `8f2d0a2` through an
+[explicit recorded response](../output/phase2a-approval/README.md). After acceptance
+of the shared core at `ab8da5f`, internal construction may implement the headless
+synthetic engine: one immutable roster, durable FIFO inboxes, bounded concurrent
+reservations, explicit fixture results, logical stop and deterministic recovery.
+Commands, reservations and synthetic plans share one database transaction and
+ledger. Only the existing fixed owned core/witness test composition may execute,
+after parent review of actual source and a source-bound preflight. No migration,
+generic dispatcher, new executable, provider/native CLI, terminal, MCP/network
+server, credentials, real project actions, Git, exports, licensing or release
+is admitted. The exception ends at the Phase 2A exit review. Feasibility and
+release gates remain required for dependent integration; the complete product
+scope is unchanged. Engine implementation and its exit evidence remain pending.
+
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and

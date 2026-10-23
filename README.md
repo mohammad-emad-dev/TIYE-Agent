@@ -20,9 +20,10 @@ The [shared registry](output/task-registry/README.md) now creates tasks and atta
 synthetic effects in one store, with a common command namespace and event-backed
 task titles. This is the core basis for later team orchestration; no migration or
 team engine is implemented yet.
-The [Phase 2A engine entry proposal](output/team-engine-entry/README.md) is ready
-for explicit owner approval under Architecture 11.2. It defines the first bounded
-synthetic engine slice; engine implementation has not started.
+The owner [approved Phase 2A construction](output/phase2a-approval/README.md)
+against the frozen [engine entry contract](output/team-engine-entry/CONTRACT.md).
+The bounded synthetic engine is now authorized for development; actual source
+review and preflight remain required before execution.
 This supersedes the historical unimplemented-core and pending-construction wording
 for this bounded slice only. Team engine, real effects, full integration and release
 remain outside its scope; provider/native gates are unchanged. The original
