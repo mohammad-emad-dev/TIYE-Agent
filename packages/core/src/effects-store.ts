@@ -1,8 +1,10 @@
 import Database from 'better-sqlite3/win32-x64';
 import { randomUUID } from 'node:crypto';
-import { requireCore, UUID } from './command';
+import { commandHash, decodeCommand, requireCore, UUID } from './command';
+import { Decision, decisionFor } from './replay';
 import { approvalBinding, Attention, Invocation, invocation, matchesWitness, MockEffect, MockEvent, MockProjection,
-  normalizedProof, planHash, replayMock, reservedEvents, resolutionHash, resolutionProof, validatePlan, validateResolution } from './effects-model';
+  normalizedProof, planHash, replayMock, reservedEvents, resolutionHash, resolutionProof, taskPlanHash, taskRegistry,
+  TaskRecord, validatePlan, validateResolution } from './effects-model';
 import { configure } from './store';
 import { databasePath, reserveFreshDatabase, RootIdentity, storageRoot, verifyRoot } from './storage';
 
@@ -85,14 +87,32 @@ export class MockEffectStore {
     return validated(this.#database);
   }
 
-  plan(candidate: unknown): 'accepted' | 'rejected' {
+  execute(bytes: Uint8Array): Decision {
+    const command = decodeCommand(bytes);
+    const previous = this.snapshot().commands.find(([id]) => id === command.commandId);
+    if (previous) {
+      requireCore(previous[1].hash === commandHash(command), 'mock-command-conflict');
+      return decisionFor(command, previous[1].result === 'rejected');
+    }
+    const result = this.append('task.create', command).commands.at(-1)![1].result;
+    return decisionFor(command, result === 'rejected');
+  }
+
+  registry(): TaskRecord[] { return taskRegistry(this.snapshot(), events(this.#database)); }
+
+  plan(candidate: unknown): 'accepted' | 'rejected' { return this.commitPlan(candidate, 'plan'); }
+
+  planForTask(candidate: unknown): 'accepted' | 'rejected' { return this.commitPlan(candidate, 'task.plan'); }
+
+  private commitPlan(candidate: unknown, type: 'plan' | 'task.plan'): 'accepted' | 'rejected' {
     const plan = validatePlan(candidate);
+    const hash = type === 'plan' ? planHash(plan) : taskPlanHash(plan);
     const previous = this.snapshot().commands.find(([id]) => id === plan.commandId);
     if (previous) {
-      requireCore(previous[1].hash === planHash(plan), 'mock-command-conflict');
+      requireCore(previous[1].hash === hash, 'mock-command-conflict');
       return previous[1].result;
     }
-    return this.append('plan', plan).commands.at(-1)![1].result;
+    return this.append(type, plan).commands.at(-1)![1].result;
   }
 
   approve(effectId: string, binding: string): void {

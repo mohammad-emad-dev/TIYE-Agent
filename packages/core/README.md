@@ -87,7 +87,7 @@ supervision is not qualified by these controlled child crashes.
 `MockEffectStore.create(directory)` and `.open(directory)` use a separate fresh
 schema 2 database with the same private-root requirements. Schema 1 remains
 supported by `CoreStore`; the two stores refuse each other's databases. No
-migration or shared live task registry is implemented. Schema 2 stores command
+migration or shared registry across schema 1 roots is implemented. Schema 2 stores command
 decisions, events and replay-checked task/effect/approval projections atomically.
 History is bounded to 1,000 events; projection writes rebuild the bounded tables.
 
@@ -184,3 +184,50 @@ Reserved capacity does not qualify throughput or unbounded retention.
 
 The [resolution evidence](../../output/attention-resolution/README.md) records
 source review before execution and actual SQLite/process recovery checks.
+
+### Shared task and effect registry
+
+`TaskStore` is the preferred public name for the same class as `MockEffectStore`.
+It uses the same schema 2 connection and lifecycle methods; it is not a wrapper,
+second database or migration of `CoreStore`. `CoreStore` schema 1 and all previous
+mock entry points remain supported within their historical contracts.
+
+- `execute(bytes)` accepts the strict `task.create` v1 byte grammar described
+  above, including the original ordered-array hash and `Decision` return shape.
+  It commits a command decision and `task.create` event; only accepted creation
+  inserts task state `created`. Duplicate task IDs durably reject without altering
+  a task or title. Exact command redelivery returns its original decision, even
+  after task state changes. Titles remain immutable in accepted creation events.
+- `planForTask(candidate)` accepts the same exact `MockPlan` fields as `plan`, but
+  requires an existing task in `created`. Its `task.plan` event atomically attaches
+  the effect and changes that task to `planned`. Effect/attempt IDs remain unique
+  across both planning entry points. A missing task, non-created state or reused
+  effect/attempt commits a rejected decision without a task/effect transition.
+  Each task admits at most one effect in this slice, including after closure.
+- The new planning hash uses the ordered JSON array
+  `["task.mock.plan",1,commandId,taskId,effectId,attemptId,targetId,payload,expiresAt]`.
+  Encoding follows the existing UTF-8 SHA-256 contract. `plan` retains its original
+  `mock.plan` domain and auto-creation behavior; it rejects any existing task ID.
+  The same command ID cannot move between creation, either planning path or
+  resolution. Type-bound hash mismatch throws without an event. Durable semantic
+  rejections each consume one event, so replay can recover their original result.
+- `registry()` returns `{taskId,title,state,effectId}` rows in accepted task
+  insertion order, derived from validated event/projection order. Created tasks
+  have their exact title and initially no effect. Legacy auto-planned tasks have
+  title `null`; rejected creates/plans never supply titles or registry rows.
+  Lifecycle changes appear in this same view, without a cache or second writer.
+
+All event, command and materialized projection writes use one SQLite transaction.
+Titles are event-backed; startup replays their command hashes and refuses drift.
+Public methods are synchronous and contain no asynchronous yield or callback;
+the trusted coordinator serializes calls on its owned instance. Sharing a live
+connection with worker threads or hostile reentrant input objects is unsupported.
+The exclusive connection lease still excludes another process owner.
+
+Creation/planning use the existing event limit and terminal reserves. A created
+task reserves no future effect slots: later planning may refuse at capacity.
+Reserved capacity for already admitted effects remains protected. No retention,
+transfer between old roots, automatic schema migration or real action is added.
+Schema tables are unchanged; older readers refuse unfamiliar `task.create` and
+`task.plan` events. Do not downgrade a database after using the new entry points.
+See [shared-registry evidence](../../output/task-registry/README.md).

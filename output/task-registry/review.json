@@ -1,0 +1,58 @@
+{
+  "delegatedDesignReviews": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "c9528fde57ecd38f2b332134d0ac206acddc5d8beaf106c881e8aaacd597d47a",
+      "touchedFiles": []
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effortOrVariant": null,
+      "status": "completed",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "0c386920d6e1df653e5ccdd339c199cae22af8c6f18d1e09deb0a2340751efc7",
+      "touchedFiles": []
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "5494ce7d16ab742261b5a239a6311dc245495956ade8aca297029ac9d01af2ef",
+      "touchedFiles": []
+    }
+  ],
+  "reviewResponses": {
+    "adopted": [
+      "command ledger precedes current-state checks",
+      "type-bound planning hash and shared command namespace",
+      "event-derived accepted insertion order and title ownership",
+      "existing terminal capacity for new traffic",
+      "explicit old-reader refusal and global task/effect/attempt uniqueness"
+    ],
+    "clarified": [
+      "Public methods are synchronous with no asynchronous yield/callback; coordinator serializes access.",
+      "JSON projection values are SQLite rows committed inside the event transaction.",
+      "Legacy plan already rejects any existing task, including terminal tasks.",
+      "Schema 2 has no event-type/task-state enum CHECK requiring migration.",
+      "The accepted regression baseline is 34 tests; this gate records 45."
+    ],
+    "rejected": [
+      "External projection repair and zero-event durable rejection contradict the existing atomic replay contract."
+    ]
+  },
+  "parentFinalSourceReview": "accepted-with-documented-internal-scope-limitations",
+  "cleanCodeGuard": {
+    "fixed": 1,
+    "flagged": 1,
+    "fix": "Share planning admission code while keeping distinct hash domains.",
+    "flag": "Existing bounded full replay/projection replacement; no throughput qualification."
+  },
+  "testGuard": "accepted-real-SQLite-process-boundaries; transaction-abort hook restored and connection closed in finally",
+  "docsGuard": "accepted-API-hashes-ordering-capacity-compatibility-and-historical-pins-checked",
+  "scope": "shared internal task registry; no migration, team engine or new action capability",
+  "integrationGate": "HOLD"
+}

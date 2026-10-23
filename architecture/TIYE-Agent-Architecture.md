@@ -1470,11 +1470,14 @@ accepted at `4f237b1`. The [Phase 1B execution plan](../output/phase1b-core/TEST
 records the exact review and owned test scope before execution; its
 [evidence](../output/phase1b-core/README.md) covers durable plans, fixture approval,
 one-time claims and independent synthetic witness reconciliation. The schema 2
-store is fresh-only, without schema 1 migration or a shared live task registry.
+store is fresh-only, without schema 1 migration; its shared registry is described below.
 The [explicit attention-resolution follow-up](../output/attention-resolution/README.md)
 adds durable fixture commands to confirm existing witness evidence or abandon an
 uncertain attempt without rearming it, plus reserved terminal log capacity.
-Production dispatch, schema convergence, team engine and dependent integration
+The [shared task registry](../output/task-registry/README.md) now supports task
+creation and synthetic effect attachment in one schema 2 store, with one command
+namespace and event-backed titles. It does not merge or migrate older roots.
+Production dispatch, database migration, team engine and dependent integration
 work remain outstanding. This does not close any native/provider or release gate.
 
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)

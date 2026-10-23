@@ -6,7 +6,7 @@ const path = require('node:path');
 const Database = require('better-sqlite3/win32-x64');
 const { MockEffectStore, approvalBinding } = require('../dist');
 const { planHash } = require('../dist/effects-model');
-const { privateRoot, bytes } = require('./helpers.cjs');
+const { privateRoot, bytes, command } = require('./helpers.cjs');
 const { launch } = require('./processes.cjs');
 const { plan: mockPlan, witness: callWitness } = require('./mock-fixtures.cjs');
 
@@ -123,6 +123,8 @@ test('reserved capacity admits terminal resolution after rejecting further traff
   const store = MockEffectStore.open(f.root);
   try {
     assert.equal(store.resolve({ ...f.request, commandId: randomUUID(), attemptId: randomUUID() }), 'rejected');
+    assert.throws(() => store.execute(bytes(command())), /mock-reserved-history-limit/);
+    assert.throws(() => store.planForTask({ ...f.plan, commandId: randomUUID(), taskId: randomUUID() }), /mock-reserved-history-limit/);
     const blocked = { ...f.request, commandId: randomUUID(), attemptId: randomUUID() };
     assert.throws(() => store.resolve(blocked), /mock-reserved-history-limit/);
     assert(!store.snapshot().commands.some(([id]) => id === blocked.commandId));

@@ -27,6 +27,9 @@ input.on('line', line => {
   const request = JSON.parse(line);
   let result;
   if (request.op === 'plan') result = store.plan(request.plan);
+  else if (request.op === 'createTask') result = store.execute(Buffer.from(JSON.stringify(request.command)));
+  else if (request.op === 'planForTask') result = store.planForTask(request.plan);
+  else if (request.op === 'registry') result = store.registry();
   else if (request.op === 'claim') result = store.claim(request.effectId);
   else if (request.op === 'settle') result = store.settle(request.effectId, Buffer.from(JSON.stringify(request.proof)));
   else if (request.op === 'snapshot') result = store.snapshot();

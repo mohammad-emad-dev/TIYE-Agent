@@ -1,15 +1,17 @@
 import { createHash } from 'node:crypto';
-import { CoreRefusal, exactFields, requireCore, UUID } from './command';
+import { commandHash, CoreRefusal, exactFields, requireCore, UUID, validateCommand } from './command';
 
 export interface MockPlan {
   commandId: string; taskId: string; effectId: string; attemptId: string;
   targetId: string; payload: string; expiresAt: number;
 }
 export type EffectState = 'planned' | 'dispatching' | 'completed' | 'needs_attention' | 'cancelled' | 'abandoned';
+export type TaskState = 'created' | EffectState;
+export interface TaskRecord { taskId: string; title: string | null; state: TaskState; effectId: string | null }
 export interface MockEffect { plan: MockPlan; state: EffectState }
 export interface MockProjection {
   commands: [string, { hash: string; result: 'accepted' | 'rejected' }][];
-  tasks: [string, EffectState][]; effects: [string, MockEffect][]; approvals: [string, string][];
+  tasks: [string, TaskState][]; effects: [string, MockEffect][]; approvals: [string, string][];
 }
 export interface MockEvent { sequence: number; type: string; body: string }
 export interface Invocation { effectId: string; attemptId: string; targetId: string; operation: 'mock.record'; payloadHash: string; expiresAt: number }
@@ -91,8 +93,26 @@ export function validatePlan(candidate: unknown): MockPlan {
 }
 
 export function planHash(plan: MockPlan): string {
-  return hashRecord(['mock.plan', 1, plan.commandId, plan.taskId, plan.effectId,
+  return hashPlan(plan, 'mock.plan');
+}
+
+export function taskPlanHash(plan: MockPlan): string { return hashPlan(plan, 'task.mock.plan'); }
+
+function hashPlan(plan: MockPlan, domain: string): string {
+  return hashRecord([domain, 1, plan.commandId, plan.taskId, plan.effectId,
     plan.attemptId, plan.targetId, plan.payload, plan.expiresAt]);
+}
+
+/** Events and projections must already have passed replay validation. */
+export function taskRegistry(projection: MockProjection, events: MockEvent[]): TaskRecord[] {
+  const decisions = new Map(projection.commands), titles = new Map<string, string>();
+  for (const event of events) if (event.type === 'task.create') {
+    const command = validateCommand(JSON.parse(event.body));
+    if (decisions.get(command.commandId)!.result === 'accepted') titles.set(command.taskId, command.title);
+  }
+  const attachments = new Map(projection.effects.map(([id, effect]) => [effect.plan.taskId, id]));
+  return projection.tasks.map(([taskId, state]) => ({ taskId, title: titles.get(taskId) ?? null,
+    state, effectId: attachments.get(taskId) ?? null }));
 }
 
 export function invocation(plan: MockPlan): Invocation {
@@ -138,7 +158,7 @@ export function matchesWitness(plan: MockPlan, proof: unknown): boolean {
 
 export function replayMock(events: MockEvent[]): MockProjection {
   const commands = new Map<string, { hash: string; result: 'accepted' | 'rejected' }>();
-  const tasks = new Map<string, EffectState>(), effects = new Map<string, MockEffect>(), approvals = new Map<string, string>();
+  const tasks = new Map<string, TaskState>(), effects = new Map<string, MockEffect>(), approvals = new Map<string, string>();
   const attentionSequences = new Map<string, number>();
   function transition(effect: MockEffect, state: EffectState, sequence: number): void {
     effect.state = state; tasks.set(effect.plan.taskId, state);
@@ -149,17 +169,25 @@ export function replayMock(events: MockEvent[]): MockProjection {
     requireCore(event.sequence === ordinal + 1 && Buffer.byteLength(event.body) <= 16384, 'mock-event-sequence-or-size');
     const body: unknown = JSON.parse(event.body);
     requireCore(JSON.stringify(body) === event.body, 'noncanonical-mock-event');
+    if (event.type === 'task.create') {
+      const command = validateCommand(body);
+      requireCore(!commands.has(command.commandId), 'duplicate-task-command');
+      const exists = tasks.has(command.taskId);
+      commands.set(command.commandId, { hash: commandHash(command), result: exists ? 'rejected' : 'accepted' });
+      if (!exists) tasks.set(command.taskId, 'created');
+      continue;
+    }
     if (event.type === 'resolve') {
       const change = reduceResolution(body, { commands, effects, attentionSequences });
       if (change) transition(change.effect, change.state, event.sequence);
       continue;
     }
-    if (event.type === 'plan') {
+    if (event.type === 'plan' || event.type === 'task.plan') {
       const plan = validatePlan(body);
       requireCore(!commands.has(plan.commandId), 'duplicate-mock-command');
-      const conflict = tasks.has(plan.taskId) || effects.has(plan.effectId)
+      const conflict = (event.type === 'plan' ? tasks.has(plan.taskId) : tasks.get(plan.taskId) !== 'created') || effects.has(plan.effectId)
         || [...effects.values()].some(effect => effect.plan.attemptId === plan.attemptId);
-      commands.set(plan.commandId, { hash: planHash(plan), result: conflict ? 'rejected' : 'accepted' });
+      commands.set(plan.commandId, { hash: event.type === 'plan' ? planHash(plan) : taskPlanHash(plan), result: conflict ? 'rejected' : 'accepted' });
       if (!conflict) { tasks.set(plan.taskId, 'planned'); effects.set(plan.effectId, { plan, state: 'planned' }); }
       continue;
     }
