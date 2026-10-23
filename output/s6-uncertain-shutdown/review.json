@@ -1,0 +1,83 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": true,
+      "sourceEditsRequested": false,
+      "resultSha256": "39cf37d446ced504c216ab0f32f1a47b719dfcea12766d46bb60cc7315394e1e"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "failed",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": false,
+      "sourceEditsRequested": false,
+      "resultSha256": "00f2a508728d523bb8ad02044518f17645352c8a0db769a7a2154fa73eb71fa9"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "failed",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": false,
+      "sourceEditsRequested": false,
+      "resultSha256": "78426692cf4b52fb8b8375c18ce51cb39b7ae19f9712ace5e9933629eee3b86b"
+    }
+  ],
+  "parentReview": {
+    "clean-code-guard": {
+      "fixed": 3,
+      "flaggedForAuthor": 2,
+      "fixes": [
+        "authenticated-read-only-probe-does-not-depend-on-receipt",
+        "fault-injection-pins-evidence-directories-and-waits-for-worker-exit",
+        "absent-or-invalid-evidence-cannot-receive-receipt-or-final-inventory-credit"
+      ],
+      "remaining": [
+        "recovery-enrollment-blocked-by-invalid-receipt",
+        "observer-loss-after-fault-not-qualified"
+      ]
+    },
+    "test-guard": "three-distinct-real-filesystem-faults-and-two-host-boundary-tests",
+    "docs-guard": "post-exit-evidence-loss-separated-from-worker-persistence-failure-and-recovery-authority"
+  },
+  "verification": {
+    "windowsPythonModes": [
+      "normal",
+      "optimized"
+    ],
+    "testsPerRun": 5,
+    "liveCasesPerRun": 3,
+    "wrongNonceProbeRefusedPerLiveCase": true,
+    "publicSchemaMutationRefusals": 13,
+    "selectedObservationSha256ByMode": {
+      "normal": "745959aee6c2806a026e8d05be143efe9ea926707a47d625f5c3b5d29f3651c5",
+      "optimized": "7cb75f017e6fec250a90e0636f713e2e2154896ae60f70f67975298cbb8e3d0c"
+    },
+    "allOverallOutcomesUnknown": true,
+    "explicitFixtureDisposalDoesNotGrantCleanupCredit": true,
+    "receiptBlockedCaseReceivesReceiptCredit": false,
+    "linuxFinalInventoryVerified": false,
+    "linuxOptimizationQualified": false
+  },
+  "modelSuggestionsResolved": [
+    "arm-faults-on-pinned-service-evidence-and-receipt-directory-descriptors",
+    "use-transferred-mount-descriptor-for-custody-inventory",
+    "inject-after-worker-exit-before-keeper-terminal-validation",
+    "replace-symlink-proposal-with-explicit-post-exit-evidence-loss"
+  ],
+  "limits": [
+    "post-exit-unlink-and-truncate-do-not-simulate-pre-terminal-worker-failure",
+    "exclusive-receipt-collision-is-not-hardware-IO-failure",
+    "receipt-channel-fault-not-injected",
+    "recovery-enrollment-not-requalified",
+    "observer-loss-and-keeper-loss-after-fault-unqualified",
+    "historical-failure-attribution-unproven",
+    "no-native-admission"
+  ],
+  "nativeExecutionAllowed": false
+}
