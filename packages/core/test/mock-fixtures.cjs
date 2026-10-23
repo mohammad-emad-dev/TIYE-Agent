@@ -14,4 +14,9 @@ function witness(mode, root, request, input) {
   assert.equal(result.status, 0, result.stderr || result.error?.message);
   return JSON.parse(result.stdout);
 }
-module.exports = { plan, witness };
+function session(overrides = {}) {
+  const members = ['Leader', 'Coder'].map(name => ({ memberId: randomUUID(), name, instructions: 'Synthetic fixture only' }));
+  return { type: 'team.session.create', version: 1, commandId: randomUUID(), sessionId: randomUUID(),
+    leaderId: members[0].memberId, members, maxConcurrent: 2, ...overrides };
+}
+module.exports = { plan, witness, session };

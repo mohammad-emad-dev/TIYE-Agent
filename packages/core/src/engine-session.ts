@@ -1,5 +1,6 @@
 import { exactFields, requireCore, UUID, validText } from './command';
-import { hashRecord } from './record';
+import { decodeCanonical, hashRecord } from './record';
+import type { MemberInbox } from './engine-inbox';
 
 export interface EngineMember { memberId: string; name: string; instructions: string }
 export interface EngineSession {
@@ -14,7 +15,11 @@ export interface EngineOwner {
   session(): EngineSession | null;
 }
 export interface MemberContext extends EngineMember { sessionId: string; role: 'leader' | 'member' }
-export interface EngineMemberHandle { context(): MemberContext }
+export interface EngineMemberHandle {
+  context(): MemberContext;
+  enqueue(bytes: Uint8Array): 'accepted' | 'rejected';
+  inbox(): MemberInbox;
+}
 
 export function validateSession(candidate: unknown): CreateSession {
   exactFields(candidate, ['type', 'version', 'commandId', 'sessionId', 'leaderId', 'members', 'maxConcurrent']);
@@ -38,11 +43,7 @@ export function validateSession(candidate: unknown): CreateSession {
 }
 
 export function decodeSession(bytes: Uint8Array): CreateSession {
-  requireCore(bytes instanceof Uint8Array && bytes.length > 0 && bytes.length <= 16384, 'session-byte-bound');
-  const text = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(bytes);
-  const candidate: unknown = JSON.parse(text);
-  requireCore(JSON.stringify(candidate) === text, 'noncanonical-session-wire');
-  return validateSession(candidate);
+  return validateSession(decodeCanonical(bytes));
 }
 
 export function sessionHash(command: CreateSession): string {

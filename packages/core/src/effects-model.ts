@@ -1,23 +1,22 @@
-import { commandHash, CoreRefusal, exactFields, requireCore, UUID, validateCommand, validText } from './command';
+import { commandHash, CoreRefusal, exactFields, requireCore, UUID, validateCommand } from './command';
 import { EngineSession, reduceSession } from './engine-session';
 import { hashRecord } from './record';
+import { MockPlan, validatePlan, planHash, taskPlanHash, invocation, approvalBinding } from './mock-plan';
+export { MockPlan, Invocation, validatePlan, planHash, taskPlanHash, invocation, approvalBinding } from './mock-plan';
+import { Assignment, reduceInbox } from './engine-inbox';
 export { hashRecord } from './record';
 
-export interface MockPlan {
-  commandId: string; taskId: string; effectId: string; attemptId: string;
-  targetId: string; payload: string; expiresAt: number;
-}
 export type EffectState = 'planned' | 'dispatching' | 'completed' | 'needs_attention' | 'cancelled' | 'abandoned';
-export type TaskState = 'created' | EffectState;
+export type TaskState = 'created' | 'queued' | 'waiting_approval' | 'running' | EffectState;
 export interface TaskRecord { taskId: string; title: string | null; state: TaskState; effectId: string | null }
 export interface MockEffect { plan: MockPlan; state: EffectState }
 export interface MockProjection {
   commands: [string, { hash: string; result: 'accepted' | 'rejected' }][];
   tasks: [string, TaskState][]; effects: [string, MockEffect][]; approvals: [string, string][];
   sessions?: [string, EngineSession][];
+  assignments?: [string, Assignment][];
 }
 export interface MockEvent { sequence: number; type: string; body: string }
-export interface Invocation { effectId: string; attemptId: string; targetId: string; operation: 'mock.record'; payloadHash: string; expiresAt: number }
 export interface Attention { effectId: string; attemptId: string; attentionSequence: number }
 export interface Resolution extends Attention { commandId: string; outcome: 'confirm_completed' | 'close_uncertain' }
 
@@ -70,31 +69,11 @@ function reduceResolution(body: unknown, context: ResolutionContext): { effect: 
 /** Reserve claim/outcome/resolution slots; rejection traffic cannot consume these. */
 export function reservedEvents(projection: MockProjection): number {
   const approved = new Set(projection.approvals.map(([id]) => id));
-  return projection.effects.reduce((sum, [, effect]) => sum
+  const assigned = new Map(projection.assignments ?? []);
+  return [...assigned.values()].reduce((sum, row) => sum + row.remainingEvents, 0)
+    + projection.effects.filter(([, effect]) => !assigned.has(effect.plan.taskId)).reduce((sum, [, effect]) => sum
     + (effect.state === 'planned' ? (approved.has(effect.plan.effectId) ? 3 : 4)
       : effect.state === 'dispatching' ? 2 : effect.state === 'needs_attention' ? 1 : 0), 0);
-}
-
-export function validatePlan(candidate: unknown): MockPlan {
-  exactFields(candidate, ['commandId', 'taskId', 'effectId', 'attemptId', 'targetId', 'payload', 'expiresAt']);
-  for (const key of ['commandId', 'taskId', 'effectId', 'attemptId', 'targetId'])
-    requireCore(typeof candidate[key] === 'string' && UUID.test(candidate[key]), 'invalid-mock-id');
-  requireCore(validText(candidate.payload), 'invalid-mock-payload');
-  requireCore(Number.isSafeInteger(candidate.expiresAt) && (candidate.expiresAt as number) >= 0, 'invalid-mock-deadline');
-  return { commandId: candidate.commandId as string, taskId: candidate.taskId as string,
-    effectId: candidate.effectId as string, attemptId: candidate.attemptId as string,
-    targetId: candidate.targetId as string, payload: candidate.payload, expiresAt: candidate.expiresAt as number };
-}
-
-export function planHash(plan: MockPlan): string {
-  return hashPlan(plan, 'mock.plan');
-}
-
-export function taskPlanHash(plan: MockPlan): string { return hashPlan(plan, 'task.mock.plan'); }
-
-function hashPlan(plan: MockPlan, domain: string): string {
-  return hashRecord([domain, 1, plan.commandId, plan.taskId, plan.effectId,
-    plan.attemptId, plan.targetId, plan.payload, plan.expiresAt]);
 }
 
 /** Events and projections must already have passed replay validation. */
@@ -107,17 +86,6 @@ export function taskRegistry(projection: MockProjection, events: MockEvent[]): T
   const attachments = new Map(projection.effects.map(([id, effect]) => [effect.plan.taskId, id]));
   return projection.tasks.map(([taskId, state]) => ({ taskId, title: titles.get(taskId) ?? null,
     state, effectId: attachments.get(taskId) ?? null }));
-}
-
-export function invocation(plan: MockPlan): Invocation {
-  return { effectId: plan.effectId, attemptId: plan.attemptId, targetId: plan.targetId,
-    operation: 'mock.record', payloadHash: hashRecord(['mock.record', 1, plan.targetId, plan.payload]), expiresAt: plan.expiresAt };
-}
-
-export function approvalBinding(plan: MockPlan): string {
-  const request = invocation(plan);
-  return hashRecord(['mock.approval', 1, request.effectId, request.attemptId, request.targetId,
-    request.operation, request.payloadHash, request.expiresAt]);
 }
 
 export function normalizedProof(bytes: Uint8Array): unknown {
@@ -155,6 +123,7 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
   const tasks = new Map<string, TaskState>(), effects = new Map<string, MockEffect>(), approvals = new Map<string, string>();
   const attentionSequences = new Map<string, number>();
   const sessions = new Map<string, EngineSession>();
+  const assignments = new Map<string, Assignment>();
   function transition(effect: MockEffect, state: EffectState, sequence: number): void {
     effect.state = state; tasks.set(effect.plan.taskId, state);
     if (state === 'needs_attention') attentionSequences.set(effect.plan.effectId, sequence);
@@ -164,6 +133,11 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
     requireCore(event.sequence === ordinal + 1 && Buffer.byteLength(event.body) <= 16384, 'mock-event-sequence-or-size');
     const body: unknown = JSON.parse(event.body);
     requireCore(JSON.stringify(body) === event.body, 'noncanonical-mock-event');
+    if (event.type === 'team.task.enqueue' || event.type === 'team.task.start') {
+      requireCore(engine, 'engine-event-in-schema2');
+      reduceInbox(body, event.sequence, { commands, sessions, tasks, effects, assignments }, event.type);
+      continue;
+    }
     if (event.type === 'team.session.create') {
       requireCore(engine, 'engine-event-in-schema2');
       reduceSession(body, { commands, sessions });
@@ -178,6 +152,9 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
       continue;
     }
     if (event.type === 'resolve') {
+      exactFields(body, ['request', 'proof']);
+      const resolution = validateResolution(body.request), target = effects.get(resolution.effectId);
+      requireCore(!target || !assignments.has(target.plan.taskId), 'engine-dispatch-not-admitted');
       const change = reduceResolution(body, { commands, effects, attentionSequences });
       if (change) transition(change.effect, change.state, event.sequence);
       continue;
@@ -195,11 +172,17 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
     const request = body as Record<string, unknown>;
     const effect = effects.get(request.effectId as string);
     requireCore(effect, 'unknown-mock-effect');
+    const assignment = assignments.get(effect.plan.taskId);
+    requireCore(!assignment || event.type === 'approve', 'engine-dispatch-not-admitted');
     if (event.type === 'approve') {
       exactFields(body, ['effectId', 'binding']);
       requireCore(effect.state === 'planned' && request.binding === approvalBinding(effect.plan)
         && !approvals.has(effect.plan.effectId), 'invalid-mock-approval');
       approvals.set(effect.plan.effectId, request.binding as string);
+      if (assignment) {
+        requireCore(assignment.remainingEvents > 0, 'assignment-budget-exhausted');
+        assignment.remainingEvents--; tasks.set(effect.plan.taskId, 'running');
+      }
     } else if (event.type === 'claim') {
       exactFields(body, ['effectId', 'observedAt']);
       requireCore(effect.state === 'planned' && approvals.get(effect.plan.effectId) === approvalBinding(effect.plan)
@@ -220,5 +203,5 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
     } else requireCore(false, 'unsupported-mock-event');
   }
   return { commands: [...commands], tasks: [...tasks], effects: [...effects], approvals: [...approvals],
-    ...(engine ? { sessions: [...sessions] } : {}) };
+    ...(engine ? { sessions: [...sessions], assignments: [...assignments] } : {}) };
 }

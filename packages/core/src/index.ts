@@ -7,3 +7,4 @@ export { approvalBinding } from './effects-model';
 export type { MockPlan, MockProjection, Invocation, Attention, Resolution } from './effects-model';
 export type { TaskRecord, TaskState } from './effects-model';
 export type { EngineOwner, EngineMemberHandle, EngineSession, MemberContext } from './engine-session';
+export type { EngineScheduler, MemberInbox, Assignment } from './engine-inbox';

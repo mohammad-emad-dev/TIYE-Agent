@@ -9,12 +9,7 @@ const { TaskStore } = require('../dist');
 const { commandHash } = require('../dist/command');
 const { command, bytes, privateRoot } = require('./helpers.cjs');
 const { launch } = require('./processes.cjs');
-
-function session() {
-  const members = ['Leader', 'Coder'].map(name => ({ memberId: randomUUID(), name, instructions: 'Synthetic fixture only' }));
-  return { type: 'team.session.create', version: 1, commandId: randomUUID(), sessionId: randomUUID(),
-    leaderId: members[0].memberId, members, maxConcurrent: 2 };
-}
+const { session } = require('./mock-fixtures.cjs');
 
 test('session creation, immutable roster and bound member contexts survive reopen', t => {
   const root = privateRoot(t), request = session();

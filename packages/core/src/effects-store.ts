@@ -8,6 +8,7 @@ import { approvalBinding, Attention, Invocation, invocation, matchesWitness, Moc
 import { configure } from './store';
 import { databasePath, reserveFreshDatabase, RootIdentity, storageRoot, verifyRoot } from './storage';
 import { decodeSession, EngineMemberHandle, EngineOwner, sessionHash } from './engine-session';
+import { decodeInbox, EngineScheduler, inboxContext, inboxDecision, inboxHash, InboxCommand, memberInboxes } from './engine-inbox';
 
 const LIMIT = 1000;
 const APPLICATION_ID = 0x54495946;
@@ -117,7 +118,30 @@ export class MockEffectStore {
       return { ...member, sessionId: session.sessionId, role: memberId === session.leaderId ? 'leader' as const : 'member' as const };
     };
     context();
-    return Object.freeze({ context });
+    return Object.freeze({ context,
+      enqueue: (bytes: Uint8Array) => { context(); return this.#inbox(bytes, 'team.task.enqueue', memberId); },
+      inbox: () => { context(); return this.#inboxes().find(row => row.memberId === memberId)!; } });
+  }
+
+  scheduler(): EngineScheduler {
+    requireCore(this.#version === 3, 'engine-root-required'); this.snapshot();
+    return Object.freeze({ start: (bytes: Uint8Array) => this.#inbox(bytes, 'team.task.start', 'scheduler'),
+      inboxes: () => this.#inboxes() });
+  }
+
+  #inboxes() {
+    const projection = this.snapshot();
+    return memberInboxes(projection.sessions?.[0]?.[1], (projection.assignments ?? []).map(([, row]) => row));
+  }
+
+  #inbox(bytes: Uint8Array, type: InboxCommand['type'], actor: string): 'accepted' | 'rejected' {
+    const command = decodeInbox(bytes, type), projection = this.snapshot();
+    const previous = projection.commands.find(([id]) => id === command.commandId);
+    if (previous) {
+      requireCore(previous[1].hash === inboxHash(command, actor), 'mock-command-conflict'); return previous[1].result;
+    }
+    const result = inboxDecision(command, actor, inboxContext(projection));
+    this.append(type, { command, actor, result }); return result;
   }
 
   #createSession(bytes: Uint8Array): 'accepted' | 'rejected' {

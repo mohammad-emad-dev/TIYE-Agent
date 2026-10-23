@@ -25,8 +25,10 @@ against the frozen [engine entry contract](output/team-engine-entry/CONTRACT.md)
 The bounded synthetic engine is now authorized for development; actual source
 review and preflight remain required before execution.
 The [first Phase 2A component](output/phase2a-session/README.md) implements durable
-session creation and bound roster contexts in fresh schema 3 stores. Inboxes,
-scheduling and the full engine lifecycle remain under construction.
+session creation and bound roster contexts in fresh schema 3 stores. The
+[durable inbox component](output/phase2a-inboxes/README.md) adds per-member FIFO
+queues and atomic planning reservations with concurrency limits. Assigned dispatch,
+result reporting and stop/recovery remain under construction.
 This supersedes the historical unimplemented-core and pending-construction wording
 for this bounded slice only. Team engine, real effects, full integration and release
 remain outside its scope; provider/native gates are unchanged. The original

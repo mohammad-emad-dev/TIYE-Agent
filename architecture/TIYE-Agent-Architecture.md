@@ -1496,7 +1496,11 @@ is admitted. The exception ends at the Phase 2A exit review. Feasibility and
 release gates remain required for dependent integration; the complete product
 scope is unchanged. The [first session foundation](../output/phase2a-session/README.md)
 implements durable roster creation in fresh schema 3 using the shared core writer.
-It does not yet implement inboxes, assignment scheduling, reports or stop/recovery.
+The [inbox/planning component](../output/phase2a-inboxes/README.md) adds durable FIFO
+assignments and atomic effect-plan reservations with member/global concurrency caps.
+Assignments are event-derived in the same database; task views are replay-checked.
+Assigned dispatch stays blocked until stop/recovery and terminal handling qualify.
+Reports and the complete engine lifecycle are not yet implemented.
 The full Phase 2A exit review remains pending.
 
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)

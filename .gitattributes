@@ -213,3 +213,5 @@ output/team-engine-entry/** -text whitespace=blank-at-eol,blank-at-eof,space-bef
 output/phase2a-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 
 output/phase2a-session/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+output/phase2a-inboxes/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

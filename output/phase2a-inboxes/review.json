@@ -1,0 +1,61 @@
+{
+  "delegatedDesignReviews": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "feda44c031a2fcd05974ac9089795ac5c80f776205fe4ebfa33797a0a815f33b",
+      "touchedFiles": []
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effortOrVariant": null,
+      "status": "completed",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "dc0d10c1e97281a3517b0356d37049cde6ef6e9a36029b6b9116e17663b0873d",
+      "touchedFiles": []
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "failed",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "89491dba719b021a0db70f10ea3986d6646e09fd9d2203840dad5c1fa7167cb9",
+      "touchedFiles": []
+    }
+  ],
+  "parentFinalSourceReview": "accepted for planning component only; actual preflight before execution",
+  "reviewResponses": {
+    "adopted": [
+      "ledger-first exact redelivery including at capacity",
+      "type-bound canonical hash arrays",
+      "explicit global task identity and immutable single-session scope",
+      "hard assigned-dispatch mutation hold; running is logical reservation only"
+    ],
+    "rejected": [
+      "Rejected appends cannot be exempted from the event cap.",
+      "Approval must not release a reservation.",
+      "Command IDs remain shared across types, rather than keyed separately by type."
+    ],
+    "qualified": "Capacity may bind before lifetime ceiling; terminal-release/ceiling-reuse coverage is deferred with the absent implementation."
+  },
+  "cleanCodeGuard": {
+    "fixed": 2,
+    "flagged": 1,
+    "fixes": [
+      "extract shared mock plan codec to avoid runtime module cycles",
+      "share canonical wire decoding and pure API/replay decision predicate"
+    ],
+    "flag": "Existing bounded full replay/projection replacement; throughput is unqualified."
+  },
+  "testGuard": "accepted-real-SQLite-process-boundaries; trigger hooks restored and stores closed in finally",
+  "docsGuard": "API, wire/hash, derived queue storage, capacity and partial-engine/dispatch-hold status checked",
+  "notImplemented": [
+    "engine report/terminal release",
+    "engine stop/recovery",
+    "assigned dispatch admission"
+  ],
+  "phase2aExit": "NOT_COMPLETE",
+  "integrationGate": "HOLD"
+}

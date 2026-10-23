@@ -237,7 +237,8 @@ See [shared-registry evidence](../../output/task-registry/README.md).
 The owner approved bounded internal engine construction at proposal `8f2d0a2`;
 the [approval record](../../output/phase2a-approval/README.md) activates that scope.
 This first component adds a durable session/roster only; the full engine is still
-under construction. It does not yet enqueue, schedule, stop or recover engine tasks.
+under construction. Its inbox/planning extension is described below; engine
+dispatch, reporting and stop/recovery are not yet admitted.
 
 - `TaskStore.createEngine(directory)` creates fresh schema 3 with the existing
   command/event/task/effect/approval tables plus a sessions projection table.
@@ -264,6 +265,51 @@ component does not implement stop or the later assignment-capacity budget.
 
 See [session verification](../../output/phase2a-session/README.md). Fresh schema 3
 and schema 2 use the same owner/lease, storage validation, replay and effect code;
-there is no independent engine writer. Engine inboxes, assignments, concurrency
-enforcement, result reporting and stop/recovery remain ahead. Full integration
+there is no independent engine writer. The inbox/planning extension adds logical
+reservations; dispatch, result reporting and stop/recovery remain ahead. Full integration
 and release remain HOLD.
+
+### Durable inboxes and planning reservations
+
+Schema 3 member handles now expose `enqueue(bytes)` and `inbox()` in addition to
+their bound `context()`. Only the session leader's enqueue can be accepted; another
+member receives a durable rejection. Actor identity is taken from the handle,
+never a wire field. `inbox()` exposes only that bound member's queued task IDs and
+active task ID. The trusted coordinator alone retains `store.scheduler()`, whose
+frozen handle exposes `start(bytes)` and `inboxes()` for the roster.
+
+Enqueue requires an existing created task, a member in the active session and no
+previous assignment of that task. Accepted event sequence defines per-member FIFO.
+Start requires that member's oldest queued task, no other active task for that
+member and room under `maxConcurrent`. It atomically reserves the slot and records
+one exact synthetic effect plan. Waiting for approval holds the slot; approval
+does not free it. Global effect/attempt identity uniqueness spans legacy and
+assigned plans. A single immutable session and store-wide unique task IDs make
+task ID an unambiguous assignment key.
+
+Queue assignments and remaining budgets are derived from canonical engine events
+in the existing database; no SQL table or second queue writer is added. Task
+queued/waiting_approval/running views are materialized and replay-checked in the
+existing task projection. Session-only schema 3 roots keep their table layout;
+old source refuses the new inbox event types. Snapshot adds derived `assignments`.
+
+**This component admits planning only.** Assigned-effect claim/cancel/settle/resolve
+mutations are refused while engine stop, recovery and terminal handling remain
+unqualified. Approval may label an active reservation `running`, meaning logical
+admitted work only; it is never proof of dispatch or CLI activity. Registry states
+cannot authorize an action. Every assigned effect stays planned, and no slot is
+released automatically. Unassigned legacy effects keep their prior qualified
+lifecycle. Raw planning entry points cannot attach another effect to assigned tasks.
+
+Each accepted enqueue holds eight future events; start and a new exact approval
+consume one each. Assigned effects are excluded from legacy effect reserves to
+avoid double counting. Every append must fit event count + assignment budgets +
+unassigned effect reserves + one session-stop slot <= 1,000. Rejected requests
+consume only unreserved space or refuse admission; they cannot spend held budget.
+Exact redelivery remains available at capacity. The lifetime ceiling is 100
+assignments, but capacity can bind earlier while terminal budget release is absent.
+
+The exact DTO/hash contract, source review and tests are in the
+[inbox execution plan](../../output/phase2a-inboxes/TEST-PLAN.md) and
+[verification summary](../../output/phase2a-inboxes/README.md). Full Phase 2A is
+still in progress; existing approval covers its remaining stop/recovery/result work.
