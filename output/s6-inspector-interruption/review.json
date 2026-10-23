@@ -1,0 +1,100 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": true,
+      "sourceEditsRequested": false,
+      "resultSha256": "e6c046a3b2c48f85cf1fa52d19c5721120b73380a27951020c4c378fcb68c6a9"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "timeout",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": false,
+      "sourceEditsRequested": false,
+      "resultSha256": "620561b417b0de13a2321296dc2e0574d056770ddbee2a32739b56b0aaea26c5"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "timeout",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": false,
+      "sourceEditsRequested": false,
+      "resultSha256": "3e7a3143e51a61598853091f9a0b7f0f0981d608a25dbd16c3f2b976e7211098"
+    }
+  ],
+  "parentReview": {
+    "clean-code-guard": {
+      "fixed": 4,
+      "flaggedForAuthor": 3,
+      "fixes": [
+        "read-only-status-observes-latched-slot-without-reset",
+        "ended-inspector-state-derived-from-original-pidfd-without-PID-rediscovery",
+        "accept-only-exact-bound-wrapper-diagnostic-for-targeted-inspector-kill",
+        "retiring-cgroup-read-errors-cannot-credit-a-present-or-inaccessible-directory"
+      ],
+      "remaining": [
+        "no-persistent-slot-after-keeper-loss",
+        "combined-observer-and-inspector-loss-unqualified",
+        "initial-unsettled-attempt-ownership-not-requalified"
+      ]
+    },
+    "test-guard": "two-real-interruption-sequences-live-replacement-canary-and-three-host-boundary-tests",
+    "docs-guard": "unobserved-ACK-and-inspector-death-scopes-separated-from-release-and-persistent-recovery"
+  },
+  "verification": {
+    "windowsPythonModes": [
+      "normal",
+      "optimized"
+    ],
+    "testsPerRun": 5,
+    "liveCasesPerRun": 2,
+    "publicSchemaMutationRefusals": 14,
+    "liveDifferentReplacementRefusedPerCase": true,
+    "foreignStatusAndReleaseRequestsRefusedPerCase": true,
+    "cgroupFilesystemBoundaryFaultsChecked": true,
+    "selectedObservationSha256ByMode": {
+      "normal": "63a2f1df87926487a58646bf83ff8dca01b2652614e55a2399d3ba95e3ffc76e",
+      "optimized": "aca5ea7b7b127874d88f85ec82662e3fa2fc17f47b5ef64d71f7c8cf57fc951e"
+    },
+    "allOverallOutcomesUnknown": true,
+    "explicitFixtureDisposalDoesNotGrantCleanupCredit": true,
+    "receiptBlockedCaseReceivesReceiptCredit": false,
+    "linuxFinalInventoryVerified": false,
+    "linuxOptimizationQualified": false
+  },
+  "preliminaryFailures": [
+    {
+      "stage": "inspector-death-capture-validation",
+      "correction": "exact-bound-setsid-diagnostic-accepted",
+      "qualified": false
+    },
+    {
+      "stage": "pre-enrollment-cgroup-observation",
+      "errno": "ENODEV",
+      "correction": "bounded-fail-closed-cgroup-observation",
+      "qualified": false,
+      "teardownCredited": false,
+      "remainingOwnershipRequalified": false
+    }
+  ],
+  "modelSuggestionsResolved": [
+    "enrollment-truth-is-latched-pidfd-slot-not-ACK",
+    "dead-slot-never-resets",
+    "status-is-original-observer-only-and-grants-no-authority"
+  ],
+  "limits": [
+    "unobserved-ACK-does-not-prove-network-packet-loss",
+    "inspector-loss-case-keeps-original-observer-live",
+    "no-persistent-slot-after-keeper-restart-or-reboot",
+    "fixed-GNU-setsid-diagnostic-and-locale-only",
+    "historical-failure-attribution-unproven",
+    "no-native-admission"
+  ],
+  "nativeExecutionAllowed": false
+}
