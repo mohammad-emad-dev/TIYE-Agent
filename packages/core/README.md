@@ -115,8 +115,8 @@ History is bounded to 1,000 events; projection writes rebuild the bounded tables
   from the trusted coordinator's fixed witness observer. Exactly one committed
   row matching all invocation fields completes the effect and task. Missing,
   malformed, unavailable, duplicate or conflicting evidence records attention.
-  Attention never auto-resumes, including when later proof arrives. Explicit
-  resolution is future work. Completed matching settlement is idempotent;
+  Attention never auto-resumes, including when later proof arrives. Only an
+  explicit resolution command can close it. Completed matching settlement is idempotent;
   contradictory evidence after completion throws. Unrelated tasks can continue.
 - `snapshot()` validates schema and replays every event against stored projections.
   `close()` must run in `finally`. Storage errors propagate; no reset or resend
@@ -131,3 +131,56 @@ they are not an authentication protocol for an untrusted process. See the
 [verification record](../../output/phase1b-core/README.md). The suite includes
 Phase 1A regression tests and fresh-process crashes around planning, claiming and
 settlement commits. No provider, native CLI, project operation or release follows.
+
+### Explicit attention resolution
+
+`attention(effectId)` returns `{effectId,attemptId,attentionSequence}` only while
+the effect is in `needs_attention`; unknown or terminal effects throw.
+`attentionSequence` is the global event sequence of that effect's actual last
+transition into attention. Rejected resolutions and unrelated events do not alter it.
+
+`resolve(request, proofBytes?)` accepts exactly `commandId`, `effectId`, `attemptId`,
+`attentionSequence`, `outcome`. IDs use the UUID grammar above; sequence is a
+positive safe integer. The trusted fixture coordinator explicitly selects one of:
+
+- `confirm_completed`: requires at most 16 KiB of canonical UTF-8 JSON proof from
+  the fixed witness observer. Exactly one row must match the original invocation.
+  The effect and task become `completed` together. Resolution never invokes the witness.
+- `close_uncertain`: requires no proof argument. The effect and task become
+  `abandoned`, preserving the original uncertain history. It does not assert that
+  the action was cancelled, absent or completed.
+
+Both require the exact current attention sequence and attempt. Well-formed requests
+with unknown effects, mismatching state/attempt/sequence or nonmatching proof commit
+a durable `rejected` decision without changing the effect/task. Malformed IDs,
+unsupported outcomes, invalid sequence, missing/oversized/noncanonical JSON proof
+(including BOM, whitespace and duplicate members), or unexpected proof for closure
+throw before command admission. The whole stored event must also fit 16 KiB.
+
+The SHA-256 command hash covers UTF-8 `JSON.stringify` of the ordered array
+`["mock.resolve",1,commandId,effectId,attemptId,attentionSequence,outcome,proofHash]`.
+Here `1` is a JSON number and `proofHash` is lowercase hexadecimal SHA-256 of
+UTF-8 `JSON.stringify` of the parsed proof, or `null` for closure. There is no
+normalization, BOM or trailing newline. Proof member order is significant and
+the fixed observer supplies its canonical order. Changed request/proof with an
+existing command ID throws without writing; exact redelivery returns its original
+accepted/rejected decision, even at capacity. Plans and resolutions share the
+command namespace. Correcting a rejected request requires a new command ID.
+
+Each resolution is one version-1 logical command stored in a `resolve` event,
+with canonical `{request,proof}` body. Replay independently derives its decision,
+updates both projections atomically and compares them against storage. The schema
+2 table layout is unchanged; older Phase 1B source refuses the unfamiliar event.
+Do not downgrade a database after writing resolution events. This is an event
+vocabulary extension with refusal on downgrade, not a schema migration.
+
+The 1,000-event cap now reserves per-effect terminal capacity: four slots for an
+unapproved planned effect (approval/claim/outcome/resolution), three if approved,
+two while dispatching and one while in attention. Further traffic, including
+durable rejections, cannot consume these reserved slots. At capacity admission
+throws without a durable decision. Old stores that already exhausted this budget
+remain readable but may refuse further writes; no repair/expansion is performed.
+Reserved capacity does not qualify throughput or unbounded retention.
+
+The [resolution evidence](../../output/attention-resolution/README.md) records
+source review before execution and actual SQLite/process recovery checks.

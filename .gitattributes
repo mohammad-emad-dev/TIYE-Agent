@@ -202,3 +202,6 @@ output/phase1a-core/** -text whitespace=blank-at-eol,blank-at-eof,space-before-t
 architecture/TIYE-Agent-Architecture.md -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 
 output/phase1b-core/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+output/attention-resolution/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+README.md -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -1,0 +1,58 @@
+{
+  "delegatedDesignReviews": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "5b1c20d562c76c1b2f04ae679953c44b760bf02207ad7cdf87f3afed060a1319",
+      "touchedFiles": []
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effortOrVariant": null,
+      "status": "completed",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "935e6b0e4ff149fb6330db3340597d4b35b8bb19d238506009728eee01d6bb22",
+      "touchedFiles": []
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "3f683ebfbe4bd352a983a7dbd9384088affaed3c7afb0c11e5f0c16aa9f2ba41",
+      "touchedFiles": []
+    }
+  ],
+  "reviewResponses": {
+    "adopted": [
+      "strict canonical proof parsing before admission",
+      "precise UTF-8/hash encoding and command conflicts",
+      "per-effect attention identity and independent replay decisions",
+      "terminal history capacity reservations",
+      "explicit downgrade refusal and fixture trust limits"
+    ],
+    "rejected": [
+      "Witness deduplication would hide duplicate dispatch; resolution never invokes an action."
+    ],
+    "remaining": [
+      "Proof provenance relies on the trusted fixed test coordinator, not untrusted caller authentication."
+    ]
+  },
+  "parentFinalSourceReview": "accepted-with-documented-internal-scope-limitations",
+  "cleanCodeGuard": {
+    "fixed": 3,
+    "flagged": 1,
+    "fixes": [
+      "reserve approval and terminal capacity",
+      "reject malformed proof before durable admission",
+      "share witness launch and mock-plan fixtures"
+    ],
+    "flag": "Existing bounded full replay/projection replacement; no throughput qualification."
+  },
+  "testGuard": "accepted-real-SQLite-process-boundaries-no-internal-fakes",
+  "docsGuard": "accepted-API-command-encoding-capacity-downgrade-and-historical-pins-checked",
+  "scope": "explicit synthetic attention resolution only; no migration or team engine",
+  "integrationGate": "HOLD"
+}

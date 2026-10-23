@@ -9,17 +9,7 @@ const { MockEffectStore, CoreStore, approvalBinding } = require('../dist');
 const { invocation } = require('../dist/effects-model');
 const { privateRoot, bytes } = require('./helpers.cjs');
 const { launch } = require('./processes.cjs');
-
-function plan(overrides = {}) {
-  return { commandId: randomUUID(), taskId: randomUUID(), effectId: randomUUID(), attemptId: randomUUID(),
-    targetId: randomUUID(), payload: 'Synthetic owned action', expiresAt: Date.now() + 60000, ...overrides };
-}
-function witness(mode, root, request, input) {
-  const result = spawnSync(process.execPath, [path.join(__dirname, 'witness.cjs'), mode, root, request.targetId],
-    { input: input ? JSON.stringify(input) : '', encoding: 'utf8', timeout: 10000, maxBuffer: 32768, windowsHide: true });
-  assert.equal(result.status, 0, result.stderr || result.error?.message);
-  return JSON.parse(result.stdout);
-}
+const { plan, witness } = require('./mock-fixtures.cjs');
 function proof(root, request) {
   return witness('observe', root, request, { effectId: request.effectId, attemptId: request.attemptId });
 }

@@ -1471,7 +1471,10 @@ records the exact review and owned test scope before execution; its
 [evidence](../output/phase1b-core/README.md) covers durable plans, fixture approval,
 one-time claims and independent synthetic witness reconciliation. The schema 2
 store is fresh-only, without schema 1 migration or a shared live task registry.
-Attention resolution, production dispatch, team engine and dependent integration
+The [explicit attention-resolution follow-up](../output/attention-resolution/README.md)
+adds durable fixture commands to confirm existing witness evidence or abandon an
+uncertain attempt without rearming it, plus reserved terminal log capacity.
+Production dispatch, schema convergence, team engine and dependent integration
 work remain outstanding. This does not close any native/provider or release gate.
 
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)

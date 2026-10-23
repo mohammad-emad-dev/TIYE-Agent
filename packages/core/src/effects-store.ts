@@ -1,8 +1,8 @@
 import Database from 'better-sqlite3/win32-x64';
 import { randomUUID } from 'node:crypto';
 import { requireCore, UUID } from './command';
-import { approvalBinding, Invocation, invocation, matchesWitness, MockEffect, MockEvent, MockProjection,
-  normalizedProof, planHash, replayMock, validatePlan } from './effects-model';
+import { approvalBinding, Attention, Invocation, invocation, matchesWitness, MockEffect, MockEvent, MockProjection,
+  normalizedProof, planHash, replayMock, reservedEvents, resolutionHash, resolutionProof, validatePlan, validateResolution } from './effects-model';
 import { configure } from './store';
 import { databasePath, reserveFreshDatabase, RootIdentity, storageRoot, verifyRoot } from './storage';
 
@@ -130,6 +130,25 @@ export class MockEffectStore {
     this.append('settle', { effectId, proof });
   }
 
+  attention(effectId: string): Attention {
+    const effect = this.effect(effectId);
+    requireCore(effect.state === 'needs_attention', 'mock-not-in-attention');
+    const transition = events(this.#database).reverse().find(event => ['stop', 'settle'].includes(event.type)
+      && (JSON.parse(event.body) as { effectId: string }).effectId === effectId);
+    requireCore(transition, 'missing-attention-transition');
+    return { effectId, attemptId: effect.plan.attemptId, attentionSequence: transition.sequence };
+  }
+
+  resolve(candidate: unknown, proofBytes?: Uint8Array): 'accepted' | 'rejected' {
+    const request = validateResolution(candidate), proof = resolutionProof(request, proofBytes);
+    const previous = this.snapshot().commands.find(([id]) => id === request.commandId);
+    if (previous) {
+      requireCore(previous[1].hash === resolutionHash(request, proof), 'mock-command-conflict');
+      return previous[1].result;
+    }
+    return this.append('resolve', { request, proof }).commands.at(-1)![1].result;
+  }
+
   private effect(id: string): MockEffect {
     const effect = this.snapshot().effects.find(([key]) => key === id)?.[1];
     requireCore(effect, 'unknown-mock-effect'); return effect;
@@ -141,6 +160,7 @@ export class MockEffectStore {
     requireCore(history.length < LIMIT, 'mock-history-limit');
     const event = { sequence: history.length + 1, type, body: JSON.stringify(body) };
     const projection = replayMock([...history, event]);
+    requireCore(history.length + 1 + reservedEvents(projection) <= LIMIT, 'mock-reserved-history-limit');
     this.#database.exec('BEGIN IMMEDIATE');
     try {
       this.#database.prepare('INSERT INTO events VALUES (?,?,?)').run(event.sequence, event.type, event.body);

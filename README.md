@@ -13,6 +13,9 @@ The [synthetic Phase 1B slice](output/phase1b-core/README.md) adds durable plann
 exact fixture approval, one-time claims and independent mock-witness reconciliation.
 It uses fresh schema 2 databases; migration and a shared live task registry are
 not implemented. Real effects and provider integrations remain closed.
+The [explicit resolution follow-up](output/attention-resolution/README.md) lets
+the trusted synthetic coordinator confirm completion from existing witness proof
+or close an uncertain attempt as abandoned. Neither outcome retries an action.
 This supersedes the historical unimplemented-core and pending-construction wording
 for this bounded slice only. Team engine, real effects, full integration and release
 remain outside its scope; provider/native gates are unchanged. The original

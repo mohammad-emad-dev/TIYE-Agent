@@ -1,0 +1,62 @@
+{
+  "scope": "internal-synthetic-attention-resolution",
+  "sources": {
+    "packages/core/.gitignore": "c3472ceae215347684d190ca6f1560139f6a222a3b03965423bb11b0a5b6097b",
+    "packages/core/package-lock.json": "eb9be89fb6189909bde4335b359d1dcf8c28cc81926e980724539d4c4b2cc5eb",
+    "packages/core/package.json": "1f4e6d8f27cb4b1c78b1ae621726f84651cc955365e8719b59ed50963c6a433a",
+    "packages/core/README.md": "e658e11d816d0101df1ca66945cdaff6fdb39309f6ce84e5e06232f266008400",
+    "packages/core/scripts/check-boundary.cjs": "1d282110a1078220458d6ba7001ab580cfd27cbc798bb40bc800d030691de7eb",
+    "packages/core/src/command.ts": "02252f76a761f63dd5e67db76ac8512a2ad48a23d8e363715064bf65212e905a",
+    "packages/core/src/effects-model.ts": "d98bb324849d524cb992b7f7f3ff4f085d304e7dd8d43fef2ddff7a3b0b5639f",
+    "packages/core/src/effects-store.ts": "0f876d3a9cfcbf4c9f7d6f45ebaadb372f782916759414b013d0a093b0120664",
+    "packages/core/src/index.ts": "941f77aff23fa21e5de994fd04c511cfd89756da80e08aaeced56224aff19940",
+    "packages/core/src/native.d.ts": "d4b092b4366c7074ea24604c72346c7fe2f0462fa63aba35581a61b3bbb08c38",
+    "packages/core/src/replay.ts": "9a9bb9ba00a6fc5c786d9ee8ecbd01e746136beeea6aa7065c67c2d8c759d4e9",
+    "packages/core/src/schema.ts": "38ef166153173372edf012ba6cf185f8ca2dd5df706b642291e82084bd72fc9b",
+    "packages/core/src/storage.ts": "390e6d5853017babd8d3dc03fedfe8038f4f9cd80a73bdd0f67e1d2940d2ee04",
+    "packages/core/src/store.ts": "d9934226f120fe5538ae3586a7b8b9098ba035f816aca266e8b86156ec48f831",
+    "packages/core/test/crash.test.cjs": "48fabb75a20e24500a566e682098595936ca8be18c7357a7294be3731d3fe34f",
+    "packages/core/test/effects.test.cjs": "1672699cf9a152a4187eb9434920e1e6d22244392d164b8e7a1060654c4c2c3f",
+    "packages/core/test/helpers.cjs": "768d74c10e01e8d17cd57111f8fca4313a1bc7cc75e63b76123da256c192bd86",
+    "packages/core/test/host.cjs": "ac72bcc08387b19b703200bd5d99fe910c6b22ec8bc2fb5b19d1ea1538342c64",
+    "packages/core/test/mock-fixtures.cjs": "a1b94b4aadaab7e0f54a7f7e448166a849f7aeceee5ed5701728b838b2b53acb",
+    "packages/core/test/mock-host.cjs": "deda59f63e68b79c53a84e0eeffbef8ed8d62f74c293224b9b91f70d90c13fe5",
+    "packages/core/test/private-root.ps1": "0fa73900721ab63cc9ac9f76eb50a353a79cef9aa6f80573b122b4390d9489e0",
+    "packages/core/test/processes.cjs": "6dbe4d700f238e4774ef910fc36679c585cfae0afe3dc56330449c9f9d9dbfb2",
+    "packages/core/test/resolution.test.cjs": "6a8cded1b1a09d39274205824a4176b914bcaef1c14f0dff8f98021df1fc2f0f",
+    "packages/core/test/store.test.cjs": "65410c8df0e86a26f9a666d033b7ae7982642f605dd83e63df9053bdb5070273",
+    "packages/core/test/witness.cjs": "3864e7cabcab60d9e09e177ba96ef410d663542b94cb9be4c72daf13431a84e0",
+    "packages/core/tsconfig.json": "6edb2c0590fb8c0b9bb852af23af32c748a7c268333351dac600cd58a7116630",
+    "README.md": "9eee24985d1386e8389fec23fd8fef09213dd115f8c9ad10fa8d40f25367090e",
+    "architecture/TIYE-Agent-Architecture.md": "1c05f6bfe78ba7d3ec17bd13c6e89d872884fdd604967869dcc2a0f392fc2676"
+  },
+  "steps": [
+    {
+      "step": "build",
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "step": "boundary",
+      "exitCode": 0,
+      "stdoutSha256": "2fd9d279ebbf9814b446df77d6a5f05457fdeb2770353d357ac3ab5277b8aef5",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "step": "tests",
+      "exitCode": 0,
+      "stdoutSha256": "d6af29a69e404146a1f7ef37ed00d28f15c3fb1e88f012de52a1595d57928050",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "preflightSha256": "81d414cfb911b56f75ab635274597de22a0b189be5f105c762976d307898af63",
+  "testCounts": {
+    "tests": 34,
+    "pass": 34,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "countSeal": "parent-extracted-from-retained-TAP-matching-stdout-digest"
+}

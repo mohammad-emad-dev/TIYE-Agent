@@ -30,6 +30,8 @@ input.on('line', line => {
   else if (request.op === 'claim') result = store.claim(request.effectId);
   else if (request.op === 'settle') result = store.settle(request.effectId, Buffer.from(JSON.stringify(request.proof)));
   else if (request.op === 'snapshot') result = store.snapshot();
+  else if (request.op === 'resolve') result = store.resolve(request.request,
+    request.proof === undefined ? undefined : Buffer.from(JSON.stringify(request.proof)));
   else throw new Error('unsupported-test-operation');
   process.stdout.write(JSON.stringify({ result: result ?? null }) + '\n');
 });
