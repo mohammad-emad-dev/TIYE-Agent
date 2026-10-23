@@ -1,0 +1,21 @@
+{
+  "schema": "tiye-phase1-entry-proposal-v1",
+  "date": "2026-10-23",
+  "evidenceBaselineCommit": "d675ed6",
+  "currentFullPhase1Gate": "HOLD",
+  "recommendation": "approve-bounded-internal-phase1a-amendment",
+  "ownerApproval": "PENDING",
+  "proposalActivated": false,
+  "internalCoreConstructionAllowed": false,
+  "nativeExecutionAllowed": false,
+  "exportExecutionAllowed": false,
+  "releaseAllowed": false,
+  "productReleaseScope": "complete-product-unchanged",
+  "sGates": {"S1": "PARTIAL", "S2": "PARTIAL", "S3": "PARTIAL", "S4": "PARTIAL", "S5": "PARTIAL", "S6": "PARTIAL"},
+  "nativeGates": {"L1": "PARTIAL", "L2": "PARTIAL", "P1": "OPEN", "P2": "OPEN", "A1": "BLOCKED"},
+  "pendingNativeObservations": ["C0-effective-configuration", "final-PATH"],
+  "nextAfterExplicitApproval": "phase1a-durable-command-event-store-and-replay",
+  "amendment": "AMENDMENT.md",
+  "implementationContract": "CORE-SLICE.md",
+  "commands": []
+}

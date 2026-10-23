@@ -1,0 +1,61 @@
+{
+  "scope": "supplied-context-readiness-and-proposed-amendment-review",
+  "models": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "finalReviewReceived": true,
+      "touchedFiles": [],
+      "resultSha256": "7615a57fac6d52160d8194b9f4adc885e237f8b03cd202e0aaeb8aee3c4fd01f"
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effortOrVariant": null,
+      "status": "completed",
+      "finalReviewReceived": true,
+      "touchedFiles": [],
+      "resultSha256": "904fb52fc6959191c5daad8b2f41f36840ef2be61010fb3ba65a70649b2109ee"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "finalReviewReceived": true,
+      "touchedFiles": [],
+      "resultSha256": "f334584bc289cdffeeeeb3efa4b96a7f5b66ccb827e9d7d08ae17cd451b5c5ea"
+    }
+  ],
+  "adopted": [
+    "Require explicit owner approval of the exact 11.2 amendment",
+    "Keep full product release scope and all integration gates open",
+    "Specify command hashing, IDs, event/schema versions and replay behavior",
+    "Split effect-free 1A from separately reviewed mock-dispatch 1B",
+    "Define witness independence, every-invocation recording and deterministic reconciliation",
+    "Specify import/runtime boundary, owned test roots, crash budgets and exit criteria",
+    "Map open feasibility requirements to their dependent integration phases"
+  ],
+  "scopedDispositions": [
+    {
+      "suggestion": "Pin mock action source before approval of any core work",
+      "decision": "1A has no action runner; require actual 1B source/composition review before its execution"
+    },
+    {
+      "concern": "Witness independence was not sufficiently specified",
+      "decision": "Contract explicitly requires a second database and mock process"
+    },
+    {
+      "suggestion": "Require power-loss, backups, restore and migration before isolated core construction",
+      "decision": "Reject scope expansion; 1A refuses unsupported/corrupt data without reset; these guarantees stay later hardening"
+    },
+    {
+      "concern": "Delivery and reconciliation semantics were insufficiently specified",
+      "decision": "Canonical command idempotency and durable claims specified; ambiguous attempts pause without resend; no exactly-once external guarantee"
+    }
+  ],
+  "parentReview": "Source claims, links, current gate status and concrete proposal checked; docs-guard clean",
+  "independentWorkspaceAudit": false,
+  "runtimeQualification": false,
+  "ownerApprovalSuppliedByReviews": false,
+  "proposalActivated": false
+}

@@ -2,6 +2,12 @@
 
 TIYE Agent is in architecture validation. The repository contains product and technical documents, terminal/control/worktree prototypes, provider-access research and performance experiments. The product core service, event store and team engine are not implemented. The [Phase 0 readiness assessment](output/phase0-readiness/ASSESSMENT.md) consolidates the evidence and remaining requirements as of 16 October 2026; product construction remains on hold.
 
+The [23 October construction entry review](output/phase1-entry-review/README.md)
+reconciles the later evidence and proposes a bounded internal core/event-store
+construction exception. Its exact amendment and first implementation contract
+are ready for owner review. Approval is pending; the proposal does not activate
+Phase 1 or change provider, native-integration or complete-product release gates.
+
 ## Document order
 
 1. [Product Specification](architecture/TIYE-Agent-Product-Specification.md) defines the user-facing behavior.

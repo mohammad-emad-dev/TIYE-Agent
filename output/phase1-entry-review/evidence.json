@@ -1,0 +1,37 @@
+{
+  "artifacts": {
+    "AMENDMENT.md": "72733028ab484755c3d848baf0ff4629b02cabab90229dff142dbb2af614cd48",
+    "CORE-SLICE.md": "8394d0b83590bf21e1f127b025ec020633dfaf2150aa678028647bfa0d452a42",
+    "README.md": "49ebc44775269c413e1935aec888d0651daaa503fe1fb0c5a096a88fc0087bb8",
+    "decision.json": "ef48f241f6bd4a8ec0927d920d800d6445e9816ee778c9014f7aae965d2a030e",
+    "review.json": "0f3b489f7fbd82f4af9eb8d40bf7581bcfe65817b939acb305d5665b5cc91abf",
+    "verification.json": "bf1d33931ac38ea330368483d7a3f17a1499bfb7240f5f9f23bcb50d52e41da1",
+    "verify.py": "61f299bbd138a63171fda31cb0a12bd5f154b49f1f90c2916fc050a57c7d4e09"
+  },
+  "references": {
+    "architecture/TIYE-Agent-Architecture.md": "e46e5a5581d16160af95f7ce5ddae9e2da505510c04eb50b825d2f5c532c6a59",
+    "architecture/TIYE-Agent-Feasibility-Test-Plan.md": "82d118ffcf0d523f1fcfae430d1488662416a7081c219b1248055e9ef32fa764",
+    "feasibility/s1-terminal/RESULTS.md": "f05c7532e4df0128c79eb14d69af687a21c90ea701078484fe3100e99bd79704",
+    "feasibility/s1-terminal/tsconfig.json": "a2a99e719b6424254300e2ce687bdca5fc9bc5703bc2825019fcfd134a09096f",
+    "feasibility/s2-control/RESULTS.md": "6acb1d50f51398466cea9c17287d1a6b98b8d28cd3a6a979c775c7c395e393b0",
+    "feasibility/s2-control/package.json": "9bc0e9cdece3068274c1b4d5bd4eb508daf163a3dca5a87523b52fdd281daf04",
+    "feasibility/s3-worktrees/ASSESSMENT.md": "8fb297e17f9c69caafd5bc548b127cef9476069be83406b53c8c673addadf6d2",
+    "feasibility/s3-worktrees/evidence/assessment.json": "053728bfffdc0aca24094f5228b57534684e5f8991c2fb1d1112b8cc2ae45a22",
+    "feasibility/s3-worktrees/scripts/assess-s3.js": "739f95440dd9fb0d0ecf571eba3144d40a3bfe2ba5d68a967a39fa5170cc70a8",
+    "feasibility/s5-performance/ui/input-backend-pair/README.md": "542458758d897a2711521c7b3b71a850bd67aa7fca6e13b79d709677dbbda65c",
+    "feasibility/s5-performance/ui/input-backend-pair/check-pair.js": "7ecdc3425cda035cf36ad016c577e542bfe7f0d8168b3185a0ae0ec69f9be358",
+    "feasibility/s6-wsl/native-contract/check.py": "434c512f5bb1328c75c2b187e57b1e183fd9088426561082a72a0e5af0bdc155",
+    "feasibility/s6-wsl/owner-preparation/check.py": "b5caee7ec5291a5e512c4e7874de0dfeda3d198527d7a6108b17ef2404d26ddf",
+    "output/phase0-readiness/ASSESSMENT.md": "9bb6d1f5e9f1a64fc4a6324f05f4fc531473a3b8795827a14f413e5fb8fd0a2e",
+    "output/s4-codex-outreach/README.md": "4bc4c2e9c93c153e13189c972ef0c0c233b9d5e2192ef8f42ee4b0568073a0d3",
+    "output/s5-input-backend-pair/comparison.json": "ace82c4a617ca137d581e61de8dbd00d1e88c3b33f9ed53264923f26847a8849",
+    "output/s6-admission-reconciliation/status.json": "c38c80ae364eb65d62b3afbb19a180052b5d8c065681dddd75c84012bbc24057",
+    "output/s6-assessment/README.md": "dcd484fe536292e21d9b02e1bf3d597ecc6ed0a587ffc7ca5172b894cb886952",
+    "output/s6-assessment/coverage.json": "ab50e0e013e3f6044988647b6c522564a796b97f701da7e0e9976b4b49e50fa9",
+    "output/s6-native-contract/contract.json": "8a03fbaafeea7ed34fa4093a765543483c3782896fb269a835b310b0ddd61a6d",
+    "output/s6-owner-preparation/README.md": "5a53e630a59914940be52ef475c55020d7e1d8a31d6db97926b5ed95b9631129",
+    "output/s6-owner-preparation/evidence.json": "2cebdba05b10aaa5c2db5d809452324d0a85c77f99df992dda1e895937448f40",
+    "output/s6-runtime-limits/README.md": "d5a78a9b2382706f88e0a026ee5c96288a0ac4faaf62a5dd2a96201e070fbd03"
+  },
+  "proposalActivated": false
+}

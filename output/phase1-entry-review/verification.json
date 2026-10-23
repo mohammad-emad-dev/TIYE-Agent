@@ -1,0 +1,106 @@
+{
+  "scope": "saved-evidence-and-local-checks-not-native-requalification",
+  "nodeVersion": "v26.7.0",
+  "checks": [
+    {
+      "id": "s1-typecheck",
+      "workingDirectory": "feasibility/s1-terminal",
+      "argv": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "s2-offline-tests",
+      "workingDirectory": "feasibility/s2-control",
+      "argv": [
+        "node",
+        "--test",
+        "test\\acp-failure.test.js",
+        "test\\acp-protocol.test.js",
+        "test\\active-disconnect-evidence.test.js",
+        "test\\approval-evidence.test.js",
+        "test\\briefing-evidence.test.js",
+        "test\\command-cancel-evidence.test.js",
+        "test\\control-evidence.test.js",
+        "test\\denied-profile-evidence.test.js",
+        "test\\permission-capabilities.test.js",
+        "test\\permission-evidence.test.js",
+        "test\\recovery-evidence.test.js",
+        "test\\reliability-summary.test.js",
+        "test\\saved-active.test.js",
+        "test\\saved-approval-evidence.test.js",
+        "test\\service-quiescence.test.js",
+        "test\\stream-cancel-evidence.test.js",
+        "test\\strict-ask-input.test.js",
+        "test\\strict-ask-monitor.test.js",
+        "test\\strict-ask-preflight.test.js",
+        "test\\terminal-approval-evidence.test.js",
+        "test\\terminal-evidence.test.js",
+        "test\\tool-evidence.test.js",
+        "test\\version-evidence.test.js",
+        "test\\worktree-approval-evidence.test.js"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "f6a0ae57821b54ad18902c31c68932721cae60d450d8ec3040ee67a134486493",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tests": 113,
+      "pass": 113,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "id": "s3-saved-assessment",
+      "workingDirectory": "feasibility/s3-worktrees",
+      "argv": [
+        "node",
+        "scripts/assess-s3.js",
+        "--check"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "7e8bd0b4831968e0602e4cb1d32423d24abb6a2f50306491a0bf638c83552cf6",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "s5-saved-latency-evidence",
+      "workingDirectory": "feasibility/s5-performance/ui/input-backend-pair",
+      "argv": [
+        "node",
+        "check-pair.js"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "ace82c4a617ca137d581e61de8dbd00d1e88c3b33f9ed53264923f26847a8849",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "s6-native-plan",
+      "workingDirectory": ".",
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "feasibility/s6-wsl/native-contract/check.py"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "aecc1ac624f7ff3568abcaf45bfecb808be536a91c94750a6f5201660b1c07d4",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "s6-owner-evidence",
+      "workingDirectory": ".",
+      "argv": [
+        "C:\\Program Files\\Python314\\python.exe",
+        "-B",
+        "feasibility/s6-wsl/owner-preparation/check.py"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "c9caf2272204956b4a9756675b44666a110a932b6b8f278c8983d93eccd7ef33",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "nativeExecutionAllowed": false,
+  "phase1ConstructionAllowed": false
+}
