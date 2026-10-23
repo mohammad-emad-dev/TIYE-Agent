@@ -1,0 +1,48 @@
+{
+  "delegatedDesignReviews": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "c128a7eedf1eeacef3ff68ec1c3f5340f711740fd7d5d657c5bfb4990306f71d",
+      "touchedFiles": []
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effortOrVariant": null,
+      "status": "completed",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "35fb76713363513233030857e80601286ef2fd0652d42561d545df1601b8ddf3",
+      "touchedFiles": []
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "timeout",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "3b225ffde67524bbc45d691318cf50b56d2437c17e946633bea1635866bf950b",
+      "touchedFiles": []
+    }
+  ],
+  "parentFinalSourceReview": "accepted-with-documented-internal-scope-limitations",
+  "cleanCodeGuard": {
+    "fixed": 3,
+    "flagged": 1,
+    "fixes": [
+      "runtime-private SQLite/root fields",
+      "narrow proof error normalization",
+      "ES2022-compatible Unicode scalar validation"
+    ],
+    "flag": "Bounded full replay and projection replacement; no throughput qualification."
+  },
+  "testGuard": "accepted-real-SQLite-process-boundaries-no-internal-fakes",
+  "docsGuard": "accepted-API-hash-encoding-status-and-historical-pins-checked",
+  "remainingLimits": [
+    "fresh schema 2 only; no migration/shared live task registry",
+    "attention resolution not implemented",
+    "trusted fixture approvals and witness traffic",
+    "cooperative cancellation; issued invocations cannot be revoked",
+    "no production dispatcher/provider/native integration/release"
+  ]
+}

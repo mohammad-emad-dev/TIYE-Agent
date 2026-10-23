@@ -1464,7 +1464,15 @@ S1–S6 evidence remains required before dependent integrations and release, and
 the complete-product scope and remaining build order are unchanged. The owner
 may revoke the exception; changed scope or newly reachable effects require a new
 decision. Historical HOLD assessments below describe their recorded baseline;
-the current permission is internal Phase 1A only, not full integration readiness.
+the current permission covers internal Phase 1A and its separately reviewed
+synthetic Phase 1B composition, not full integration readiness. Phase 1A was
+accepted at `4f237b1`. The [Phase 1B execution plan](../output/phase1b-core/TEST-PLAN.md)
+records the exact review and owned test scope before execution; its
+[evidence](../output/phase1b-core/README.md) covers durable plans, fixture approval,
+one-time claims and independent synthetic witness reconciliation. The schema 2
+store is fresh-only, without schema 1 migration or a shared live task registry.
+Attention resolution, production dispatch, team engine and dependent integration
+work remain outstanding. This does not close any native/provider or release gate.
 
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;

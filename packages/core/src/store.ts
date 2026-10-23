@@ -7,7 +7,7 @@ import { databasePath, reserveFreshDatabase, RootIdentity, storageRoot, verifyRo
 
 const MAX_EVENTS = 10000;
 
-function configure(database: Database.Database): void {
+export function configure(database: Database.Database): void {
   database.pragma('foreign_keys=ON');
   database.pragma('synchronous=FULL');
   database.pragma('temp_store=MEMORY');

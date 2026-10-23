@@ -1,0 +1,131 @@
+import { createHash } from 'node:crypto';
+import { CoreRefusal, exactFields, requireCore, UUID } from './command';
+
+export interface MockPlan {
+  commandId: string; taskId: string; effectId: string; attemptId: string;
+  targetId: string; payload: string; expiresAt: number;
+}
+export type EffectState = 'planned' | 'dispatching' | 'completed' | 'needs_attention' | 'cancelled';
+export interface MockEffect { plan: MockPlan; state: EffectState }
+export interface MockProjection {
+  commands: [string, { hash: string; result: 'accepted' | 'rejected' }][];
+  tasks: [string, EffectState][]; effects: [string, MockEffect][]; approvals: [string, string][];
+}
+export interface MockEvent { sequence: number; type: string; body: string }
+export interface Invocation { effectId: string; attemptId: string; targetId: string; operation: 'mock.record'; payloadHash: string; expiresAt: number }
+
+export function hashRecord(record: unknown): string {
+  return createHash('sha256').update(JSON.stringify(record), 'utf8').digest('hex');
+}
+
+export function validatePlan(candidate: unknown): MockPlan {
+  exactFields(candidate, ['commandId', 'taskId', 'effectId', 'attemptId', 'targetId', 'payload', 'expiresAt']);
+  for (const key of ['commandId', 'taskId', 'effectId', 'attemptId', 'targetId'])
+    requireCore(typeof candidate[key] === 'string' && UUID.test(candidate[key]), 'invalid-mock-id');
+  requireCore(typeof candidate.payload === 'string' && [...candidate.payload].every(character => {
+    const point = character.codePointAt(0)!;
+    return point < 0xd800 || point > 0xdfff;
+  })
+    && [...candidate.payload].length >= 1 && [...candidate.payload].length <= 256
+    && Buffer.byteLength(candidate.payload) <= 1024, 'invalid-mock-payload');
+  requireCore(Number.isSafeInteger(candidate.expiresAt) && (candidate.expiresAt as number) >= 0, 'invalid-mock-deadline');
+  return { commandId: candidate.commandId as string, taskId: candidate.taskId as string,
+    effectId: candidate.effectId as string, attemptId: candidate.attemptId as string,
+    targetId: candidate.targetId as string, payload: candidate.payload, expiresAt: candidate.expiresAt as number };
+}
+
+export function planHash(plan: MockPlan): string {
+  return hashRecord(['mock.plan', 1, plan.commandId, plan.taskId, plan.effectId,
+    plan.attemptId, plan.targetId, plan.payload, plan.expiresAt]);
+}
+
+export function invocation(plan: MockPlan): Invocation {
+  return { effectId: plan.effectId, attemptId: plan.attemptId, targetId: plan.targetId,
+    operation: 'mock.record', payloadHash: hashRecord(['mock.record', 1, plan.targetId, plan.payload]), expiresAt: plan.expiresAt };
+}
+
+export function approvalBinding(plan: MockPlan): string {
+  const request = invocation(plan);
+  return hashRecord(['mock.approval', 1, request.effectId, request.attemptId, request.targetId,
+    request.operation, request.payloadHash, request.expiresAt]);
+}
+
+export function normalizedProof(bytes: Uint8Array): unknown {
+  try {
+    requireCore(bytes instanceof Uint8Array && bytes.length <= 16384, 'witness-byte-bound');
+    const text = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
+    const proof: unknown = JSON.parse(text);
+    requireCore(JSON.stringify(proof) === text, 'noncanonical-witness');
+    return proof;
+  } catch (fault) {
+    if (fault instanceof CoreRefusal || fault instanceof SyntaxError || fault instanceof TypeError || fault instanceof RangeError)
+      return { scope: 'unavailable' };
+    throw fault;
+  }
+}
+
+export function matchesWitness(plan: MockPlan, proof: unknown): boolean {
+  try {
+    exactFields(proof, ['scope', 'targetId', 'rows']);
+    requireCore(proof.scope === 'mock-witness-v1' && proof.targetId === plan.targetId
+      && Array.isArray(proof.rows) && proof.rows.length === 1, 'ambiguous-witness');
+    const row: unknown = proof.rows[0];
+    exactFields(row, ['sequence', 'effectId', 'attemptId', 'targetId', 'operation', 'payloadHash', 'expiresAt']);
+    requireCore(Number.isSafeInteger(row.sequence) && (row.sequence as number) > 0, 'witness-sequence');
+    const expected = invocation(plan);
+    return Object.entries(expected).every(([key, value]) => row[key] === value);
+  } catch (fault) {
+    if (fault instanceof CoreRefusal) return false;
+    throw fault;
+  }
+}
+
+export function replayMock(events: MockEvent[]): MockProjection {
+  const commands = new Map<string, { hash: string; result: 'accepted' | 'rejected' }>();
+  const tasks = new Map<string, EffectState>(), effects = new Map<string, MockEffect>(), approvals = new Map<string, string>();
+  function transition(effect: MockEffect, state: EffectState): void {
+    effect.state = state; tasks.set(effect.plan.taskId, state);
+  }
+  for (const [ordinal, event] of events.entries()) {
+    requireCore(event.sequence === ordinal + 1 && Buffer.byteLength(event.body) <= 16384, 'mock-event-sequence-or-size');
+    const body: unknown = JSON.parse(event.body);
+    requireCore(JSON.stringify(body) === event.body, 'noncanonical-mock-event');
+    if (event.type === 'plan') {
+      const plan = validatePlan(body);
+      requireCore(!commands.has(plan.commandId), 'duplicate-mock-command');
+      const conflict = tasks.has(plan.taskId) || effects.has(plan.effectId)
+        || [...effects.values()].some(effect => effect.plan.attemptId === plan.attemptId);
+      commands.set(plan.commandId, { hash: planHash(plan), result: conflict ? 'rejected' : 'accepted' });
+      if (!conflict) { tasks.set(plan.taskId, 'planned'); effects.set(plan.effectId, { plan, state: 'planned' }); }
+      continue;
+    }
+    requireCore(body !== null && typeof body === 'object', 'mock-event-body');
+    const request = body as Record<string, unknown>;
+    const effect = effects.get(request.effectId as string);
+    requireCore(effect, 'unknown-mock-effect');
+    if (event.type === 'approve') {
+      exactFields(body, ['effectId', 'binding']);
+      requireCore(effect.state === 'planned' && request.binding === approvalBinding(effect.plan)
+        && !approvals.has(effect.plan.effectId), 'invalid-mock-approval');
+      approvals.set(effect.plan.effectId, request.binding as string);
+    } else if (event.type === 'claim') {
+      exactFields(body, ['effectId', 'observedAt']);
+      requireCore(effect.state === 'planned' && approvals.get(effect.plan.effectId) === approvalBinding(effect.plan)
+        && Number.isSafeInteger(request.observedAt) && (request.observedAt as number) >= 0
+        && (request.observedAt as number) < effect.plan.expiresAt, 'invalid-mock-claim');
+      transition(effect, 'dispatching');
+    } else if (event.type === 'stop') {
+      exactFields(body, ['effectId', 'reason', 'observedAt']);
+      requireCore(['cancel', 'deadline'].includes(request.reason as string)
+        && Number.isSafeInteger(request.observedAt) && (request.observedAt as number) >= 0
+        && (request.reason !== 'deadline' || (request.observedAt as number) >= effect.plan.expiresAt)
+        && ['planned', 'dispatching'].includes(effect.state), 'invalid-mock-stop');
+      transition(effect, effect.state === 'planned' ? 'cancelled' : 'needs_attention');
+    } else if (event.type === 'settle') {
+      exactFields(body, ['effectId', 'proof']);
+      requireCore(effect.state === 'dispatching', 'invalid-mock-settlement');
+      transition(effect, matchesWitness(effect.plan, request.proof) ? 'completed' : 'needs_attention');
+    } else requireCore(false, 'unsupported-mock-event');
+  }
+  return { commands: [...commands], tasks: [...tasks], effects: [...effects], approvals: [...approvals] };
+}

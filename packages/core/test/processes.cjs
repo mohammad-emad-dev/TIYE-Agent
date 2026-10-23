@@ -3,8 +3,9 @@ const { spawn } = require('node:child_process');
 const path = require('node:path');
 const assert = require('node:assert/strict');
 
-function launch(mode, root, barrier) {
-  const child = spawn(process.execPath, [path.join(__dirname, 'host.cjs'), mode, root, ...(barrier ? [barrier] : [])],
+function launch(mode, root, barrier, host = 'host.cjs') {
+  assert(['host.cjs', 'mock-host.cjs'].includes(host));
+  const child = spawn(process.execPath, [path.join(__dirname, host), mode, root, ...(barrier ? [barrier] : [])],
     { windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] });
   const deadline = Date.now() + 10000;
   const records = [], readers = [];

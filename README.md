@@ -9,8 +9,12 @@ is the historical 16 October baseline; full integration readiness remains HOLD.
 The project owner approved the [internal Phase 1A exception](output/phase1a-core/APPROVAL.md).
 The [first product core](packages/core/README.md) now implements durable task
 commands, SQLite events and replay, with [source-bound verification](output/phase1a-core/README.md).
+The [synthetic Phase 1B slice](output/phase1b-core/README.md) adds durable planning,
+exact fixture approval, one-time claims and independent mock-witness reconciliation.
+It uses fresh schema 2 databases; migration and a shared live task registry are
+not implemented. Real effects and provider integrations remain closed.
 This supersedes the historical unimplemented-core and pending-construction wording
-for this bounded slice only. Team engine, effects, full integration and release
+for this bounded slice only. Team engine, real effects, full integration and release
 remain outside its scope; provider/native gates are unchanged. The original
 [entry proposal](output/phase1-entry-review/README.md) remains a frozen baseline.
 
@@ -24,7 +28,7 @@ remain outside its scope; provider/native gates are unchanged. The original
 ## Feasibility record and remaining integration gates
 
 The original preconstruction gate below is historical for the approved internal
-Phase 1A slice. Its remaining requirements still govern dependent integrations;
+Phase 1A/1B slices. Its remaining requirements still govern dependent integrations;
 the internal exception does not mark them passed or admit native execution.
 
 Run feasibility tests S1 through S6 and record versions, measurements, and pass/partial/fail results in the forms provided by the test plan. S1 must validate main-owned terminals and process cleanup; S2 must establish a reliable delegated-task round trip; S3 must measure worktrees and verify the stated permission limits. Update the architecture from the results before starting the core event store and team engine.
