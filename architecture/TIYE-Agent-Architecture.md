@@ -1494,7 +1494,10 @@ generic dispatcher, new executable, provider/native CLI, terminal, MCP/network
 server, credentials, real project actions, Git, exports, licensing or release
 is admitted. The exception ends at the Phase 2A exit review. Feasibility and
 release gates remain required for dependent integration; the complete product
-scope is unchanged. Engine implementation and its exit evidence remain pending.
+scope is unchanged. The [first session foundation](../output/phase2a-session/README.md)
+implements durable roster creation in fresh schema 3 using the shared core writer.
+It does not yet implement inboxes, assignment scheduling, reports or stop/recovery.
+The full Phase 2A exit review remains pending.
 
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;

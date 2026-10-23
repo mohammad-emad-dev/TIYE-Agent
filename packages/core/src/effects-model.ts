@@ -1,5 +1,7 @@
-import { createHash } from 'node:crypto';
-import { commandHash, CoreRefusal, exactFields, requireCore, UUID, validateCommand } from './command';
+import { commandHash, CoreRefusal, exactFields, requireCore, UUID, validateCommand, validText } from './command';
+import { EngineSession, reduceSession } from './engine-session';
+import { hashRecord } from './record';
+export { hashRecord } from './record';
 
 export interface MockPlan {
   commandId: string; taskId: string; effectId: string; attemptId: string;
@@ -12,6 +14,7 @@ export interface MockEffect { plan: MockPlan; state: EffectState }
 export interface MockProjection {
   commands: [string, { hash: string; result: 'accepted' | 'rejected' }][];
   tasks: [string, TaskState][]; effects: [string, MockEffect][]; approvals: [string, string][];
+  sessions?: [string, EngineSession][];
 }
 export interface MockEvent { sequence: number; type: string; body: string }
 export interface Invocation { effectId: string; attemptId: string; targetId: string; operation: 'mock.record'; payloadHash: string; expiresAt: number }
@@ -72,20 +75,11 @@ export function reservedEvents(projection: MockProjection): number {
       : effect.state === 'dispatching' ? 2 : effect.state === 'needs_attention' ? 1 : 0), 0);
 }
 
-export function hashRecord(record: unknown): string {
-  return createHash('sha256').update(JSON.stringify(record), 'utf8').digest('hex');
-}
-
 export function validatePlan(candidate: unknown): MockPlan {
   exactFields(candidate, ['commandId', 'taskId', 'effectId', 'attemptId', 'targetId', 'payload', 'expiresAt']);
   for (const key of ['commandId', 'taskId', 'effectId', 'attemptId', 'targetId'])
     requireCore(typeof candidate[key] === 'string' && UUID.test(candidate[key]), 'invalid-mock-id');
-  requireCore(typeof candidate.payload === 'string' && [...candidate.payload].every(character => {
-    const point = character.codePointAt(0)!;
-    return point < 0xd800 || point > 0xdfff;
-  })
-    && [...candidate.payload].length >= 1 && [...candidate.payload].length <= 256
-    && Buffer.byteLength(candidate.payload) <= 1024, 'invalid-mock-payload');
+  requireCore(validText(candidate.payload), 'invalid-mock-payload');
   requireCore(Number.isSafeInteger(candidate.expiresAt) && (candidate.expiresAt as number) >= 0, 'invalid-mock-deadline');
   return { commandId: candidate.commandId as string, taskId: candidate.taskId as string,
     effectId: candidate.effectId as string, attemptId: candidate.attemptId as string,
@@ -156,10 +150,11 @@ export function matchesWitness(plan: MockPlan, proof: unknown): boolean {
   }
 }
 
-export function replayMock(events: MockEvent[]): MockProjection {
+export function replayMock(events: MockEvent[], engine = false): MockProjection {
   const commands = new Map<string, { hash: string; result: 'accepted' | 'rejected' }>();
   const tasks = new Map<string, TaskState>(), effects = new Map<string, MockEffect>(), approvals = new Map<string, string>();
   const attentionSequences = new Map<string, number>();
+  const sessions = new Map<string, EngineSession>();
   function transition(effect: MockEffect, state: EffectState, sequence: number): void {
     effect.state = state; tasks.set(effect.plan.taskId, state);
     if (state === 'needs_attention') attentionSequences.set(effect.plan.effectId, sequence);
@@ -169,6 +164,11 @@ export function replayMock(events: MockEvent[]): MockProjection {
     requireCore(event.sequence === ordinal + 1 && Buffer.byteLength(event.body) <= 16384, 'mock-event-sequence-or-size');
     const body: unknown = JSON.parse(event.body);
     requireCore(JSON.stringify(body) === event.body, 'noncanonical-mock-event');
+    if (event.type === 'team.session.create') {
+      requireCore(engine, 'engine-event-in-schema2');
+      reduceSession(body, { commands, sessions });
+      continue;
+    }
     if (event.type === 'task.create') {
       const command = validateCommand(body);
       requireCore(!commands.has(command.commandId), 'duplicate-task-command');
@@ -219,5 +219,6 @@ export function replayMock(events: MockEvent[]): MockProjection {
       transition(effect, matchesWitness(effect.plan, request.proof) ? 'completed' : 'needs_attention', event.sequence);
     } else requireCore(false, 'unsupported-mock-event');
   }
-  return { commands: [...commands], tasks: [...tasks], effects: [...effects], approvals: [...approvals] };
+  return { commands: [...commands], tasks: [...tasks], effects: [...effects], approvals: [...approvals],
+    ...(engine ? { sessions: [...sessions] } : {}) };
 }

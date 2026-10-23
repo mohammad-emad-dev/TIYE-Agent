@@ -1,0 +1,39 @@
+{
+  "scope": "first-phase2a-component-session-foundation-only",
+  "authority": {
+    "approvalCommit": "4ce785d",
+    "proposalCommit": "8f2d0a2"
+  },
+  "priorEntryDesignReview": {
+    "path": "output/team-engine-entry/review.json",
+    "sha256": "5ff715229f273586ffd280a03674bfd930831036ae54e4cf52fb9b9c4a2ca270",
+    "scope": "entry proposal only; not review of these new source files"
+  },
+  "actualSourceReview": "parent-reviewed before execution; exact source-bound preflight recorded",
+  "cleanCodeGuard": {
+    "fixed": 2,
+    "flagged": 1,
+    "fixes": [
+      "shared hash helper without a model/session import cycle",
+      "shared bounded Unicode text validation"
+    ],
+    "flag": "Existing bounded full replay/projection replacement; no throughput qualification."
+  },
+  "testGuard": "accepted-real-SQLite-abort-and-owned-process-COMMIT-barriers; no internal fakes",
+  "docsGuard": "API, partial milestone status, canonical wire/hash and frozen approval checked",
+  "verifiedCurrentComponent": [
+    "durable single-session roster",
+    "owner/member handle separation",
+    "shared ledger and schema3 transaction path",
+    "session stop slot reserved"
+  ],
+  "notImplemented": [
+    "inboxes/assignments",
+    "FIFO start/concurrency reservations",
+    "engine result reporting",
+    "engine stop/recovery commands",
+    "full eight-event assignment budget"
+  ],
+  "phase2aExit": "NOT_COMPLETE",
+  "integrationGate": "HOLD"
+}

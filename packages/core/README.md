@@ -231,3 +231,39 @@ transfer between old roots, automatic schema migration or real action is added.
 Schema tables are unchanged; older readers refuse unfamiliar `task.create` and
 `task.plan` events. Do not downgrade a database after using the new entry points.
 See [shared-registry evidence](../../output/task-registry/README.md).
+
+## Phase 2A: session foundation
+
+The owner approved bounded internal engine construction at proposal `8f2d0a2`;
+the [approval record](../../output/phase2a-approval/README.md) activates that scope.
+This first component adds a durable session/roster only; the full engine is still
+under construction. It does not yet enqueue, schedule, stop or recover engine tasks.
+
+- `TaskStore.createEngine(directory)` creates fresh schema 3 with the existing
+  command/event/task/effect/approval tables plus a sessions projection table.
+  `openEngine(directory)` requires that exact version; ordinary create/open still
+  use schema 2. There is no automatic migration, reset or downgrade.
+- `store.owner()` returns a frozen coordinator handle with `createSession(bytes)`
+  and `session()`. Creation returns durable accepted/rejected; session returns a
+  fresh roster snapshot or null. One accepted roster is allowed per database.
+- `store.member(memberId)` returns a frozen handle with `context()` bound to a
+  member in the accepted roster. It exposes that member's identity, name,
+  instructions, session ID and leader/member role, with no owner operation or raw
+  store. The coordinator retains the store; the handles do not authenticate
+  hostile code already executing inside that coordinator.
+- Session commands and task/effect commands share the same SQLite ledger and
+  transaction path. Exact redelivery survives reopen; changed payload or command
+  ID reuse across types refuses. Failed writes roll back all projections.
+
+The closed session DTO, canonical wire/hash format and planned behavioral checks
+are specified in the [source-reviewed execution plan](../../output/phase2a-session/TEST-PLAN.md).
+Its wire grammar requires compact canonical JSON rather than the task-create
+lexer's whitespace/numeric alias allowances. Both text validators share the same
+Unicode/byte bounds. A session reserves one event for future logical stop; this
+component does not implement stop or the later assignment-capacity budget.
+
+See [session verification](../../output/phase2a-session/README.md). Fresh schema 3
+and schema 2 use the same owner/lease, storage validation, replay and effect code;
+there is no independent engine writer. Engine inboxes, assignments, concurrency
+enforcement, result reporting and stop/recovery remain ahead. Full integration
+and release remain HOLD.

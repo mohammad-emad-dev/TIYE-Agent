@@ -2,7 +2,7 @@
 
 TIYE Agent is in architecture validation and approved internal core construction.
 The repository contains product and technical documents, feasibility prototypes
-and a bounded product command/event store. The team engine and complete product
+and a bounded product command/event store. The complete team engine and product
 remain unimplemented. The [Phase 0 assessment](output/phase0-readiness/ASSESSMENT.md)
 is the historical 16 October baseline; full integration readiness remains HOLD.
 
@@ -19,11 +19,14 @@ or close an uncertain attempt as abandoned. Neither outcome retries an action.
 The [shared registry](output/task-registry/README.md) now creates tasks and attaches
 synthetic effects in one store, with a common command namespace and event-backed
 task titles. This is the core basis for later team orchestration; no migration or
-team engine is implemented yet.
+complete team engine is implemented yet.
 The owner [approved Phase 2A construction](output/phase2a-approval/README.md)
 against the frozen [engine entry contract](output/team-engine-entry/CONTRACT.md).
 The bounded synthetic engine is now authorized for development; actual source
 review and preflight remain required before execution.
+The [first Phase 2A component](output/phase2a-session/README.md) implements durable
+session creation and bound roster contexts in fresh schema 3 stores. Inboxes,
+scheduling and the full engine lifecycle remain under construction.
 This supersedes the historical unimplemented-core and pending-construction wording
 for this bounded slice only. Team engine, real effects, full integration and release
 remain outside its scope; provider/native gates are unchanged. The original

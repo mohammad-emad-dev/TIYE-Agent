@@ -211,3 +211,5 @@ output/task-registry/** -text whitespace=blank-at-eol,blank-at-eof,space-before-
 output/team-engine-entry/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 
 output/phase2a-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+output/phase2a-session/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

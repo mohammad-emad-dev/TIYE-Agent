@@ -1,0 +1,66 @@
+{
+  "scope": "internal-phase2a-session-foundation",
+  "sources": {
+    "packages/core/.gitignore": "c3472ceae215347684d190ca6f1560139f6a222a3b03965423bb11b0a5b6097b",
+    "packages/core/package-lock.json": "eb9be89fb6189909bde4335b359d1dcf8c28cc81926e980724539d4c4b2cc5eb",
+    "packages/core/package.json": "1f4e6d8f27cb4b1c78b1ae621726f84651cc955365e8719b59ed50963c6a433a",
+    "packages/core/README.md": "aa8da3c6e31da3c240b964f074737f0877566edbe407e3ca4798d7e1d90a23a3",
+    "packages/core/scripts/check-boundary.cjs": "1d282110a1078220458d6ba7001ab580cfd27cbc798bb40bc800d030691de7eb",
+    "packages/core/src/command.ts": "83af5783dbe35fa873771faf1bf2007432a9f68c8d429375514a2d0656810eaf",
+    "packages/core/src/effects-model.ts": "91a7952a31f5fb4bb7d77cf88f5342823a494a85b21d352a510be2fb1d50e622",
+    "packages/core/src/effects-store.ts": "680cb5f9192b60e2ec68b39570709190ea33b258efa6688e0a9401fcb4d9f079",
+    "packages/core/src/engine-session.ts": "e979f28f9820ab8e806729d4e2f7822c297382f097af12f5b1be62d8df7da25c",
+    "packages/core/src/index.ts": "9e4e660b67bbadd3ea7f1a12039ea351dd048f17004ddbdd8883062c02f7e2f7",
+    "packages/core/src/native.d.ts": "d4b092b4366c7074ea24604c72346c7fe2f0462fa63aba35581a61b3bbb08c38",
+    "packages/core/src/record.ts": "df081141203ab6de7f4078c243d2d245fe22fb16aac1a59916e25633d78189a9",
+    "packages/core/src/replay.ts": "9a9bb9ba00a6fc5c786d9ee8ecbd01e746136beeea6aa7065c67c2d8c759d4e9",
+    "packages/core/src/schema.ts": "38ef166153173372edf012ba6cf185f8ca2dd5df706b642291e82084bd72fc9b",
+    "packages/core/src/storage.ts": "390e6d5853017babd8d3dc03fedfe8038f4f9cd80a73bdd0f67e1d2940d2ee04",
+    "packages/core/src/store.ts": "d9934226f120fe5538ae3586a7b8b9098ba035f816aca266e8b86156ec48f831",
+    "packages/core/test/crash.test.cjs": "48fabb75a20e24500a566e682098595936ca8be18c7357a7294be3731d3fe34f",
+    "packages/core/test/effects.test.cjs": "1672699cf9a152a4187eb9434920e1e6d22244392d164b8e7a1060654c4c2c3f",
+    "packages/core/test/helpers.cjs": "768d74c10e01e8d17cd57111f8fca4313a1bc7cc75e63b76123da256c192bd86",
+    "packages/core/test/host.cjs": "ac72bcc08387b19b703200bd5d99fe910c6b22ec8bc2fb5b19d1ea1538342c64",
+    "packages/core/test/mock-fixtures.cjs": "a1b94b4aadaab7e0f54a7f7e448166a849f7aeceee5ed5701728b838b2b53acb",
+    "packages/core/test/mock-host.cjs": "fbc34515a434b80987fa0a0d960d4c7f0c34a1eab19e6d665e77d47fb75f2baf",
+    "packages/core/test/private-root.ps1": "0fa73900721ab63cc9ac9f76eb50a353a79cef9aa6f80573b122b4390d9489e0",
+    "packages/core/test/processes.cjs": "6dbe4d700f238e4774ef910fc36679c585cfae0afe3dc56330449c9f9d9dbfb2",
+    "packages/core/test/registry.test.cjs": "40792bc651b404961dea82225ac3bed32d962048e464401d1a5fc57a48bb6834",
+    "packages/core/test/resolution.test.cjs": "c1aa231a26d9c79d670fb45178fbec9bfc0bb151fe90c45905236f5d3268ea6a",
+    "packages/core/test/session.test.cjs": "dc14b8b0fc849ec6f9e88b0060cc6a4e5e18df5f983b6230eae70aeaf5e6c644",
+    "packages/core/test/store.test.cjs": "65410c8df0e86a26f9a666d033b7ae7982642f605dd83e63df9053bdb5070273",
+    "packages/core/test/witness.cjs": "3864e7cabcab60d9e09e177ba96ef410d663542b94cb9be4c72daf13431a84e0",
+    "packages/core/tsconfig.json": "6edb2c0590fb8c0b9bb852af23af32c748a7c268333351dac600cd58a7116630",
+    "README.md": "d35d9a11e793b350503ad09f6c679821ddfb83670defc703dc8b7587459309d6",
+    "architecture/TIYE-Agent-Architecture.md": "57082d66c2fa341b01ed29702140d6baa111c3a18be098ffa4921ac96b1a1cc5"
+  },
+  "steps": [
+    {
+      "step": "build",
+      "exitCode": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "step": "boundary",
+      "exitCode": 0,
+      "stdoutSha256": "2fd9d279ebbf9814b446df77d6a5f05457fdeb2770353d357ac3ab5277b8aef5",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "step": "tests",
+      "exitCode": 0,
+      "stdoutSha256": "c5e6eba2816e78db17c7c9ef597578877cee505beb416f3e24c1ed958ec23a18",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "preflightSha256": "850509df68c4ce850b7c12713ec3204235888f6cc0cf4ff21c2443a5fdf137ac",
+  "testCounts": {
+    "tests": 55,
+    "pass": 55,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "countSeal": "parent-extracted-from-retained-TAP-matching-stdout-digest"
+}

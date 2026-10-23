@@ -7,22 +7,31 @@ import { approvalBinding, Attention, Invocation, invocation, matchesWitness, Moc
   TaskRecord, validatePlan, validateResolution } from './effects-model';
 import { configure } from './store';
 import { databasePath, reserveFreshDatabase, RootIdentity, storageRoot, verifyRoot } from './storage';
+import { decodeSession, EngineMemberHandle, EngineOwner, sessionHash } from './engine-session';
 
 const LIMIT = 1000;
 const APPLICATION_ID = 0x54495946;
 const PROJECTIONS = ['commands', 'tasks', 'effects', 'approvals'] as const;
+const ENGINE_PROJECTIONS = [...PROJECTIONS, 'sessions'] as const;
+type StoreVersion = 2 | 3;
+function projectionNames(version: StoreVersion) { return version === 3 ? ENGINE_PROJECTIONS : PROJECTIONS; }
 const TABLES: Record<string, string> = {
   metadata: 'CREATE TABLE metadata (singleton INTEGER PRIMARY KEY CHECK(singleton=1), database_id TEXT NOT NULL) STRICT',
   events: 'CREATE TABLE events (sequence INTEGER PRIMARY KEY, type TEXT NOT NULL, body TEXT NOT NULL CHECK(length(CAST(body AS BLOB))<=16384)) STRICT',
   ...Object.fromEntries(PROJECTIONS.map(name => [name, `CREATE TABLE ${name} (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT`]))
 };
 
-function validateSchema(database: Database.Database): void {
+function tables(version: StoreVersion): Record<string, string> {
+  return version === 2 ? TABLES : { ...TABLES, sessions: 'CREATE TABLE sessions (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT' };
+}
+
+function validateSchema(database: Database.Database, version: StoreVersion): void {
   requireCore(database.pragma('application_id', { simple: true }) === APPLICATION_ID
-    && database.pragma('user_version', { simple: true }) === 2, 'unsupported-mock-database');
+    && database.pragma('user_version', { simple: true }) === version, 'unsupported-mock-database');
   const schema = database.prepare("SELECT name,type,sql FROM sqlite_schema WHERE substr(name,1,7)<>'sqlite_' ORDER BY name").all() as { name: string; type: string; sql: string }[];
-  requireCore(schema.length === Object.keys(TABLES).length
-    && schema.every(row => row.type === 'table' && TABLES[row.name] === row.sql), 'unsupported-mock-schema');
+  const expected = tables(version);
+  requireCore(schema.length === Object.keys(expected).length
+    && schema.every(row => row.type === 'table' && expected[row.name] === row.sql), 'unsupported-mock-schema');
   requireCore((database.prepare('SELECT count(*) AS count FROM sqlite_temp_schema').get() as { count: number }).count === 0, 'unexpected-temporary-schema');
   requireCore(database.pragma('integrity_check', { simple: true }) === 'ok', 'mock-integrity');
   const metadata = database.prepare('SELECT * FROM metadata').all() as { singleton: number; database_id: string }[];
@@ -35,12 +44,12 @@ function events(database: Database.Database): MockEvent[] {
   return rows;
 }
 
-function validated(database: Database.Database): MockProjection {
-  validateSchema(database);
-  const rebuilt = replayMock(events(database));
-  for (const name of PROJECTIONS) {
+function validated(database: Database.Database, version: StoreVersion): MockProjection {
+  validateSchema(database, version);
+  const rebuilt = replayMock(events(database), version === 3);
+  for (const name of projectionNames(version)) {
     const rows = database.prepare(`SELECT id,value FROM ${name} ORDER BY rowid LIMIT ?`).all(LIMIT + 1) as { id: string; value: string }[];
-    const expected = rebuilt[name].map(([id, value]) => ({ id, value: JSON.stringify(value) }));
+    const expected = (rebuilt[name] ?? []).map(([id, value]) => ({ id, value: JSON.stringify(value) }));
     requireCore(JSON.stringify(rows) === JSON.stringify(expected), 'mock-projection-drift');
   }
   return rebuilt;
@@ -51,12 +60,17 @@ export class MockEffectStore {
   #closed = false;
   readonly #root: RootIdentity;
   readonly #database: Database.Database;
-  private constructor(root: RootIdentity, database: Database.Database) { this.#root = root; this.#database = database; }
+  readonly #version: StoreVersion;
+  private constructor(root: RootIdentity, database: Database.Database, version: StoreVersion) {
+    this.#root = root; this.#database = database; this.#version = version;
+  }
 
-  static create(directory: string): MockEffectStore { return MockEffectStore.connect(directory, true); }
-  static open(directory: string): MockEffectStore { return MockEffectStore.connect(directory, false); }
+  static create(directory: string): MockEffectStore { return MockEffectStore.connect(directory, true, 2); }
+  static open(directory: string): MockEffectStore { return MockEffectStore.connect(directory, false, 2); }
+  static createEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, true, 3); }
+  static openEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, false, 3); }
 
-  private static connect(directory: string, fresh: boolean): MockEffectStore {
+  private static connect(directory: string, fresh: boolean, version: StoreVersion): MockEffectStore {
     const root = storageRoot(directory);
     if (fresh) reserveFreshDatabase(root);
     verifyRoot(root);
@@ -65,16 +79,16 @@ export class MockEffectStore {
       configure(database);
       database.exec('BEGIN EXCLUSIVE');
       if (fresh) {
-        for (const sql of Object.values(TABLES)) database.exec(sql);
+        for (const sql of Object.values(tables(version))) database.exec(sql);
         database.prepare('INSERT INTO metadata VALUES (1,?)').run(randomUUID());
         database.pragma('application_id=' + APPLICATION_ID);
-        database.pragma('user_version=2');
+        database.pragma('user_version=' + version);
       }
-      validated(database);
+      validated(database, version);
       database.exec('COMMIT');
       requireCore(database.pragma(fresh ? 'journal_mode=WAL' : 'journal_mode', { simple: true }) === 'wal', 'mock-wal-required');
       verifyRoot(root);
-      return new MockEffectStore(root, database);
+      return new MockEffectStore(root, database, version);
     } catch (fault) {
       if (database.inTransaction) database.exec('ROLLBACK');
       database.close(); throw fault;
@@ -84,7 +98,37 @@ export class MockEffectStore {
   snapshot(): MockProjection {
     requireCore(!this.#closed, 'mock-store-closed');
     verifyRoot(this.#root);
-    return validated(this.#database);
+    return validated(this.#database, this.#version);
+  }
+
+  owner(): EngineOwner {
+    requireCore(this.#version === 3, 'engine-root-required');
+    this.snapshot();
+    return Object.freeze({ createSession: (bytes: Uint8Array) => this.#createSession(bytes),
+      session: () => this.snapshot().sessions?.[0]?.[1] ?? null });
+  }
+
+  member(memberId: string): EngineMemberHandle {
+    requireCore(this.#version === 3 && typeof memberId === 'string' && UUID.test(memberId), 'invalid-engine-member');
+    const context = () => {
+      const session = this.snapshot().sessions?.[0]?.[1];
+      const member = session?.members.find(row => row.memberId === memberId);
+      requireCore(session && member, 'member-outside-session');
+      return { ...member, sessionId: session.sessionId, role: memberId === session.leaderId ? 'leader' as const : 'member' as const };
+    };
+    context();
+    return Object.freeze({ context });
+  }
+
+  #createSession(bytes: Uint8Array): 'accepted' | 'rejected' {
+    const command = decodeSession(bytes);
+    const projection = this.snapshot(), previous = projection.commands.find(([id]) => id === command.commandId);
+    if (previous) {
+      requireCore(previous[1].hash === sessionHash(command), 'mock-command-conflict'); return previous[1].result;
+    }
+    const result = projection.sessions!.length === 0 ? 'accepted' : 'rejected';
+    this.append('team.session.create', { command, actor: 'owner', result });
+    return result;
   }
 
   execute(bytes: Uint8Array): Decision {
@@ -179,15 +223,16 @@ export class MockEffectStore {
     const history = events(this.#database);
     requireCore(history.length < LIMIT, 'mock-history-limit');
     const event = { sequence: history.length + 1, type, body: JSON.stringify(body) };
-    const projection = replayMock([...history, event]);
-    requireCore(history.length + 1 + reservedEvents(projection) <= LIMIT, 'mock-reserved-history-limit');
+    const projection = replayMock([...history, event], this.#version === 3);
+    const sessionStopReserve = projection.sessions?.length ? 1 : 0;
+    requireCore(history.length + 1 + reservedEvents(projection) + sessionStopReserve <= LIMIT, 'mock-reserved-history-limit');
     this.#database.exec('BEGIN IMMEDIATE');
     try {
       this.#database.prepare('INSERT INTO events VALUES (?,?,?)').run(event.sequence, event.type, event.body);
-      for (const name of PROJECTIONS) {
+      for (const name of projectionNames(this.#version)) {
         this.#database.exec(`DELETE FROM ${name}`);
         const insert = this.#database.prepare(`INSERT INTO ${name} VALUES (?,?)`);
-        for (const [id, value] of projection[name]) insert.run(id, JSON.stringify(value));
+        for (const [id, value] of projection[name] ?? []) insert.run(id, JSON.stringify(value));
       }
       this.#database.exec('COMMIT'); return projection;
     } catch (fault) {
