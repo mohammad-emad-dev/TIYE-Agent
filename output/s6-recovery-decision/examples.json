@@ -1,0 +1,561 @@
+{
+  "scope": "offline-recovery-decision-contract",
+  "tests": 5,
+  "scenarios": [
+    {
+      "case": "original",
+      "observation": {
+        "provenance": "current-bound",
+        "authority": "original-observer",
+        "keeper": "live",
+        "observer": "live",
+        "inspector": "not-enrolled",
+        "custody": "verified-held",
+        "terminal": "absent",
+        "receipt": "invalid",
+        "copy": "none"
+      },
+      "decision": {
+        "scope": "offline-recovery-decision-contract",
+        "status": "held-original",
+        "title": "Data is held",
+        "description": "The original observer can inspect the held data.",
+        "suggestedNextStep": "inspect-with-original-observer",
+        "provenance": "current-bound",
+        "observedEvidence": {
+          "custody": "verified-held",
+          "terminal": "absent",
+          "receipt": "invalid",
+          "copy": "none"
+        },
+        "exportPreparation": "blocked-unqualified-exporter",
+        "exportRequirements": [
+          "qualified-export-executor",
+          "fresh-authenticated-owner",
+          "pinned-session-and-mount",
+          "worker-stop-evidence",
+          "bounded-selected-inventory",
+          "explicit-per-export-grant",
+          "private-separate-destination",
+          "destination-capacity-and-write-accounting",
+          "copy-fsync-readback-and-manifest-match",
+          "source-custody-retained"
+        ],
+        "commands": [],
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "exportExecutionAllowed": false,
+        "automaticRetryAllowed": false,
+        "automaticDeletionAllowed": false,
+        "automaticReleaseAllowed": false,
+        "inspectorReplacementAllowed": false,
+        "nativeExecutionAllowed": false
+      }
+    },
+    {
+      "case": "inspector",
+      "observation": {
+        "provenance": "current-bound",
+        "authority": "pinned-inspector",
+        "keeper": "live",
+        "observer": "ended",
+        "inspector": "live",
+        "custody": "verified-held",
+        "terminal": "absent",
+        "receipt": "invalid",
+        "copy": "none"
+      },
+      "decision": {
+        "scope": "offline-recovery-decision-contract",
+        "status": "held-inspector",
+        "title": "Data is held",
+        "description": "The enrolled inspector can inspect the held data.",
+        "suggestedNextStep": "inspect-with-pinned-inspector",
+        "provenance": "current-bound",
+        "observedEvidence": {
+          "custody": "verified-held",
+          "terminal": "absent",
+          "receipt": "invalid",
+          "copy": "none"
+        },
+        "exportPreparation": "blocked-unqualified-exporter",
+        "exportRequirements": [
+          "qualified-export-executor",
+          "fresh-authenticated-owner",
+          "pinned-session-and-mount",
+          "worker-stop-evidence",
+          "bounded-selected-inventory",
+          "explicit-per-export-grant",
+          "private-separate-destination",
+          "destination-capacity-and-write-accounting",
+          "copy-fsync-readback-and-manifest-match",
+          "source-custody-retained"
+        ],
+        "commands": [],
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "exportExecutionAllowed": false,
+        "automaticRetryAllowed": false,
+        "automaticDeletionAllowed": false,
+        "automaticReleaseAllowed": false,
+        "inspectorReplacementAllowed": false,
+        "nativeExecutionAllowed": false
+      }
+    },
+    {
+      "case": "historical",
+      "observation": {
+        "provenance": "historical",
+        "authority": "none",
+        "keeper": "live",
+        "observer": "live",
+        "inspector": "not-enrolled",
+        "custody": "verified-held",
+        "terminal": "absent",
+        "receipt": "invalid",
+        "copy": "none"
+      },
+      "decision": {
+        "scope": "offline-recovery-decision-contract",
+        "status": "historical-only",
+        "title": "Live custody is unconfirmed",
+        "description": "Saved results describe an earlier observation. They cannot authorize recovery now.",
+        "suggestedNextStep": "reconnect-live-owner",
+        "provenance": "historical",
+        "observedEvidence": {
+          "custody": "verified-held",
+          "terminal": "absent",
+          "receipt": "invalid",
+          "copy": "none"
+        },
+        "exportPreparation": "blocked-unqualified-exporter",
+        "exportRequirements": [
+          "qualified-export-executor",
+          "fresh-authenticated-owner",
+          "pinned-session-and-mount",
+          "worker-stop-evidence",
+          "bounded-selected-inventory",
+          "explicit-per-export-grant",
+          "private-separate-destination",
+          "destination-capacity-and-write-accounting",
+          "copy-fsync-readback-and-manifest-match",
+          "source-custody-retained"
+        ],
+        "commands": [],
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "exportExecutionAllowed": false,
+        "automaticRetryAllowed": false,
+        "automaticDeletionAllowed": false,
+        "automaticReleaseAllowed": false,
+        "inspectorReplacementAllowed": false,
+        "nativeExecutionAllowed": false
+      }
+    },
+    {
+      "case": "holder-ended",
+      "observation": {
+        "provenance": "current-bound",
+        "authority": "none",
+        "keeper": "ended",
+        "observer": "live",
+        "inspector": "not-enrolled",
+        "custody": "unconfirmed",
+        "terminal": "absent",
+        "receipt": "invalid",
+        "copy": "none"
+      },
+      "decision": {
+        "scope": "offline-recovery-decision-contract",
+        "status": "holder-ended",
+        "title": "Custody is unconfirmed",
+        "description": "The previous holder ended. A saved record cannot restore its live reference.",
+        "suggestedNextStep": "pause-and-reconcile",
+        "provenance": "current-bound",
+        "observedEvidence": {
+          "custody": "unconfirmed",
+          "terminal": "absent",
+          "receipt": "invalid",
+          "copy": "none"
+        },
+        "exportPreparation": "blocked-unqualified-exporter",
+        "exportRequirements": [
+          "qualified-export-executor",
+          "fresh-authenticated-owner",
+          "pinned-session-and-mount",
+          "worker-stop-evidence",
+          "bounded-selected-inventory",
+          "explicit-per-export-grant",
+          "private-separate-destination",
+          "destination-capacity-and-write-accounting",
+          "copy-fsync-readback-and-manifest-match",
+          "source-custody-retained"
+        ],
+        "commands": [],
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "exportExecutionAllowed": false,
+        "automaticRetryAllowed": false,
+        "automaticDeletionAllowed": false,
+        "automaticReleaseAllowed": false,
+        "inspectorReplacementAllowed": false,
+        "nativeExecutionAllowed": false
+      }
+    },
+    {
+      "case": "reader-ended",
+      "observation": {
+        "provenance": "current-bound",
+        "authority": "none",
+        "keeper": "live",
+        "observer": "ended",
+        "inspector": "ended",
+        "custody": "unconfirmed",
+        "terminal": "absent",
+        "receipt": "invalid",
+        "copy": "none"
+      },
+      "decision": {
+        "scope": "offline-recovery-decision-contract",
+        "status": "reader-ended",
+        "title": "No authorized live reader",
+        "description": "Keep recovery paused. The ended inspector slot cannot be replaced automatically.",
+        "suggestedNextStep": "keep-held-and-review",
+        "provenance": "current-bound",
+        "observedEvidence": {
+          "custody": "unconfirmed",
+          "terminal": "absent",
+          "receipt": "invalid",
+          "copy": "none"
+        },
+        "exportPreparation": "blocked-unqualified-exporter",
+        "exportRequirements": [
+          "qualified-export-executor",
+          "fresh-authenticated-owner",
+          "pinned-session-and-mount",
+          "worker-stop-evidence",
+          "bounded-selected-inventory",
+          "explicit-per-export-grant",
+          "private-separate-destination",
+          "destination-capacity-and-write-accounting",
+          "copy-fsync-readback-and-manifest-match",
+          "source-custody-retained"
+        ],
+        "commands": [],
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "exportExecutionAllowed": false,
+        "automaticRetryAllowed": false,
+        "automaticDeletionAllowed": false,
+        "automaticReleaseAllowed": false,
+        "inspectorReplacementAllowed": false,
+        "nativeExecutionAllowed": false
+      }
+    },
+    {
+      "case": "no-owner",
+      "observation": {
+        "provenance": "current-bound",
+        "authority": "none",
+        "keeper": "live",
+        "observer": "unconfirmed",
+        "inspector": "not-enrolled",
+        "custody": "unconfirmed",
+        "terminal": "absent",
+        "receipt": "invalid",
+        "copy": "none"
+      },
+      "decision": {
+        "scope": "offline-recovery-decision-contract",
+        "status": "authority-unconfirmed",
+        "title": "Recovery is paused",
+        "description": "A live authenticated reader has not been established.",
+        "suggestedNextStep": "reconcile-live-authority",
+        "provenance": "current-bound",
+        "observedEvidence": {
+          "custody": "unconfirmed",
+          "terminal": "absent",
+          "receipt": "invalid",
+          "copy": "none"
+        },
+        "exportPreparation": "blocked-unqualified-exporter",
+        "exportRequirements": [
+          "qualified-export-executor",
+          "fresh-authenticated-owner",
+          "pinned-session-and-mount",
+          "worker-stop-evidence",
+          "bounded-selected-inventory",
+          "explicit-per-export-grant",
+          "private-separate-destination",
+          "destination-capacity-and-write-accounting",
+          "copy-fsync-readback-and-manifest-match",
+          "source-custody-retained"
+        ],
+        "commands": [],
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "exportExecutionAllowed": false,
+        "automaticRetryAllowed": false,
+        "automaticDeletionAllowed": false,
+        "automaticReleaseAllowed": false,
+        "inspectorReplacementAllowed": false,
+        "nativeExecutionAllowed": false
+      }
+    }
+  ],
+  "savedEvidence": [
+    {
+      "case": "inspector-loss",
+      "stage": "beforeObserverLoss",
+      "decision": {
+        "scope": "offline-recovery-decision-contract",
+        "status": "historical-only",
+        "title": "Live custody is unconfirmed",
+        "description": "Saved results describe an earlier observation. They cannot authorize recovery now.",
+        "suggestedNextStep": "reconnect-live-owner",
+        "provenance": "historical",
+        "observedEvidence": {
+          "custody": "verified-held",
+          "terminal": "absent",
+          "receipt": "verified-unknown",
+          "copy": "none"
+        },
+        "exportPreparation": "blocked-unqualified-exporter",
+        "exportRequirements": [
+          "qualified-export-executor",
+          "fresh-authenticated-owner",
+          "pinned-session-and-mount",
+          "worker-stop-evidence",
+          "bounded-selected-inventory",
+          "explicit-per-export-grant",
+          "private-separate-destination",
+          "destination-capacity-and-write-accounting",
+          "copy-fsync-readback-and-manifest-match",
+          "source-custody-retained"
+        ],
+        "commands": [],
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "exportExecutionAllowed": false,
+        "automaticRetryAllowed": false,
+        "automaticDeletionAllowed": false,
+        "automaticReleaseAllowed": false,
+        "inspectorReplacementAllowed": false,
+        "nativeExecutionAllowed": false
+      }
+    },
+    {
+      "case": "inspector-loss",
+      "stage": "observed",
+      "decision": {
+        "scope": "offline-recovery-decision-contract",
+        "status": "historical-only",
+        "title": "Live custody is unconfirmed",
+        "description": "Saved results describe an earlier observation. They cannot authorize recovery now.",
+        "suggestedNextStep": "reconnect-live-owner",
+        "provenance": "historical",
+        "observedEvidence": {
+          "custody": "verified-held",
+          "terminal": "absent",
+          "receipt": "verified-unknown",
+          "copy": "none"
+        },
+        "exportPreparation": "blocked-unqualified-exporter",
+        "exportRequirements": [
+          "qualified-export-executor",
+          "fresh-authenticated-owner",
+          "pinned-session-and-mount",
+          "worker-stop-evidence",
+          "bounded-selected-inventory",
+          "explicit-per-export-grant",
+          "private-separate-destination",
+          "destination-capacity-and-write-accounting",
+          "copy-fsync-readback-and-manifest-match",
+          "source-custody-retained"
+        ],
+        "commands": [],
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "exportExecutionAllowed": false,
+        "automaticRetryAllowed": false,
+        "automaticDeletionAllowed": false,
+        "automaticReleaseAllowed": false,
+        "inspectorReplacementAllowed": false,
+        "nativeExecutionAllowed": false
+      }
+    },
+    {
+      "case": "inspector-loss",
+      "stage": "afterExplicitFixtureDisposal",
+      "decision": {
+        "scope": "offline-recovery-decision-contract",
+        "status": "historical-only",
+        "title": "Live custody is unconfirmed",
+        "description": "Saved results describe an earlier observation. They cannot authorize recovery now.",
+        "suggestedNextStep": "reconnect-live-owner",
+        "provenance": "historical",
+        "observedEvidence": {
+          "custody": "unconfirmed",
+          "terminal": "absent",
+          "receipt": "verified-unknown",
+          "copy": "none"
+        },
+        "exportPreparation": "blocked-unqualified-exporter",
+        "exportRequirements": [
+          "qualified-export-executor",
+          "fresh-authenticated-owner",
+          "pinned-session-and-mount",
+          "worker-stop-evidence",
+          "bounded-selected-inventory",
+          "explicit-per-export-grant",
+          "private-separate-destination",
+          "destination-capacity-and-write-accounting",
+          "copy-fsync-readback-and-manifest-match",
+          "source-custody-retained"
+        ],
+        "commands": [],
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "exportExecutionAllowed": false,
+        "automaticRetryAllowed": false,
+        "automaticDeletionAllowed": false,
+        "automaticReleaseAllowed": false,
+        "inspectorReplacementAllowed": false,
+        "nativeExecutionAllowed": false
+      }
+    },
+    {
+      "case": "unobserved-ack",
+      "stage": "beforeObserverLoss",
+      "decision": {
+        "scope": "offline-recovery-decision-contract",
+        "status": "historical-only",
+        "title": "Live custody is unconfirmed",
+        "description": "Saved results describe an earlier observation. They cannot authorize recovery now.",
+        "suggestedNextStep": "reconnect-live-owner",
+        "provenance": "historical",
+        "observedEvidence": {
+          "custody": "verified-held",
+          "terminal": "invalid",
+          "receipt": "invalid",
+          "copy": "none"
+        },
+        "exportPreparation": "blocked-unqualified-exporter",
+        "exportRequirements": [
+          "qualified-export-executor",
+          "fresh-authenticated-owner",
+          "pinned-session-and-mount",
+          "worker-stop-evidence",
+          "bounded-selected-inventory",
+          "explicit-per-export-grant",
+          "private-separate-destination",
+          "destination-capacity-and-write-accounting",
+          "copy-fsync-readback-and-manifest-match",
+          "source-custody-retained"
+        ],
+        "commands": [],
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "exportExecutionAllowed": false,
+        "automaticRetryAllowed": false,
+        "automaticDeletionAllowed": false,
+        "automaticReleaseAllowed": false,
+        "inspectorReplacementAllowed": false,
+        "nativeExecutionAllowed": false
+      }
+    },
+    {
+      "case": "unobserved-ack",
+      "stage": "observed",
+      "decision": {
+        "scope": "offline-recovery-decision-contract",
+        "status": "historical-only",
+        "title": "Live custody is unconfirmed",
+        "description": "Saved results describe an earlier observation. They cannot authorize recovery now.",
+        "suggestedNextStep": "reconnect-live-owner",
+        "provenance": "historical",
+        "observedEvidence": {
+          "custody": "verified-held",
+          "terminal": "invalid",
+          "receipt": "invalid",
+          "copy": "none"
+        },
+        "exportPreparation": "blocked-unqualified-exporter",
+        "exportRequirements": [
+          "qualified-export-executor",
+          "fresh-authenticated-owner",
+          "pinned-session-and-mount",
+          "worker-stop-evidence",
+          "bounded-selected-inventory",
+          "explicit-per-export-grant",
+          "private-separate-destination",
+          "destination-capacity-and-write-accounting",
+          "copy-fsync-readback-and-manifest-match",
+          "source-custody-retained"
+        ],
+        "commands": [],
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "exportExecutionAllowed": false,
+        "automaticRetryAllowed": false,
+        "automaticDeletionAllowed": false,
+        "automaticReleaseAllowed": false,
+        "inspectorReplacementAllowed": false,
+        "nativeExecutionAllowed": false
+      }
+    },
+    {
+      "case": "unobserved-ack",
+      "stage": "afterExplicitFixtureDisposal",
+      "decision": {
+        "scope": "offline-recovery-decision-contract",
+        "status": "historical-only",
+        "title": "Live custody is unconfirmed",
+        "description": "Saved results describe an earlier observation. They cannot authorize recovery now.",
+        "suggestedNextStep": "reconnect-live-owner",
+        "provenance": "historical",
+        "observedEvidence": {
+          "custody": "unconfirmed",
+          "terminal": "invalid",
+          "receipt": "invalid",
+          "copy": "none"
+        },
+        "exportPreparation": "blocked-unqualified-exporter",
+        "exportRequirements": [
+          "qualified-export-executor",
+          "fresh-authenticated-owner",
+          "pinned-session-and-mount",
+          "worker-stop-evidence",
+          "bounded-selected-inventory",
+          "explicit-per-export-grant",
+          "private-separate-destination",
+          "destination-capacity-and-write-accounting",
+          "copy-fsync-readback-and-manifest-match",
+          "source-custody-retained"
+        ],
+        "commands": [],
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "exportExecutionAllowed": false,
+        "automaticRetryAllowed": false,
+        "automaticDeletionAllowed": false,
+        "automaticReleaseAllowed": false,
+        "inspectorReplacementAllowed": false,
+        "nativeExecutionAllowed": false
+      }
+    }
+  ],
+  "exportRequirements": [
+    "qualified-export-executor",
+    "fresh-authenticated-owner",
+    "pinned-session-and-mount",
+    "worker-stop-evidence",
+    "bounded-selected-inventory",
+    "explicit-per-export-grant",
+    "private-separate-destination",
+    "destination-capacity-and-write-accounting",
+    "copy-fsync-readback-and-manifest-match",
+    "source-custody-retained"
+  ],
+  "nativeExecutionAllowed": false
+}

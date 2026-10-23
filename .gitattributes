@@ -188,3 +188,5 @@ feasibility/s6-wsl/custody-recovery/** -text whitespace=blank-at-eol,blank-at-eo
 output/s6-custody-recovery/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/inspector-interruption/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-inspector-interruption/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/recovery-decision/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-recovery-decision/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

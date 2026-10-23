@@ -1,0 +1,21 @@
+{
+  "sources": {
+    "feasibility/s6-wsl/recovery-decision/check.py": "4af927d0eeacc82b06a4c9143b778c354716abdcaac6cce68c56f1eaa3e17f89",
+    "feasibility/s6-wsl/recovery-decision/policy.py": "5810a858853e71e951d11aa26447045f747b66f8cb33245fefe2d7777e3cbcca",
+    "feasibility/s6-wsl/recovery-decision/saved.py": "391b2715ccfba0ea98a1367ced8d141640d96aa6e32a09015ed94cc170c4584e",
+    "feasibility/s6-wsl/recovery-decision/test_policy.py": "9774dfa9e416e20848fb44c5e6ff7911a2efe290452362685fb123136c0daa39"
+  },
+  "artifacts": {
+    "DECISION-CONTRACT.md": "28f5968699d820e4db87cf02b05b24bb7c19edd65e1dd54b8599306f2c77e656",
+    "README.md": "ba7cf1c938f2ab8de8a9e26c2e27866e5f12a57a6026a2c34b19ff957ea6cd38",
+    "examples.json": "3336549bfd191f54d7b474a63b7989bc7de846b733d34a595e2e20aedec0853f",
+    "review.json": "98547b89f047051c6818cfec22bdd857dcda3b0d32b4b48f248167381ca9d164"
+  },
+  "references": {
+    "architecture/TIYE-Agent-Architecture.md": "e46e5a5581d16160af95f7ce5ddae9e2da505510c04eb50b825d2f5c532c6a59",
+    "architecture/TIYE-Agent-Product-Specification.md": "c7c4925497baa535111049bb799a6d3d4687c1e081157b4845cc08f95875ef41",
+    "output/s6-inspector-interruption/evidence.json": "7014d582a20003db604b7e863b394421c272e23b29a9bd2f8946f8848f370e22",
+    "output/s6-native-contract/contract.json": "8a03fbaafeea7ed34fa4093a765543483c3782896fb269a835b310b0ddd61a6d"
+  },
+  "nativeExecutionAllowed": false
+}

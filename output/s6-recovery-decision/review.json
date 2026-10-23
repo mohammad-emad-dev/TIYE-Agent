@@ -1,0 +1,83 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "adapterStatus": "completed",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": true,
+      "sourceEditsRequested": false,
+      "resultSha256": "f864ecc1a26b30d423a05f78c1c92acdf30b5feef6331995c92d3544c952647d"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "timeout",
+      "adapterStatus": "failed",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": false,
+      "sourceEditsRequested": false,
+      "resultSha256": "27b2e2b36c0a0ff2529bcdbb86c0b268f76871dee9e93e0450d24ed8184d282a"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "adapterStatus": "adapter_timeout",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": true,
+      "sourceEditsRequested": false,
+      "resultSha256": "1254077451290343e4c98281dde6793b81b4e54bfebe903528bf777342dc158f"
+    }
+  ],
+  "parentReview": {
+    "clean-code-guard": {
+      "fixed": 3,
+      "flaggedForAuthor": 2,
+      "fixes": [
+        "separate-provenance-authority-and-evidence-kinds",
+        "saved-adapter-checks-sealed-cohort-and-never-promotes-to-live",
+        "presentation-cannot-issue-export-or-release-commands"
+      ],
+      "remaining": [
+        "live-observation-authentication-belongs-to-future-trusted-owner",
+        "export-executor-and-per-export-grant-unimplemented"
+      ]
+    },
+    "test-guard": "five-behavior-tests-six-status-cases-360-independent-evidence-combinations-and-sealed-history-import",
+    "docs-guard": "offline-contract-synthetic-live-inputs-and-future-export-requirements-explicit"
+  },
+  "verification": {
+    "hostPythonModes": [
+      "normal",
+      "optimized"
+    ],
+    "testsPerRun": 5,
+    "scenarioCases": 6,
+    "evidenceCombinationsPerRun": 360,
+    "sealedHistoricalSnapshots": 6,
+    "publicSchemaMutationRefusals": 12,
+    "testReportSha256ByMode": {
+      "normal": "7626c2e26d78ad28b805da9e73a5d40878150f142934d19e62671cad54e45d97",
+      "optimized": "452880180256273c119297a49839eccb080b9517c11e54f7d3ba20a2edee0c8f"
+    },
+    "providerRequests": 0,
+    "newLiveLifecycleCases": 0,
+    "allCommandsEmpty": true,
+    "exportExecutionAllowed": false
+  },
+  "modelSuggestionsResolved": [
+    "saved-evidence-is-always-historical-with-no-authority",
+    "custody-receipt-copy-and-export-evidence-cannot-promote-each-other"
+  ],
+  "limits": [
+    "offline-presentation-contract-only",
+    "current-bound-cases-are-synthetic",
+    "enum-consistency-checks-do-not-authenticate-processes",
+    "fixed-fixture-copy-is-not-arbitrary-export-qualification",
+    "no-export-IPC-event-store-or-executor-implemented",
+    "no-native-admission"
+  ],
+  "nativeExecutionAllowed": false
+}
