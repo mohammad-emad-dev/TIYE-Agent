@@ -1,0 +1,95 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": true,
+      "sourceEditsRequested": false,
+      "resultSha256": "fd9d6ef4ec0203e45ff7a9f1dc0eca6b149379c598b8d45fb84129b139550c79"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "timeout",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": false,
+      "sourceEditsRequested": false,
+      "resultSha256": "ff2e6f60b62fb507154632496968657206b56a5082b798eb945a987ab5ad9afe"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "timeout",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": false,
+      "sourceEditsRequested": false,
+      "resultSha256": "eebe358a5798761cdced12b81356fbaab6567796b950f522cd6e12a5edbed5b4"
+    }
+  ],
+  "parentReview": {
+    "clean-code-guard": {
+      "fixed": 4,
+      "flaggedForAuthor": 3,
+      "fixes": [
+        "separate-memory-only-inspection-pin-from-release-enrollment",
+        "recheck-original-authority-before-one-shot-pin-assignment",
+        "bind-inspector-socket-peer-to-original-live-pidfd-with-kernel-peer-pidfd",
+        "keep-WSL-setsid-wrapper-alive-until-standby-exits"
+      ],
+      "remaining": [
+        "lost-ACK-and-inspector-loss-live-qualification-pending",
+        "no-persistent-inspection-recovery-after-keeper-loss",
+        "initial-failed-attempt-ownership-not-requalified"
+      ]
+    },
+    "test-guard": "two-real-observer-SIGKILL-scenarios-and-two-host-boundary-tests",
+    "docs-guard": "live-only-inspection-authority-separated-from-release-and-persistent-recovery"
+  },
+  "verification": {
+    "windowsPythonModes": [
+      "normal",
+      "optimized"
+    ],
+    "testsPerRun": 4,
+    "liveCasesPerRun": 2,
+    "publicSchemaMutationRefusals": 14,
+    "kernelSocketPidfdVerified": true,
+    "earlyForeignReleaseAndReplacementRequestsRefusedPerCase": true,
+    "selectedObservationSha256ByMode": {
+      "normal": "2430811663a950d3d8b4a0935399613e02ac2f3a4306dd0d526a0b0b70a2bf6f",
+      "optimized": "439c2af893ec39c16d103521029925fdb557b6307edcb839e059a5b114277290"
+    },
+    "allOverallOutcomesUnknown": true,
+    "explicitFixtureDisposalDoesNotGrantCleanupCredit": true,
+    "receiptBlockedCaseReceivesReceiptCredit": false,
+    "linuxFinalInventoryVerified": false,
+    "linuxOptimizationQualified": false,
+    "architecture": "x86_64"
+  },
+  "initialFailedQualification": {
+    "failedCases": 2,
+    "stage": "standby-readiness-before-enrollment",
+    "correction": "setsid-wrapper-must-wait-for-child",
+    "teardownCredited": false,
+    "remainingOwnershipRequalified": false,
+    "diagnosticsRetainedLocally": true
+  },
+  "modelSuggestionsResolved": [
+    "socket-bound-peer-pidfd-required-with-original-live-inspector-pidfd",
+    "one-shot-live-memory-pin-assigned-before-ACK",
+    "no-PID-only-fallback-or-release-authority-upgrade"
+  ],
+  "upstreamReference": "https://raw.githubusercontent.com/torvalds/linux/v6.18/include/uapi/asm-generic/socket.h",
+  "limits": [
+    "lost-enrollment-ACK-not-live-injected",
+    "inspector-death-not-live-injected",
+    "no-persistent-pin-after-keeper-restart-or-reboot",
+    "receipt-backed-release-enrollment-unchanged",
+    "post-exit-evidence-loss-does-not-simulate-pre-terminal-worker-failure",
+    "historical-failure-attribution-unproven",
+    "no-native-admission"
+  ],
+  "nativeExecutionAllowed": false
+}

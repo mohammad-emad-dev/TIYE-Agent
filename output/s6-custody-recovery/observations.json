@@ -1,0 +1,401 @@
+{
+  "scope": "synthetic-custody-recovery",
+  "tests": 4,
+  "cases": [
+    {
+      "beforeObserverLoss": {
+        "mode": "owner-exit",
+        "scope": "synthetic-scheduled-windows-ubuntu-adapters",
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "unsettledOperations": 0,
+        "cleanupCutoffSeconds": 16.752038699924015,
+        "automaticRetryAllowed": false,
+        "nativeExecutionAllowed": false,
+        "phases": [
+          {
+            "phase": "host-start",
+            "startSeconds": 0.00019489997066557407,
+            "endSeconds": 0.383217699942179,
+            "cutoffSeconds": 30.000123300007544,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "child-start",
+            "startSeconds": 0.3832846999866888,
+            "endSeconds": 0.40319369989447296,
+            "cutoffSeconds": 15.383227399899624,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "initialize",
+            "startSeconds": 0.4032604999374598,
+            "endSeconds": 1.7520310999825597,
+            "cutoffSeconds": 15.403200999950059,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "eof",
+            "startSeconds": 1.7521008999319747,
+            "endSeconds": 1.774946799967438,
+            "cutoffSeconds": 6.7520386999240145,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "observe",
+            "startSeconds": 1.7750219999579713,
+            "endSeconds": 1.9378169999690726,
+            "cutoffSeconds": 16.774953899905086,
+            "completedWithinPhase": true
+          }
+        ],
+        "retentionReceiptVerified": false,
+        "retentionOutcome": "unknown",
+        "keeperOwnership": "held",
+        "keeperLiveAtObservation": true,
+        "fixtureDisposalVerified": false,
+        "windowsJobEmpty": true,
+        "automaticDeletionAllowed": false,
+        "candidateExecuted": false,
+        "nativeAdmissionGranted": false,
+        "evidenceFault": "receipt-blocked",
+        "terminalEvidence": "invalid",
+        "custodyInventoryVerified": true,
+        "duplicateClosureVerified": true,
+        "linuxFinalInventoryVerified": false,
+        "observerLossVerified": false,
+        "standbyInspectionVerified": false,
+        "inspectorPersistence": "unconfirmed",
+        "automaticReleaseAllowed": false
+      },
+      "observed": {
+        "mode": "owner-exit",
+        "scope": "synthetic-scheduled-windows-ubuntu-adapters",
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "unsettledOperations": 0,
+        "cleanupCutoffSeconds": 16.752038699924015,
+        "automaticRetryAllowed": false,
+        "nativeExecutionAllowed": false,
+        "phases": [
+          {
+            "phase": "host-start",
+            "startSeconds": 0.00019489997066557407,
+            "endSeconds": 0.383217699942179,
+            "cutoffSeconds": 30.000123300007544,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "child-start",
+            "startSeconds": 0.3832846999866888,
+            "endSeconds": 0.40319369989447296,
+            "cutoffSeconds": 15.383227399899624,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "initialize",
+            "startSeconds": 0.4032604999374598,
+            "endSeconds": 1.7520310999825597,
+            "cutoffSeconds": 15.403200999950059,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "eof",
+            "startSeconds": 1.7521008999319747,
+            "endSeconds": 1.774946799967438,
+            "cutoffSeconds": 6.7520386999240145,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "observe",
+            "startSeconds": 1.7750219999579713,
+            "endSeconds": 1.9378169999690726,
+            "cutoffSeconds": 16.774953899905086,
+            "completedWithinPhase": true
+          }
+        ],
+        "retentionReceiptVerified": false,
+        "retentionOutcome": "unknown",
+        "keeperOwnership": "inspected-held",
+        "keeperLiveAtObservation": true,
+        "fixtureDisposalVerified": false,
+        "windowsJobEmpty": true,
+        "automaticDeletionAllowed": false,
+        "candidateExecuted": false,
+        "nativeAdmissionGranted": false,
+        "evidenceFault": "receipt-blocked",
+        "terminalEvidence": "invalid",
+        "custodyInventoryVerified": true,
+        "duplicateClosureVerified": true,
+        "linuxFinalInventoryVerified": false,
+        "observerLossVerified": true,
+        "standbyInspectionVerified": true,
+        "inspectorPersistence": "keeper-memory-only",
+        "automaticReleaseAllowed": false
+      },
+      "afterExplicitFixtureDisposal": {
+        "mode": "owner-exit",
+        "scope": "synthetic-scheduled-windows-ubuntu-adapters",
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "unsettledOperations": 0,
+        "cleanupCutoffSeconds": 16.752038699924015,
+        "automaticRetryAllowed": false,
+        "nativeExecutionAllowed": false,
+        "phases": [
+          {
+            "phase": "host-start",
+            "startSeconds": 0.00019489997066557407,
+            "endSeconds": 0.383217699942179,
+            "cutoffSeconds": 30.000123300007544,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "child-start",
+            "startSeconds": 0.3832846999866888,
+            "endSeconds": 0.40319369989447296,
+            "cutoffSeconds": 15.383227399899624,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "initialize",
+            "startSeconds": 0.4032604999374598,
+            "endSeconds": 1.7520310999825597,
+            "cutoffSeconds": 15.403200999950059,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "eof",
+            "startSeconds": 1.7521008999319747,
+            "endSeconds": 1.774946799967438,
+            "cutoffSeconds": 6.7520386999240145,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "observe",
+            "startSeconds": 1.7750219999579713,
+            "endSeconds": 1.9378169999690726,
+            "cutoffSeconds": 16.774953899905086,
+            "completedWithinPhase": true
+          }
+        ],
+        "retentionReceiptVerified": false,
+        "retentionOutcome": "unknown",
+        "keeperOwnership": "disposed-fixed-fixture",
+        "keeperLiveAtObservation": true,
+        "fixtureDisposalVerified": true,
+        "windowsJobEmpty": true,
+        "automaticDeletionAllowed": false,
+        "candidateExecuted": false,
+        "nativeAdmissionGranted": false,
+        "evidenceFault": "receipt-blocked",
+        "terminalEvidence": "invalid",
+        "custodyInventoryVerified": true,
+        "duplicateClosureVerified": true,
+        "linuxFinalInventoryVerified": false,
+        "observerLossVerified": true,
+        "standbyInspectionVerified": true,
+        "inspectorPersistence": "keeper-memory-only",
+        "automaticReleaseAllowed": false
+      }
+    },
+    {
+      "beforeObserverLoss": {
+        "mode": "owner-exit",
+        "scope": "synthetic-scheduled-windows-ubuntu-adapters",
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "unsettledOperations": 0,
+        "cleanupCutoffSeconds": 17.00887350004632,
+        "automaticRetryAllowed": false,
+        "nativeExecutionAllowed": false,
+        "phases": [
+          {
+            "phase": "host-start",
+            "startSeconds": 0.00020869995933026075,
+            "endSeconds": 0.4282089000334963,
+            "cutoffSeconds": 30.000127500039525,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "child-start",
+            "startSeconds": 0.42827789997681975,
+            "endSeconds": 0.45581590000074357,
+            "cutoffSeconds": 15.4282142999582,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "initialize",
+            "startSeconds": 0.4558859000680968,
+            "endSeconds": 2.008864999981597,
+            "cutoffSeconds": 15.455821100040339,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "eof",
+            "startSeconds": 2.008944600005634,
+            "endSeconds": 2.024789100047201,
+            "cutoffSeconds": 7.00887350004632,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "observe",
+            "startSeconds": 2.0248941000318155,
+            "endSeconds": 2.2119319000048563,
+            "cutoffSeconds": 17.024796699988656,
+            "completedWithinPhase": true
+          }
+        ],
+        "retentionReceiptVerified": true,
+        "retentionOutcome": "unknown",
+        "keeperOwnership": "held",
+        "keeperLiveAtObservation": true,
+        "fixtureDisposalVerified": false,
+        "windowsJobEmpty": true,
+        "automaticDeletionAllowed": false,
+        "candidateExecuted": false,
+        "nativeAdmissionGranted": false,
+        "evidenceFault": "missing",
+        "terminalEvidence": "absent",
+        "custodyInventoryVerified": true,
+        "duplicateClosureVerified": true,
+        "linuxFinalInventoryVerified": false,
+        "observerLossVerified": false,
+        "standbyInspectionVerified": false,
+        "inspectorPersistence": "unconfirmed",
+        "automaticReleaseAllowed": false
+      },
+      "observed": {
+        "mode": "owner-exit",
+        "scope": "synthetic-scheduled-windows-ubuntu-adapters",
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "unsettledOperations": 0,
+        "cleanupCutoffSeconds": 17.00887350004632,
+        "automaticRetryAllowed": false,
+        "nativeExecutionAllowed": false,
+        "phases": [
+          {
+            "phase": "host-start",
+            "startSeconds": 0.00020869995933026075,
+            "endSeconds": 0.4282089000334963,
+            "cutoffSeconds": 30.000127500039525,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "child-start",
+            "startSeconds": 0.42827789997681975,
+            "endSeconds": 0.45581590000074357,
+            "cutoffSeconds": 15.4282142999582,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "initialize",
+            "startSeconds": 0.4558859000680968,
+            "endSeconds": 2.008864999981597,
+            "cutoffSeconds": 15.455821100040339,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "eof",
+            "startSeconds": 2.008944600005634,
+            "endSeconds": 2.024789100047201,
+            "cutoffSeconds": 7.00887350004632,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "observe",
+            "startSeconds": 2.0248941000318155,
+            "endSeconds": 2.2119319000048563,
+            "cutoffSeconds": 17.024796699988656,
+            "completedWithinPhase": true
+          }
+        ],
+        "retentionReceiptVerified": true,
+        "retentionOutcome": "unknown",
+        "keeperOwnership": "inspected-held",
+        "keeperLiveAtObservation": true,
+        "fixtureDisposalVerified": false,
+        "windowsJobEmpty": true,
+        "automaticDeletionAllowed": false,
+        "candidateExecuted": false,
+        "nativeAdmissionGranted": false,
+        "evidenceFault": "missing",
+        "terminalEvidence": "absent",
+        "custodyInventoryVerified": true,
+        "duplicateClosureVerified": true,
+        "linuxFinalInventoryVerified": false,
+        "observerLossVerified": true,
+        "standbyInspectionVerified": true,
+        "inspectorPersistence": "keeper-memory-only",
+        "automaticReleaseAllowed": false
+      },
+      "afterExplicitFixtureDisposal": {
+        "mode": "owner-exit",
+        "scope": "synthetic-scheduled-windows-ubuntu-adapters",
+        "outcome": "unknown",
+        "cleanupVerified": false,
+        "unsettledOperations": 0,
+        "cleanupCutoffSeconds": 17.00887350004632,
+        "automaticRetryAllowed": false,
+        "nativeExecutionAllowed": false,
+        "phases": [
+          {
+            "phase": "host-start",
+            "startSeconds": 0.00020869995933026075,
+            "endSeconds": 0.4282089000334963,
+            "cutoffSeconds": 30.000127500039525,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "child-start",
+            "startSeconds": 0.42827789997681975,
+            "endSeconds": 0.45581590000074357,
+            "cutoffSeconds": 15.4282142999582,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "initialize",
+            "startSeconds": 0.4558859000680968,
+            "endSeconds": 2.008864999981597,
+            "cutoffSeconds": 15.455821100040339,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "eof",
+            "startSeconds": 2.008944600005634,
+            "endSeconds": 2.024789100047201,
+            "cutoffSeconds": 7.00887350004632,
+            "completedWithinPhase": true
+          },
+          {
+            "phase": "observe",
+            "startSeconds": 2.0248941000318155,
+            "endSeconds": 2.2119319000048563,
+            "cutoffSeconds": 17.024796699988656,
+            "completedWithinPhase": true
+          }
+        ],
+        "retentionReceiptVerified": true,
+        "retentionOutcome": "unknown",
+        "keeperOwnership": "disposed-fixed-fixture",
+        "keeperLiveAtObservation": true,
+        "fixtureDisposalVerified": true,
+        "windowsJobEmpty": true,
+        "automaticDeletionAllowed": false,
+        "candidateExecuted": false,
+        "nativeAdmissionGranted": false,
+        "evidenceFault": "missing",
+        "terminalEvidence": "absent",
+        "custodyInventoryVerified": true,
+        "duplicateClosureVerified": true,
+        "linuxFinalInventoryVerified": false,
+        "observerLossVerified": true,
+        "standbyInspectionVerified": true,
+        "inspectorPersistence": "keeper-memory-only",
+        "automaticReleaseAllowed": false
+      }
+    }
+  ],
+  "nativeExecutionAllowed": false
+}
