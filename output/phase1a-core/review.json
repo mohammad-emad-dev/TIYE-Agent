@@ -1,0 +1,51 @@
+{
+  "scope": "supplied-design-review-only",
+  "models": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "finalReviewReceived": true,
+      "resultSha256": "d31de676c2cf5b0831ebfe573e726e3b575a85b23cd8bf38d7963cb389468047",
+      "relayListedPreexistingParentChanges": true
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effortOrVariant": null,
+      "status": "completed",
+      "finalReviewReceived": true,
+      "resultSha256": "78ce51ce9cca5b7dd63ea5d358aed782f725b1b17e37556644fba0877ac1b267",
+      "relayListedPreexistingParentChanges": true
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "timeout",
+      "finalReviewReceived": false,
+      "resultSha256": "153becbb5fa8236010912f3f644967434e33292e8159bc0d4cd35ad590b80cf5",
+      "relayListedPreexistingParentChanges": true
+    }
+  ],
+  "accepted": [
+    "Separate fresh initialization from existing-database reopen",
+    "Prove idle connection-lifetime ownership in a separate process and release after killed owner",
+    "Validate original schema, integrity and replay under ownership before use",
+    "Fatal UTF8 decode and exact canonical command hash"
+  ],
+  "rejected": [
+    {
+      "suggestion": "Use only BEGIN IMMEDIATE or change to default journal mode",
+      "reason": "Transaction locking alone does not retain idle ownership; WAL is the approved contract. Exclusive connection mode passed actual Windows cross-process tests."
+    }
+  ],
+  "parentGuardFixes": [
+    "Strict exact-field sets and exact SQLite internal-name prefix",
+    "Separate create/open paths and canonical stored command results",
+    "Explicit temporary-memory/trusted-schema policy",
+    "Independent child deadline and exact SQLITE_BUSY failure assertion"
+  ],
+  "testBoundaryInstrumentation": "Actual SQLite SDK exec boundary; real abort trigger, page-cap failure and process termination",
+  "docsGuard": "current/historical permissions and qualified platform checked",
+  "relayWorkingTreeNote": "Relay listings included the parent architecture edit and approval directory already present before dispatch; listings alone do not demonstrate delegate edits.",
+  "finalCodeAuditByDelegates": false
+}

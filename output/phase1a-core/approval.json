@@ -1,0 +1,15 @@
+{
+  "schema": "tiye-internal-phase1a-approval-v1",
+  "date": "2026-10-23",
+  "authority": "project-owner-explicit-chat-response",
+  "response": "Approve the internal Phase 1A amendment",
+  "proposalCommit": "2107f5c",
+  "scope": "INTERNAL_PHASE1A_ONLY",
+  "phase1aAccepted": true,
+  "effectRunnerPresent": false,
+  "phase1bExecutionAllowed": false,
+  "nativeAgentExecutionAllowed": false,
+  "exportExecutionAllowed": false,
+  "releaseAllowed": false,
+  "fullIntegrationReadiness": "HOLD"
+}

@@ -1451,6 +1451,21 @@ These short tests answer the questions that everything else depends on. Their re
 
 This is the order of **construction**, not release stages. The product ships complete (Spec 1.1).
 
+**Approved internal construction exception, 23 October 2026.** The project owner
+explicitly approved the [bounded Phase 1A amendment](../output/phase1a-core/APPROVAL.md).
+While S1–S6 remain partial, internal Phase 1A may implement a headless local core
+and event store using owned disposable databases, without an effect runner.
+The [approved first-core contract](../output/phase1-entry-review/CORE-SLICE.md)
+defines its exit criteria. Phase 1B execution requires its separately reviewed
+mock-witness source and test composition after 1A acceptance. Providers, native
+CLIs, terminal control, real projects, Git, networking, exports and release remain
+outside this exception. It changes construction sequencing only: all relevant
+S1–S6 evidence remains required before dependent integrations and release, and
+the complete-product scope and remaining build order are unchanged. The owner
+may revoke the exception; changed scope or newly reachable effects require a new
+decision. Historical HOLD assessments below describe their recorded baseline;
+the current permission is internal Phase 1A only, not full integration readiness.
+
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and

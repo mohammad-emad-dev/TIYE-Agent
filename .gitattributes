@@ -197,3 +197,6 @@ output/s6-export-preparation/** -text whitespace=blank-at-eol,blank-at-eof,space
 feasibility/s6-wsl/owner-preparation/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-owner-preparation/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/phase1-entry-review/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+packages/core/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/phase1a-core/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+architecture/TIYE-Agent-Architecture.md -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

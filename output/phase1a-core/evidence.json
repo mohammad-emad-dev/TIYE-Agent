@@ -1,0 +1,33 @@
+{
+  "sources": {
+    "architecture/TIYE-Agent-Architecture.md": "3b90149938ccdd8193aa4113d81adc0293ef0af19f6deb8cf4acfe5383cd58e9",
+    "packages/core/.gitignore": "c3472ceae215347684d190ca6f1560139f6a222a3b03965423bb11b0a5b6097b",
+    "packages/core/package-lock.json": "eb9be89fb6189909bde4335b359d1dcf8c28cc81926e980724539d4c4b2cc5eb",
+    "packages/core/package.json": "1f4e6d8f27cb4b1c78b1ae621726f84651cc955365e8719b59ed50963c6a433a",
+    "packages/core/README.md": "fe959ee5702ec59888219bd4c8af6a70fb37069671fd7d66750bfbf1f61abe2c",
+    "packages/core/scripts/check-boundary.cjs": "1d282110a1078220458d6ba7001ab580cfd27cbc798bb40bc800d030691de7eb",
+    "packages/core/src/command.ts": "02252f76a761f63dd5e67db76ac8512a2ad48a23d8e363715064bf65212e905a",
+    "packages/core/src/index.ts": "f8f442b4c85506ebc6256669263b2751801526a20053a0b5a5ade3a4818d0650",
+    "packages/core/src/native.d.ts": "d4b092b4366c7074ea24604c72346c7fe2f0462fa63aba35581a61b3bbb08c38",
+    "packages/core/src/replay.ts": "9a9bb9ba00a6fc5c786d9ee8ecbd01e746136beeea6aa7065c67c2d8c759d4e9",
+    "packages/core/src/schema.ts": "38ef166153173372edf012ba6cf185f8ca2dd5df706b642291e82084bd72fc9b",
+    "packages/core/src/storage.ts": "390e6d5853017babd8d3dc03fedfe8038f4f9cd80a73bdd0f67e1d2940d2ee04",
+    "packages/core/src/store.ts": "01989717750d6ad255cf5526dbe8d551037772353d9a6b36d3a953cd6655c66f",
+    "packages/core/test/crash.test.cjs": "48fabb75a20e24500a566e682098595936ca8be18c7357a7294be3731d3fe34f",
+    "packages/core/test/helpers.cjs": "768d74c10e01e8d17cd57111f8fca4313a1bc7cc75e63b76123da256c192bd86",
+    "packages/core/test/host.cjs": "ac72bcc08387b19b703200bd5d99fe910c6b22ec8bc2fb5b19d1ea1538342c64",
+    "packages/core/test/private-root.ps1": "0fa73900721ab63cc9ac9f76eb50a353a79cef9aa6f80573b122b4390d9489e0",
+    "packages/core/test/processes.cjs": "7a3a0013864331ba953fee2a30dddc74d06017ae8ffd6543b727d73524b2ea4c",
+    "packages/core/test/store.test.cjs": "65410c8df0e86a26f9a666d033b7ae7982642f605dd83e63df9053bdb5070273",
+    "packages/core/tsconfig.json": "6edb2c0590fb8c0b9bb852af23af32c748a7c268333351dac600cd58a7116630"
+  },
+  "artifacts": {
+    "APPROVAL.md": "3b73d99a9c904b15bf9dba870d13d1232dd965be67d5f8a55c23c6736c94fd42",
+    "README.md": "4fa91924364f695c078b92004a661623d7ee631acd7b9f753664c10d2f9180d8",
+    "approval.json": "77ae322c8afe3bda702e4609e436c313275c587d3a84b293d2b0fdbd0362d2b7",
+    "review.json": "4f3226bfbeffe73e744cd4e6e892c5d6fdc2cf60586d8b2636eeeb94a8464856",
+    "verification.json": "8bcf637db9c72b3f12930a0113f0f62bc85b745baa790cc8e39437b6f8543876",
+    "verify.py": "e06abd4b5b9e6403cb91dc04a4f4ee2448a2bd89803f2c6a470c3ad51bb3307b"
+  },
+  "proposalEvidenceSha256": "54f53e420f2644a318eb0755d88e0b17321b4f6717f92561174bf799b7f4ff3b"
+}
