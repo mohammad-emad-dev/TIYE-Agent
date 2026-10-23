@@ -1,0 +1,19 @@
+{
+  "sources": {
+    "feasibility/s6-wsl/export-grant/request.py": "e05d9fadc3cf825d59c562aa16739052e5b0688f859564d9ac17fb55e695e406",
+    "feasibility/s6-wsl/export-preparation/check.py": "127ab968e006bccaea3a8ed5ae5d79cde6e77b11db543571d1075d9fc1ad153e",
+    "feasibility/s6-wsl/export-preparation/prepare.py": "022911c1cb5c168b2647de54c97dd5e90ba558a7086ab34a9a6ccf7977b90120",
+    "feasibility/s6-wsl/export-preparation/test_prepare.py": "d61f193030b5baf6319a85130d1814c3f42e06904b4002236efc3afff09ffb62"
+  },
+  "artifacts": {
+    "README.md": "e3cc4ec73d29af42df83ed2d9e9403102aafbafd0a21e8845c3ab2e623650417",
+    "review.json": "e55c7fa31f54aea362c667b5893a24facf4863e34e9be0a1513d24cf903e37ed",
+    "verification.json": "f50379658ed078cd3c1b359b1f2021deec25bd77529b2abde58404cc0b6221c2"
+  },
+  "references": {
+    "output/s6-export-grant/REQUEST-CONTRACT.md": "e20155f55fe2d3e9986dd071ca6f0daf2e9b41955afd5b5391e61ceda4a983f2",
+    "output/s6-export-grant/evidence.json": "105481cdc499ee8653ea4a493e9b1dc05190568a96ee2f6f4dc0867707c42fe5",
+    "output/s6-recovery-decision/DECISION-CONTRACT.md": "28f5968699d820e4db87cf02b05b24bb7c19edd65e1dd54b8599306f2c77e656"
+  },
+  "nativeExecutionAllowed": false
+}

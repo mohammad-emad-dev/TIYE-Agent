@@ -1,0 +1,50 @@
+{
+  "scope": "supplied-design-review-only",
+  "models": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "finalReviewReceived": true,
+      "touchedFiles": [],
+      "resultSha256": "576e4a7a990aa4e3dc21b6b0f087eed243672aa7fced44e3ea36102e7626f36d"
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effortOrVariant": null,
+      "status": "timeout",
+      "finalReviewReceived": false,
+      "touchedFiles": [],
+      "resultSha256": "ac50202cc3a17a66733fb59ffa691c070c2b818cc5555a245fc317b53af1c966"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "timeout",
+      "finalReviewReceived": false,
+      "touchedFiles": [],
+      "resultSha256": "f13d829e196515d0f96d49504205644c25608cd470fd4bfbdecbf4e8d43bc579"
+    }
+  ],
+  "incorporated": [
+    "Bind measured roots to the supplied identities",
+    "Open independent directory descriptions to preserve caller cursors",
+    "Revalidate pinned names, ancestors, roots and destination emptiness",
+    "Validate the final serialized request against the frozen parser",
+    "Publish code hashes and verdicts without selected-content fingerprints"
+  ],
+  "parentReview": {
+    "cleanCodeGuard": {
+      "fixed": 2,
+      "flagged": 0,
+      "fixes": [
+        "Bound selection count before allocation and opens",
+        "Split preparation flow and reuse frozen size constants"
+      ]
+    },
+    "testGuard": "no-unresolved-findings",
+    "docsGuard": "no-unresolved-findings"
+  },
+  "finalCodeAuditByDelegates": false,
+  "exportExecutionAllowed": false
+}
