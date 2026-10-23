@@ -50,7 +50,7 @@ test('durable per-member FIFO permits only the queue head and one active reserva
   } finally { store.close(); }
 });
 
-test('global cap includes waiting approval and approval cannot release a slot or enable dispatch', t => {
+test('global cap includes approval and completed effects until an explicit member report', t => {
   const f = fixture(t, 1), witnessRoot = privateRoot(t), tasks = [command(), command()];
   try {
     tasks.forEach(task => f.store.execute(bytes(task)));
@@ -64,15 +64,18 @@ test('global cap includes waiting approval and approval cannot release a slot or
     f.store.approve(effect.effectId, approvalBinding(effect));
     assert.equal(f.store.registry()[0].state, 'running');
     assert.equal(f.store.snapshot().assignments[0][1].remainingEvents, 6);
-    const before = f.store.snapshot();
-    assert.throws(() => f.store.claim(effect.effectId), /engine-dispatch-not-admitted/);
-    assert.throws(() => f.store.cancel(effect.effectId), /engine-dispatch-not-admitted/);
-    assert.throws(() => f.store.settle(effect.effectId, bytes({ scope: 'unavailable' })));
-    assert.throws(() => f.store.resolve({ commandId: randomUUID(), effectId: effect.effectId,
-      attemptId: effect.attemptId, attentionSequence: 1, outcome: 'close_uncertain' }), /engine-dispatch-not-admitted/);
-    assert.deepEqual(f.store.snapshot(), before);
+    const invocation = f.store.claim(effect.effectId);
+    assert.throws(() => f.store.claim(effect.effectId), /mock-already-claimed-or-stopped/);
+    witness('write', witnessRoot, effect, invocation);
+    const proof = witness('observe', witnessRoot, effect, { effectId: effect.effectId, attemptId: effect.attemptId });
+    f.store.settle(effect.effectId, bytes(proof));
+    assert.equal(f.store.registry()[0].state, 'running');
+    assert.equal(f.store.snapshot().assignments[0][1].remainingEvents, 4);
     assert.equal(f.store.scheduler().start(bytes({ ...second, commandId: randomUUID() })), 'rejected');
-    assert.equal(witness('observe', witnessRoot, effect, { effectId: effect.effectId, attemptId: effect.attemptId }).rows.length, 0);
+    assert.equal(proof.rows.length, 1);
+    assert.equal(f.store.member(first.memberId).report(bytes({ type: 'team.task.report', version: 1,
+      commandId: randomUUID(), sessionId: f.setup.sessionId, taskId: first.taskId, status: 'done', summary: 'Recorded once' })), 'accepted');
+    assert.equal(f.store.scheduler().start(bytes({ ...second, commandId: randomUUID() })), 'accepted');
   } finally { f.store.close(); }
 });
 

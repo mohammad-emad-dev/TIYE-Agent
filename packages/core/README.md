@@ -232,123 +232,129 @@ Schema tables are unchanged; older readers refuse unfamiliar `task.create` and
 `task.plan` events. Do not downgrade a database after using the new entry points.
 See [shared-registry evidence](../../output/task-registry/README.md).
 
-## Phase 2A: session foundation
+## Phase 2A: bounded synthetic team engine
 
-The owner approved bounded internal engine construction at proposal `8f2d0a2`;
-the [approval record](../../output/phase2a-approval/README.md) activates that scope.
-This first component adds a durable session/roster only; the full engine is still
-under construction. Its inbox/planning extension is described below; engine
-dispatch, reporting and interrupted-attempt recovery are not yet admitted.
-Logical stop of undispatched work is described below.
+The [explicit Phase 2A approval](../../output/phase2a-approval/README.md) covers
+the [frozen contract](../../output/team-engine-entry/CONTRACT.md). This internal
+library uses the existing fixed core/witness test composition. Full product
+integration, provider/native execution and release remain HOLD. The complete
+Phase 2A exit review remains pending.
 
-- `TaskStore.createEngine(directory)` creates fresh schema 3 with the existing
-  command/event/task/effect/approval tables plus a sessions projection table.
-  `openEngine(directory)` requires that exact version; ordinary create/open still
-  use schema 2. There is no automatic migration, reset or downgrade.
-- `store.owner()` returns a frozen coordinator handle with `createSession(bytes)`,
-  `stop(bytes)` and `session()`. Creation returns durable accepted/rejected;
-  session returns a fresh roster snapshot or null. One accepted roster is allowed
-  per database.
-- `store.member(memberId)` returns a frozen handle with `context()` bound to a
-  member in the accepted roster. It exposes that member's identity, name,
-  instructions, session ID and leader/member role, with no owner operation or raw
-  store. The coordinator retains the store; the handles do not authenticate
-  hostile code already executing inside that coordinator.
-- Session commands and task/effect commands share the same SQLite ledger and
-  transaction path. Exact redelivery survives reopen; changed payload or command
-  ID reuse across types refuses. Failed writes roll back all projections.
+`TaskStore.createEngine(directory)` creates fresh schema 3 with the existing
+command/event/task/effect/approval tables plus a sessions projection. `openEngine`
+requires that version; ordinary create/open remain schema 2. There is no new
+writer, queue database, migration, reset, import or downgrade. Old readers refuse
+unfamiliar engine events. Assignment/result/recovery/attention-sequence views are
+derived by replay; task/session projections are materialized and checked.
 
-The closed session DTO, canonical wire/hash format and planned behavioral checks
-are specified in the [source-reviewed execution plan](../../output/phase2a-session/TEST-PLAN.md).
-Its wire grammar requires compact canonical JSON rather than the task-create
-lexer's whitespace/numeric alias allowances. Both text validators share the same
-Unicode/byte bounds. A session reserves one event for future logical stop; this
-foundation originally held this slot without implementing stop. The extensions
-below add assignment budgets and logical stop.
+### Bound handles and commands
 
-See [session verification](../../output/phase2a-session/README.md). Fresh schema 3
-and schema 2 use the same owner/lease, storage validation, replay and effect code;
-there is no independent engine writer. The inbox/planning extension adds logical
-reservations and logical stop; dispatch, result reporting and interrupted-attempt
-recovery remain ahead. Full integration
-and release remain HOLD.
+The trusted coordinator retains the raw store. `owner()` exposes frozen
+`createSession(bytes)`, `stop(bytes)`, `recover(bytes)` and `session()` operations.
+`member(memberId)` exposes frozen `context()`, `enqueue(bytes)`, `report(bytes)`
+and `inbox()` operations. `scheduler()` exposes frozen `start(bytes)` and
+`inboxes()`. Context includes immutable identity/name/instructions, session and
+leader/member role. Members cannot choose a different actor or privileged handle
+through wire input. These are trusted in-process roles, not hostile-code isolation
+or authenticated UI/MCP identities. The fixed report test host binds its coder
+handle in coordinator code, never from a member ID in wire data.
 
-### Durable inboxes and planning reservations
+There is one immutable session with 1-5 distinct members, one roster leader and
+`maxConcurrent` from 1 through roster size. Creation is documented in the
+[session plan](../../output/phase2a-session/TEST-PLAN.md); enqueue/start fields and
+hashes in the [inbox plan](../../output/phase2a-inboxes/TEST-PLAN.md). Only the
+leader can enqueue a created core task for a roster member. FIFO uses accepted
+enqueue sequence. Start reserves that member and a global slot and attaches the
+exact effect plan in one event/transaction. Every member, including the leader,
+can hold at most one active reservation; waiting for approval counts toward it.
+Task/effect/attempt identities remain unique across legacy and assigned work.
 
-Schema 3 member handles now expose `enqueue(bytes)` and `inbox()` in addition to
-their bound `context()`. Only the session leader's enqueue can be accepted; another
-member receives a durable rejection. Actor identity is taken from the handle,
-never a wire field. `inbox()` exposes only that bound member's queued task IDs and
-active task ID. The trusted coordinator alone retains `store.scheduler()`, whose
-frozen handle exposes `start(bytes)` and `inboxes()` for the roster.
+All engine byte DTOs require compact canonical UTF-8 JSON, at most 16 KiB, exact
+fields, numeric version 1 and lowercase UUID-v4 IDs. Duplicate fields, BOM,
+whitespace aliases, invalid UTF-8 or extra actor fields refuse before admission.
+Commands share one ledger with all core commands. Exact ID/hash redelivery
+returns the original result before state/capacity/fence checks. Changed hash or
+cross-type ID reuse throws. New semantic rejections consume one event when space
+exists; lack of space throws without recording a decision.
 
-Enqueue requires an existing created task, a member in the active session and no
-previous assignment of that task. Accepted event sequence defines per-member FIFO.
-Start requires that member's oldest queued task, no other active task for that
-member and room under `maxConcurrent`. It atomically reserves the slot and records
-one exact synthetic effect plan. Waiting for approval holds the slot; approval
-does not free it. Global effect/attempt identity uniqueness spans legacy and
-assigned plans. A single immutable session and store-wide unique task IDs make
-task ID an unambiguous assignment key.
+### Reports and assigned effect state
 
-Queue assignments and remaining budgets are derived from canonical engine events
-in the existing database; no SQL table or second queue writer is added. Task
-queued/waiting_approval/running views are materialized and replay-checked in the
-existing task projection. Session-only schema 3 roots keep their table layout;
-old source refuses the new inbox event types. Snapshot adds derived `assignments`.
+Report DTO: `{type:"team.task.report",version:1,commandId,sessionId,taskId,status,
+summary}`. Status is `done` or `failed`; summary uses existing 1-256 Unicode scalar
+and 1024 UTF-8 byte bounds, without lone surrogates. Hash is SHA-256 UTF-8 JSON of
+`["team.task.report",1,actor,commandId,sessionId,taskId,status,summary]` without a
+trailing newline. Actor comes from the member handle.
 
-**This component admits planning only.** Assigned-effect claim/cancel/settle/resolve
-mutations are refused while interrupted-attempt recovery and report handling
-remain unqualified. Approval may label an active reservation `running`, meaning logical
-admitted work only; it is never proof of dispatch or CLI activity. Registry states
-cannot authorize an action. Every assigned effect stays planned until owner stop
-cancels it. Approval never releases a slot. Unassigned legacy effects keep their prior qualified
-lifecycle. Raw planning entry points cannot attach another effect to assigned tasks.
+A matching member can report only its nonclosed started assignment. `done`
+requires a completed effect and active session. `failed` requires completed,
+cancelled or explicitly abandoned effect, including after stop. Dispatching or
+uncertain effects cannot release a slot through result prose. Accepted report
+stores `{status,summary}` on the derived assignment, sets task done/failed and
+closes its reservation/budget atomically. New reports after closure reject; exact
+report retries keep their original decision. Lifetime assignment history remains.
 
-Each accepted enqueue holds eight future events; start and a new exact approval
-consume one each. Assigned effects are excluded from legacy effect reserves to
-avoid double counting. Every append must fit event count + assignment budgets +
-unassigned effect reserves + one active-session stop slot <= 1,000. Rejected requests
-consume only unreserved space or refuse admission; they cannot spend held budget.
-Exact redelivery remains available at capacity. The lifetime ceiling is 100
-assignments, including closed assignments; capacity can bind earlier.
+Assigned effect completion alone leaves the task `running` with its slot held.
+An approved normal in-flight effect also shows `running`. Explicitly recovered
+dispatching work shows `reconciling`; uncertainty, cancellation or abandonment
+awaiting failed report shows `needs_attention`. Unassigned effects retain their
+earlier vocabulary. These labels describe synthetic logical state, not CLI proof.
 
-The exact DTO/hash contract, source review and tests are in the
-[inbox execution plan](../../output/phase2a-inboxes/TEST-PLAN.md) and
-[verification summary](../../output/phase2a-inboxes/README.md). Full Phase 2A is
-still in progress; existing approval covers its remaining stop/recovery/result work.
+Existing raw effect methods now support assigned effects: exact approval and an
+active session are required before claim; one committed claim never returns
+again. Expiry cancels an unclaimed plan and returns null, leaving failed reporting
+to close the active assignment. Raw cancellation also retains its reservation
+until report; cancellation of dispatched work records attention. Settlement and
+explicit resolution reuse the existing fixed witness predicate and exact attention
+sequence. Active confirmed resolution returns to running awaiting report; explicit
+abandonment awaits failed report. There is no automatic action or witness invocation.
 
-### Logical stop of undispatched session work
+### Explicit recovery and stop
 
-The coordinator's frozen owner handle exposes `stop(bytes)`. Its exact DTO is
-`{type:"team.session.stop",version:1,commandId,sessionId}`. IDs are canonical UUID-v4;
-wire input uses the same compact canonical JSON and 16 KiB bound as other engine
-commands. Actor is bound to `owner`, with no wire authority field or member/scheduler
-stop method. The SHA-256 hash covers UTF-8 JSON of
-`["team.session.stop",1,"owner",commandId,sessionId]` without a trailing newline.
+Recovery DTO: `{type:"team.session.recover",version:1,commandId,sessionId}`; hash
+`["team.session.recover",1,"owner",commandId,sessionId]`. One owner event acknowledges
+every newly interrupted dispatched assignment in the session, setting its
+`recoveryAcknowledged` flag and task `reconciling`. Each affected assignment spends
+one held event unit, atomically. New recovery commands with no unacknowledged
+dispatch reject without consuming assignment budgets. Exact retries never spend
+again. The sole attempt cannot start another recovery phase.
 
-Only an existing active session accepts a new stop command. One event changes
-the session to `stopped`, cancels all its queued tasks and planned effects/tasks,
-marks their assignments `closed:true`, and sets their remaining event budgets to
-zero. These writes commit with the command decision in the existing transaction.
-Assignment rows remain in event-derived history and count toward the lifetime cap;
-closed rows disappear from inbox and active-reservation views. The immutable
-session cannot restart or be replaced in that database.
+Open replays only and captures a local fence for unacknowledged dispatching work.
+Until acknowledgement, new event appends refuse with `engine-recovery-required`,
+except owner stop/recover. Ledger retries and read/no-op calls remain available.
+The exclusive SQLite lifetime lease excludes another owner; stale closed handles
+refuse. This is a connection-local admission fence rebuilt on every open, not a
+new durable lock or process identity. The trusted owner requests recovery after
+reopen; calling it conservatively on a live claim also acknowledges the phase
+and never resends or revokes the invocation. The coordinator must observe the
+fixed witness only after its writer exits. Exactly one matching row reconciles;
+zero, duplicate, conflicting or unavailable evidence requires explicit resolution.
 
-The reserved active-session stop slot is released by that event, so stop can
-commit as event 1,000. A new command for an unknown or stopped session durably
-rejects only if unreserved space exists; otherwise admission throws without a
-decision. Exact redelivery returns its original accepted/rejected result first,
-including earlier enqueue/start decisions after stop and stop at full capacity.
-Reusing an ID with a changed payload or command type throws. Approval has no
-command ID; cancelled effects refuse both first approval and approval retries.
+Stop DTO/hash remains `{type:"team.session.stop",version:1,commandId,sessionId}` /
+`["team.session.stop",1,"owner",commandId,sessionId]`. Active session only accepts;
+stop is terminal for that immutable session. One event closes admission, cancels
+queued/planned work and releases those reservations, retaining lifetime history.
+Dispatched work becomes attention and keeps its reservation/budget; existing
+attention keeps its original sequence. Completed/abandoned effects awaiting report
+retain their reservation and may receive only failed reporting after stop.
+Explicit resolution of stopped attention closes the assignment cancelled on
+confirmed completion or failed on abandonment, never done. No new starts,
+approvals or raw claims can revive stopped work. No OS termination is implied.
 
-New enqueue/start and raw approval/claim cannot revive stopped assignments.
-The reducer requires every assignment being closed to be queued or have a planned
-effect. Dispatched assigned effects remain impossible in this component; future
-uncertain-attempt stop handling must preserve reservations rather than use this
-undispatched closure rule. Existing schema 2 behavior is unchanged. Reopen only
-replays; it never dispatches. Old readers refuse the new stop event vocabulary;
-there is no migration or downgrade support. See the
-[stop execution plan](../../output/phase2a-stop/TEST-PLAN.md) and
-[verification](../../output/phase2a-stop/README.md).
+### Capacity and evidence
+
+At most 100 assignments over the lifetime of the session; closing one frees live
+occupancy, never lifetime capacity. Enqueue reserves eight future events: start,
+approval, claim, recovery, settlement, resolution, report and a spare. Accepted
+lifecycle events spend one unit; a composite recovery spends one per affected
+assignment. Closure releases unused units. Rejections/no-op recovery cannot spend
+held units. Composite session stop uses its global one-event reserve; it does not
+spend an assignment unit. Assigned effects are excluded from legacy reserves.
+
+Every append requires event count + remaining assignment budgets + unassigned
+legacy reserves + active-session stop reserve <= 1,000. Stop may commit as event
+1,000. Capacity can bind before the assignment ceiling. No unbounded crash history
+or throughput claim follows. Source/compiled/native preflight, independent witness
+counts, real SQLite rollback and controlled commit-crash cases are recorded in
+the [lifecycle plan](../../output/phase2a-lifecycle/TEST-PLAN.md) and
+[verification](../../output/phase2a-lifecycle/README.md). Historical sealed reports
+remain bound to their qualifying commits and do not describe current admission.

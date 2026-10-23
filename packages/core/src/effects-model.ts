@@ -5,10 +5,11 @@ import { MockPlan, validatePlan, planHash, taskPlanHash, invocation, approvalBin
 export { MockPlan, Invocation, validatePlan, planHash, taskPlanHash, invocation, approvalBinding } from './mock-plan';
 import { Assignment, reduceInbox } from './engine-inbox';
 import { reduceStop } from './engine-stop';
+import { assignedTaskState, closeAssignment, reduceLifecycle, spendAssignment } from './engine-lifecycle';
 export { hashRecord } from './record';
 
 export type EffectState = 'planned' | 'dispatching' | 'completed' | 'needs_attention' | 'cancelled' | 'abandoned';
-export type TaskState = 'created' | 'queued' | 'waiting_approval' | 'running' | EffectState;
+export type TaskState = 'created' | 'queued' | 'waiting_approval' | 'running' | 'reconciling' | 'done' | 'failed' | EffectState;
 export interface TaskRecord { taskId: string; title: string | null; state: TaskState; effectId: string | null }
 export interface MockEffect { plan: MockPlan; state: EffectState }
 export interface MockProjection {
@@ -16,6 +17,7 @@ export interface MockProjection {
   tasks: [string, TaskState][]; effects: [string, MockEffect][]; approvals: [string, string][];
   sessions?: [string, EngineSession][];
   assignments?: [string, Assignment][];
+  attentionSequences?: [string, number][];
 }
 export interface MockEvent { sequence: number; type: string; body: string }
 export interface Attention { effectId: string; attemptId: string; attentionSequence: number }
@@ -126,7 +128,9 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
   const sessions = new Map<string, EngineSession>();
   const assignments = new Map<string, Assignment>();
   function transition(effect: MockEffect, state: EffectState, sequence: number): void {
-    effect.state = state; tasks.set(effect.plan.taskId, state);
+    effect.state = state;
+    const assignment = assignments.get(effect.plan.taskId);
+    tasks.set(effect.plan.taskId, assignment ? assignedTaskState(state, assignment) : state);
     if (state === 'needs_attention') attentionSequences.set(effect.plan.effectId, sequence);
     else attentionSequences.delete(effect.plan.effectId);
   }
@@ -146,7 +150,12 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
     }
     if (event.type === 'team.session.stop') {
       requireCore(engine, 'engine-event-in-schema2');
-      reduceStop(body, { commands, sessions, tasks, effects, assignments });
+      reduceStop(body, event.sequence, { commands, sessions, tasks, effects, assignments, attentionSequences });
+      continue;
+    }
+    if (event.type === 'team.task.report' || event.type === 'team.session.recover') {
+      requireCore(engine, 'engine-event-in-schema2');
+      reduceLifecycle(body, { commands, sessions, tasks, effects, assignments }, event.type);
       continue;
     }
     if (event.type === 'task.create') {
@@ -160,9 +169,14 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
     if (event.type === 'resolve') {
       exactFields(body, ['request', 'proof']);
       const resolution = validateResolution(body.request), target = effects.get(resolution.effectId);
-      requireCore(!target || !assignments.has(target.plan.taskId), 'engine-dispatch-not-admitted');
       const change = reduceResolution(body, { commands, effects, attentionSequences });
-      if (change) transition(change.effect, change.state, event.sequence);
+      if (change) {
+        const assignment = target && assignments.get(target.plan.taskId);
+        if (assignment) spendAssignment(assignment);
+        transition(change.effect, change.state, event.sequence);
+        if (assignment && sessions.get(assignment.sessionId)!.status === 'stopped')
+          closeAssignment(assignment, tasks, change.state === 'completed' ? 'cancelled' : 'failed');
+      }
       continue;
     }
     if (event.type === 'plan' || event.type === 'task.plan') {
@@ -179,16 +193,18 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
     const effect = effects.get(request.effectId as string);
     requireCore(effect, 'unknown-mock-effect');
     const assignment = assignments.get(effect.plan.taskId);
-    requireCore(!assignment || event.type === 'approve', 'engine-dispatch-not-admitted');
+    if (assignment) {
+      requireCore(!assignment.closed, 'closed-assignment');
+      if (event.type === 'approve' || event.type === 'claim')
+        requireCore(sessions.get(assignment.sessionId)?.status === 'active', 'stopped-assignment');
+    }
     if (event.type === 'approve') {
       exactFields(body, ['effectId', 'binding']);
       requireCore(effect.state === 'planned' && request.binding === approvalBinding(effect.plan)
         && !approvals.has(effect.plan.effectId), 'invalid-mock-approval');
       approvals.set(effect.plan.effectId, request.binding as string);
       if (assignment) {
-        requireCore(!assignment.closed && sessions.get(assignment.sessionId)?.status === 'active', 'stopped-assignment');
-        requireCore(assignment.remainingEvents > 0, 'assignment-budget-exhausted');
-        assignment.remainingEvents--; tasks.set(effect.plan.taskId, 'running');
+        spendAssignment(assignment); tasks.set(effect.plan.taskId, 'running');
       }
     } else if (event.type === 'claim') {
       exactFields(body, ['effectId', 'observedAt']);
@@ -196,6 +212,7 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
         && Number.isSafeInteger(request.observedAt) && (request.observedAt as number) >= 0
         && (request.observedAt as number) < effect.plan.expiresAt, 'invalid-mock-claim');
       transition(effect, 'dispatching', event.sequence);
+      if (assignment) spendAssignment(assignment);
     } else if (event.type === 'stop') {
       exactFields(body, ['effectId', 'reason', 'observedAt']);
       requireCore(['cancel', 'deadline'].includes(request.reason as string)
@@ -203,12 +220,14 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
         && (request.reason !== 'deadline' || (request.observedAt as number) >= effect.plan.expiresAt)
         && ['planned', 'dispatching'].includes(effect.state), 'invalid-mock-stop');
       transition(effect, effect.state === 'planned' ? 'cancelled' : 'needs_attention', event.sequence);
+      if (assignment) spendAssignment(assignment);
     } else if (event.type === 'settle') {
       exactFields(body, ['effectId', 'proof']);
       requireCore(effect.state === 'dispatching', 'invalid-mock-settlement');
       transition(effect, matchesWitness(effect.plan, request.proof) ? 'completed' : 'needs_attention', event.sequence);
+      if (assignment) spendAssignment(assignment);
     } else requireCore(false, 'unsupported-mock-event');
   }
   return { commands: [...commands], tasks: [...tasks], effects: [...effects], approvals: [...approvals],
-    ...(engine ? { sessions: [...sessions], assignments: [...assignments] } : {}) };
+    ...(engine ? { sessions: [...sessions], assignments: [...assignments], attentionSequences: [...attentionSequences] } : {}) };
 }

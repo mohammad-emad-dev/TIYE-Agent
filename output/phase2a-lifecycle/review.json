@@ -1,0 +1,58 @@
+{
+  "delegatedDesignReviews": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "552b7d18b92b875e01fbd7c8c72f122e22634b32a71e5ef93cdc18d78075487a",
+      "touchedFiles": []
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effortOrVariant": null,
+      "status": "failed",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "bfaf9fa272e167aa0dd2d4d9999c176615313029fae89dcf9c090058a0ca22d5",
+      "touchedFiles": []
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "failed",
+      "scope": "supplied-design-only-no-final-code-audit",
+      "resultSha256": "541f787ed4df7b359b294952e6241a94e0326c75b2cc7c54c697c1241ecc07f9",
+      "touchedFiles": []
+    }
+  ],
+  "parentFinalSourceReview": "accepted for assigned synthetic lifecycle on the existing fixed host/witness composition; source/test/compiled preflight before execution",
+  "reviewResponses": {
+    "adopted": [
+      "atomic composite recovery and per-assignment budget accounting",
+      "shared namespace, bound actors and ledger-first retries",
+      "explicit connection-local reopen fence under existing lifetime SQLite lease",
+      "report eligibility tied to matching live assignment and terminal reconciled effect",
+      "stopped uncertainty retains occupancy until explicit closure; never infer done"
+    ],
+    "qualified": [
+      "Recovery acknowledges the sole attempt once; no-op new requests use unreserved space or refuse.",
+      "Trusted coordinator observes only after fixed witness writer exit; the core never runs a witness.",
+      "Stopped completed/abandoned effects awaiting report can close via failed report; done requires active session.",
+      "Old assigned-dispatch refusal test is replaced by stronger completion-without-report occupancy checks."
+    ]
+  },
+  "cleanCodeGuard": {
+    "fixed": 2,
+    "flagged": 1,
+    "fixes": [
+      "shared terminal closure and budget consumption across report/recovery/stop/resolution",
+      "explicit assigned task-state mapping instead of nested effect-state copying"
+    ],
+    "flag": "Existing bounded full replay/projection replacement; throughput is unqualified."
+  },
+  "testGuard": "accepted-real-SQLite-filesystems-owned-processes-and-independent-witness-counts; SDK trigger hook restored in finally",
+  "docsGuard": "current package/root/architecture API, state, budget, stop and admission claims checked; historical seals preserved",
+  "phase2aExit": "REVIEW_PENDING",
+  "assignedExecution": "fixed-synthetic-composition-only",
+  "integrationGate": "HOLD"
+}

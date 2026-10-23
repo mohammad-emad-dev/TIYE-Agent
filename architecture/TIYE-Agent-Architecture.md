@@ -1502,8 +1502,11 @@ Assignments are event-derived in the same database; task views are replay-checke
 The [session stop component](../output/phase2a-stop/README.md) closes queued and
 planned assignments atomically, preserves lifetime history and blocks further
 session admission. Its stop slot remains available at the 1,000-event ceiling.
-Assigned dispatch stays blocked until recovery and report handling qualify.
-Reports and interrupted-attempt recovery are not yet implemented.
+The [assigned lifecycle component](../output/phase2a-lifecycle/README.md) adds
+member-bound result reports, explicit interrupted-attempt recovery and stop that
+retains uncertain reservations. Effect completion alone cannot finish an engine
+task. The existing fixed witness can execute synthetic assigned claims after
+source review; product providers/adapters remain closed.
 The full Phase 2A exit review remains pending.
 
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)

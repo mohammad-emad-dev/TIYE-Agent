@@ -13,12 +13,14 @@ export interface CreateSession {
 export interface EngineOwner {
   createSession(bytes: Uint8Array): 'accepted' | 'rejected';
   stop(bytes: Uint8Array): 'accepted' | 'rejected';
+  recover(bytes: Uint8Array): 'accepted' | 'rejected';
   session(): EngineSession | null;
 }
 export interface MemberContext extends EngineMember { sessionId: string; role: 'leader' | 'member' }
 export interface EngineMemberHandle {
   context(): MemberContext;
   enqueue(bytes: Uint8Array): 'accepted' | 'rejected';
+  report(bytes: Uint8Array): 'accepted' | 'rejected';
   inbox(): MemberInbox;
 }
 

@@ -1,6 +1,7 @@
 import { exactFields, requireCore, UUID } from './command';
 import { decodeCanonical, hashRecord } from './record';
 import type { InboxContext } from './engine-inbox';
+import { closeAssignment } from './engine-lifecycle';
 
 interface StopSession {
   type: 'team.session.stop'; version: 1; commandId: string; sessionId: string;
@@ -25,8 +26,7 @@ export function stopDecision(command: StopSession, context: InboxContext): 'acce
   return context.sessions.get(command.sessionId)?.status === 'active' ? 'accepted' : 'rejected';
 }
 
-/** This component admits only queued/planned work. Dispatched effects still refuse upstream. */
-export function reduceStop(body: unknown, context: InboxContext): void {
+export function reduceStop(body: unknown, sequence: number, context: InboxContext & { attentionSequences: Map<string, number> }): void {
   exactFields(body, ['command', 'actor', 'result']);
   const command = validateStop(body.command);
   requireCore(body.actor === 'owner' && !context.commands.has(command.commandId), 'invalid-stop-authority-or-id');
@@ -37,11 +37,13 @@ export function reduceStop(body: unknown, context: InboxContext): void {
   for (const assignment of context.assignments.values()) {
     if (assignment.sessionId !== command.sessionId || assignment.closed) continue;
     const effect = assignment.effectId === null ? undefined : context.effects.get(assignment.effectId);
-    requireCore(assignment.effectId === null ? context.tasks.get(assignment.taskId) === 'queued'
-      : effect?.state === 'planned', 'stop-requires-undispatched-assignment');
-    if (effect) effect.state = 'cancelled';
-    assignment.closed = true; assignment.remainingEvents = 0;
-    context.tasks.set(assignment.taskId, 'cancelled');
+    if (!effect || effect.state === 'planned' || effect.state === 'cancelled') {
+      if (effect) effect.state = 'cancelled';
+      closeAssignment(assignment, context.tasks, 'cancelled');
+    } else if (effect.state === 'dispatching') {
+      effect.state = 'needs_attention'; context.tasks.set(assignment.taskId, 'needs_attention');
+      context.attentionSequences.set(effect.plan.effectId, sequence);
+    }
   }
   context.sessions.get(command.sessionId)!.status = 'stopped';
 }

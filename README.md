@@ -29,8 +29,11 @@ session creation and bound roster contexts in fresh schema 3 stores. The
 [durable inbox component](output/phase2a-inboxes/README.md) adds per-member FIFO
 queues and atomic planning reservations with concurrency limits. The
 [session stop component](output/phase2a-stop/README.md) atomically cancels queued
-and planned assignments and closes new session admission. Assigned dispatch,
-result reporting and interrupted-attempt recovery remain under construction.
+and planned assignments and closes new session admission. The
+[assigned lifecycle component](output/phase2a-lifecycle/README.md) adds member
+reports, explicit recovery and reservation-preserving stop for dispatched mock
+work. Assigned claims are admitted only to the fixed synthetic test composition;
+full Phase 2A exit review remains pending. No real provider action is admitted.
 This supersedes the historical unimplemented-core and pending-construction wording
 for this bounded slice only. Team engine, real effects, full integration and release
 remain outside its scope; provider/native gates are unchanged. The original

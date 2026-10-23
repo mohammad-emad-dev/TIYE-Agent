@@ -10,6 +10,7 @@ import { databasePath, reserveFreshDatabase, RootIdentity, storageRoot, verifyRo
 import { decodeSession, EngineMemberHandle, EngineOwner, sessionHash } from './engine-session';
 import { decodeInbox, EngineScheduler, inboxContext, inboxDecision, inboxHash, InboxCommand, memberInboxes } from './engine-inbox';
 import { decodeStop, stopDecision, stopHash } from './engine-stop';
+import { decodeLifecycle, interrupted, lifecycleDecision, lifecycleHash, LifecycleCommand } from './engine-lifecycle';
 
 const LIMIT = 1000;
 const APPLICATION_ID = 0x54495946;
@@ -63,8 +64,10 @@ export class MockEffectStore {
   readonly #root: RootIdentity;
   readonly #database: Database.Database;
   readonly #version: StoreVersion;
-  private constructor(root: RootIdentity, database: Database.Database, version: StoreVersion) {
+  readonly #interruptedAtOpen: Set<string>;
+  private constructor(root: RootIdentity, database: Database.Database, version: StoreVersion, projection: MockProjection) {
     this.#root = root; this.#database = database; this.#version = version;
+    this.#interruptedAtOpen = new Set((projection.sessions ?? []).flatMap(([id]) => interrupted(inboxContext(projection), id).map(row => row.taskId)));
   }
 
   static create(directory: string): MockEffectStore { return MockEffectStore.connect(directory, true, 2); }
@@ -86,11 +89,11 @@ export class MockEffectStore {
         database.pragma('application_id=' + APPLICATION_ID);
         database.pragma('user_version=' + version);
       }
-      validated(database, version);
+      const projection = validated(database, version);
       database.exec('COMMIT');
       requireCore(database.pragma(fresh ? 'journal_mode=WAL' : 'journal_mode', { simple: true }) === 'wal', 'mock-wal-required');
       verifyRoot(root);
-      return new MockEffectStore(root, database, version);
+      return new MockEffectStore(root, database, version, projection);
     } catch (fault) {
       if (database.inTransaction) database.exec('ROLLBACK');
       database.close(); throw fault;
@@ -108,6 +111,7 @@ export class MockEffectStore {
     this.snapshot();
     return Object.freeze({ createSession: (bytes: Uint8Array) => this.#createSession(bytes),
       stop: (bytes: Uint8Array) => this.#stopSession(bytes),
+      recover: (bytes: Uint8Array) => this.#lifecycle(bytes, 'team.session.recover', 'owner'),
       session: () => this.snapshot().sessions?.[0]?.[1] ?? null });
   }
 
@@ -122,6 +126,7 @@ export class MockEffectStore {
     context();
     return Object.freeze({ context,
       enqueue: (bytes: Uint8Array) => { context(); return this.#inbox(bytes, 'team.task.enqueue', memberId); },
+      report: (bytes: Uint8Array) => { context(); return this.#lifecycle(bytes, 'team.task.report', memberId); },
       inbox: () => { context(); return this.#inboxes().find(row => row.memberId === memberId)!; } });
   }
 
@@ -165,6 +170,16 @@ export class MockEffectStore {
     }
     const result = stopDecision(command, inboxContext(projection));
     this.append('team.session.stop', { command, actor: 'owner', result }); return result;
+  }
+
+  #lifecycle(bytes: Uint8Array, type: LifecycleCommand['type'], actor: string): 'accepted' | 'rejected' {
+    const command = decodeLifecycle(bytes, type), projection = this.snapshot();
+    const previous = projection.commands.find(([id]) => id === command.commandId);
+    if (previous) {
+      requireCore(previous[1].hash === lifecycleHash(command, actor), 'mock-command-conflict'); return previous[1].result;
+    }
+    const result = lifecycleDecision(command, actor, inboxContext(projection));
+    this.append(type, { command, actor, result }); return result;
   }
 
   execute(bytes: Uint8Array): Decision {
@@ -233,6 +248,8 @@ export class MockEffectStore {
   attention(effectId: string): Attention {
     const effect = this.effect(effectId);
     requireCore(effect.state === 'needs_attention', 'mock-not-in-attention');
+    const derived = this.snapshot().attentionSequences?.find(([id]) => id === effectId)?.[1];
+    if (derived !== undefined) return { effectId, attemptId: effect.plan.attemptId, attentionSequence: derived };
     const transition = events(this.#database).reverse().find(event => ['stop', 'settle'].includes(event.type)
       && (JSON.parse(event.body) as { effectId: string }).effectId === effectId);
     requireCore(transition, 'missing-attention-transition');
@@ -255,7 +272,11 @@ export class MockEffectStore {
   }
 
   private append(type: string, body: unknown): MockProjection {
-    this.snapshot();
+    const current = this.snapshot();
+    if (type !== 'team.session.stop' && type !== 'team.session.recover') {
+      const pending = (current.sessions ?? []).flatMap(([id]) => interrupted(inboxContext(current), id));
+      requireCore(!pending.some(row => this.#interruptedAtOpen.has(row.taskId)), 'engine-recovery-required');
+    }
     const history = events(this.#database);
     requireCore(history.length < LIMIT, 'mock-history-limit');
     const event = { sequence: history.length + 1, type, body: JSON.stringify(body) };

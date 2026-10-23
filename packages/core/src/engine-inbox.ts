@@ -7,6 +7,7 @@ import type { MockEffect, MockProjection, TaskState } from './effects-model';
 export interface Assignment {
   sessionId: string; taskId: string; memberId: string; enqueueSequence: number;
   effectId: string | null; remainingEvents: number; closed: boolean;
+  recoveryAcknowledged: boolean; result: { status: 'done' | 'failed'; summary: string } | null;
 }
 export interface MemberInbox { memberId: string; queuedTaskIds: string[]; activeTaskId: string | null }
 export interface EngineScheduler {
@@ -91,7 +92,8 @@ export function reduceInbox(body: unknown, sequence: number, context: InboxConte
   if (result === 'rejected') return;
   if (command.type === 'team.task.enqueue') {
     context.assignments.set(command.taskId, { sessionId: command.sessionId, taskId: command.taskId,
-      memberId: command.memberId, enqueueSequence: sequence, effectId: null, remainingEvents: 8, closed: false });
+      memberId: command.memberId, enqueueSequence: sequence, effectId: null, remainingEvents: 8, closed: false,
+      recoveryAcknowledged: false, result: null });
     context.tasks.set(command.taskId, 'queued');
   } else {
     const assignment = context.assignments.get(command.taskId)!;
