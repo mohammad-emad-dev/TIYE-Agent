@@ -1,0 +1,61 @@
+{
+  "scope": "supplied-design-review-only",
+  "models": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "finalReviewReceived": true,
+      "touchedFiles": [],
+      "resultSha256": "4314b524c014e56b689b7503f07571f63853a9aa4a2c54e36c3a95dde822c877"
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effortOrVariant": null,
+      "status": "completed",
+      "finalReviewReceived": true,
+      "touchedFiles": [],
+      "resultSha256": "197a54fe19f914e4b1081306e0fdde6a66b4168b965a899e042989f05d8e2cba"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "timeout",
+      "finalReviewReceived": false,
+      "touchedFiles": [],
+      "resultSha256": "611d4fbcdc26472c28e7705b637339b6056f6f0616ad57f3ef139b97708a5f55"
+    }
+  ],
+  "incorporated": [
+    "Retain all 64 spent nonces and fail closed on exhaustion",
+    "Require per-message kernel credentials as well as connection and held-process credentials",
+    "Check cgroup filesystem type, identity, strict events and original worker pidfds at both gates",
+    "Specify all wire, byte, timeout and nonce-burning limits explicitly"
+  ],
+  "limitsRetained": [
+    "Connection inheritance prevents exclusive reply-recipient authentication",
+    "Cgroup observations do not establish atomic exclusion against hostile re-entry",
+    "Regular-file I/O cannot be preempted by the handler monotonic checks",
+    "The synthetic component is not yet the existing supervised keeper composition"
+  ],
+  "parentReview": {
+    "cleanCodeGuard": {
+      "fixed": 2,
+      "flagged": 0,
+      "fixes": [
+        "Register each retained worker handle for cleanup immediately",
+        "Require the declared LF-terminated cgroup event grammar"
+      ]
+    },
+    "testGuard": {
+      "fixed": 1,
+      "flagged": 0,
+      "fixes": [
+        "Use a real removed cgroup and real replacement owner context"
+      ]
+    },
+    "docsGuard": "no-unresolved-findings"
+  },
+  "finalCodeAuditByDelegates": false,
+  "exportExecutionAllowed": false
+}

@@ -1,0 +1,24 @@
+{
+  "sources": {
+    "feasibility/s6-wsl/export-grant/request.py": "e05d9fadc3cf825d59c562aa16739052e5b0688f859564d9ac17fb55e695e406",
+    "feasibility/s6-wsl/export-preparation/prepare.py": "022911c1cb5c168b2647de54c97dd5e90ba558a7086ab34a9a6ccf7977b90120",
+    "feasibility/s6-wsl/owner-preparation/authority.py": "327ffbd3b09a6adfe7c9498f5f21feca383d04a3d2c665ba6ed9137856031d84",
+    "feasibility/s6-wsl/owner-preparation/check.py": "b5caee7ec5291a5e512c4e7874de0dfeda3d198527d7a6108b17ef2404d26ddf",
+    "feasibility/s6-wsl/owner-preparation/fixtures.py": "29c8ca564f0a48eda5a72d660cfcaecb22009325be616981b4967bf743fa6364",
+    "feasibility/s6-wsl/owner-preparation/owner.py": "03129c1c3650dad4b558fdd0f3ae10e6b89454b5b0e8d4d5920e59282dbaaea8",
+    "feasibility/s6-wsl/owner-preparation/protocol.py": "ca23d6478493d0fe6141ac61ebc92eba4ee448b1296d075992975dd856fd2c8e",
+    "feasibility/s6-wsl/owner-preparation/test_owner.py": "b73c5eb34f7dc1ee5b006ec7a65b2b2995d3a5817d5ef6fbf4889f21483ce13a"
+  },
+  "artifacts": {
+    "PROTOCOL.md": "6fb4355dea3a9a8d976c509935f6cd26d388cb3dcd3065d5a1cd2fa1b769f43c",
+    "README.md": "5a53e630a59914940be52ef475c55020d7e1d8a31d6db97926b5ed95b9631129",
+    "review.json": "6f8a067913e6fbf8bafe9617d776676605ecc644086cdbc4690568a135401eec",
+    "verification.json": "fc880116ea109ad994b4e7bf5e027dfecdabd0057f1f009a78e036d5da2f7c8d"
+  },
+  "references": {
+    "output/s6-custody-recovery/evidence.json": "f488db92c029bff9952ac8d3c69068f85b304df70827ddb7a299681b51cf9c15",
+    "output/s6-export-grant/REQUEST-CONTRACT.md": "e20155f55fe2d3e9986dd071ca6f0daf2e9b41955afd5b5391e61ceda4a983f2",
+    "output/s6-export-preparation/evidence.json": "844cddb7bd19e0c93eb0e3b8dfa5d43c5f074b09cea6feff83e0f9b18667647d"
+  },
+  "nativeExecutionAllowed": false
+}

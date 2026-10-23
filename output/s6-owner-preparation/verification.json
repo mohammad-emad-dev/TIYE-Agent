@@ -1,0 +1,20 @@
+{
+  "normal": {
+    "commands": [],
+    "exportExecutionAllowed": false,
+    "nativeExecutionAllowed": false,
+    "optimization": 0,
+    "scope": "synthetic-live-owner-preparation-tests-v1",
+    "successful": true,
+    "tests": 15
+  },
+  "optimized": {
+    "commands": [],
+    "exportExecutionAllowed": false,
+    "nativeExecutionAllowed": false,
+    "optimization": 1,
+    "scope": "synthetic-live-owner-preparation-tests-v1",
+    "successful": true,
+    "tests": 15
+  }
+}
