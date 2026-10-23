@@ -1,0 +1,78 @@
+{
+  "scope": "offline-synthetic-export-grant",
+  "tests": 11,
+  "manifest": {
+    "version": 1,
+    "scope": "synthetic-export-plan-v1",
+    "session": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "generation": 1,
+    "ownerEpoch": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "source": {
+      "device": 101,
+      "inode": 1
+    },
+    "destination": {
+      "device": 7,
+      "inode": 42
+    },
+    "nonce": "cccccccccccccccccccccccccccccccc",
+    "validForSeconds": 30,
+    "byteBudget": 1024,
+    "files": [
+      {
+        "path": "notes/result.txt",
+        "bytes": 12,
+        "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      }
+    ]
+  },
+  "review": {
+    "scope": "synthetic-export-review-v1",
+    "requestSha256": "ce8f57e6bd805a50045124d0529cfc2d4363d08f21747c910466a0ea9ac63539",
+    "fileCount": 1,
+    "totalBytes": 12,
+    "byteBudget": 1024,
+    "validForSeconds": 30,
+    "binding": {
+      "session": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "generation": 1,
+      "ownerEpoch": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "source": [
+        101,
+        1
+      ],
+      "destination": [
+        7,
+        42
+      ]
+    },
+    "selection": [
+      {
+        "path": "notes/result.txt",
+        "bytes": 12,
+        "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      }
+    ],
+    "exportExecutionAllowed": false,
+    "commands": []
+  },
+  "validatedPlan": {
+    "scope": "validated-synthetic-export-plan",
+    "requestSha256": "ce8f57e6bd805a50045124d0529cfc2d4363d08f21747c910466a0ea9ac63539",
+    "grantConsumed": true,
+    "fileCount": 1,
+    "totalBytes": 12,
+    "commands": [],
+    "exportExecutionAllowed": false,
+    "cleanupVerified": false,
+    "automaticRetryAllowed": false,
+    "automaticDeletionAllowed": false,
+    "automaticReleaseAllowed": false,
+    "nativeExecutionAllowed": false,
+    "outcome": "unknown"
+  },
+  "duplicateConsumeRefused": true,
+  "bindingDriftRefused": true,
+  "driftedGrantRemainsBurned": true,
+  "nativeExecutionAllowed": false
+}

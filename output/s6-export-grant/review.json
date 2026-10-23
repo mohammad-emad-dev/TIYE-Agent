@@ -1,0 +1,88 @@
+{
+  "delegations": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "adapterStatus": "completed",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": true,
+      "sourceEditsRequested": false,
+      "resultSha256": "ec729e67dbca5bf3bd01e160af947acd35584e41aa06184a8db5c32839241f87"
+    },
+    {
+      "model": "opencode/glm-5.3-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "adapterStatus": "completed",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": true,
+      "sourceEditsRequested": false,
+      "resultSha256": "ef00189dcc978bf82bca2450300033ed8158fafdae97fc89b0d7d997db517142"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "completed",
+      "adapterStatus": "completed",
+      "scope": "supplied-design-review-only",
+      "finalReportAvailable": true,
+      "sourceEditsRequested": false,
+      "resultSha256": "ea2aa27e92248ec7efdf30ecd850688539aa7c82019d78fb9865a2b9f1f26f08"
+    }
+  ],
+  "parentReview": {
+    "clean-code-guard": {
+      "fixed": 4,
+      "flaggedForAuthor": 3,
+      "fixes": [
+        "atomic-secret-recognition-and-claim-before-attempt-validation",
+        "immutable-reviewed-request-and-independent-binding-comparison",
+        "nonce-cannot-be-reissued-even-after-burn",
+        "bounded-canonical-selection-and-no-executable-result"
+      ],
+      "remaining": [
+        "actual-human-authorization-not-implemented",
+        "binding-snapshots-are-not-live-handle-verification",
+        "memory-only-registry-is-not-a-durable-effect-ledger"
+      ]
+    },
+    "test-guard": "eleven-offline-behavior-tests-real-eight-thread-claim-race-and-injected-clock-boundary-only",
+    "docs-guard": "synthetic-scope-metadata-claims-and-no-export-executor-explicit"
+  },
+  "verification": {
+    "hostPythonModes": [
+      "normal",
+      "optimized"
+    ],
+    "testsPerRun": 11,
+    "concurrentConsumers": 8,
+    "acceptedConcurrentPlans": 1,
+    "publicSchemaMutationRefusals": 10,
+    "testReportSha256ByMode": {
+      "normal": "6f3838043850a380af957f3c4d80cd464ac928d59560be1a02b1c9dd57fe83e6",
+      "optimized": "f575d63fc27b3af6c801636bbcfa1a685a48c6f065d0b4f8f6f55ad03e2d885c"
+    },
+    "providerRequests": 0,
+    "selectedFilesOpened": 0,
+    "exportExecutionAllowed": false,
+    "publicArtifactsContainGrantSecrets": false
+  },
+  "modelSuggestionsResolved": [
+    "claim-recognized-ticket-under-lock-before-parsing-attempt",
+    "wrong-secret-does-not-burn-another-ticket",
+    "same-logical-request-nonce-cannot-mint-another-grant",
+    "binding-retained-in-immutable-mint-record-and-checked-after-claim"
+  ],
+  "modelSuggestionBoundary": "caller-binding-matching-is-deliberately-not-a-precondition-of-burn; recognized drift must spend the grant",
+  "limits": [
+    "synthetic-approval-inputs-only",
+    "no-live-owner-or-destination-authentication",
+    "file-metadata-and-digests-are-claims-not-filesystem-measurements",
+    "no-copy-or-release-side-effects",
+    "no-durable-replay-ledger-across-new-registry-instances",
+    "no-hostile-in-process-code-boundary",
+    "no-native-admission"
+  ],
+  "nativeExecutionAllowed": false
+}

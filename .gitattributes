@@ -190,3 +190,5 @@ feasibility/s6-wsl/inspector-interruption/** -text whitespace=blank-at-eol,blank
 output/s6-inspector-interruption/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 feasibility/s6-wsl/recovery-decision/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/s6-recovery-decision/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+feasibility/s6-wsl/export-grant/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/s6-export-grant/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
