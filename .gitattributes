@@ -207,3 +207,5 @@ output/attention-resolution/** -text whitespace=blank-at-eol,blank-at-eof,space-
 README.md -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 
 output/task-registry/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+output/team-engine-entry/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

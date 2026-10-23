@@ -1,0 +1,56 @@
+{
+  "delegatedDraftReviews": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "scope": "original-supplied-draft-only-no-final-code-acceptance",
+      "resultSha256": "38717915513ab5a371062f4612bc641a5d33086e68a1e530473f73cee8608b9e",
+      "reportedTouchedFiles": [
+        "?? output/team-engine-entry/"
+      ]
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effortOrVariant": null,
+      "status": "timeout",
+      "scope": "original-supplied-draft-only-no-final-code-acceptance",
+      "resultSha256": "480cbc66125c005d988b1e569af92f92ce14908c99a5f9e79694cf432cb16055",
+      "reportedTouchedFiles": [
+        "?? output/team-engine-entry/"
+      ]
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "timeout",
+      "scope": "original-supplied-draft-only-no-final-code-acceptance",
+      "resultSha256": "1d80ee9f01ca7ea0420878d8239c19422ffd8b7a42afcf0b7b477115e101c842",
+      "reportedTouchedFiles": [
+        "?? output/team-engine-entry/"
+      ]
+    }
+  ],
+  "reviewInputSha256": "bf45b4b748541406aa0050bdae581b95f4c7082161ca29ecba753429ca08fab3",
+  "preexistingDraftDirectory": {
+    "parentVerifiedBothOriginalDraftsMatchedBriefBeforeAmendment": true,
+    "delegateEditAttributed": false
+  },
+  "parentChangesAfterReview": [
+    "explicit shared task/assignment/effect state mapping",
+    "coordinator-bound identity rather than caller-selected actor fields",
+    "one canonical event and decision per composite command",
+    "eight-event assignment budget and one session-stop reserve",
+    "lifetime assignment count distinguished from live queue occupancy",
+    "recovery command and public claim/planning bypass fences"
+  ],
+  "amendedProposalReview": "parent-reviewed; independent models reviewed the original draft only",
+  "docsGuard": "links, pending status, baseline source pins and scope checked",
+  "engineImplemented": false,
+  "ownerApproval": "PENDING",
+  "remainingBeforeExecution": [
+    "owner approval before development",
+    "review exact implemented DTOs/schema/reserve proof",
+    "parent source-bound preflight before first fixture execution"
+  ]
+}

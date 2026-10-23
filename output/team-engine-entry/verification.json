@@ -1,0 +1,10 @@
+{
+  "scope": "proposal-document-consistency-only",
+  "baselineCommit": "ab8da5f",
+  "baselineRecordedTests": 45,
+  "baselineTestsRerun": false,
+  "newEngineTestsRun": 0,
+  "coreSourceChanged": false,
+  "engineGate": "OWNER_APPROVAL_PENDING",
+  "providerNativeReleaseGate": "HOLD"
+}

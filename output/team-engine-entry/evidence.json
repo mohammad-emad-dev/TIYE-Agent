@@ -1,0 +1,18 @@
+{
+  "approval": "PENDING",
+  "engineImplemented": false,
+  "artifacts": {
+    "AMENDMENT.md": "af0b8dd616f646dc9a916c87d7096b719559f6caeca2aa56517e2da8e37c2c34",
+    "CONTRACT.md": "037a543b50c5f2b04655dd9b33d41dd145c481be583151ba0775d1aed64af907",
+    "README.md": "a094866e2ecfac4484811a10abf2ef8bf0e5e580b1b8d8db18a7ac178474c1cd",
+    "review.json": "5ff715229f273586ffd280a03674bfd930831036ae54e4cf52fb9b9c4a2ca270",
+    "verification.json": "5cb17f6e89ab538501ba2b30b3a86d6b8920f909efdf86c14789e58d407c0ba8",
+    "verify.py": "54cbdea3cf05e0f16633fd64055e52b79421953e5e0a0dd1be15a4533cd54806"
+  },
+  "documents": {
+    "README.md": "95b83332a759a13440b377beda59e18337757b86a0f1f5f350eb3a72df6ec4b8",
+    "architecture/TIYE-Agent-Architecture.md": "15a26e20634e735bdc5e763a589fc8020ccaa751c578f24c183f2ed0e6566980"
+  },
+  "baselineCommit": "ab8da5f",
+  "integrationGate": "HOLD"
+}
