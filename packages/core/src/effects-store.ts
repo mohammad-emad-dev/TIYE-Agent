@@ -11,13 +11,15 @@ import { decodeSession, EngineMemberHandle, EngineOwner, sessionHash } from './e
 import { decodeInbox, EngineScheduler, inboxContext, inboxDecision, inboxHash, InboxCommand, memberInboxes } from './engine-inbox';
 import { decodeStop, stopDecision, stopHash } from './engine-stop';
 import { decodeLifecycle, interrupted, lifecycleDecision, lifecycleHash, LifecycleCommand } from './engine-lifecycle';
+import { decodeQuestion, questionContext, questionDecision, questionHash, QuestionCommand, questionOpen, visibleQuestions } from './engine-question';
 
 const LIMIT = 1000;
 const APPLICATION_ID = 0x54495946;
 const PROJECTIONS = ['commands', 'tasks', 'effects', 'approvals'] as const;
 const ENGINE_PROJECTIONS = [...PROJECTIONS, 'sessions'] as const;
-type StoreVersion = 2 | 3;
-function projectionNames(version: StoreVersion) { return version === 3 ? ENGINE_PROJECTIONS : PROJECTIONS; }
+const QUESTION_PROJECTIONS = [...ENGINE_PROJECTIONS, 'questions'] as const;
+type StoreVersion = 2 | 3 | 4;
+function projectionNames(version: StoreVersion) { return version === 4 ? QUESTION_PROJECTIONS : version === 3 ? ENGINE_PROJECTIONS : PROJECTIONS; }
 const TABLES: Record<string, string> = {
   metadata: 'CREATE TABLE metadata (singleton INTEGER PRIMARY KEY CHECK(singleton=1), database_id TEXT NOT NULL) STRICT',
   events: 'CREATE TABLE events (sequence INTEGER PRIMARY KEY, type TEXT NOT NULL, body TEXT NOT NULL CHECK(length(CAST(body AS BLOB))<=16384)) STRICT',
@@ -25,7 +27,8 @@ const TABLES: Record<string, string> = {
 };
 
 function tables(version: StoreVersion): Record<string, string> {
-  return version === 2 ? TABLES : { ...TABLES, sessions: 'CREATE TABLE sessions (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT' };
+  return version === 2 ? TABLES : { ...TABLES, sessions: 'CREATE TABLE sessions (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT',
+    ...(version === 4 ? { questions: 'CREATE TABLE questions (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT' } : {}) };
 }
 
 function validateSchema(database: Database.Database, version: StoreVersion): void {
@@ -49,7 +52,7 @@ function events(database: Database.Database): MockEvent[] {
 
 function validated(database: Database.Database, version: StoreVersion): MockProjection {
   validateSchema(database, version);
-  const rebuilt = replayMock(events(database), version === 3);
+  const rebuilt = replayMock(events(database), version);
   for (const name of projectionNames(version)) {
     const rows = database.prepare(`SELECT id,value FROM ${name} ORDER BY rowid LIMIT ?`).all(LIMIT + 1) as { id: string; value: string }[];
     const expected = (rebuilt[name] ?? []).map(([id, value]) => ({ id, value: JSON.stringify(value) }));
@@ -74,6 +77,8 @@ export class MockEffectStore {
   static open(directory: string): MockEffectStore { return MockEffectStore.connect(directory, false, 2); }
   static createEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, true, 3); }
   static openEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, false, 3); }
+  static createQuestionEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, true, 4); }
+  static openQuestionEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, false, 4); }
 
   private static connect(directory: string, fresh: boolean, version: StoreVersion): MockEffectStore {
     const root = storageRoot(directory);
@@ -107,16 +112,18 @@ export class MockEffectStore {
   }
 
   owner(): EngineOwner {
-    requireCore(this.#version === 3, 'engine-root-required');
+    requireCore(this.#version >= 3, 'engine-root-required');
     this.snapshot();
     return Object.freeze({ createSession: (bytes: Uint8Array) => this.#createSession(bytes),
       stop: (bytes: Uint8Array) => this.#stopSession(bytes),
       recover: (bytes: Uint8Array) => this.#lifecycle(bytes, 'team.session.recover', 'owner'),
+      answer: (bytes: Uint8Array) => this.#question(bytes, 'team.question.answer', 'owner'),
+      questions: () => this.#questions('owner'),
       session: () => this.snapshot().sessions?.[0]?.[1] ?? null });
   }
 
   member(memberId: string): EngineMemberHandle {
-    requireCore(this.#version === 3 && typeof memberId === 'string' && UUID.test(memberId), 'invalid-engine-member');
+    requireCore(this.#version >= 3 && typeof memberId === 'string' && UUID.test(memberId), 'invalid-engine-member');
     const context = () => {
       const session = this.snapshot().sessions?.[0]?.[1];
       const member = session?.members.find(row => row.memberId === memberId);
@@ -127,11 +134,15 @@ export class MockEffectStore {
     return Object.freeze({ context,
       enqueue: (bytes: Uint8Array) => { context(); return this.#inbox(bytes, 'team.task.enqueue', memberId); },
       report: (bytes: Uint8Array) => { context(); return this.#lifecycle(bytes, 'team.task.report', memberId); },
+      ask: (bytes: Uint8Array) => { context(); return this.#question(bytes, 'team.question.ask', memberId); },
+      escalate: (bytes: Uint8Array) => { context(); return this.#question(bytes, 'team.question.escalate', memberId); },
+      answer: (bytes: Uint8Array) => { context(); return this.#question(bytes, 'team.question.answer', memberId); },
+      questions: () => { context(); return this.#questions(memberId); },
       inbox: () => { context(); return this.#inboxes().find(row => row.memberId === memberId)!; } });
   }
 
   scheduler(): EngineScheduler {
-    requireCore(this.#version === 3, 'engine-root-required'); this.snapshot();
+    requireCore(this.#version >= 3, 'engine-root-required'); this.snapshot();
     return Object.freeze({ start: (bytes: Uint8Array) => this.#inbox(bytes, 'team.task.start', 'scheduler'),
       inboxes: () => this.#inboxes() });
   }
@@ -182,6 +193,27 @@ export class MockEffectStore {
     this.append(type, { command, actor, result }); return result;
   }
 
+  #question(bytes: Uint8Array, type: QuestionCommand['type'], actor: string): 'accepted' | 'rejected' {
+    requireCore(this.#version === 4, 'question-root-required');
+    const command = decodeQuestion(bytes, type), projection = this.snapshot();
+    const previous = projection.commands.find(([id]) => id === command.commandId);
+    if (previous) {
+      requireCore(previous[1].hash === questionHash(command, actor), 'mock-command-conflict'); return previous[1].result;
+    }
+    const result = questionDecision(command, actor, questionContext(projection));
+    this.append(type, { command, actor, result }); return result;
+  }
+
+  #questions(actor: string) {
+    requireCore(this.#version === 4, 'question-root-required');
+    const projection = this.snapshot();
+    return visibleQuestions((projection.questions ?? []).map(([, row]) => row), actor, projection.sessions?.[0]?.[1].leaderId);
+  }
+
+  #guardQuestion(effect: MockEffect): void {
+    requireCore(!questionOpen((this.snapshot().questions ?? []).map(([, row]) => row), effect.plan.taskId), 'question-blocked');
+  }
+
   execute(bytes: Uint8Array): Decision {
     const command = decodeCommand(bytes);
     const previous = this.snapshot().commands.find(([id]) => id === command.commandId);
@@ -214,12 +246,14 @@ export class MockEffectStore {
     const effect = this.effect(effectId);
     requireCore(effect.state === 'planned' && binding === approvalBinding(effect.plan), 'mock-approval-mismatch');
     if (this.snapshot().approvals.some(([id, stored]) => id === effectId && stored === binding)) return;
+    this.#guardQuestion(effect);
     this.append('approve', { effectId, binding });
   }
 
   claim(effectId: string): Invocation | null {
     const effect = this.effect(effectId), observedAt = Date.now();
     requireCore(effect.state === 'planned', 'mock-already-claimed-or-stopped');
+    this.#guardQuestion(effect);
     if (observedAt >= effect.plan.expiresAt) {
       this.append('stop', { effectId, reason: 'deadline', observedAt });
       return null;
@@ -232,6 +266,7 @@ export class MockEffectStore {
     const effect = this.effect(effectId);
     if (effect.state === 'cancelled' || effect.state === 'needs_attention') return;
     requireCore(effect.state !== 'completed', 'mock-already-completed');
+    this.#guardQuestion(effect);
     this.append('stop', { effectId, reason: 'cancel', observedAt: Date.now() });
   }
 
@@ -242,6 +277,7 @@ export class MockEffectStore {
     }
     if (effect.state === 'needs_attention') return;
     requireCore(effect.state === 'dispatching', 'mock-not-dispatching');
+    this.#guardQuestion(effect);
     this.append('settle', { effectId, proof });
   }
 
@@ -280,7 +316,7 @@ export class MockEffectStore {
     const history = events(this.#database);
     requireCore(history.length < LIMIT, 'mock-history-limit');
     const event = { sequence: history.length + 1, type, body: JSON.stringify(body) };
-    const projection = replayMock([...history, event], this.#version === 3);
+    const projection = replayMock([...history, event], this.#version);
     const sessionStopReserve = projection.sessions?.some(([, session]) => session.status === 'active') ? 1 : 0;
     requireCore(history.length + 1 + reservedEvents(projection) + sessionStopReserve <= LIMIT, 'mock-reserved-history-limit');
     this.#database.exec('BEGIN IMMEDIATE');

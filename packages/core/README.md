@@ -359,3 +359,78 @@ counts, real SQLite rollback and controlled commit-crash cases are recorded in
 the [lifecycle plan](../../output/phase2a-lifecycle/TEST-PLAN.md) and
 [verification](../../output/phase2a-lifecycle/README.md). Historical sealed reports
 remain bound to their qualifying commits and do not describe current admission.
+
+## Phase 2B: durable questions and answers
+
+The [scope activation](../../output/phase2b-approval/README.md) records the owner's
+instruction to continue after presentation and clarification of the frozen
+question amendment at2766d76. The [contract](../../output/phase2b-entry/CONTRACT.md)
+defines this bounded internal extension. No provider, UI, network or new runner.
+
+`TaskStore.createQuestionEngine(directory)` / `openQuestionEngine(directory)` use
+fresh schema4 only: schema3's exact tables plus STRICT `questions(id,value)`.
+Schemas1-3 retain their existing entry points and operation semantics. Wrong
+openers refuse; no migration, repair, read-only fallback, reset or downgrade.
+Every question event, command, question projection and task view shares the
+existing transaction/writer. Replay refuses projection drift on open.
+
+Member handles add `ask(bytes)`, `escalate(bytes)`, `answer(bytes)`, `questions()`;
+owner handles add `answer(bytes)`, `questions()`. These operations require schema4
+and refuse on older roots. Actor identity is bound in trusted coordinator code,
+never selected in a wire field. The owner role is independent of roster UUIDs.
+
+Question DTOs require existing compact canonical UTF-8 JSON <=16KiB, exact fields,
+numeric version1, lowercase UUID-v4 IDs and existing text scalar/byte limits.
+Exact type/version/actor/payload hash arrays are specified in the contract.
+Shared-ledger exact retries precede state, capacity and recovery checks; changed
+payload/type/actor conflicts refuse. Semantic rejections consume unreserved space
+or refuse without a durable result. Options are0-3 distinct bounded strings;
+answer is exactly `{kind:"option",index}` or `{kind:"text",text}`. Index is a safe
+integer; out-of-list choices durably reject. Text is never interpreted as code.
+
+- Ask: `team.question.ask` v1 with commandId/sessionId/taskId/questionId/text/options.
+  Only the matching member's active nonclosed started assignment with planned or
+  completed effect is eligible. Non-Leader routes to Leader; Leader routes owner.
+  One accepted question per assignment and20 lifetime questions per session,
+  including answered/cancelled history. Opening blocks its task and holds its slot.
+- Escalate: `team.question.escalate` with commandId/sessionId/questionId. Only the
+  current receiving Leader may route the same open member question once to owner;
+  no Leader task or additional lifetime question is needed. Old recipient loses
+  answer authority. Direct Leader questions are already owner-directed.
+- Answer: `team.question.answer` with commandId/sessionId/questionId/answer. Only
+  current recipient may answer. It closes the question and restores waiting_approval
+  for an unapproved plan or running for an approved/completed effect. It never
+  approves, starts, dispatches or reports. Completed effects remain report-only.
+
+While open, question gates prevent new raw approval/claim/cancel/settle/resolution
+mutations and report acceptance in both APIs and replay. Exact decisions, true
+no-op observations and rejected commands remain available. FIFO/member/global cap
+still includes blocked work; unrelated eligible members can progress. Expired
+plans cannot gain an invocation by answering a question.
+
+`questions()` returns detached visible history without internal remaining-event
+counters: non-Leaders see own authored records; Leader additionally sees questions
+initially routed to it; owner sees owner-directed direct/escalated records. Fields
+include IDs, author, prompt/options, route, escalation/status, answer/answer actor,
+and actual opening/escalation/closing event sequences. Coordinator snapshots also
+expose the replay-checked internal question budget; no privileged store is passed
+to members. These are in-process trust boundaries, not authenticated transport.
+
+Stop cancels open questions in the existing one-event session stop transaction,
+binding all cancellations to that actual stop sequence and releasing question
+budgets. Queued/planned tasks cancel; completed blocked tasks restore running
+awaiting failed reporting after stop; other uncertain effects retain reservations.
+No closed question leaves a blocked overlay or infers done. New replies/escalation
+after stop reject. Open replays only; global interrupted-attempt recovery fences
+new question commands too. Recovery does not answer or unblock pending questions;
+the authorized recipient explicitly answers after acknowledgement clears the fence.
+
+Ask reserves two ADDITIONAL question units (escalation/answer), while existing
+assignment units remain untouched. Escalation spends1; answer spends1 and releases
+leftover; composite stop uses global1 and releases question budgets. Rejection
+cannot spend held units. Capacity is events + assignment units + question units +
+unassigned legacy reserves + active stop unit <=1000. Neither question nor task
+closure resets lifetime counts. Direct owner answers release the unused escalation
+unit. Source/test/runtime/native preflight and real SQLite/process evidence are in
+the [question verification](../../output/phase2b-questions/README.md). Full Phase2B
+exit review is still separate; product providers/native integration remain HOLD.

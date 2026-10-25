@@ -4,12 +4,13 @@ import { hashRecord } from './record';
 import { MockPlan, validatePlan, planHash, taskPlanHash, invocation, approvalBinding } from './mock-plan';
 export { MockPlan, Invocation, validatePlan, planHash, taskPlanHash, invocation, approvalBinding } from './mock-plan';
 import { Assignment, reduceInbox } from './engine-inbox';
-import { reduceStop } from './engine-stop';
+import { reduceStop, validateStop } from './engine-stop';
 import { assignedTaskState, closeAssignment, reduceLifecycle, spendAssignment } from './engine-lifecycle';
+import { cancelQuestions, Question, questionOpen, reduceQuestion } from './engine-question';
 export { hashRecord } from './record';
 
 export type EffectState = 'planned' | 'dispatching' | 'completed' | 'needs_attention' | 'cancelled' | 'abandoned';
-export type TaskState = 'created' | 'queued' | 'waiting_approval' | 'running' | 'reconciling' | 'done' | 'failed' | EffectState;
+export type TaskState = 'created' | 'queued' | 'waiting_approval' | 'running' | 'reconciling' | 'blocked' | 'done' | 'failed' | EffectState;
 export interface TaskRecord { taskId: string; title: string | null; state: TaskState; effectId: string | null }
 export interface MockEffect { plan: MockPlan; state: EffectState }
 export interface MockProjection {
@@ -18,6 +19,7 @@ export interface MockProjection {
   sessions?: [string, EngineSession][];
   assignments?: [string, Assignment][];
   attentionSequences?: [string, number][];
+  questions?: [string, Question][];
 }
 export interface MockEvent { sequence: number; type: string; body: string }
 export interface Attention { effectId: string; attemptId: string; attentionSequence: number }
@@ -73,7 +75,8 @@ function reduceResolution(body: unknown, context: ResolutionContext): { effect: 
 export function reservedEvents(projection: MockProjection): number {
   const approved = new Set(projection.approvals.map(([id]) => id));
   const assigned = new Map(projection.assignments ?? []);
-  return [...assigned.values()].reduce((sum, row) => sum + row.remainingEvents, 0)
+  return (projection.questions ?? []).reduce((sum, [, question]) => sum + question.remainingEvents, 0)
+    + [...assigned.values()].reduce((sum, row) => sum + row.remainingEvents, 0)
     + projection.effects.filter(([, effect]) => !assigned.has(effect.plan.taskId)).reduce((sum, [, effect]) => sum
     + (effect.state === 'planned' ? (approved.has(effect.plan.effectId) ? 3 : 4)
       : effect.state === 'dispatching' ? 2 : effect.state === 'needs_attention' ? 1 : 0), 0);
@@ -121,12 +124,14 @@ export function matchesWitness(plan: MockPlan, proof: unknown): boolean {
   }
 }
 
-export function replayMock(events: MockEvent[], engine = false): MockProjection {
+export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 = 2): MockProjection {
+  const engine = schema >= 3, questionEngine = schema === 4;
   const commands = new Map<string, { hash: string; result: 'accepted' | 'rejected' }>();
   const tasks = new Map<string, TaskState>(), effects = new Map<string, MockEffect>(), approvals = new Map<string, string>();
   const attentionSequences = new Map<string, number>();
   const sessions = new Map<string, EngineSession>();
   const assignments = new Map<string, Assignment>();
+  const questions = new Map<string, Question>();
   function transition(effect: MockEffect, state: EffectState, sequence: number): void {
     effect.state = state;
     const assignment = assignments.get(effect.plan.taskId);
@@ -138,6 +143,11 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
     requireCore(event.sequence === ordinal + 1 && Buffer.byteLength(event.body) <= 16384, 'mock-event-sequence-or-size');
     const body: unknown = JSON.parse(event.body);
     requireCore(JSON.stringify(body) === event.body, 'noncanonical-mock-event');
+    if (event.type === 'team.question.ask' || event.type === 'team.question.escalate' || event.type === 'team.question.answer') {
+      requireCore(engine && questionEngine, 'question-root-required');
+      reduceQuestion(body, event.sequence, { commands, sessions, tasks, effects, assignments, approvals, questions }, event.type);
+      continue;
+    }
     if (event.type === 'team.task.enqueue' || event.type === 'team.task.start') {
       requireCore(engine, 'engine-event-in-schema2');
       reduceInbox(body, event.sequence, { commands, sessions, tasks, effects, assignments }, event.type);
@@ -150,6 +160,10 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
     }
     if (event.type === 'team.session.stop') {
       requireCore(engine, 'engine-event-in-schema2');
+      exactFields(body, ['command', 'actor', 'result']);
+      const stop = validateStop(body.command);
+      if (body.result === 'accepted') cancelQuestions(stop.sessionId,
+        event.sequence, { commands, sessions, tasks, effects, assignments, approvals, questions });
       reduceStop(body, event.sequence, { commands, sessions, tasks, effects, assignments, attentionSequences });
       continue;
     }
@@ -171,6 +185,7 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
       const resolution = validateResolution(body.request), target = effects.get(resolution.effectId);
       const change = reduceResolution(body, { commands, effects, attentionSequences });
       if (change) {
+        requireCore(!questionOpen(questions.values(), change.effect.plan.taskId), 'question-blocked');
         const assignment = target && assignments.get(target.plan.taskId);
         if (assignment) spendAssignment(assignment);
         transition(change.effect, change.state, event.sequence);
@@ -192,6 +207,7 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
     const request = body as Record<string, unknown>;
     const effect = effects.get(request.effectId as string);
     requireCore(effect, 'unknown-mock-effect');
+    requireCore(!questionOpen(questions.values(), effect.plan.taskId), 'question-blocked');
     const assignment = assignments.get(effect.plan.taskId);
     if (assignment) {
       requireCore(!assignment.closed, 'closed-assignment');
@@ -229,5 +245,6 @@ export function replayMock(events: MockEvent[], engine = false): MockProjection 
     } else requireCore(false, 'unsupported-mock-event');
   }
   return { commands: [...commands], tasks: [...tasks], effects: [...effects], approvals: [...approvals],
-    ...(engine ? { sessions: [...sessions], assignments: [...assignments], attentionSequences: [...attentionSequences] } : {}) };
+    ...(engine ? { sessions: [...sessions], assignments: [...assignments], attentionSequences: [...attentionSequences] } : {}),
+    ...(questionEngine ? { questions: [...questions] } : {}) };
 }

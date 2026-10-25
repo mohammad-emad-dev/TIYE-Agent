@@ -36,6 +36,11 @@ work. Assigned claims are admitted only to the fixed synthetic test composition;
 the [Phase 2A exit review](output/phase2a-exit/README.md) records the bounded
 acceptance decision and remaining Architecture 4 features. No real provider
 action is admitted. This review grants no new construction scope.
+The owner subsequently instructed continuation of the specifically presented
+[Phase2B question amendment](output/phase2b-approval/README.md). The
+[question component](output/phase2b-questions/README.md) adds durable questions,
+escalation and answers on fresh schema4, retaining blocked-task reservations.
+This remains internal synthetic construction with provider/native integration HOLD.
 This supersedes the historical unimplemented-core and pending-construction wording
 for this bounded slice only. Team engine, real effects, full integration and release
 remain outside its scope; provider/native gates are unchanged. The original

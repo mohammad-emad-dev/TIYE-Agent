@@ -1,0 +1,10 @@
+{
+  "status": "INCONCLUSIVE_OVERALL_CAPTURE_TIMEOUT",
+  "wholeSuiteTimeoutSeconds": 240,
+  "originalPreflightSha256": "554a2ffeb603259e3ec60d8a5d5db5997dae3c22740ede20da1fe7d0f031085f",
+  "testCounts": null,
+  "partialTapRetained": false,
+  "remainingFixedTestWorkersAfterInspection": 0,
+  "sourceChangedToHideFailures": false,
+  "nextRun": "retain streaming TAP,420-second whole-suite budget; owned child deadlines unchanged"
+}

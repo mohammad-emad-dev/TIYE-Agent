@@ -1,0 +1,18 @@
+{
+  "schema": "tiye-phase2b-approval-v1",
+  "date": "2026-10-25",
+  "authority": "project-owner-instruction-in-context",
+  "response": "You are now a software engineering senior.\ncontinue\nand use\n   GPT-6 Luna max\n   Flint 40B Free\n DeepSeek V4.1 Flash Free max",
+  "decision": "proceed-with-presented-phase2b-amendment",
+  "context": "Owner was asked to approve the concrete amendment at2766d76; following clarification, owner explicitly instructed continue. The exact instruction is retained rather than replaced with an invented approval phrase.",
+  "proposalCommit": "2766d76",
+  "proposalArtifacts": {
+    "output/phase2b-entry/AMENDMENT.md": "fa4ca3f1c3fe9761f387ca9f23973c2b91c6ca58dbc45f37460458519765c0dc",
+    "output/phase2b-entry/CONTRACT.md": "74604cda726080c7d16413982f318f4e4f51e7eb602e5853909abfda0cfa18ed"
+  },
+  "scope": "INTERNAL_PHASE2B_SYNTHETIC_QUESTIONS_ONLY",
+  "developmentAuthorized": true,
+  "executionRequiresParentSourceReview": true,
+  "nativeProviderExecutionAllowed": false,
+  "releaseAllowed": false
+}

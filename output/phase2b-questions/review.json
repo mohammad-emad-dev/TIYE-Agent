@@ -1,0 +1,86 @@
+{
+  "delegatedReviews": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "timeout",
+      "scope": "selected-question-module-and-design-context-before-final-guard-pass",
+      "resultSha256": "537e22e20fa6891cb55a4e2af9bd99d649554f65028e1075712714694e3bb0af",
+      "verdictAvailable": false,
+      "reportedWorkingTreeEntries": [
+        " M architecture/TIYE-Agent-Architecture.md",
+        " M packages/core/src/effects-model.ts",
+        " M packages/core/src/effects-store.ts",
+        " M packages/core/src/engine-lifecycle.ts",
+        " M packages/core/src/engine-session.ts",
+        " M packages/core/src/index.ts",
+        "?? output/phase2b-approval/",
+        "?? packages/core/src/engine-question.ts"
+      ],
+      "reportedEntriesPredatedDelegation": true
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effortOrVariant": null,
+      "status": "timeout",
+      "scope": "selected-question-module-and-design-context-before-final-guard-pass",
+      "resultSha256": "8b249226bfafa030bebe4ce9c2acea231f304c5d9319f5c7e27a991f7abb5ba3",
+      "verdictAvailable": false,
+      "reportedWorkingTreeEntries": [
+        " M architecture/TIYE-Agent-Architecture.md",
+        " M packages/core/src/effects-model.ts",
+        " M packages/core/src/effects-store.ts",
+        " M packages/core/src/engine-lifecycle.ts",
+        " M packages/core/src/engine-session.ts",
+        " M packages/core/src/index.ts",
+        "?? output/phase2b-approval/",
+        "?? packages/core/src/engine-question.ts"
+      ],
+      "reportedEntriesPredatedDelegation": true
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "timeout",
+      "scope": "selected-question-module-and-design-context-before-final-guard-pass",
+      "resultSha256": "6f1e97817590a4a5ad8e83d90304e0c8a4c124735b19b0d6c614cf80d0c3f1d1",
+      "verdictAvailable": false,
+      "reportedWorkingTreeEntries": [
+        " M architecture/TIYE-Agent-Architecture.md",
+        " M packages/core/src/effects-model.ts",
+        " M packages/core/src/effects-store.ts",
+        " M packages/core/src/engine-lifecycle.ts",
+        " M packages/core/src/engine-session.ts",
+        " M packages/core/src/index.ts",
+        "?? output/phase2b-approval/",
+        "?? packages/core/src/engine-question.ts"
+      ],
+      "reportedEntriesPredatedDelegation": true
+    }
+  ],
+  "parentFinalSourceReview": "accepted for the approved bounded schema4 question component on existing fixed hosts; actual-source/test/runtime/native preflight before execution",
+  "authorization": "exact owner continuation instruction recorded after presentation and approval clarification of frozen2766d76 scope; not an invented approval quote",
+  "criticalChecks": [
+    "same writer/ledger/projection transaction, exact schema opener and no migration",
+    "role-derived routes, one-time escalation, current-recipient answers and detached filtered visibility",
+    "blocked assignment retains slot/terminal units; both public and replay effect gates",
+    "answer closes question only; completed effect cannot regain a claim",
+    "atomic stop cancels questions and restores completed task overlay before unchanged effect stop rules",
+    "separate question reserves, one-question-per-assignment and lifetime20 accepted records",
+    "recovery fence covers answers and does not modify pending question state"
+  ],
+  "cleanCodeGuard": {
+    "fixed": 2,
+    "flagged": 1,
+    "fixes": [
+      "validate stored stop command before question cancellation",
+      "use explicit schema version for internal replay instead of another boolean mode flag"
+    ],
+    "flag": "Existing bounded full replay/projection replacement; throughput remains unqualified."
+  },
+  "testGuard": "100 prior tests retained;23 real SQLite/process boundary cases; SDK trigger hook restored in finally; independent witness counts and raw-event injection",
+  "docsGuard": "APIs, schema SQL, DTO/hash/error/state/visibility/budget rules, activation record and partial-scope claims checked; historical proposal seals preserved",
+  "modelLimitation": "All three attempts timed out; no missing model response counts as a pass.",
+  "phase2bExit": "REVIEW_PENDING",
+  "integrationGate": "HOLD"
+}

@@ -49,7 +49,7 @@ export function lifecycleDecision(command: LifecycleCommand, actor: string, cont
   if (command.type === 'team.session.recover') return actor === 'owner' && interrupted(context, command.sessionId).length > 0 ? 'accepted' : 'rejected';
   const assignment = context.assignments.get(command.taskId);
   if (!assignment || assignment.closed || assignment.sessionId !== command.sessionId || assignment.memberId !== actor
-    || assignment.effectId === null) return 'rejected';
+    || assignment.effectId === null || context.tasks.get(command.taskId) === 'blocked') return 'rejected';
   const state = context.effects.get(assignment.effectId)!.state;
   if (command.status === 'done') return state === 'completed' && session.status === 'active' ? 'accepted' : 'rejected';
   return ['completed', 'cancelled', 'abandoned'].includes(state) ? 'accepted' : 'rejected';

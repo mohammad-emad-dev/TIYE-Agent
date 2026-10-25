@@ -7,7 +7,7 @@ interface StopSession {
   type: 'team.session.stop'; version: 1; commandId: string; sessionId: string;
 }
 
-function validateStop(candidate: unknown): StopSession {
+export function validateStop(candidate: unknown): StopSession {
   exactFields(candidate, ['type', 'version', 'commandId', 'sessionId']);
   requireCore(candidate.type === 'team.session.stop' && candidate.version === 1, 'unsupported-session-stop');
   for (const key of ['commandId', 'sessionId'])

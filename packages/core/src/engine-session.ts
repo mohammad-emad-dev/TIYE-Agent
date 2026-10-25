@@ -1,6 +1,7 @@
 import { exactFields, requireCore, UUID, validText } from './command';
 import { decodeCanonical, hashRecord } from './record';
 import type { MemberInbox } from './engine-inbox';
+import type { VisibleQuestion } from './engine-question';
 
 export interface EngineMember { memberId: string; name: string; instructions: string }
 export interface EngineSession {
@@ -14,6 +15,8 @@ export interface EngineOwner {
   createSession(bytes: Uint8Array): 'accepted' | 'rejected';
   stop(bytes: Uint8Array): 'accepted' | 'rejected';
   recover(bytes: Uint8Array): 'accepted' | 'rejected';
+  answer(bytes: Uint8Array): 'accepted' | 'rejected';
+  questions(): VisibleQuestion[];
   session(): EngineSession | null;
 }
 export interface MemberContext extends EngineMember { sessionId: string; role: 'leader' | 'member' }
@@ -21,6 +24,10 @@ export interface EngineMemberHandle {
   context(): MemberContext;
   enqueue(bytes: Uint8Array): 'accepted' | 'rejected';
   report(bytes: Uint8Array): 'accepted' | 'rejected';
+  ask(bytes: Uint8Array): 'accepted' | 'rejected';
+  escalate(bytes: Uint8Array): 'accepted' | 'rejected';
+  answer(bytes: Uint8Array): 'accepted' | 'rejected';
+  questions(): VisibleQuestion[];
   inbox(): MemberInbox;
 }
 

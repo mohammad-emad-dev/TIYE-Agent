@@ -1513,6 +1513,16 @@ behavior. It grants no new construction scope or dependent integration permissio
 The existing exception ends at that review; further engine/adaptor construction
 requires an explicitly admitted scope under these sequencing rules.
 
+**Activated internal Phase 2B construction, 25 October 2026.** Following the
+[concrete question amendment](../output/phase2b-entry/AMENDMENT.md) at2766d76, the
+owner instructed continuation of that presented scope after approval clarification.
+The [record](../output/phase2b-approval/README.md) retains the exact instruction.
+Only the bounded question/answer/escalation contract on fresh schema4 is admitted,
+using the existing synchronous writer and fixed core/witness composition after
+actual-source preflight. No migration, provider/native action, UI, network/MCP,
+new runner, real project/Git/export action or release is added. The exception
+ends at the Phase2B exit review.
+
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and
