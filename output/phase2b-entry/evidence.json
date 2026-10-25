@@ -1,0 +1,16 @@
+{
+  "scope": "proposed-internal-phase2b",
+  "baselineCommit": "3d84035",
+  "baselineManifestSha256": "0a8968496a6e46b5fc81fd6f3e4418fe7e1ab957bc3db2d377f14679dff28625",
+  "artifacts": {
+    "AMENDMENT.md": "fa4ca3f1c3fe9761f387ca9f23973c2b91c6ca58dbc45f37460458519765c0dc",
+    "CONTRACT.md": "74604cda726080c7d16413982f318f4e4f51e7eb602e5853909abfda0cfa18ed",
+    "README.md": "544bec74a79f56fd9bf71e894c23834581505b1d47e49d715021648f33bbd81f",
+    "review.json": "3bbe3c1dd261ed73dc95d029dbb9176a0ad539660c2b1cb4a61ff4e90208bc01",
+    "verification.json": "a97ebd9a89820054b532adb9cb26bbe368410eee6fa2f9e4a0dd76a13280083a",
+    "verify.py": "c471df1f36bd331cc08a8504879f2c73052d3815c810d569702d6ff0d59fe005"
+  },
+  "approvalStatus": "PENDING",
+  "constructionAuthorized": false,
+  "integrationGate": "HOLD"
+}

@@ -1,0 +1,24 @@
+{
+  "scope": "phase2b-proposal-documents-only",
+  "date": "2026-10-25",
+  "baselineCommit": "3d84035",
+  "proposalStatus": "READY_FOR_OWNER_DECISION",
+  "phase2bEngineExecuted": false,
+  "baselineVerification": {
+    "command": "python -X utf8 -B output/phase2a-exit/verify.py",
+    "exitCode": 0,
+    "stdoutSha256": "d415edbea21d07e99e7b461683b9da0862c82a657328bd022cdabc1179866c89",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "checks": [
+    "accepted source/artifact baseline",
+    "proposal local links",
+    "explicit pending approval and no current implementation claim",
+    "role/visibility matrices",
+    "question versus task terminal state",
+    "additional budget arithmetic",
+    "stop/recovery/fixed-composition execution boundary"
+  ],
+  "hypotheticalEngineTestResultsClaimed": false,
+  "approvalStatus": "PENDING"
+}

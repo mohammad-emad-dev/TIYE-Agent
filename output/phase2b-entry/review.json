@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-25",
+  "delegatedDesignReviews": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "scope": "condensed-proposed-design-only-not-implementation-audit",
+      "resultSha256": "9e725cffb57ee1143ebc0125f816d3f20b344239e416c80ee0de87cf62d9ab0b",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2b-entry/"
+      ],
+      "reportedFolderPredatedDelegation": true
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effortOrVariant": null,
+      "status": "completed",
+      "scope": "condensed-proposed-design-only-not-implementation-audit",
+      "resultSha256": "46cdd17d1bdd75ba46251d4995aed46fefb8f31c766cd7f6efadc8a443d0e41b",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2b-entry/"
+      ],
+      "reportedFolderPredatedDelegation": true
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "completed",
+      "scope": "condensed-proposed-design-only-not-implementation-audit",
+      "resultSha256": "c3e61427aa67305c824fd85b845d6614a28e20accf69d749520296575ff0ae20",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2b-entry/"
+      ],
+      "reportedFolderPredatedDelegation": true
+    }
+  ],
+  "parentDocumentReview": "ready for an owner scope decision; no implementation is authorized or claimed",
+  "responses": {
+    "clarified": [
+      "owner role is independent of immutable member roster; command/recipient authority matrix",
+      "detached visibility matrix and exact public question fields",
+      "schema4 opener refuses old versions; event/projection disagreement refuses without repair",
+      "answer union closes a question, never a task; completed effect stays report-only",
+      "question opening/escalation/closing bind actual global event sequences including shared stop sequence",
+      "owner answers remain fenced until recovery; then the normal explicit answer path remains available",
+      "stopped completed effect loses blocked overlay but still requires failed report",
+      "additive question-budget formula with independently checked arithmetic examples"
+    ],
+    "notAcceptedAsDefects": [
+      "The lifetime20 rule counts all accepted questions, not only closed records; a suggested100-open interpretation contradicts the stated lifetime bound.",
+      "Keeping assignment units and adding separate question units is intentional; these are different budgets, not a contradiction.",
+      "Ledger-first retries, exact string option uniqueness, free-text allowance and index bounds already appeared in the contract; they remain explicit."
+    ],
+    "limitation": "Models received a condensed design brief; parent reviewed the full final contract. Reports are advisory, not unanimous approval of final source."
+  },
+  "docsGuard": "all new API/schema/event behavior explicitly proposed; links and scope checked; no current implementation claim",
+  "baselineGuard": "accepted Phase2A verifier passed; all accepted engine/root/architecture sources remain unchanged",
+  "approvalStatus": "PENDING",
+  "constructionAuthorized": false,
+  "integrationGate": "HOLD"
+}
