@@ -1,0 +1,39 @@
+{
+  "schema": "tiye-phase2a-exit-v1",
+  "date": "2026-10-25",
+  "authority": "parent-engineering-exit-review-within-existing-explicit-owner-approval",
+  "approvedProposalCommit": "8f2d0a2",
+  "ownerApprovalCommit": "4ce785d",
+  "productionBaselineCommit": "93f417d",
+  "phase2aVerdict": "PASS_BOUNDED_INTERNAL_CONTRACT",
+  "specificationVerdict": "PASS_WITHIN_APPROVED_PHASE2A_CONTRACT",
+  "engineeringVerdict": "PASS_WITHIN_DOCUMENTED_INTERNAL_TEST_BOUNDARY",
+  "verifiedTests": 100,
+  "failedTests": 0,
+  "skippedTests": 0,
+  "productionCodeChanged": false,
+  "accepted": [
+    "immutable synthetic session and bound role handles",
+    "durable per-member FIFO and concurrency reservations",
+    "atomic planning and explicit member results",
+    "uncertainty-preserving logical stop",
+    "one-time recovery and witness reconciliation without resend",
+    "lifetime and event budget invariants"
+  ],
+  "fullArchitecture4EngineComplete": false,
+  "completeProductAccepted": false,
+  "newConstructionAuthorized": false,
+  "nativeProviderIntegration": "HOLD",
+  "releaseAllowed": false,
+  "nextAction": "Prepare a concrete bounded proposal for the next engine behavior; obtain its required scope decision before new construction.",
+  "limits": [
+    "trusted in-process coordinator, not authenticated hostile callers",
+    "fresh schema3; no migration, reset or downgrade",
+    "fixed synthetic core/witness composition only",
+    "controlled owned-child crashes only; no whole-host or power-loss claim",
+    "bounded replay/projection writes have no throughput qualification",
+    "all requested model source reviews timed out; acceptance rests on parent review and direct fresh evidence"
+  ],
+  "verificationSha256": "a537c8f5eaa740423a0fb29d6383ef9009ba87bc90fc0491455ac13b5c50d0dd",
+  "matrixSha256": "24e996321075b261837841c05da81a0adccd72a3cfad04e743b7dd15b0d3be30"
+}

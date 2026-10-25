@@ -1507,7 +1507,11 @@ member-bound result reports, explicit interrupted-attempt recovery and stop that
 retains uncertain reservations. Effect completion alone cannot finish an engine
 task. The existing fixed witness can execute synthetic assigned claims after
 source review; product providers/adapters remain closed.
-The full Phase 2A exit review remains pending.
+The [Phase 2A exit review](../output/phase2a-exit/README.md) records the bounded
+contract decision and maps each Architecture 4 area to implemented or deferred
+behavior. It grants no new construction scope or dependent integration permission.
+The existing exception ends at that review; further engine/adaptor construction
+requires an explicitly admitted scope under these sequencing rules.
 
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;

@@ -33,7 +33,9 @@ and planned assignments and closes new session admission. The
 [assigned lifecycle component](output/phase2a-lifecycle/README.md) adds member
 reports, explicit recovery and reservation-preserving stop for dispatched mock
 work. Assigned claims are admitted only to the fixed synthetic test composition;
-full Phase 2A exit review remains pending. No real provider action is admitted.
+the [Phase 2A exit review](output/phase2a-exit/README.md) records the bounded
+acceptance decision and remaining Architecture 4 features. No real provider
+action is admitted. This review grants no new construction scope.
 This supersedes the historical unimplemented-core and pending-construction wording
 for this bounded slice only. Team engine, real effects, full integration and release
 remain outside its scope; provider/native gates are unchanged. The original

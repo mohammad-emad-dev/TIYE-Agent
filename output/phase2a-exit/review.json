@@ -1,0 +1,56 @@
+{
+  "delegatedSourceReviews": [
+    {
+      "model": "gpt-6-luna",
+      "effortOrVariant": "max",
+      "status": "timeout",
+      "scope": "supplied-actual-production-source-and-exit-tests",
+      "resultSha256": "c3ea03b82f27bf95a5f1f0cc96a0acc79fc47b5224d9f099218db98db836c98b",
+      "briefSha256": "9586fdf678e1adf98081c79680df757ce17a99ad0c44f5629e21d6be37fb9579",
+      "verdictAvailable": false,
+      "reportedWorkingTreeEntries": [
+        "?? packages/core/test/engine-exit.test.cjs"
+      ],
+      "preExistingEntriesConfirmedUnchanged": true
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effortOrVariant": null,
+      "status": "timeout",
+      "scope": "supplied-actual-production-source-and-exit-tests",
+      "resultSha256": "fa56edd619466768529a68654662600ed6f3ae2f4f5e67ef648ab0513b2180e7",
+      "briefSha256": "9586fdf678e1adf98081c79680df757ce17a99ad0c44f5629e21d6be37fb9579",
+      "verdictAvailable": false,
+      "reportedWorkingTreeEntries": [
+        "?? packages/core/test/engine-exit.test.cjs"
+      ],
+      "preExistingEntriesConfirmedUnchanged": true
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effortOrVariant": "max",
+      "status": "timeout",
+      "scope": "supplied-actual-production-source-and-exit-tests",
+      "resultSha256": "182b1316622426cbc1035d1a2c9eb5f8f23d3ccdab1173e39dfb4db820c0fac3",
+      "briefSha256": "9586fdf678e1adf98081c79680df757ce17a99ad0c44f5629e21d6be37fb9579",
+      "verdictAvailable": false,
+      "reportedWorkingTreeEntries": [
+        "?? packages/core/test/engine-exit.test.cjs"
+      ],
+      "preExistingEntriesConfirmedUnchanged": true
+    }
+  ],
+  "parentFinalSourceReview": "no material production defect found within the approved bounded contract; existing production/test baseline unchanged and mapped to fresh checks",
+  "specificationEvidence": "MATRIX.md plus fresh source-bound complete suite; no model vote",
+  "engineeringEvidence": "unchanged single writer/replay/native dependency, exact runtime preflight, existing real rollback/tamper/crash checks and two direct exit-boundary tests",
+  "cleanCodeGuard": {
+    "fixed": 0,
+    "flagged": 1,
+    "productionChanged": false,
+    "flag": "Existing bounded full replay/projection replacement; throughput is unqualified."
+  },
+  "testGuard": "two justified boundary scenarios; real SQLite persistence and independent witness; mixed recovery variants are data-driven; no mocked internal store or skipped regression",
+  "docsGuard": "current exit links, contract decision boundary and Architecture4 mapping checked against source",
+  "modelLimitation": "All three requested attempts timed out without a verdict; none is counted as a pass.",
+  "integrationGate": "HOLD"
+}

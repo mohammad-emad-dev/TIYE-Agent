@@ -238,7 +238,8 @@ The [explicit Phase 2A approval](../../output/phase2a-approval/README.md) covers
 the [frozen contract](../../output/team-engine-entry/CONTRACT.md). This internal
 library uses the existing fixed core/witness test composition. Full product
 integration, provider/native execution and release remain HOLD. The complete
-Phase 2A exit review remains pending.
+[Phase 2A exit review](../../output/phase2a-exit/README.md) records the bounded
+contract decision, requirement coverage and deferred product behavior.
 
 `TaskStore.createEngine(directory)` creates fresh schema 3 with the existing
 command/event/task/effect/approval tables plus a sessions projection. `openEngine`

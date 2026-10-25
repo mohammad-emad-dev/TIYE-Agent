@@ -217,3 +217,4 @@ output/phase2a-session/** -text whitespace=blank-at-eol,blank-at-eof,space-befor
 output/phase2a-inboxes/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/phase2a-stop/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/phase2a-lifecycle/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/phase2a-exit/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
