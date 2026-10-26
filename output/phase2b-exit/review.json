@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-26",
+  "parentVerdict": "accepted-within-approved-internal-boundary",
+  "productionChanges": false,
+  "testChanges": "two actual SQLite contract boundary cases",
+  "delegates": [
+    {
+      "runId": "tiye-qexit-codex-20261026-a",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "resultSha256": "e68e448ec84035aa8bc72fc1869d0a828ca5fe5f51a722dfa76c25609f694f65",
+      "touchedFiles": [],
+      "report": "I found no concrete bug in the supplied module against the listed rules. It enforces assignment and lifetime limits in `askEligible`, recipient and escalation rules in `questionDecision`, and restoration and cancellation in `restoreQuestionTask` and `cancelQuestions`.\n\nThe general API/replay mutation guards and stop reducer call sites are not included, so I can\u2019t verify that they use these helpers in the required order."
+    },
+    {
+      "runId": "tiye-qexit-flint-20261026-a",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "resultSha256": "0c8ce3e207a22d496b218298c89fb137ac3135dd91f22c609fcf91b9506ec92e",
+      "touchedFiles": [],
+      "report": ""
+    },
+    {
+      "runId": "tiye-qexit-deepseek-20261026-a",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "resultSha256": "afa8128cf423667f821a17ecdcd1d8f33466f6d8f7778bba6e7848817057e4c5",
+      "touchedFiles": [],
+      "report": ""
+    }
+  ],
+  "limits": [
+    "supplied-module model review is not a full implementation audit",
+    "two timeouts provide no verdict",
+    "parent integration review and direct tests govern acceptance"
+  ]
+}
