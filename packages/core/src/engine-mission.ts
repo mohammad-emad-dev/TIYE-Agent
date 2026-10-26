@@ -2,6 +2,8 @@ import { exactFields, requireCore, UUID, validText } from './command';
 import { decodeCanonical, hashRecord } from './record';
 import type { QuestionContext } from './engine-question';
 import type { EngineSession } from './engine-session';
+import { HandoffContext, recoveredMissionEligible } from './engine-handoff';
+interface MissionContext extends QuestionContext { recovery?: HandoffContext }
 
 export interface MissionCompletion { summary: string; completedBy: string; sequence: number }
 export interface MissionView { sessionId: string; status: EngineSession['status']; completion: MissionCompletion | null }
@@ -25,9 +27,10 @@ export function missionHash(command: CompleteMission, actor: string): string {
   return hashRecord([command.type, 1, actor, command.commandId, command.sessionId, command.summary]);
 }
 
-export function missionDecision(command: CompleteMission, actor: string, context: QuestionContext): 'accepted' | 'rejected' {
+export function missionDecision(command: CompleteMission, actor: string, context: MissionContext): 'accepted' | 'rejected' {
   const session = context.sessions.get(command.sessionId);
   if (!session || session.status !== 'active' || session.leaderId !== actor || context.assignments.size === 0) return 'rejected';
+  if (context.recovery) return recoveredMissionEligible(command.sessionId, context.recovery) ? 'accepted' : 'rejected';
   for (const [taskId, state] of context.tasks) {
     const assignment = context.assignments.get(taskId);
     if (state !== 'done' || !assignment || assignment.sessionId !== command.sessionId || !assignment.closed
@@ -42,7 +45,7 @@ export function missionDecision(command: CompleteMission, actor: string, context
   return 'accepted';
 }
 
-export function reduceMission(body: unknown, sequence: number, context: QuestionContext): void {
+export function reduceMission(body: unknown, sequence: number, context: MissionContext): void {
   exactFields(body, ['command', 'actor', 'result']);
   const command = validateMission(body.command);
   requireCore(typeof body.actor === 'string' && UUID.test(body.actor)

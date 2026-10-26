@@ -495,3 +495,41 @@ question units release separately and global stop capacity remains reserved.
 Owner observation is narrowly exempt from the interrupted-open fence; other
 interrupted assignments still fence normal writes. Stop does not clear uncertainty.
 Observations are synthetic task facts, not verified process-health assertions.
+
+## Phase 2E: explicit recovery handoffs
+
+The [delegated owner decision](../../output/phase2e-approval/README.md) activates
+the contract frozen atc84c709. `createHandoffEngine` / `openHandoffEngine` use fresh
+schema7 only: schema6 SQL plus STRICT handoffs(id,value) keyed by predecessor task.
+Schemas1–6 keep separate exact openers and semantics, without migration or reset.
+
+Member handoff(bytes) is bound to the immutable Leader, without needing its own
+task. Exact team.task.handoff v1 DTO has commandId/sessionId/predecessorTaskId/
+successorTaskId/targetMemberId/title, using existing canonical byte/UUID/text limits.
+Its shared-ledger hash binds actor and all payload; exact retries precede state,
+capacity and recovery fence. Only a closed observed failed assignment with a known
+completed/cancelled/abandoned effect may have one successor. Target must be a roster
+member and successor ID must be fresh. Ten lifetime handoffs and100 assignments
+bound chains; closed history never restores those limits.
+
+One event creates title/queued task, FIFO assignment with eight new held units and
+immutable lineage. It changes no predecessor, plan, claim, approval, question or
+failure. New work requires explicit scheduler start, a fresh effect/attempt, normal
+approval and member result; no action is invoked by handoff. Existing target queue
+keeps priority. Raw planning cannot bypass queued ownership or reuse old attempts.
+
+Owner/Leader handoffs() sees all lineage; others see only source/target membership.
+Detached fields are sessionId/predecessorTaskId/successorTaskId/fromMemberId/
+targetMemberId/title/createdBy/handoffSequence, without private questions, failure
+summaries, proofs, ledger or budgets. Methods refuse older roots. Registry titles
+derive from accepted handoff events, with no fabricated creation/enqueue decisions.
+
+Schema7 mission completion requires all tasks closed and every failed predecessor
+covered by a validated handoff path ending in explicitly reported done/completed
+work. Failed records and effects stay intact; uncovered/cancelled/live/uncertain or
+unassigned work refuses success. Schemas5–6 retain the strict all-done rule. Stop
+cancels queued successors without erasing lineage; stopped/completed sessions reject
+new handoffs. The normal interrupted-open fence applies, with no new exemption.
+Handoff needs one event plus eight new assignment units; global terminal capacity
+stays reserved. Semantic duplicate operations across different explicitly approved
+effects are not deduplicated. This is trusted synthetic orchestration only.

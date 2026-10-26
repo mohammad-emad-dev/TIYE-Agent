@@ -14,6 +14,7 @@ import { decodeLifecycle, interrupted, lifecycleDecision, lifecycleHash, Lifecyc
 import { decodeQuestion, questionContext, questionDecision, questionHash, QuestionCommand, questionOpen, visibleQuestions } from './engine-question';
 import { decodeMission, missionDecision, missionHash, missionView } from './engine-mission';
 import { decodeFailure, failureContext, failureDecision, failureHash, visibleFailures } from './engine-failure';
+import { decodeHandoff, handoffContext, handoffDecision, handoffHash, visibleHandoffs } from './engine-handoff';
 
 const LIMIT = 1000;
 const APPLICATION_ID = 0x54495946;
@@ -21,8 +22,9 @@ const PROJECTIONS = ['commands', 'tasks', 'effects', 'approvals'] as const;
 const ENGINE_PROJECTIONS = [...PROJECTIONS, 'sessions'] as const;
 const QUESTION_PROJECTIONS = [...ENGINE_PROJECTIONS, 'questions'] as const;
 const FAILURE_PROJECTIONS = [...QUESTION_PROJECTIONS, 'failures'] as const;
-type StoreVersion = 2 | 3 | 4 | 5 | 6;
-function projectionNames(version: StoreVersion) { return version === 6 ? FAILURE_PROJECTIONS : version >= 4 ? QUESTION_PROJECTIONS : version === 3 ? ENGINE_PROJECTIONS : PROJECTIONS; }
+const HANDOFF_PROJECTIONS = [...FAILURE_PROJECTIONS, 'handoffs'] as const;
+type StoreVersion = 2 | 3 | 4 | 5 | 6 | 7;
+function projectionNames(version: StoreVersion) { return version === 7 ? HANDOFF_PROJECTIONS : version === 6 ? FAILURE_PROJECTIONS : version >= 4 ? QUESTION_PROJECTIONS : version === 3 ? ENGINE_PROJECTIONS : PROJECTIONS; }
 const TABLES: Record<string, string> = {
   metadata: 'CREATE TABLE metadata (singleton INTEGER PRIMARY KEY CHECK(singleton=1), database_id TEXT NOT NULL) STRICT',
   events: 'CREATE TABLE events (sequence INTEGER PRIMARY KEY, type TEXT NOT NULL, body TEXT NOT NULL CHECK(length(CAST(body AS BLOB))<=16384)) STRICT',
@@ -32,7 +34,8 @@ const TABLES: Record<string, string> = {
 function tables(version: StoreVersion): Record<string, string> {
   return version === 2 ? TABLES : { ...TABLES, sessions: 'CREATE TABLE sessions (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT',
     ...(version >= 4 ? { questions: 'CREATE TABLE questions (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT' } : {}),
-    ...(version === 6 ? { failures: 'CREATE TABLE failures (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT' } : {}) };
+    ...(version >= 6 ? { failures: 'CREATE TABLE failures (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT' } : {}),
+    ...(version === 7 ? { handoffs: 'CREATE TABLE handoffs (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT' } : {}) };
 }
 
 function validateSchema(database: Database.Database, version: StoreVersion): void {
@@ -87,6 +90,8 @@ export class MockEffectStore {
   static openMissionEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, false, 5); }
   static createFailureEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, true, 6); }
   static openFailureEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, false, 6); }
+  static createHandoffEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, true, 7); }
+  static openHandoffEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, false, 7); }
 
   private static connect(directory: string, fresh: boolean, version: StoreVersion): MockEffectStore {
     const root = storageRoot(directory);
@@ -125,6 +130,7 @@ export class MockEffectStore {
     return Object.freeze({ createSession: (bytes: Uint8Array) => this.#createSession(bytes),
       observeFailure: (bytes: Uint8Array) => this.#observeFailure(bytes),
       failures: () => this.#failures('owner'),
+      handoffs: () => this.#handoffs('owner'),
       stop: (bytes: Uint8Array) => this.#stopSession(bytes),
       recover: (bytes: Uint8Array) => this.#lifecycle(bytes, 'team.session.recover', 'owner'),
       answer: (bytes: Uint8Array) => this.#question(bytes, 'team.question.answer', 'owner'),
@@ -143,6 +149,8 @@ export class MockEffectStore {
     };
     context();
     return Object.freeze({ context,
+      handoff: (bytes: Uint8Array) => { context(); return this.#handoff(bytes, memberId); },
+      handoffs: () => { context(); return this.#handoffs(memberId); },
       failures: () => { context(); return this.#failures(memberId); },
       completeMission: (bytes: Uint8Array) => { context(); return this.#completeMission(bytes, memberId); },
       mission: () => { context(); return this.#mission()!; },
@@ -229,7 +237,7 @@ export class MockEffectStore {
   }
 
   #observeFailure(bytes: Uint8Array): 'accepted' | 'rejected' {
-    requireCore(this.#version === 6, 'failure-root-required');
+    requireCore(this.#version >= 6, 'failure-root-required');
     const command = decodeFailure(bytes), projection = this.snapshot();
     const previous = projection.commands.find(([id]) => id === command.commandId);
     if (previous) {
@@ -240,9 +248,26 @@ export class MockEffectStore {
   }
 
   #failures(actor: string) {
-    requireCore(this.#version === 6, 'failure-root-required');
+    requireCore(this.#version >= 6, 'failure-root-required');
     const projection = this.snapshot();
     return visibleFailures((projection.failures ?? []).map(([, row]) => row), actor, projection.sessions?.[0]?.[1].leaderId);
+  }
+
+  #handoff(bytes: Uint8Array, actor: string): 'accepted' | 'rejected' {
+    requireCore(this.#version === 7, 'handoff-root-required');
+    const command = decodeHandoff(bytes), projection = this.snapshot();
+    const previous = projection.commands.find(([id]) => id === command.commandId);
+    if (previous) {
+      requireCore(previous[1].hash === handoffHash(command, actor), 'mock-command-conflict'); return previous[1].result;
+    }
+    const result = handoffDecision(command, actor, handoffContext(projection));
+    this.append(command.type, { command, actor, result }); return result;
+  }
+
+  #handoffs(actor: string) {
+    requireCore(this.#version === 7, 'handoff-root-required');
+    const projection = this.snapshot();
+    return visibleHandoffs((projection.handoffs ?? []).map(([, row]) => row), actor, projection.sessions?.[0]?.[1].leaderId);
   }
 
   #completeMission(bytes: Uint8Array, actor: string): 'accepted' | 'rejected' {
@@ -252,7 +277,8 @@ export class MockEffectStore {
     if (previous) {
       requireCore(previous[1].hash === missionHash(command, actor), 'mock-command-conflict'); return previous[1].result;
     }
-    const result = missionDecision(command, actor, questionContext(projection));
+    const result = missionDecision(command, actor, { ...questionContext(projection),
+      ...(this.#version === 7 ? { recovery: handoffContext(projection) } : {}) });
     this.append(command.type, { command, actor, result }); return result;
   }
 

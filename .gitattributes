@@ -231,3 +231,5 @@ output/phase2d-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-befo
 output/phase2d-failures/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/phase2d-exit/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/phase2e-entry/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/phase2e-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/phase2e-handoffs/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -1548,6 +1548,19 @@ native review. No migration/reset, live detector/nudge, provider/terminal/networ
 UI, new runner, automatic takeover/succession, real project/Git/export or release.
 This exception ends at the Phase2D exit review.
 
+**Activated internal Phase 2E construction, 27 October 2026.** After the accepted
+[Phase2D exit](../output/phase2d-exit/README.md), the owner delegated the decision
+on the [recovery handoff amendment](../output/phase2e-entry/AMENDMENT.md) and linked
+contract frozen atc84c709. The parent chose that exact scope; the
+[record](../output/phase2e-approval/README.md) retains the exact response and digests.
+Fresh schema7 admits explicit Leader handoff from closed observed failures to new
+queued tasks and mission success only through fully successful replacement chains,
+preserving failed history. Reuse one writer/ledger/replay and the fixed owned core/
+witness composition after actual-source/test/compiled/runtime/native review.
+No migration/reset, new runner, automatic execution/takeover/succession, live
+detector, provider/terminal/UI/network/MCP, real project/Git/export or release.
+This exception ends at the Phase2E exit review.
+
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and

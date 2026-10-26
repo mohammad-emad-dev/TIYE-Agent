@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-27",
+  "parentVerdict": "ACCEPTED_BOUNDED_COMPONENT",
+  "parentReviewed": [
+    "canonical codec/hash/Leader binding and exact retry order",
+    "closed observed failure and fresh successor predicate",
+    "one-event task/title/FIFO assignment/lineage with eight held units",
+    "bounded acyclic recovered-mission predicate and old strict version separation",
+    "filtered detached views and registry title provenance",
+    "stop/recovery/budget and schema integration",
+    "real SQLite/independent witness/owned-child composition"
+  ],
+  "delegates": [
+    {
+      "runId": "tiye-handoff-code-codex-20261027-a",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "resultSha256": "31e0fd37c2141d7983dbc9d214596a64e1cf37194071a85e5f13e74babbca4c5",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        " M architecture/TIYE-Agent-Architecture.md",
+        " M packages/core/README.md",
+        " M packages/core/src/effects-model.ts",
+        " M packages/core/src/effects-store.ts",
+        " M packages/core/src/engine-mission.ts",
+        " M packages/core/src/engine-session.ts",
+        " M packages/core/src/index.ts",
+        " M packages/core/test/mock-host.cjs",
+        "?? output/phase2e-approval/",
+        "?? output/phase2e-handoffs/",
+        "?? packages/core/src/engine-handoff.ts",
+        "?? packages/core/test/handoff-fixtures.cjs",
+        "?? packages/core/test/handoffs.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": "No concrete bugs found in the supplied module against the stated rules. I did not edit files, commit, or run tools."
+    },
+    {
+      "runId": "tiye-handoff-code-flint-20261027-a",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "resultSha256": "7a114e4eb827787159926d2468ed694a8c12dc477588be09f067458dd468368d",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        " M architecture/TIYE-Agent-Architecture.md",
+        " M packages/core/README.md",
+        " M packages/core/src/effects-model.ts",
+        " M packages/core/src/effects-store.ts",
+        " M packages/core/src/engine-mission.ts",
+        " M packages/core/src/engine-session.ts",
+        " M packages/core/src/index.ts",
+        " M packages/core/test/mock-host.cjs",
+        "?? output/phase2e-approval/",
+        "?? output/phase2e-handoffs/",
+        "?? packages/core/src/engine-handoff.ts",
+        "?? packages/core/test/handoff-fixtures.cjs",
+        "?? packages/core/test/handoffs.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-handoff-code-deepseek-20261027-a",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "resultSha256": "734bb872f49b3aa41ccbe1c368a4201e112d25e90e2862c0ce9d696a439b7f3e",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        " M architecture/TIYE-Agent-Architecture.md",
+        " M packages/core/README.md",
+        " M packages/core/src/effects-model.ts",
+        " M packages/core/src/effects-store.ts",
+        " M packages/core/src/engine-mission.ts",
+        " M packages/core/src/engine-session.ts",
+        " M packages/core/src/index.ts",
+        " M packages/core/test/mock-host.cjs",
+        "?? output/phase2e-approval/",
+        "?? output/phase2e-handoffs/",
+        "?? packages/core/src/engine-handoff.ts",
+        "?? packages/core/test/handoff-fixtures.cjs",
+        "?? packages/core/test/handoffs.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    }
+  ],
+  "guardDisposition": "parent code/test/docs review found no blocking issue within approved component scope",
+  "limits": [
+    "Luna verdict covers supplied module only",
+    "two timeouts provide no verdict",
+    "full-history replay/projection replacement has no throughput qualification",
+    "semantic duplication across distinct approved effects is not deduplicated",
+    "full Phase2E exit pending"
+  ]
+}

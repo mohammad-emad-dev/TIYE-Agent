@@ -9,6 +9,7 @@ import { assignedTaskState, closeAssignment, reduceLifecycle, spendAssignment } 
 import { cancelQuestions, Question, questionOpen, reduceQuestion } from './engine-question';
 import { reduceMission } from './engine-mission';
 import { closeFailure, FailureNotice, reduceFailure } from './engine-failure';
+import { Handoff, reduceHandoff, validateHandoff } from './engine-handoff';
 export { hashRecord } from './record';
 
 export type EffectState = 'planned' | 'dispatching' | 'completed' | 'needs_attention' | 'cancelled' | 'abandoned';
@@ -23,6 +24,7 @@ export interface MockProjection {
   attentionSequences?: [string, number][];
   questions?: [string, Question][];
   failures?: [string, FailureNotice][];
+  handoffs?: [string, Handoff][];
 }
 export interface MockEvent { sequence: number; type: string; body: string }
 export interface Attention { effectId: string; attemptId: string; attentionSequence: number }
@@ -91,6 +93,9 @@ export function taskRegistry(projection: MockProjection, events: MockEvent[]): T
   for (const event of events) if (event.type === 'task.create') {
     const command = validateCommand(JSON.parse(event.body));
     if (decisions.get(command.commandId)!.result === 'accepted') titles.set(command.taskId, command.title);
+  } else if (event.type === 'team.task.handoff') {
+    const command = validateHandoff(JSON.parse(event.body).command);
+    if (decisions.get(command.commandId)!.result === 'accepted') titles.set(command.successorTaskId, command.title);
   }
   const attachments = new Map(projection.effects.map(([id, effect]) => [effect.plan.taskId, id]));
   return projection.tasks.map(([taskId, state]) => ({ taskId, title: titles.get(taskId) ?? null,
@@ -127,7 +132,7 @@ export function matchesWitness(plan: MockPlan, proof: unknown): boolean {
   }
 }
 
-export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 | 5 | 6 = 2): MockProjection {
+export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 | 5 | 6 | 7 = 2): MockProjection {
   const engine = schema >= 3, questionEngine = schema >= 4;
   const commands = new Map<string, { hash: string; result: 'accepted' | 'rejected' }>();
   const tasks = new Map<string, TaskState>(), effects = new Map<string, MockEffect>(), approvals = new Map<string, string>();
@@ -136,6 +141,7 @@ export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 | 5 | 6 = 2): 
   const assignments = new Map<string, Assignment>();
   const questions = new Map<string, Question>();
   const failures = new Map<string, FailureNotice>();
+  const handoffs = new Map<string, Handoff>();
   function transition(effect: MockEffect, state: EffectState, sequence: number): void {
     effect.state = state;
     const assignment = assignments.get(effect.plan.taskId);
@@ -148,14 +154,20 @@ export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 | 5 | 6 = 2): 
     const body: unknown = JSON.parse(event.body);
     requireCore(JSON.stringify(body) === event.body, 'noncanonical-mock-event');
     const missionClosed = schema >= 5 && [...sessions.values()].some(session => session.status === 'completed');
+    if (event.type === 'team.task.handoff') {
+      requireCore(schema === 7, 'handoff-root-required');
+      reduceHandoff(body, event.sequence, { commands, sessions, tasks, effects, assignments, approvals, questions, failures, attentionSequences, handoffs });
+      continue;
+    }
     if (event.type === 'team.task.failure') {
-      requireCore(schema === 6, 'failure-root-required');
+      requireCore(schema >= 6, 'failure-root-required');
       reduceFailure(body, event.sequence, { commands, sessions, tasks, effects, assignments, approvals, questions, failures, attentionSequences });
       continue;
     }
     if (event.type === 'team.mission.complete') {
       requireCore(schema >= 5, 'mission-root-required');
-      reduceMission(body, event.sequence, { commands, sessions, tasks, effects, assignments, approvals, questions });
+      reduceMission(body, event.sequence, { commands, sessions, tasks, effects, assignments, approvals, questions,
+        ...(schema === 7 ? { recovery: { commands, sessions, tasks, effects, assignments, approvals, questions, failures, attentionSequences, handoffs } } : {}) });
       continue;
     }
     if (event.type === 'team.question.ask' || event.type === 'team.question.escalate' || event.type === 'team.question.answer') {
@@ -268,5 +280,6 @@ export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 | 5 | 6 = 2): 
   return { commands: [...commands], tasks: [...tasks], effects: [...effects], approvals: [...approvals],
     ...(engine ? { sessions: [...sessions], assignments: [...assignments], attentionSequences: [...attentionSequences] } : {}),
     ...(questionEngine ? { questions: [...questions] } : {}),
-    ...(schema === 6 ? { failures: [...failures] } : {}) };
+    ...(schema >= 6 ? { failures: [...failures] } : {}),
+    ...(schema === 7 ? { handoffs: [...handoffs] } : {}) };
 }
