@@ -1,0 +1,89 @@
+{
+  "date": "2026-10-26",
+  "parentVerdict": "ACCEPTED_BOUNDED_COMPONENT",
+  "parentReviewed": [
+    "closed codec/hash/owner role",
+    "started assignment and attempt identity plus lifetime bound",
+    "known versus uncertain transition table and task-only question cancellation",
+    "resolution closes failed with null member result",
+    "schema6 and schemas1-5 compatibility",
+    "remaining assignment unit proof, stop and recovery fence",
+    "real SQLite and owned-child composition"
+  ],
+  "delegates": [
+    {
+      "runId": "tiye-failure-code-codex-20261026-a",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "resultSha256": "d88e42c3a67ac89c1c95612eb4d5e34cb49ed935fa0096c24ad1eb30d8b48d5b",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        " M architecture/TIYE-Agent-Architecture.md",
+        " M packages/core/README.md",
+        " M packages/core/src/effects-model.ts",
+        " M packages/core/src/effects-store.ts",
+        " M packages/core/src/engine-session.ts",
+        " M packages/core/src/index.ts",
+        " M packages/core/test/mock-host.cjs",
+        "?? output/phase2d-approval/",
+        "?? output/phase2d-failures/",
+        "?? packages/core/src/engine-failure.ts",
+        "?? packages/core/test/failures.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": "- **A failure can be recorded for a planned effect.** `failureDecision` treats only `dispatching` and `needs_attention` as pending, so a `planned` effect is accepted with one remaining unit. `reduceFailure` then cancels that effect and closes the assignment as failed. This permits a failure record before the work has started, contrary to the stated requirement. I found no second concrete module bug."
+    },
+    {
+      "runId": "tiye-failure-code-flint-20261026-a",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "resultSha256": "2a660706daa32a6e47cccc2e448e6789d54112ab94d6e7d40d8770e82420596c",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        " M architecture/TIYE-Agent-Architecture.md",
+        " M packages/core/README.md",
+        " M packages/core/src/effects-model.ts",
+        " M packages/core/src/effects-store.ts",
+        " M packages/core/src/engine-session.ts",
+        " M packages/core/src/index.ts",
+        " M packages/core/test/mock-host.cjs",
+        "?? output/phase2d-approval/",
+        "?? output/phase2d-failures/",
+        "?? packages/core/src/engine-failure.ts",
+        "?? packages/core/test/failures.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-failure-code-deepseek-20261026-a",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "resultSha256": "b688fa0d66af32e0458effa436ed7a2f06e5396128b9105b03ffe131ead10382",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        " M architecture/TIYE-Agent-Architecture.md",
+        " M packages/core/README.md",
+        " M packages/core/src/effects-model.ts",
+        " M packages/core/src/effects-store.ts",
+        " M packages/core/src/engine-session.ts",
+        " M packages/core/src/index.ts",
+        " M packages/core/test/mock-host.cjs",
+        "?? output/phase2d-approval/",
+        "?? output/phase2d-failures/",
+        "?? packages/core/src/engine-failure.ts",
+        "?? packages/core/test/failures.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    }
+  ],
+  "modelDisposition": "Luna planned-effect concern not substantiated: approved table explicitly permits failure of started but unclaimed work. Queued effectId-null assignments reject.",
+  "guardDisposition": "parent code/test/docs review found no blocking defect within this component scope",
+  "limitations": [
+    "supplied-module reviews are not whole implementation audits",
+    "two model timeouts provide no verdict",
+    "bounded replay/projection replacement has no throughput qualification",
+    "full Phase2D exit review pending"
+  ]
+}

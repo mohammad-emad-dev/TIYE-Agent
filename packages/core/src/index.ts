@@ -10,3 +10,4 @@ export type { EngineOwner, EngineMemberHandle, EngineSession, MemberContext } fr
 export type { EngineScheduler, MemberInbox, Assignment } from './engine-inbox';
 export type { Answer, VisibleQuestion } from './engine-question';
 export type { MissionCompletion, MissionView } from './engine-mission';
+export type { FailureNotice, FailureReason } from './engine-failure';

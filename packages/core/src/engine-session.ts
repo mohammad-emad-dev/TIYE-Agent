@@ -3,6 +3,7 @@ import { decodeCanonical, hashRecord } from './record';
 import type { MemberInbox } from './engine-inbox';
 import type { VisibleQuestion } from './engine-question';
 import type { MissionCompletion, MissionView } from './engine-mission';
+import type { FailureNotice } from './engine-failure';
 
 export interface EngineMember { memberId: string; name: string; instructions: string }
 export interface EngineSession {
@@ -14,6 +15,8 @@ export interface CreateSession {
   leaderId: string; members: EngineMember[]; maxConcurrent: number;
 }
 export interface EngineOwner {
+  observeFailure(bytes: Uint8Array): 'accepted' | 'rejected';
+  failures(): FailureNotice[];
   createSession(bytes: Uint8Array): 'accepted' | 'rejected';
   stop(bytes: Uint8Array): 'accepted' | 'rejected';
   recover(bytes: Uint8Array): 'accepted' | 'rejected';
@@ -24,6 +27,7 @@ export interface EngineOwner {
 }
 export interface MemberContext extends EngineMember { sessionId: string; role: 'leader' | 'member' }
 export interface EngineMemberHandle {
+  failures(): FailureNotice[];
   completeMission(bytes: Uint8Array): 'accepted' | 'rejected';
   mission(): MissionView;
   context(): MemberContext;

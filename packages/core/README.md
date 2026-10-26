@@ -465,3 +465,33 @@ before a session is null; member access retains roster binding. No question cont
 or ledger/budget material is included. These methods refuse older roots. The
 existing recovery fence applies; recovery never completes a mission automatically.
 Only trusted coordinator roles and fixed synthetic witnesses are qualified.
+
+## Phase 2D: explicit task-failure observations
+
+The [delegated owner decision](../../output/phase2d-approval/README.md) activates
+the contract frozen atf4ef14f. `createFailureEngine` / `openFailureEngine` use fresh
+schema6: schema5 SQL plus STRICT failures(id,value). Separate schema1–5 openers
+are preserved; no migration/repair/reset. Owner alone exposes observeFailure(bytes).
+DTO is team.task.failure v1 with commandId/sessionId/taskId/memberId/attemptId/
+reason/summary; reason is crash/hang/rate_limit/auth/network. Existing strict byte/
+text/UUID bounds apply. Actor is bound owner, with the contract's ordered-array
+hash; exact shared-ledger retries precede state/capacity/recovery checks.
+
+At most one observation per matching started assignment/attempt. Planned work
+cancels and closes failed; known terminal effects awaiting reports close failed.
+Dispatched uncertainty becomes needs_attention and keeps its slot; existing
+attention retains its sequence. Task-only open questions cancel atomically, without
+an answer. No member report is fabricated: assignment.result stays null.
+Accepted existing resolution of a pending failure closes the task failed whether
+the effect proves completed or is explicitly abandoned. Raw mutation/report
+bypasses refuse; no automatic action, retry, takeover or promotion follows.
+
+Owner/Leader failures() returns all history; others get their own detached records
+only. Exact fields are sessionId/taskId/memberId/attemptId/reason/summary/
+observedSequence/status/closedSequence, with no budgets, proofs or question text.
+These methods refuse older roots. Status is awaiting_reconciliation or closed.
+The observation spends the assignment's spare unit, preserving resolution funding;
+question units release separately and global stop capacity remains reserved.
+Owner observation is narrowly exempt from the interrupted-open fence; other
+interrupted assignments still fence normal writes. Stop does not clear uncertainty.
+Observations are synthetic task facts, not verified process-health assertions.

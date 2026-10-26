@@ -227,3 +227,5 @@ output/phase2c-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-befo
 output/phase2c-mission/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/phase2c-exit/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/phase2d-entry/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/phase2d-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/phase2d-failures/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

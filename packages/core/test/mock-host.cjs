@@ -6,7 +6,9 @@ const { MockEffectStore } = require('../dist');
 const { verifyRoot } = require('./helpers.cjs');
 const [mode, root, barrier] = process.argv.slice(2);
 verifyRoot(root);
-const store = mode === 'createMissionEngine' ? MockEffectStore.createMissionEngine(root)
+const store = mode === 'createFailureEngine' ? MockEffectStore.createFailureEngine(root)
+  : mode === 'openFailureEngine' ? MockEffectStore.openFailureEngine(root)
+  : mode === 'createMissionEngine' ? MockEffectStore.createMissionEngine(root)
   : mode === 'openMissionEngine' ? MockEffectStore.openMissionEngine(root)
   : mode === 'createQuestionEngine' ? MockEffectStore.createQuestionEngine(root)
   : mode === 'openQuestionEngine' ? MockEffectStore.openQuestionEngine(root)
@@ -39,6 +41,7 @@ input.on('line', line => {
   else if (request.op === 'sessionCreate') result = store.owner().createSession(Buffer.from(JSON.stringify(request.command)));
   else if (request.op === 'sessionSnapshot') result = store.owner().session();
   else if (request.op === 'sessionStop') result = store.owner().stop(Buffer.from(JSON.stringify(request.command)));
+  else if (request.op === 'observeFailure') result = store.owner().observeFailure(Buffer.from(JSON.stringify(request.command)));
   else if (request.op === 'missionComplete') result = store.member(store.owner().session().leaderId).completeMission(Buffer.from(JSON.stringify(request.command)));
   else if (request.op === 'questionAsk') result = store.member(store.owner().session().members[1].memberId).ask(Buffer.from(JSON.stringify(request.command)));
   else if (request.op === 'questionEscalate') result = store.member(store.owner().session().leaderId).escalate(Buffer.from(JSON.stringify(request.command)));

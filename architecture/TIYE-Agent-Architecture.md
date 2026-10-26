@@ -1535,6 +1535,19 @@ Schemas1–4 remain separate, with no migration/reset. No UI, new runner, native
 provider, terminal, network/MCP, real project/Git/export action or release is added.
 This exception ends at the Phase2C exit review.
 
+**Activated internal Phase 2D construction, 26 October 2026.** After the accepted
+[Phase2C exit](../output/phase2c-exit/README.md), the owner delegated the decision
+on the [failure amendment](../output/phase2d-entry/AMENDMENT.md) and contract
+frozen atf4ef14f. The parent chose that exact bounded scope; the
+[record](../output/phase2d-approval/README.md) retains the owner's wording and
+artifact digests. Fresh schema6 admits owner-recorded synthetic task failures,
+Leader-visible history, atomic task-only question cancellation and conservative
+reconciliation before uncertainty releases its slot. Reuse the same writer and
+fixed owned core/witness composition after actual-source/test/compiled/runtime/
+native review. No migration/reset, live detector/nudge, provider/terminal/network,
+UI, new runner, automatic takeover/succession, real project/Git/export or release.
+This exception ends at the Phase2D exit review.
+
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and

@@ -13,14 +13,16 @@ import { decodeStop, stopDecision, stopHash } from './engine-stop';
 import { decodeLifecycle, interrupted, lifecycleDecision, lifecycleHash, LifecycleCommand } from './engine-lifecycle';
 import { decodeQuestion, questionContext, questionDecision, questionHash, QuestionCommand, questionOpen, visibleQuestions } from './engine-question';
 import { decodeMission, missionDecision, missionHash, missionView } from './engine-mission';
+import { decodeFailure, failureContext, failureDecision, failureHash, visibleFailures } from './engine-failure';
 
 const LIMIT = 1000;
 const APPLICATION_ID = 0x54495946;
 const PROJECTIONS = ['commands', 'tasks', 'effects', 'approvals'] as const;
 const ENGINE_PROJECTIONS = [...PROJECTIONS, 'sessions'] as const;
 const QUESTION_PROJECTIONS = [...ENGINE_PROJECTIONS, 'questions'] as const;
-type StoreVersion = 2 | 3 | 4 | 5;
-function projectionNames(version: StoreVersion) { return version >= 4 ? QUESTION_PROJECTIONS : version === 3 ? ENGINE_PROJECTIONS : PROJECTIONS; }
+const FAILURE_PROJECTIONS = [...QUESTION_PROJECTIONS, 'failures'] as const;
+type StoreVersion = 2 | 3 | 4 | 5 | 6;
+function projectionNames(version: StoreVersion) { return version === 6 ? FAILURE_PROJECTIONS : version >= 4 ? QUESTION_PROJECTIONS : version === 3 ? ENGINE_PROJECTIONS : PROJECTIONS; }
 const TABLES: Record<string, string> = {
   metadata: 'CREATE TABLE metadata (singleton INTEGER PRIMARY KEY CHECK(singleton=1), database_id TEXT NOT NULL) STRICT',
   events: 'CREATE TABLE events (sequence INTEGER PRIMARY KEY, type TEXT NOT NULL, body TEXT NOT NULL CHECK(length(CAST(body AS BLOB))<=16384)) STRICT',
@@ -29,7 +31,8 @@ const TABLES: Record<string, string> = {
 
 function tables(version: StoreVersion): Record<string, string> {
   return version === 2 ? TABLES : { ...TABLES, sessions: 'CREATE TABLE sessions (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT',
-    ...(version >= 4 ? { questions: 'CREATE TABLE questions (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT' } : {}) };
+    ...(version >= 4 ? { questions: 'CREATE TABLE questions (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT' } : {}),
+    ...(version === 6 ? { failures: 'CREATE TABLE failures (id TEXT PRIMARY KEY, value TEXT NOT NULL) STRICT' } : {}) };
 }
 
 function validateSchema(database: Database.Database, version: StoreVersion): void {
@@ -82,6 +85,8 @@ export class MockEffectStore {
   static openQuestionEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, false, 4); }
   static createMissionEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, true, 5); }
   static openMissionEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, false, 5); }
+  static createFailureEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, true, 6); }
+  static openFailureEngine(directory: string): MockEffectStore { return MockEffectStore.connect(directory, false, 6); }
 
   private static connect(directory: string, fresh: boolean, version: StoreVersion): MockEffectStore {
     const root = storageRoot(directory);
@@ -118,6 +123,8 @@ export class MockEffectStore {
     requireCore(this.#version >= 3, 'engine-root-required');
     this.snapshot();
     return Object.freeze({ createSession: (bytes: Uint8Array) => this.#createSession(bytes),
+      observeFailure: (bytes: Uint8Array) => this.#observeFailure(bytes),
+      failures: () => this.#failures('owner'),
       stop: (bytes: Uint8Array) => this.#stopSession(bytes),
       recover: (bytes: Uint8Array) => this.#lifecycle(bytes, 'team.session.recover', 'owner'),
       answer: (bytes: Uint8Array) => this.#question(bytes, 'team.question.answer', 'owner'),
@@ -136,6 +143,7 @@ export class MockEffectStore {
     };
     context();
     return Object.freeze({ context,
+      failures: () => { context(); return this.#failures(memberId); },
       completeMission: (bytes: Uint8Array) => { context(); return this.#completeMission(bytes, memberId); },
       mission: () => { context(); return this.#mission()!; },
       enqueue: (bytes: Uint8Array) => { context(); return this.#inbox(bytes, 'team.task.enqueue', memberId); },
@@ -220,8 +228,25 @@ export class MockEffectStore {
     requireCore(!questionOpen((this.snapshot().questions ?? []).map(([, row]) => row), effect.plan.taskId), 'question-blocked');
   }
 
+  #observeFailure(bytes: Uint8Array): 'accepted' | 'rejected' {
+    requireCore(this.#version === 6, 'failure-root-required');
+    const command = decodeFailure(bytes), projection = this.snapshot();
+    const previous = projection.commands.find(([id]) => id === command.commandId);
+    if (previous) {
+      requireCore(previous[1].hash === failureHash(command), 'mock-command-conflict'); return previous[1].result;
+    }
+    const result = failureDecision(command, failureContext(projection));
+    this.append(command.type, { command, actor: 'owner', result }); return result;
+  }
+
+  #failures(actor: string) {
+    requireCore(this.#version === 6, 'failure-root-required');
+    const projection = this.snapshot();
+    return visibleFailures((projection.failures ?? []).map(([, row]) => row), actor, projection.sessions?.[0]?.[1].leaderId);
+  }
+
   #completeMission(bytes: Uint8Array, actor: string): 'accepted' | 'rejected' {
-    requireCore(this.#version === 5, 'mission-root-required');
+    requireCore(this.#version >= 5, 'mission-root-required');
     const command = decodeMission(bytes), projection = this.snapshot();
     const previous = projection.commands.find(([id]) => id === command.commandId);
     if (previous) {
@@ -232,7 +257,7 @@ export class MockEffectStore {
   }
 
   #mission() {
-    requireCore(this.#version === 5, 'mission-root-required');
+    requireCore(this.#version >= 5, 'mission-root-required');
     return missionView(this.snapshot().sessions?.[0]?.[1]);
   }
 
@@ -331,7 +356,7 @@ export class MockEffectStore {
 
   private append(type: string, body: unknown): MockProjection {
     const current = this.snapshot();
-    if (type !== 'team.session.stop' && type !== 'team.session.recover') {
+    if (type !== 'team.session.stop' && type !== 'team.session.recover' && type !== 'team.task.failure') {
       const pending = (current.sessions ?? []).flatMap(([id]) => interrupted(inboxContext(current), id));
       requireCore(!pending.some(row => this.#interruptedAtOpen.has(row.taskId)), 'engine-recovery-required');
     }

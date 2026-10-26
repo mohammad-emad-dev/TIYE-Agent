@@ -8,6 +8,7 @@ import { reduceStop, validateStop } from './engine-stop';
 import { assignedTaskState, closeAssignment, reduceLifecycle, spendAssignment } from './engine-lifecycle';
 import { cancelQuestions, Question, questionOpen, reduceQuestion } from './engine-question';
 import { reduceMission } from './engine-mission';
+import { closeFailure, FailureNotice, reduceFailure } from './engine-failure';
 export { hashRecord } from './record';
 
 export type EffectState = 'planned' | 'dispatching' | 'completed' | 'needs_attention' | 'cancelled' | 'abandoned';
@@ -21,6 +22,7 @@ export interface MockProjection {
   assignments?: [string, Assignment][];
   attentionSequences?: [string, number][];
   questions?: [string, Question][];
+  failures?: [string, FailureNotice][];
 }
 export interface MockEvent { sequence: number; type: string; body: string }
 export interface Attention { effectId: string; attemptId: string; attentionSequence: number }
@@ -125,7 +127,7 @@ export function matchesWitness(plan: MockPlan, proof: unknown): boolean {
   }
 }
 
-export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 | 5 = 2): MockProjection {
+export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 | 5 | 6 = 2): MockProjection {
   const engine = schema >= 3, questionEngine = schema >= 4;
   const commands = new Map<string, { hash: string; result: 'accepted' | 'rejected' }>();
   const tasks = new Map<string, TaskState>(), effects = new Map<string, MockEffect>(), approvals = new Map<string, string>();
@@ -133,6 +135,7 @@ export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 | 5 = 2): Mock
   const sessions = new Map<string, EngineSession>();
   const assignments = new Map<string, Assignment>();
   const questions = new Map<string, Question>();
+  const failures = new Map<string, FailureNotice>();
   function transition(effect: MockEffect, state: EffectState, sequence: number): void {
     effect.state = state;
     const assignment = assignments.get(effect.plan.taskId);
@@ -144,9 +147,14 @@ export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 | 5 = 2): Mock
     requireCore(event.sequence === ordinal + 1 && Buffer.byteLength(event.body) <= 16384, 'mock-event-sequence-or-size');
     const body: unknown = JSON.parse(event.body);
     requireCore(JSON.stringify(body) === event.body, 'noncanonical-mock-event');
-    const missionClosed = schema === 5 && [...sessions.values()].some(session => session.status === 'completed');
+    const missionClosed = schema >= 5 && [...sessions.values()].some(session => session.status === 'completed');
+    if (event.type === 'team.task.failure') {
+      requireCore(schema === 6, 'failure-root-required');
+      reduceFailure(body, event.sequence, { commands, sessions, tasks, effects, assignments, approvals, questions, failures, attentionSequences });
+      continue;
+    }
     if (event.type === 'team.mission.complete') {
-      requireCore(schema === 5, 'mission-root-required');
+      requireCore(schema >= 5, 'mission-root-required');
       reduceMission(body, event.sequence, { commands, sessions, tasks, effects, assignments, approvals, questions });
       continue;
     }
@@ -197,7 +205,10 @@ export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 | 5 = 2): Mock
         const assignment = target && assignments.get(target.plan.taskId);
         if (assignment) spendAssignment(assignment);
         transition(change.effect, change.state, event.sequence);
-        if (assignment && sessions.get(assignment.sessionId)!.status === 'stopped')
+        const failure = assignment && failures.get(assignment.taskId);
+        if (failure) closeFailure(failure, event.sequence,
+          { commands, sessions, tasks, effects, assignments, approvals, questions, failures, attentionSequences });
+        else if (assignment && sessions.get(assignment.sessionId)!.status === 'stopped')
           closeAssignment(assignment, tasks, change.state === 'completed' ? 'cancelled' : 'failed');
       }
       continue;
@@ -216,6 +227,7 @@ export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 | 5 = 2): Mock
     const effect = effects.get(request.effectId as string);
     requireCore(effect, 'unknown-mock-effect');
     requireCore(!missionClosed, 'mission-completed');
+    requireCore(!failures.has(effect.plan.taskId), 'task-failure-observed');
     requireCore(!questionOpen(questions.values(), effect.plan.taskId), 'question-blocked');
     const assignment = assignments.get(effect.plan.taskId);
     if (assignment) {
@@ -255,5 +267,6 @@ export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 | 5 = 2): Mock
   }
   return { commands: [...commands], tasks: [...tasks], effects: [...effects], approvals: [...approvals],
     ...(engine ? { sessions: [...sessions], assignments: [...assignments], attentionSequences: [...attentionSequences] } : {}),
-    ...(questionEngine ? { questions: [...questions] } : {}) };
+    ...(questionEngine ? { questions: [...questions] } : {}),
+    ...(schema === 6 ? { failures: [...failures] } : {}) };
 }

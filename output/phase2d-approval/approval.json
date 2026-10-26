@@ -1,0 +1,17 @@
+{
+  "schema": "tiye-phase2d-approval-v1",
+  "date": "2026-10-26",
+  "response": "Do the right thing—it's up to you",
+  "context": "Response to the specific approval question for Phase2D amendment and contract at f4ef14f",
+  "decision": "delegated-owner-decision-to-proceed-with-presented-phase2d-contract",
+  "proposalCommit": "f4ef14f",
+  "developmentAuthorized": true,
+  "executionRequiresParentSourceReview": true,
+  "scope": "INTERNAL_PHASE2D_SYNTHETIC_TASK_FAILURES_ONLY",
+  "proposalArtifacts": {
+    "output/phase2d-entry/AMENDMENT.md": "9d1371867f4d79c251a04ce2526aa0a8b5237da9539b60ceea574681881db97a",
+    "output/phase2d-entry/CONTRACT.md": "d2a03c62fda5fe79bddf5dfaefc174cff67ad326db9db56865650b1dae6e9ddc"
+  },
+  "providerIntegration": "HOLD",
+  "releaseAllowed": false
+}
