@@ -1,0 +1,86 @@
+{
+  "date": "2026-10-26",
+  "parentVerdict": "ACCEPTED_BOUNDED_COMPONENT",
+  "parentReviewed": [
+    "mission codec/hash/closed shape",
+    "root-wide completion predicate and exact view",
+    "role binding, retry order and schema compatibility",
+    "task admission and lifecycle replay guards",
+    "terminal reserve, recovery fence and stop ordering",
+    "real SQLite and owned-child test composition"
+  ],
+  "guardDisposition": "no blocking code/test/docs findings after parent review",
+  "limitations": [
+    "full-history replay/projection replacement has no throughput qualification",
+    "all three supplied-module reviews timed out; no implementation verdict",
+    "full Phase2C exit review pending"
+  ],
+  "delegates": [
+    {
+      "runId": "tiye-mission-code-codex-20261026-a",
+      "model": "gpt-6-luna",
+      "status": "timeout",
+      "resultSha256": "743ea175c0c32bd75d1a5ee3db605458a4eedd2cf298bbea013b64b32bc95236",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        " M architecture/TIYE-Agent-Architecture.md",
+        " M packages/core/README.md",
+        " M packages/core/src/effects-model.ts",
+        " M packages/core/src/effects-store.ts",
+        " M packages/core/src/engine-session.ts",
+        " M packages/core/src/index.ts",
+        " M packages/core/test/mock-host.cjs",
+        "?? output/phase2c-approval/",
+        "?? output/phase2c-mission/",
+        "?? packages/core/src/engine-mission.ts",
+        "?? packages/core/test/missions.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-mission-code-flint-20261026-a",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "resultSha256": "b60bcecec8525567fe615b68684d69bdfd779b8988ed91ddaf5b8b3c33d024a9",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        " M architecture/TIYE-Agent-Architecture.md",
+        " M packages/core/README.md",
+        " M packages/core/src/effects-model.ts",
+        " M packages/core/src/effects-store.ts",
+        " M packages/core/src/engine-session.ts",
+        " M packages/core/src/index.ts",
+        " M packages/core/test/mock-host.cjs",
+        "?? output/phase2c-approval/",
+        "?? output/phase2c-mission/",
+        "?? packages/core/src/engine-mission.ts",
+        "?? packages/core/test/missions.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-mission-code-deepseek-20261026-a",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "resultSha256": "21d118bfc0e77321ed4d6887f8f8494ae12b02efacd0a13bf90b45bc0b151595",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        " M architecture/TIYE-Agent-Architecture.md",
+        " M packages/core/README.md",
+        " M packages/core/src/effects-model.ts",
+        " M packages/core/src/effects-store.ts",
+        " M packages/core/src/engine-session.ts",
+        " M packages/core/src/index.ts",
+        " M packages/core/test/mock-host.cjs",
+        "?? output/phase2c-approval/",
+        "?? output/phase2c-mission/",
+        "?? packages/core/src/engine-mission.ts",
+        "?? packages/core/test/missions.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    }
+  ]
+}

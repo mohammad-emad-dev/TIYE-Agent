@@ -9,3 +9,4 @@ export type { TaskRecord, TaskState } from './effects-model';
 export type { EngineOwner, EngineMemberHandle, EngineSession, MemberContext } from './engine-session';
 export type { EngineScheduler, MemberInbox, Assignment } from './engine-inbox';
 export type { Answer, VisibleQuestion } from './engine-question';
+export type { MissionCompletion, MissionView } from './engine-mission';

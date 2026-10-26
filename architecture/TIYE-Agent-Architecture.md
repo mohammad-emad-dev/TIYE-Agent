@@ -1523,6 +1523,18 @@ actual-source preflight. No migration, provider/native action, UI, network/MCP,
 new runner, real project/Git/export action or release is added. The exception
 ends at the Phase2B exit review.
 
+**Approved internal Phase 2C construction, 26 October 2026.** After the
+[Phase2B exit](../output/phase2b-exit/README.md), the owner explicitly approved
+the [mission completion amendment](../output/phase2c-entry/AMENDMENT.md) and
+linked contract frozen at58187f8. The [approval record](../output/phase2c-approval/README.md)
+binds the exact response and artifact digests. Only explicit Leader-bound synthetic
+mission completion on fresh schema5 is admitted, with all work successfully
+reported before closing admission. Reuse the existing writer and fixed owned
+core/witness composition after actual-source/test/compiled/runtime/native review.
+Schemas1–4 remain separate, with no migration/reset. No UI, new runner, native
+provider, terminal, network/MCP, real project/Git/export action or release is added.
+This exception ends at the Phase2C exit review.
+
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and

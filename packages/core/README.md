@@ -434,3 +434,33 @@ closure resets lifetime counts. Direct owner answers release the unused escalati
 unit. Source/test/runtime/native preflight and real SQLite/process evidence are in
 the [question verification](../../output/phase2b-questions/README.md). Full Phase2B
 exit review is still separate; product providers/native integration remain HOLD.
+
+## Phase 2C: explicit mission completion
+
+The [owner approval](../../output/phase2c-approval/README.md) activates the
+[contract](../../output/phase2c-entry/CONTRACT.md) frozen at58187f8.
+`TaskStore.createMissionEngine(directory)` / `openMissionEngine(directory)` use
+fresh schema5 only, with schema4's exact tables and a new event/session vocabulary.
+Schemas1–4 retain separate exact openers. No migration, reset or new runner.
+
+Member handles add `completeMission(bytes)`; only the bound Leader can succeed,
+without needing a task itself. DTO is exactly team.mission.complete v1 with
+commandId/sessionId/summary, using existing canonical byte/text bounds. Hash is
+SHA-256 UTF-8 JSON of `[type,1,actor,commandId,sessionId,summary]`. Exact retries
+precede state/capacity/recovery; changed payload/actor/type refuses. One event
+atomically records decision, completed session and summary/actor/global sequence.
+
+All tasks must belong to closed assignments with explicit done results and proven
+completed effects. Empty, unassigned, failed, cancelled, queued, blocked or uncertain
+work prevents success. Completion never reports a task or invokes an effect. New
+admission rejects after completion, including raw task.create/plan/task.plan;
+accepted mutation bypasses refuse replay. Rejections require unreserved capacity.
+Historical decisions/read/no-ops remain available. Stop and successful completion
+share the active session's one terminal reserve, allowing completion at event1000.
+
+Owner/member `mission()` returns only detached `{sessionId,status,completion}`;
+completion is null until success then `{summary,completedBy,sequence}`. Owner read
+before a session is null; member access retains roster binding. No question content
+or ledger/budget material is included. These methods refuse older roots. The
+existing recovery fence applies; recovery never completes a mission automatically.
+Only trusted coordinator roles and fixed synthetic witnesses are qualified.

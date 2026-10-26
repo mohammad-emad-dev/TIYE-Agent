@@ -2,10 +2,12 @@ import { exactFields, requireCore, UUID, validText } from './command';
 import { decodeCanonical, hashRecord } from './record';
 import type { MemberInbox } from './engine-inbox';
 import type { VisibleQuestion } from './engine-question';
+import type { MissionCompletion, MissionView } from './engine-mission';
 
 export interface EngineMember { memberId: string; name: string; instructions: string }
 export interface EngineSession {
-  sessionId: string; leaderId: string; members: EngineMember[]; maxConcurrent: number; status: 'active' | 'stopped';
+  sessionId: string; leaderId: string; members: EngineMember[]; maxConcurrent: number; status: 'active' | 'stopped' | 'completed';
+  completion?: MissionCompletion;
 }
 export interface CreateSession {
   type: 'team.session.create'; version: 1; commandId: string; sessionId: string;
@@ -17,10 +19,13 @@ export interface EngineOwner {
   recover(bytes: Uint8Array): 'accepted' | 'rejected';
   answer(bytes: Uint8Array): 'accepted' | 'rejected';
   questions(): VisibleQuestion[];
+  mission(): MissionView | null;
   session(): EngineSession | null;
 }
 export interface MemberContext extends EngineMember { sessionId: string; role: 'leader' | 'member' }
 export interface EngineMemberHandle {
+  completeMission(bytes: Uint8Array): 'accepted' | 'rejected';
+  mission(): MissionView;
   context(): MemberContext;
   enqueue(bytes: Uint8Array): 'accepted' | 'rejected';
   report(bytes: Uint8Array): 'accepted' | 'rejected';

@@ -223,3 +223,5 @@ output/phase2b-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-befo
 output/phase2b-questions/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/phase2b-exit/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/phase2c-entry/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/phase2c-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/phase2c-mission/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -7,6 +7,7 @@ import { Assignment, reduceInbox } from './engine-inbox';
 import { reduceStop, validateStop } from './engine-stop';
 import { assignedTaskState, closeAssignment, reduceLifecycle, spendAssignment } from './engine-lifecycle';
 import { cancelQuestions, Question, questionOpen, reduceQuestion } from './engine-question';
+import { reduceMission } from './engine-mission';
 export { hashRecord } from './record';
 
 export type EffectState = 'planned' | 'dispatching' | 'completed' | 'needs_attention' | 'cancelled' | 'abandoned';
@@ -124,8 +125,8 @@ export function matchesWitness(plan: MockPlan, proof: unknown): boolean {
   }
 }
 
-export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 = 2): MockProjection {
-  const engine = schema >= 3, questionEngine = schema === 4;
+export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 | 5 = 2): MockProjection {
+  const engine = schema >= 3, questionEngine = schema >= 4;
   const commands = new Map<string, { hash: string; result: 'accepted' | 'rejected' }>();
   const tasks = new Map<string, TaskState>(), effects = new Map<string, MockEffect>(), approvals = new Map<string, string>();
   const attentionSequences = new Map<string, number>();
@@ -143,6 +144,12 @@ export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 = 2): MockProj
     requireCore(event.sequence === ordinal + 1 && Buffer.byteLength(event.body) <= 16384, 'mock-event-sequence-or-size');
     const body: unknown = JSON.parse(event.body);
     requireCore(JSON.stringify(body) === event.body, 'noncanonical-mock-event');
+    const missionClosed = schema === 5 && [...sessions.values()].some(session => session.status === 'completed');
+    if (event.type === 'team.mission.complete') {
+      requireCore(schema === 5, 'mission-root-required');
+      reduceMission(body, event.sequence, { commands, sessions, tasks, effects, assignments, approvals, questions });
+      continue;
+    }
     if (event.type === 'team.question.ask' || event.type === 'team.question.escalate' || event.type === 'team.question.answer') {
       requireCore(engine && questionEngine, 'question-root-required');
       reduceQuestion(body, event.sequence, { commands, sessions, tasks, effects, assignments, approvals, questions }, event.type);
@@ -175,7 +182,7 @@ export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 = 2): MockProj
     if (event.type === 'task.create') {
       const command = validateCommand(body);
       requireCore(!commands.has(command.commandId), 'duplicate-task-command');
-      const exists = tasks.has(command.taskId);
+      const exists = tasks.has(command.taskId) || missionClosed;
       commands.set(command.commandId, { hash: commandHash(command), result: exists ? 'rejected' : 'accepted' });
       if (!exists) tasks.set(command.taskId, 'created');
       continue;
@@ -185,6 +192,7 @@ export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 = 2): MockProj
       const resolution = validateResolution(body.request), target = effects.get(resolution.effectId);
       const change = reduceResolution(body, { commands, effects, attentionSequences });
       if (change) {
+        requireCore(!missionClosed, 'mission-completed');
         requireCore(!questionOpen(questions.values(), change.effect.plan.taskId), 'question-blocked');
         const assignment = target && assignments.get(target.plan.taskId);
         if (assignment) spendAssignment(assignment);
@@ -197,7 +205,7 @@ export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 = 2): MockProj
     if (event.type === 'plan' || event.type === 'task.plan') {
       const plan = validatePlan(body);
       requireCore(!commands.has(plan.commandId), 'duplicate-mock-command');
-      const conflict = (event.type === 'plan' ? tasks.has(plan.taskId) : tasks.get(plan.taskId) !== 'created') || effects.has(plan.effectId)
+      const conflict = missionClosed || (event.type === 'plan' ? tasks.has(plan.taskId) : tasks.get(plan.taskId) !== 'created') || effects.has(plan.effectId)
         || [...effects.values()].some(effect => effect.plan.attemptId === plan.attemptId);
       commands.set(plan.commandId, { hash: event.type === 'plan' ? planHash(plan) : taskPlanHash(plan), result: conflict ? 'rejected' : 'accepted' });
       if (!conflict) { tasks.set(plan.taskId, 'planned'); effects.set(plan.effectId, { plan, state: 'planned' }); }
@@ -207,6 +215,7 @@ export function replayMock(events: MockEvent[], schema: 2 | 3 | 4 = 2): MockProj
     const request = body as Record<string, unknown>;
     const effect = effects.get(request.effectId as string);
     requireCore(effect, 'unknown-mock-effect');
+    requireCore(!missionClosed, 'mission-completed');
     requireCore(!questionOpen(questions.values(), effect.plan.taskId), 'question-blocked');
     const assignment = assignments.get(effect.plan.taskId);
     if (assignment) {

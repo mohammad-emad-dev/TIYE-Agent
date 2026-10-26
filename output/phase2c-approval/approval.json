@@ -1,0 +1,15 @@
+{
+  "schema": "tiye-phase2c-approval-v1",
+  "date": "2026-10-26",
+  "response": "Approve the internal Phase 2C amendment",
+  "proposalCommit": "58187f8",
+  "developmentAuthorized": true,
+  "executionRequiresParentSourceReview": true,
+  "scope": "INTERNAL_PHASE2C_SYNTHETIC_MISSION_COMPLETION_ONLY",
+  "proposalArtifacts": {
+    "output/phase2c-entry/AMENDMENT.md": "eb22fdafcd5389c270a4731fadbabb2a73172c643acbff7b548baefa488c8d47",
+    "output/phase2c-entry/CONTRACT.md": "893c9755a170fb7e0a237b594191637cf998c99762504b78af67af0986905d61"
+  },
+  "providerIntegration": "HOLD",
+  "releaseAllowed": false
+}
