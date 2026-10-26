@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-27",
+  "parentVerdict": "ACCEPTED_BOUNDED_INTERNAL_CONTRACT",
+  "productionCodeChanged": false,
+  "testChange": "one integrated real SQLite case with both stop orderings and independent stored-event sequence checks",
+  "delegates": [
+    {
+      "runId": "tiye-failure-exit-codex-20261027-a",
+      "model": "gpt-6-luna",
+      "status": "timeout",
+      "resultSha256": "7ddb2da3ee8fda744cecf1fe402f8cc900f111fd0ee5f1490af0567fe44551cb",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        "?? output/phase2d-exit/",
+        "?? packages/core/test/failure-exit.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-failure-exit-flint-20261027-a",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "resultSha256": "03e9f5a07467e8baed870b21aa64b5b3d18d43fbb9966eb7d82e66f02356dc1f",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        "?? output/phase2d-exit/",
+        "?? packages/core/test/failure-exit.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-failure-exit-deepseek-20261027-a",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "resultSha256": "807a434c46637bcb3649a7a5bc4e2d0f25028d06ba09ccb4376203dbdddea3af",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        "?? output/phase2d-exit/",
+        "?? packages/core/test/failure-exit.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    }
+  ],
+  "modelVerdictsAvailable": false,
+  "parentIntegrationReviewComplete": true,
+  "guardDisposition": "no blocking code/test/docs findings within approved scope",
+  "limits": [
+    "all three focused reviews timed out, not passes",
+    "full-history replay/projection replacement has no throughput qualification"
+  ]
+}
