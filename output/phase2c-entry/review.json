@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-26",
+  "reviewType": "supplied-contract-advisory-design-review",
+  "reports": [
+    {
+      "runId": "tiye-mission-proposal-codex-20261026-a",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "resultSha256": "465dba9573b419e9451687797949c6c9fa4c6446c4d74ccc1f0a71d23453706d",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2c-entry/"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": "1. **Recovery is both forbidden and exempt.** Section 3 says recovery commands cannot succeed after completion; Section 4 says owner recovery retains its existing exemption. Trigger: an interrupted connection after completion, followed by an owner recovery call. Specify whether recovery may only clear the connection-local fence without changing mission state, or must always reject after completion, and align both sections.\n\n2. **Durable rejection can conflict with the event limit.** Section 3 requires post-completion `task.create` and raw plan calls to durably reject, while Sections 2 and 4 allow unrecorded refusal when no unreserved capacity remains. Trigger: completion commits at event 1000, then one of those calls arrives. State that rejection is ledgered only when unreserved capacity exists; at capacity, refuse before admission without a decision.\n\n3. **The member read view has no defined field allowlist.** \u201cSame detached session completion view\u201d does not specify its fields. Trigger: a member calls `mission()` while the root contains question data, and an implementation returns a broad session projection. Enumerate the view\u2019s exact fields, including which completion fields are absent before completion, and require that it excludes question content.\n\nReview only; no implementation verification performed."
+    },
+    {
+      "runId": "tiye-mission-proposal-flint-20261026-a",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "resultSha256": "62b28226e2703e913e091c15fb502823cc92de8b9a7e3ef1bd13d29068caeed0",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2c-entry/"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-mission-proposal-deepseek-20261026-a",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "resultSha256": "25f98aeb96e4570a0b002fc025e7ec96438e86eec93624fb09d313fd99bdea97",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2c-entry/"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    }
+  ],
+  "parentDispositions": "REVIEW.md",
+  "implementationVerifiedByModels": false,
+  "finalWordingReviewedByParent": true
+}

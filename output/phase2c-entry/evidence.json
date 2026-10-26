@@ -1,0 +1,19 @@
+{
+  "scope": "internal-phase2c-entry-proposal",
+  "date": "2026-10-26",
+  "artifacts": {
+    "AMENDMENT.md": "eb22fdafcd5389c270a4731fadbabb2a73172c643acbff7b548baefa488c8d47",
+    "CONTRACT.md": "893c9755a170fb7e0a237b594191637cf998c99762504b78af67af0986905d61",
+    "README.md": "dd1d1181d0ff74907cbcb47650736b424cd85f1fbc9994c42c68446d69e24d26",
+    "review.json": "ac3b8afda5ee6641315cb75544776ad77838ef262d5bcd57760b1c14105de465",
+    "REVIEW.md": "7df4064883974c862641f8d6cb06289cc71c98a0c166f5cb307910afb127a42f",
+    "verification.json": "473e1f8be67265c1af48b29e30887d48f4c39143cbde885d1aa743d9bc67e41c",
+    "verify.py": "8dddaa905db2442981108574004c2452ada037b532273b6b267aa7700b5c834b"
+  },
+  "approvalStatus": "PENDING",
+  "constructionAuthorized": false,
+  "baselineCommit": "95bd198",
+  "baselineManifestSha256": "1e9f2569c4a3e72ee122900b2441ba97b74973b38dd3e698fbe22957ff36a961",
+  "nativeProviderIntegration": "HOLD",
+  "releaseAllowed": false
+}
