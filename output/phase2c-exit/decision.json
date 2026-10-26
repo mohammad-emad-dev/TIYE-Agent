@@ -1,0 +1,27 @@
+{
+  "schema": "tiye-phase2c-exit-v1",
+  "date": "2026-10-26",
+  "approvedProposalCommit": "58187f8",
+  "ownerApprovalAndProductionCommit": "144ebbc",
+  "phase2cVerdict": "PASS_BOUNDED_INTERNAL_CONTRACT",
+  "verifiedTests": 139,
+  "failedTests": 0,
+  "skippedTests": 0,
+  "productionCodeChanged": false,
+  "fullArchitecture4EngineComplete": false,
+  "completeProductAccepted": false,
+  "newConstructionAuthorized": false,
+  "nativeProviderIntegration": "HOLD",
+  "releaseAllowed": false,
+  "nextAction": "Prepare the next bounded Architecture4 proposal and obtain its applicable scope decision before construction.",
+  "limits": [
+    "fresh schema5; no migration/reset",
+    "trusted coordinator roles",
+    "fixed synthetic witnesses",
+    "controlled child crashes only",
+    "no throughput or Electron/WSL ABI qualification",
+    "no provider transport or UI"
+  ],
+  "verificationSha256": "a9e46b41e0e9a9c67b46260a20ecac043c9e4ba636323e384a94f3c20ec2eb42",
+  "matrixSha256": "53bc9c99c5b27e1a36edbe340050504e62f90b0533c87e356b328a26af5596fa"
+}

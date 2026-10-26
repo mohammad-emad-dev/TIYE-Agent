@@ -432,8 +432,9 @@ cannot spend held units. Capacity is events + assignment units + question units 
 unassigned legacy reserves + active stop unit <=1000. Neither question nor task
 closure resets lifetime counts. Direct owner answers release the unused escalation
 unit. Source/test/runtime/native preflight and real SQLite/process evidence are in
-the [question verification](../../output/phase2b-questions/README.md). Full Phase2B
-exit review is still separate; product providers/native integration remain HOLD.
+the [question verification](../../output/phase2b-questions/README.md). The
+[Phase2B exit](../../output/phase2b-exit/README.md) accepted its bounded contract;
+product providers/native integration remain HOLD.
 
 ## Phase 2C: explicit mission completion
 

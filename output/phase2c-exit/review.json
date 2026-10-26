@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-26",
+  "parentVerdict": "ACCEPTED_BOUNDED_INTERNAL_CONTRACT",
+  "dispositions": "REVIEW.md",
+  "delegates": [
+    {
+      "runId": "tiye-mission-exit-codex-20261026-a",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "resultSha256": "1a8024f244a596c75986d4761cd038806ec37fb3654172abbbae229d2a18c192",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        " M packages/core/README.md",
+        "?? output/phase2c-exit/",
+        "?? packages/core/test/mission-exit.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": "**Verdict: two concrete gaps in the supplied mission module only.** API and replay integration are outside this verdict.\n\n- `missionDecision` never checks held budgets, so an otherwise complete mission can be accepted while a budget is held.\n- It checks each task\u2019s state and assignment but never verifies that the task is a root. If `context.tasks` includes child tasks, a completed child task can satisfy this gate."
+    },
+    {
+      "runId": "tiye-mission-exit-flint-20261026-a",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "resultSha256": "a139b1254505e267b94d9ea7c5c6e24c7dc9eeadddb6e13fbf7ca68ca0a66d33",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        " M packages/core/README.md",
+        "?? output/phase2c-exit/",
+        "?? packages/core/test/mission-exit.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-mission-exit-deepseek-20261026-a",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "resultSha256": "1a7ff0118e62ab6949d51c112ee9b986b0576d014e9e44c7242e5f95b9cafc5e",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        " M packages/core/README.md",
+        "?? output/phase2c-exit/",
+        "?? packages/core/test/mission-exit.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    }
+  ],
+  "productionCodeChanged": false,
+  "modelConcerns": "both Luna concerns checked against actual source and contract; neither substantiated",
+  "limitations": [
+    "supplied-module review only; two timeouts provide no verdict",
+    "full-history replay/projection replacement has no throughput qualification"
+  ]
+}
