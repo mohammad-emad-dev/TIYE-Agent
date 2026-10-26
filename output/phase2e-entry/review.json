@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-27",
+  "reviewType": "supplied-contract-advisory-design-review",
+  "reports": [
+    {
+      "runId": "tiye-handoff-proposal-codex-20261027-a",
+      "model": "gpt-6-luna",
+      "status": "timeout",
+      "resultSha256": "0017e7dcebeb675c38fea5bad28abb1c608883056845160701c17232b8ab4073",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2e-entry/"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-handoff-proposal-flint-20261027-a",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "resultSha256": "98cb9964fa198d5e1d0727147e1b0329bf0ccdd5de853845d4af16f8770a0dc7",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2e-entry/"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-handoff-proposal-deepseek-20261027-a",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "resultSha256": "061b889a6e67c1bd9ee49e2816816f657652d71bb314efff0393142d1eb2171f",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2e-entry/"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    }
+  ],
+  "parentReview": "REVIEW.md",
+  "implementationVerifiedByModels": false,
+  "modelVerdictsAvailable": false,
+  "suppliedContractSha256": "a5d8de7e0a5959ce81730d006787cd63438e33e76cb1e44fb6d8fbaba085c4bf",
+  "finalContractSha256": "e04b26dd5438679c7385ad4f4c4459d2d5f866ceafc596ae6e390f167c1de236",
+  "parentFinalWordingClarification": "Handoff queues work still requiring approval; it does not grant approval."
+}
