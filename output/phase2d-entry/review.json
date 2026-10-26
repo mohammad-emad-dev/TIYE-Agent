@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-26",
+  "reviewType": "supplied-contract-advisory-design-review",
+  "reports": [
+    {
+      "runId": "tiye-failure-proposal-codex-20261026-a",
+      "model": "gpt-6-luna",
+      "status": "timeout",
+      "resultSha256": "dff7bb1f2e7b9cc3f92bc5808aa3448f6dd5451eeb827e80681c15cece91895c",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2d-entry/"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-failure-proposal-flint-20261026-a",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "resultSha256": "2519432c2061cc40f29e6de4d1bfb3db471662ab312a6306558f6d68fc530ed7",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2d-entry/"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-failure-proposal-deepseek-20261026-a",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "resultSha256": "78d1f343827baf8b6a54d4d6ddd9d06f9596aab6a8ded0a7e78c99c737fe562e",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2d-entry/"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    }
+  ],
+  "parentReview": "REVIEW.md",
+  "implementationVerifiedByModels": false,
+  "parentDesignReviewCompleted": true,
+  "modelVerdictsAvailable": false
+}
