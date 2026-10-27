@@ -4,7 +4,7 @@ import { createScriptedReportingScenario, loopBinding, profile, reportArgs, repo
 import { ConversationLoop } from './loop';
 import type { ContextReader, Pause } from './types';
 export interface Reporter extends ContextReader {readonly taskId:string;submit(callId:string,canonicalCommand:string):ReportReceipt}
-function bind(store:TaskStore,binding:Binding,taskId:string):Reporter {
+export function bindReporter(store:TaskStore,binding:Binding,taskId:string):Reporter {
   const measured=<T>(operation:()=>T):T=>{const start=Date.now();const result=operation();
     if(Date.now()-start>=10000)throw new Error('core-report-deadline');return result;};
   const state=()=>{
@@ -48,7 +48,7 @@ export function createCoreReportingScenario(store:TaskStore){
       if(typeof row.taskId!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(row.taskId))throw new Error('report-task-id');
       if(disposed||loops.length>=2||members.has(binding.memberId)||sessionId&&sessionId!==binding.sessionId
         ||!['none','before-read','after-read','before-report','after-report','before-continuation','after-dispatch'].includes(pause))throw new Error('report-scenario-bound');
-      const reader=bind(store,binding,row.taskId),api=adapters.create(binding,mode);
+      const reader=bindReporter(store,binding,row.taskId),api=adapters.create(binding,mode);
       const loop=new ConversationLoop(reader,api.adapter,pause,reader);
       members.add(binding.memberId);sessionId=binding.sessionId;loops.push(loop);
       return {loop,fixture:{inspect:()=>loop.inspect(),adapter:()=>api.fixture.inspect(),release:()=>loop.release(),

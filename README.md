@@ -54,6 +54,14 @@ known receipts, rejected commands and uncertain acknowledgements remain separate
 from conversation completion. [Implementation evidence](output/phase3c-report/README.md)
 covers the bounded fixed composition. Providers, UI and release remain pending.
 
+The [Phase3C exit](output/phase3c-exit/README.md) is accepted at 972aa4d.
+The owner continued the [Phase3D question amendment](output/phase3d-entry/AMENDMENT.md)
+at 11b19a7; the [decision record](output/phase3d-approval/README.md) admits its exact
+scope. The question profile adds durable bound asks and explicit delivery of
+actual core-recorded answers, preserving blocked slots while waiting. See the
+[implementation evidence](output/phase3d-question/README.md). Providers, UI cards,
+durable conversation recovery and release remain pending.
+
 ## Document order
 
 The [approved Phase3B slice](output/phase3b-approval/README.md) adds an

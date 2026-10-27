@@ -1624,6 +1624,22 @@ and mock-team production source remain fixed; providers, arbitrary tools,
 files/commands, new runners, UI, migration and release remain excluded. This
 exception ends at the separate Phase3C exit review.
 
+The [Phase3C exit review](../output/phase3c-exit/README.md) at 972aa4d accepts the
+bounded report bridge/loop and ends that construction exception.
+
+**Activated internal Phase3D construction, 27 October 2026.** The owner continued
+the [question-loop amendment](../output/phase3d-entry/AMENDMENT.md) and contract at
+11b19a7. The [decision](../output/phase3d-approval/README.md) preserves the exact
+instruction and proposal hashes. A distinct offline profile may submit one bound
+role-appropriate question, retain blocked occupancy and explicitly read/deliver
+its actual core answer. Waiting creates no polling/request timer; resume IDs,
+reads and requests stay bounded. The core alone authorizes ask/answer/routing and
+proof-gated reports. Unknown writes remain uncertain without retry. Core/schema7
+and mock-team production source are unchanged. Actual source/test/runtime/native
+preflight precedes execution. No new runner, provider/network/credential, arbitrary
+tool, file/command effect, durable conversation recovery, UI or release is admitted.
+This exception ends at the separate Phase3D exit review.
+
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and

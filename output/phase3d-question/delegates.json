@@ -1,0 +1,26 @@
+[
+  {
+    "runId": "tiye-3d-code-luna-20261027",
+    "model": "gpt-6-luna",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "1836a432bd33d55fb33b1163532ed950778dacc66a137330c18481ce049949ca"
+  },
+  {
+    "runId": "tiye-3d-code-flint-20261027",
+    "model": "opencode/flint-40b-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "71ff3bb07e9440a36ca0ed9eb3f4f26171daee9a102763ed4e96bd71e3c9623e"
+  },
+  {
+    "runId": "tiye-3d-code-deepseek-20261027",
+    "model": "opencode/deepseek-v4.1-flash-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "841d080deb78d69c9dc80da330b7c62ca5c56ca3d4451e7ba66576297e6afaa6"
+  }
+]

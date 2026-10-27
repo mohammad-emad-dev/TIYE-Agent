@@ -49,3 +49,23 @@ tool dispatch for that run. Other inherited bounds remain. Only fixed scripts
 and the existing owned real-core witness fixtures are admitted. Provider and UI
 integration are unfinished. See output/phase3c-report for implementation evidence;
 the separate Phase3C exit review remains pending.
+
+## Explicit question profile (Phase 3D)
+
+createCoreQuestionScenario(store) binds one assigned member/task and derives
+ask_leader or ask_user from the core role. The question bridge alone captures
+ask and author-visible question readers. Known accepted asks block in the core
+and keep occupancy; the loop waits with no request, timer or scheduled pump.
+resume({version:1,resumeId,runId,questionId}) reads only the actual bound answer.
+Open questions return still_waiting. Unique IDs/four reads prevent polling or
+duplicate delivery. No model/subscriber input becomes an answer command.
+
+After a real answer, a closed paired result enters one actual continuation.
+Context/read/report tools share two attempts and three requests per run. Ask
+reserves continuation capacity, report stays last, and proof requirements remain.
+The question profile has ten controller checks; old profiles keep eight. Unknown
+asks fence needs_attention even with verified transport cleanup. Stop/dispose
+settles waiting runs and drains owned resume work before store/root cleanup.
+Question state in outcomes is last observed knowledge, not inferred cancellation.
+No durable conversation resume or UI cards are implemented. See
+output/phase3d-question for bounded implementation evidence; exit is separate.

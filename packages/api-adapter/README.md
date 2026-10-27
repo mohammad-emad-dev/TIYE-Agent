@@ -45,3 +45,9 @@ continuation history. The adapter itself has no core capability and executes no
 tool. The reporting loop's narrow bridge submits the command. Original text and
 read-only factories retain their original input validators and cannot admit
 reporting input. This remains a fixed offline transport without provider access.
+
+createScriptedQuestionScenario is an explicit offline profile with question-loop
+inputs and role-named question candidates. Closed ask receipts/actual answers
+enter paired history; the fixed backend validates and uses them. The adapter
+owns no core writer or answer source. Existing factories retain their validators
+and refuse question-loop input. No real provider transport is qualified.
