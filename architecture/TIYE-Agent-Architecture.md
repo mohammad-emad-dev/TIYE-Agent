@@ -1591,6 +1591,12 @@ source/test/compiled/runtime review precedes execution. No real provider/network
 credentials, tools, core dispatch binding, processes, files, terminals, UI or
 release is admitted. This exception ends at the Phase3A exit review.
 
+The [Phase3A exit review](../output/phase3a-exit/README.md) accepts the narrowed
+scripted lifecycle/text-streaming contract, including observer Promise rejection,
+FIFO/token-based notification and guarded cancellation handling. Core/schema7 and
+mock-team remain unchanged. This closes the Phase3A construction exception and
+grants no real provider, agent loop, tool/core binding, UI or release permission.
+
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and

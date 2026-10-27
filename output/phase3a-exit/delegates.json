@@ -1,0 +1,35 @@
+{
+  "reviews": [
+    {
+      "runId": "tiye-3a-exit-luna-20261027",
+      "model": "gpt-6-luna",
+      "relayStatus": "completed",
+      "outerAdapterStatus": "completed",
+      "reportReceived": true,
+      "resultSha256": "95b594dd9a47e968ece661be8d9664d9daaf170c9e38adff770ec282c1157b12",
+      "briefSha256": "426f5083659b581d2b69b326dc3897aa13eff263121dd061086c022bf4723629",
+      "disposition": "Reviewed in REVIEWS.md; not authorization"
+    },
+    {
+      "runId": "tiye-3a-exit-flint-20261027",
+      "model": "opencode/flint-40b-free",
+      "relayStatus": "completed",
+      "outerAdapterStatus": "adapter_timeout",
+      "reportReceived": true,
+      "resultSha256": "1df639c576efc26e5d6bf522a7403a2fd3f2023726fdd0bf0a303dccdd817e0a",
+      "briefSha256": "4c66ab2de70e7b41b59e82eb8453575f725de26f6ad1351e6669c4a6bf5f463c",
+      "disposition": "Reviewed in REVIEWS.md; not authorization"
+    },
+    {
+      "runId": "tiye-3a-exit-deepseek-20261027",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "relayStatus": "completed",
+      "outerAdapterStatus": "adapter_timeout",
+      "reportReceived": true,
+      "resultSha256": "1ae75ee81587276610790092d6a41da0d1f98e432d7dff9d06cd3ce2ad7da1b1",
+      "briefSha256": "8794a55c6f232715d192091f788909f0f62fae041dfc670de1558d8e5df1c3e8",
+      "disposition": "Reviewed in REVIEWS.md; not authorization"
+    }
+  ],
+  "parentReview": "REVIEWS.md"
+}

@@ -10,6 +10,13 @@ message, reserves its request identity before creating the scripted request once
 and returns after admission/creation. Completion comes through live-only events
 after the entire response transcript and local transport closure validate. It is
 response completion, never core task completion or proof of remote cancellation.
+Subscriber invocation is FIFO, including reentrant sends. Membership is captured
+by subscription token at emission; unsubscribe cancels queued delivery and a new
+subscription never inherits it. Notifications are bounded by the lifetime event
+budget (six*128+one adapter stop); invariant overflow raises notification-bound,
+never silently drops a terminal event. Flat primitive events remain immutable.
+Returned subscriber Promises are rejection-handled without waiting for application
+work; their completion order is not guaranteed and is not a protocol/stop gate.
 
 Only one request is active per adapter, with six lifetime identities. Interrupt
 and stop fence admission before one abort; unverified closure holds the active

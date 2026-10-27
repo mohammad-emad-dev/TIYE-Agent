@@ -5,7 +5,7 @@ export type UserMessage = { version: 1; kind: 'message'; requestId: string; text
 export type Input = TaskInput | UserMessage;
 export type State = 'unstarted' | 'ready' | 'running' | 'cancelling' | 'needs_attention' | 'stopped';
 export type Reason = 'creation_failure' | 'ambiguous_creation' | 'transport_error' | 'disconnect'
-  | 'protocol_fault' | 'unsupported_tool' | 'deadline' | 'owner_interrupt' | 'owner_stop';
+  | 'protocol_fault' | 'unsupported_tool' | 'deadline' | 'owner_interrupt' | 'owner_stop' | 'abort_failure';
 export type EventType = 'request.admitted' | 'text.delta' | 'response.completed'
   | 'request.interrupted' | 'request.failed' | 'request.uncertain' | 'adapter.stopped';
 export interface MemberEvent extends Binding {
@@ -18,9 +18,10 @@ export interface Capabilities {
   readonly files: false; readonly commands: false; readonly remoteCancellationVerified: false;
 }
 export interface Detection { readonly kind: 'scripted-api'; readonly available: true; readonly realProvider: false }
+export type EventSubscriber = (event: MemberEvent) => void | Promise<void>;
 export interface MemberAdapter {
   detect(): Promise<Detection>; start(context: unknown): Promise<void>; send(input: unknown): Promise<void>;
-  onEvent(callback: (event: MemberEvent) => void): () => void;
+  onEvent(callback: EventSubscriber): () => void;
   interrupt(): Promise<CleanupResult>; stop(): Promise<CleanupResult>; capabilities(): Capabilities;
 }
 export interface RequestContext extends Binding { readonly requestId: string; readonly generation: number }

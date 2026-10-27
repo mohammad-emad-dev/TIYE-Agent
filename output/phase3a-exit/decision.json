@@ -1,0 +1,30 @@
+{
+  "schema": "tiye-phase3a-exit-v1",
+  "date": "2026-10-27",
+  "approvedProposalCommit": "b138d72",
+  "ownerDecisionAndImplementationCommit": "3b24e82",
+  "phase3aVerdict": "PASS_BOUNDED_INTERNAL_CONTRACT",
+  "verifiedTests": 273,
+  "failedTests": 0,
+  "skippedTests": 0,
+  "coreProductionCodeChanged": false,
+  "mockTeamChanged": false,
+  "apiAdapterCodeChanged": true,
+  "fullApiAdapterImplemented": false,
+  "completeProductAccepted": false,
+  "newConstructionAuthorized": false,
+  "nativeProviderIntegration": "HOLD",
+  "releaseAllowed": false,
+  "nextAction": "Prepare the next bounded API agent-loop or integration contract; provider execution requires its applicable readiness and scope decision.",
+  "limits": [
+    "fixed offline scripted transport only",
+    "one active and six lifetime requests per adapter; two adapters per scenario",
+    "response completion is not task completion",
+    "local closure is not remote cancellation proof",
+    "subscriber invocation is FIFO; application Promise settlement is independent",
+    "no provider SDK/HTTP/credentials, API agent loop, tool/core binding or UI",
+    "no authenticated hostile transport, throughput, general cancellation or release qualification"
+  ],
+  "verificationSha256": "4c74b0a20b431d81132fcef5cbaf7fe5a4e1d0193c8a1946c4c479756cbd3377",
+  "matrixSha256": "b87b26404c02a6023b5d06cb2857b6ced4476952a40a8d70c0267154d163a00a"
+}

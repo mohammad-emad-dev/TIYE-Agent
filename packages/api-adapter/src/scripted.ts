@@ -5,7 +5,7 @@ export const MODES = ['normal','manual','end-hold','late','hang','ignore-abort',
   'creation-throw','ambiguous-creation','transport-error','disconnect','malformed','bad-utf8',
   'duplicate-field','truncated','wrong-generation','wrong-session','bad-version','extra-field',
   'duplicate-end','extra-after-end','no-end','done-prose','oversized','byte-limit','event-limit',
-  'retained-ring','tool-call'] as const;
+  'retained-ring','tool-call','abort-throw'] as const;
 export type Mode = typeof MODES[number];
 export type CloseKind = 'verified' | 'disconnect';
 interface Listener { data(bytes: Uint8Array): void; closed(kind: CloseKind): void }
@@ -60,7 +60,7 @@ export class ScriptedTransport {
     this.send('api.text.delta',{text:'Hello'}); this.send('api.text.delta',{text:' from scripted API'}); this.end(); this.close();
   }
   private script(): void {
-    if (['manual','late','hang','ignore-abort','never-close'].includes(this.mode)) return;
+    if (['manual','late','hang','ignore-abort','never-close','abort-throw'].includes(this.mode)) return;
     switch (this.mode) {
       case 'normal': this.normal(); return;
       case 'end-hold': this.send('api.text.delta',{text:'Candidate'}); this.end(); return;
@@ -92,6 +92,7 @@ export class ScriptedTransport {
   }
   abort(): void {
     check(this.aborts === 0, 'fixture-abort-once'); this.aborts++; this.mark('aborted');
+    if (this.mode === 'abort-throw') throw new Error('scripted abort failure');
     if (!['ignore-abort','never-close','ambiguous-creation'].includes(this.mode)) this.close();
   }
   release(): void {

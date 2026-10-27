@@ -1,4 +1,4 @@
-import type { Binding, Capabilities, CleanupResult, Detection, Input, MemberAdapter, MemberEvent, Phase, Reason, RequestContext, State } from './types';
+import type { Binding, Capabilities, CleanupResult, Detection, EventSubscriber, Input, MemberAdapter, MemberEvent, Phase, Reason, RequestContext, State } from './types';
 import { check, input, launch } from './validation';
 import { Reader, type Frame } from './protocol';
 import { ScriptedTransport, type CloseKind, type Mode } from './scripted';
@@ -15,7 +15,9 @@ export class ScriptedAdapter implements MemberAdapter {
   private terminal = false;
   private active: Turn | null = null;
   private turns = new Map<string, Turn>();
-  private subscribers = new Set<(event: MemberEvent) => void>();
+  private subscribers = new Map<symbol, EventSubscriber>();
+  private notifications: {event: MemberEvent; listeners: [symbol, EventSubscriber][]; delivered?: () => void}[] = [];
+  private notifying = false;
   private events: MemberEvent[] = [];
   private stopPromise?: Promise<CleanupResult>;
   private subscriberErrors = 0;
@@ -30,12 +32,16 @@ export class ScriptedAdapter implements MemberAdapter {
     check(context.sessionId === this.binding.sessionId && context.memberId === this.binding.memberId, 'launch-binding');
     this.state='ready';
   }
-  onEvent(callback: (event: MemberEvent) => void): () => void {
+  onEvent(callback: EventSubscriber): () => void {
     check(typeof callback === 'function' && !this.terminal, 'subscriber-refused');
-    check(!this.subscribers.has(callback) && this.subscribers.size < 16, 'subscriber-bound');
-    this.subscribers.add(callback); return () => {this.subscribers.delete(callback);};
+    check(![...this.subscribers.values()].includes(callback) && this.subscribers.size < 16, 'subscriber-bound');
+    const token=Symbol('subscription');this.subscribers.set(token,callback);
+    return () => {this.subscribers.delete(token);};
   }
-  private emit(turn: Turn | null, type: MemberEvent['type'], details: Partial<MemberEvent> = {}): void {
+  private subscriberFailed(): void {this.subscriberErrors=Math.min(128,this.subscriberErrors+1);}
+  private emit(turn: Turn | null, type: MemberEvent['type'], details: Partial<MemberEvent> = {}, delivered?: () => void): void {
+    // Six requests * 128 events + one terminal adapter event. Never silently drop.
+    check(this.notifications.length < 6*128+1, 'notification-bound');
     if (turn) {
       const terminal = !['request.admitted','text.delta'].includes(type);
       check(turn.events < (terminal ? 128 : 127), 'normalized-event-bound'); turn.events++;
@@ -43,9 +49,22 @@ export class ScriptedAdapter implements MemberAdapter {
     const event: MemberEvent = {...this.binding,type,requestId:turn?.context.requestId??null,
       taskId:turn?.input.kind === 'task' ? turn.input.taskId : null,generation:turn?.context.generation??null,...details};
     this.events.push(Object.freeze(event)); if (this.events.length > 64) this.events.shift();
-    for (const subscriber of [...this.subscribers]) {
-      try {subscriber(Object.freeze({...event}));} catch {this.subscriberErrors=Math.min(128,this.subscriberErrors+1);}
-    }
+    this.notifications.push({event,listeners:[...this.subscribers.entries()],delivered});
+    if (this.notifying) return;
+    this.notifying=true;
+    try {
+      while (this.notifications.length) {
+        const next=this.notifications.shift()!;
+        for (const [token,subscriber] of next.listeners) {
+          if (this.subscribers.get(token) !== subscriber) continue;
+          try {
+            const result=subscriber(Object.freeze({...next.event}));
+            if (result !== undefined) void Promise.resolve(result).catch(()=>this.subscriberFailed());
+          } catch {this.subscriberFailed();}
+        }
+        next.delivered?.();
+      }
+    } finally {this.notifying=false;}
   }
   async send(value: unknown): Promise<void> {
     const request = input(value);
@@ -115,7 +134,8 @@ export class ScriptedAdapter implements MemberAdapter {
     this.state='cancelling'; turn.cleanupStarted=Date.now(); clearTimeout(turn.operation); turn.operation=undefined;
     turn.cleanupTimer=setTimeout(()=>this.finish(turn,false),5000);
     // Install the cleanup decision/timer before invoking a possibly reentrant transport.
-    if (!turn.wire.closed) turn.wire.abort();
+    try {if (!turn.wire.closed) turn.wire.abort();}
+    catch {turn.reason='abort_failure';turn.forceUncertain=true;}
     return turn.settled;
   }
   interrupt(): Promise<CleanupResult> {
@@ -132,14 +152,14 @@ export class ScriptedAdapter implements MemberAdapter {
     const decision=turn ? this.cleanup(turn) : Promise.resolve({state:'stopped' as State,localClosed:true,remoteVerified:false as const});
     this.stopPromise=decision.then(result=>{
       this.state=result.state === 'needs_attention' ? 'needs_attention' : 'stopped';
-      this.emit(null,'adapter.stopped',{localClosed:result.localClosed}); this.subscribers.clear();
+      this.emit(null,'adapter.stopped',{localClosed:result.localClosed},()=>this.subscribers.clear());
       return Object.freeze({state:this.state,localClosed:result.localClosed,remoteVerified:false as const});
     });
     return this.stopPromise;
   }
   inspect() {
     return {state:this.state,terminal:this.terminal,active:this.active ? {...this.active.context} : null,
-      seen:this.turns.size,subscribers:this.subscribers.size,subscriberErrors:this.subscriberErrors,
+      seen:this.turns.size,subscribers:this.subscribers.size,subscriberErrors:this.subscriberErrors,pendingNotifications:this.notifications.length,
       timers:[...this.turns.values()].reduce((sum,turn)=>sum+Number(!!turn.operation)+Number(!!turn.cleanupTimer),0),
       events:this.events.map(event=>({...event})),requests:[...this.turns.values()].map(turn=>({
         requestId:turn.context.requestId,generation:turn.context.generation,finished:turn.finished,...turn.wire.inspect()}))};
