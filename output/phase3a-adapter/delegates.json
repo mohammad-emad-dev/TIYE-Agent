@@ -1,0 +1,29 @@
+{
+  "reviews": [
+    {
+      "runId": "tiye-3a-impl-luna-20261027",
+      "model": "gpt-6-luna",
+      "status": "timeout",
+      "verdict": "UNAVAILABLE_TIMEOUT",
+      "resultSha256": "9f8c843fd021dd8e03fae0860ca52bf59cf2c719e06fceb5797d26426f9329eb",
+      "briefSha256": "99334c577574a70753a5d219c9edd031b01f772e062a12be964eff7c4810c85f"
+    },
+    {
+      "runId": "tiye-3a-impl-flint-20261027",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "verdict": "UNAVAILABLE_TIMEOUT",
+      "resultSha256": "2829164b45dce977bca5bdc44627dd851748151c602a434d6ece42dbe39ea8f3",
+      "briefSha256": "ac23e314bc6927cfd685acf74af507c049e611d303208a413b833aee024257b8"
+    },
+    {
+      "runId": "tiye-3a-impl-deepseek-20261027",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "verdict": "UNAVAILABLE_TIMEOUT",
+      "resultSha256": "ed364aea0a3edeaf3655e49e2a85c2f16eef0a15d7e2b033298bac53d95befbd",
+      "briefSha256": "be5492878de60748a6921c9b7e0e42b4ed6eb445f4873c9241382d3448f343ac"
+    }
+  ],
+  "parentReview": "REVIEWS.md"
+}

@@ -1580,6 +1580,17 @@ fix with actual-child regressions. Core schema7, dependent integration gates and
 full-product scope are unchanged. This closes the Phase2F construction exception;
 it grants no provider, UI, arbitrary-program or other new construction permission.
 
+**Activated internal Phase3A construction, 27 October 2026.** The owner delegated
+the decision on the [API-adapter foundation amendment](../output/phase3a-entry/AMENDMENT.md)
+and linked contract atb138d72; the parent chose that exact scope and retained the
+[response and hashes](../output/phase3a-approval/README.md). The private api-adapter
+package implements narrowed lifecycle/text streaming through a fixed in-memory
+scripted transport, with two adapters per scenario, one active request per adapter
+and six lifetime requests. Core/schema7 and mock-team remain unchanged. Actual
+source/test/compiled/runtime review precedes execution. No real provider/network,
+credentials, tools, core dispatch binding, processes, files, terminals, UI or
+release is admitted. This exception ends at the Phase3A exit review.
+
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and

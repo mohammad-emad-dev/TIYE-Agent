@@ -48,6 +48,12 @@ remain outside its scope; provider/native gates are unchanged. The original
 
 ## Document order
 
+The owner [admitted Phase3A construction](output/phase3a-approval/README.md) for
+the [offline API adapter foundation](packages/api-adapter/README.md). It provides
+bounded lifecycle, validated text streaming and conservative cancellation through
+one fixed scripted transport. Response completion is separate from core task
+completion. Provider calls, credentials, tools, core binding and UI remain pending.
+
 The approved [Phase2F owned mock workers](output/phase2f-workers/README.md) connect
 the schema7 core to fixed owned child processes in a private synthetic harness.
 Claims commit before one-time invocation delivery; success requires verified exit
