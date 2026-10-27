@@ -251,3 +251,5 @@ output/phase3a-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-befo
 output/phase3a-adapter/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 
 output/phase3a-exit/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+output/phase3b-entry/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

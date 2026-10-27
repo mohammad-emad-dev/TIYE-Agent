@@ -1,0 +1,15 @@
+{
+  "proposalStatus": "READY_FOR_OWNER_DECISION",
+  "baselineCommit": "11eee3b",
+  "baselineVerification": {
+    "command": "rtk proxy python -X utf8 -B output/phase3a-exit/verify.py",
+    "exitCode": 0,
+    "terminalOutputSha256": "1a669bbfb87ff50d98b47913deae9f7df565111edb4f47929be785fc7723e43c",
+    "rawResultSha256": "664bb383c8f1a398da2659845a007b33d9fcd11a3586c368a4e7da0f1b507b6e"
+  },
+  "baselineTestsRetained": 273,
+  "engineTestsRerun": false,
+  "phase3bLoopExecuted": false,
+  "acceptedSourcesChanged": false,
+  "providerExecuted": false
+}
