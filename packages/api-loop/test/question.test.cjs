@@ -334,3 +334,27 @@ test('concurrent and duplicate answered resumes cannot deliver twice',async t=>{
     assert.equal(result.answerReads,1);assert.equal(result.requests,2);assert.equal(result.history.filter(row=>row.kind==='question.result').length,1);
   }finally{await f.close();}
 });
+
+test('stop immediately after resume admission prevents reading an already-recorded answer',async t=>{
+  const f=await fixture(t);try{
+    const pending=begin(f);await pending.waiting;answer(f);
+    const resuming=f.loop.resume(resume(f));assert.equal(stopCore(f),'accepted');await f.loop.stop();
+    assert.equal((await resuming).status,'stopped');const result=await pending.result;
+    assert.equal(result.state,'stopped');assert.equal(result.answerReads,0);assert.equal(result.requests,1);
+    assert.equal(result.questionState,'accepted');assert.equal(result.answerResult,undefined);assert.equal(current(f).status,'answered');
+    await replay(f);
+  }finally{await f.close();}
+});
+
+test('disposal drains a paused owned resume without reading or changing the durable question',async t=>{
+  const f=await fixture(t,{pause:'before-answer',proven:false});try{
+    const pending=begin(f);await pending.waiting;const before=f.store.snapshot();
+    const reached=phase(f,'before-answer'),resuming=f.loop.resume(resume(f));await reached;
+    assert.equal(f.fixture.inspect().runs[0].resumeBusy,true);await f.scenario.dispose();
+    assert.equal((await resuming).status,'stopped');const result=await pending.result;
+    assert.equal(result.state,'stopped');assert.equal(result.answerReads,0);assert.equal(result.requests,1);
+    const state=f.fixture.inspect();assert.equal(state.pumping,false);assert.equal(state.scheduled,false);assert.equal(state.timers,0);
+    assert.equal(state.runs[0].resumeBusy,false);assert.equal(state.runs[0].waiting,false);assert.deepEqual(f.store.snapshot(),before);
+    assert.equal(current(f).status,'open');assert.equal(assignment(f).closed,false);await replay(f);
+  }finally{await f.close();}
+});

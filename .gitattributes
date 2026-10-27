@@ -273,3 +273,5 @@ output/phase3d-entry/** -text whitespace=blank-at-eol,blank-at-eof,space-before-
 
 output/phase3d-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/phase3d-question/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+output/phase3d-exit/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

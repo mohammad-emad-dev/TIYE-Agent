@@ -1,0 +1,26 @@
+[
+  {
+    "runId": "tiye-3d-exit-luna-20261027",
+    "model": "gpt-6-luna",
+    "status": "completed",
+    "exitCode": 0,
+    "report": "Defect: if `adapter.stop()` rejects, `stop()` skips `finish`, `remove`, and subscriber cleanup. Then `dispose()` also exits at `await this.stop()` without draining `work` or `resumeWork`. The coordinator\u2019s `finally` calling `loop.stop()` does not make this promise resolve. The normal resume/stop race and successful disposal path look sound under the stated assumptions.",
+    "resultSha256": "56d286a38329af0da646f02111d1df8585a8a25612bf2635ad3ea28550755761"
+  },
+  {
+    "runId": "tiye-3d-exit-flint-20261027",
+    "model": "opencode/flint-40b-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "283d1a7eb831b8d456069ca57dfb96283f7b015b9753f920d5435c72514ab581"
+  },
+  {
+    "runId": "tiye-3d-exit-deepseek-20261027",
+    "model": "opencode/deepseek-v4.1-flash-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "fb2570ecb7820aacbfc4b39eb5bc698362b3665789680e943c4c1640cf89c4c4"
+  }
+]

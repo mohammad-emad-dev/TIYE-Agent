@@ -1,0 +1,18 @@
+{
+  "schema": "tiye-phase3d-exit-decision-v1",
+  "scope": "INTERNAL_PHASE3D_BOUND_QUESTIONS",
+  "proposalCommit": "11b19a7",
+  "implementationCommit": "1090901",
+  "decision": "PASS_BOUNDED_INTERNAL_CONTRACT",
+  "exceptionEnded": true,
+  "newConstructionAuthorized": false,
+  "nativeProviderIntegration": "HOLD",
+  "releaseAllowed": false,
+  "architectureMapping": {
+    "4.2": "bound context/report/question subsets only",
+    "4.5": "durable bound questions and explicit answer delivery only",
+    "5.1": "fixed offline lifecycle only",
+    "5.3": "bounded in-memory scripted loop only"
+  },
+  "futureAdapterRequirement": "Qualify stop rejection, draining and uncertainty before admitting an adapter that can reject stop."
+}
