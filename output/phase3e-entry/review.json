@@ -1,0 +1,26 @@
+[
+  {
+    "runId": "tiye-3e-entry-luna-20261027",
+    "model": "gpt-6-luna",
+    "status": "completed",
+    "exitCode": 0,
+    "report": "No issue found. The proposal keeps active-session checks for pre-write validation and known rejections. For accepted completion, it permits continuation and final acceptance only after fresh verification of the exact accepted command and matching completed-session state. That allows the single text-only continuation without reopening admission or weakening checks in other profiles.",
+    "resultSha256": "bf72f438293379c1a66780870c357a808c8838045e00db10a159cd79d441873c"
+  },
+  {
+    "runId": "tiye-3e-entry-flint-20261027",
+    "model": "opencode/flint-40b-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "ab56ecac911c9262c0d5dbd6d3c59335d40ac124a096cbfc41a73578b1750c4f"
+  },
+  {
+    "runId": "tiye-3e-entry-deepseek-20261027",
+    "model": "opencode/deepseek-v4.1-flash-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "e44f40d24b55651c71f00d090a522b885acd85c3fa98b886ef8389827810f7d4"
+  }
+]
