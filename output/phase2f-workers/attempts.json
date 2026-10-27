@@ -1,0 +1,41 @@
+{
+  "failedAttempts": [
+    {
+      "reason": "Three TEMP trigger injection fixture failures; corrected by dropping trigger after unrelated commits",
+      "testCounts": {
+        "tests": 223,
+        "pass": 220,
+        "fail": 3,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "preflightSha256": "ddd2de5c82d0d7b3eeea050ad533e4d64f9672c96d68f158a7dc4cfbb57edf49",
+      "steps": [
+        {
+          "step": "build",
+          "exitCode": 0,
+          "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "step": "boundary",
+          "exitCode": 0,
+          "stdoutSha256": "2fd9d279ebbf9814b446df77d6a5f05457fdeb2770353d357ac3ab5277b8aef5",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "step": "mock-boundary",
+          "exitCode": 0,
+          "stdoutSha256": "3ec5542b8ac64a7b0b03f9ffbd715aaf6d57cb084276bb3ebe72c1d6d990ccc2",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "step": "tests",
+          "exitCode": 1,
+          "stdoutSha256": "8158eae9e2f63fc3d29cd0ced4026991149e323d1e349e784c3854b4ca879800",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    }
+  ]
+}

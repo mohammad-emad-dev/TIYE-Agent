@@ -1561,6 +1561,19 @@ No migration/reset, new runner, automatic execution/takeover/succession, live
 detector, provider/terminal/UI/network/MCP, real project/Git/export or release.
 This exception ends at the Phase2E exit review.
 
+**Activated internal Phase 2F construction, 27 October 2026.** The owner delegated
+the decision on the [fixed owned worker amendment](../output/phase2f-entry/AMENDMENT.md)
+and linked contract frozen at 4405293. The parent chose that exact scope; the
+[approval record](../output/phase2f-approval/README.md) retains the response and
+proposal hashes. The private `packages/mock-team` composition connects unchanged
+schema7 core state to fixed owned workers, with two live workers and six lifetime
+assignments per scenario, committed claims, one-time delivery, independent
+post-exit witnesses and bounded verified cleanup. Parent review of actual sources,
+tests, compiled core and runtime precedes execution. Storage failures freeze
+dispatch and preserve authoritative durable state. Providers, UI, arbitrary
+programs, automatic approvals/retries and release remain excluded. This exception
+ends at the Phase2F exit review.
+
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and

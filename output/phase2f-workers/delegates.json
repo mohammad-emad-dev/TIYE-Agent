@@ -1,0 +1,37 @@
+{
+  "reviews": [
+    {
+      "runId": "tiye-2f-luna-20261027",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "resultSha256": "ed5ec3b2adde4cc7c2a57d25c06ee40f3512e771ef639c191620bafa7f57b938",
+      "verdict": "UNAVAILABLE",
+      "reason": "Shell policy blocked file reads"
+    },
+    {
+      "runId": "tiye-2f-flint-20261027",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "resultSha256": "950500bd175f594062f2a0fbab240f6ef08beccfbdae227c6a221e13a80996dc",
+      "verdict": "UNAVAILABLE",
+      "reason": "Timed out without final verdict"
+    },
+    {
+      "runId": "tiye-2f-deepseek-20261027",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "resultSha256": "51bf46ca424959903eb6e1b63a3a288c8a2330b09b7db0249727eadb9d9c6c9e",
+      "verdict": "UNAVAILABLE",
+      "reason": "Timed out without final verdict"
+    },
+    {
+      "runId": "tiye-2f-luna-inline-20261027",
+      "model": "gpt-6-luna",
+      "status": "timeout",
+      "resultSha256": "be1d39a1e231a5f1a8801abfdf9b7b8be79c183d93463144c7f3fa47b8ca43a6",
+      "verdict": "UNAVAILABLE",
+      "reason": "Timed out without final verdict"
+    }
+  ],
+  "parentReview": "REVIEWS.md"
+}
