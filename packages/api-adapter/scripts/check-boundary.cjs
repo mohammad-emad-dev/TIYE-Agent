@@ -4,7 +4,7 @@ const path=require('node:path');
 const assert=require('node:assert/strict');
 const ts=require('../../core/node_modules/typescript');
 const root=path.resolve(__dirname,'../src');
-const allowed=new Set(['./types','./validation','./protocol','./scripted','./adapter','./loop-contract']);
+const allowed=new Set(['./types','./validation','./protocol','./scripted','./adapter','./loop-contract','./report-contract']);
 for(const name of fs.readdirSync(root)) {
   assert(name.endsWith('.ts'),'unexpected runtime source');
   const source=ts.createSourceFile(name,fs.readFileSync(path.join(root,name),'utf8'),ts.ScriptTarget.Latest,true);

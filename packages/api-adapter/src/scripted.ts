@@ -1,4 +1,5 @@
 import type { Input, Phase, RequestContext } from './types';
+import { reportInput } from './report-contract';
 import { profile } from './loop-contract';
 import { check } from './validation';
 import { encode } from './protocol';
@@ -11,7 +12,8 @@ export const LOOP_MODES=['loop-context','loop-text','loop-repeat-call','loop-thi
   'loop-mixed','loop-duplicate-call','loop-tool-extra','loop-tool-disconnect','loop-tool-error','loop-tool-end-hold',
   'loop-tool-abort-throw','loop-continuation-ambiguous','loop-late','loop-byte-limit','loop-large-text','loop-two-tools',
   'loop-forged-call-id','loop-mixed-after','loop-tool-truncated','loop-tool-malformed','loop-forged-context'] as const;
-export type Mode = typeof MODES[number] | typeof LOOP_MODES[number];
+export const REPORT_MODES=['report-done','report-failed','report-context','report-repeat','report-then-context','report-forged-args','report-mixed','report-duplicate','report-extra','report-disconnect','report-end-hold','report-continuation-ambiguous','report-final-malformed','report-late','report-forged-call','report-forged-context','report-truncated','report-malformed','report-no-end'] as const;
+export type Mode = typeof MODES[number] | typeof LOOP_MODES[number] | typeof REPORT_MODES[number];
 export type CloseKind = 'verified' | 'disconnect';
 interface Listener { data(bytes: Uint8Array): void; closed(kind: CloseKind): void }
 interface Waiter { phase: Phase; resolve(): void; reject(error: Error): void; timer: ReturnType<typeof setTimeout> }
@@ -53,7 +55,8 @@ export class ScriptedTransport {
     if (this.mode === 'creation-throw') throw new Error('scripted creation failure');
     this.mark('opened');
     if (this.mode === 'ambiguous-creation') throw new Error('scripted ambiguous creation');
-    if(this.mode==='loop-continuation-ambiguous'&&this.input?.kind==='loop'&&this.input.turn>1)throw new Error('scripted continuation ambiguity');
+    if(this.mode==='loop-continuation-ambiguous'&&(this.input?.kind==='loop'||this.input?.kind==='report-loop')&&this.input.turn>1)throw new Error('scripted continuation ambiguity');
+    if(this.mode==='report-continuation-ambiguous'&&this.input?.kind==='report-loop'&&this.input.turn>1)throw new Error('scripted report continuation ambiguity');
     queueMicrotask(() => { if (!this.closed && !this.disposed) {try{this.script();}catch{this.close('disconnect');}} });
   }
   private record(type: string, extra: Record<string, unknown> = {}): Record<string, unknown> {
@@ -66,6 +69,7 @@ export class ScriptedTransport {
     this.send('api.text.delta',{text:'Hello'}); this.send('api.text.delta',{text:' from scripted API'}); this.end(); this.close();
   }
   private script(): void {
+    if(this.mode.startsWith('report-')){this.reportScript();return;}
     if(this.mode.startsWith('loop-')){this.loopScript();return;}
     if (['manual','late','hang','ignore-abort','never-close','abort-throw'].includes(this.mode)) return;
     switch (this.mode) {
@@ -119,7 +123,7 @@ export class ScriptedTransport {
       this.end();
       if(this.mode==='loop-tool-extra')this.send('api.text.delta',{text:'Extra'});
       if(this.mode==='loop-tool-disconnect'){this.close('disconnect');return;}
-      if(['loop-tool-end-hold','loop-tool-abort-throw','loop-late'].includes(this.mode))return;
+      if(['loop-tool-end-hold','loop-tool-abort-throw','loop-late','report-end-hold','report-late'].includes(this.mode))return;
       this.close();return;
     }
     const result=results.at(-1)!;
@@ -128,6 +132,29 @@ export class ScriptedTransport {
     else this.send('api.text.delta',{text:'Context received: '+result.result.name});
     this.end();this.close();
   }
+  private reportScript():void {
+    const input=reportInput(this.input),results=input.messages.filter(row=>row.kind==='report.result');
+    if(results.length&&!['report-repeat','report-then-context'].includes(this.mode)){
+      const result=results[0].result;
+      if(this.mode==='report-final-malformed')this.data(Buffer.from('{bad\n'));
+      else this.send('api.text.delta',{text:'Report decision: '+result.decision});
+      this.end();this.close();return;
+    }
+    if(this.mode==='report-context'&&input.turn===1||this.mode==='report-then-context'&&results.length){
+      this.send('api.loop.tool_call',{callId:this.context.requestId,name:'get_my_context',arguments:{}});this.end();this.close();return;
+    }
+    const previous=input.messages.find(row=>row.kind==='assistant.report');
+    const callId=this.mode==='report-forged-call'?'bad':this.mode==='report-repeat'&&previous?.kind==='assistant.report'?previous.callId:this.context.requestId;
+    const call=()=>this.send('api.report.tool_call',{callId,name:'report_result',arguments:{status:this.mode==='report-failed'?'failed':'done',summary:'Scripted bound result',...(this.mode==='report-forged-args'?{taskId:this.context.requestId}:{})},...(this.mode==='report-forged-context'?{generation:this.context.generation+1}:{})});
+    if(this.mode==='report-mixed')this.send('api.text.delta',{text:'mixed'});call();
+    if(this.mode==='report-duplicate')call();
+    if(this.mode==='report-malformed')this.data(Buffer.from('{bad\n'));
+    if(this.mode==='report-truncated'){this.data(Buffer.from(JSON.stringify(this.record('api.response.end'))));this.close();return;}
+    if(this.mode!=='report-no-end')this.end();
+    if(this.mode==='report-extra')this.send('api.text.delta',{text:'extra'});
+    if(this.mode==='report-end-hold'||this.mode==='report-late')return;
+    this.close(this.mode==='report-disconnect'?'disconnect':'verified');
+  }
   close(kind: CloseKind = 'verified'): void {
     if (this.closed) return; this.closed=true; this.mark('closed');
     queueMicrotask(() => this.listeners?.closed(kind));
@@ -135,24 +162,24 @@ export class ScriptedTransport {
   abort(): void {
     check(this.aborts === 0, 'fixture-abort-once'); this.aborts++; this.mark('aborted');
     if (['abort-throw','loop-tool-abort-throw'].includes(this.mode)) throw new Error('scripted abort failure');
-    if (!['ignore-abort','never-close','ambiguous-creation','loop-continuation-ambiguous'].includes(this.mode)) this.close();
+    if (!['ignore-abort','never-close','ambiguous-creation','loop-continuation-ambiguous','report-continuation-ambiguous'].includes(this.mode)) this.close();
   }
   release(): void {
     check(!this.released && !this.disposed, 'fixture-release-once'); this.released=true;
     if (this.closed) return;
-    if (['end-hold','loop-tool-end-hold','loop-tool-abort-throw','loop-late'].includes(this.mode)) this.close();
+    if (['end-hold','loop-tool-end-hold','loop-tool-abort-throw','loop-late','report-end-hold','report-late'].includes(this.mode)) this.close();
     else if (this.mode === 'ignore-abort') this.close();
     else { this.normal(); }
   }
   emitLate(): void {
-    check(['late','loop-late'].includes(this.mode) && this.closed && !this.lateSent && !this.disposed, 'fixture-late-bound'); this.lateSent=true;
+    check(['late','loop-late','report-late'].includes(this.mode) && this.closed && !this.lateSent && !this.disposed, 'fixture-late-bound'); this.lateSent=true;
     this.captured.data(encode(this.record('api.text.delta',{text:'STALE'})));
     this.captured.closed('disconnect');
   }
   detach(): void { this.listeners=null; }
   inspect() {
     return {creates:this.creates,aborts:this.aborts,closed:this.closed,listening:this.listeners!==null,
-      waiters:this.waiters.length,phases:[...this.phases],...(this.input?.kind==='loop'?{input:structuredClone(this.input)}:{})};
+      waiters:this.waiters.length,phases:[...this.phases],...((this.input?.kind==='loop'||this.input?.kind==='report-loop')?{input:structuredClone(this.input)}:{})};
   }
   dispose(): void {
     this.disposed=true; this.closed=true; this.listeners=null;

@@ -46,6 +46,14 @@ for this bounded slice only. Team engine, real effects, full integration and rel
 remain outside its scope; provider/native gates are unchanged. The original
 [entry proposal](output/phase1-entry-review/README.md) remains a frozen baseline.
 
+The [Phase3B exit](output/phase3b-exit/README.md) is accepted at a0b9805.
+The owner then instructed continuation of the [Phase3C result-report amendment](output/phase3c-entry/AMENDMENT.md)
+at cd5ec2f; the [decision record](output/phase3c-approval/README.md) admits that exact
+scope. The explicit reporting profile adds a task-bound durable result bridge;
+known receipts, rejected commands and uncertain acknowledgements remain separate
+from conversation completion. [Implementation evidence](output/phase3c-report/README.md)
+covers the bounded fixed composition. Providers, UI and release remain pending.
+
 ## Document order
 
 The [approved Phase3B slice](output/phase3b-approval/README.md) adds an

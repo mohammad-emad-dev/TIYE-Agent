@@ -263,3 +263,6 @@ output/phase3b-loop/** -text whitespace=blank-at-eol,blank-at-eof,space-before-t
 output/phase3b-exit/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 
 output/phase3c-entry/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+output/phase3c-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+output/phase3c-report/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

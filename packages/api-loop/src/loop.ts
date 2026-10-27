@@ -1,8 +1,10 @@
 import { randomUUID } from 'node:crypto';
-import { history, loopInput, type LoopMessage, type MemberAdapter, type MemberEvent } from '../../api-adapter/dist';
+import { history, loopInput, reportHistory, reportArgs, reportReceipt, type ReportMessage, type ReportReceipt, type MemberAdapter, type MemberEvent } from '../../api-adapter/dist';
+import type { Reporter } from './core-report';
 import type { ContextReader, Event, Outcome, OutcomeState, Pause, RequestSlot, Subscriber } from './types';
 interface Run {
-  id:string;history:readonly LoopMessage[];requests:number;reads:number;checks:number;bytes:number;text:string;
+  id:string;history:readonly ReportMessage[];requests:number;reads:number;checks:number;bytes:number;text:string;
+  reportAttempts:number;reportState:'none'|'accepted'|'rejected'|'uncertain';receipt?:ReportReceipt;commandId?:string;
   slot:RequestSlot|null;calls:Set<string>;fenced:boolean;outcome?:Outcome;result:Promise<Outcome>;complete(value:Outcome):void;
 }
 function requireLoop(value:unknown,message:string):asserts value {if(!value)throw new Error(message);}
@@ -17,7 +19,7 @@ export class ConversationLoop {
   private events:Event[]=[];private subscribers=new Map<symbol,Subscriber>();private notificationErrors=0;
   private queue:{event:Event;listeners:[symbol,Subscriber][]}[]=[];private notifying=false;
   private remove:()=>void;
-  constructor(private readonly reader:ContextReader,private readonly adapter:MemberAdapter,private readonly pause:Pause) {
+  constructor(private readonly reader:ContextReader,private readonly adapter:MemberAdapter,private readonly pause:Pause,private readonly reporter?:Reporter) {
     this.remove=adapter.onEvent(event=>this.accept(event));
   }
   async start():Promise<void>{await this.adapter.start({...this.reader.binding,briefing:'Fixed read-only context conversation'});}
@@ -44,9 +46,10 @@ export class ConversationLoop {
     const parsed=loopInput({version:1,kind:'loop',requestId:input.runId,runId:input.runId,turn:1,messages:[{kind:'user',text:input.text}]});
     requireLoop(!this.terminal&&!this.active&&!this.runs.has(parsed.runId)&&this.runs.size<2,'loop-admission');
     let resolve!:(value:Outcome)=>void;const result=new Promise<Outcome>(done=>{resolve=done;});
-    const run:Run={id:parsed.runId,history:parsed.messages,requests:0,reads:0,checks:0,bytes:0,text:'',slot:null,calls:new Set(),fenced:false,result,complete:resolve};
+    const run:Run={id:parsed.runId,history:parsed.messages,requests:0,reads:0,checks:0,bytes:0,text:'',reportAttempts:0,reportState:'none',slot:null,calls:new Set(),fenced:false,result,complete:resolve};
     this.runs.set(run.id,run);this.active=run;this.emit(run,'run.admitted');this.schedule(run);return result;
   }
+  private transcript(value:unknown):readonly ReportMessage[]{return this.reporter?reportHistory(value):history(value);}
   private live(run:Run):boolean{return this.active===run&&!run.outcome&&!run.fenced&&!this.terminal;}
   private status(run:Run):void {
     requireLoop(run.checks<8,'status-budget');run.checks++;this.reader.active();
@@ -77,19 +80,39 @@ export class ConversationLoop {
       await this.fail(run,event.type==='request.uncertain'?'adapter_uncertain':'adapter_failed');return;
     }
     if(event.type==='response.completed'){
-      this.status(run);if(!this.live(run))return;run.history=history([...run.history,{kind:'assistant.text',text:run.text}]);
+      this.status(run);if(!this.live(run))return;run.history=this.transcript([...run.history,{kind:'assistant.text',text:run.text}]);
       this.finish(run,'response_complete','validated_response',true);return;
     }
+    if(event.tool==='report_result'){await this.recordReport(run,event);return;}
+    requireLoop(!run.reportAttempts,'tool-after-report');
     requireLoop(event.tool==='get_my_context'&&typeof event.callId==='string'&&!run.calls.has(event.callId),'duplicate-or-unknown-tool');
-    requireLoop(run.reads<2&&run.requests<3,'turn-tool-budget');
+    requireLoop(run.reads+run.reportAttempts<2&&run.requests<3,'turn-tool-budget');
     await this.gate(run,'before-read');if(!this.live(run))return;
     this.status(run);
     if(!this.live(run))return;
     run.calls.add(event.callId);run.reads++;
     const profile=this.reader.read();
-    run.history=history([...run.history,{kind:'assistant.call',callId:event.callId,name:'get_my_context'},
+    run.history=this.transcript([...run.history,{kind:'assistant.call',callId:event.callId,name:'get_my_context'},
       {kind:'tool.result',callId:event.callId,result:profile}]);
     await this.gate(run,'after-read');if(!this.live(run))return;
+    run.slot=null;run.text='';await this.gate(run,'before-continuation');if(this.live(run))await this.dispatch(run);
+  }
+  private async recordReport(run:Run,event:MemberEvent):Promise<void>{
+    requireLoop(this.reporter&&typeof event.callId==='string'&&!run.calls.has(event.callId),'report-capability-or-call');
+    requireLoop(run.reportAttempts===0&&run.reads<2&&run.requests<3,'report-budget');
+    const args=reportArgs(event.arguments);await this.gate(run,'before-report');if(!this.live(run))return;
+    this.status(run);if(!this.live(run))return;
+    run.calls.add(event.callId);run.reportAttempts++;run.commandId=randomUUID();run.reportState='uncertain';
+    try{
+      const canonicalCommand=JSON.stringify({type:'team.task.report',version:1,commandId:run.commandId,
+        sessionId:this.reader.binding.sessionId,taskId:this.reporter.taskId,...args});
+      const receipt=reportReceipt(this.reporter.submit(event.callId,canonicalCommand));
+      requireLoop(receipt.callId===event.callId&&receipt.commandId===run.commandId,'report-receipt-owner');
+      run.receipt=receipt;run.reportState=receipt.decision;
+      run.history=this.transcript([...run.history,{kind:'assistant.report',callId:event.callId,arguments:args},
+        {kind:'report.result',callId:event.callId,result:receipt}]);
+    }catch{await this.fail(run,'report_uncertain');return;}
+    await this.gate(run,'after-report');if(!this.live(run))return;
     run.slot=null;run.text='';await this.gate(run,'before-continuation');if(this.live(run))await this.dispatch(run);
   }
   private async dispatch(run:Run):Promise<void> {
@@ -97,7 +120,7 @@ export class ConversationLoop {
     requireLoop(run.requests<3&&this.totalRequests<6,'turn-budget');this.status(run);if(!this.live(run))return;
     const id=randomUUID();run.requests++;run.slot={id,generation:++this.totalRequests,bytes:0,terminal:null};run.text='';
     // No await/yield between the active-session check, reservation and send entry.
-    await this.adapter.send({version:1,kind:'loop',requestId:id,runId:run.id,turn:run.requests,messages:run.history});
+    await this.adapter.send({version:1,kind:this.reporter?'report-loop':'loop',requestId:id,runId:run.id,turn:run.requests,messages:run.history});
     await this.gate(run,'after-dispatch');
   }
   private accept(event:MemberEvent):void {
@@ -117,27 +140,28 @@ export class ConversationLoop {
     if(run.outcome)return run.outcome;
     run.fenced=true;this.gateRelease?.();
     const outcome:Outcome={runId:run.id,state,reason,text:state==='response_complete'?run.text:'',requests:run.requests,
-      toolReads:run.reads,statusChecks:run.checks,history:history(run.history),localClosed};
+      toolReads:run.reads,statusChecks:run.checks,history:this.transcript(run.history),...(this.reporter?{reportAttempts:run.reportAttempts,reportState:run.reportState,
+        ...(run.receipt?{reportReceipt:run.receipt}:{}),...(run.commandId?{reportCommandId:run.commandId}:{})}:{}),localClosed};
     run.outcome=Object.freeze(outcome);if(state==='needs_attention')this.terminal=true;
     if(this.active===run&&state!=='needs_attention')this.active=null;
     this.emit(run,'run.finished',{state,reason});run.complete(outcome);return outcome;
   }
   private async fail(run:Run,reason:string):Promise<void> {
     if(run.outcome||run.fenced)return;run.fenced=true;this.terminal=true;this.gateRelease?.();
-    const result=await this.adapter.stop();this.finish(run,result.state==='needs_attention'?'needs_attention':'failed',reason,result.localClosed);
+    const result=await this.adapter.stop();this.finish(run,run.reportState==='uncertain'||result.state==='needs_attention'?'needs_attention':'failed',reason,result.localClosed);
   }
   stop():Promise<Outcome|null> {
     if(this.stopping)return this.stopping;this.terminal=true;const run=this.active;
     if(run)run.fenced=true;this.gateRelease?.();
     this.stopping=this.adapter.stop().then(result=>{
-      const outcome=run?this.finish(run,result.state==='needs_attention'?'needs_attention':'stopped','owner_stop',result.localClosed):null;
+      const outcome=run?this.finish(run,run.reportState==='uncertain'||result.state==='needs_attention'?'needs_attention':'stopped','owner_stop',result.localClosed):null;
       this.remove();this.subscribers.clear();return outcome;
     });return this.stopping;
   }
   inspect(){return {terminal:this.terminal,active:this.active?.id??null,paused:this.paused,scheduled:this.scheduled,pumping:this.pumping,
     timers:Number(!!this.gateTimer),subscribers:this.subscribers.size,notificationErrors:this.notificationErrors,
     events:this.events.map(row=>({...row})),runs:[...this.runs.values()].map(run=>({id:run.id,requests:run.requests,toolReads:run.reads,
-      statusChecks:run.checks,bytes:run.bytes,history:structuredClone(run.history),outcome:run.outcome?structuredClone(run.outcome):null}))};}
+      statusChecks:run.checks,bytes:run.bytes,...(this.reporter?{reportAttempts:run.reportAttempts,reportState:run.reportState,reportCommandId:run.commandId}:{}),history:structuredClone(run.history),outcome:run.outcome?structuredClone(run.outcome):null}))};}
   release():void {requireLoop(this.paused&&this.gateRelease,'not-paused');this.gateRelease();const run=this.active;if(run)this.schedule(run);}
   async dispose():Promise<void>{await this.stop();this.gateRelease?.();await this.work;this.remove();this.subscribers.clear();}
 }

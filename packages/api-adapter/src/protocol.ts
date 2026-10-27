@@ -1,12 +1,19 @@
+import { reportArgs, type ReportArgs } from './report-contract';
 import type { RequestContext } from './types';
 import { check, fields, text } from './validation';
-export type Frame = RequestContext & ({ type: 'api.text.delta'; text: string } | { type: 'api.response.end' }
+export type Frame = RequestContext & ({type:'api.report.tool_call';callId:string;arguments:ReportArgs} | { type: 'api.text.delta'; text: string } | { type: 'api.response.end' }
   | { type: 'api.transport.error'; code: 'script-error' } | { type: 'api.tool.call'; name: string }
   | { type: 'api.loop.tool_call'; callId: string; name:'get_my_context' });
 export function frame(value: unknown, context: RequestContext): Frame {
   check(value !== null && typeof value === 'object', 'frame-required');
   const record = value as Record<string, unknown>, base = ['version','sessionId','memberId','requestId','generation','type'];
-  check(['api.text.delta','api.response.end','api.transport.error','api.tool.call','api.loop.tool_call'].includes(record.type as string), 'frame-type');
+  check(['api.text.delta','api.response.end','api.transport.error','api.tool.call','api.loop.tool_call','api.report.tool_call'].includes(record.type as string), 'frame-type');
+  if(record.type==='api.report.tool_call'){
+    fields(record,[...base,'callId','name','arguments']);
+    check(Object.entries(context).every(([key,expected])=>record[key]===expected),'report-frame-context');
+    check(typeof record.callId==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(record.callId)&&record.name==='report_result','report-frame');
+    return {...context,type:'api.report.tool_call',callId:record.callId,arguments:reportArgs(record.arguments)};
+  }
   if(record.type==='api.loop.tool_call') {
     fields(record,[...base,'callId','name','arguments']);fields(record.arguments,[]);
     check(Object.entries(context).every(([key,expected])=>record[key]===expected),'frame-context');

@@ -1,0 +1,34 @@
+[
+  {
+    "runId": "tiye-3c-schema-luna-20261027",
+    "model": "gpt-6-luna",
+    "status": "completed",
+    "exitCode": 0,
+    "report": "I couldn\u2019t implement the file: the requested read command was blocked by policy, and the workspace is mounted read-only, so I can\u2019t inspect the contracts or write `report-contract.ts`. No files were changed; I ran no tests, native code, or commits.",
+    "resultSha256": "d6ae90848bef50863a6dd08b55d4882b2bef5d84a73fa6c8dcbf1756baa019e7"
+  },
+  {
+    "runId": "tiye-3c-code-flint-20261027",
+    "model": "opencode/flint-40b-free",
+    "status": "failed",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "7118ee66d29fe45fc9ac3671ed271accd82caa2566b653b51843ace59be820ad"
+  },
+  {
+    "runId": "tiye-3c-code-deepseek-20261027",
+    "model": "opencode/deepseek-v4.1-flash-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "e1145a17df216e92babfe5a752ad7e6e3c43444153b16aa9dd73cf44d3e8e5f8"
+  },
+  {
+    "runId": "tiye-3c-review-luna-20261027",
+    "model": "gpt-6-luna",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "7c91f2633f748531b001571bdd954db2f707408b04586873026e88a0c68914a7"
+  }
+]

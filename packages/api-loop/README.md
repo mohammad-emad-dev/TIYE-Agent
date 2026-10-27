@@ -32,3 +32,20 @@ explicit new profile emits a separate response.tool_requested terminal event onl
 after validation. No provider/HTTP/key, arbitrary tool, mutating core command,
 filesystem/command action, MCP, UI, release or authenticated hostile-code boundary
 is implemented here. Qualification is under output/phase3b-loop/; exit is separate.
+
+## Explicit reporting profile (Phase 3C)
+
+createCoreReportingScenario(store) is a separate trusted entry that binds one
+assigned task and member. Its report bridge alone captures member.report; the
+loop prepares a canonical command with a private ID and reserves one attempt.
+The core remains responsible for proof and result eligibility. A frozen receipt
+enters the actual continuation request. Report state is exposed separately as
+none/accepted/rejected/uncertain; a final text response cannot establish task
+success. Exceptions and measured overruns fence the loop without resend, even
+with verified transport cleanup. Known reports survive later conversation failure.
+
+At most two tool attempts, one report and three requests per run; reports end
+tool dispatch for that run. Other inherited bounds remain. Only fixed scripts
+and the existing owned real-core witness fixtures are admitted. Provider and UI
+integration are unfinished. See output/phase3c-report for implementation evidence;
+the separate Phase3C exit review remains pending.

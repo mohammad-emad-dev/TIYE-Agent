@@ -2,6 +2,7 @@ import type { Binding, Capabilities, CleanupResult, Detection, EventSubscriber, 
 import { check, input, launch } from './validation';
 import { Reader, type Frame } from './protocol';
 import { ScriptedTransport, type CloseKind, type Mode } from './scripted';
+import { reportInput, type ReportArgs } from './report-contract';
 import { loopInput, profile } from './loop-contract';
 
 interface Turn {
@@ -9,7 +10,7 @@ interface Turn {
   started: number; events: number; endCandidate: boolean; finished: boolean; forceUncertain: boolean;
   reason?: Reason; operation?: ReturnType<typeof setTimeout>; cleanupTimer?: ReturnType<typeof setTimeout>;
   cleanupStarted?: number; settled: Promise<CleanupResult>; resolve(result: CleanupResult): void;
-  hasText?: boolean; toolCandidate?: {callId:string;tool:'get_my_context'};
+  hasText?: boolean; toolCandidate?: {callId:string;tool:'get_my_context'|'report_result';arguments?:ReportArgs};
 }
 
 export class ScriptedAdapter implements MemberAdapter {
@@ -23,10 +24,11 @@ export class ScriptedAdapter implements MemberAdapter {
   private events: MemberEvent[] = [];
   private stopPromise?: Promise<CleanupResult>;
   private subscriberErrors = 0;
-  constructor(private readonly binding: Binding, private readonly mode: Mode, private readonly loopProfile=false) {}
+  constructor(private readonly binding: Binding, private readonly mode: Mode, private readonly loopProfile=false,private readonly reportProfile=false) {}
   async detect(): Promise<Detection> { return Object.freeze({kind:'scripted-api',available:true,realProvider:false}); }
   capabilities(): Capabilities {
     return Object.freeze({textStreaming:true,realProviders:false,tools:false,files:false,commands:false,remoteCancellationVerified:false,
+      ...(this.reportProfile?{reportToolCandidates:true as const}:{}),
       ...(this.loopProfile?{readOnlyToolCandidates:true as const}:{})});
   }
   async start(value: unknown): Promise<void> {
@@ -51,7 +53,7 @@ export class ScriptedAdapter implements MemberAdapter {
     }
     const event: MemberEvent = {...this.binding,type,requestId:turn?.context.requestId??null,
       taskId:turn?.input.kind === 'task' ? turn.input.taskId : null,generation:turn?.context.generation??null,
-      ...(turn?.input.kind==='loop'?{runId:turn.input.runId,turn:turn.input.turn,receivedBytes:turn.reader.receivedBytes}:{}),...details};
+      ...((turn?.input.kind==='loop'||turn?.input.kind==='report-loop')?{runId:turn.input.runId,turn:turn.input.turn,receivedBytes:turn.reader.receivedBytes}:{}),...details};
     this.events.push(Object.freeze(event)); if (this.events.length > 64) this.events.shift();
     this.notifications.push({event,listeners:[...this.subscribers.entries()],delivered});
     if (this.notifying) return;
@@ -71,8 +73,8 @@ export class ScriptedAdapter implements MemberAdapter {
     } finally {this.notifying=false;}
   }
   async send(value: unknown): Promise<void> {
-    const request = this.loopProfile ? loopInput(value) : input(value);
-    if(request.kind==='loop')for(const row of request.messages)if(row.kind==='tool.result')profile(row.result,this.binding);
+    const request = this.reportProfile ? reportInput(value) : this.loopProfile ? loopInput(value) : input(value);
+    if((request.kind==='loop'||request.kind==='report-loop'))for(const row of request.messages)if(row.kind==='tool.result')profile(row.result,this.binding);
     check(!this.terminal && this.state === 'ready' && !this.active, 'adapter-not-ready');
     check(!this.turns.has(request.requestId), 'duplicate-request');
     check(this.turns.size < 6, 'request-lifetime-bound');
@@ -88,7 +90,7 @@ export class ScriptedAdapter implements MemberAdapter {
     // A subscriber may synchronously stop/interrupt admission; never begin afterward.
     if (turn.reason || turn.finished || this.terminal || this.state !== 'running') return;
     try {turn.wire.begin();} catch {
-      const reason = this.mode === 'ambiguous-creation' ? 'ambiguous_creation' : 'creation_failure';
+      const reason = (this.mode === 'ambiguous-creation'||this.mode==='report-continuation-ambiguous') ? 'ambiguous_creation' : 'creation_failure';
       turn.forceUncertain = reason === 'ambiguous_creation'; this.fail(turn,reason);
       throw new Error(reason);
     }
@@ -102,8 +104,12 @@ export class ScriptedAdapter implements MemberAdapter {
   private record(turn: Turn, record: Frame): void {
     if (!this.current(turn) || turn.reason) return;
     check(!turn.endCandidate, 'frame-after-response-end');
-    if(record.type==='api.loop.tool_call') {
-      check(this.loopProfile&&turn.input.kind==='loop'&&!turn.hasText&&!turn.toolCandidate,'tool-profile-or-mixture');
+    if(record.type==='api.report.tool_call'){
+      check(this.reportProfile&&turn.input.kind==='report-loop'&&!turn.hasText&&!turn.toolCandidate,'report-profile-or-mixture');
+      turn.toolCandidate={callId:record.callId,tool:'report_result',arguments:record.arguments};
+    }
+    else if(record.type==='api.loop.tool_call') {
+      check(this.loopProfile&&(turn.input.kind==='loop'||turn.input.kind==='report-loop')&&!turn.hasText&&!turn.toolCandidate,'tool-profile-or-mixture');
       turn.toolCandidate={callId:record.callId,tool:'get_my_context'};
     }
     else if (record.type === 'api.text.delta') {check(!turn.toolCandidate,'mixed-tool-text');turn.hasText=true;this.emit(turn,'text.delta',{text:record.text});}

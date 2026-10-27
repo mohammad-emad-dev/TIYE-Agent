@@ -38,3 +38,10 @@ it releases owned script barriers/listeners/timers, and does not resolve unknown
 provider execution. Exact schemas and tests are pinned in the implementation's
 preflight under `output/phase3a-adapter/`. Real providers, tools, core integration
 and the product UI are separate scopes.
+
+The explicit createScriptedReportingScenario factory adds closed report-loop
+input and report_result candidates, with canonical paired report receipts in
+continuation history. The adapter itself has no core capability and executes no
+tool. The reporting loop's narrow bridge submits the command. Original text and
+read-only factories retain their original input validators and cannot admit
+reporting input. This remains a fixed offline transport without provider access.

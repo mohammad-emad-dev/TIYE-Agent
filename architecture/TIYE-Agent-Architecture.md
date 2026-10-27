@@ -1608,6 +1608,22 @@ mutating tool, task completion, core dispatcher, MCP, filesystem/command action,
 UI or release is admitted. Actual source/test/compiled/runtime review precedes
 execution. This exception ends at the Phase3B exit review.
 
+The [Phase3B exit review](../output/phase3b-exit/README.md) at a0b9805 accepts the
+bounded read-only loop and ends that construction exception.
+
+**Activated internal Phase3C construction, 27 October 2026.** The owner instructed
+continuation of the [report_result amendment](../output/phase3c-entry/AMENDMENT.md)
+and linked contract at cd5ec2f. The [record](../output/phase3c-approval/README.md)
+preserves that decision and proposal hashes. Only an explicit reporting profile
+and narrow member/task-bound report bridge are admitted. The unchanged schema7
+core still requires independent effect proof and persists accepted/rejected
+commands. Thrown or overrun report calls retain uncertainty without retry even
+when local adapter cleanup succeeds. The read-only factory gains no writer.
+Actual source/test/compiled/runtime/native preflight precedes execution. Core
+and mock-team production source remain fixed; providers, arbitrary tools,
+files/commands, new runners, UI, migration and release remain excluded. This
+exception ends at the separate Phase3C exit review.
+
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and
