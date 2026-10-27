@@ -69,3 +69,16 @@ settles waiting runs and drains owned resume work before store/root cleanup.
 Question state in outcomes is last observed knowledge, not inferred cancellation.
 No durable conversation resume or UI cards are implemented. See
 output/phase3d-question for bounded implementation evidence; exit is separate.
+
+## Explicit mission profile (Phase 3E)
+
+createCoreMissionScenario(store) binds the actual session Leader, without needing
+an own assigned task. The narrow mission bridge alone captures completeMission.
+One conversation may read context once and attempt completion once, with three
+requests/two tools. A completion attempt is last; no retry or subsequent run.
+Known accepted receipts authorize only one text continuation/final acceptance
+under fresh exact completed-session validation. Other profiles keep active
+checks. Core eligibility, proofs and recovered-chain rules remain authoritative.
+An unknown write produces mission uncertainty even with verified local cleanup;
+known acceptance survives conversation failure/stop. Receipt and conversation
+outcome are separate. See output/phase3e-mission; the separate exit is pending.

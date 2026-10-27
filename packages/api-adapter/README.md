@@ -51,3 +51,10 @@ inputs and role-named question candidates. Closed ask receipts/actual answers
 enter paired history; the fixed backend validates and uses them. The adapter
 owns no core writer or answer source. Existing factories retain their validators
 and refuse question-loop input. No real provider transport is qualified.
+
+createScriptedMissionScenario adds a distinct fixed mission-loop profile with
+closed complete_mission arguments/receipts. Internal selection uses a closed
+profile enum, preserving original factories and validators. The mission profile
+admits one adapter and three requests; it has no core capability. Its fixed
+backend validates/uses the actual receipt in a final text continuation. No
+provider or arbitrary/rejecting transport is introduced.

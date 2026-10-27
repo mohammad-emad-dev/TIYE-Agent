@@ -1640,6 +1640,24 @@ preflight precedes execution. No new runner, provider/network/credential, arbitr
 tool, file/command effect, durable conversation recovery, UI or release is admitted.
 This exception ends at the separate Phase3D exit review.
 
+The [Phase3D exit](../output/phase3d-exit/README.md) at 119b176 accepts the bounded
+question/answer loop and ends its construction exception. Its future rejecting-
+adapter stop requirement remains open for any such later integration.
+
+**Activated internal Phase3E construction, 27 October 2026.** The owner continued
+the [Leader completion amendment](../output/phase3e-entry/AMENDMENT.md) and contract
+at c58d57f. The [decision](../output/phase3e-approval/README.md) retains response and
+hashes. Only a distinct fixed mission profile/session-bound Leader bridge is
+admitted, with one completion attempt under existing core eligibility. Accepted
+completion closes core admission; one text continuation freshly verifies its
+exact accepted command/completed-session receipt instead of an active check.
+Known durable completion survives later conversation failure/stop. Unknown write
+acknowledgement remains fenced without resend. Old profiles/checks, core/schema7
+and mock-team production remain unchanged. Source/test/runtime/native preflight
+precedes execution. No provider, arbitrary/rejecting adapter, new runner,
+file/command action, UI, migration or release is admitted. This exception ends
+at the separate Phase3E exit review.
+
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and

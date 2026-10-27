@@ -62,6 +62,14 @@ actual core-recorded answers, preserving blocked slots while waiting. See the
 [implementation evidence](output/phase3d-question/README.md). Providers, UI cards,
 durable conversation recovery and release remain pending.
 
+The [Phase3D exit](output/phase3d-exit/README.md) is accepted at 119b176.
+The owner continued the [Phase3E mission amendment](output/phase3e-entry/AMENDMENT.md)
+at c58d57f; its [decision record](output/phase3e-approval/README.md) admits the exact
+scope. An explicit Leader profile can request durable mission completion under
+unchanged core eligibility. The final text reply is separate from the durable
+decision. [Implementation evidence](output/phase3e-mission/README.md) covers this
+fixed offline composition; providers, complete tools, UI and release remain open.
+
 ## Document order
 
 The [approved Phase3B slice](output/phase3b-approval/README.md) adds an

@@ -1,0 +1,26 @@
+[
+  {
+    "runId": "tiye-3e-code-luna-20261027",
+    "model": "gpt-6-luna",
+    "status": "completed",
+    "exitCode": 0,
+    "report": "One defect: `recordMission` unconditionally dispatches a continuation after storing an accepted receipt. The accepted command has already closed the session, so the next request or final acceptance hits `status(run)`\u2019s active-session check and fails. The mission remains accepted, but the run cannot finish normally. Treat the accepted receipt as terminal for core access while allowing a no-core final acknowledgment, or skip the continuation.",
+    "resultSha256": "5b8e30b761de1aaa7eca0bd3aa16692762cd75205e5fab9022233e39a2dd4309"
+  },
+  {
+    "runId": "tiye-3e-code-flint-20261027",
+    "model": "opencode/flint-40b-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "ec8c91cf3b4bb48cdb4442b59f1b64b32c38761d3d84e980dae27285cfd774bb"
+  },
+  {
+    "runId": "tiye-3e-code-deepseek-20261027",
+    "model": "opencode/deepseek-v4.1-flash-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "56222304a4b25fc5512187caeb917f2b12f877c4a6302d00fb565432fe07662a"
+  }
+]

@@ -1,4 +1,5 @@
 import type { Input, Phase, RequestContext } from './types';
+import { missionInput } from './mission-contract';
 import { questionInput } from './question-contract';
 import { reportInput } from './report-contract';
 import { profile } from './loop-contract';
@@ -15,7 +16,8 @@ export const LOOP_MODES=['loop-context','loop-text','loop-repeat-call','loop-thi
   'loop-forged-call-id','loop-mixed-after','loop-tool-truncated','loop-tool-malformed','loop-forged-context'] as const;
 export const REPORT_MODES=['report-done','report-failed','report-context','report-repeat','report-then-context','report-forged-args','report-mixed','report-duplicate','report-extra','report-disconnect','report-end-hold','report-continuation-ambiguous','report-final-malformed','report-late','report-forged-call','report-forged-context','report-truncated','report-malformed','report-no-end'] as const;
 export const QUESTION_MODES=['question-member','question-leader','question-free','question-context','question-report','question-repeat','question-wrong-role','question-forged-args','question-mixed','question-duplicate','question-extra','question-disconnect','question-end-hold','question-late','question-forged-call','question-forged-context','question-malformed','question-final-malformed','question-continuation-ambiguous'] as const;
-export type Mode = typeof MODES[number] | typeof LOOP_MODES[number] | typeof REPORT_MODES[number] | typeof QUESTION_MODES[number];
+export const MISSION_MODES=['mission-done','mission-context','mission-text','mission-prose','mission-mixed','mission-duplicate','mission-extra','mission-disconnect','mission-end-hold','mission-forged-args','mission-forged-call','mission-forged-context','mission-malformed','mission-truncated','mission-after-tool','mission-after-context','mission-final-malformed','mission-continuation-ambiguous','mission-late','mission-two-context','mission-large-text'] as const;
+export type Mode = typeof MODES[number] | typeof LOOP_MODES[number] | typeof REPORT_MODES[number] | typeof QUESTION_MODES[number] | typeof MISSION_MODES[number];
 export type CloseKind = 'verified' | 'disconnect';
 interface Listener { data(bytes: Uint8Array): void; closed(kind: CloseKind): void }
 interface Waiter { phase: Phase; resolve(): void; reject(error: Error): void; timer: ReturnType<typeof setTimeout> }
@@ -60,6 +62,7 @@ export class ScriptedTransport {
     if(this.mode==='loop-continuation-ambiguous'&&(this.input?.kind==='loop'||this.input?.kind==='report-loop'||this.input?.kind==='question-loop')&&this.input.turn>1)throw new Error('scripted continuation ambiguity');
     if(this.mode==='report-continuation-ambiguous'&&this.input?.kind==='report-loop'&&this.input.turn>1)throw new Error('scripted report continuation ambiguity');
     if(this.mode==='question-continuation-ambiguous'&&this.input?.kind==='question-loop'&&this.input.turn>1)throw new Error('scripted question continuation ambiguity');
+    if(this.mode==='mission-continuation-ambiguous'&&this.input?.kind==='mission-loop'&&this.input.turn>1)throw new Error('scripted mission continuation ambiguity');
     queueMicrotask(() => { if (!this.closed && !this.disposed) {try{this.script();}catch{this.close('disconnect');}} });
   }
   private record(type: string, extra: Record<string, unknown> = {}): Record<string, unknown> {
@@ -72,6 +75,7 @@ export class ScriptedTransport {
     this.send('api.text.delta',{text:'Hello'}); this.send('api.text.delta',{text:' from scripted API'}); this.end(); this.close();
   }
   private script(): void {
+    if(this.mode.startsWith('mission-')){this.missionScript();return;}
     if(this.mode.startsWith('question-')){this.questionScript();return;}
     if(this.mode.startsWith('report-')){this.reportScript();return;}
     if(this.mode.startsWith('loop-')){this.loopScript();return;}
@@ -127,7 +131,7 @@ export class ScriptedTransport {
       this.end();
       if(this.mode==='loop-tool-extra')this.send('api.text.delta',{text:'Extra'});
       if(this.mode==='loop-tool-disconnect'){this.close('disconnect');return;}
-      if(['loop-tool-end-hold','loop-tool-abort-throw','loop-late','report-end-hold','report-late','question-end-hold','question-late'].includes(this.mode))return;
+      if(['loop-tool-end-hold','loop-tool-abort-throw','loop-late','report-end-hold','report-late','question-end-hold','question-late','mission-end-hold','mission-late'].includes(this.mode))return;
       this.close();return;
     }
     const result=results.at(-1)!;
@@ -182,8 +186,32 @@ export class ScriptedTransport {
     if(this.mode==='question-mixed')this.send('api.text.delta',{text:'mixed'});call();if(this.mode==='question-duplicate')call();
     if(this.mode==='question-malformed')this.data(Buffer.from('{bad\n'));this.end();
     if(this.mode==='question-extra')this.send('api.text.delta',{text:'extra'});
-    if(['question-end-hold','question-late'].includes(this.mode))return;
+    if(['question-end-hold','question-late','mission-end-hold','mission-late'].includes(this.mode))return;
     this.close(this.mode==='question-disconnect'?'disconnect':'verified');
+  }
+  private missionScript():void{
+    const input=missionInput(this.input),results=input.messages.filter(row=>row.kind==='mission.result');
+    const call=()=>{const previous=input.messages.find(row=>row.kind==='assistant.mission');
+      this.send('api.mission.tool_call',{callId:this.mode==='mission-forged-call'?'bad':this.mode==='mission-after-tool'&&previous?.kind==='assistant.mission'?previous.callId:this.context.requestId,
+        name:'complete_mission',arguments:{summary:'Proven synthetic mission',...(this.mode==='mission-forged-args'?{actor:'owner'}:{})},
+        ...(this.mode==='mission-forged-context'?{generation:this.context.generation+1}:{})});};
+    if(results.length){
+      if(this.mode==='mission-after-tool'){call();this.end();this.close();return;}
+      if(this.mode==='mission-after-context'){this.send('api.loop.tool_call',{callId:this.context.requestId,name:'get_my_context',arguments:{}});this.end();this.close();return;}
+      if(this.mode==='mission-final-malformed')this.data(Buffer.from('{bad\n'));
+      else if(this.mode==='mission-large-text')for(let i=0;i<4;i++)this.send('api.text.delta',{text:'A'.repeat(8192)});
+      else this.send('api.text.delta',{text:'Mission receipt: '+JSON.stringify(results[0].result)});
+      this.end();if(this.mode!=='mission-late')this.close();return;
+    }
+    if(this.mode==='mission-text'){this.normal();return;}
+    if(this.mode==='mission-prose'){this.send('api.text.delta',{text:'Mission complete... done'});this.end();this.close();return;}
+    if(this.mode==='mission-two-context'||this.mode==='mission-context'&&input.turn===1){
+      this.send('api.loop.tool_call',{callId:this.context.requestId,name:'get_my_context',arguments:{}});this.end();this.close();return;}
+    if(this.mode==='mission-mixed')this.send('api.text.delta',{text:'mixed'});call();if(this.mode==='mission-duplicate')call();
+    if(this.mode==='mission-malformed')this.data(Buffer.from('{bad\n'));
+    if(this.mode==='mission-truncated'){this.data(Buffer.from(JSON.stringify(this.record('api.response.end'))));this.close();return;}
+    this.end();if(this.mode==='mission-extra')this.send('api.text.delta',{text:'extra'});
+    if(['mission-end-hold','mission-late'].includes(this.mode))return;this.close(this.mode==='mission-disconnect'?'disconnect':'verified');
   }
   close(kind: CloseKind = 'verified'): void {
     if (this.closed) return; this.closed=true; this.mark('closed');
@@ -192,24 +220,24 @@ export class ScriptedTransport {
   abort(): void {
     check(this.aborts === 0, 'fixture-abort-once'); this.aborts++; this.mark('aborted');
     if (['abort-throw','loop-tool-abort-throw'].includes(this.mode)) throw new Error('scripted abort failure');
-    if (!['ignore-abort','never-close','ambiguous-creation','loop-continuation-ambiguous','report-continuation-ambiguous','question-continuation-ambiguous'].includes(this.mode)) this.close();
+    if (!['ignore-abort','never-close','ambiguous-creation','loop-continuation-ambiguous','report-continuation-ambiguous','question-continuation-ambiguous','mission-continuation-ambiguous'].includes(this.mode)) this.close();
   }
   release(): void {
     check(!this.released && !this.disposed, 'fixture-release-once'); this.released=true;
     if (this.closed) return;
-    if (['end-hold','loop-tool-end-hold','loop-tool-abort-throw','loop-late','report-end-hold','report-late','question-end-hold','question-late'].includes(this.mode)) this.close();
+    if (['end-hold','loop-tool-end-hold','loop-tool-abort-throw','loop-late','report-end-hold','report-late','question-end-hold','question-late','mission-end-hold','mission-late'].includes(this.mode)) this.close();
     else if (this.mode === 'ignore-abort') this.close();
     else { this.normal(); }
   }
   emitLate(): void {
-    check(['late','loop-late','report-late','question-late'].includes(this.mode) && this.closed && !this.lateSent && !this.disposed, 'fixture-late-bound'); this.lateSent=true;
+    check(['late','loop-late','report-late','question-late','mission-late'].includes(this.mode) && this.closed && !this.lateSent && !this.disposed, 'fixture-late-bound'); this.lateSent=true;
     this.captured.data(encode(this.record('api.text.delta',{text:'STALE'})));
     this.captured.closed('disconnect');
   }
   detach(): void { this.listeners=null; }
   inspect() {
     return {creates:this.creates,aborts:this.aborts,closed:this.closed,listening:this.listeners!==null,
-      waiters:this.waiters.length,phases:[...this.phases],...((this.input?.kind==='loop'||this.input?.kind==='report-loop'||this.input?.kind==='question-loop')?{input:structuredClone(this.input)}:{})};
+      waiters:this.waiters.length,phases:[...this.phases],...((this.input?.kind==='loop'||this.input?.kind==='report-loop'||this.input?.kind==='question-loop'||this.input?.kind==='mission-loop')?{input:structuredClone(this.input)}:{})};
   }
   dispose(): void {
     this.disposed=true; this.closed=true; this.listeners=null;
