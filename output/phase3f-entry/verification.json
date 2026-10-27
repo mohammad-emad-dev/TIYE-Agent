@@ -1,0 +1,12 @@
+{
+  "schema": "tiye-phase3f-proposal-verification-v1",
+  "baselineVerification": {
+    "command": "rtk proxy python -X utf8 -B output/phase3e-exit/verify.py",
+    "exitCode": 0,
+    "result": "Phase3E exit:454 passing tests; production and historical seals unchanged; integration HOLD; bounded exception ended"
+  },
+  "baselineTestsRetained": 454,
+  "engineTestsRerun": false,
+  "phase3fExecuted": false,
+  "proposalStatus": "READY_FOR_OWNER_DECISION"
+}

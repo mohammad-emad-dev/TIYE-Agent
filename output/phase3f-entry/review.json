@@ -1,0 +1,33 @@
+{
+  "schema": "tiye-phase3f-proposal-review-v1",
+  "delegates": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "timeout",
+      "exitCode": 1,
+      "report": "",
+      "verdict": null,
+      "rawResultSha256": "906e823f275aa11d051b3403bb6acbec0390afa74c3e5f47c3e3b5a8aeb7adee"
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effort": null,
+      "status": "timeout",
+      "exitCode": 1,
+      "report": "",
+      "verdict": null,
+      "rawResultSha256": "c17ad2ac4538f2c2c272170aa14306ddc89013e18d9bb59d242ab71abbfce2d0"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "timeout",
+      "exitCode": 1,
+      "report": "",
+      "verdict": null,
+      "rawResultSha256": "466d699c319048027ff1def48ef8a2a19268e962101be229c8df7cf6ccd35b8b"
+    }
+  ],
+  "parentReview": "bounded proposal consistent with existing enqueue and snapshot capabilities; owner decision pending"
+}
