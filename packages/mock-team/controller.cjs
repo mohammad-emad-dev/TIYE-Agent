@@ -30,8 +30,9 @@ class MockTeam {
     const plan=decodeInbox(Buffer.from(JSON.stringify(candidate.plan)),'team.task.start'),projection=this.validateStore();
     requireCore(plan.sessionId===this.sessionId&&projection.sessions[0][1].members.some(row=>row.memberId===plan.memberId)
       &&!this.jobs.has(plan.taskId),'mock-job-binding');
-    const root=inspect(candidate.witnessRoot,plan.targetId);
+    const root=storageRoot(candidate.witnessRoot);
     requireCore(root.device!==this.coreRoot.device||root.inode!==this.coreRoot.inode,'mock-core-path-refused');
+    inspect(candidate.witnessRoot,plan.targetId);verifyRoot(root);
     for(const job of this.jobs.values())requireCore(job.plan.effectId!==plan.effectId&&job.plan.attemptId!==plan.attemptId
       &&job.plan.targetId!==plan.targetId&&(job.root.device!==root.device||job.root.inode!==root.inode),'mock-job-identity-reuse');
     this.jobs.set(plan.taskId,Object.freeze({plan:Object.freeze(plan),root,mode:candidate.mode}));

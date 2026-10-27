@@ -1,0 +1,111 @@
+"""Capture source-bound reviewed execution, retaining raw streams locally."""
+import hashlib
+import json
+from pathlib import Path
+import re
+import subprocess
+from datetime import datetime, timezone
+import uuid
+import sys
+import time
+
+ROOT = Path(__file__).resolve().parents[2]
+PACKAGE = ROOT / 'packages/core'
+OUTPUT = Path(__file__).resolve().parent
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+def files():
+    sources = {}
+    for folder in ['core', 'mock-team']:
+        package = ROOT / 'packages' / folder
+        for p in sorted(package.rglob('*')):
+            if p.is_file() and not {'node_modules', 'dist'} & set(p.relative_to(package).parts):
+                sources[p.relative_to(ROOT).as_posix()] = digest(p.read_bytes())
+    for name in ['README.md', 'architecture/TIYE-Agent-Architecture.md']:
+        sources[name] = digest((ROOT / name).read_bytes())
+    for phase in ['b', 'c', 'd', 'e', 'f']:
+        for name in ['approval.json', 'README.md']:
+            key = 'output/phase2' + phase + '-approval/' + name
+            sources[key] = digest((ROOT / key).read_bytes())
+    return sources
+
+def compiled():
+    return {p.relative_to(PACKAGE).as_posix(): digest(p.read_bytes())
+            for p in sorted((PACKAGE / 'dist').glob('*')) if p.is_file()}
+
+def write(path, value):
+    path.write_text(json.dumps(value, indent=2) + '\n', encoding='utf-8')
+
+def main():
+    red = '--red-stop' in sys.argv
+    prefix = 'red-' if red else ''
+    previous = json.loads((ROOT / 'output/phase1a-core/verification.json').read_text())
+    for name, expected in previous['dependencyFiles'].items():
+        assert digest((PACKAGE / name).read_bytes()) == expected, name
+    local = ROOT / '.git/tiye-phase2f-exit' / str(uuid.uuid4())
+    local.mkdir(parents=True)
+    runtime = json.loads(subprocess.run(['node', '-p',
+        'JSON.stringify({node:process.version,platform:process.platform,arch:process.arch,modules:process.versions.modules})'],
+        cwd=PACKAGE, capture_output=True, check=True, timeout=10).stdout)
+    assert runtime == {'node': 'v26.7.0', 'platform': 'win32', 'arch': 'x64', 'modules': '147'}, 'unreviewed runtime'
+    preflight = {'scope': 'internal-phase2f-exit-review',
+        'reviewedAtUtc': datetime.now(timezone.utc).isoformat(),
+        'parentSourceReview': 'accepted-for-fixed-owned-synthetic-worker-tests',
+        'planSha256': digest((OUTPUT / 'TEST-PLAN.md').read_bytes()),
+        'sources': files(), 'compiled': compiled(),
+        'dependencyFiles': previous['dependencyFiles'], 'runtime': runtime,
+        'wholeSuiteTimeoutSeconds': 60 if red else 600}
+    write(local / 'preflight.json', preflight)
+    write(OUTPUT / (prefix + 'preflight.json'), preflight)
+    steps = []
+    commands = [('build', ['node', 'node_modules/typescript/bin/tsc', '-p', 'tsconfig.json']),
+                ('boundary', ['node', 'scripts/check-boundary.cjs']),
+                ('mock-boundary', ['node', '../mock-team/check-boundary.cjs']),
+                ('tests', ['node', '--test', '--test-reporter=tap', 'test/*.test.cjs', '../mock-team/test/*.test.cjs'])]
+    if red:
+        commands[-1] = ('tests', ['node','--test','--test-reporter=tap',
+            '--test-name-pattern=wire stop followed.*normal','../mock-team/test/exit.test.cjs'])
+    for label, arguments in commands:
+        stdout_path, stderr_path = local / (label + '.stdout'), local / (label + '.stderr')
+        started = time.monotonic()
+        budget = 600 if label == 'tests' and not red else 60
+        with stdout_path.open('wb') as stdout, stderr_path.open('wb') as stderr:
+            try:
+                result = subprocess.run(arguments, cwd=PACKAGE, stdout=stdout, stderr=stderr,
+                                        timeout=budget)
+                exit_code = result.returncode
+            except subprocess.TimeoutExpired:
+                exit_code = 124
+        elapsed = time.monotonic() - started
+        if elapsed > budget:
+            exit_code = 124
+        stdout, stderr = stdout_path.read_bytes(), stderr_path.read_bytes()
+        steps.append({'step': label, 'exitCode': exit_code, 'durationSeconds': round(elapsed, 3),
+                      'stdoutSha256': digest(stdout), 'stderrSha256': digest(stderr)})
+        print(label, exit_code, flush=True)
+        if exit_code:
+            print(stdout.decode('utf-8', errors='replace')[-18000:])
+            print(stderr.decode('utf-8', errors='replace')[-4000:])
+            break
+    assert preflight['sources'] == files(), 'source changed during execution'
+    assert preflight['compiled'] == compiled(), 'compiled files differ from reviewed preflight'
+    verification = {'scope': preflight['scope'], 'sources': files(), 'steps': steps,
+                    'preflightSha256': digest((OUTPUT / (prefix + 'preflight.json')).read_bytes())}
+    tap_path = local / 'tests.stdout'
+    if tap_path.exists():
+        tap = tap_path.read_text(encoding='utf-8')
+        verification['testCounts'] = {key: int(value) for key, value in re.findall(
+            r'^# (tests|pass|fail|cancelled|skipped) (\d+)\s*$', tap, re.M)}
+    write(local / 'verification.json', verification)
+    write(OUTPUT / (prefix + 'verification.json'), verification)
+    if red:
+        assert steps[-1]['exitCode'] == 1 and verification['testCounts']['fail'] == 1
+        print('Expected stop-after-acceptance regression reproduced', verification['testCounts'])
+        return
+    assert len(steps) == 4 and all(step['exitCode'] == 0 for step in steps), 'qualification failed'
+    print(verification['testCounts'])
+
+if __name__ == '__main__':
+    main()

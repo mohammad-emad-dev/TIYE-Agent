@@ -1,0 +1,33 @@
+{
+  "schema": "tiye-phase2f-exit-v1",
+  "date": "2026-10-27",
+  "approvedProposalCommit": "4405293",
+  "ownerDecisionAndImplementationCommit": "f4d95a0",
+  "phase2fVerdict": "PASS_BOUNDED_INTERNAL_CONTRACT",
+  "verifiedTests": 228,
+  "failedTests": 0,
+  "skippedTests": 0,
+  "coreProductionCodeChanged": false,
+  "mockWorkerCodeChanged": true,
+  "regressionReproduced": true,
+  "fullArchitecture4EngineComplete": false,
+  "completeProductAccepted": false,
+  "newConstructionAuthorized": false,
+  "nativeProviderIntegration": "HOLD",
+  "releaseAllowed": false,
+  "nextAction": "Prepare the bounded Phase3 API-adapter contract, with provider execution dependent on its applicable readiness and scope gates.",
+  "limits": [
+    "fresh schema7; no migration/reset",
+    "trusted same-user fixed workers only",
+    "two live workers and six lifetime assignments",
+    "explicit fixture approvals, resolution and handoff",
+    "controlled worker crashes only; no whole-controller/host crash containment",
+    "native OS launch error and unverified teardown reviewed but not fault-injected",
+    "no general process tree or hostile-code sandbox qualification",
+    "no provider/terminal/UI integration",
+    "no throughput or Electron/WSL ABI qualification",
+    "complete-product and release gates remain open"
+  ],
+  "verificationSha256": "498e1de6c0d30c7f0a8705d072c5a8afa1bd0aa17d2aecfeb214428b040a72c7",
+  "matrixSha256": "7adac3c85f670d615ada5bd7e74597bdd16e56311bbdf1ecd87e9fcc239a79c3"
+}

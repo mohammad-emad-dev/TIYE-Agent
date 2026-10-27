@@ -1,0 +1,29 @@
+{
+  "reviews": [
+    {
+      "runId": "tiye-2f-exit-luna-20261027",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "resultSha256": "b20eb5b819667bbca8899c051f6b27dbbe266084eec96e56b56763f19aefdf0f",
+      "verdict": "NO_ADDITIONAL_FINDINGS_IN_WORKER_PROTOCOL",
+      "readOnlyChangedFiles": []
+    },
+    {
+      "runId": "tiye-2f-exit-flint-20261027",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "resultSha256": "f003a1a6eafac86e4831edaac658ec865528b8ac621528125e861b068468fda5",
+      "verdict": "UNAVAILABLE_TIMEOUT",
+      "readOnlyChangedFiles": []
+    },
+    {
+      "runId": "tiye-2f-exit-deepseek-20261027",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "resultSha256": "07c2734b52f3645f3b02d0f11a76bf36ebf10879dc7c6c2baafa24cc4c65ceae",
+      "verdict": "UNAVAILABLE_TIMEOUT",
+      "readOnlyChangedFiles": []
+    }
+  ],
+  "parentReview": "REVIEWS.md"
+}

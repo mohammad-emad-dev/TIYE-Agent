@@ -1,0 +1,78 @@
+{
+  "failedQualificationAttempts": [
+    {
+      "reason": "Core-path test expected target-version refusal; registration refused through the active core SQLite lease before reaching the root identity check. Move identity refusal before witness DB open.",
+      "testCounts": {
+        "tests": 228,
+        "pass": 227,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "preflightSha256": "63e5ef057f2b5a6d121c8497186072957dee453010f1c8708dc23349f4324881",
+      "steps": [
+        {
+          "step": "build",
+          "exitCode": 0,
+          "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "step": "boundary",
+          "exitCode": 0,
+          "stdoutSha256": "2fd9d279ebbf9814b446df77d6a5f05457fdeb2770353d357ac3ab5277b8aef5",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "step": "mock-boundary",
+          "exitCode": 0,
+          "stdoutSha256": "3ec5542b8ac64a7b0b03f9ffbd715aaf6d57cb084276bb3ebe72c1d6d990ccc2",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "step": "tests",
+          "exitCode": 1,
+          "stdoutSha256": "a78550a0dca6cea69318a053ef55673a07d0f9ea61aff43cde12ac08b6cc624e",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "reason": "Concurrent approximately584-second deadline overruns in five cases including unchanged baseline tests; Windows logged sleep/resume during the run. This run is not qualifying; no deadlines extended.",
+      "testCounts": {
+        "tests": 228,
+        "pass": 223,
+        "fail": 5,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "preflightSha256": "dc4f9e08610f9ba500ec75b1f8134c6797fa7acc4b27138e3cbd67d4d9b6effe",
+      "steps": [
+        {
+          "step": "build",
+          "exitCode": 0,
+          "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "step": "boundary",
+          "exitCode": 0,
+          "stdoutSha256": "2fd9d279ebbf9814b446df77d6a5f05457fdeb2770353d357ac3ab5277b8aef5",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "step": "mock-boundary",
+          "exitCode": 0,
+          "stdoutSha256": "3ec5542b8ac64a7b0b03f9ffbd715aaf6d57cb084276bb3ebe72c1d6d990ccc2",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "step": "tests",
+          "exitCode": 1,
+          "stdoutSha256": "68a570811e61d69ca1bd092db2e0bfc74156511d786833ce1438efe428e37023",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    }
+  ]
+}

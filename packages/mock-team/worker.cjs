@@ -16,7 +16,7 @@ function exit(code) {
 }
 function hold(phase) { send({type:'mock.worker.barrier',version:1,phase}); held=setInterval(()=>{},1000); }
 function invoke(record) {
-  requireCore(!invoked && record.targetId === targetId,'mock-duplicate-or-wrong-target'); invoked=true;
+  requireCore(!ended && !stopReceived && !invoked && record.targetId === targetId,'mock-duplicate-stopped-or-wrong-target'); invoked=true;
   if(mode === 'exit-before') return exit(7);
   if(['hang-before','barrier-before'].includes(mode)) return hold('before_write');
   const {type,version,...invocation}=record;
@@ -36,6 +36,7 @@ function invoke(record) {
   exit(0);
 }
 const lines=new Lines(candidate=>{
+  requireCore(!ended,'mock-frame-after-exit');
   const record=control(candidate);
   if(record.type === 'mock.worker.stop') {
     requireCore(!stopReceived,'mock-duplicate-stop'); stopReceived=true;

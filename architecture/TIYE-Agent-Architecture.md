@@ -1574,6 +1574,12 @@ dispatch and preserve authoritative durable state. Providers, UI, arbitrary
 programs, automatic approvals/retries and release remain excluded. This exception
 ends at the Phase2F exit review.
 
+The [Phase2F exit review](../output/phase2f-exit/README.md) accepts only this
+fixed owned-worker contract and records a source-reviewed stop-frame ordering
+fix with actual-child regressions. Core schema7, dependent integration gates and
+full-product scope are unchanged. This closes the Phase2F construction exception;
+it grants no provider, UI, arbitrary-program or other new construction permission.
+
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and

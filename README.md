@@ -52,8 +52,9 @@ The approved [Phase2F owned mock workers](output/phase2f-workers/README.md) conn
 the schema7 core to fixed owned child processes in a private synthetic harness.
 Claims commit before one-time invocation delivery; success requires verified exit
 and independent witness proof. Stop, uncertainty and storage errors preserve
-durable history. The core remains unchanged. A separate Phase2F exit review is
-pending; provider/native integration, the product UI and release remain HOLD.
+durable history. The core remains unchanged. The [Phase2F exit review](output/phase2f-exit/README.md)
+records bounded acceptance and the same-chunk stop regression fix; provider/native
+integration, the product UI and release remain HOLD.
 
 1. [Product Specification](architecture/TIYE-Agent-Product-Specification.md) defines the user-facing behavior.
 2. [Technical Architecture](architecture/TIYE-Agent-Architecture.md) defines the implementation contract and records changes to the specification in Part C.

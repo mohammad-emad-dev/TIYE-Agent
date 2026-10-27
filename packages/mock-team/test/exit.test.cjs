@@ -1,0 +1,60 @@
+'use strict';
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const { fixture } = require('./fixtures.cjs');
+const { OwnedWorker } = require('../owned-worker.cjs');
+const { MockTeam } = require('../controller.cjs');
+const { encode } = require('../protocol.cjs');
+const { observeWitness } = require('../witness.cjs');
+
+// Fault-injection transport uses the existing fixed owned launcher and real core
+// claim. It never substitutes a process/store or retries controller invocation.
+async function wire(f,frames,stopSent=false) {
+  f.prepare();
+  const worker=new OwnedWorker(f.team.jobs.get(f.plans[0].taskId),f.team);
+  f.team.workers.set(f.plans[0].taskId,worker);
+  await f.team.waitFor('ready');
+  // Fixture takes over this one pipe before the scheduled controller claim.
+  clearImmediate(worker.readyImmediate);
+  const invocation=f.store.claim(f.plans[0].effectId);
+  assert(invocation);worker.sent=true;worker.stopSent=stopSent;
+  worker.child.stdin.end(frames({type:'mock.worker.invoke',version:1,...invocation}).map(encode).join(''));
+  const closed=await Promise.race([worker.closed,worker.unsafe]);
+  assert(closed.verified);assert.equal(worker.isClosed,true);
+  const proof=await observeWitness(f.jobs[0].witnessRoot,f.plans[0]);
+  assert.equal(f.effect().state,'dispatching');assert.notEqual(f.task(),'done');
+  return {closed,proof};
+}
+
+for(const mode of ['normal','hang-after'])test('wire stop followed by invoke in one chunk cannot append: '+mode,async t=>{
+  const f=await fixture(t,[mode]);
+  try {
+    const result=await wire(f,invoke=>[{type:'mock.worker.stop',version:1},invoke],true);
+    assert.equal(result.proof.rows.length,0);assert.notEqual(result.closed.code,0);
+    assert.equal(f.store.owner().failures().length,0);
+  }finally{await f.close();}
+});
+
+test('duplicate invocation frames cause at most one actual append',async t=>{
+  const f=await fixture(t,['barrier-after']);
+  try {
+    const result=await wire(f,invoke=>[invoke,invoke]);
+    assert.equal(result.proof.rows.length,1);assert.notEqual(result.closed.code,0);
+  }finally{await f.close();}
+});
+
+test('worker rejects extra actor identity before any append',async t=>{
+  const f=await fixture(t);
+  try {
+    const result=await wire(f,invoke=>[{...invoke,actor:'owner'}]);
+    assert.equal(result.proof.rows.length,0);assert.notEqual(result.closed.code,0);
+  }finally{await f.close();}
+});
+
+test('core database path cannot be registered as a worker witness target',async t=>{
+  const f=await fixture(t);
+  try {
+    assert.throws(()=>new MockTeam(f.store,f.root,[{...f.jobs[0],witnessRoot:f.root}]),/mock-core-path-refused/);
+    assert.equal(f.team.events.length,0);assert.equal(f.task(),'queued');
+  }finally{await f.close();}
+});

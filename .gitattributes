@@ -239,3 +239,5 @@ output/phase2f-entry/** -text whitespace=blank-at-eol,blank-at-eof,space-before-
 packages/mock-team/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/phase2f-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 output/phase2f-workers/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+output/phase2f-exit/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
