@@ -224,3 +224,30 @@ test('real elapsed post-commit stall is report uncertainty despite verified adap
     assert.equal(f.store.snapshot().commands.find(([id])=>id===result.reportCommandId)[1].result,'accepted');
   }finally{Database.prototype.exec=original;await f.close();}
 });
+
+for(const pause of ['before-report','after-report'])for(const fault of ['abort','lost'])
+test('core stop '+fault+' at '+pause+' still fences without changing report truth',async t=>{
+  const f=await fixture(t,{pause}),original=Database.prototype.exec;
+  try{
+    const reached=phase(f,pause),pending=f.loop.run(input());await reached;let fired=false,stopError;
+    Database.prototype.exec=function(sql){const result=original.call(this,sql);
+      if(!fired&&fault==='abort'&&sql==='BEGIN IMMEDIATE'){fired=true;
+        original.call(this,"CREATE TEMP TRIGGER exit_stop_abort BEFORE INSERT ON sessions BEGIN SELECT RAISE(ABORT,'fixture-exit-stop-abort'); END");}
+      if(!fired&&fault==='lost'&&sql==='COMMIT'){fired=true;throw new Error('fixture-exit-stop-lost-reply');}return result;};
+    try{stopCore(f);}catch(error){stopError=error;}finally{Database.prototype.exec=original;await f.loop.stop();}
+    const result=await pending;assert(fired);assert.match(stopError?.message??'',/fixture-exit-stop/);
+    assert.equal(result.state,'stopped');assert.equal(result.requests,1);
+    assert.equal(result.reportAttempts,pause==='before-report'?0:1);
+    assert.equal(result.reportState,pause==='before-report'?'none':'accepted');
+    assert.equal(f.store.snapshot().sessions[0][1].status,fault==='lost'?'stopped':'active');
+    if(pause==='before-report'){
+      assert.equal(result.reportReceipt,undefined);assert.equal(result.reportCommandId,undefined);assert.equal(assignment(f).result,null);
+    }else{
+      assert.equal(result.reportReceipt.decision,'accepted');assert.equal(taskState(f),'done');
+      assert.equal(f.store.snapshot().commands.find(([id])=>id===result.reportCommandId)[1].result,'accepted');
+    }
+    assert.equal(f.fixture.adapter().requests.length,1);assert.throws(()=>f.loop.run(input()),/loop-admission/);
+    const snapshot=f.store.snapshot();await f.scenario.dispose();f.store.close();const reopened=TaskStore.openHandoffEngine(f.root);
+    try{assert.deepEqual(reopened.snapshot(),snapshot);}finally{reopened.close();}
+  }finally{Database.prototype.exec=original;await f.close();}
+});

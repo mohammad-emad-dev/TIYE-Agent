@@ -1,0 +1,26 @@
+[
+  {
+    "runId": "tiye-3c-exit-luna-20261027",
+    "model": "gpt-6-luna",
+    "status": "completed",
+    "exitCode": 0,
+    "report": "No defect found. `recordReport` fences before report dispatch and rechecks liveness after the gate; once synchronous `submit` returns an accepted receipt, stop preserves that receipt and report state. Lost replies leave the report uncertain and produce `needs_attention`.",
+    "resultSha256": "72449df7259912230392df7b59956888db6a511d6f3de0fe406f8cbd95f42bb4"
+  },
+  {
+    "runId": "tiye-3c-exit-flint-20261027",
+    "model": "opencode/flint-40b-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "4f3624329222798162ccd44b5246d82d2e555fe71faf1992f2449f748d59fd5c"
+  },
+  {
+    "runId": "tiye-3c-exit-deepseek-20261027",
+    "model": "opencode/deepseek-v4.1-flash-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "96b130fedde45164c98b819bcf1cc83cb8fa1c86926c95991aa17f1e5b2ca212"
+  }
+]

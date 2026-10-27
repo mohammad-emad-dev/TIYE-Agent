@@ -1,0 +1,16 @@
+{
+  "schema": "tiye-phase3c-exit-decision-v1",
+  "proposalCommit": "cd5ec2f",
+  "implementationCommit": "1bf5731",
+  "scope": "INTERNAL_PHASE3C_BOUND_REPORT_RESULT",
+  "decision": "PASS_BOUNDED_INTERNAL_CONTRACT",
+  "exceptionEnded": true,
+  "newConstructionAuthorized": false,
+  "nativeProviderIntegration": "HOLD",
+  "releaseAllowed": false,
+  "architectureMapping": {
+    "4.2": "bound context and report_result subsets only",
+    "5.1": "fixed offline lifecycle only",
+    "5.3": "bounded in-memory scripted loop only"
+  }
+}
