@@ -48,6 +48,12 @@ remain outside its scope; provider/native gates are unchanged. The original
 
 ## Document order
 
+The [approved Phase3B slice](output/phase3b-approval/README.md) adds an
+[offline conversation loop](packages/api-loop/README.md) with a single bound
+get_my_context reader. Structured tool results enter actual continuation requests;
+response completion remains separate from core task completion. Real provider
+formats/network, mutating tools, core task dispatch, UI and release remain pending.
+
 The owner [admitted Phase3A construction](output/phase3a-approval/README.md) for
 the [offline API adapter foundation](packages/api-adapter/README.md). It provides
 bounded lifecycle, validated text streaming and conservative cancellation through

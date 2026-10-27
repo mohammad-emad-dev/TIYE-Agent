@@ -1597,6 +1597,17 @@ FIFO/token-based notification and guarded cancellation handling. Core/schema7 an
 mock-team remain unchanged. This closes the Phase3A construction exception and
 grants no real provider, agent loop, tool/core binding, UI or release permission.
 
+**Activated internal Phase3B construction, 27 October 2026.** The owner delegated
+the decision on the [loop/read-only bridge amendment](../output/phase3b-entry/AMENDMENT.md)
+and contract at55bd266; the parent chose that exact scope and retained the
+[response/hashes](../output/phase3b-approval/README.md). The fixed scripted API
+loop may read only its bound core member profile after a valid closed tool turn,
+submit a structured result and continue within the agreed request/read/history
+budgets. Core/schema7 and mock-team remain unchanged. No provider/network/key,
+mutating tool, task completion, core dispatcher, MCP, filesystem/command action,
+UI or release is admitted. Actual source/test/compiled/runtime review precedes
+execution. This exception ends at the Phase3B exit review.
+
 The [Phase 0 readiness assessment](../output/phase0-readiness/ASSESSMENT.md)
 consolidates the gate status as of 16 October 2026. Phase 1 remains on hold;
 the bounded S5 latency series is complete without full-S5 qualification, and

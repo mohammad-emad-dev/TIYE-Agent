@@ -1,0 +1,17 @@
+{
+  "schema": "tiye-phase3b-approval-v1",
+  "date": "2026-10-27",
+  "response": "Do the right thing—it's up to you",
+  "context": "Response to the specific Phase3B amendment/contract approval question at 55bd266",
+  "decision": "delegated-owner-decision-to-proceed-with-presented-phase3b-contract",
+  "proposalCommit": "55bd266",
+  "developmentAuthorized": true,
+  "executionRequiresParentSourceReview": true,
+  "scope": "INTERNAL_PHASE3B_SCRIPTED_LOOP_READ_ONLY_CORE",
+  "proposalArtifacts": {
+    "output/phase3b-entry/AMENDMENT.md": "0a7f7b02c94ec99f0cd5b09d8b0f7eb38614e5560695808a6493b82d8ee5e6fc",
+    "output/phase3b-entry/CONTRACT.md": "2df26ebcd4fd53d24d4aafd3913f1e98ed8a7b923d5179c332970e1ef96857c2"
+  },
+  "providerIntegration": "HOLD",
+  "releaseAllowed": false
+}

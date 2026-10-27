@@ -2,12 +2,14 @@ import type { Binding, Capabilities, CleanupResult, Detection, EventSubscriber, 
 import { check, input, launch } from './validation';
 import { Reader, type Frame } from './protocol';
 import { ScriptedTransport, type CloseKind, type Mode } from './scripted';
+import { loopInput, profile } from './loop-contract';
 
 interface Turn {
   context: RequestContext; input: Input; reader: Reader; wire: ScriptedTransport;
   started: number; events: number; endCandidate: boolean; finished: boolean; forceUncertain: boolean;
   reason?: Reason; operation?: ReturnType<typeof setTimeout>; cleanupTimer?: ReturnType<typeof setTimeout>;
   cleanupStarted?: number; settled: Promise<CleanupResult>; resolve(result: CleanupResult): void;
+  hasText?: boolean; toolCandidate?: {callId:string;tool:'get_my_context'};
 }
 
 export class ScriptedAdapter implements MemberAdapter {
@@ -21,10 +23,11 @@ export class ScriptedAdapter implements MemberAdapter {
   private events: MemberEvent[] = [];
   private stopPromise?: Promise<CleanupResult>;
   private subscriberErrors = 0;
-  constructor(private readonly binding: Binding, private readonly mode: Mode) {}
+  constructor(private readonly binding: Binding, private readonly mode: Mode, private readonly loopProfile=false) {}
   async detect(): Promise<Detection> { return Object.freeze({kind:'scripted-api',available:true,realProvider:false}); }
   capabilities(): Capabilities {
-    return Object.freeze({textStreaming:true,realProviders:false,tools:false,files:false,commands:false,remoteCancellationVerified:false});
+    return Object.freeze({textStreaming:true,realProviders:false,tools:false,files:false,commands:false,remoteCancellationVerified:false,
+      ...(this.loopProfile?{readOnlyToolCandidates:true as const}:{})});
   }
   async start(value: unknown): Promise<void> {
     const context = launch(value);
@@ -47,7 +50,8 @@ export class ScriptedAdapter implements MemberAdapter {
       check(turn.events < (terminal ? 128 : 127), 'normalized-event-bound'); turn.events++;
     }
     const event: MemberEvent = {...this.binding,type,requestId:turn?.context.requestId??null,
-      taskId:turn?.input.kind === 'task' ? turn.input.taskId : null,generation:turn?.context.generation??null,...details};
+      taskId:turn?.input.kind === 'task' ? turn.input.taskId : null,generation:turn?.context.generation??null,
+      ...(turn?.input.kind==='loop'?{runId:turn.input.runId,turn:turn.input.turn,receivedBytes:turn.reader.receivedBytes}:{}),...details};
     this.events.push(Object.freeze(event)); if (this.events.length > 64) this.events.shift();
     this.notifications.push({event,listeners:[...this.subscribers.entries()],delivered});
     if (this.notifying) return;
@@ -67,7 +71,8 @@ export class ScriptedAdapter implements MemberAdapter {
     } finally {this.notifying=false;}
   }
   async send(value: unknown): Promise<void> {
-    const request = input(value);
+    const request = this.loopProfile ? loopInput(value) : input(value);
+    if(request.kind==='loop')for(const row of request.messages)if(row.kind==='tool.result')profile(row.result,this.binding);
     check(!this.terminal && this.state === 'ready' && !this.active, 'adapter-not-ready');
     check(!this.turns.has(request.requestId), 'duplicate-request');
     check(this.turns.size < 6, 'request-lifetime-bound');
@@ -76,7 +81,7 @@ export class ScriptedAdapter implements MemberAdapter {
     const settled = new Promise<CleanupResult>(done => {resolve=done;});
     const turn: Turn = {context,input:request,started:Date.now(),events:0,endCandidate:false,finished:false,forceUncertain:false,
       settled,resolve,reader:new Reader(context,record=>this.record(turn,record)),
-      wire:new ScriptedTransport(context,this.mode,{data:bytes=>this.receive(turn,bytes),closed:kind=>this.closed(turn,kind)})};
+      wire:new ScriptedTransport(context,this.mode,{data:bytes=>this.receive(turn,bytes),closed:kind=>this.closed(turn,kind)},request)};
     this.turns.set(request.requestId,turn); this.active=turn; this.state='running';
     turn.operation=setTimeout(()=>this.fail(turn,'deadline'),10000);
     this.emit(turn,'request.admitted');
@@ -97,7 +102,11 @@ export class ScriptedAdapter implements MemberAdapter {
   private record(turn: Turn, record: Frame): void {
     if (!this.current(turn) || turn.reason) return;
     check(!turn.endCandidate, 'frame-after-response-end');
-    if (record.type === 'api.text.delta') this.emit(turn,'text.delta',{text:record.text});
+    if(record.type==='api.loop.tool_call') {
+      check(this.loopProfile&&turn.input.kind==='loop'&&!turn.hasText&&!turn.toolCandidate,'tool-profile-or-mixture');
+      turn.toolCandidate={callId:record.callId,tool:'get_my_context'};
+    }
+    else if (record.type === 'api.text.delta') {check(!turn.toolCandidate,'mixed-tool-text');turn.hasText=true;this.emit(turn,'text.delta',{text:record.text});}
     else if (record.type === 'api.response.end') turn.endCandidate=true;
     else this.fail(turn,record.type === 'api.tool.call' ? 'unsupported_tool' : 'transport_error');
   }
@@ -120,9 +129,9 @@ export class ScriptedAdapter implements MemberAdapter {
     const uncertain = !localClosed || turn.forceUncertain;
     const state: State = uncertain ? 'needs_attention' : this.terminal ? 'stopped' : 'ready';
     this.state=state; if (!uncertain) this.active=null;
-    const type = uncertain ? 'request.uncertain' : !turn.reason ? 'response.completed'
+    const type = uncertain ? 'request.uncertain' : !turn.reason ? turn.toolCandidate ? 'response.tool_requested' : 'response.completed'
       : ['owner_interrupt','owner_stop'].includes(turn.reason) ? 'request.interrupted' : 'request.failed';
-    this.emit(turn,type,{...(turn.reason ? {reason:turn.reason} : {}),localClosed});
+    this.emit(turn,type,{...(turn.reason ? {reason:turn.reason} : {}),...(!turn.reason&&turn.toolCandidate?turn.toolCandidate:{}),localClosed});
     turn.resolve(Object.freeze({state,localClosed,remoteVerified:false}));
   }
   private fail(turn: Turn, reason: Reason): void {

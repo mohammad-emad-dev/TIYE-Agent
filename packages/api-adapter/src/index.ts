@@ -1,19 +1,26 @@
 import { ScriptedAdapter } from './adapter';
-import { MODES, type Mode } from './scripted';
+import { LOOP_MODES, MODES, type Mode } from './scripted';
 import { binding, check } from './validation';
 export { AdapterRefusal } from './validation';
 export type { Binding, Capabilities, CleanupResult, Detection, Input, LaunchContext, MemberAdapter, MemberEvent, State, TaskInput, UserMessage } from './types';
+export { loopInput, history, profile, loopBinding } from './loop-contract';
+export type { LoopInput, LoopMessage, Profile } from './loop-contract';
+export type { Mode } from './scripted';
 
 /** Fixed test composition only. No public arbitrary transport constructor. */
 export function createScriptedScenario() {
+  return scenario(false);
+}
+export function createScriptedLoopScenario(){return scenario(true);}
+function scenario(loopProfile:boolean) {
   check(process.version === 'v26.7.0' && process.platform === 'win32' && process.arch === 'x64'
     && process.versions.modules === '147', 'unqualified-adapter-runtime');
   const adapters: ScriptedAdapter[]=[];
   let disposed=false;
   return {
     create(context: unknown, mode: Mode) {
-      check(!disposed && adapters.length < 2 && MODES.includes(mode), 'scenario-bound-or-mode');
-      const adapter=new ScriptedAdapter(binding(context),mode);adapters.push(adapter);
+      check(!disposed && adapters.length < 2 && (loopProfile?LOOP_MODES as readonly string[]:MODES).includes(mode), 'scenario-bound-or-mode');
+      const adapter=new ScriptedAdapter(binding(context),mode,loopProfile);adapters.push(adapter);
       return {adapter:adapter as import('./types').MemberAdapter,
         fixture:{inspect:()=>adapter.inspect(),waitFor:adapter.waitFor.bind(adapter),settled:adapter.settled.bind(adapter),
           release:adapter.release.bind(adapter),late:adapter.late.bind(adapter)}};
