@@ -1713,6 +1713,22 @@ not waive feasibility gates or require a finished UI before building the core.
 | 7 | Licensing, updates, languages, presets, first launch | Product shell around a working core |
 | 8 | Hardening, packaging, and wide testing | Final quality pass |
 
+
+**Activated internal Phase 3F construction, 27 October 2026.** After the Phase3E
+exit at 6a11f79, the owner instructed continuation of the concrete
+[Phase3F amendment](../output/phase3f-entry/AMENDMENT.md) and
+[contract](../output/phase3f-entry/CONTRACT.md) presented at 8fef7ae. The
+[decision record](../output/phase3f-approval/README.md) admits only the fixed
+offline Leader coordination profile through a separate exit review. It may read
+team status from one checked projection and enqueue one existing prepared task
+for one roster member. It may not create instructions/tasks or reach scheduler
+start, approvals, claims or invocation. Schema7 and core/mock-team production
+remain unchanged. Parent actual-source review and pinned preflight precede new
+execution. This is a subset of Section4.2; full delegation, providers, generic
+adapters, authenticated transport, durable loop recovery, file/command effects,
+UI, packaging and release remain pending. Provider/native gates stay HOLD.
+
+
 ---
 
 ## 12. Risks and Mitigations

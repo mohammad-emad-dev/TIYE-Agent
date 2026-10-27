@@ -1,15 +1,23 @@
+import { delegationArgs, type DelegationArgs } from './coordination-contract';
 import { missionArgs, type MissionArgs } from './mission-contract';
 import { questionArgs, type QuestionArgs, type QuestionTool } from './question-contract';
 import { reportArgs, type ReportArgs } from './report-contract';
 import type { RequestContext } from './types';
 import { check, fields, text } from './validation';
-export type Frame = RequestContext & ({type:'api.mission.tool_call';callId:string;arguments:MissionArgs} | {type:'api.question.tool_call';callId:string;tool:QuestionTool;arguments:QuestionArgs} | {type:'api.report.tool_call';callId:string;arguments:ReportArgs} | { type: 'api.text.delta'; text: string } | { type: 'api.response.end' }
+export type Frame = RequestContext & ({type:'api.coordination.tool_call';callId:string;tool:'get_team_status'|'delegate_task';arguments?:DelegationArgs} | {type:'api.mission.tool_call';callId:string;arguments:MissionArgs} | {type:'api.question.tool_call';callId:string;tool:QuestionTool;arguments:QuestionArgs} | {type:'api.report.tool_call';callId:string;arguments:ReportArgs} | { type: 'api.text.delta'; text: string } | { type: 'api.response.end' }
   | { type: 'api.transport.error'; code: 'script-error' } | { type: 'api.tool.call'; name: string }
   | { type: 'api.loop.tool_call'; callId: string; name:'get_my_context' });
 export function frame(value: unknown, context: RequestContext): Frame {
   check(value !== null && typeof value === 'object', 'frame-required');
   const record = value as Record<string, unknown>, base = ['version','sessionId','memberId','requestId','generation','type'];
-  check(['api.text.delta','api.response.end','api.transport.error','api.tool.call','api.loop.tool_call','api.report.tool_call','api.question.tool_call','api.mission.tool_call'].includes(record.type as string), 'frame-type');
+  check(['api.text.delta','api.response.end','api.transport.error','api.tool.call','api.loop.tool_call','api.report.tool_call','api.question.tool_call','api.mission.tool_call','api.coordination.tool_call'].includes(record.type as string), 'frame-type');
+  if(record.type==='api.coordination.tool_call'){
+    fields(record,[...base,'callId','name','arguments']);check(Object.entries(context).every(([key,expected])=>record[key]===expected),'coordination-frame-context');
+    check(typeof record.callId==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(record.callId),'coordination-call-id');
+    check(record.name==='get_team_status'||record.name==='delegate_task','coordination-tool');
+    if(record.name==='get_team_status')fields(record.arguments,[]);
+    return {...context,type:'api.coordination.tool_call',callId:record.callId,tool:record.name,...(record.name==='delegate_task'?{arguments:delegationArgs(record.arguments)}:{})};
+  }
   if(record.type==='api.mission.tool_call'){
     fields(record,[...base,'callId','name','arguments']);
     check(Object.entries(context).every(([key,expected])=>record[key]===expected),'mission-frame-context');

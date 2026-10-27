@@ -1,0 +1,31 @@
+{
+  "delegates": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "max",
+      "status": "completed",
+      "exitCode": 0,
+      "report": "I couldn\u2019t implement the Phase3F contract: the workspace policy rejected the read command, and this session is read-only. I could not inspect the contract or source, so I made no changes.\n\n**Files changed:** none. **Runtime/tests:** not run. Please reopen the workspace with read/write access so I can continue.",
+      "rawResultSha256": "69015e792d243cea7ab432ec282dc91781bdaa6c1ab74cbf82d5af0731529656",
+      "disposition": "No implementation: reported workspace read refusal"
+    },
+    {
+      "model": "opencode/flint-40b-free",
+      "effort": null,
+      "status": "timeout",
+      "exitCode": 1,
+      "report": "",
+      "rawResultSha256": "cb7df15aff92b9a7ae74d73db7cea52ee0a0ba6c23c76e4aad563acc9a938f0a",
+      "disposition": "No review verdict; timeout"
+    },
+    {
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "effort": "max",
+      "status": "timeout",
+      "exitCode": 1,
+      "report": "",
+      "rawResultSha256": "4f684117ce45c842383302030c857f84e17e52e35922b275c30e303275b67822",
+      "disposition": "No review verdict; timeout"
+    }
+  ]
+}

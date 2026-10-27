@@ -6,3 +6,5 @@ export { createCoreReportingScenario } from './core-report';
 export { createCoreQuestionScenario } from './core-question';
 
 export { createCoreMissionScenario } from './core-mission';
+
+export { createCoreCoordinationScenario } from './core-coordination';

@@ -319,3 +319,12 @@ same-account reads/writes outside fresh HOME, a mode-000 read denial and owned
 Unix/loopback connections from the managed mock peer. Resource and process cleanup
 are checked separately. These observations support the documented shared-account
 CLI trust model; credentials, confinement and native admission remain unqualified.
+
+The [Phase3E exit](output/phase3e-exit/README.md) is accepted at 6a11f79.
+The owner then instructed continuation of the [Phase3F coordination contract](output/phase3f-entry/CONTRACT.md)
+at 8fef7ae; its [scope record](output/phase3f-approval/README.md) preserves the
+decision. The restricted Leader profile reads team status and queues one prepared
+task through an existing inbox command. It grants no scheduler execution or full
+delegation. [Implementation evidence](output/phase3f-coordination/README.md) remains
+separate from the required exit review. Providers, durable loop recovery, UI and
+release remain unfinished.

@@ -58,3 +58,12 @@ profile enum, preserving original factories and validators. The mission profile
 admits one adapter and three requests; it has no core capability. Its fixed
 backend validates/uses the actual receipt in a final text continuation. No
 provider or arbitrary/rejecting transport is introduced.
+
+## Fixed coordination profile (Phase 3F)
+
+createScriptedCoordinationScenario() accepts only coordination modes and closed
+coordination-loop requests. A validated trusted catalog remains fixed across
+requests. get_team_status and delegate_task candidates remain gated by full
+transcript validation and independent local closure. The adapter executes no
+core tools itself; the narrow Leader bridge in api-loop owns enqueue admission.
+Old factories refuse this profile. Providers and generic transports remain absent.

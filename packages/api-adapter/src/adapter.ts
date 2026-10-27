@@ -1,3 +1,4 @@
+import { coordinationInput, type DelegationArgs } from './coordination-contract';
 import type { AdapterProfile, Binding, Capabilities, CleanupResult, Detection, EventSubscriber, Input, MemberAdapter, MemberEvent, Phase, Reason, RequestContext, State } from './types';
 import { check, input, launch } from './validation';
 import { Reader, type Frame } from './protocol';
@@ -12,7 +13,7 @@ interface Turn {
   started: number; events: number; endCandidate: boolean; finished: boolean; forceUncertain: boolean;
   reason?: Reason; operation?: ReturnType<typeof setTimeout>; cleanupTimer?: ReturnType<typeof setTimeout>;
   cleanupStarted?: number; settled: Promise<CleanupResult>; resolve(result: CleanupResult): void;
-  hasText?: boolean; toolCandidate?: {callId:string;tool:'get_my_context'|'report_result'|'ask_leader'|'ask_user'|'complete_mission';arguments?:ReportArgs|QuestionArgs|MissionArgs};
+  hasText?: boolean; toolCandidate?: {callId:string;tool:'get_my_context'|'report_result'|'ask_leader'|'ask_user'|'complete_mission'|'get_team_status'|'delegate_task';arguments?:ReportArgs|QuestionArgs|MissionArgs|DelegationArgs};
 }
 
 export class ScriptedAdapter implements MemberAdapter {
@@ -30,10 +31,13 @@ export class ScriptedAdapter implements MemberAdapter {
   private get loopProfile(){return this.profile!=='text';}
   private get reportProfile(){return this.profile==='report'||this.profile==='question';}
   private get questionProfile(){return this.profile==='question';}
+  private coordinationCatalog?:string;
+  private get coordinationProfile(){return this.profile==='coordination';}
   private get missionProfile(){return this.profile==='mission';}
   async detect(): Promise<Detection> { return Object.freeze({kind:'scripted-api',available:true,realProvider:false}); }
   capabilities(): Capabilities {
     return Object.freeze({textStreaming:true,realProviders:false,tools:false,files:false,commands:false,remoteCancellationVerified:false,
+      ...(this.coordinationProfile?{coordinationToolCandidates:true as const}:{}),
       ...(this.missionProfile?{missionToolCandidates:true as const}:{}),
       ...(this.questionProfile?{questionToolCandidates:true as const}:{}),
       ...(this.reportProfile?{reportToolCandidates:true as const}:{}),
@@ -61,7 +65,7 @@ export class ScriptedAdapter implements MemberAdapter {
     }
     const event: MemberEvent = {...this.binding,type,requestId:turn?.context.requestId??null,
       taskId:turn?.input.kind === 'task' ? turn.input.taskId : null,generation:turn?.context.generation??null,
-      ...((turn?.input.kind==='loop'||turn?.input.kind==='report-loop'||turn?.input.kind==='question-loop'||turn?.input.kind==='mission-loop')?{runId:turn.input.runId,turn:turn.input.turn,receivedBytes:turn.reader.receivedBytes}:{}),...details};
+      ...((turn?.input.kind==='loop'||turn?.input.kind==='report-loop'||turn?.input.kind==='question-loop'||turn?.input.kind==='mission-loop'||turn?.input.kind==='coordination-loop')?{runId:turn.input.runId,turn:turn.input.turn,receivedBytes:turn.reader.receivedBytes}:{}),...details};
     this.events.push(Object.freeze(event)); if (this.events.length > 64) this.events.shift();
     this.notifications.push({event,listeners:[...this.subscribers.entries()],delivered});
     if (this.notifying) return;
@@ -81,11 +85,12 @@ export class ScriptedAdapter implements MemberAdapter {
     } finally {this.notifying=false;}
   }
   async send(value: unknown): Promise<void> {
-    const request = this.missionProfile ? missionInput(value) : this.questionProfile ? questionInput(value) : this.reportProfile ? reportInput(value) : this.loopProfile ? loopInput(value) : input(value);
-    if((request.kind==='loop'||request.kind==='report-loop'||request.kind==='question-loop'||request.kind==='mission-loop'))for(const row of request.messages)if(row.kind==='tool.result')profile(row.result,this.binding);
+    const request = this.coordinationProfile ? coordinationInput(value) : this.missionProfile ? missionInput(value) : this.questionProfile ? questionInput(value) : this.reportProfile ? reportInput(value) : this.loopProfile ? loopInput(value) : input(value);
+    if((request.kind==='loop'||request.kind==='report-loop'||request.kind==='question-loop'||request.kind==='mission-loop'||request.kind==='coordination-loop'))for(const row of request.messages)if(row.kind==='tool.result')profile(row.result,this.binding);
+    if(request.kind==='coordination-loop'){profile(request.catalog.context,this.binding);const catalog=JSON.stringify(request.catalog);check(this.coordinationCatalog===undefined||this.coordinationCatalog===catalog,'catalog-changed');this.coordinationCatalog=catalog;}
     check(!this.terminal && this.state === 'ready' && !this.active, 'adapter-not-ready');
     check(!this.turns.has(request.requestId), 'duplicate-request');
-    check(this.turns.size < (this.missionProfile?3:6), 'request-lifetime-bound');
+    check(this.turns.size < (this.missionProfile||this.coordinationProfile?3:6), 'request-lifetime-bound');
     const context = Object.freeze({...this.binding,requestId:request.requestId,generation:this.turns.size+1});
     let resolve!: (result: CleanupResult) => void;
     const settled = new Promise<CleanupResult>(done => {resolve=done;});
@@ -98,7 +103,7 @@ export class ScriptedAdapter implements MemberAdapter {
     // A subscriber may synchronously stop/interrupt admission; never begin afterward.
     if (turn.reason || turn.finished || this.terminal || this.state !== 'running') return;
     try {turn.wire.begin();} catch {
-      const reason = (this.mode === 'ambiguous-creation'||this.mode==='report-continuation-ambiguous'||this.mode==='question-continuation-ambiguous'||this.mode==='mission-continuation-ambiguous') ? 'ambiguous_creation' : 'creation_failure';
+      const reason = (this.mode === 'ambiguous-creation'||this.mode==='report-continuation-ambiguous'||this.mode==='question-continuation-ambiguous'||this.mode==='mission-continuation-ambiguous'||this.mode==='coordination-continuation-ambiguous') ? 'ambiguous_creation' : 'creation_failure';
       turn.forceUncertain = reason === 'ambiguous_creation'; this.fail(turn,reason);
       throw new Error(reason);
     }
@@ -112,7 +117,11 @@ export class ScriptedAdapter implements MemberAdapter {
   private record(turn: Turn, record: Frame): void {
     if (!this.current(turn) || turn.reason) return;
     check(!turn.endCandidate, 'frame-after-response-end');
-    if(record.type==='api.mission.tool_call'){
+    if(record.type==='api.coordination.tool_call'){
+      check(this.coordinationProfile&&turn.input.kind==='coordination-loop'&&!turn.hasText&&!turn.toolCandidate,'coordination-profile-or-mixture');
+      turn.toolCandidate={callId:record.callId,tool:record.tool,...(record.arguments?{arguments:record.arguments}:{})};
+    }
+    else if(record.type==='api.mission.tool_call'){
       check(this.missionProfile&&turn.input.kind==='mission-loop'&&!turn.hasText&&!turn.toolCandidate,'mission-profile-or-mixture');
       turn.toolCandidate={callId:record.callId,tool:'complete_mission',arguments:record.arguments};
     }
@@ -125,7 +134,7 @@ export class ScriptedAdapter implements MemberAdapter {
       turn.toolCandidate={callId:record.callId,tool:'report_result',arguments:record.arguments};
     }
     else if(record.type==='api.loop.tool_call') {
-      check(this.loopProfile&&['loop','report-loop','question-loop','mission-loop'].includes(turn.input.kind)&&!turn.hasText&&!turn.toolCandidate,'tool-profile-or-mixture');
+      check(this.loopProfile&&['loop','report-loop','question-loop','mission-loop','coordination-loop'].includes(turn.input.kind)&&!turn.hasText&&!turn.toolCandidate,'tool-profile-or-mixture');
       turn.toolCandidate={callId:record.callId,tool:'get_my_context'};
     }
     else if (record.type === 'api.text.delta') {check(!turn.toolCandidate,'mixed-tool-text');turn.hasText=true;this.emit(turn,'text.delta',{text:record.text});}

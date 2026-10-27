@@ -1,0 +1,16 @@
+{
+  "attempts": [
+    {
+      "captureId": "d66e7174-187c-4ad0-ba34-3871663ad298",
+      "focusedTests": 51,
+      "pass": 47,
+      "fail": 4,
+      "fullSuiteExecuted": false,
+      "preflightSha256": "14025a9d99d073342e717dc80933780ede2beced938a9ed4d027185e4c3021d7",
+      "verificationSha256": "dfbb9f0504d5e8ae03afcac6fa6af2eaecf8a051f6d47d703fa1865f9b6490da",
+      "focusedStdoutSha256": "1e60ebf428698ce738350bfcd83819f3d0a976a034b28c6065db85295602671f",
+      "diagnosis": "Three fixture assertions targeted an inspection clone instead of the immutable receipt; event-capacity setup attempted a second writer while the store held its exclusive lock. Preserve failed source and streams locally.",
+      "correction": "Assert actual receipt immutability; seed consistent disposable event history while the store is closed, then reopen before bridge binding; strengthen running and needs_attention fixtures."
+    }
+  ]
+}

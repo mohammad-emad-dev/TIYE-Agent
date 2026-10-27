@@ -82,3 +82,21 @@ checks. Core eligibility, proofs and recovered-chain rules remain authoritative.
 An unknown write produces mission uncertainty even with verified local cleanup;
 known acceptance survives conversation failure/stop. Receipt and conversation
 outcome are separate. See output/phase3e-mission; the separate exit is pending.
+
+## Explicit coordination profile (Phase 3F)
+
+createCoreCoordinationScenario(store) binds the actual Leader and a detached
+catalog of up to six prepared tasks and the complete roster's member references.
+One run may read context or get_team_status once, then delegate_task once through
+the existing enqueue capability. Status derives from one replay-checked snapshot.
+Enqueue returns a validated command-hash/assignment receipt; it creates only
+inbox intent. Known acceptance/rejection and unknown acknowledgement remain
+separate from conversation completion. No scheduler capability reaches the loop.
+Capacity is reserved before writing; no resend or later run is admitted.
+
+The trusted catalog counts toward the shared 32 KiB history limit; status is at
+most 24 KiB. Old profiles retain their behavior. The factory takes binding,
+trusted catalog, fixed mode and optional fixture pause. Queued tasks do not run
+through this profile. See output/phase3f-coordination for bounded evidence;
+the separate exit review remains pending. Previous pending-exit notes above are
+historical: Phase3C/3D/3E exits were subsequently accepted in their output folders.

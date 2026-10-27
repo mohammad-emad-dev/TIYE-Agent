@@ -1,3 +1,5 @@
+import { coordinationInput, coordinationHistory, delegationArgs, delegationReceipt, type CoordinationMessage, type DelegationReceipt } from '../../api-adapter/dist';
+import type { Coordinator } from './core-coordination';
 import { randomUUID } from 'node:crypto';
 import { history, loopInput, missionArgs, missionReceipt, missionHistory, type MissionMessage, type MissionReceipt, questionHistory, questionArgs, askReceipt, questionResult, resumeInput, type QuestionMessage, type QuestionArgs, type QuestionTool, type AskReceipt, type QuestionResult, reportHistory, reportArgs, reportReceipt, type ReportReceipt, type MemberAdapter, type MemberEvent } from '../../api-adapter/dist';
 import type { Missioner } from './core-mission';
@@ -6,7 +8,8 @@ import type { Reporter } from './core-report';
 import type { ContextReader, Event, Outcome, OutcomeState, Pause, RequestSlot, Subscriber } from './types';
 export interface ResumeAck {readonly status:'still_waiting'|'continued'|'failed'|'stopped'}
 interface Run {
-  id:string;history:readonly (QuestionMessage|MissionMessage)[];requests:number;reads:number;checks:number;bytes:number;text:string;
+  id:string;history:readonly (QuestionMessage|MissionMessage|CoordinationMessage)[];requests:number;reads:number;checks:number;bytes:number;text:string;
+  delegationAttempts:number;delegationState:'none'|'accepted'|'rejected'|'uncertain';delegationCommandId?:string;delegationReceipt?:DelegationReceipt;
   missionAttempts:number;missionState:'none'|'accepted'|'rejected'|'uncertain';missionCommandId?:string;missionReceipt?:MissionReceipt;
   reportAttempts:number;reportState:'none'|'accepted'|'rejected'|'uncertain';receipt?:ReportReceipt;commandId?:string;
   asks:number;answerReads:number;resumeIds:Set<string>;resumeBusy:boolean;waiting:boolean;reserved:boolean;questionState:'none'|'accepted'|'rejected'|'answered'|'uncertain';
@@ -15,7 +18,7 @@ interface Run {
 }
 function requireLoop(value:unknown,message:string):asserts value {if(!value)throw new Error(message);}
 
-/** No raw store/roles here; the only core capability is ContextReader. */
+/** Only explicitly bound bridges reach the core; no raw store or role handles. */
 export class ConversationLoop {
   private runs=new Map<string,Run>();private active:Run|null=null;private terminal=false;
   private totalRequests=0;
@@ -25,7 +28,9 @@ export class ConversationLoop {
   private events:Event[]=[];private subscribers=new Map<symbol,Subscriber>();private notificationErrors=0;
   private queue:{event:Event;listeners:[symbol,Subscriber][]}[]=[];private notifying=false;
   private remove:()=>void;
-  constructor(private readonly reader:ContextReader,private readonly adapter:MemberAdapter,private readonly pause:Pause,private readonly reporter?:Reporter,private readonly questioner?:Questioner,private readonly missioner?:Missioner) {
+  private readonly missioner?:Missioner;private readonly coordination?:Coordinator;
+  constructor(private readonly reader:ContextReader,private readonly adapter:MemberAdapter,private readonly pause:Pause,private readonly reporter?:Reporter,private readonly questioner?:Questioner,extension?:Missioner|Coordinator) {
+    if(extension&&'catalog' in extension)this.coordination=extension;else this.missioner=extension;
     this.remove=adapter.onEvent(event=>this.accept(event));
   }
   async start():Promise<void>{await this.adapter.start({...this.reader.binding,briefing:'Fixed read-only context conversation'});}
@@ -50,12 +55,16 @@ export class ConversationLoop {
     requireLoop(Object.keys(input).length===3&&['version','runId','text'].every(k=>Object.hasOwn(input,k))&&input.version===1,'run-fields');
     // Reuse the actual structured request parser to validate UUID/text without dispatch.
     const parsed=loopInput({version:1,kind:'loop',requestId:input.runId,runId:input.runId,turn:1,messages:[{kind:'user',text:input.text}]});
-    requireLoop(!this.terminal&&!this.active&&!this.runs.has(parsed.runId)&&this.runs.size<(this.missioner?1:2),'loop-admission');
+    requireLoop(!this.terminal&&!this.active&&!this.runs.has(parsed.runId)&&this.runs.size<(this.missioner||this.coordination?1:2),'loop-admission');
+    if(this.coordination)coordinationInput({version:1,kind:'coordination-loop',requestId:parsed.runId,runId:parsed.runId,turn:1,catalog:this.coordination.catalog,messages:parsed.messages});
     let resolve!:(value:Outcome)=>void;const result=new Promise<Outcome>(done=>{resolve=done;});
-    const run:Run={id:parsed.runId,history:parsed.messages,requests:0,reads:0,checks:0,bytes:0,text:'',missionAttempts:0,missionState:'none',reportAttempts:0,reportState:'none',asks:0,answerReads:0,resumeIds:new Set(),resumeBusy:false,waiting:false,reserved:false,questionState:'none',slot:null,calls:new Set(),fenced:false,result,complete:resolve};
+    const run:Run={id:parsed.runId,history:parsed.messages,requests:0,reads:0,checks:0,bytes:0,text:'',delegationAttempts:0,delegationState:'none',missionAttempts:0,missionState:'none',reportAttempts:0,reportState:'none',asks:0,answerReads:0,resumeIds:new Set(),resumeBusy:false,waiting:false,reserved:false,questionState:'none',slot:null,calls:new Set(),fenced:false,result,complete:resolve};
     this.runs.set(run.id,run);this.active=run;this.emit(run,'run.admitted');this.schedule(run);return result;
   }
-  private transcript(value:unknown):readonly (QuestionMessage|MissionMessage)[]{return this.missioner?missionHistory(value):this.questioner?questionHistory(value):this.reporter?reportHistory(value):history(value);}
+  private transcript(value:unknown):readonly (QuestionMessage|MissionMessage|CoordinationMessage)[]{
+    if(this.coordination){const messages=coordinationHistory(value);requireLoop(Buffer.byteLength(JSON.stringify({catalog:this.coordination.catalog,messages}),'utf8')<=32768,'coordination-catalog-history-bytes');return messages;}
+    return this.missioner?missionHistory(value):this.questioner?questionHistory(value):this.reporter?reportHistory(value):history(value);
+  }
   private live(run:Run):boolean{return this.active===run&&!run.outcome&&!run.fenced&&!this.terminal;}
   private status(run:Run):void {
     requireLoop(run.checks<(this.questioner?10:8),'status-budget');run.checks++;if(this.missioner&&run.missionState==='accepted'){requireLoop(run.missionReceipt,'mission-receipt-required');this.missioner.completed(run.missionReceipt);}else this.reader.active();
@@ -90,20 +99,46 @@ export class ConversationLoop {
       this.finish(run,'response_complete','validated_response',true);return;
     }
     requireLoop(!this.missioner||!run.missionAttempts,'tool-after-mission');
+    requireLoop(!this.coordination||!run.delegationAttempts,'tool-after-delegation');
+    if(event.tool==='delegate_task'){await this.recordDelegation(run,event);return;}
     if(event.tool==='complete_mission'){await this.recordMission(run,event);return;}
     if(event.tool==='ask_leader'||event.tool==='ask_user'){await this.recordQuestion(run,event);return;}
     if(event.tool==='report_result'){await this.recordReport(run,event);return;}
-    requireLoop(!run.reportAttempts&&(!this.missioner||run.reads===0),'tool-after-report-or-context');
-    requireLoop(event.tool==='get_my_context'&&typeof event.callId==='string'&&!run.calls.has(event.callId),'duplicate-or-unknown-tool');
+    requireLoop(!run.reportAttempts&&(!(this.missioner||this.coordination)||run.reads===0),'tool-after-report-or-context');
+    requireLoop((event.tool==='get_my_context'||this.coordination&&event.tool==='get_team_status')&&typeof event.callId==='string'&&!run.calls.has(event.callId),'duplicate-or-unknown-tool');
     requireLoop(run.reads+run.reportAttempts+run.asks<2&&run.requests<3,'turn-tool-budget');
     await this.gate(run,'before-read');if(!this.live(run))return;
     this.status(run);
     if(!this.live(run))return;
     run.calls.add(event.callId);run.reads++;
-    const profile=this.reader.read();
-    run.history=this.transcript([...run.history,{kind:'assistant.call',callId:event.callId,name:'get_my_context'},
-      {kind:'tool.result',callId:event.callId,result:profile}]);
+    if(event.tool==='get_team_status'){
+      const status=this.coordination!.status();run.history=this.transcript([...run.history,{kind:'assistant.status',callId:event.callId},{kind:'status.result',callId:event.callId,result:status}]);
+    }else{
+      const profile=this.reader.read();run.history=this.transcript([...run.history,{kind:'assistant.call',callId:event.callId,name:'get_my_context'},{kind:'tool.result',callId:event.callId,result:profile}]);
+    }
     await this.gate(run,'after-read');if(!this.live(run))return;
+    run.slot=null;run.text='';await this.gate(run,'before-continuation');if(this.live(run))await this.dispatch(run);
+  }
+  private async recordDelegation(run:Run,event:MemberEvent):Promise<void>{
+    requireLoop(this.coordination&&typeof event.callId==='string'&&!run.calls.has(event.callId),'delegation-capability-or-call');
+    requireLoop(run.delegationAttempts===0&&run.reads<=1&&run.requests<3&&this.totalRequests<3,'delegation-capacity');
+    const args=delegationArgs(event.arguments);await this.gate(run,'before-delegation');if(!this.live(run))return;
+    this.status(run);if(!this.live(run))return;
+    run.calls.add(event.callId);run.delegationAttempts++;run.reserved=true;run.delegationCommandId=randomUUID();
+    // Validate worst-case accepted continuation capacity before capturing any write uncertainty.
+    const reservedReceipt=delegationReceipt({callId:event.callId,commandId:run.delegationCommandId,sessionId:this.reader.binding.sessionId,...args,decision:'accepted',
+      assignment:{taskId:run.delegationCommandId,memberId:this.reader.binding.memberId,enqueueSequence:Number.MAX_SAFE_INTEGER}});
+    coordinationInput({version:1,kind:'coordination-loop',requestId:run.delegationCommandId,runId:run.id,turn:run.requests+1,catalog:this.coordination.catalog,
+      messages:[...run.history,{kind:'assistant.delegate',callId:event.callId,arguments:args},{kind:'delegation.result',callId:event.callId,result:reservedReceipt}]});
+    run.delegationState='uncertain';
+    try{
+      const receipt=delegationReceipt(this.coordination.submitDelegation(event.callId,run.delegationCommandId,args));
+      requireLoop(receipt.callId===event.callId&&receipt.commandId===run.delegationCommandId&&receipt.sessionId===this.reader.binding.sessionId
+        &&receipt.taskRef===args.taskRef&&receipt.memberRef===args.memberRef,'delegation-receipt-owner');
+      run.delegationReceipt=receipt;run.delegationState=receipt.decision;
+      run.history=this.transcript([...run.history,{kind:'assistant.delegate',callId:event.callId,arguments:args},{kind:'delegation.result',callId:event.callId,result:receipt}]);
+    }catch{await this.fail(run,'delegation_uncertain');return;}
+    await this.gate(run,'after-delegation');if(!this.live(run))return;
     run.slot=null;run.text='';await this.gate(run,'before-continuation');if(this.live(run))await this.dispatch(run);
   }
   private async recordMission(run:Run,event:MemberEvent):Promise<void>{
@@ -187,10 +222,10 @@ export class ConversationLoop {
   }
   private async dispatch(run:Run):Promise<void> {
     if(!this.live(run))return;
-    requireLoop(run.requests<3&&this.totalRequests<(this.missioner?3:6),'turn-budget');this.status(run);if(!this.live(run))return;
+    requireLoop(run.requests<3&&this.totalRequests<(this.missioner||this.coordination?3:6),'turn-budget');this.status(run);if(!this.live(run))return;
     const id=randomUUID();run.reserved=false;run.requests++;run.slot={id,generation:++this.totalRequests,bytes:0,terminal:null};run.text='';
     // No await/yield between the active-session check, reservation and send entry.
-    await this.adapter.send({version:1,kind:this.missioner?'mission-loop':this.questioner?'question-loop':this.reporter?'report-loop':'loop',requestId:id,runId:run.id,turn:run.requests,messages:run.history});
+    await this.adapter.send({version:1,kind:this.coordination?'coordination-loop':this.missioner?'mission-loop':this.questioner?'question-loop':this.reporter?'report-loop':'loop',requestId:id,runId:run.id,turn:run.requests,messages:run.history,...(this.coordination?{catalog:this.coordination.catalog}:{})});
     await this.gate(run,'after-dispatch');
   }
   private accept(event:MemberEvent):void {
@@ -213,7 +248,7 @@ export class ConversationLoop {
       toolReads:run.reads,statusChecks:run.checks,history:this.transcript(run.history),...(this.reporter?{reportAttempts:run.reportAttempts,reportState:run.reportState,
         ...(run.receipt?{reportReceipt:run.receipt}:{}),...(run.commandId?{reportCommandId:run.commandId}:{})}:{}),...(this.questioner?{questionAttempts:run.asks,answerReads:run.answerReads,questionState:run.questionState,
         ...(run.questionId?{questionId:run.questionId,questionCommandId:run.questionCommandId}:{}),
-        ...(run.questionReceipt?{questionReceipt:run.questionReceipt}:{}),...(run.answerResult?{answerResult:run.answerResult}:{})}:{}),...(this.missioner?{missionAttempts:run.missionAttempts,missionState:run.missionState,
+        ...(run.questionReceipt?{questionReceipt:run.questionReceipt}:{}),...(run.answerResult?{answerResult:run.answerResult}:{})}:{}),...(this.coordination?{delegationAttempts:run.delegationAttempts,delegationState:run.delegationState,...(run.delegationCommandId?{delegationCommandId:run.delegationCommandId}:{}),...(run.delegationReceipt?{delegationReceipt:run.delegationReceipt}:{})}:{}),...(this.missioner?{missionAttempts:run.missionAttempts,missionState:run.missionState,
         ...(run.missionCommandId?{missionCommandId:run.missionCommandId}:{}),...(run.missionReceipt?{missionReceipt:run.missionReceipt}:{})}:{}),localClosed};
     run.outcome=Object.freeze(outcome);if(state==='needs_attention')this.terminal=true;
     if(this.active===run&&state!=='needs_attention')this.active=null;
@@ -221,20 +256,20 @@ export class ConversationLoop {
   }
   private async fail(run:Run,reason:string):Promise<void> {
     if(run.outcome||run.fenced)return;run.fenced=true;this.terminal=true;this.gateRelease?.();
-    const result=await this.adapter.stop();this.finish(run,run.reportState==='uncertain'||run.questionState==='uncertain'||run.missionState==='uncertain'||result.state==='needs_attention'?'needs_attention':'failed',reason,result.localClosed);
+    const result=await this.adapter.stop();this.finish(run,run.delegationState==='uncertain'||run.reportState==='uncertain'||run.questionState==='uncertain'||run.missionState==='uncertain'||result.state==='needs_attention'?'needs_attention':'failed',reason,result.localClosed);
   }
   stop():Promise<Outcome|null> {
     if(this.stopping)return this.stopping;this.terminal=true;const run=this.active;
     if(run)run.fenced=true;this.gateRelease?.();
     this.stopping=this.adapter.stop().then(result=>{
-      const outcome=run?this.finish(run,run.reportState==='uncertain'||run.questionState==='uncertain'||run.missionState==='uncertain'||result.state==='needs_attention'?'needs_attention':'stopped','owner_stop',result.localClosed):null;
+      const outcome=run?this.finish(run,run.delegationState==='uncertain'||run.reportState==='uncertain'||run.questionState==='uncertain'||run.missionState==='uncertain'||result.state==='needs_attention'?'needs_attention':'stopped','owner_stop',result.localClosed):null;
       this.remove();this.subscribers.clear();return outcome;
     });return this.stopping;
   }
   inspect(){return {terminal:this.terminal,active:this.active?.id??null,paused:this.paused,scheduled:this.scheduled,pumping:this.pumping,
     timers:Number(!!this.gateTimer),subscribers:this.subscribers.size,notificationErrors:this.notificationErrors,
     events:this.events.map(row=>({...row})),runs:[...this.runs.values()].map(run=>({id:run.id,requests:run.requests,toolReads:run.reads,
-      statusChecks:run.checks,bytes:run.bytes,...(this.reporter?{reportAttempts:run.reportAttempts,reportState:run.reportState,reportCommandId:run.commandId}:{}),...(this.questioner?{questionAttempts:run.asks,answerReads:run.answerReads,questionState:run.questionState,waiting:run.waiting,resumeBusy:run.resumeBusy,continuationReserved:run.reserved,questionId:run.questionId,questionCommandId:run.questionCommandId}:{}),...(this.missioner?{missionAttempts:run.missionAttempts,missionState:run.missionState,missionCommandId:run.missionCommandId,continuationReserved:run.reserved}:{}),history:structuredClone(run.history),outcome:run.outcome?structuredClone(run.outcome):null}))};}
+      statusChecks:run.checks,bytes:run.bytes,...(this.reporter?{reportAttempts:run.reportAttempts,reportState:run.reportState,reportCommandId:run.commandId}:{}),...(this.questioner?{questionAttempts:run.asks,answerReads:run.answerReads,questionState:run.questionState,waiting:run.waiting,resumeBusy:run.resumeBusy,continuationReserved:run.reserved,questionId:run.questionId,questionCommandId:run.questionCommandId}:{}),...(this.coordination?{delegationAttempts:run.delegationAttempts,delegationState:run.delegationState,...(run.delegationCommandId?{delegationCommandId:run.delegationCommandId}:{}),...(run.delegationReceipt?{delegationReceipt:run.delegationReceipt}:{})}:{}),...(this.missioner?{missionAttempts:run.missionAttempts,missionState:run.missionState,missionCommandId:run.missionCommandId,continuationReserved:run.reserved}:{}),history:structuredClone(run.history),outcome:run.outcome?structuredClone(run.outcome):null}))};}
   release():void {requireLoop(this.paused&&this.gateRelease,'not-paused');this.gateRelease();const run=this.active;if(run)this.schedule(run);}
   async dispose():Promise<void>{await this.stop();this.gateRelease?.();await this.work;await this.resumeWork;this.remove();this.subscribers.clear();}
 }

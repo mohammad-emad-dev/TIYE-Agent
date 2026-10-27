@@ -284,3 +284,6 @@ output/phase3e-mission/** -text whitespace=blank-at-eol,blank-at-eof,space-befor
 output/phase3e-exit/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 
 output/phase3f-entry/** -text
+
+output/phase3f-approval/** -text
+output/phase3f-coordination/** -text
