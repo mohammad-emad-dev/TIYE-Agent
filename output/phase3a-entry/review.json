@@ -1,0 +1,30 @@
+{
+  "reviews": [
+    {
+      "runId": "tiye-3a-entry-luna-20261027",
+      "model": "gpt-6-luna",
+      "status": "timeout",
+      "verdict": "UNAVAILABLE_TIMEOUT",
+      "resultSha256": "d01928e69d1a0c07b935c4ef9607ef44a224675d3b7e7cd386620dd1dc8d9456",
+      "briefSha256": "f136c595bae2f5c73acc3bb84f1b923a7ebaab817c771cf2069055dfb8ee03ef"
+    },
+    {
+      "runId": "tiye-3a-entry-flint-20261027",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "verdict": "UNAVAILABLE_TIMEOUT",
+      "resultSha256": "2385984038365173074e7c698c278da741cdf35abd4a975e92b67003f0d7a5be",
+      "briefSha256": "f136c595bae2f5c73acc3bb84f1b923a7ebaab817c771cf2069055dfb8ee03ef"
+    },
+    {
+      "runId": "tiye-3a-entry-deepseek-20261027",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "verdict": "UNAVAILABLE_TIMEOUT",
+      "resultSha256": "23d9eab536de2e2d74ad3a9c3695e95edfb308142fb4e06126cbac13711f8fa1",
+      "briefSha256": "f136c595bae2f5c73acc3bb84f1b923a7ebaab817c771cf2069055dfb8ee03ef"
+    }
+  ],
+  "parentReview": "REVIEW.md",
+  "constructionAuthorized": false
+}

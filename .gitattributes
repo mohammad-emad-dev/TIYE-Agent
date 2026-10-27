@@ -241,3 +241,5 @@ output/phase2f-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-befo
 output/phase2f-workers/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 
 output/phase2f-exit/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+output/phase3a-entry/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
