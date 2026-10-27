@@ -268,3 +268,5 @@ output/phase3c-approval/** -text whitespace=blank-at-eol,blank-at-eof,space-befo
 output/phase3c-report/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 
 output/phase3c-exit/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+output/phase3d-entry/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -1,0 +1,13 @@
+{
+  "proposalStatus": "READY_FOR_OWNER_DECISION",
+  "phase3dExecuted": false,
+  "engineTestsRerun": false,
+  "baselineTestsRetained": 350,
+  "baselineVerification": {
+    "command": "python -X utf8 -B output/phase3c-exit/verify.py",
+    "exitCode": 0,
+    "durationSeconds": 63.621,
+    "stdoutSha256": "b7e23cbc8885228061aef766ad2946d433b7c7a11f112f1bf3e2958ffabcaddc",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

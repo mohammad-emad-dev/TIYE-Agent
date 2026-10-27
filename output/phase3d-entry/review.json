@@ -1,0 +1,26 @@
+[
+  {
+    "runId": "tiye-3d-entry-luna-20261027",
+    "model": "gpt-6-luna",
+    "status": "completed",
+    "exitCode": 0,
+    "report": "- The contract does not reserve a request for the mandatory post-answer continuation. It permits up to three request admissions, but if an accepted question is dispatched on the third, the required continuation after an answer exceeds that limit. Require a remaining request slot before dispatching any question that could be accepted.",
+    "resultSha256": "05bd3ddc37f093a6e1e9f70120d9f6c99291616edd97fba74c1b5a6634441502"
+  },
+  {
+    "runId": "tiye-3d-entry-flint-20261027",
+    "model": "opencode/flint-40b-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "4a5c5b46abcc2e38105b7f418ebf547115b66b055de75ea84a8fdef0bb0acfb4"
+  },
+  {
+    "runId": "tiye-3d-entry-deepseek-20261027",
+    "model": "opencode/deepseek-v4.1-flash-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "15a8cee8401bfff25d42000c22683cd64af7e1413f0041cff62b8656228a9551"
+  }
+]
