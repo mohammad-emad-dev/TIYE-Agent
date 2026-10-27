@@ -1,0 +1,26 @@
+[
+  {
+    "runId": "tiye-3c-entry-luna-20261027",
+    "model": "gpt-6-luna",
+    "status": "completed",
+    "exitCode": 0,
+    "report": "No issue found. The bound member is fixed before conversation setup and supplies actor identity through the existing core API; the bridge cannot expose other write capabilities. Reports retain core eligibility checks, and the required cases cover blocked, foreign, closed, unproven, and terminal tasks.",
+    "resultSha256": "e94f187549233192bc10633ab735aa41ab9d047cebda641350f7ca049f2f8a78"
+  },
+  {
+    "runId": "tiye-3c-entry-flint-20261027",
+    "model": "opencode/flint-40b-free",
+    "status": "failed",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "51dbc04c8dd4e8b1e0db24b1255ab7a3ca7a7b91b2326c1a9cb57562f5bf2905"
+  },
+  {
+    "runId": "tiye-3c-entry-deepseek-20261027",
+    "model": "opencode/deepseek-v4.1-flash-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "208598e2f0987290ad63e21a5da67321ae7517263fe61497e5a9e1aaee3d699c"
+  }
+]
