@@ -1,0 +1,26 @@
+[
+  {
+    "runId": "tiye-3b-exit-luna-20261027",
+    "model": "gpt-6-luna",
+    "status": "completed",
+    "exitCode": 0,
+    "resultSha256": "8b0756dbdf562256b7d3d8e6707a99c857c3e045a8946080fc451f18793fff18",
+    "report": "No defect found. In `step()`, a durable stop during final text is detected by `status(run)` before the assistant text is appended or `finish()` accepts completion, so the run fails without returning that text.\n\nFor a stop triggered by `run.finished`, `finish()` has already stored the completion outcome and cleared the active run before emitting the notification. The subsequent `loop.stop()` cannot overwrite it; `run.complete(outcome)` then resolves with that same result."
+  },
+  {
+    "runId": "tiye-3b-exit-flint-20261027",
+    "model": "opencode/flint-40b-free",
+    "status": "failed",
+    "exitCode": 1,
+    "resultSha256": "046b305581bfd61f44bf60b446b50fa0ff146ca93a6612ea71f94478f2c4eb4c",
+    "report": ""
+  },
+  {
+    "runId": "tiye-3b-exit-deepseek-20261027",
+    "model": "opencode/deepseek-v4.1-flash-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "resultSha256": "1a7992b3354f31eba7bb2daafa32fbb351920a8372e341ba572b0b9b58ed404a",
+    "report": ""
+  }
+]

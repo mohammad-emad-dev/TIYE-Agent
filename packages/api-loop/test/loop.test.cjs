@@ -193,3 +193,34 @@ test('legacy profile refuses loop requests and structured histories refuse forge
     await assert.rejects(b.adapter.send({...input,turn:2}));assert.equal(a.fixture.inspect().seen,0);assert.equal(b.fixture.inspect().seen,0);
   }finally{await normal.dispose();await loop.dispose();}
 });
+
+test('durable stop during final text prevents conversation completion acceptance',async t=>{
+  const f=await fixture(t);try{
+    let stopped=false,stopResult;
+    f.loop.onEvent(event=>{if(event.type==='text.delta'&&!stopped){
+      stopped=true;stopResult=stopCore(f);
+    }});
+    const result=await f.loop.run(run());assert(stopped);assert.equal(stopResult,'accepted');
+    assert.equal(result.state,'failed');assert.equal(result.text,'');
+    assert.equal(result.requests,2);assert.equal(result.toolReads,1);
+    assert(!result.history.some(row=>row.kind==='assistant.text'));
+    assert.equal(f.store.snapshot().sessions[0][1].status,'stopped');
+  }finally{await f.close();}
+});
+
+test('stop from accepted completion notification preserves the final result',async t=>{
+  const f=await fixture(t);try{
+    let stopping,notifications=0,notificationState,stopResult;
+    f.loop.onEvent(event=>{if(event.type==='run.finished'){
+      notifications++;notificationState=event.state;
+      stopResult=stopCore(f);stopping=f.loop.stop();
+    }});
+    const result=await f.loop.run(run());await stopping;
+    assert.equal(notifications,1);assert.equal(notificationState,'response_complete');
+    assert.equal(stopResult,'accepted');assert.equal(result.state,'response_complete');
+    assert.equal(result.requests,2);assert.equal(result.toolReads,1);
+    assert(result.text.includes(f.setup.members[1].name));
+    assert.equal(f.fixture.inspect().runs[0].outcome.state,'response_complete');
+    assert.equal(f.store.snapshot().sessions[0][1].status,'stopped');
+  }finally{await f.close();}
+});
