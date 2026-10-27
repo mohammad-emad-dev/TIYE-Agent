@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-27",
+  "parentVerdict": "ACCEPTED_BOUNDED_INTERNAL_CONTRACT",
+  "productionCodeChanged": false,
+  "testChange": "one maximum-ten-chain integration with independent stored-event provenance checks",
+  "delegates": [
+    {
+      "runId": "tiye-handoff-exit-codex-20261027-a",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "resultSha256": "452d3907f99fdfa26351e160d50d639222a2f669bc0462d59c6f61225918454e",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        "?? output/phase2e-exit/",
+        "?? packages/core/test/handoff-exit.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": "1. `recoveredMissionEligible` evaluates tasks from the entire context as if they belonged to `sessionId`. `handoffContext` copies the projection maps without filtering them, and the recovery loop rejects any task whose assignment belongs to another session. Thus, in a valid multi-session projection, an unrelated session can make this mission ineligible. Scope the recovery walk and its count checks to the requested session."
+    },
+    {
+      "runId": "tiye-handoff-exit-flint-20261027-a",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "resultSha256": "9a3b7ac1757eb601a76291dc6e6efa2d9aec7a4a4715071d13d974006f8aedb3",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        "?? output/phase2e-exit/",
+        "?? packages/core/test/handoff-exit.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-handoff-exit-deepseek-20261027-a",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "resultSha256": "1af56a3692040996ec97f51fbe79b9c50265e302c3ab2c8cf1cf58eeda919fc6",
+      "reportedWorkingTreeEntries": [
+        " M .gitattributes",
+        "?? output/phase2e-exit/",
+        "?? packages/core/test/handoff-exit.test.cjs"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    }
+  ],
+  "modelDisposition": "Luna multi-session concern is outside valid single-immutable-session roots; all-root task accountability is required. Two timeouts provide no verdict.",
+  "parentIntegrationReviewComplete": true,
+  "guardDisposition": "no blocking code/test/docs issue within approved boundary",
+  "limits": [
+    "supplied-module model review is not whole implementation audit",
+    "full-history replay/projection replacement has no throughput qualification"
+  ]
+}
