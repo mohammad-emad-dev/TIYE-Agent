@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-27",
+  "baselineCommit": "b53dcb3",
+  "baselineVerification": {
+    "command": "rtk proxy python -X utf8 -B output/phase2e-exit/verify.py",
+    "exitCode": 0,
+    "stdoutSha256": "28de62783638f992531426699f2b2b2120a4b804963a18cf1c06b2b9fa6480e0",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "baselineTestCount": 181,
+  "newTestsRun": false,
+  "phase2fEngineExecuted": false,
+  "proposalStatus": "READY_FOR_OWNER_DECISION"
+}

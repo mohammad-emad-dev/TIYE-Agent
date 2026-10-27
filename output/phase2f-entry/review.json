@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-27",
+  "reviewType": "supplied-contract-advisory-design-review",
+  "reports": [
+    {
+      "runId": "tiye-worker-proposal-codex-20261027-a",
+      "model": "gpt-6-luna",
+      "status": "timeout",
+      "resultSha256": "54bf61840e69e8dd7d4d59cc0f45c4ea1bddfbe26a60e33cd188221d0a0c0b56",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2f-entry/"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-worker-proposal-flint-20261027-a",
+      "model": "opencode/flint-40b-free",
+      "status": "timeout",
+      "resultSha256": "b1ea3891945e5a8020555554324a23020d9fee25ace4981353c396f2558d626a",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2f-entry/"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    },
+    {
+      "runId": "tiye-worker-proposal-deepseek-20261027-a",
+      "model": "opencode/deepseek-v4.1-flash-free",
+      "status": "timeout",
+      "resultSha256": "cc49a7e9d343c87477b8fb1f33036cd5c20b8c6fc559ad6e3d16eea234e05c60",
+      "reportedWorkingTreeEntries": [
+        "?? output/phase2f-entry/"
+      ],
+      "entriesPredatedDispatch": true,
+      "report": ""
+    }
+  ],
+  "parentReview": "REVIEW.md",
+  "modelVerdictsAvailable": false,
+  "implementationVerifiedByModels": false,
+  "suppliedContractSha256": "27860a81b4f52f08ec3a115b510c2bfbd20aea788f55fa6ee5c054e0a789559f",
+  "finalContractSha256": "4c0ebda315b2aafb7b5b2caad7633421265fc21e540f247adcf6753d244efebe",
+  "parentClarifications": [
+    "post-claim uncertainty versus settled core state",
+    "storage failure is not worker crash",
+    "failed stop persistence still requires bounded owned cleanup without claiming accepted stop"
+  ]
+}
