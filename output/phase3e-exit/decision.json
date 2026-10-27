@@ -1,0 +1,17 @@
+{
+  "schema": "tiye-phase3e-exit-decision-v1",
+  "scope": "INTERNAL_PHASE3E_LEADER_MISSION_COMPLETION",
+  "proposalCommit": "c58d57f",
+  "implementationCommit": "8f15ee3",
+  "decision": "PASS_BOUNDED_INTERNAL_CONTRACT",
+  "exceptionEnded": true,
+  "newConstructionAuthorized": false,
+  "nativeProviderIntegration": "HOLD",
+  "releaseAllowed": false,
+  "architectureMapping": {
+    "4.2": "bounded Leader complete_mission plus prior context/report/question subsets only",
+    "5.1": "fixed offline lifecycle only",
+    "5.3": "bounded in-memory scripted loops only"
+  },
+  "futureAdapterRequirement": "Qualify stop rejection, draining and uncertainty before admitting an adapter that can reject stop."
+}

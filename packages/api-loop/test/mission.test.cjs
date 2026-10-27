@@ -242,3 +242,31 @@ test('accepted completion closes real core and mission-loop admission',async t=>
     assert.throws(()=>f.loop.run(input()),/loop-admission/);
   }finally{await f.close();}
 });
+
+test('closed core before final acceptance retains mission receipt without accepting reply',async t=>{
+  const f=await fixture(t,{mode:'mission-late'});try{
+    const admitted=event(f,row=>row.type==='request.admitted'),pending=f.loop.run(input()),first=(await admitted).requestId;
+    await f.fixture.waitAdapter('end_candidate',first);const next=event(f,row=>row.type==='request.admitted');f.fixture.releaseAdapter(first);
+    const second=(await next).requestId;await f.fixture.waitAdapter('end_candidate',second);assert.equal(mission(f).status,'completed');
+    f.store.close();f.fixture.releaseAdapter(second);const result=await pending;
+    assert.equal(result.state,'failed');assert.equal(result.missionState,'accepted');assert.equal(result.missionAttempts,1);
+    assert.equal(result.requests,2);assert.equal(result.text,'');assert.equal(result.missionReceipt.decision,'accepted');
+    assert.equal(f.fixture.adapter().requests.length,2);assert(f.fixture.adapter().requests.every(row=>row.creates===1&&row.closed));
+    await f.scenario.dispose();const reopened=TaskStore.openHandoffEngine(f.root);
+    try{assert.deepEqual(reopened.member(f.setup.leaderId).mission().completion,result.missionReceipt.completion);
+      assert.equal(reopened.snapshot().commands.find(([id])=>id===result.missionCommandId)[1].result,'accepted');}finally{reopened.close();}
+  }finally{await f.close();}
+});
+
+test('stop from final completion notification preserves accepted conversation and mission',async t=>{
+  const f=await fixture(t);try{
+    let stopping,decision,notificationState,count=0;
+    f.loop.onEvent(row=>{if(row.type==='run.finished'){count++;notificationState=row.state;decision=stopCore(f);stopping=f.loop.stop();}});
+    const result=await f.loop.run(input());await stopping;
+    assert.equal(count,1);assert.equal(notificationState,'response_complete');assert.equal(decision,'rejected');
+    assert.equal(result.state,'response_complete');assert.equal(result.missionState,'accepted');assert.equal(result.requests,2);
+    assert.equal(result.missionAttempts,1);assert(result.text.includes(JSON.stringify(result.missionReceipt)));
+    assert.deepEqual(mission(f).completion,result.missionReceipt.completion);assert.equal(mission(f).status,'completed');
+    assert.equal(f.fixture.inspect().runs[0].outcome.state,'response_complete');await replay(f);
+  }finally{await f.close();}
+});

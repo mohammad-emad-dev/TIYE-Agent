@@ -1,0 +1,26 @@
+[
+  {
+    "runId": "tiye-3e-exit-luna-20261027",
+    "model": "gpt-6-luna",
+    "status": "completed",
+    "exitCode": 0,
+    "report": "No defect found in the supplied scope. A closed core prevents final text acceptance while preserving the accepted mission receipt. For reentrant stop, `finish` records the outcome and clears the active run before emitting `run.finished`, so the stop cannot replace the completed result; core stop rejection leaves completion unchanged.\n\nThis review supports only the trusted offline prototype. It does not establish qualification; the parent\u2019s preflights remain necessary.",
+    "resultSha256": "574174af71569d3fb908a3377058a0c5ea7a11bff91df5883533b7e947e1cea5"
+  },
+  {
+    "runId": "tiye-3e-exit-flint-20261027",
+    "model": "opencode/flint-40b-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "3fd5ccc26def5cccfca114759c1eb3edf5e9315dba14d0d8fb731019771eb047"
+  },
+  {
+    "runId": "tiye-3e-exit-deepseek-20261027",
+    "model": "opencode/deepseek-v4.1-flash-free",
+    "status": "timeout",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "18011b91760d2cb73a891e11fed0a0a344d3f4789b2370ffff585b4275f4216b"
+  }
+]
