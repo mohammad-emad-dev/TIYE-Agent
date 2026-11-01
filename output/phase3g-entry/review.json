@@ -1,0 +1,18 @@
+[
+  {
+    "runId": "tiye-3g-entry-review-20261101",
+    "model": "gpt-6-luna",
+    "status": "failed",
+    "exitCode": 1,
+    "report": "",
+    "resultSha256": "86922d02d957cbbe4ff06a83a2964efe4fa9d673616d00486d2f5671fbc74be7"
+  },
+  {
+    "runId": "tiye-3g-entry-flint-20261101",
+    "model": "opencode/flint-40b-free",
+    "status": "failed",
+    "exitCode": 2,
+    "report": "",
+    "resultSha256": "c225b7d6617330fa6d78d6c02eb103a6eb82d7f0ded4edb9c7927a9c7efcaa11"
+  }
+]
