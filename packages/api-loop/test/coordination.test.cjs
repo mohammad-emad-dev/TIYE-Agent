@@ -255,3 +255,35 @@ test('status and history codecs reject overflow, foreign rows and forged selecto
     assert(hundred);
   }finally{await f.close();}
 });
+
+test('stop from final coordination notification preserves accepted conversation and cancels queued assignment',async t=>{
+  const f=await fixture(t);try{
+    let stopping,decision,notificationState,count=0;
+    f.loop.onEvent(row=>{if(row.type==='run.finished'){count++;notificationState=row.state;decision=stopCore(f);stopping=f.loop.stop();}});
+    const result=await f.loop.run(input());await stopping;
+    assert.equal(count,1);assert.equal(notificationState,'response_complete');assert.equal(decision,'accepted');
+    assert.equal(result.state,'response_complete');assert.equal(result.delegationState,'accepted');assert.equal(result.requests,2);
+    assert(result.text.includes(JSON.stringify(result.delegationReceipt)));
+    const assignment=f.store.snapshot().assignments.find(([id])=>id===result.delegationReceipt.assignment.taskId)[1];
+    assert.equal(assignment.taskId,result.delegationReceipt.assignment.taskId);
+    assert.equal(assignment.memberId,result.delegationReceipt.assignment.memberId);
+    assert.equal(assignment.closed,true);assert.equal(assignment.effectId,null);
+    await replay(f);
+  }finally{await f.close();}
+});
+
+test('lost acknowledgement fences later runs without retry or receipt',async t=>{
+  const f=await fixture(t,{pause:'before-delegation'}),original=Database.prototype.exec;try{
+    const reached=phase(f,'before-delegation'),pending=f.loop.run(input());await reached;
+    let fired=false;Database.prototype.exec=function(sql){const result=original.call(this,sql);
+      if(!fired&&sql==='COMMIT'){fired=true;throw new Error('fixture-exit-lost');}return result;};
+    f.fixture.release();const result=await pending;Database.prototype.exec=original;assert(fired);
+    assert.equal(result.state,'needs_attention');assert.equal(result.delegationState,'uncertain');assert.equal(result.delegationReceipt,undefined);
+    assert.equal(result.requests,1);assert.equal(result.delegationAttempts,1);
+    assert.throws(()=>f.loop.run({...input(),runId:randomUUID()}),/loop-admission/);
+    assert.equal(f.fixture.adapter().requests.length,1);
+    const command=f.store.snapshot().commands.find(([id])=>id===result.delegationCommandId)?.[1];
+    assert.equal(command?.result,'accepted');assert.equal(result.delegationReceipt,undefined);
+    await replay(f);
+  }finally{Database.prototype.exec=original;await f.close();}
+});
