@@ -2,9 +2,9 @@
 const test=require('node:test'),assert=require('node:assert/strict'),{randomUUID}=require('node:crypto');
 const Database=require('../../core/node_modules/better-sqlite3/lib/win32-x64.js');
 const {TaskStore}=require('../../core/dist'),{privateRoot,command,bytes}=require('../../core/test/helpers.cjs');
-const {session}=require('../../core/test/mock-fixtures.cjs');
+const {session,plan}=require('../../core/test/mock-fixtures.cjs');
 const {startTask,complete,report,enqueue,ask,observer}=require('../../core/test/question-fixtures.cjs');
-const {createCoreHandoffScenario,createCoreCoordinationScenario}=require('../dist');
+const {createCoreHandoffScenario}=require('../dist');
 const codec=require('../../api-adapter/dist');
 const input=()=>({version:1,runId:randomUUID(),text:'Hand off one eligible failed task with a bounded title'});
 function observeFailure(f,planned){
@@ -301,4 +301,60 @@ test('lost acknowledgement fences later runs without retry or receipt',async t=>
     assert.equal(command?.result,'accepted');assert.equal(result.handoffReceipt,undefined);
     await replay(f);
   }finally{Database.prototype.exec=original;await f.close();}
+});
+
+test('construction gate refuses every ineligible predecessor state',async t=>{
+  const membersOf=setup=>setup.members.map((row,i)=>({memberRef:'member'+i,memberId:row.memberId}));
+  const bindingOf=setup=>({version:1,sessionId:setup.sessionId,memberId:setup.leaderId});
+  async function build(state){
+    const root=privateRoot(t),setup=session(),store=TaskStore.createHandoffEngine(root);
+    store.owner().createSession(bytes(setup));
+    const f={root,store,setup};
+    let taskId;
+    if(state==='created'){const created=command();store.execute(bytes(created));taskId=created.taskId;}
+    else if(state==='queued'){taskId=enqueue(f).taskId;}
+    else{
+      const planned=startTask(f,{approved:true});taskId=planned.taskId;
+      if(state==='running'){observer(t,planned);store.claim(planned.effectId);}
+      else if(state==='blocked'){assert.equal(store.member(planned.memberId).ask(bytes(ask(f,planned))),'accepted');}
+      else if(state==='uncertain'){observer(t,planned);store.claim(planned.effectId);store.settle(planned.effectId,bytes({scope:'unavailable'}));}
+      else if(state==='done'){complete(t,f,planned);assert.equal(store.member(planned.memberId).report(bytes(report(f,planned,'done'))),'accepted');}
+      else if(state==='unobserved'){complete(t,f,planned);assert.equal(store.member(planned.memberId).report(bytes(report(f,planned,'failed'))),'accepted');}
+      else throw new Error('unknown-state');
+    }
+    return {store,setup,taskId,before:store.snapshot(),async close(){store.close();}};
+  }
+  for(const state of ['created','queued','running','blocked','uncertain','done','unobserved']){
+    const f=await build(state);
+    try{
+      const scenario=createCoreHandoffScenario(f.store);
+      try{
+        assert.throws(()=>scenario.create(bindingOf(f.setup),{tasks:[{taskRef:'candidate',taskId:f.taskId}],members:membersOf(f.setup)},'handoff-task'),state);
+        assert.deepEqual(f.store.snapshot(),f.before);
+      }finally{await scenario.dispose();}
+    }finally{await f.close();}
+  }
+});
+test('chained rehabilitation preserves both lineages with increasing sequences',async t=>{
+  const f=await fixture(t,{mode:'handoff-task'});try{
+    const first=await f.loop.run(input());assert.equal(first.handoffState,'accepted');
+    const predecessor=f.catalog.tasks[0].taskId,edge1=f.store.snapshot().handoffs.find(([id])=>id===predecessor)[1];
+    const succ=first.handoffReceipt.handoff.successorTaskId,target=first.handoffReceipt.handoff.targetMemberId;
+    const started={type:'team.task.start',version:1,sessionId:f.setup.sessionId,memberId:target,...plan({taskId:succ,expiresAt:Date.now()+180000})};
+    assert.equal(f.store.scheduler().start(bytes(started)),'accepted');
+    const failure={type:'team.task.failure',version:1,commandId:randomUUID(),sessionId:f.setup.sessionId,taskId:succ,memberId:target,attemptId:started.attemptId,reason:'crash',summary:'Private synthetic failure detail'};
+    assert.equal(f.store.owner().observeFailure(bytes(failure)),'accepted');
+    assert.equal(f.store.snapshot().tasks.find(([id])=>id===succ)[1],'failed');
+    const second={type:'team.task.handoff',version:1,commandId:randomUUID(),sessionId:f.setup.sessionId,
+      predecessorTaskId:succ,successorTaskId:randomUUID(),targetMemberId:f.setup.members[1].memberId,title:'Second explicit successor'};
+    assert.equal(f.store.member(f.setup.leaderId).handoff(bytes(second)),'accepted');
+    const current=f.store.snapshot(),edge2=current.handoffs.find(([id])=>id===succ)[1];
+    assert(edge2.handoffSequence>edge1.handoffSequence);
+    assert.equal(current.handoffs.find(([id])=>id===predecessor)[1].successorTaskId,edge1.successorTaskId);
+    assert.equal(current.tasks.find(([id])=>id===predecessor)[1],'failed');
+    assert.equal(current.tasks.find(([id])=>id===second.successorTaskId)[1],'queued');
+    const assignment=current.assignments.find(([id])=>id===second.successorTaskId)[1];
+    assert.equal(assignment.memberId,f.setup.members[1].memberId);assert.equal(assignment.effectId,null);assert.equal(assignment.closed,false);
+    await replay(f);
+  }finally{await f.close();}
 });
