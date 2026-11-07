@@ -328,3 +328,13 @@ task through an existing inbox command. It grants no scheduler execution or full
 delegation. [Implementation evidence](output/phase3f-coordination/README.md) remains
 separate from the required exit review. Providers, durable loop recovery, UI and
 release remain unfinished.
+
+The [Phase3F exit](output/phase3f-exit/README.md) is accepted at 5726ac7.
+The owner then instructed continuation of the [Phase3G handoff contract](output/phase3g-entry/CONTRACT.md)
+at 6639d5e; its [scope record](output/phase3g-approval/README.md) preserves the
+decision. The restricted Leader profile hands off one eligible failed task into
+one queued successor task for one roster member under a bounded title. It grants
+no failure observation, free-form task creation, scheduler execution or retry.
+[Implementation evidence](output/phase3g-handoff/README.md) remains separate
+from the required exit review. Providers, durable loop recovery, UI and release
+remain unfinished.

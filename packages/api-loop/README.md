@@ -100,3 +100,17 @@ trusted catalog, fixed mode and optional fixture pause. Queued tasks do not run
 through this profile. See output/phase3f-coordination for bounded evidence;
 the separate exit review remains pending. Previous pending-exit notes above are
 historical: Phase3C/3D/3E exits were subsequently accepted in their output folders.
+
+## Explicit handoff profile (Phase 3G)
+
+createCoreHandoffScenario(store) binds the actual Leader and a detached
+catalog of up to six eligible failed tasks with closed failure notices and the
+complete roster's member references. One run may read context once, then
+handoff_task once through the existing Leader-bound handoff capability. A
+rejected receipt or unknown acknowledgement never substitutes the current
+lineage for this command's decision. Known acceptance/rejection and unknown
+acknowledgement remain separate from conversation completion. No failure
+observation, task creation, scheduler, approval, claim or retry capability
+reaches the loop. Capacity is reserved before writing; no resend or later run
+is admitted. See output/phase3g-handoff for bounded evidence; the separate exit
+review remains pending.

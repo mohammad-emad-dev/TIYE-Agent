@@ -67,3 +67,12 @@ requests. get_team_status and delegate_task candidates remain gated by full
 transcript validation and independent local closure. The adapter executes no
 core tools itself; the narrow Leader bridge in api-loop owns enqueue admission.
 Old factories refuse this profile. Providers and generic transports remain absent.
+
+## Fixed handoff profile (Phase 3G)
+
+createScriptedHandoffScenario() accepts only handoff modes and closed
+handoff-loop requests. A validated trusted catalog of eligible failed tasks
+remains fixed across requests. The handoff_task candidate remains gated by full
+transcript validation and independent local closure. The adapter executes no
+core tools itself; the narrow Leader bridge in api-loop owns handoff admission.
+Old factories refuse this profile. Providers and generic transports remain absent.

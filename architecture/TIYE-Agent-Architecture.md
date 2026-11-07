@@ -1728,6 +1728,21 @@ execution. This is a subset of Section4.2; full delegation, providers, generic
 adapters, authenticated transport, durable loop recovery, file/command effects,
 UI, packaging and release remain pending. Provider/native gates stay HOLD.
 
+**Activated internal Phase 3G construction, 7 November 2026.** After the Phase3F
+exit at 5726ac7, the owner instructed continuation of the concrete
+[Phase3G amendment](../output/phase3g-entry/AMENDMENT.md) and
+[contract](../output/phase3g-entry/CONTRACT.md) presented at 6639d5e. The
+[decision record](../output/phase3g-approval/README.md) admits only the fixed
+offline Leader handoff profile through a separate exit review. It may hand off
+one eligible failed task with a closed failure notice into one queued successor
+task for one roster member under a bounded title. It may not observe failures,
+create free-form tasks, or reach scheduler start, approvals, claims or retry.
+Schema7 and core/mock-team production remain unchanged. Parent actual-source
+review and pinned preflight precede new execution. This is a subset of
+Section4.2; full rehabilitation, providers, generic adapters, authenticated
+transport, durable loop recovery, file/command effects, UI, packaging and
+release remain pending. Provider/native gates stay HOLD.
+
 
 ---
 
