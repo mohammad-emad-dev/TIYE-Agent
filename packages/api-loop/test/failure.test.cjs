@@ -13,7 +13,11 @@ async function fixture(t,{mode='failure-view',pause='none',state='empty',count=0
     assert.equal(store.owner().createSession(bytes(setup)),'accepted');let notices=[];
     if(state==='awaiting'){const planned=startTask(f,{approved:true});notices=[observeFailure(f,planned,{close:false})];}
     else if(state==='closed'){const planned=startTask(f,{approved:true});notices=[observeFailure(f,planned,{close:true})];}
-    else if(state==='mixed'){const states=[true,false,true];for(const close of states){const planned=startTask(f,{approved:true});notices.push(observeFailure(f,planned,{close}));}}
+    else if(state==='mixed'){
+      // A member with an awaiting-reconciliation task cannot start another one;
+      // seed the second closed notice on the other session member.
+      const states=[{close:true,memberId:setup.members[1].memberId},{close:false,memberId:setup.members[1].memberId},{close:true,memberId:setup.members[0].memberId}];
+      for(const item of states){const planned=startTask(f,{approved:true,memberId:item.memberId});notices.push(observeFailure(f,planned,{close:item.close}));}}
     if(count){notices=[];for(let i=0;i<count;i++){const planned=startTask(f,{approved:true});notices.push(observeFailure(f,planned,{close:i%2===0}));}}
     if(capacity){
       const existing=command();store.execute(bytes(existing));
@@ -43,22 +47,34 @@ async function replay(f){const before=f.store.snapshot();await f.scenario.dispos
 function durable(f){const snapshot=f.store.snapshot();return {commands:snapshot.commands.length,assignments:snapshot.assignments.length,
   failures:snapshot.failures.length,handoffs:(snapshot.handoffs??[]).length};}
 
-for(const mode of ['failure-view','failure-context'])
-test('Leader reads failures with actual notices and continuation: '+mode,async t=>{
-  const f=await fixture(t,{mode,state:'mixed'});try{
+test('Leader reads the mixed failure set without leaks or writes',async t=>{
+  const f=await fixture(t,{mode:'failure-view',state:'mixed'});try{
     const before=durable(f),result=await f.loop.run(input());assert.equal(result.state,'response_complete');assert.equal(result.toolReads,1);
     assert.equal(result.requests,2);assert(result.statusChecks<=8);
     const reading=result.history.find(row=>row.kind==='failures.result').result;assert.equal(reading.version,1);assert.equal(reading.sessionId,f.setup.sessionId);assert.equal(reading.status,'active');
     assert.equal(reading.failures.length,3);assert.deepEqual(reading.failures.map(row=>row.status),['closed','awaiting_reconciliation','closed']);
     for(const row of reading.failures){
       const notice=f.notices.find(notice=>notice.taskId===row.taskId);
-      assert(notice);assert.equal(row.memberRef,'member1');assert.equal(row.role,'member');
+      assert(notice);assert.equal(row.memberRef,'member'+f.setup.members.findIndex(member=>member.memberId===notice.memberId));
+      assert.equal(row.role,notice.memberId===f.setup.leaderId?'leader':'member');
       assert.equal(row.reason,notice.reason);assert.equal(row.summary,notice.summary);assert.equal(row.observedSequence,notice.observedSequence);
       assert.equal(row.status,notice.closed?'closed':'awaiting_reconciliation');
       assert.equal(row.closedSequence,notice.closed?notice.closedSequence:null);assert(!('memberId'in row)&&!('attemptId'in row));
     }
     assert(reading.failures[0].observedSequence<reading.failures[1].observedSequence&&reading.failures[1].observedSequence<reading.failures[2].observedSequence);
-    assert(!JSON.stringify(result.history).includes(f.notices[0].memberId));assert(result.text.includes(JSON.stringify(reading)));
+    const historyText=JSON.stringify(result.history);for(const notice of f.notices)assert(!historyText.includes(notice.memberId));
+    assert(result.text.includes(JSON.stringify(reading)));
+    assert.deepEqual(durable(f),before);assert.deepEqual(f.store.snapshot().failures,f.before.failures);await replay(f);
+  }finally{await f.close();}
+});
+
+test('Leader context continuation completes without a failure read',async t=>{
+  const f=await fixture(t,{mode:'failure-context',state:'mixed'});try{
+    const before=durable(f),result=await f.loop.run(input());assert.equal(result.state,'response_complete');assert.equal(result.toolReads,1);
+    assert.equal(result.requests,2);assert(result.statusChecks<=8);
+    const context=result.history.find(row=>row.kind==='tool.result').result;
+    assert.equal(context.sessionId,f.setup.sessionId);assert.equal(context.memberId,f.binding.memberId);assert.equal(context.role,'leader');
+    assert(!result.history.some(row=>row.kind==='failures.result'));assert(result.text.includes('Context received'));
     assert.deepEqual(durable(f),before);assert.deepEqual(f.store.snapshot().failures,f.before.failures);await replay(f);
   }finally{await f.close();}
 });
@@ -71,12 +87,13 @@ test('empty session reads no failures without writes',async t=>{
   }finally{await f.close();}
 });
 
-test('awaiting-only and closed-only sets keep reconciliation state',async t=>{
-  for(const state of ['awaiting','closed']){const f=await fixture(t,{state});try{
+for(const state of ['awaiting','closed'])
+test('failure set keeps reconciliation state: '+state,async t=>{
+  const f=await fixture(t,{state});try{
     const result=await f.loop.run(input()),reading=result.history.find(row=>row.kind==='failures.result').result;
     assert.equal(reading.failures.length,1);assert.equal(reading.failures[0].status,state==='closed'?'closed':'awaiting_reconciliation');
     if(state==='closed')assert(reading.failures[0].closedSequence>0);else assert.equal(reading.failures[0].closedSequence,null);
-  }finally{await f.close();}}
+  }finally{await f.close();}
 });
 
 test('open-question cancellation and uncertain plus handed fidelity',async t=>{
@@ -86,7 +103,7 @@ test('open-question cancellation and uncertain plus handed fidelity',async t=>{
     assert.equal(f.store.member(questioned.memberId).ask(bytes(asked)),'accepted');
     const cancelled=observeFailure(f,questioned,{close:true});
     assert.equal(f.store.snapshot().questions[0][1].status,'cancelled');
-    const uncertainPlanned=startTask(f,{approved:true}),uncertain=observeFailure(f,uncertainPlanned,{close:false});
+    const uncertainPlanned=startTask(f,{approved:true,memberId:f.setup.members[0].memberId}),uncertain=observeFailure(f,uncertainPlanned,{close:false});
     const handedPlanned=startTask(f,{approved:true}),handed=observeFailure(f,handedPlanned,{close:true});
     assert.equal(f.store.member(f.setup.leaderId).handoff(bytes({type:'team.task.handoff',version:1,commandId:randomUUID(),sessionId:f.setup.sessionId,
       predecessorTaskId:handed.taskId,successorTaskId:randomUUID(),targetMemberId:f.setup.members[1].memberId,title:'Explicit successor work'})),'accepted');
@@ -219,7 +236,7 @@ test('stop from the final notification preserves the read outcome',async t=>{
 test('closed store before continuation preserves known read with reopened durable state',async t=>{
   const f=await fixture(t,{pause:'before-continuation',state:'mixed'});try{
     const reached=phase(f,'before-continuation'),pending=f.loop.run(input());await reached;f.store.close();f.fixture.release();const result=await pending;
-    assert.equal(result.state,'failed');assert.equal(result.toolReads,1);assert.equal(result.requests,2);await f.scenario.dispose();
+    assert.equal(result.state,'failed');assert.equal(result.toolReads,1);assert.equal(result.requests,1);await f.scenario.dispose();
     const reopened=TaskStore.openHandoffEngine(f.root);try{assert.deepEqual(reopened.snapshot().failures,f.before.failures);}finally{reopened.close();}
   }finally{await f.close();}
 });
@@ -248,7 +265,7 @@ for(const mode of ['failure-final-malformed','failure-continuation-ambiguous','f
 test('failed continuation preserves accepted read: '+mode,async t=>{
   const f=await fixture(t,{mode,state:'mixed'});try{
     const result=await f.loop.run(input());
-    assert.equal(result.state,'failed');
+    assert.equal(result.state,mode==='failure-continuation-ambiguous'?'needs_attention':'failed');
     assert.equal(result.toolReads,1);assert.equal(result.requests,2);
     assert.deepEqual(f.store.snapshot().failures,f.before.failures);
   }finally{await f.close();}

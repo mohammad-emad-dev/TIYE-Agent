@@ -118,8 +118,12 @@ export class ConversationLoop {
     if(event.tool==='complete_mission'){await this.recordMission(run,event);return;}
     if(event.tool==='ask_leader'||event.tool==='ask_user'){await this.recordQuestion(run,event);return;}
     if(event.tool==='report_result'){await this.recordReport(run,event);return;}
-    requireLoop(!run.reportAttempts&&(!(this.missioner||this.coordination||this.handoffer||this.failures)||run.reads===0),'tool-after-report-or-context');
+    requireLoop(!run.reportAttempts&&(!(this.missioner||this.coordination||this.handoffer)||run.reads===0),'tool-after-report-or-context');
     requireLoop((event.tool==='get_my_context'||this.coordination&&event.tool==='get_team_status'||this.failures&&event.tool==='get_failures')&&typeof event.callId==='string'&&!run.calls.has(event.callId),'duplicate-or-unknown-tool');
+    if(this.failures&&run.reads>0){
+      // Exactly one read is admitted; any valid tool after it refuses before core access.
+      run.calls.add(event.callId);run.reads++;run.failureUncertain=true;await this.fail(run,'failure_read_uncertain');return;
+    }
     requireLoop(run.reads+run.reportAttempts+run.asks<2&&run.requests<3,'turn-tool-budget');
     await this.gate(run,'before-read');if(!this.live(run))return;
     this.status(run);

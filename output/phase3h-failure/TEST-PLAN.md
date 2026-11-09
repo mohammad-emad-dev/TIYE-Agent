@@ -71,8 +71,10 @@ New modules only, mirroring the 3F/3G shape at read-only scale:
   and pause-gate barriers. No separate adapter unit file; codec bounds are
   covered inside the loop suite as in 3F.
 
-The finite matrix has 36 new tests: Leader reads mixed (2 entry modes), empty,
-awaiting-only and closed-only failure sets with actual core notices (5);
+The finite matrix has 36 new tests: Leader reads the mixed failure set and
+completes a context-only continuation without a failure read (2), plus empty,
+awaiting-only and closed-only failure sets with actual core notices (3 = 5
+total for this group);
 open-question cancellation and uncertain plus already-handed fidelity (1);
 non-Leader/foreign binding refusal (1); roster injection/duplication/overflow/
 drift refusal (1); old-profile refusal (1); malformed/mixed/duplicate/unclosed/

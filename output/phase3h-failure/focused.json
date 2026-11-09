@@ -1,0 +1,10 @@
+{
+  "testCounts": {
+    "tests": 36,
+    "pass": 36,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "stdoutSha256": "f54121d27bc15f027c9086c2f084ebcffffb1f215148ee4e751df56fd3be4550"
+}

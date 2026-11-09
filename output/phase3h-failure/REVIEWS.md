@@ -58,6 +58,72 @@ defects found by review, not test results.
 16. Suite counts were inconsistent across plan, capture, and verifier; all now
     state 36 focused, 588 total.
 
+## Qualification rerun corrections — 9 November 2026
+
+The first qualification attempt stopped at `build-adapter` with exit 2.
+`failure-contract.ts:18` passed a `string` to
+`ReadonlyArray<'crash' | 'hang' | 'rate_limit' | 'auth' | 'network'>.includes`.
+The reviewed source declares `REASONS` as a const tuple; the runtime-validation
+cast did not widen the receiver. Corrected to
+`(REASONS as readonly string[]).includes(...)`. Accepted reasons remain the same
+closed union and unknown reasons still refuse; no behavior or scope change.
+
+The second attempt stopped at `build-loop` with exit 2: `core-failure.ts`
+declared `const projection=checked()` but never read the value. Corrected to
+`checked();`, preserving the fresh replay-checked snapshot and roster-drift
+validation. No behavior or scope change.
+
+The failed runs' incremental streams remain under `.git/tiye-phase3h-failure/`.
+A new preflight is required before the rerun; there is no silent retry.
+
+## Focused-stage corrections — 9 November 2026
+
+After both builds passed, the focused suite exposed further defects that static
+review had missed. Each is listed with its cause and the correction made; all
+remain inside the approved read-only failure-view scope.
+
+17. The mixed fixture's third notice was rejected: a member holding an
+    awaiting-reconciliation task cannot start another task. The fixture now
+    seeds its closed notice on the other session member, and the assertions
+    derive `memberRef`/`role` from the recorded notice rather than assuming
+    one member for all notices.
+18. The focused suite hung after that repair: `adapter.ts` normalized events
+    for `loop`, `report-loop`, `question-loop`, `mission-loop`,
+    `coordination-loop` and `handoff-loop` but omitted `failure-loop` from the
+    run-id/turn/received-bytes list, so `loop.accept` ignored every failure
+    adapter event and the run never settled. `failure-loop` was added to the
+    same list.
+19. The mixed-read test looped a single set of failure-content assertions over
+    both `failure-view` and `failure-context`, but the approved contract admits
+    exactly one read: `get_my_context` **or** `get_failures` (CONTRACT.md,
+    "Bounds and stop ordering"; README.md repeats it). `failure-context` is
+    the context-only continuation — turn 1 reads context, turn 2 emits bounded
+    prose. The test was split into the direct mixed-read case and a
+    context-continuation case that asserts one context read, no failure view
+    and unchanged durability. No implementation behavior was broadened.
+20. The open-question case started its uncertain task on a member that already
+    held an active task. It now starts on the Leader, the only free member.
+21. `failure-after-tool` and `failure-two-reads` finished `failed` instead of
+    `needs_attention`. The generic `tool-after-report-or-context` guard
+    consumed the event as a generic violation, bypassing the reviewed
+    read-uncertainty fencing (defect 8 above). Failure-profile reads are now
+    excluded from that generic guard, and a valid tool after the admitted read
+    takes an explicit branch that counts the call, marks `failureUncertain`
+    and fences to `needs_attention` before any core access. Exactly one read
+    remains admitted, and there is still no retry.
+22. Test expectations were corrected where they disagreed with the settled
+    3B/3F precedent: the closed-store continuation expects one request, and
+    the ambiguous-creation continuation expects `needs_attention`.
+23. The suite stood at 35 cases against the planned 36; the combined
+    awaiting/closed reconciliation test was split into its two explicit cases.
+24. The review also confirmed the history validator's single-pair cap: with
+    one admitted read per conversation, a history can contain at most one
+    context or failure pair. No validator change was needed (an earlier
+    two-slot attempt was discarded as scope drift).
+
+After these corrections the focused suite ran 36 tests with 36 passes and no
+failures. This document is sealed by the qualification preflight that follows.
+
 ## Scope statement
 
 This remains a restricted subset of Architecture4.2/4.7/offline5.1/5.3: one

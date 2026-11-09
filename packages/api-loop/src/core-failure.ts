@@ -31,7 +31,7 @@ function bind(store:TaskStore,binding:Binding,candidate:unknown):FailureViewer {
   return Object.freeze({binding,catalog,active:()=>measured(()=>{checked();}),read:()=>measured(()=>{checked();return profile(context(),binding);}),
     failures:()=>measured(()=>{
       if(consumed)throw new Error('failure-second-read');consumed=true;
-      const projection=checked();
+      checked();
       const notices=failures().sort((a,b)=>a.observedSequence-b.observedSequence);
       if(notices.some(row=>row.sessionId!==binding.sessionId))throw new Error('failure-foreign-notice');
       if(notices.length>100)throw new Error('failure-count-bound');

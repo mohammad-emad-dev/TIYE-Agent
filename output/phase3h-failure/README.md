@@ -22,10 +22,12 @@ question, answer, delegation, handoff or completion.
 The [scope decision](../phase3h-approval/README.md) records continuation
 against 93d6588. [TEST-PLAN.md](TEST-PLAN.md) specifies the new real-core
 tests plus all 552 retained cases; [REVIEWS.md](REVIEWS.md) records the static
-review and every defect it corrected. The qualification run is **pending**:
-`capture.py` has not executed, so no evidence or verification file exists yet
-and no test-pass claim is made. From the repository root, after execution is
-available, run:
+review and every defect it corrected, including the execution-stage repairs.
+The qualification run has **not yet passed**. Earlier captures stopped at the
+build and focused stages; their raw streams remain under
+`.git/tiye-phase3h-failure/`, and a new preflight supersedes their output
+files. No test-pass claim is made until `verify.py` exits 0. From the
+repository root, run:
 
 `rtk proxy python -X utf8 -B output/phase3h-failure/capture.py`
 

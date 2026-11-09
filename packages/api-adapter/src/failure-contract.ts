@@ -15,7 +15,7 @@ export function failureRef(candidate:unknown):string {
 const REASONS=['crash','hang','rate_limit','auth','network'] as const;
 export function failureRow(candidate:unknown):FailureRow {
   fields(candidate,['taskId','memberRef','reason','summary','observedSequence','status','closedSequence','role']);
-  check(uuid(candidate.taskId)&&REASONS.includes(candidate.reason as string)&&text(candidate.summary),'failure-row');
+  check(uuid(candidate.taskId)&&(REASONS as readonly string[]).includes(candidate.reason as string)&&text(candidate.summary),'failure-row');
   check(Number.isSafeInteger(candidate.observedSequence)&&(candidate.observedSequence as number)>0,'failure-sequence');
   check(['awaiting_reconciliation','closed'].includes(candidate.status as string)&&['leader','member'].includes(candidate.role as string),'failure-row-status');
   if(candidate.status==='closed')check(Number.isSafeInteger(candidate.closedSequence)&&(candidate.closedSequence as number)>0,'failure-closed-sequence');

@@ -73,7 +73,7 @@ export class ScriptedAdapter implements MemberAdapter {
     }
     const event: MemberEvent = {...this.binding,type,requestId:turn?.context.requestId??null,
       taskId:turn?.input.kind === 'task' ? turn.input.taskId : null,generation:turn?.context.generation??null,
-      ...((turn?.input.kind==='loop'||turn?.input.kind==='report-loop'||turn?.input.kind==='question-loop'||turn?.input.kind==='mission-loop'||turn?.input.kind==='coordination-loop'||turn?.input.kind==='handoff-loop')?{runId:turn.input.runId,turn:turn.input.turn,receivedBytes:turn.reader.receivedBytes}:{}),...details};
+      ...((turn?.input.kind==='loop'||turn?.input.kind==='report-loop'||turn?.input.kind==='question-loop'||turn?.input.kind==='mission-loop'||turn?.input.kind==='coordination-loop'||turn?.input.kind==='failure-loop'||turn?.input.kind==='handoff-loop')?{runId:turn.input.runId,turn:turn.input.turn,receivedBytes:turn.reader.receivedBytes}:{}),...details};
     this.events.push(Object.freeze(event)); if (this.events.length > 64) this.events.shift();
     this.notifications.push({event,listeners:[...this.subscribers.entries()],delivered});
     if (this.notifying) return;
