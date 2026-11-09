@@ -24,28 +24,41 @@ Code, Gemini CLI, OpenCode, Agy, API-key routes and unresolved aliases also fail
 for the reasons recorded in [the S4 result form](s4-route-qualification/RESULT.md).
 S4 remains partial; provider/native integration stays HOLD.
 
+**Decision (2026-11-09):** time-boxed. The Codex follow-up is drafted in
+[FOLLOW-UP.md](s4-route-qualification/FOLLOW-UP.md) and should be sent by
+2026-11-10; the decision deadline is 2026-11-23. If OpenAI has not provided a
+written eligibility path by then, pivot to the Anthropic unmodified Claude Code
+route, subject to commercial-condition review and a native auth cohort.
+
 ## Freeze check (Phase 0 HOLD vs implementation)
 
-**Post-Phase-3H work:** none. The only commit after the Phase 3H approval
-(`ce002a0`) is the approved Phase 3H implementation (`df26d71`). Working tree
-clean; single local branch, level with `origin/master`.
+**Post-Phase-3H work:** the approved implementation (`df26d71`), its
+qualification repairs and sealed evidence (`05765a2`), and this close-out
+commit — all inside the approved Phase 3H exception. Qualifying defects were
+corrected within that scope, not waived. Single local branch, synced to
+`origin/master` after this commit.
 
 | Work unit | Verdict |
 |---|---|
 | Phase 1A core | approved-exception (explicit owner approval) |
-| Phase 1B synthetic effects | approved-exception (approved Phase 1 amendment; no standalone approval JSON) |
-| Attention resolution | approved-exception (required by the approved first-core contract) |
-| Shared task registry | approved-exception (core convergence; referenced by Phase 2A approval; no standalone approval) |
+| Phase 1B synthetic effects | approved-exception (approved Phase 1 amendment; coverage record in `output/phase1b-approval/`) |
+| Attention resolution | approved-exception (required by the approved first-core contract; coverage record in `output/attention-resolution/APPROVAL.md`) |
+| Shared task registry | approved-exception (core convergence; coverage records in `output/task-registry/APPROVAL.md`) |
 | Phases 2A–3G | approved-exception (separate approval JSON per phase, bound to proposal hashes) |
-| Phase 3H | approved-exception (approval `ce002a0`; read-only failure view); qualification/exit pending |
+| Phase 3H | approved-exception (approval `ce002a0`; read-only failure view); qualified at `05765a2` (588 tests: 552 retained + 36 new); bounded exit acceptance (`output/phase3h-exit/decision.json`) |
 | S1–S6 feasibility prototypes | approved-exception (Phase 0 Feasibility Test Plan; no product integration) |
 | Evidence and LinkedIn outputs | not implementation |
 
-**Violations:** none established. **Governance gaps:** Phase 1B lacks a standalone
-approval JSON and the Phase 1A approval still records `phase1bExecutionAllowed:
-false`; attention resolution and the task registry lack standalone approval
-artifacts; Phase 3H is implemented but its qualification run and exit review are
-not complete. No product code outside an approved phase was found in `packages/`.
+**Violations:** none established. **Governance close-out:** Phase 1B, attention
+resolution and the shared task registry now have standalone coverage records
+(`output/phase1b-approval/`, `output/attention-resolution/APPROVAL.md`,
+`output/task-registry/APPROVAL.md`). They are determinations derived from existing
+owner approvals, not new or fabricated approvals. The Phase 1A approval's
+`phase1bExecutionAllowed:false` is retained unchanged because its hash is bound by
+Phase 1A evidence; the later 1B coverage record is the operative determination.
+Phase 3H is qualified at `05765a2` and its exit decision records bounded
+acceptance (`output/phase3h-exit/decision.json`); neither grants new scope. No
+product code outside an approved phase was found in `packages/`.
 
 ## Completion estimate
 
@@ -69,4 +82,4 @@ not complete. No product code outside an approved phase was found in `packages/`
 3. **Close the phase.** Fill the per-CLI matrix and capability data, apply the
    resulting architecture changes, decide S5 acceptance/remediation and S3
    representative-project scope, and take the gate recommendation to the owner.
-   First, finish the pending Phase 3H qualification and exit review.
+   Phase 3H is now closed; that exception grants no further construction.

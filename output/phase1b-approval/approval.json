@@ -1,0 +1,39 @@
+{
+  "schema": "tiye-phase1b-coverage-v1",
+  "recordDate": "2026-11-09",
+  "kind": "existing-owner-approval-derived-coverage",
+  "authority": {
+    "response": "Approve the internal Phase 1A amendment",
+    "record": "output/phase1a-core/approval.json",
+    "proposalCommit": "2107f5c",
+    "approvalDate": "2026-10-23"
+  },
+  "coverageBasis": [
+    "output/phase1-entry-review/AMENDMENT.md: subsequent Phase 1B may add only the separately reviewed synthetic witness/effect implementation described in the first-core contract",
+    "output/phase1-entry-review/CORE-SLICE.md: 1B synthetic planning, approval, one-time claim, witness and crash-reconciliation contract",
+    "output/phase1b-core/TEST-PLAN.md: separately reviewed composition and source-bound execution plan",
+    "output/phase1a-core/APPROVAL.md: owner approval of the amendment and Phase 1A activation"
+  ],
+  "proposalArtifacts": {
+    "output/phase1-entry-review/AMENDMENT.md": "72733028ab484755c3d848baf0ff4629b02cabab90229dff142dbb2af614cd48",
+    "output/phase1-entry-review/CORE-SLICE.md": "8394d0b83590bf21e1f127b025ec020633dfaf2150aa678028647bfa0d452a42",
+    "output/phase1b-core/TEST-PLAN.md": "5983099b17dfb5623af1a8146fc5270d54545159b26284da42dadb27c5cbb39c",
+    "output/phase1a-core/approval.json": "77ae322c8afe3bda702e4609e436c313275c587d3a84b293d2b0fdbd0362d2b7"
+  },
+  "scope": "INTERNAL_PHASE1B_SYNTHETIC_EFFECTS_ONLY",
+  "phase1bExecutionAllowed": true,
+  "activationConditions": {
+    "phase1aAccepted": "4f237b1",
+    "separateSourceAndTestReview": "output/phase1b-core/TEST-PLAN.md",
+    "implementationCommit": "11e4905"
+  },
+  "nativeProviderExecutionAllowed": false,
+  "releaseAllowed": false,
+  "historicalFlag": {
+    "path": "output/phase1a-core/approval.json",
+    "field": "phase1bExecutionAllowed",
+    "value": false,
+    "disposition": "retained unchanged as a point-in-time 1A activation snapshot; the file hash is bound by output/phase1a-core/evidence.json. This record is the later 1B coverage determination."
+  },
+  "newOwnerApprovalSolicited": false
+}

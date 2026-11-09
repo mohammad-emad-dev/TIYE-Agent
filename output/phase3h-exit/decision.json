@@ -1,0 +1,17 @@
+{
+  "architectureMapping": {
+    "4.2": "bounded Leader get_failures read over the existing failure projection; no new write or generic tool",
+    "4.7": "visibility of already-recorded failure notices only; no detection, supervision, succession or remediation",
+    "5.1": "fixed offline lifecycle only",
+    "5.3": "bounded in-memory scripted failure-view loops only"
+  },
+  "decision": "PASS_BOUNDED_INTERNAL_CONTRACT",
+  "exceptionEnded": true,
+  "implementationCommit": "05765a2b8987a3baae259d4014272e13316fb34e",
+  "nativeProviderIntegration": "HOLD",
+  "newConstructionAuthorized": false,
+  "proposalCommit": "93d6588",
+  "releaseAllowed": false,
+  "schema": "tiye-phase3h-exit-decision-v1",
+  "scope": "INTERNAL_PHASE3H_LEADER_FAILURE_VIEW"
+}

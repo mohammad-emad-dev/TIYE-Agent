@@ -1,0 +1,24 @@
+{
+  "schema": "tiye-attention-resolution-coverage-v1",
+  "recordDate": "2026-11-09",
+  "kind": "existing-owner-approval-derived-coverage",
+  "coveredBy": "output/phase1b-approval/approval.json",
+  "rootOwnerApproval": {
+    "response": "Approve the internal Phase 1A amendment",
+    "record": "output/phase1a-core/approval.json",
+    "proposalCommit": "2107f5c"
+  },
+  "coverageBasis": [
+    "output/phase1-entry-review/CORE-SLICE.md: attention requires a later explicit resolution command and cannot silently resume",
+    "output/attention-resolution/README.md: confirm existing witness proof or abandon the uncertain attempt; no retry",
+    "output/attention-resolution/TEST-PLAN.md: bounded source/test plan",
+    "output/phase1b-approval/approval.json: Phase 1B synthetic-effect coverage"
+  ],
+  "scope": "EXPLICIT_SYNTHETIC_ATTENTION_RESOLUTION_ONLY",
+  "implementationCommit": "ace16a6",
+  "newExternalEffect": false,
+  "retryAllowed": false,
+  "nativeProviderExecutionAllowed": false,
+  "releaseAllowed": false,
+  "newOwnerApprovalSolicited": false
+}

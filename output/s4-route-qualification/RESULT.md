@@ -68,3 +68,22 @@ route because its native prerequisite work is the most complete; it remains
 blocked on written paid-desktop/account eligibility and a native auth/model
 cohort. Unmodified Claude Code is the alternative, blocked on commercial-condition
 review. No route is selected or authorized by this form.
+
+## Decision — 2026-11-09
+
+**Option (c): time-boxed decision deadline with a fallback.**
+
+- The 2026-10-16 Codex commercial inquiry is unanswered after 24 days. Its exact
+  unresolved questions are drafted in [FOLLOW-UP.md](FOLLOW-UP.md). The draft is
+  **not sent**; sending requires explicit owner authorization.
+- **Action:** authorize and send the follow-up by **2026-11-10**.
+- **Decision deadline:** **2026-11-23** (14 days). If OpenAI has not provided a
+  written eligibility path, a named review owner, or a receipt/reference by then,
+  pivot to the Anthropic unmodified Claude Code route.
+- **Fallback reasoning:** the published Claude Code route preserves the user's own
+  login and per-user billing and has no recorded third-party client-ID gate. It
+  still requires commercial-condition review and a native auth/model cohort before
+  it can qualify; the pivot is a route to review, not an approval.
+- **Until the deadline:** no provider-backed S1/S2/S6 work and no capability-data
+  promotion. S4 remains partial and provider/native integration remains HOLD.
+

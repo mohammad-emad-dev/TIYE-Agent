@@ -1,0 +1,22 @@
+{
+  "schema": "tiye-task-registry-coverage-v1",
+  "recordDate": "2026-11-09",
+  "kind": "existing-owner-approval-derived-coverage",
+  "coveredBy": [
+    "output/phase1a-core/approval.json",
+    "output/phase1b-approval/approval.json",
+    "output/phase2a-approval/approval.json"
+  ],
+  "coverageBasis": [
+    "unifies already approved Phase 1A task creation and Phase 1B synthetic effect attachment in one schema 2 store",
+    "adds no new external effect, runner, provider, native CLI, terminal, project action or team engine",
+    "architecture/TIYE-Agent-Architecture.md section 11.2 Phase 2A narrative starts from the accepted shared core at ab8da5f",
+    "output/task-registry/README.md documents the bounded core convergence and the unchanged schema 2 tables"
+  ],
+  "scope": "SHARED_TASK_AND_SYNTHETIC_EFFECT_REGISTRY_ONLY",
+  "implementationCommit": "ab8da5f",
+  "migrationImplemented": false,
+  "nativeProviderExecutionAllowed": false,
+  "releaseAllowed": false,
+  "newOwnerApprovalSolicited": false
+}
