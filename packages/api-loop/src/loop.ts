@@ -1,4 +1,5 @@
 import { coordinationInput, coordinationHistory, delegationArgs, delegationReceipt, type CoordinationMessage, type DelegationReceipt } from '../../api-adapter/dist';
+import { failureInput, failureHistory, type FailureMessage } from '../../api-adapter/dist';
 import { handoffInput, handoffHistory, handoffArgs, handoffReceipt, type HandoffMessage, type HandoffReceipt, type HandoffArgs } from '../../api-adapter/dist';
 import type { Coordinator } from './core-coordination';
 import type { Handoffer } from './core-handoff';
@@ -7,12 +8,14 @@ import { history, loopInput, missionArgs, missionReceipt, missionHistory, type M
 import type { Missioner } from './core-mission';
 import type { Questioner } from './core-question';
 import type { Reporter } from './core-report';
+import type { FailureViewer } from './core-failure';
 import type { ContextReader, Event, Outcome, OutcomeState, Pause, RequestSlot, Subscriber } from './types';
 export interface ResumeAck {readonly status:'still_waiting'|'continued'|'failed'|'stopped'}
 interface Run {
-  id:string;history:readonly (QuestionMessage|MissionMessage|CoordinationMessage|HandoffMessage)[];requests:number;reads:number;checks:number;bytes:number;text:string;
+  id:string;history:readonly (QuestionMessage|MissionMessage|CoordinationMessage|HandoffMessage|FailureMessage)[];requests:number;reads:number;checks:number;bytes:number;text:string;
   delegationAttempts:number;delegationState:'none'|'accepted'|'rejected'|'uncertain';delegationCommandId?:string;delegationReceipt?:DelegationReceipt;
   handoffAttempts:number;handoffState:'none'|'accepted'|'rejected'|'uncertain';handoffCommandId?:string;handoffReceipt?:HandoffReceipt;successorTaskId?:string;
+  failureUncertain?:boolean;
   missionAttempts:number;missionState:'none'|'accepted'|'rejected'|'uncertain';missionCommandId?:string;missionReceipt?:MissionReceipt;
   reportAttempts:number;reportState:'none'|'accepted'|'rejected'|'uncertain';receipt?:ReportReceipt;commandId?:string;
   asks:number;answerReads:number;resumeIds:Set<string>;resumeBusy:boolean;waiting:boolean;reserved:boolean;questionState:'none'|'accepted'|'rejected'|'answered'|'uncertain';
@@ -31,9 +34,10 @@ export class ConversationLoop {
   private events:Event[]=[];private subscribers=new Map<symbol,Subscriber>();private notificationErrors=0;
   private queue:{event:Event;listeners:[symbol,Subscriber][]}[]=[];private notifying=false;
   private remove:()=>void;
-  private readonly missioner?:Missioner;private readonly coordination?:Coordinator;private readonly handoffer?:Handoffer;
-  constructor(private readonly reader:ContextReader,private readonly adapter:MemberAdapter,private readonly pause:Pause,private readonly reporter?:Reporter,private readonly questioner?:Questioner,extension?:Missioner|Coordinator|Handoffer) {
-    if(extension&&'submitHandoff' in extension)this.handoffer=extension as Handoffer;
+  private readonly missioner?:Missioner;private readonly coordination?:Coordinator;private readonly handoffer?:Handoffer;private readonly failures?:FailureViewer;
+  constructor(private readonly reader:ContextReader,private readonly adapter:MemberAdapter,private readonly pause:Pause,private readonly reporter?:Reporter,private readonly questioner?:Questioner,extension?:Missioner|Coordinator|Handoffer|FailureViewer) {
+    if(extension&&'failures' in extension)this.failures=extension as FailureViewer;
+    else if(extension&&'submitHandoff' in extension)this.handoffer=extension as Handoffer;
     else if(extension&&'catalog' in extension)this.coordination=extension as Coordinator;else this.missioner=extension as Missioner|undefined;
     this.remove=adapter.onEvent(event=>this.accept(event));
   }
@@ -59,14 +63,16 @@ export class ConversationLoop {
     requireLoop(Object.keys(input).length===3&&['version','runId','text'].every(k=>Object.hasOwn(input,k))&&input.version===1,'run-fields');
     // Reuse the actual structured request parser to validate UUID/text without dispatch.
     const parsed=loopInput({version:1,kind:'loop',requestId:input.runId,runId:input.runId,turn:1,messages:[{kind:'user',text:input.text}]});
-    requireLoop(!this.terminal&&!this.active&&!this.runs.has(parsed.runId)&&this.runs.size<(this.missioner||this.coordination||this.handoffer?1:2),'loop-admission');
+    requireLoop(!this.terminal&&!this.active&&!this.runs.has(parsed.runId)&&this.runs.size<(this.missioner||this.coordination||this.handoffer||this.failures?1:2),'loop-admission');
+    if(this.failures)failureInput({version:1,kind:'failure-loop',requestId:parsed.runId,runId:parsed.runId,turn:1,catalog:this.failures.catalog,messages:parsed.messages});
     if(this.coordination)coordinationInput({version:1,kind:'coordination-loop',requestId:parsed.runId,runId:parsed.runId,turn:1,catalog:this.coordination.catalog,messages:parsed.messages});
     if(this.handoffer)handoffInput({version:1,kind:'handoff-loop',requestId:parsed.runId,runId:parsed.runId,turn:1,catalog:this.handoffer.catalog,messages:parsed.messages});
     let resolve!:(value:Outcome)=>void;const result=new Promise<Outcome>(done=>{resolve=done;});
     const run:Run={id:parsed.runId,history:parsed.messages,requests:0,reads:0,checks:0,bytes:0,text:'',delegationAttempts:0,delegationState:'none',handoffAttempts:0,handoffState:'none',missionAttempts:0,missionState:'none',reportAttempts:0,reportState:'none',asks:0,answerReads:0,resumeIds:new Set(),resumeBusy:false,waiting:false,reserved:false,questionState:'none',slot:null,calls:new Set(),fenced:false,result,complete:resolve};
     this.runs.set(run.id,run);this.active=run;this.emit(run,'run.admitted');this.schedule(run);return result;
   }
-  private transcript(value:unknown):readonly (QuestionMessage|MissionMessage|CoordinationMessage|HandoffMessage)[]{
+  private transcript(value:unknown):readonly (QuestionMessage|MissionMessage|CoordinationMessage|HandoffMessage|FailureMessage)[]{
+    if(this.failures){const messages=failureHistory(value);requireLoop(Buffer.byteLength(JSON.stringify({catalog:this.failures.catalog,messages}),'utf8')<=32768,'failure-catalog-history-bytes');return messages;}
     if(this.coordination){const messages=coordinationHistory(value);requireLoop(Buffer.byteLength(JSON.stringify({catalog:this.coordination.catalog,messages}),'utf8')<=32768,'coordination-catalog-history-bytes');return messages;}
     if(this.handoffer){const messages=handoffHistory(value);requireLoop(Buffer.byteLength(JSON.stringify({catalog:this.handoffer.catalog,messages}),'utf8')<=32768,'handoff-catalog-history-bytes');return messages;}
     return this.missioner?missionHistory(value):this.questioner?questionHistory(value):this.reporter?reportHistory(value):history(value);
@@ -112,14 +118,18 @@ export class ConversationLoop {
     if(event.tool==='complete_mission'){await this.recordMission(run,event);return;}
     if(event.tool==='ask_leader'||event.tool==='ask_user'){await this.recordQuestion(run,event);return;}
     if(event.tool==='report_result'){await this.recordReport(run,event);return;}
-    requireLoop(!run.reportAttempts&&(!(this.missioner||this.coordination||this.handoffer)||run.reads===0),'tool-after-report-or-context');
-    requireLoop((event.tool==='get_my_context'||this.coordination&&event.tool==='get_team_status')&&typeof event.callId==='string'&&!run.calls.has(event.callId),'duplicate-or-unknown-tool');
+    requireLoop(!run.reportAttempts&&(!(this.missioner||this.coordination||this.handoffer||this.failures)||run.reads===0),'tool-after-report-or-context');
+    requireLoop((event.tool==='get_my_context'||this.coordination&&event.tool==='get_team_status'||this.failures&&event.tool==='get_failures')&&typeof event.callId==='string'&&!run.calls.has(event.callId),'duplicate-or-unknown-tool');
     requireLoop(run.reads+run.reportAttempts+run.asks<2&&run.requests<3,'turn-tool-budget');
     await this.gate(run,'before-read');if(!this.live(run))return;
     this.status(run);
     if(!this.live(run))return;
     run.calls.add(event.callId);run.reads++;
-    if(event.tool==='get_team_status'){
+    if(event.tool==='get_failures'){
+      try{
+        const failures=this.failures!.failures();run.history=this.transcript([...run.history,{kind:'assistant.failures',callId:event.callId},{kind:'failures.result',callId:event.callId,result:failures}]);
+      }catch{run.failureUncertain=true;await this.fail(run,'failure_read_uncertain');return;}
+    }else if(event.tool==='get_team_status'){
       const status=this.coordination!.status();run.history=this.transcript([...run.history,{kind:'assistant.status',callId:event.callId},{kind:'status.result',callId:event.callId,result:status}]);
     }else{
       const profile=this.reader.read();run.history=this.transcript([...run.history,{kind:'assistant.call',callId:event.callId,name:'get_my_context'},{kind:'tool.result',callId:event.callId,result:profile}]);
@@ -253,10 +263,10 @@ export class ConversationLoop {
   }
   private async dispatch(run:Run):Promise<void> {
     if(!this.live(run))return;
-    requireLoop(run.requests<3&&this.totalRequests<(this.missioner||this.coordination||this.handoffer?3:6),'turn-budget');this.status(run);if(!this.live(run))return;
+    requireLoop(run.requests<3&&this.totalRequests<(this.missioner||this.coordination||this.handoffer||this.failures?3:6),'turn-budget');this.status(run);if(!this.live(run))return;
     const id=randomUUID();run.reserved=false;run.requests++;run.slot={id,generation:++this.totalRequests,bytes:0,terminal:null};run.text='';
     // No await/yield between the active-session check, reservation and send entry.
-    await this.adapter.send({version:1,kind:this.coordination?'coordination-loop':this.handoffer?'handoff-loop':this.missioner?'mission-loop':this.questioner?'question-loop':this.reporter?'report-loop':'loop',requestId:id,runId:run.id,turn:run.requests,messages:run.history,...(this.coordination?{catalog:this.coordination.catalog}:{}),...(this.handoffer?{catalog:this.handoffer.catalog}:{})});
+    await this.adapter.send({version:1,kind:this.failures?'failure-loop':this.coordination?'coordination-loop':this.handoffer?'handoff-loop':this.missioner?'mission-loop':this.questioner?'question-loop':this.reporter?'report-loop':'loop',requestId:id,runId:run.id,turn:run.requests,messages:run.history,...(this.failures?{catalog:this.failures.catalog}:{}),...(this.coordination?{catalog:this.coordination.catalog}:{}),...(this.handoffer?{catalog:this.handoffer.catalog}:{})});
     await this.gate(run,'after-dispatch');
   }
   private accept(event:MemberEvent):void {
@@ -287,13 +297,13 @@ export class ConversationLoop {
   }
   private async fail(run:Run,reason:string):Promise<void> {
     if(run.outcome||run.fenced)return;run.fenced=true;this.terminal=true;this.gateRelease?.();
-    const result=await this.adapter.stop();this.finish(run,run.delegationState==='uncertain'||run.handoffState==='uncertain'||run.reportState==='uncertain'||run.questionState==='uncertain'||run.missionState==='uncertain'||result.state==='needs_attention'?'needs_attention':'failed',reason,result.localClosed);
+    const result=await this.adapter.stop();this.finish(run,run.failureUncertain||run.delegationState==='uncertain'||run.handoffState==='uncertain'||run.reportState==='uncertain'||run.questionState==='uncertain'||run.missionState==='uncertain'||result.state==='needs_attention'?'needs_attention':'failed',reason,result.localClosed);
   }
   stop():Promise<Outcome|null> {
     if(this.stopping)return this.stopping;this.terminal=true;const run=this.active;
     if(run)run.fenced=true;this.gateRelease?.();
     this.stopping=this.adapter.stop().then(result=>{
-      const outcome=run?this.finish(run,run.delegationState==='uncertain'||run.handoffState==='uncertain'||run.reportState==='uncertain'||run.questionState==='uncertain'||run.missionState==='uncertain'||result.state==='needs_attention'?'needs_attention':'stopped','owner_stop',result.localClosed):null;
+      const outcome=run?this.finish(run,run.failureUncertain||run.delegationState==='uncertain'||run.handoffState==='uncertain'||run.reportState==='uncertain'||run.questionState==='uncertain'||run.missionState==='uncertain'||result.state==='needs_attention'?'needs_attention':'stopped','owner_stop',result.localClosed):null;
       this.remove();this.subscribers.clear();return outcome;
     });return this.stopping;
   }

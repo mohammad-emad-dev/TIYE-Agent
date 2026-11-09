@@ -2,20 +2,20 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const ts=require('../../core/node_modules/typescript');
 const root=path.resolve(__dirname,'../src');
-const common=new Set(['./types','./loop','./core-context','./core-report','./core-question','./core-mission','./core-coordination','./core-handoff','../../api-adapter/dist']);
+const common=new Set(['./types','./loop','./core-context','./core-report','./core-question','./core-mission','./core-coordination','./core-failure','./core-handoff','../../api-adapter/dist']);
 for(const name of fs.readdirSync(root)) {
   assert(name.endsWith('.ts'));const source=ts.createSourceFile(name,fs.readFileSync(path.join(root,name),'utf8'),ts.ScriptTarget.Latest,true);
   function visit(node){
     if(ts.isImportDeclaration(node)||ts.isExportDeclaration(node))if(node.moduleSpecifier){
       const target=node.moduleSpecifier.text;
-      assert(common.has(target)||(target==='node:crypto'&&['loop.ts','core-coordination.ts','core-handoff.ts'].includes(name))
-        ||(target==='../../core/dist'&&['core-context.ts','core-report.ts','core-question.ts','core-mission.ts','core-coordination.ts','core-handoff.ts'].includes(name)&&node.importClause?.isTypeOnly),'unapproved loop import');
+      assert(common.has(target)||(target==='node:crypto'&&['loop.ts','core-coordination.ts','core-failure.ts','core-handoff.ts'].includes(name))
+        ||(target==='../../core/dist'&&['core-context.ts','core-report.ts','core-question.ts','core-mission.ts','core-coordination.ts','core-failure.ts','core-handoff.ts'].includes(name)&&node.importClause?.isTypeOnly),'unapproved loop import');
     }
     if(ts.isCallExpression(node)||ts.isNewExpression(node))assert(node.expression.kind!==ts.SyntaxKind.ImportKeyword
       &&!['require','eval','Function','fetch','WebSocket','EventSource','setInterval'].includes(node.expression.getText(source)),'forbidden loader/execution');
     if(ts.isIdentifier(node))assert(!['process','global','globalThis','require','eval','Function','fetch','WebSocket','EventSource'].includes(node.text),'forbidden global');
     if(ts.isPropertyAccessExpression(node)) {
-      if(['snapshot','member','context'].includes(node.name.text))assert(['core-context.ts','core-report.ts','core-question.ts','core-mission.ts','core-coordination.ts','core-handoff.ts'].includes(name),'core capability outside bridge');
+      if(['snapshot','member','context'].includes(node.name.text))assert(['core-context.ts','core-report.ts','core-question.ts','core-mission.ts','core-coordination.ts','core-failure.ts','core-handoff.ts'].includes(name),'core capability outside bridge');
       const nativePromise=node.name.text==='resolve'&&node.expression.getText(source)==='Promise';
       const reportWriter=name==='core-report.ts'&&node.name.text==='report'&&node.expression.getText(source)==='handle';
       const questionWriter=name==='core-question.ts'&&node.name.text==='ask'&&node.expression.getText(source)==='handle';

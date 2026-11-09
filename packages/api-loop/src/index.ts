@@ -9,4 +9,6 @@ export { createCoreMissionScenario } from './core-mission';
 
 export { createCoreCoordinationScenario } from './core-coordination';
 
+export { createCoreFailureScenario } from './core-failure';
+
 export { createCoreHandoffScenario } from './core-handoff';

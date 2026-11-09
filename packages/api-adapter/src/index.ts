@@ -1,5 +1,5 @@
 import { ScriptedAdapter } from './adapter';
-import { LOOP_MODES, REPORT_MODES, QUESTION_MODES, MISSION_MODES, COORDINATION_MODES, HANDOFF_MODES, MODES, type Mode } from './scripted';
+import { LOOP_MODES, REPORT_MODES, QUESTION_MODES, MISSION_MODES, COORDINATION_MODES, FAILURE_MODES, HANDOFF_MODES, MODES, type Mode } from './scripted';
 import { binding, check } from './validation';
 export { AdapterRefusal } from './validation';
 export type { Binding, Capabilities, CleanupResult, Detection, Input, LaunchContext, MemberAdapter, MemberEvent, State, TaskInput, UserMessage } from './types';
@@ -13,6 +13,8 @@ export { missionArgs, missionReceipt, missionHistory, missionInput } from './mis
 export type { MissionArgs, MissionReceipt, MissionMessage, MissionInput, Completion } from './mission-contract';
 export { coordinationRef, coordinationCatalog, delegationArgs, delegationReceipt, teamStatus, coordinationHistory, coordinationInput } from './coordination-contract';
 export type { CoordinationCatalog, CoordinationInput, CoordinationMessage, DelegationArgs, DelegationReceipt, TeamStatus } from './coordination-contract';
+export { failureRef, failureRow, failureStatus, failureCatalog, failureHistory, failureInput } from './failure-contract';
+export type { FailureRow, FailureStatus, FailureCatalog, FailureInput, FailureMessage, FailureArgs } from './failure-contract';
 export { handoffRef, handoffArgs, handoffEdge, handoffReceipt, handoffCatalog, handoffHistory, handoffInput } from './handoff-contract';
 export type { HandoffArgs, HandoffEdge, HandoffReceipt, HandoffCatalog, HandoffInput, HandoffMessage } from './handoff-contract';
 export type { Mode } from './scripted';
@@ -26,6 +28,7 @@ export function createScriptedReportingScenario(){return scenario('report');}
 export function createScriptedQuestionScenario(){return scenario('question');}
 export function createScriptedMissionScenario(){return scenario('mission');}
 export function createScriptedCoordinationScenario(){return scenario('coordination');}
+export function createScriptedFailureScenario(){return scenario('failure');}
 export function createScriptedHandoffScenario(){return scenario('handoff');}
 function scenario(profile:import('./types').AdapterProfile) {
   check(process.version === 'v26.7.0' && process.platform === 'win32' && process.arch === 'x64'
@@ -34,7 +37,7 @@ function scenario(profile:import('./types').AdapterProfile) {
   let disposed=false;
   return {
     create(context: unknown, mode: Mode) {
-      check(!disposed && adapters.length < (profile==='mission'||profile==='coordination'||profile==='handoff'?1:2) && ({text:MODES,context:LOOP_MODES,report:REPORT_MODES,question:QUESTION_MODES,mission:MISSION_MODES,coordination:COORDINATION_MODES,handoff:HANDOFF_MODES}[profile] as readonly string[]).includes(mode), 'scenario-bound-or-mode');
+      check(!disposed && adapters.length < (profile==='mission'||profile==='coordination'||profile==='failure'||profile==='handoff'?1:2) && ({text:MODES,context:LOOP_MODES,report:REPORT_MODES,question:QUESTION_MODES,mission:MISSION_MODES,coordination:COORDINATION_MODES,failure:FAILURE_MODES,handoff:HANDOFF_MODES}[profile] as readonly string[]).includes(mode), 'scenario-bound-or-mode');
       const adapter=new ScriptedAdapter(binding(context),mode,profile);adapters.push(adapter);
       return {adapter:adapter as import('./types').MemberAdapter,
         fixture:{inspect:()=>adapter.inspect(),waitFor:adapter.waitFor.bind(adapter),settled:adapter.settled.bind(adapter),

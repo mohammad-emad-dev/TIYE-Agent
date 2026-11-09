@@ -1,4 +1,5 @@
 import { coordinationInput, type DelegationArgs } from './coordination-contract';
+import { failureInput, type FailureArgs } from './failure-contract';
 import { handoffInput, type HandoffArgs } from './handoff-contract';
 import type { AdapterProfile, Binding, Capabilities, CleanupResult, Detection, EventSubscriber, Input, MemberAdapter, MemberEvent, Phase, Reason, RequestContext, State } from './types';
 import { check, input, launch } from './validation';
@@ -14,7 +15,7 @@ interface Turn {
   started: number; events: number; endCandidate: boolean; finished: boolean; forceUncertain: boolean;
   reason?: Reason; operation?: ReturnType<typeof setTimeout>; cleanupTimer?: ReturnType<typeof setTimeout>;
   cleanupStarted?: number; settled: Promise<CleanupResult>; resolve(result: CleanupResult): void;
-  hasText?: boolean; toolCandidate?: {callId:string;tool:'get_my_context'|'report_result'|'ask_leader'|'ask_user'|'complete_mission'|'get_team_status'|'delegate_task'|'handoff_task';arguments?:ReportArgs|QuestionArgs|MissionArgs|DelegationArgs|HandoffArgs};
+  hasText?: boolean; toolCandidate?: {callId:string;tool:'get_my_context'|'report_result'|'ask_leader'|'ask_user'|'complete_mission'|'get_team_status'|'delegate_task'|'get_failures'|'handoff_task';arguments?:ReportArgs|QuestionArgs|MissionArgs|DelegationArgs|FailureArgs|HandoffArgs};
 }
 
 export class ScriptedAdapter implements MemberAdapter {
@@ -34,6 +35,8 @@ export class ScriptedAdapter implements MemberAdapter {
   private get questionProfile(){return this.profile==='question';}
   private coordinationCatalog?:string;
   private get coordinationProfile(){return this.profile==='coordination';}
+  private failureCatalog?:string;
+  private get failureProfile(){return this.profile==='failure';}
   private handoffCatalog?:string;
   private get handoffProfile(){return this.profile==='handoff';}
   private get missionProfile(){return this.profile==='mission';}
@@ -41,6 +44,7 @@ export class ScriptedAdapter implements MemberAdapter {
   capabilities(): Capabilities {
     return Object.freeze({textStreaming:true,realProviders:false,tools:false,files:false,commands:false,remoteCancellationVerified:false,
       ...(this.coordinationProfile?{coordinationToolCandidates:true as const}:{}),
+      ...(this.failureProfile?{failureToolCandidates:true as const}:{}),
       ...(this.handoffProfile?{handoffToolCandidates:true as const}:{}),
       ...(this.missionProfile?{missionToolCandidates:true as const}:{}),
       ...(this.questionProfile?{questionToolCandidates:true as const}:{}),
@@ -89,13 +93,14 @@ export class ScriptedAdapter implements MemberAdapter {
     } finally {this.notifying=false;}
   }
   async send(value: unknown): Promise<void> {
-    const request = this.handoffProfile ? handoffInput(value) : this.coordinationProfile ? coordinationInput(value) : this.missionProfile ? missionInput(value) : this.questionProfile ? questionInput(value) : this.reportProfile ? reportInput(value) : this.loopProfile ? loopInput(value) : input(value);
-    if((request.kind==='loop'||request.kind==='report-loop'||request.kind==='question-loop'||request.kind==='mission-loop'||request.kind==='coordination-loop'||request.kind==='handoff-loop'))for(const row of request.messages)if(row.kind==='tool.result')profile(row.result,this.binding);
+    const request = this.handoffProfile ? handoffInput(value) : this.failureProfile ? failureInput(value) : this.coordinationProfile ? coordinationInput(value) : this.missionProfile ? missionInput(value) : this.questionProfile ? questionInput(value) : this.reportProfile ? reportInput(value) : this.loopProfile ? loopInput(value) : input(value);
+    if((request.kind==='loop'||request.kind==='report-loop'||request.kind==='question-loop'||request.kind==='mission-loop'||request.kind==='coordination-loop'||request.kind==='failure-loop'||request.kind==='handoff-loop'))for(const row of request.messages)if(row.kind==='tool.result')profile(row.result,this.binding);
     if(request.kind==='coordination-loop'){profile(request.catalog.context,this.binding);const catalog=JSON.stringify(request.catalog);check(this.coordinationCatalog===undefined||this.coordinationCatalog===catalog,'catalog-changed');this.coordinationCatalog=catalog;}
+    if(request.kind==='failure-loop'){profile(request.catalog.context,this.binding);const catalog=JSON.stringify(request.catalog);check(this.failureCatalog===undefined||this.failureCatalog===catalog,'catalog-changed');this.failureCatalog=catalog;}
     if(request.kind==='handoff-loop'){profile(request.catalog.context,this.binding);const catalog=JSON.stringify(request.catalog);check(this.handoffCatalog===undefined||this.handoffCatalog===catalog,'catalog-changed');this.handoffCatalog=catalog;}
     check(!this.terminal && this.state === 'ready' && !this.active, 'adapter-not-ready');
     check(!this.turns.has(request.requestId), 'duplicate-request');
-    check(this.turns.size < (this.missionProfile||this.coordinationProfile||this.handoffProfile?3:6), 'request-lifetime-bound');
+    check(this.turns.size < (this.missionProfile||this.coordinationProfile||this.failureProfile||this.handoffProfile?3:6), 'request-lifetime-bound');
     const context = Object.freeze({...this.binding,requestId:request.requestId,generation:this.turns.size+1});
     let resolve!: (result: CleanupResult) => void;
     const settled = new Promise<CleanupResult>(done => {resolve=done;});
@@ -108,7 +113,7 @@ export class ScriptedAdapter implements MemberAdapter {
     // A subscriber may synchronously stop/interrupt admission; never begin afterward.
     if (turn.reason || turn.finished || this.terminal || this.state !== 'running') return;
     try {turn.wire.begin();} catch {
-      const reason = (this.mode === 'ambiguous-creation'||this.mode==='report-continuation-ambiguous'||this.mode==='question-continuation-ambiguous'||this.mode==='mission-continuation-ambiguous'||this.mode==='coordination-continuation-ambiguous'||this.mode==='handoff-continuation-ambiguous') ? 'ambiguous_creation' : 'creation_failure';
+      const reason = (this.mode === 'ambiguous-creation'||this.mode==='report-continuation-ambiguous'||this.mode==='question-continuation-ambiguous'||this.mode==='mission-continuation-ambiguous'||this.mode==='coordination-continuation-ambiguous'||this.mode==='failure-continuation-ambiguous'||this.mode==='handoff-continuation-ambiguous') ? 'ambiguous_creation' : 'creation_failure';
       turn.forceUncertain = reason === 'ambiguous_creation'; this.fail(turn,reason);
       throw new Error(reason);
     }
@@ -125,6 +130,10 @@ export class ScriptedAdapter implements MemberAdapter {
     if(record.type==='api.handoff.tool_call'){
       check(this.handoffProfile&&turn.input.kind==='handoff-loop'&&!turn.hasText&&!turn.toolCandidate,'handoff-profile-or-mixture');
       turn.toolCandidate={callId:record.callId,tool:'handoff_task',arguments:record.arguments};
+    }
+    else if(record.type==='api.failure.tool_call'){
+      check(this.failureProfile&&turn.input.kind==='failure-loop'&&!turn.hasText&&!turn.toolCandidate,'failure-profile-or-mixture');
+      turn.toolCandidate={callId:record.callId,tool:'get_failures',arguments:record.arguments};
     }
     else if(record.type==='api.coordination.tool_call'){
       check(this.coordinationProfile&&turn.input.kind==='coordination-loop'&&!turn.hasText&&!turn.toolCandidate,'coordination-profile-or-mixture');
@@ -143,7 +152,7 @@ export class ScriptedAdapter implements MemberAdapter {
       turn.toolCandidate={callId:record.callId,tool:'report_result',arguments:record.arguments};
     }
     else if(record.type==='api.loop.tool_call') {
-      check(this.loopProfile&&['loop','report-loop','question-loop','mission-loop','coordination-loop','handoff-loop'].includes(turn.input.kind)&&!turn.hasText&&!turn.toolCandidate,'tool-profile-or-mixture');
+      check(this.loopProfile&&['loop','report-loop','question-loop','mission-loop','coordination-loop','failure-loop','handoff-loop'].includes(turn.input.kind)&&!turn.hasText&&!turn.toolCandidate,'tool-profile-or-mixture');
       turn.toolCandidate={callId:record.callId,tool:'get_my_context'};
     }
     else if (record.type === 'api.text.delta') {check(!turn.toolCandidate,'mixed-tool-text');turn.hasText=true;this.emit(turn,'text.delta',{text:record.text});}

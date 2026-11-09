@@ -1,4 +1,5 @@
 import { coordinationInput } from './coordination-contract';
+import { failureInput } from './failure-contract';
 import { handoffInput } from './handoff-contract';
 import type { Input, Phase, RequestContext } from './types';
 import { missionInput } from './mission-contract';
@@ -20,8 +21,9 @@ export const REPORT_MODES=['report-done','report-failed','report-context','repor
 export const QUESTION_MODES=['question-member','question-leader','question-free','question-context','question-report','question-repeat','question-wrong-role','question-forged-args','question-mixed','question-duplicate','question-extra','question-disconnect','question-end-hold','question-late','question-forged-call','question-forged-context','question-malformed','question-final-malformed','question-continuation-ambiguous'] as const;
 export const MISSION_MODES=['mission-done','mission-context','mission-text','mission-prose','mission-mixed','mission-duplicate','mission-extra','mission-disconnect','mission-end-hold','mission-forged-args','mission-forged-call','mission-forged-context','mission-malformed','mission-truncated','mission-after-tool','mission-after-context','mission-final-malformed','mission-continuation-ambiguous','mission-late','mission-two-context','mission-large-text'] as const;
 export const COORDINATION_MODES=['coordination-delegate','coordination-status','coordination-context','coordination-status-only','coordination-text','coordination-mixed','coordination-duplicate','coordination-extra','coordination-disconnect','coordination-end-hold','coordination-forged-args','coordination-forged-call','coordination-forged-context','coordination-malformed','coordination-truncated','coordination-after-tool','coordination-after-status','coordination-final-malformed','coordination-continuation-ambiguous','coordination-late','coordination-two-reads','coordination-large-text'] as const;
+export const FAILURE_MODES=['failure-view','failure-context','failure-text','failure-mixed','failure-duplicate','failure-extra','failure-disconnect','failure-end-hold','failure-forged-args','failure-forged-call','failure-forged-context','failure-malformed','failure-truncated','failure-after-tool','failure-final-malformed','failure-continuation-ambiguous','failure-late','failure-two-reads','failure-large-text'] as const;
 export const HANDOFF_MODES=['handoff-task','handoff-context','handoff-text','handoff-mixed','handoff-duplicate','handoff-extra','handoff-disconnect','handoff-end-hold','handoff-forged-args','handoff-forged-call','handoff-forged-context','handoff-malformed','handoff-truncated','handoff-after-tool','handoff-final-malformed','handoff-continuation-ambiguous','handoff-late','handoff-two-reads','handoff-large-text'] as const;
-export type Mode = typeof MODES[number] | typeof LOOP_MODES[number] | typeof REPORT_MODES[number] | typeof QUESTION_MODES[number] | typeof MISSION_MODES[number] | typeof COORDINATION_MODES[number] | typeof HANDOFF_MODES[number];
+export type Mode = typeof MODES[number] | typeof LOOP_MODES[number] | typeof REPORT_MODES[number] | typeof QUESTION_MODES[number] | typeof MISSION_MODES[number] | typeof COORDINATION_MODES[number] | typeof FAILURE_MODES[number] | typeof HANDOFF_MODES[number];
 export type CloseKind = 'verified' | 'disconnect';
 interface Listener { data(bytes: Uint8Array): void; closed(kind: CloseKind): void }
 interface Waiter { phase: Phase; resolve(): void; reject(error: Error): void; timer: ReturnType<typeof setTimeout> }
@@ -68,6 +70,7 @@ export class ScriptedTransport {
     if(this.mode==='question-continuation-ambiguous'&&this.input?.kind==='question-loop'&&this.input.turn>1)throw new Error('scripted question continuation ambiguity');
     if(this.mode==='mission-continuation-ambiguous'&&this.input?.kind==='mission-loop'&&this.input.turn>1)throw new Error('scripted mission continuation ambiguity');
     if(this.mode==='coordination-continuation-ambiguous'&&this.input?.kind==='coordination-loop'&&this.input.messages.some(row=>row.kind==='delegation.result'))throw new Error('scripted coordination continuation ambiguity');
+    if(this.mode==='failure-continuation-ambiguous'&&this.input?.kind==='failure-loop'&&this.input.messages.some(row=>row.kind==='failures.result'))throw new Error('scripted failure continuation ambiguity');
     if(this.mode==='handoff-continuation-ambiguous'&&this.input?.kind==='handoff-loop'&&this.input.messages.some(row=>row.kind==='handoff.result'))throw new Error('scripted handoff continuation ambiguity');
     queueMicrotask(() => { if (!this.closed && !this.disposed) {try{this.script();}catch{this.close('disconnect');}} });
   }
@@ -83,6 +86,7 @@ export class ScriptedTransport {
   private script(): void {
     if(this.mode.startsWith('handoff-')){this.handoffScript();return;}
     if(this.mode.startsWith('coordination-')){this.coordinationScript();return;}
+    if(this.mode.startsWith('failure-')){this.failureScript();return;}
     if(this.mode.startsWith('mission-')){this.missionScript();return;}
     if(this.mode.startsWith('question-')){this.questionScript();return;}
     if(this.mode.startsWith('report-')){this.reportScript();return;}
@@ -270,6 +274,30 @@ export class ScriptedTransport {
     this.end();if(this.mode==='coordination-extra')this.send('api.text.delta',{text:'extra'});
     if(['coordination-end-hold','coordination-late'].includes(this.mode))return;this.close(this.mode==='coordination-disconnect'?'disconnect':'verified');
   }
+  private failureScript():void {
+    const input=failureInput(this.input),receipt=input.messages.find(row=>row.kind==='failures.result');
+    const read=()=>this.send('api.failure.tool_call',{callId:this.mode==='failure-forged-call'?'bad':this.context.requestId,name:'get_failures',
+      arguments:this.mode==='failure-forged-args'?{actor:'owner'}:{},...(this.mode==='failure-forged-context'?{generation:this.context.generation+1}:{})});
+    if(this.mode==='failure-two-reads'&&input.turn>1){read();this.end();this.close();return;}
+    if(receipt){
+      if(this.mode==='failure-after-tool'){read();this.end();this.close();return;}
+      if(this.mode==='failure-final-malformed')this.data(Buffer.from('{bad\n'));
+      else if(this.mode==='failure-large-text')for(let i=0;i<4;i++)this.send('api.text.delta',{text:'A'.repeat(8192)});
+      else this.send('api.text.delta',{text:'Failure notices: '+JSON.stringify(receipt.result)});
+      this.end();if(this.mode!=='failure-late')this.close();return;
+    }
+    if(this.mode==='failure-text'){this.normal();return;}
+    if((input.turn===1&&['failure-view','failure-context','failure-after-tool','failure-forged-args','failure-forged-call','failure-forged-context'].includes(this.mode))||this.mode==='failure-two-reads'){
+      if(this.mode==='failure-context')this.send('api.loop.tool_call',{callId:this.context.requestId,name:'get_my_context',arguments:{}});else read();
+      this.end();this.close();return;
+    }
+    if(this.mode==='failure-context'&&input.turn>1){this.send('api.text.delta',{text:'Context received'});this.end();this.close();return;}
+    if(this.mode==='failure-mixed')this.send('api.text.delta',{text:'mixed'});read();if(this.mode==='failure-duplicate')read();
+    if(this.mode==='failure-malformed')this.data(Buffer.from('{bad\n'));
+    if(this.mode==='failure-truncated'){this.data(Buffer.from(JSON.stringify(this.record('api.response.end'))));this.close();return;}
+    this.end();if(this.mode==='failure-extra')this.send('api.text.delta',{text:'extra'});
+    if(['failure-end-hold','failure-late'].includes(this.mode))return;this.close(this.mode==='failure-disconnect'?'disconnect':'verified');
+  }
   close(kind: CloseKind = 'verified'): void {
     if (this.closed) return; this.closed=true; this.mark('closed');
     queueMicrotask(() => this.listeners?.closed(kind));
@@ -277,24 +305,24 @@ export class ScriptedTransport {
   abort(): void {
     check(this.aborts === 0, 'fixture-abort-once'); this.aborts++; this.mark('aborted');
     if (['abort-throw','loop-tool-abort-throw'].includes(this.mode)) throw new Error('scripted abort failure');
-    if (!['ignore-abort','never-close','ambiguous-creation','loop-continuation-ambiguous','report-continuation-ambiguous','question-continuation-ambiguous','mission-continuation-ambiguous','coordination-continuation-ambiguous','handoff-continuation-ambiguous'].includes(this.mode)) this.close();
+    if (!['ignore-abort','never-close','ambiguous-creation','loop-continuation-ambiguous','report-continuation-ambiguous','question-continuation-ambiguous','mission-continuation-ambiguous','coordination-continuation-ambiguous','failure-continuation-ambiguous','handoff-continuation-ambiguous'].includes(this.mode)) this.close();
   }
   release(): void {
     check(!this.released && !this.disposed, 'fixture-release-once'); this.released=true;
     if (this.closed) return;
-    if (['end-hold','loop-tool-end-hold','loop-tool-abort-throw','loop-late','report-end-hold','report-late','question-end-hold','question-late','mission-end-hold','mission-late','coordination-end-hold','coordination-late','handoff-end-hold','handoff-late'].includes(this.mode)) this.close();
+    if (['end-hold','loop-tool-end-hold','loop-tool-abort-throw','loop-late','report-end-hold','report-late','question-end-hold','question-late','mission-end-hold','mission-late','coordination-end-hold','coordination-late','failure-end-hold','failure-late','handoff-end-hold','handoff-late'].includes(this.mode)) this.close();
     else if (this.mode === 'ignore-abort') this.close();
     else { this.normal(); }
   }
   emitLate(): void {
-    check(['late','loop-late','report-late','question-late','mission-late','coordination-late','handoff-late'].includes(this.mode) && this.closed && !this.lateSent && !this.disposed, 'fixture-late-bound'); this.lateSent=true;
+    check(['late','loop-late','report-late','question-late','mission-late','coordination-late','failure-late','handoff-late'].includes(this.mode) && this.closed && !this.lateSent && !this.disposed, 'fixture-late-bound'); this.lateSent=true;
     this.captured.data(encode(this.record('api.text.delta',{text:'STALE'})));
     this.captured.closed('disconnect');
   }
   detach(): void { this.listeners=null; }
   inspect() {
     return {creates:this.creates,aborts:this.aborts,closed:this.closed,listening:this.listeners!==null,
-      waiters:this.waiters.length,phases:[...this.phases],...((this.input?.kind==='loop'||this.input?.kind==='report-loop'||this.input?.kind==='question-loop'||this.input?.kind==='mission-loop'||this.input?.kind==='coordination-loop'||this.input?.kind==='handoff-loop')?{input:structuredClone(this.input)}:{})};
+      waiters:this.waiters.length,phases:[...this.phases],...((this.input?.kind==='loop'||this.input?.kind==='report-loop'||this.input?.kind==='question-loop'||this.input?.kind==='mission-loop'||this.input?.kind==='coordination-loop'||this.input?.kind==='failure-loop'||this.input?.kind==='handoff-loop')?{input:structuredClone(this.input)}:{})};
   }
   dispose(): void {
     this.disposed=true; this.closed=true; this.listeners=null;
