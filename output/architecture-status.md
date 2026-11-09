@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-09
 **Scope:** pre-code architecture/feasibility phase (Phase 0) and approved bounded-construction exceptions
-**Overall:** ~70% complete (65–75% judgment); construction gate **HOLD**, with approved synthetic/offline exceptions through Phase 3H.
+**Overall:** ~70% complete (65–75% judgment); construction gate **HOLD**, with approved synthetic/offline exceptions through Phase 3H and an owner-approved S4 route exception (verbal-only).
 
 ## Gate status (S1–S6)
 
@@ -11,24 +11,34 @@
 | S1 — terminal/lifecycle | **Partial** | Real CLI terminal parity; input/approval/resize/paste/Ctrl+C; descendant races; abnormal recovery; platform matrix |
 | S2 — control channel | **Partial** | Supported CLI/version matrix; native error/auth/network/hang/resume signals |
 | S3 — worktrees | **Partial** | Representative project setup/cost; native commit attribution; authenticated push; watcher limits; rollback/merge recovery |
-| S4 — provider access | **Partial; no qualified route** | One route with written account applicability and native auth/model behavior |
+| S4 — provider access | **Approved by owner exception — VERBAL-ONLY; not evidence-qualified** | Written confirmation, ticket/reference, reversible-policy risk and the five verbal-only answers; native auth/model cohort |
 | S5 — performance | **Partial** | Five real terminals; flood/rich/long-run/views/search; memory settling; acceptance or remediation for historical spikes |
 | S6 — WSL | **Partial; all nine rows partial** | Eligible Linux CLI; real terminal/worktree/tool attachment; live-survivor recovery; cross-side limits |
 
 ## S4 route decision
 
-**No provider/model/auth route qualifies.** The primary attempt — OpenAI Codex
-official CLI user login with `gpt-6-luna`/`max` — fails on unresolved paid-desktop/
-account eligibility and missing native authentication/model qualification. Claude
-Code, Gemini CLI, OpenCode, Agy, API-key routes and unresolved aliases also fail
-for the reasons recorded in [the S4 result form](s4-route-qualification/RESULT.md).
-S4 remains partial; provider/native integration stays HOLD.
+**Owner override (2026-11-09): S4 is APPROVED-BY-OWNER-EXCEPTION for the OpenAI
+Codex official-CLI user-login route.** The project owner accepts a verbal OpenAI
+support assurance from a voice call as sufficient basis and orders S4 approved.
+The route is **not evidence-qualified**: the repository evidence still shows no
+written policy/account eligibility or native authentication/model behavior.
+Real-CLI S1/S2/S6 cohorts are unlocked; capability data, provider integration
+and release remain HOLD.
 
-**Decision (2026-11-09):** time-boxed. The Codex follow-up is drafted in
-[FOLLOW-UP.md](s4-route-qualification/FOLLOW-UP.md) and should be sent by
-2026-11-10; the decision deadline is 2026-11-23. If OpenAI has not provided a
-written eligibility path by then, pivot to the Anthropic unmodified Claude Code
-route, subject to commercial-condition review and a native auth cohort.
+**Residual risks accepted by the owner:**
+
+1. No written confirmation.
+2. No ticket reference.
+3. The policy position is reversible.
+4. Questions 1–5 were answered verbally, not in writing.
+5. Call date/time, participant identity/authority and any recording were not
+   supplied and are not independently recorded.
+
+The earlier time-boxed decision (follow-up by 2026-11-10; deadline 2026-11-23)
+is superseded for execution. [FOLLOW-UP.md](s4-route-qualification/FOLLOW-UP.md)
+remains unsent and optional; it is still the path to written confirmation.
+The evidence review and candidate ledger are in
+[the S4 result form](s4-route-qualification/RESULT.md).
 
 ## Freeze check (Phase 0 HOLD vs implementation)
 
@@ -65,20 +75,20 @@ product code outside an approved phase was found in `packages/`.
 | Component | Estimate |
 |---|---|
 | Architecture/product documents | ~100% |
-| Feasibility execution S1–S6 | ~50% (S4 ~20%; others ~50–60%) |
+| Feasibility execution S1–S6 | ~50% (S4 evidence ~20%, owner-approved by exception; others ~50–60%) |
 | Phase deliverables (result matrix, capability data, architecture updates) | ~40% |
 | Construction-gate decision | 0% (HOLD) |
 | **Overall architecture phase** | **~70% (65–75%)** |
 
 ## Top 3 next steps
 
-1. **Qualify one S4 route.** Obtain written paid-desktop/account applicability
-   for OpenAI Codex official CLI user auth (or resolve Anthropic's commercial
-   conditions for the unmodified CLI), then run one bounded native login/auth/
-   model cohort. No provider-backed work before this.
-2. **Run real-CLI S1/S2/S6 cohorts with that route.** Capture terminal parity,
-   one team-tool round trip, WSL paths/tool attachment, and per-CLI result forms;
-   keep all effects synthetic and owned.
+1. **Convert the S4 owner exception into written evidence.** Pursue written
+   paid-desktop/account applicability for the Codex official-CLI route and
+   record any ticket/reference; this closes residual risks 1–4. If written
+   eligibility is refused, revisit the route decision.
+2. **Run the now-unlocked real-CLI S1/S2/S6 cohorts** under the owner exception.
+   Capture terminal parity, one team-tool round trip, WSL paths/tool attachment,
+   and per-CLI result forms; keep all effects synthetic and owned.
 3. **Close the phase.** Fill the per-CLI matrix and capability data, apply the
    resulting architecture changes, decide S5 acceptance/remediation and S3
    representative-project scope, and take the gate recommendation to the owner.
