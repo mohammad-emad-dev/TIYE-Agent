@@ -32,6 +32,17 @@ const electron = require('electron');
 
 const FLAG = '--cli-launch-smoke';
 const SMOKE_TIMEOUT_MS = 45000;
+const CLI_FAMILY = (() => {
+  const raw = String(process.env.TIYE_S1_FAMILY || 'opencode').trim().toLowerCase();
+  return raw === 'codex' || raw === 'claude' ? raw : 'opencode';
+})();
+const CLI_LABEL = CLI_FAMILY === 'codex' ? 'Codex' : CLI_FAMILY === 'claude' ? 'Claude Code' : 'opencode';
+const FAMILY_RE = new RegExp(CLI_FAMILY, 'i');
+const VERSION_RE = CLI_FAMILY === 'codex'
+  ? /codex[^\r\n]*\d+\.\d+\.\d+/i
+  : CLI_FAMILY === 'claude'
+    ? /(?:claude[^\r\n]*\d+\.\d+\.\d+|\d+\.\d+\.\d+[^\r\n]*claude[^\r\n]*)/i
+    : /opencode[^\r\n]*\d+\.\d+\.\d+/i;
 
 function log(msg) {
   console.log(`[runner] ${msg}`);
@@ -56,8 +67,9 @@ async function main() {
   // overrides so inherited values cannot change behavior.
   const env = {
     ...process.env,
-    TIYE_S1_COMMAND: 'opencode',
+    TIYE_S1_COMMAND: CLI_FAMILY,
     TIYE_S1_ARGS_JSON: '["--version"]',
+    TIYE_CLI_FAMILY: CLI_FAMILY,
   };
   delete env.ELECTRON_RUN_AS_NODE;
   delete env.TIYE_S1_CWD;
@@ -66,7 +78,7 @@ async function main() {
   delete env.TIYE_CRASH_SURVIVOR_REGISTRY_PATH;
   delete env.TIYE_CRASH_PTY_SURVIVOR_REGISTRY_PATH;
   delete env.TIYE_MOCK_CRASH_MODE;
-  log('env: TIYE_S1_COMMAND=opencode TIYE_S1_ARGS_JSON=["--version"] (fixed; no stdin, no model request)');
+  log(`env: TIYE_S1_COMMAND=${CLI_FAMILY} TIYE_S1_ARGS_JSON=["--version"] TIYE_CLI_FAMILY=${CLI_FAMILY} (fixed; no stdin, no model request)`);
   log('env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)');
 
   log(`phase: spawn runner-owned Electron ${FLAG} headless (real installed CLI via resolveLaunch/spawnMember, ConPTY)`);
@@ -109,35 +121,38 @@ async function main() {
 
   const spawningLine = output.split(/\r?\n/).find((l) => /\[s1\] spawning:/i.test(l)) ?? '';
   const resolvedLine = output.split(/\r?\n/).find((l) => /\[cli-launch-smoke\] resolved command=/i.test(l)) ?? '';
-  const versionLine = output.split(/\r?\n/).find((l) => /opencode[^\r\n]*\d+\.\d+\.\d+/i.test(l)) ?? '';
-  const resolvedOpencode = /opencode/i.test(spawningLine) || /opencode/i.test(resolvedLine);
-  const resolvedCmdShim = process.platform === 'win32'
-    ? /\.cmd\b/i.test(spawningLine)
-    : resolvedOpencode;
-  const versionOk = /opencode[^\r\n]*\d+\.\d+\.\d+/i.test(output);
+  const versionLine = output.split(/\r?\n/).find((l) => VERSION_RE.test(l)) ?? '';
+  const resolvedFamily = FAMILY_RE.test(spawningLine) || FAMILY_RE.test(resolvedLine);
+  const resolvedNativeLauncher = process.platform === 'win32'
+    ? CLI_FAMILY === 'opencode'
+      ? /\.cmd\b/i.test(spawningLine)
+      : /\.exe\b/i.test(spawningLine)
+    : resolvedFamily;
+  const versionOk = VERSION_RE.test(output);
   const exitOk = /\[cli-launch-smoke\] ok: exit code 0/i.test(output);
   const smokePass = /\[cli-launch-smoke\] PASS/i.test(output);
   log(`assert: spawning line: ${spawningLine.slice(0, 300)}`);
   log(`assert: resolved line: ${resolvedLine.slice(0, 300)}`);
   log(`assert: version line: ${versionLine.slice(0, 200)}`);
-  log(`assert: resolvedOpencode=${resolvedOpencode} resolvedCmdShim=${resolvedCmdShim} versionOk=${versionOk} exitOk=${exitOk} smokePass=${smokePass} electronExit=${exit.code} timedOut=${exit.timedOut}`);
+  log(`assert: family=${CLI_FAMILY} resolvedFamily=${resolvedFamily} resolvedNativeLauncher=${resolvedNativeLauncher} versionOk=${versionOk} exitOk=${exitOk} smokePass=${smokePass} electronExit=${exit.code} timedOut=${exit.timedOut}`);
 
   if (exit.timedOut) {
     process.exitCode = 2;
     return;
   }
-  if (spawningLine === '' || resolvedLine === '' || !resolvedOpencode) {
-    console.error('[runner] FAIL: Electron did not resolve/launch the installed opencode executable (expected [s1] spawning + resolved lines with opencode; no pass)');
+  if (spawningLine === '' || resolvedLine === '' || !resolvedFamily) {
+    console.error(`[runner] FAIL: Electron did not resolve/launch the installed ${CLI_LABEL} executable (expected [s1] spawning + resolved lines with ${CLI_FAMILY}; no pass)`);
     process.exitCode = 1;
     return;
   }
-  if (process.platform === 'win32' && !resolvedCmdShim) {
-    console.error(`[runner] FAIL: expected Windows .cmd shim resolution (spawning line with opencode.cmd, got: ${spawningLine.slice(0, 200)}; no pass)`);
+  if (process.platform === 'win32' && !resolvedNativeLauncher) {
+    const want = CLI_FAMILY === 'opencode' ? 'opencode.cmd' : `${CLI_FAMILY}.exe`;
+    console.error(`[runner] FAIL: expected Windows launcher ${want} in the spawning line, got: ${spawningLine.slice(0, 200)} (no pass)`);
     process.exitCode = 1;
     return;
   }
   if (!versionOk) {
-    console.error('[runner] FAIL: version output not observed (want opencode + semver, e.g. "opencode v2.0.22"; no pass)');
+    console.error(`[runner] FAIL: version output not observed (want ${CLI_LABEL} + semver; no pass)`);
     process.exitCode = 1;
     return;
   }
@@ -147,7 +162,7 @@ async function main() {
     return;
   }
   const resolvedPath = (resolvedLine.match(/resolved command=(\S+)/) || [])[1] || (spawningLine.match(/spawning:\s*(\S+)/) || [])[1] || 'unknown';
-  console.log(`[runner] CLI-LAUNCH PASS: resolved=${resolvedPath} version="${versionLine.trim().slice(0, 120)}" exit=0 via headless ConPTY (no stdin, no model request; NOT interactive/display S1 success)`);
+  console.log(`[runner] CLI-LAUNCH PASS: family=${CLI_FAMILY} resolved=${resolvedPath} version="${versionLine.trim().slice(0, 120)}" exit=0 via headless ConPTY (no stdin, no model request; NOT interactive/display S1 success)`);
   process.exitCode = 0;
 }
 

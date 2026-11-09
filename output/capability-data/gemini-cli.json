@@ -1,0 +1,56 @@
+{
+  "id": "gemini-cli",
+  "displayName": "Gemini CLI",
+  "testedVersions": [],
+  "detection": {
+    "command": "gemini",
+    "versionPattern": null
+  },
+  "environments": [],
+  "launch": {
+    "workingFolder": null,
+    "instructions": null,
+    "permissions": {
+      "fileAccess": [],
+      "terminal": []
+    }
+  },
+  "teamTools": {
+    "attach": null,
+    "transport": null
+  },
+  "resume": {
+    "supported": null,
+    "method": null
+  },
+  "approvals": {
+    "detect": null,
+    "pattern": null
+  },
+  "errors": {
+    "rateLimit": "not tested",
+    "auth": "not tested",
+    "network": "not tested"
+  },
+  "login": {
+    "class": null,
+    "qualified": false,
+    "note": "Command unavailable on the host; no login class assigned."
+  },
+  "qualification": {
+    "status": "not-tested",
+    "productionEligible": false,
+    "promotion": "HOLD",
+    "s1": "not tested; command absent",
+    "s2": "not tested; command absent",
+    "s3": "not tested",
+    "s4": "unqualified; command unavailable in the earlier inventory",
+    "s6": "not tested",
+    "untested": ["all fields"],
+    "installationRefused": "Cohort rules prohibit installing a provider CLI merely to test it."
+  },
+  "evidence": {
+    "inventory": "../../feasibility/s4-provider-access/evidence/cli-inventory.json"
+  },
+  "asOf": "2026-11-10"
+}

@@ -1,0 +1,11 @@
+schema=tiye-s6-real-cli-pty-v1
+mode=tui
+outcome=partial-login-screen
+marker=login-screen-marker
+readyMs=653
+decodedBytes=1352
+cliExit={"exitCode":-1073741510}
+identityCaptured=true
+survivedPtyKill=false
+cleanupVerified=true
+remainingBinaryProcesses=[]

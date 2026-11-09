@@ -1,0 +1,4 @@
+{"event": "server-start", "pid": 13435}
+{"event": "method", "method": "initialize"}
+{"event": "method", "method": "notifications/initialized"}
+{"event": "method", "method": "tools/list"}

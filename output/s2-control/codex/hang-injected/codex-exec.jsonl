@@ -1,0 +1,5 @@
+{"type":"thread.started","thread_id":"01a1c224-ccb3-7b12-9e52-81c674a41478"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"error","message":"Exceeded skills context budget. All skill descriptions were removed and 668 additional skills were not included in the model-visible skills list."}}
+{"type":"item.completed","item":{"id":"item_1","type":"agent_message","text":"I’ll locate the available `tiye report_result` tool and call it once with the requested values."}}
+{"type":"item.started","item":{"id":"item_2","type":"mcp_tool_call","server":"tiye","tool":"report_result","arguments":{"status":"done","summary":"hang probe"},"result":null,"error":null,"status":"in_progress"}}

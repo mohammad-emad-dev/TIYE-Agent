@@ -1,0 +1,58 @@
+{
+  "id": "opencode",
+  "displayName": "OpenCode",
+  "testedVersions": ["2.2.5"],
+  "detection": {
+    "command": "opencode",
+    "versionPattern": "opencode[^\\r\\n]*v?(\\d+\\.\\d+\\.\\d+)"
+  },
+  "environments": ["windows"],
+  "launch": {
+    "workingFolder": null,
+    "instructions": null,
+    "permissions": {
+      "fileAccess": [],
+      "terminal": []
+    }
+  },
+  "teamTools": {
+    "attach": null,
+    "transport": null
+  },
+  "resume": {
+    "supported": null,
+    "method": null
+  },
+  "approvals": {
+    "detect": null,
+    "pattern": null,
+    "priorEvidence": "Native TUI Allow/Reject/Always-allow and saved-rule behavior was observed on 2.0.28; not revalidated on 2.2.5."
+  },
+  "errors": {
+    "rateLimit": "not tested",
+    "auth": "not tested",
+    "network": "not tested"
+  },
+  "login": {
+    "class": null,
+    "qualified": false,
+    "note": "S4 route remains unreviewed; no login class assigned."
+  },
+  "qualification": {
+    "status": "blocked",
+    "productionEligible": false,
+    "promotion": "HOLD",
+    "s1": "partial/fail on Windows 2.2.5: launch, startup and input pass; edit and resize inconclusive on teardown identity; multiline paste and Unicode do not appear in the composer; TUI showed an auto-updater banner and five failed plugins",
+    "s2": "not run with a real CLI; prior 2.0.28 permission evidence exists in feasibility/s2-control/capabilities/opencode-permissions.json",
+    "s3": "not tested with a real CLI",
+    "s4": "unqualified; route unreviewed",
+    "s6": "not tested",
+    "untested": ["MCP attachment on 2.2.5", "approvals on 2.2.5", "resume", "errors", "lifecycle", "WSL"],
+    "hostStateCaveat": "Observed with the auto-updater active and five failed plugins, including opencode-pty; do not generalize to a clean installation."
+  },
+  "evidence": {
+    "s1": "../../output/s1-terminal/RESULT.md",
+    "priorPermissions": "../../feasibility/s2-control/capabilities/opencode-permissions.json"
+  },
+  "asOf": "2026-11-10"
+}

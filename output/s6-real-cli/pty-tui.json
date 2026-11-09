@@ -1,0 +1,52 @@
+{
+  "schema": "tiye-s6-real-cli-pty-v1",
+  "date": "2026-11-09T21:21:05.014Z",
+  "mode": "tui",
+  "distro": "Ubuntu",
+  "binary": "/home/mohammad/.local/share/tiye-feasibility/codex-0.157.1-rx5vmnt1/package/bin/codex",
+  "expectedVersion": "codex-cli 0.157.1",
+  "runtimeRoot": "/home/mohammad/.local/share/tiye-feasibility/s6-real-cli-20261109212104883-17192",
+  "fixedLinuxPath": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+  "argv": [
+    "/home/mohammad/.local/share/tiye-feasibility/codex-0.157.1-rx5vmnt1/package/bin/codex",
+    "--no-daemon"
+  ],
+  "stdinWritten": false,
+  "loginAttempted": false,
+  "modelRequested": false,
+  "preexistingBinaryProcesses": [],
+  "identity": {
+    "pid": "12593",
+    "start": "23394080",
+    "boot": "114d27894da5e6f80081e2ec993b3f3a8f3379d5aece427309679bdaf4c36c29",
+    "root_created": "1794259265"
+  },
+  "identityCaptureMs": 134,
+  "input": {
+    "token": "tiyes6probe7q3z9",
+    "bytes": 16,
+    "enterSent": false,
+    "observedInPtyOutput": false
+  },
+  "marker": "composer-marker",
+  "screen": {
+    "composer": true,
+    "login": true,
+    "versionLine": false
+  },
+  "readyMs": 3673,
+  "decodedBytes": 2203,
+  "decodedSha256": "e6737373e0eb727aa8449345cbc0532d4bad03407ec3613b44adf72cb11f2b36",
+  "cliExit": null,
+  "transcriptPath": "pty-tui.log",
+  "teardown": {
+    "ptyKillError": null,
+    "waitMs": 2618,
+    "linuxIdentityAfterPtyKill": "GONE",
+    "survivedPtyKill": false,
+    "remainingBinaryProcesses": [],
+    "finalBinaryProcesses": []
+  },
+  "cleanupVerified": true,
+  "outcome": "partial-composer"
+}

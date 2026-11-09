@@ -1,0 +1,431 @@
+{
+  "schema": "tiye-s6-real-cli-paths-v1",
+  "date": "2026-11-09T21:22:23Z",
+  "runId": "20261109212223-12846",
+  "fixedPath": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+  "osRelease": {
+    "id": "ubuntu",
+    "versionId": "26.04",
+    "prettyName": "Ubuntu 26.04.1 LTS"
+  },
+  "kernel": "6.18.33.2-microsoft-standard-WSL2",
+  "uid": 1000,
+  "tools": {
+    "python3": {
+      "name": "python3",
+      "path": "/usr/bin/python3",
+      "elf": true,
+      "symlink": "/usr/bin/python3.14"
+    },
+    "git": {
+      "name": "git",
+      "path": "/usr/bin/git",
+      "elf": true,
+      "symlink": "/usr/bin/git"
+    },
+    "node": {
+      "name": "node",
+      "path": null
+    },
+    "npm": {
+      "name": "npm",
+      "path": null
+    },
+    "codex": {
+      "name": "codex",
+      "path": null
+    },
+    "claude": {
+      "name": "claude",
+      "path": null
+    },
+    "opencode": {
+      "name": "opencode",
+      "path": null
+    },
+    "gemini": {
+      "name": "gemini",
+      "path": null
+    }
+  },
+  "gitVersion": {
+    "exit": 0,
+    "stdout": "git version 2.53.0",
+    "stderr": "",
+    "timedOut": false
+  },
+  "nodeVersion": null,
+  "candidate": {
+    "path": "/home/mohammad/.local/share/tiye-feasibility/codex-0.157.1-rx5vmnt1/package/bin/codex",
+    "exists": true,
+    "elf": true,
+    "sha256": "3e2584f3f3829a43a0495011a1cecb2facbe64a2403e2b682351fd9c2983f970",
+    "version": {
+      "exit": 0,
+      "stdout": "codex-cli 0.157.1",
+      "stderr": "",
+      "timedOut": false
+    }
+  },
+  "wslpath": [
+    {
+      "label": "windows-temp-to-linux",
+      "argvTail": [
+        "-u",
+        "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\tiye s6 路径-20261109212223-12846"
+      ],
+      "argv": [
+        "/usr/bin/wslpath",
+        "-u",
+        "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\tiye s6 路径-20261109212223-12846"
+      ],
+      "exit": 0,
+      "stdout": "/mnt/c/Users/Mohammad/AppData/Local/Temp/tiye s6 路径-20261109212223-12846",
+      "stderr": "",
+      "elapsedMs": 1,
+      "timedOut": false
+    },
+    {
+      "label": "windows-repo-path-to-linux",
+      "argvTail": [
+        "-u",
+        "D:\\TIYE Agent"
+      ],
+      "argv": [
+        "/usr/bin/wslpath",
+        "-u",
+        "D:\\TIYE Agent"
+      ],
+      "exit": 0,
+      "stdout": "/mnt/d/TIYE Agent",
+      "stderr": "",
+      "elapsedMs": 1,
+      "timedOut": false
+    },
+    {
+      "label": "linux-home-to-windows",
+      "argvTail": [
+        "-w",
+        "/home/mohammad"
+      ],
+      "argv": [
+        "/usr/bin/wslpath",
+        "-w",
+        "/home/mohammad"
+      ],
+      "exit": 0,
+      "stdout": "\\\\wsl.localhost\\Ubuntu\\home\\mohammad",
+      "stderr": "",
+      "elapsedMs": 1,
+      "timedOut": false
+    },
+    {
+      "label": "linux-unicode-to-windows",
+      "argvTail": [
+        "-w",
+        "/home/mohammad/.local/share/tiye-feasibility/s6-paths-20261109212223-12846/tiye s6 路径"
+      ],
+      "argv": [
+        "/usr/bin/wslpath",
+        "-w",
+        "/home/mohammad/.local/share/tiye-feasibility/s6-paths-20261109212223-12846/tiye s6 路径"
+      ],
+      "exit": 0,
+      "stdout": "\\\\wsl.localhost\\Ubuntu\\home\\mohammad\\.local\\share\\tiye-feasibility\\s6-paths-20261109212223-12846\\tiye s6 路径",
+      "stderr": "",
+      "elapsedMs": 1,
+      "timedOut": false
+    },
+    {
+      "label": "invalid-relative-to-linux",
+      "argvTail": [
+        "-u",
+        "relative\\path"
+      ],
+      "argv": [
+        "/usr/bin/wslpath",
+        "-u",
+        "relative\\path"
+      ],
+      "exit": 0,
+      "stdout": "relative/path",
+      "stderr": "",
+      "elapsedMs": 1,
+      "timedOut": false
+    },
+    {
+      "label": "empty-to-linux",
+      "argvTail": [
+        "-u",
+        ""
+      ],
+      "argv": [
+        "/usr/bin/wslpath",
+        "-u",
+        ""
+      ],
+      "exit": 0,
+      "stdout": ".",
+      "stderr": "",
+      "elapsedMs": 1,
+      "timedOut": false
+    },
+    {
+      "label": "round-trip-windows-linux-windows",
+      "forward": {
+        "argv": [
+          "/usr/bin/wslpath",
+          "-u",
+          "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\tiye s6 路径-20261109212223-12846"
+        ],
+        "exit": 0,
+        "stdout": "/mnt/c/Users/Mohammad/AppData/Local/Temp/tiye s6 路径-20261109212223-12846",
+        "stderr": "",
+        "elapsedMs": 0,
+        "timedOut": false
+      },
+      "backward": {
+        "argv": [
+          "/usr/bin/wslpath",
+          "-w",
+          "/mnt/c/Users/Mohammad/AppData/Local/Temp/tiye s6 路径-20261109212223-12846"
+        ],
+        "exit": 0,
+        "stdout": "C:\\Users\\Mohammad\\AppData\\Local\\Temp\\tiye s6 路径-20261109212223-12846",
+        "stderr": "",
+        "elapsedMs": 4,
+        "timedOut": false
+      },
+      "roundTripMatch": true
+    },
+    {
+      "label": "round-trip-linux-windows-linux",
+      "forward": {
+        "argv": [
+          "/usr/bin/wslpath",
+          "-w",
+          "/home/mohammad/.local/share/tiye-feasibility/s6-paths-20261109212223-12846/tiye s6 路径"
+        ],
+        "exit": 0,
+        "stdout": "\\\\wsl.localhost\\Ubuntu\\home\\mohammad\\.local\\share\\tiye-feasibility\\s6-paths-20261109212223-12846\\tiye s6 路径",
+        "stderr": "",
+        "elapsedMs": 2,
+        "timedOut": false
+      },
+      "backward": {
+        "argv": [
+          "/usr/bin/wslpath",
+          "-u",
+          "\\\\wsl.localhost\\Ubuntu\\home\\mohammad\\.local\\share\\tiye-feasibility\\s6-paths-20261109212223-12846\\tiye s6 路径"
+        ],
+        "exit": 0,
+        "stdout": "/home/mohammad/.local/share/tiye-feasibility/s6-paths-20261109212223-12846/tiye s6 路径",
+        "stderr": "",
+        "elapsedMs": 1,
+        "timedOut": false
+      },
+      "roundTripMatch": true
+    }
+  ],
+  "fixtures": {
+    "windowsFilesystem": {
+      "label": "windows-filesystem",
+      "root": "/mnt/c/Users/Mohammad/AppData/Local/Temp/tiye-s6-win-x9appa7u",
+      "files": 40,
+      "fileBytes": 1024,
+      "phases": {
+        "init": {
+          "argv": [
+            "/usr/bin/git",
+            "-C",
+            "/mnt/c/Users/Mohammad/AppData/Local/Temp/tiye-s6-win-x9appa7u",
+            "init",
+            "-q"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "elapsedMs": 77,
+          "timedOut": false
+        },
+        "add": {
+          "argv": [
+            "/usr/bin/git",
+            "-C",
+            "/mnt/c/Users/Mohammad/AppData/Local/Temp/tiye-s6-win-x9appa7u",
+            "add",
+            "-A"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "elapsedMs": 109,
+          "timedOut": false
+        },
+        "commit": {
+          "argv": [
+            "/usr/bin/git",
+            "-C",
+            "/mnt/c/Users/Mohammad/AppData/Local/Temp/tiye-s6-win-x9appa7u",
+            "-c",
+            "user.name=TIYE S6",
+            "-c",
+            "user.email=s6@invalid",
+            "commit",
+            "-qm",
+            "s6 fixture"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "elapsedMs": 144,
+          "timedOut": false
+        },
+        "status": {
+          "argv": [
+            "/usr/bin/git",
+            "-C",
+            "/mnt/c/Users/Mohammad/AppData/Local/Temp/tiye-s6-win-x9appa7u",
+            "status",
+            "--porcelain"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "elapsedMs": 70,
+          "timedOut": false
+        },
+        "head": {
+          "argv": [
+            "/usr/bin/git",
+            "-C",
+            "/mnt/c/Users/Mohammad/AppData/Local/Temp/tiye-s6-win-x9appa7u",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "001da90b0ed3d60310f731b15639039091ce2555",
+          "stderr": "",
+          "elapsedMs": 15,
+          "timedOut": false
+        }
+      },
+      "fileSystem": "drvfs",
+      "clean": true,
+      "headLength": 40,
+      "markerSha256": "56110afe91e0d5d3096e9b18bf15d5394ec45a075386d582e3dc0efe0a230e27",
+      "ok": true
+    },
+    "linuxFilesystem": {
+      "label": "linux-filesystem",
+      "root": "/home/mohammad/.local/share/tiye-feasibility/tiye-s6-lin-oid_q814",
+      "files": 40,
+      "fileBytes": 1024,
+      "phases": {
+        "init": {
+          "argv": [
+            "/usr/bin/git",
+            "-C",
+            "/home/mohammad/.local/share/tiye-feasibility/tiye-s6-lin-oid_q814",
+            "init",
+            "-q"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "elapsedMs": 4,
+          "timedOut": false
+        },
+        "add": {
+          "argv": [
+            "/usr/bin/git",
+            "-C",
+            "/home/mohammad/.local/share/tiye-feasibility/tiye-s6-lin-oid_q814",
+            "add",
+            "-A"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "elapsedMs": 2,
+          "timedOut": false
+        },
+        "commit": {
+          "argv": [
+            "/usr/bin/git",
+            "-C",
+            "/home/mohammad/.local/share/tiye-feasibility/tiye-s6-lin-oid_q814",
+            "-c",
+            "user.name=TIYE S6",
+            "-c",
+            "user.email=s6@invalid",
+            "commit",
+            "-qm",
+            "s6 fixture"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "elapsedMs": 4,
+          "timedOut": false
+        },
+        "status": {
+          "argv": [
+            "/usr/bin/git",
+            "-C",
+            "/home/mohammad/.local/share/tiye-feasibility/tiye-s6-lin-oid_q814",
+            "status",
+            "--porcelain"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "elapsedMs": 2,
+          "timedOut": false
+        },
+        "head": {
+          "argv": [
+            "/usr/bin/git",
+            "-C",
+            "/home/mohammad/.local/share/tiye-feasibility/tiye-s6-lin-oid_q814",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit": 0,
+          "stdout": "001da90b0ed3d60310f731b15639039091ce2555",
+          "stderr": "",
+          "elapsedMs": 1,
+          "timedOut": false
+        }
+      },
+      "fileSystem": "ext4",
+      "clean": true,
+      "headLength": 40,
+      "markerSha256": "56110afe91e0d5d3096e9b18bf15d5394ec45a075386d582e3dc0efe0a230e27",
+      "ok": true
+    }
+  },
+  "crossRead": {
+    "expectedSha256": "85ffb4e24cb5206230beb4aa316ce4183a953e41bd2b1a8eda62858b07ed04be",
+    "windows-to-linux": {
+      "path": "/mnt/c/Users/Mohammad/AppData/Local/Temp/tiye-s6-win-x9appa7u/cross-marker.txt",
+      "sha256": "85ffb4e24cb5206230beb4aa316ce4183a953e41bd2b1a8eda62858b07ed04be",
+      "match": true
+    },
+    "linux-to-windows": {
+      "path": "/home/mohammad/.local/share/tiye-feasibility/tiye-s6-lin-oid_q814/cross-marker.txt",
+      "sha256": "85ffb4e24cb5206230beb4aa316ce4183a953e41bd2b1a8eda62858b07ed04be",
+      "match": true
+    },
+    "ok": true
+  },
+  "limits": {
+    "oneAttemptPerQuery": true,
+    "queryTimeoutSeconds": 15,
+    "noNetwork": true,
+    "noProviderModelRequest": true,
+    "noCredentialsRead": true
+  },
+  "fixturesRemoved": true,
+  "ok": true
+}

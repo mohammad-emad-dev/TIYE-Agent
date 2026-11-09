@@ -1,0 +1,47 @@
+[runner] env: TIYE_S1_COMMAND=claude TIYE_S1_ARGS_JSON=[] TIYE_CLI_FAMILY=claude (fixed; no keyboard input, no PTY write, no prompt, no model request)
+[runner] env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)
+[runner] phase 1: spawn runner-owned Electron --cli-resize-smoke visible-window (opt-in resize observation) (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)
+[cli-resize-main] [cli-resize-smoke] WAITING containment before PTY spawn
+[runner] CLI containment READY: Electron pid=6556 creation=2026-11-09T23:54:26.9078340+03:00 in kill-on-close Job Object
+[cli-resize-main] [cli-resize-smoke] resolved command=C:\Users\Mohammad\.local\bin\claude.exe args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[cli-resize-main] [cli-resize-smoke] PROBE installed Claude Code TUI resize via main-owned PTY + visible renderer (single BrowserWindow resize, no keyboard input, no PTY write, no Enter, no submit, no model/prompt request)
+[cli-resize-main] [s1] spawning: C:\Users\Mohammad\.local\bin\claude.exe  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[cli-resize-main] [s1] member session s1-mw9qotbp-1-pid7928 (spawn #1, pid 7928)
+[cli-resize-main] [cli-resize-smoke] ok: renderer READY + preload bridge alive (visible window for resize observation; still the existing Electron renderer, not a native terminal)
+[cli-resize-main] [s1] RESIZE ipc cols=118 rows=40 (xterm->IPC->node-pty applied)
+[cli-resize-main] [cli-resize-smoke] ok: real CLI PTY data observed (bytes=1653)
+[cli-resize-main] [cli-resize-smoke] ok: live tree 1 identit(ies): pid=7928 created=2026-11-09T23:54:28.2141220+03:00 name=claude.exe
+[cli-resize-main] [cli-resize-smoke] IDENTITY pid=7928 created=2026-11-09T23:54:28.2141220+03:00 name=claude.exe parentPid=6556
+[cli-resize-main] [cli-resize-smoke] RESIZE-PLAN steps=shot(before),resize-once(content 800x500),wait-observed-change,shot(after) (visible window, no keyboard input, no PTY write, no Enter, no submit, no model request, single BrowserWindow content resize only)
+[cli-resize-main] [cli-resize-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-resize-before.png (1084x685)
+[cli-resize-main] [cli-resize-smoke] RESIZE-OBSERVED which=initial cols=118 rows=40 ptyCols=118 ptyRows=40 shot=1084x685 (xterm->IPC->node-pty observed, NOT requested size)
+[cli-resize-main] [cli-resize-smoke] RESIZE-WINDOW-BEFORE outer=1100x750 content=1084x685 (main-side BrowserWindow size before single resize; NOT PTY proof)
+[cli-resize-main] [cli-resize-smoke] RESIZE-REQUESTED content=800x500 (requested content size only, NOT proof; waiting for observed xterm->IPC->node-pty change)
+[cli-resize-main] [cli-resize-smoke] RESIZE-VIEWPORT inner=800x500 termEl=800x500 (renderer viewport+terminalEl read-only; NOT PTY proof)
+[cli-resize-main] [s1] RESIZE ipc cols=87 rows=29 (xterm->IPC->node-pty applied)
+[cli-resize-main] [cli-resize-smoke] RESIZE-WINDOW-AFTER outer=816x565 content=800x500 mainResizeSeen=true (main-side size after observed change; requested content was 800x500; still NOT PTY proof alone)
+[cli-resize-main] [cli-resize-smoke] RESIZE-OBSERVED which=final cols=87 rows=29 ptyCols=87 ptyRows=29 changed=true initial=118x40 (xterm->IPC->node-pty observed change, NOT requested size)
+[cli-resize-main] [cli-resize-smoke] ok: screenshot after D:\TIYE Agent\feasibility\s1-terminal\dist\cli-resize-after.png (800x500)
+[cli-resize-main] [cli-resize-smoke] SHOTS before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-resize-before.png bytes=22942 after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-resize-after.png bytes=19422 changed=true dimsChanged=true beforePx=1084x685 afterPx=800x500 initial=118x40 final=87x29
+[cli-resize-main] [cli-resize-smoke] MARKERS bytes=6225 stripped=3247 claude=true version=false prompt=false
+[cli-resize-main] [cli-resize-smoke] READY session=s1-mw9qotbp-1-pid7928 member=cli-resize-member rootPid=7928 treeSize=1 before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-resize-before.png after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-resize-after.png initial=118x40 final=87x29 beforePx=1084x685 afterPx=800x500
+[cli-resize-main] [cli-resize-smoke] alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; observed resize dims + distinct screenshots, NOT visual reflow proof, NOT S1 step 5, NOT S1 pass)
+[runner] READY observed: session=s1-mw9qotbp-1-pid7928 member=cli-resize-member rootPid=7928 treeSize=1
+[runner] assert: spawning line: [s1] spawning: C:\Users\Mohammad\.local\bin\claude.exe  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[runner] assert: resolved line: [cli-resize-smoke] resolved command=C:\Users\Mohammad\.local\bin\claude.exe args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[runner] assert: markers line: [cli-resize-smoke] MARKERS bytes=6225 stripped=3247 claude=true version=false prompt=false
+[runner] assert: version line: 
+[runner] assert: resize-plan line: [cli-resize-smoke] RESIZE-PLAN steps=shot(before),resize-once(content 800x500),wait-observed-change,shot(after) (visible window, no keyboard input, no PTY write, no Enter, no submit, no model request, single BrowserWindow content resize only)
+[runner] assert: resize-requested line: [cli-resize-smoke] RESIZE-REQUESTED content=800x500 (requested content size only, NOT proof; waiting for observed xterm->IPC->node-pty change)
+[runner] assert: shots line: [cli-resize-smoke] SHOTS before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-resize-before.png bytes=22942 after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-resize-after.png bytes=19422 changed=true dimsChanged=true beforePx=1084x685 afterPx=800x500 initial=118x40 final=87x29
+[runner] assert: resize observed initial=118x40 pty=118x40 final=87x29 pty=87x29 initialOk=true finalOk=true dimsChangedOk=true
+[runner] assert: mode=resize-probe family=claude resolvedFamily=true resolvedNativeLauncher=true rendererReady=true ptyData=true markersOk=true versionOk=false resizePlanOk=true shotsChangedOk=true shotsDimsChangedOk=true beforeShotLogOk=true afterShotLogOk=true unexpectedInput=false
+[runner] note: bare semver not present in this startup window (dynamic TUI; best-effort marker only — installed-command proof is the resolved launcher + claude marker, not this line)
+[runner] screenshots ok: before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-resize-before.png (22942 bytes sha256=8f5cf497b6d06d96… 1084x685) after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-resize-after.png (19422 bytes sha256=e40f1c76d5426512… 800x500) changed distinct-dims (visible opt-in resize window, no keyboard input, orchestrator visual inspection only; NOT visual reflow proof)
+[runner] resize observed ok: initial cols=118 rows=40 pty=118x40 final cols=87 rows=29 pty=87x29 changed (xterm->IPC->node-pty observed, NOT requested size)
+[runner] captured identity: pid=7928 created=2026-11-09T23:54:28.2141220+03:00 name=claude.exe parentPid=6556
+[runner] pre-kill identity check: all 1 exact PID+creation identities still alive
+[runner] phase 2: terminating ONLY the runner-owned Electron ChildProcess via handle (child.kill(), no PID kill; no term.kill by design)
+[runner] runner-owned Electron exited (code=null signal=SIGTERM)
+[runner] phase 3: bounded read-only re-enumeration of the 1 exact captured identities (bound 15000ms, no PID kill)
+[runner] CLI-RESIZE PASS: family=claude resolved=C:\Users\Mohammad\.local\bin\claude.exe semverObserved=none (best-effort; installed-version proof stays smoke:cli-launch) session=s1-mw9qotbp-1-pid7928 rootPid=7928 tree=1 gone (attempts=1) initial=118x40 final=87x29 before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-resize-before.png (22942 bytes sha256=8f5cf497b6d06d96… 1084x685) after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-resize-after.png (19422 bytes sha256=e40f1c76d5426512… 800x500) changed distinct-dims (single BrowserWindow resize, observed xterm->IPC->node-pty dims change + distinct screenshots + exact teardown, no keyboard input, never submitted, no model request; NOT visual reflow proof, NOT S1 step 5, NOT S1 pass — orchestrator visual inspection only)

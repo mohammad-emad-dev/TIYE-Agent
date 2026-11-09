@@ -1,0 +1,59 @@
+[runner] env: TIYE_S1_COMMAND=codex TIYE_S1_ARGS_JSON=[] TIYE_CLI_FAMILY=codex (fixed; no stdin, no prompt, no model request)
+[runner] env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)
+[runner] phase 1: spawn runner-owned Electron --cli-paste-smoke visible-window (opt-in Terminal.paste() multiline observation) (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)
+[cli-paste-main] [cli-paste-smoke] WAITING containment before PTY spawn
+[runner] CLI containment READY: Electron pid=21636 creation=2026-11-09T23:51:07.0933300+03:00 in kill-on-close Job Object
+[cli-paste-main] [cli-paste-smoke] resolved command=C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[cli-paste-main] [cli-paste-smoke] PROBE installed Codex TUI multiline paste via main-owned PTY + visible renderer xterm paste path (fixed multiline ASCII token ONLY via Terminal.paste(), bracketedPasteMode required, no Enter, no submit, no model/prompt request, no clipboard read/overwrite, token never keyboard-typed (bounded first-run Escape dismissal precedes), no term.write)
+[cli-paste-main] [s1] spawning: C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[cli-paste-main] [s1] member session s1-mw9qkj5k-1-pid21324 (spawn #1, pid 21324)
+[cli-paste-main] [cli-paste-smoke] ok: renderer READY + preload bridge alive (visible window for Terminal.paste() observation; still the existing Electron renderer, not a native terminal)
+[cli-paste-main] [s1] RESIZE ipc cols=118 rows=40 (xterm->IPC->node-pty applied)
+[cli-paste-main] [cli-paste-smoke] ok: real CLI PTY data observed (bytes=1780)
+[cli-paste-main] [cli-paste-smoke] FIRST-RUN-DISMISS family=codex key=Escape attempts=2 (bounded dismissal of CLI first-run notice only; no text, no Enter, no submit, no model request)
+[cli-paste-main] [cli-paste-smoke] ok: live tree 8 identit(ies): pid=21324 created=2026-11-09T23:51:08.4059960+03:00 name=codex.exe; pid=20788 created=2026-11-09T23:51:12.8328600+03:00 name=node_repl.exe; pid=18692 created=2026-11-09T23:51:12.8384140+03:00 name=node.exe; pid=21096 created=2026-11-09T23:51:12.8409470+03:00 name=node.exe; pid=19400 created=2026-11-09T23:51:12.8384640+03:00 name=conhost.exe; pid=20656 created=2026-11-09T23:51:12.8413650+03:00 name=conhost.exe; pid=10756 created=2026-11-09T23:51:12.8457170+03:00 name=conhost.exe; pid=20008 created=2026-11-09T23:51:12.9611400+03:00 name=node_repl.exe
+[cli-paste-main] [cli-paste-smoke] IDENTITY pid=21324 created=2026-11-09T23:51:08.4059960+03:00 name=codex.exe parentPid=21636
+[cli-paste-main] [cli-paste-smoke] IDENTITY pid=20788 created=2026-11-09T23:51:12.8328600+03:00 name=node_repl.exe parentPid=21324
+[cli-paste-main] [cli-paste-smoke] IDENTITY pid=18692 created=2026-11-09T23:51:12.8384140+03:00 name=node.exe parentPid=21324
+[cli-paste-main] [cli-paste-smoke] IDENTITY pid=21096 created=2026-11-09T23:51:12.8409470+03:00 name=node.exe parentPid=21324
+[cli-paste-main] [cli-paste-smoke] IDENTITY pid=19400 created=2026-11-09T23:51:12.8384640+03:00 name=conhost.exe parentPid=20788
+[cli-paste-main] [cli-paste-smoke] IDENTITY pid=20656 created=2026-11-09T23:51:12.8413650+03:00 name=conhost.exe parentPid=18692
+[cli-paste-main] [cli-paste-smoke] IDENTITY pid=10756 created=2026-11-09T23:51:12.8457170+03:00 name=conhost.exe parentPid=21096
+[cli-paste-main] [cli-paste-smoke] IDENTITY pid=20008 created=2026-11-09T23:51:12.9611400+03:00 name=node_repl.exe parentPid=21096
+[cli-paste-main] [cli-paste-smoke] PASTE-PLAN tokenLines=3 method=Terminal.paste() bracketed-required no-Enter,no-submit,no-model,no-clipboard-read,no-term-write,no-sendInputEvent (fixed multiline ASCII only via xterm paste path)
+[cli-paste-main] [cli-paste-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-before.png (1084x685)
+[cli-paste-main] [cli-paste-smoke] PASTE-HOOK present=true (query-gated test hook only, never production UI)
+[cli-paste-main] [cli-paste-smoke] PASTE-HOOK tokenMatch=true (fixed payload validation)
+[cli-paste-main] [cli-paste-smoke] PASTE-BRACKETED enabled=true (real TUI must enable bracketed paste; fail closed)
+[cli-paste-main] [cli-paste-smoke] ok: paste delivered len=38 lines=3 via Terminal.paste() (single bracketed sequence, no Enter, no sendInputEvent, no term.write, no clipboard read/overwrite; renderer xterm paste path)
+[cli-paste-main] [cli-paste-smoke] PASTE-PTY bytesBefore=5503 bytesAfter=5657 delta=154 (read-only lengths, not content; NOT arrival proof)
+[cli-paste-main] [cli-paste-smoke] PASTE-ECHO observed=true (fixed-token presence in PTY output only; NOT semantic arrival proof, NOT display proof)
+[cli-paste-main] [cli-paste-smoke] PASTE-PLACEHOLDER observed=false (OpenCode's three-line paste indicator in PTY output; not exact-content proof)
+[cli-paste-main] [cli-paste-smoke] ok: screenshot after D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-after.png (1084x685)
+[cli-paste-main] [cli-paste-smoke] SHOTS before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-before.png bytes=25357 after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-after.png bytes=25687 changed=true
+[cli-paste-main] [cli-paste-smoke] PASTE-INPUT count=1 focusReports=0 bytes=50 expectedBytes=50 innerLen=38 match=true stray=false allLens=50 kinds=paste (exact renderer->IPC->PTY bracketed evidence; ESC[200~ + normalized payload + ESC[201~; focus reports are terminal protocol, not input)
+[cli-paste-main] [cli-paste-smoke] MARKERS bytes=5137 stripped=2687 codex=true version=true prompt=false
+[cli-paste-main] [cli-paste-smoke] VERSION 0.164.0
+[cli-paste-main] [cli-paste-smoke] READY session=s1-mw9qkj5k-1-pid21324 member=cli-paste-member rootPid=21324 treeSize=8 before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-before.png after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-after.png pasteLen=38 pasteLines=3
+[cli-paste-main] [cli-paste-smoke] alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; Terminal.paste() bracketed evidence + changed render, NOT semantic editor arrival, NOT no-network proof, NOT S1 step 3/6)
+[runner] READY observed: session=s1-mw9qkj5k-1-pid21324 member=cli-paste-member rootPid=21324 treeSize=8
+[runner] assert: spawning line: [s1] spawning: C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[runner] assert: resolved line: [cli-paste-smoke] resolved command=C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[runner] assert: markers line: [cli-paste-smoke] MARKERS bytes=5137 stripped=2687 codex=true version=true prompt=false
+[runner] assert: version line: [cli-paste-smoke] VERSION 0.164.0
+[runner] assert: shot line: [cli-paste-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-before.png (1084x685)
+[runner] assert: mode=paste-probe family=codex resolvedFamily=true resolvedNativeLauncher=true rendererReady=true ptyData=true markersOk=true versionOk=true inputTypedOk=true editKeysOk=true editPlanOk=true shotsLogOk=true pastePlanOk=true pasteHookOk=true pasteBracketedOk=true pasteDeliveredOk=true pasteInputOk=true pasteNoKeyboardOk=true unicodePlanOk=true unicodeHookOk=true unicodeBracketedOk=true unicodeDeliveredOk=true unicodeInputOk=true unicodeDisplayOk=true unicodeNoKeyboardOk=true historyPlanOk=true historyTypedOk=true historyEchoOk=true historyEnterOk=true historyHelpObservedOk=true historyEscapeOk=true historyUpOk=true historyUpShotOk=true historyShotsLogOk=true
+[runner] screenshots ok: before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-before.png (25357 bytes sha256=606e47e112936af1…) after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-after.png (25687 bytes sha256=2127720ed9ce564b…) changed (visible opt-in Terminal.paste() window, bracketed evidence + changed render only, NOT semantic editor arrival, NOT no-network proof; orchestrator visual inspection only; Terminal.paste() is not the OS clipboard shortcut)
+[runner] captured identity: pid=21324 created=2026-11-09T23:51:08.4059960+03:00 name=codex.exe parentPid=21636
+[runner] captured identity: pid=20788 created=2026-11-09T23:51:12.8328600+03:00 name=node_repl.exe parentPid=21324
+[runner] captured identity: pid=18692 created=2026-11-09T23:51:12.8384140+03:00 name=node.exe parentPid=21324
+[runner] captured identity: pid=21096 created=2026-11-09T23:51:12.8409470+03:00 name=node.exe parentPid=21324
+[runner] captured identity: pid=19400 created=2026-11-09T23:51:12.8384640+03:00 name=conhost.exe parentPid=20788
+[runner] captured identity: pid=20656 created=2026-11-09T23:51:12.8413650+03:00 name=conhost.exe parentPid=18692
+[runner] captured identity: pid=10756 created=2026-11-09T23:51:12.8457170+03:00 name=conhost.exe parentPid=21096
+[runner] captured identity: pid=20008 created=2026-11-09T23:51:12.9611400+03:00 name=node_repl.exe parentPid=21096
+[runner] pre-kill identity check: all 8 exact PID+creation identities still alive
+[runner] phase 2: terminating ONLY the runner-owned Electron ChildProcess via handle (child.kill(), no PID kill; no term.kill by design)
+[runner] runner-owned Electron exited (code=null signal=SIGTERM)
+[runner] phase 3: bounded read-only re-enumeration of the 8 exact captured identities (bound 15000ms, no PID kill)
+[runner] CLI-PASTE PASS: family=codex resolved=C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe semverObserved=0.164.0 (best-effort; installed-version proof stays smoke:cli-launch) session=s1-mw9qkj5k-1-pid21324 rootPid=21324 tree=8 gone (attempts=1) pasteLines=3 before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-before.png (25357 bytes sha256=606e47e112936af1…) after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-after.png (25687 bytes sha256=2127720ed9ce564b…) changed (fixed multiline ASCII via Terminal.paste() ONLY, bracketedPasteMode required, exactly one ESC[200~ + payload + ESC[201~ INPUT count=1 match=true stray=false, no Enter, never submitted, no clipboard read/overwrite, token not delivered via sendInputEvent (two bounded Escape first-run dismissals preceded it), no term.write from harness; NOT semantic editor arrival, NOT no-network proof, NOT OS-clipboard-shortcut equivalence; orchestrator visual inspection only; NOT S1 step 3/6, parity, Unicode, approvals, or model behavior)

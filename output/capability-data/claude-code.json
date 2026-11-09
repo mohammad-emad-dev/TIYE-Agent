@@ -1,0 +1,55 @@
+{
+  "id": "claude-code",
+  "displayName": "Claude Code",
+  "testedVersions": ["2.1.321"],
+  "detection": {
+    "command": "claude",
+    "versionPattern": "^(\\d+\\.\\d+\\.\\d+) \\(Claude Code\\)$"
+  },
+  "environments": ["windows"],
+  "launch": {
+    "workingFolder": null,
+    "instructions": null,
+    "permissions": {
+      "fileAccess": [],
+      "terminal": []
+    }
+  },
+  "teamTools": {
+    "attach": null,
+    "transport": null
+  },
+  "resume": {
+    "supported": null,
+    "method": null
+  },
+  "approvals": {
+    "detect": null,
+    "pattern": null
+  },
+  "errors": {
+    "rateLimit": "not tested",
+    "auth": "not tested",
+    "network": "not tested"
+  },
+  "login": {
+    "class": null,
+    "qualified": false,
+    "note": "S4 route remains unreviewed; no login class assigned."
+  },
+  "qualification": {
+    "status": "display-only",
+    "productionEligible": false,
+    "promotion": "HOLD",
+    "s1": "pass for tested display/input/edit/paste/Unicode/resize slices on Windows 2.1.321; startup marker carries no semver",
+    "s2": "not tested",
+    "s3": "not tested with a real CLI",
+    "s4": "unqualified; route unreviewed",
+    "s6": "not tested",
+    "untested": ["launch options", "permissions", "MCP attachment", "resume", "approvals", "errors", "lifecycle", "WSL"]
+  },
+  "evidence": {
+    "s1": "../../output/s1-terminal/RESULT.md"
+  },
+  "asOf": "2026-11-10"
+}

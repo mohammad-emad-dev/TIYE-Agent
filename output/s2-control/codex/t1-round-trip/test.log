@@ -1,0 +1,17 @@
+
+> tiye-s2-t1@1.0.0 test
+> node --test
+
+✔ clamps values below the minimum (0.5759ms)
+✔ keeps values inside the range (0.1092ms)
+✔ clamps values above the maximum (0.0724ms)
+✔ keeps values on either boundary (0.0644ms)
+✔ throws RangeError when min is greater than max (0.318ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 69.5599

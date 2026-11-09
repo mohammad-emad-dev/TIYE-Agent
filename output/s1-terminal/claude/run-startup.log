@@ -1,0 +1,33 @@
+[runner] env: TIYE_S1_COMMAND=claude TIYE_S1_ARGS_JSON=[] TIYE_CLI_FAMILY=claude (fixed; no stdin, no prompt, no model request)
+[runner] env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)
+[runner] phase 1: spawn runner-owned Electron --cli-tui-startup-smoke hidden-window (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)
+[tui-startup-main] [cli-tui-startup-smoke] WAITING containment before PTY spawn
+[runner] CLI containment READY: Electron pid=14208 creation=2026-11-09T23:52:53.8793550+03:00 in kill-on-close Job Object
+[tui-startup-main] [cli-tui-startup-smoke] resolved command=C:\Users\Mohammad\.local\bin\claude.exe args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[tui-startup-main] [cli-tui-startup-smoke] PROBE installed Claude Code TUI startup via main-owned PTY + hidden renderer (no stdin written, no model/prompt)
+[tui-startup-main] [s1] spawning: C:\Users\Mohammad\.local\bin\claude.exe  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[tui-startup-main] [s1] member session s1-mw9qmtkv-1-pid22308 (spawn #1, pid 22308)
+[tui-startup-main] [cli-tui-startup-smoke] ok: renderer READY + preload bridge alive (hidden window; renderer still runs)
+[tui-startup-main] [s1] RESIZE ipc cols=118 rows=40 (xterm->IPC->node-pty applied)
+[tui-startup-main] [cli-tui-startup-smoke] ok: real CLI PTY data observed (bytes=487)
+[tui-startup-main] [cli-tui-startup-smoke] ok: live tree 1 identit(ies): pid=22308 created=2026-11-09T23:52:55.2305840+03:00 name=claude.exe
+[tui-startup-main] [cli-tui-startup-smoke] IDENTITY pid=22308 created=2026-11-09T23:52:55.2305840+03:00 name=claude.exe parentPid=14208
+[tui-startup-main] [cli-tui-startup-smoke] ok: screenshot D:\TIYE Agent\feasibility\s1-terminal\dist\cli-tui-startup-shot.png (1084x685)
+[tui-startup-main] [cli-tui-startup-smoke] MARKERS bytes=3392 stripped=1510 claude=true version=false prompt=false
+[tui-startup-main] [cli-tui-startup-smoke] READY session=s1-mw9qmtkv-1-pid22308 member=cli-tui-startup-member rootPid=22308 treeSize=1 shot=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-tui-startup-shot.png
+[tui-startup-main] [cli-tui-startup-smoke] alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; hidden window, no human visual comparison)
+[runner] READY observed: session=s1-mw9qmtkv-1-pid22308 member=cli-tui-startup-member rootPid=22308 treeSize=1
+[runner] assert: spawning line: [s1] spawning: C:\Users\Mohammad\.local\bin\claude.exe  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[runner] assert: resolved line: [cli-tui-startup-smoke] resolved command=C:\Users\Mohammad\.local\bin\claude.exe args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[runner] assert: markers line: [cli-tui-startup-smoke] MARKERS bytes=3392 stripped=1510 claude=true version=false prompt=false
+[runner] assert: version line: 
+[runner] assert: shot line: [cli-tui-startup-smoke] ok: screenshot D:\TIYE Agent\feasibility\s1-terminal\dist\cli-tui-startup-shot.png (1084x685)
+[runner] assert: mode=tui-startup family=claude resolvedFamily=true resolvedNativeLauncher=true rendererReady=true ptyData=true markersOk=true versionOk=false inputTypedOk=true editKeysOk=true editPlanOk=true shotsLogOk=true pastePlanOk=true pasteHookOk=true pasteBracketedOk=true pasteDeliveredOk=true pasteInputOk=true pasteNoKeyboardOk=true unicodePlanOk=true unicodeHookOk=true unicodeBracketedOk=true unicodeDeliveredOk=true unicodeInputOk=true unicodeDisplayOk=true unicodeNoKeyboardOk=true historyPlanOk=true historyTypedOk=true historyEchoOk=true historyEnterOk=true historyHelpObservedOk=true historyEscapeOk=true historyUpOk=true historyUpShotOk=true historyShotsLogOk=true
+[runner] note: bare semver not present in this startup window (dynamic TUI; best-effort marker only — installed-command proof is the resolved .cmd path + opencode marker, not this line)
+[runner] screenshot ok: D:\TIYE Agent\feasibility\s1-terminal\dist\cli-tui-startup-shot.png (22774 bytes; hidden window, no human visual comparison performed)
+[runner] captured identity: pid=22308 created=2026-11-09T23:52:55.2305840+03:00 name=claude.exe parentPid=14208
+[runner] pre-kill identity check: all 1 exact PID+creation identities still alive
+[runner] phase 2: terminating ONLY the runner-owned Electron ChildProcess via handle (child.kill(), no PID kill; no term.kill by design)
+[runner] runner-owned Electron exited (code=null signal=SIGTERM)
+[runner] phase 3: bounded read-only re-enumeration of the 1 exact captured identities (bound 15000ms, no PID kill)
+[runner] TUI-STARTUP PASS: family=claude resolved=C:\Users\Mohammad\.local\bin\claude.exe semverObserved=none (best-effort; installed-version proof stays smoke:cli-launch) session=s1-mw9qmtkv-1-pid22308 rootPid=22308 tree=1 gone (attempts=1) shot=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-tui-startup-shot.png (22774 bytes; hidden window, no human visual comparison; NOT S1 steps 1-8)

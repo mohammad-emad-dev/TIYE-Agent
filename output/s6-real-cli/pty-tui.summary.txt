@@ -1,0 +1,13 @@
+schema=tiye-s6-real-cli-pty-v1
+mode=tui
+outcome=partial-composer
+marker=composer-marker
+readyMs=3673
+decodedBytes=2203
+cliExit={"exitCode":0}
+identityCaptured=true
+screen={"composer":true,"login":true,"versionLine":false}
+inputTokenObserved=false
+survivedPtyKill=false
+cleanupVerified=true
+remainingBinaryProcesses=[]

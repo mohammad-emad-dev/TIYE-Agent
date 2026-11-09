@@ -1,0 +1,41 @@
+[runner] env: TIYE_S1_COMMAND=opencode TIYE_S1_ARGS_JSON=[] TIYE_CLI_FAMILY=opencode (fixed; no stdin, no prompt, no model request)
+[runner] env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)
+[runner] phase 1: spawn runner-owned Electron --cli-input-smoke visible-window (opt-in keyboard delivery) (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)
+[cli-input-main] [cli-input-smoke] WAITING containment before PTY spawn
+[runner] CLI containment READY: Electron pid=22580 creation=2026-11-09T23:39:48.3648990+03:00 in kill-on-close Job Object
+[cli-input-main] [cli-input-smoke] resolved command=C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[cli-input-main] [cli-input-smoke] PROBE installed opencode TUI input via main-owned PTY + visible renderer keyboard path (no Enter, no submit, no model/prompt request)
+[cli-input-main] [s1] spawning: C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[cli-input-main] [s1] member session s1-mw9q5zsx-1-pid19064 (spawn #1, pid 19064)
+[cli-input-main] [cli-input-smoke] ok: renderer READY + preload bridge alive (visible window for keyboard focus; still the existing Electron renderer, not a native terminal)
+[cli-input-main] [s1] RESIZE ipc cols=118 rows=40 (xterm->IPC->node-pty applied)
+[cli-input-main] [cli-input-smoke] ok: real CLI PTY data observed (bytes=1114)
+[cli-input-main] [cli-input-smoke] ok: live tree 3 identit(ies): pid=19064 created=2026-11-09T23:39:50.1449740+03:00 name=cmd.exe; pid=15596 created=2026-11-09T23:39:50.1843370+03:00 name=opencode.exe; pid=6596 created=2026-11-09T23:39:51.6147370+03:00 name=opencode.exe
+[cli-input-main] [cli-input-smoke] IDENTITY pid=19064 created=2026-11-09T23:39:50.1449740+03:00 name=cmd.exe parentPid=22580
+[cli-input-main] [cli-input-smoke] IDENTITY pid=15596 created=2026-11-09T23:39:50.1843370+03:00 name=opencode.exe parentPid=19064
+[cli-input-main] [cli-input-smoke] IDENTITY pid=6596 created=2026-11-09T23:39:51.6147370+03:00 name=opencode.exe parentPid=15596
+[cli-input-main] [cli-input-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png (1084x685)
+[cli-input-main] [cli-input-smoke] TOKEN len=16 token=tiyeinprobe7q3z9 (harmless ASCII alphanumerics only, never submitted, no model request)
+[cli-input-main] [cli-input-smoke] ok: input typed len=16 via sendInputEvent keyDown+char+keyUp per char (no Enter, no submit, no control sequence; renderer keyboard/xterm path)
+[cli-input-main] [cli-input-smoke] ok: screenshot after D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png (1084x685)
+[cli-input-main] [cli-input-smoke] SHOTS before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png bytes=4014 after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png bytes=21570 changed=true
+[cli-input-main] [cli-input-smoke] MARKERS bytes=60171 stripped=1319 opencode=true version=false prompt=false
+[cli-input-main] [cli-input-smoke] READY session=s1-mw9q5zsx-1-pid19064 member=cli-input-member rootPid=19064 treeSize=3 before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png inputLen=16
+[cli-input-main] [cli-input-smoke] alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; keyboard event + changed render, NOT semantic prompt acceptance)
+[runner] READY observed: session=s1-mw9q5zsx-1-pid19064 member=cli-input-member rootPid=19064 treeSize=3
+[runner] assert: spawning line: [s1] spawning: C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[runner] assert: resolved line: [cli-input-smoke] resolved command=C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[runner] assert: markers line: [cli-input-smoke] MARKERS bytes=60171 stripped=1319 opencode=true version=false prompt=false
+[runner] assert: version line: 
+[runner] assert: shot line: [cli-input-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png (1084x685)
+[runner] assert: mode=input-probe family=opencode resolvedFamily=true resolvedNativeLauncher=true rendererReady=true ptyData=true markersOk=true versionOk=false inputTypedOk=true editKeysOk=true editPlanOk=true shotsLogOk=true pastePlanOk=true pasteHookOk=true pasteBracketedOk=true pasteDeliveredOk=true pasteInputOk=true pasteNoKeyboardOk=true unicodePlanOk=true unicodeHookOk=true unicodeBracketedOk=true unicodeDeliveredOk=true unicodeInputOk=true unicodeDisplayOk=true unicodeNoKeyboardOk=true historyPlanOk=true historyTypedOk=true historyEchoOk=true historyEnterOk=true historyHelpObservedOk=true historyEscapeOk=true historyUpOk=true historyUpShotOk=true historyShotsLogOk=true
+[runner] note: bare semver not present in this startup window (dynamic TUI; best-effort marker only — installed-command proof is the resolved .cmd path + opencode marker, not this line)
+[runner] screenshots ok: before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png (4014 bytes sha256=e2cd9a71193e2f3b…) after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png (21570 bytes sha256=8757bb95d708937b…) changed (visible opt-in window, orchestrator visual inspection only)
+[runner] captured identity: pid=19064 created=2026-11-09T23:39:50.1449740+03:00 name=cmd.exe parentPid=22580
+[runner] captured identity: pid=15596 created=2026-11-09T23:39:50.1843370+03:00 name=opencode.exe parentPid=19064
+[runner] captured identity: pid=6596 created=2026-11-09T23:39:51.6147370+03:00 name=opencode.exe parentPid=15596
+[runner] pre-kill identity check: all 3 exact PID+creation identities still alive
+[runner] phase 2: terminating ONLY the runner-owned Electron ChildProcess via handle (child.kill(), no PID kill; no term.kill by design)
+[runner] runner-owned Electron exited (code=null signal=SIGTERM)
+[runner] phase 3: bounded read-only re-enumeration of the 3 exact captured identities (bound 15000ms, no PID kill)
+[runner] CLI-INPUT PASS: family=opencode resolved=C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd semverObserved=none (best-effort; installed-version proof stays smoke:cli-launch) session=s1-mw9q5zsx-1-pid19064 rootPid=19064 tree=3 gone (attempts=1) inputLen=16 before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png (4014 bytes sha256=e2cd9a71193e2f3b…) after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png (21570 bytes sha256=8757bb95d708937b…) changed (keyboard event + changed render via sendInputEvent keyDown+char+keyUp, no Enter, never submitted; NOT semantic prompt acceptance; orchestrator visual inspection only; NOT S1 step 3, parity, Unicode, approvals, or model behavior)

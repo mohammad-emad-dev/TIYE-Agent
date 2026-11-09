@@ -1,0 +1,10 @@
+git log:
+677ea75 initial
+
+git status --short:
+?? calls.jsonl
+?? clamp.js
+?? clamp.test.js
+?? codex-exec.err
+?? codex-exec.jsonl
+?? test.log

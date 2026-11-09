@@ -194,7 +194,12 @@ try {
           domText = '';
         }
         const combined = bufText + '\n' + domText;
-        const ar = combined.includes(UNI_AR);
+        // Arabic is RTL. A bidi-unaware terminal may lay the cells out in
+        // visual (reversed) order; the plan requires intact wide characters,
+        // not RTL shaping. Accept either code-point order, but still require
+        // the full five-letter run so tofu/mojibake cannot pass.
+        const arReversed = Array.from(UNI_AR).reverse().join('');
+        const ar = combined.includes(UNI_AR) || combined.includes(arReversed);
         const zh = combined.includes(UNI_ZH);
         const ja = combined.includes(UNI_JA);
         const ko = combined.includes(UNI_KO);

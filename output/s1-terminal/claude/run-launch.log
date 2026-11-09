@@ -1,0 +1,15 @@
+[runner] env: TIYE_S1_COMMAND=claude TIYE_S1_ARGS_JSON=["--version"] TIYE_CLI_FAMILY=claude (fixed; no stdin, no model request)
+[runner] env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)
+[runner] phase: spawn runner-owned Electron --cli-launch-smoke headless (real installed CLI via resolveLaunch/spawnMember, ConPTY)
+[cli-launch-main] [cli-launch-smoke] resolved command=C:\Users\Mohammad\.local\bin\claude.exe args=["--version"] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[cli-launch-main] [cli-launch-smoke] PROBE Claude Code --version via ConPTY (no stdin written, no model/prompt)
+[cli-launch-main] [s1] spawning: C:\Users\Mohammad\.local\bin\claude.exe --version (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[cli-launch-main] [cli-launch-smoke] ok: version output
+[cli-launch-main] [cli-launch-smoke] VERSION 2.1.321 (Claude Code)
+[cli-launch-main] [cli-launch-smoke] ok: exit code 0
+[cli-launch-main] [cli-launch-smoke] PASS resolved=C:\Users\Mohammad\.local\bin\claude.exe (headless ConPTY launch + --version + clean exit; NOT interactive/display S1 success)
+[runner] assert: spawning line: [s1] spawning: C:\Users\Mohammad\.local\bin\claude.exe --version (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[runner] assert: resolved line: [cli-launch-smoke] resolved command=C:\Users\Mohammad\.local\bin\claude.exe args=["--version"] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[runner] assert: version line: [cli-launch-smoke] VERSION 2.1.321 (Claude Code)
+[runner] assert: family=claude resolvedFamily=true resolvedNativeLauncher=true versionOk=true exitOk=true smokePass=true electronExit=0 timedOut=false
+[runner] CLI-LAUNCH PASS: family=claude resolved=C:\Users\Mohammad\.local\bin\claude.exe version="[cli-launch-smoke] VERSION 2.1.321 (Claude Code)" exit=0 via headless ConPTY (no stdin, no model request; NOT interactive/display S1 success)

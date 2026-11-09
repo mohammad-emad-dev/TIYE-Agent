@@ -1,0 +1,71 @@
+{
+  "schema": "tiye-s6-real-cli-tool-attach-v1",
+  "date": "2026-11-09T21:25:41.141Z",
+  "distro": "Ubuntu",
+  "runtimeRoot": "/home/mohammad/.local/share/tiye-feasibility/s6-tool-attach-20261109212524687-12740",
+  "candidate": {
+    "path": "/home/mohammad/.local/share/tiye-feasibility/codex-0.157.1-rx5vmnt1/package/bin/codex",
+    "version": "codex-cli 0.157.1"
+  },
+  "fixture": {
+    "path": "/mnt/d/TIYE Agent/feasibility/s6-wsl/real-cli/mcp_fixture.py",
+    "transport": "stdio",
+    "tools": [
+      "report_result"
+    ]
+  },
+  "codexConfig": {
+    "command": "/usr/bin/python3",
+    "args": [
+      "/mnt/d/TIYE Agent/feasibility/s6-wsl/real-cli/mcp_fixture.py"
+    ],
+    "envKeys": [
+      "TIYE_CALL_LOG"
+    ],
+    "defaultToolsApprovalMode": "approve",
+    "ignoreUserConfig": true,
+    "ephemeral": true,
+    "freshCodexHome": true,
+    "modelRequested": true
+  },
+  "elapsedMs": 15779,
+  "exit": 1,
+  "spawnError": null,
+  "authBlocked": true,
+  "methods": [
+    "initialize",
+    "notifications/initialized",
+    "tools/list"
+  ],
+  "events": [
+    {
+      "event": "server-start",
+      "pid": 13435
+    },
+    {
+      "event": "method",
+      "method": "initialize"
+    },
+    {
+      "event": "method",
+      "method": "notifications/initialized"
+    },
+    {
+      "event": "method",
+      "method": "tools/list"
+    }
+  ],
+  "outcome": "attached-auth-blocked",
+  "fixturePid": 13435,
+  "fixtureAliveAfterExit": "GONE",
+  "remainingBinaryProcessesBeforeCleanup": [],
+  "finalBinaryProcesses": [],
+  "cleanupVerified": true,
+  "limits": {
+    "noCredentialRead": true,
+    "noLoginAttempt": true,
+    "noProductEffect": true,
+    "freshHome": true,
+    "modelTurnExpectedToStopWithoutAuth": true
+  }
+}

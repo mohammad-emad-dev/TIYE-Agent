@@ -44,6 +44,12 @@ const electron = require('electron');
 
 const FLAG = '--cli-resize-smoke';
 const SMOKE_TAG = 'cli-resize-smoke';
+const CLI_FAMILY = (() => {
+  const raw = String(process.env.TIYE_S1_FAMILY || 'opencode').trim().toLowerCase();
+  return raw === 'codex' || raw === 'claude' ? raw : 'opencode';
+})();
+const CLI_LABEL = CLI_FAMILY === 'codex' ? 'Codex' : CLI_FAMILY === 'claude' ? 'Claude Code' : 'opencode';
+const FAMILY_RE = new RegExp(CLI_FAMILY, 'i');
 const READY_TIMEOUT_MS = 60000;
 const KILL_WAIT_MS = 10000;
 const POST_KILL_SETTLE_MS = 2000;
@@ -232,8 +238,9 @@ async function main() {
   // overrides so inherited values cannot change behavior.
   const env = {
     ...process.env,
-    TIYE_S1_COMMAND: 'opencode',
+    TIYE_S1_COMMAND: CLI_FAMILY,
     TIYE_S1_ARGS_JSON: '[]',
+    TIYE_CLI_FAMILY: CLI_FAMILY,
   };
   const gatePath = path.resolve(__dirname, '..', 'dist', `cli-gate-${crypto.randomBytes(8).toString('hex')}.tmp`);
   const gateToken = crypto.randomBytes(16).toString('hex');
@@ -247,7 +254,7 @@ async function main() {
   delete env.TIYE_CRASH_SURVIVOR_REGISTRY_PATH;
   delete env.TIYE_CRASH_PTY_SURVIVOR_REGISTRY_PATH;
   delete env.TIYE_MOCK_CRASH_MODE;
-  log('env: TIYE_S1_COMMAND=opencode TIYE_S1_ARGS_JSON=[] (fixed; no keyboard input, no PTY write, no prompt, no model request)');
+  log(`env: TIYE_S1_COMMAND=${CLI_FAMILY} TIYE_S1_ARGS_JSON=[] TIYE_CLI_FAMILY=${CLI_FAMILY} (fixed; no keyboard input, no PTY write, no prompt, no model request)`);
   log('env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)');
 
   log(`phase 1: spawn runner-owned Electron ${FLAG} visible-window (opt-in resize observation) (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)`);
@@ -362,13 +369,15 @@ async function main() {
   const resizePlanLine = output.split(/\r?\n/).find((l) => new RegExp(`\\[${tagEsc}\\] RESIZE-PLAN `, 'i').test(l)) ?? '';
   const resizeRequestedLine = output.split(/\r?\n/).find((l) => new RegExp(`\\[${tagEsc}\\] RESIZE-REQUESTED `, 'i').test(l)) ?? '';
   const shotsLine = output.split(/\r?\n/).find((l) => new RegExp(`\\[${tagEsc}\\] SHOTS `, 'i').test(l)) ?? '';
-  const resolvedOpencode = /opencode/i.test(spawningLine) || /opencode/i.test(resolvedLine);
-  const resolvedCmdShim = process.platform === 'win32'
-    ? /\.cmd\b/i.test(spawningLine)
-    : resolvedOpencode;
+  const resolvedFamily = FAMILY_RE.test(spawningLine) || FAMILY_RE.test(resolvedLine);
+  const resolvedNativeLauncher = process.platform === 'win32'
+    ? CLI_FAMILY === 'opencode'
+      ? /\.cmd\b/i.test(spawningLine)
+      : /\.exe\b/i.test(spawningLine)
+    : resolvedFamily;
   const rendererReady = new RegExp(`\\[${tagEsc}\\] ok: renderer READY`, 'i').test(output);
   const ptyData = new RegExp(`\\[${tagEsc}\\] ok: real CLI PTY data observed`, 'i').test(output);
-  const markersOk = new RegExp(`\\[${tagEsc}\\] MARKERS .*opencode=true`, 'i').test(output);
+  const markersOk = new RegExp(`\\[${tagEsc}\\] MARKERS .*${CLI_FAMILY}=true`, 'i').test(output);
   const versionOk = new RegExp(`\\[${tagEsc}\\] VERSION \\d+\\.\\d+\\.\\d+`, 'i').test(output);
   const resizePlanOk = new RegExp(`\\[${tagEsc}\\] RESIZE-PLAN steps=shot\\(before\\),resize-once`, 'i').test(output);
   const shotsChangedOk = new RegExp(`\\[${tagEsc}\\] SHOTS .*changed=true`, 'i').test(output);
@@ -393,7 +402,7 @@ async function main() {
     observed.final !== null &&
     (observed.initial.cols !== observed.final.cols || observed.initial.rows !== observed.final.rows);
   log(`assert: resize observed initial=${observed.initial ? `${observed.initial.cols}x${observed.initial.rows} pty=${observed.initial.ptyCols}x${observed.initial.ptyRows}` : 'none'} final=${observed.final ? `${observed.final.cols}x${observed.final.rows} pty=${observed.final.ptyCols}x${observed.final.ptyRows}` : 'none'} initialOk=${initialOk} finalOk=${finalOk} dimsChangedOk=${dimsChangedOk}`);
-  log(`assert: mode=resize-probe resolvedOpencode=${resolvedOpencode} resolvedCmdShim=${resolvedCmdShim} rendererReady=${rendererReady} ptyData=${ptyData} markersOk=${markersOk} versionOk=${versionOk} resizePlanOk=${resizePlanOk} shotsChangedOk=${shotsChangedOk} shotsDimsChangedOk=${shotsDimsChangedOk} beforeShotLogOk=${beforeShotLogOk} afterShotLogOk=${afterShotLogOk} unexpectedInput=${unexpectedInput}`);
+  log(`assert: mode=resize-probe family=${CLI_FAMILY} resolvedFamily=${resolvedFamily} resolvedNativeLauncher=${resolvedNativeLauncher} rendererReady=${rendererReady} ptyData=${ptyData} markersOk=${markersOk} versionOk=${versionOk} resizePlanOk=${resizePlanOk} shotsChangedOk=${shotsChangedOk} shotsDimsChangedOk=${shotsDimsChangedOk} beforeShotLogOk=${beforeShotLogOk} afterShotLogOk=${afterShotLogOk} unexpectedInput=${unexpectedInput}`);
 
   const killOwned = async () => {
     try {
@@ -404,14 +413,15 @@ async function main() {
     releaseCliJob();
   };
 
-  if (spawningLine === '' || resolvedLine === '' || !resolvedOpencode) {
-    console.error('[runner] FAIL: Electron did not resolve/launch the installed opencode executable (expected [s1] spawning + resolved lines with opencode; no pass)');
+  if (spawningLine === '' || resolvedLine === '' || !resolvedFamily) {
+    console.error(`[runner] FAIL: Electron did not resolve/launch the installed ${CLI_LABEL} executable (expected [s1] spawning + resolved lines with ${CLI_FAMILY}; no pass)`);
     await killOwned();
     process.exitCode = 1;
     return;
   }
-  if (process.platform === 'win32' && !resolvedCmdShim) {
-    console.error(`[runner] FAIL: expected Windows .cmd shim resolution (spawning line with opencode.cmd, got: ${spawningLine.slice(0, 200)}; no pass)`);
+  if (process.platform === 'win32' && !resolvedNativeLauncher) {
+    const want = CLI_FAMILY === 'opencode' ? 'opencode.cmd' : `${CLI_FAMILY}.exe`;
+    console.error(`[runner] FAIL: expected Windows launcher ${want} in the spawning line, got: ${spawningLine.slice(0, 200)} (no pass)`);
     await killOwned();
     process.exitCode = 1;
     return;
@@ -447,7 +457,7 @@ async function main() {
     return;
   }
   if (!versionOk) {
-    log('note: bare semver not present in this startup window (dynamic TUI; best-effort marker only — installed-command proof is the resolved .cmd path + opencode marker, not this line)');
+    log(`note: bare semver not present in this startup window (dynamic TUI; best-effort marker only — installed-command proof is the resolved launcher + ${CLI_FAMILY} marker, not this line)`);
   }
   let beforeStat = 0;
   let afterStat = 0;
@@ -616,7 +626,7 @@ async function main() {
   }
   const resolvedPath = (resolvedLine.match(/resolved command=(\S+)/) || [])[1] || 'unknown';
   const semverObserved = (versionLine.match(/VERSION (\d+\.\d+\.\d+)/) || [])[1] || 'none';
-  console.log(`[runner] CLI-RESIZE PASS: resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) initial=${observed.initial.cols}x${observed.initial.rows} final=${observed.final.cols}x${observed.final.rows} before=${beforeShotPath} (${beforeStat} bytes sha256=${beforeHash.slice(0, 16)}… ${beforeDims.width}x${beforeDims.height}) after=${afterShotPath} (${afterStat} bytes sha256=${afterHash.slice(0, 16)}… ${afterDims.width}x${afterDims.height}) changed distinct-dims (single BrowserWindow resize, observed xterm->IPC->node-pty dims change + distinct screenshots + exact teardown, no keyboard input, never submitted, no model request; NOT visual reflow proof, NOT S1 step 5, NOT S1 pass — orchestrator visual inspection only)`);
+  console.log(`[runner] CLI-RESIZE PASS: family=${CLI_FAMILY} resolved=${resolvedPath} semverObserved=${semverObserved} (best-effort; installed-version proof stays smoke:cli-launch) session=${sessionId} rootPid=${rootPidStr} tree=${captured.length} gone (attempts=${attempts}) initial=${observed.initial.cols}x${observed.initial.rows} final=${observed.final.cols}x${observed.final.rows} before=${beforeShotPath} (${beforeStat} bytes sha256=${beforeHash.slice(0, 16)}… ${beforeDims.width}x${beforeDims.height}) after=${afterShotPath} (${afterStat} bytes sha256=${afterHash.slice(0, 16)}… ${afterDims.width}x${afterDims.height}) changed distinct-dims (single BrowserWindow resize, observed xterm->IPC->node-pty dims change + distinct screenshots + exact teardown, no keyboard input, never submitted, no model request; NOT visual reflow proof, NOT S1 step 5, NOT S1 pass — orchestrator visual inspection only)`);
   process.exitCode = 0;
 }
 

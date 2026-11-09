@@ -1,0 +1,8 @@
+{"type":"thread.started","thread_id":"01a1c21e-3ce8-78f2-b62a-854851a4b713"}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"item_0","type":"error","message":"Exceeded skills context budget. All skill descriptions were removed and 668 additional skills were not included in the model-visible skills list."}}
+{"type":"item.completed","item":{"id":"item_1","type":"agent_message","text":"I’ll locate the tiye `report_result` tool and call it once with the requested status and summary."}}
+{"type":"item.started","item":{"id":"item_2","type":"mcp_tool_call","server":"tiye","tool":"report_result","arguments":{"status":"done","summary":"approval probe"},"result":null,"error":null,"status":"in_progress"}}
+{"type":"item.completed","item":{"id":"item_2","type":"mcp_tool_call","server":"tiye","tool":"report_result","arguments":{"status":"done","summary":"approval probe"},"result":null,"error":{"message":"MCP tool call requires approval, but approval policy is never"},"status":"failed"}}
+{"type":"item.completed","item":{"id":"item_3","type":"agent_message","text":"The `report_result` call was blocked because it requires approval, and the approval policy is set to never. I did not retry."}}
+{"type":"turn.completed","usage":{"input_tokens":58390,"cached_input_tokens":49664,"cache_write_input_tokens":0,"output_tokens":138,"reasoning_output_tokens":0}}

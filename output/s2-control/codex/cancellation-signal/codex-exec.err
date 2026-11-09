@@ -1,0 +1,3 @@
+Reading additional input from stdin...
+2026-11-09T21:06:24.174390Z ERROR codex_skills_extension::loader::host: skills scan reached its traversal limit (root: file:///C:/Users/Mohammad/.agents/skills)
+2026-11-09T21:06:24.838345Z ERROR codex_skills_extension::loader::host: skills scan reached its traversal limit (root: file:///C:/Users/Mohammad/.agents/skills)

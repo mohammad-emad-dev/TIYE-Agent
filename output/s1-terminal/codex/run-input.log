@@ -1,0 +1,52 @@
+[runner] env: TIYE_S1_COMMAND=codex TIYE_S1_ARGS_JSON=[] TIYE_CLI_FAMILY=codex (fixed; no stdin, no prompt, no model request)
+[runner] env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)
+[runner] phase 1: spawn runner-owned Electron --cli-input-smoke visible-window (opt-in keyboard delivery) (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)
+[cli-input-main] [cli-input-smoke] WAITING containment before PTY spawn
+[runner] CLI containment READY: Electron pid=6636 creation=2026-11-09T23:50:36.7439920+03:00 in kill-on-close Job Object
+[cli-input-main] [cli-input-smoke] resolved command=C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[cli-input-main] [cli-input-smoke] PROBE installed Codex TUI input via main-owned PTY + visible renderer keyboard path (no Enter, no submit, no model/prompt request)
+[cli-input-main] [s1] spawning: C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[cli-input-main] [s1] member session s1-mw9qjvw0-1-pid15372 (spawn #1, pid 15372)
+[cli-input-main] [cli-input-smoke] ok: renderer READY + preload bridge alive (visible window for keyboard focus; still the existing Electron renderer, not a native terminal)
+[cli-input-main] [s1] RESIZE ipc cols=118 rows=40 (xterm->IPC->node-pty applied)
+[cli-input-main] [cli-input-smoke] ok: real CLI PTY data observed (bytes=1364)
+[cli-input-main] [cli-input-smoke] FIRST-RUN-DISMISS family=codex key=Escape attempts=2 (bounded dismissal of CLI first-run notice only; no text, no Enter, no submit, no model request)
+[cli-input-main] [cli-input-smoke] ok: live tree 8 identit(ies): pid=15372 created=2026-11-09T23:50:38.2545670+03:00 name=codex.exe; pid=25396 created=2026-11-09T23:50:42.6596770+03:00 name=node.exe; pid=20800 created=2026-11-09T23:50:42.6627600+03:00 name=node_repl.exe; pid=7252 created=2026-11-09T23:50:42.6654570+03:00 name=node.exe; pid=10656 created=2026-11-09T23:50:42.6651030+03:00 name=conhost.exe; pid=24288 created=2026-11-09T23:50:42.6659460+03:00 name=conhost.exe; pid=2724 created=2026-11-09T23:50:42.6691590+03:00 name=conhost.exe; pid=24848 created=2026-11-09T23:50:42.7442730+03:00 name=node_repl.exe
+[cli-input-main] [cli-input-smoke] IDENTITY pid=15372 created=2026-11-09T23:50:38.2545670+03:00 name=codex.exe parentPid=6636
+[cli-input-main] [cli-input-smoke] IDENTITY pid=25396 created=2026-11-09T23:50:42.6596770+03:00 name=node.exe parentPid=15372
+[cli-input-main] [cli-input-smoke] IDENTITY pid=20800 created=2026-11-09T23:50:42.6627600+03:00 name=node_repl.exe parentPid=15372
+[cli-input-main] [cli-input-smoke] IDENTITY pid=7252 created=2026-11-09T23:50:42.6654570+03:00 name=node.exe parentPid=15372
+[cli-input-main] [cli-input-smoke] IDENTITY pid=10656 created=2026-11-09T23:50:42.6651030+03:00 name=conhost.exe parentPid=25396
+[cli-input-main] [cli-input-smoke] IDENTITY pid=24288 created=2026-11-09T23:50:42.6659460+03:00 name=conhost.exe parentPid=20800
+[cli-input-main] [cli-input-smoke] IDENTITY pid=2724 created=2026-11-09T23:50:42.6691590+03:00 name=conhost.exe parentPid=7252
+[cli-input-main] [cli-input-smoke] IDENTITY pid=24848 created=2026-11-09T23:50:42.7442730+03:00 name=node_repl.exe parentPid=7252
+[cli-input-main] [cli-input-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png (1084x685)
+[cli-input-main] [cli-input-smoke] TOKEN len=16 token=tiyeinprobe7q3z9 (harmless ASCII alphanumerics only, never submitted, no model request)
+[cli-input-main] [cli-input-smoke] ok: input typed len=16 via sendInputEvent keyDown+char+keyUp per char (no Enter, no submit, no control sequence; renderer keyboard/xterm path)
+[cli-input-main] [cli-input-smoke] ok: screenshot after D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png (1084x685)
+[cli-input-main] [cli-input-smoke] SHOTS before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png bytes=25357 after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png bytes=24624 changed=true
+[cli-input-main] [cli-input-smoke] MARKERS bytes=5316 stripped=2470 codex=true version=true prompt=false
+[cli-input-main] [cli-input-smoke] VERSION 0.164.0
+[cli-input-main] [cli-input-smoke] READY session=s1-mw9qjvw0-1-pid15372 member=cli-input-member rootPid=15372 treeSize=8 before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png inputLen=16
+[cli-input-main] [cli-input-smoke] alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; keyboard event + changed render, NOT semantic prompt acceptance)
+[runner] READY observed: session=s1-mw9qjvw0-1-pid15372 member=cli-input-member rootPid=15372 treeSize=8
+[runner] assert: spawning line: [s1] spawning: C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[runner] assert: resolved line: [cli-input-smoke] resolved command=C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[runner] assert: markers line: [cli-input-smoke] MARKERS bytes=5316 stripped=2470 codex=true version=true prompt=false
+[runner] assert: version line: [cli-input-smoke] VERSION 0.164.0
+[runner] assert: shot line: [cli-input-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png (1084x685)
+[runner] assert: mode=input-probe family=codex resolvedFamily=true resolvedNativeLauncher=true rendererReady=true ptyData=true markersOk=true versionOk=true inputTypedOk=true editKeysOk=true editPlanOk=true shotsLogOk=true pastePlanOk=true pasteHookOk=true pasteBracketedOk=true pasteDeliveredOk=true pasteInputOk=true pasteNoKeyboardOk=true unicodePlanOk=true unicodeHookOk=true unicodeBracketedOk=true unicodeDeliveredOk=true unicodeInputOk=true unicodeDisplayOk=true unicodeNoKeyboardOk=true historyPlanOk=true historyTypedOk=true historyEchoOk=true historyEnterOk=true historyHelpObservedOk=true historyEscapeOk=true historyUpOk=true historyUpShotOk=true historyShotsLogOk=true
+[runner] screenshots ok: before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png (25357 bytes sha256=606e47e112936af1…) after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png (24624 bytes sha256=190cd7d50ff2967c…) changed (visible opt-in window, orchestrator visual inspection only)
+[runner] captured identity: pid=15372 created=2026-11-09T23:50:38.2545670+03:00 name=codex.exe parentPid=6636
+[runner] captured identity: pid=25396 created=2026-11-09T23:50:42.6596770+03:00 name=node.exe parentPid=15372
+[runner] captured identity: pid=20800 created=2026-11-09T23:50:42.6627600+03:00 name=node_repl.exe parentPid=15372
+[runner] captured identity: pid=7252 created=2026-11-09T23:50:42.6654570+03:00 name=node.exe parentPid=15372
+[runner] captured identity: pid=10656 created=2026-11-09T23:50:42.6651030+03:00 name=conhost.exe parentPid=25396
+[runner] captured identity: pid=24288 created=2026-11-09T23:50:42.6659460+03:00 name=conhost.exe parentPid=20800
+[runner] captured identity: pid=2724 created=2026-11-09T23:50:42.6691590+03:00 name=conhost.exe parentPid=7252
+[runner] captured identity: pid=24848 created=2026-11-09T23:50:42.7442730+03:00 name=node_repl.exe parentPid=7252
+[runner] pre-kill identity check: all 8 exact PID+creation identities still alive
+[runner] phase 2: terminating ONLY the runner-owned Electron ChildProcess via handle (child.kill(), no PID kill; no term.kill by design)
+[runner] runner-owned Electron exited (code=null signal=SIGTERM)
+[runner] phase 3: bounded read-only re-enumeration of the 8 exact captured identities (bound 15000ms, no PID kill)
+[runner] CLI-INPUT PASS: family=codex resolved=C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe semverObserved=0.164.0 (best-effort; installed-version proof stays smoke:cli-launch) session=s1-mw9qjvw0-1-pid15372 rootPid=15372 tree=8 gone (attempts=1) inputLen=16 before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png (25357 bytes sha256=606e47e112936af1…) after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png (24624 bytes sha256=190cd7d50ff2967c…) changed (keyboard event + changed render via sendInputEvent keyDown+char+keyUp, no Enter, never submitted; NOT semantic prompt acceptance; orchestrator visual inspection only; NOT S1 step 3, parity, Unicode, approvals, or model behavior)

@@ -1,0 +1,59 @@
+{
+  "id": "codex",
+  "displayName": "Codex CLI",
+  "testedVersions": ["0.164.0"],
+  "detection": {
+    "command": "codex",
+    "versionPattern": "^codex-cli (\\d+\\.\\d+\\.\\d+)$"
+  },
+  "environments": ["windows"],
+  "launch": {
+    "workingFolder": "-C <dir> (exec); --cd <dir> also available",
+    "instructions": "positional prompt to `codex exec`; TUI first message",
+    "permissions": {
+      "fileAccess": ["readOnly", "readWrite"],
+      "terminal": ["auto"]
+    }
+  },
+  "teamTools": {
+    "attach": "config",
+    "transport": "stdio"
+  },
+  "resume": {
+    "supported": true,
+    "method": "codex exec resume <thread-id> from the original working directory; thread id from thread.started"
+  },
+  "approvals": {
+    "detect": "pattern",
+    "pattern": "non-interactive exec: 'MCP tool call requires approval, but approval policy is never' for a prompt-mode tool; interactive TUI prompt not observed"
+  },
+  "errors": {
+    "rateLimit": "not tested",
+    "auth": "401 Unauthorized: Missing bearer or basic authentication in header; WSS reconnect 2/5-5/5, HTTPS fallback, HTTPS 1/5-5/5; turn.failed",
+    "network": "workspace routing discovery failed; WebSocket-to-HTTPS fallback; turn.failed"
+  },
+  "login": {
+    "class": "A",
+    "evidenceClass": "verbal-only",
+    "qualified": false,
+    "note": "Approved by owner exception 2026-11-09 on an owner-reported verbal OpenAI support assurance; not evidence-qualified."
+  },
+  "qualification": {
+    "status": "partial",
+    "productionEligible": false,
+    "promotion": "HOLD",
+    "s1": "pass for tested display/input/paste/Unicode/resize slices on Windows 0.164.0",
+    "s2": "pass for bounded round trip, approval fail-closed, auth, model error, network error, resume and cancellation; hang partial; rate limit/crash not tested",
+    "s3": "not tested with a real CLI",
+    "s4": "approved-by-owner-exception, verbal-only",
+    "s6": "partial through WSL with retained Codex 0.157.1; stdio MCP attach reached tools/list but the model turn stopped at 401 before a tool call",
+    "untested": ["interactive approval UI", "rate limit", "crash recovery", "Windows Terminal parity", "macOS", "Linux native"]
+  },
+  "evidence": {
+    "s1": "../../output/s1-terminal/RESULT.md",
+    "s2": "../../output/s2-control/codex/RESULT.md",
+    "s6": "../../output/s6-real-cli/RESULT.md",
+    "s4": "../../output/s4-route-qualification/RESULT.md"
+  },
+  "asOf": "2026-11-10"
+}

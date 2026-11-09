@@ -1,0 +1,11 @@
+schema=tiye-s6-real-cli-pty-v1
+mode=version
+outcome=pass-bounded
+marker=version-marker
+readyMs=1211
+decodedBytes=89
+cliExit={"exitCode":0}
+identityCaptured=true
+survivedPtyKill=false
+cleanupVerified=true
+remainingBinaryProcesses=[]

@@ -1,0 +1,43 @@
+{
+  "schema": "tiye-s6-real-cli-pty-v1",
+  "date": "2026-11-09T21:18:35.536Z",
+  "mode": "version",
+  "distro": "Ubuntu",
+  "binary": "/home/mohammad/.local/share/tiye-feasibility/codex-0.157.1-rx5vmnt1/package/bin/codex",
+  "expectedVersion": "codex-cli 0.157.1",
+  "runtimeRoot": "/home/mohammad/.local/share/tiye-feasibility/s6-real-cli-20261109211835405-11152",
+  "fixedLinuxPath": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+  "argv": [
+    "/home/mohammad/.local/share/tiye-feasibility/codex-0.157.1-rx5vmnt1/package/bin/codex",
+    "--version"
+  ],
+  "stdinWritten": false,
+  "loginAttempted": false,
+  "modelRequested": false,
+  "preexistingBinaryProcesses": [],
+  "identity": {
+    "pid": "736",
+    "start": "23379134",
+    "boot": "114d27894da5e6f80081e2ec993b3f3a8f3379d5aece427309679bdaf4c36c29",
+    "root_created": "1794259115"
+  },
+  "identityCaptureMs": 119,
+  "marker": "version-marker",
+  "readyMs": 1211,
+  "decodedBytes": 89,
+  "decodedSha256": "faf827a47eefae32bde16a2759d57121841db8448bc4c595aab50dafb5c1ab5c",
+  "cliExit": {
+    "exitCode": 0
+  },
+  "transcriptPath": "pty-version.log",
+  "teardown": {
+    "ptyKillError": null,
+    "waitMs": 2599,
+    "linuxIdentityAfterPtyKill": "GONE",
+    "survivedPtyKill": false,
+    "remainingBinaryProcesses": [],
+    "finalBinaryProcesses": []
+  },
+  "cleanupVerified": true,
+  "outcome": "pass-bounded"
+}

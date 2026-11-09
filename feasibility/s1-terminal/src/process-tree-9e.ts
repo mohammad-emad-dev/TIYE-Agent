@@ -164,6 +164,9 @@ export async function captureProcessTree(rootPid: number): Promise<ProcessIdenti
   if (!Number.isInteger(rootPid) || rootPid <= 0) throw new Error(`9e capture: invalid root PID ${String(rootPid)}`);
   const all = await enumerateAllOnce();
   if (!all.has(rootPid)) throw new Error(`9e capture: root PID ${rootPid} not present (member not alive?)`);
+  const root = all.get(rootPid) as Row;
+  const rootCreated = Date.parse(root.creationTime);
+  if (!Number.isFinite(rootCreated)) throw new Error(`9e capture: root creation time unparseable: ${root.creationTime}`);
   const out: ProcessIdentity[] = [];
   const visited = new Set<number>();
   const queue: number[] = [rootPid];
@@ -173,6 +176,13 @@ export async function captureProcessTree(rootPid: number): Promise<ProcessIdenti
     visited.add(pid);
     const row = all.get(pid);
     if (row === undefined) continue;
+    // PID reuse guard: Windows recycles PIDs, and an unrelated long-lived
+    // process can still name a recycled PID as its parent. A real member
+    // tree cannot contain a process created before its root. Never adopt
+    // (or later target) such an identity; the plan explicitly requires that
+    // cleanup never kills a process that merely reused a PID.
+    const created = Date.parse(row.creationTime);
+    if (pid !== rootPid && !(Number.isFinite(created) && created >= rootCreated)) continue;
     out.push({ pid: row.pid, parentPid: row.parentPid, creationTime: row.creationTime, name: row.name });
     for (const [childPid, childRow] of all) {
       if (childRow.parentPid === pid && !visited.has(childPid)) queue.push(childPid);

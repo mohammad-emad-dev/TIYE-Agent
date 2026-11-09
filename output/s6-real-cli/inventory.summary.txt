@@ -1,0 +1,8 @@
+ubuntuSelected=true
+initializedUser=true
+ubuntuReleaseRecorded=true
+kernelRecorded=true
+noLinuxProviderCliOnPath=true
+linuxNodeAbsentOnPath=true
+retainedCandidateVersionMatches=true
+ok=true

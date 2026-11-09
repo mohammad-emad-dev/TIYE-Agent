@@ -1,0 +1,32 @@
+[runner] env: TIYE_S1_COMMAND=opencode TIYE_S1_ARGS_JSON=[] TIYE_CLI_FAMILY=opencode (fixed; no stdin, no prompt, no model request)
+[runner] env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)
+[runner] phase 1: spawn runner-owned Electron --cli-unicode-smoke visible-window (opt-in Terminal.paste() single-line Unicode observation) (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)
+[cli-unicode-main] [cli-unicode-smoke] WAITING containment before PTY spawn
+[runner] CLI containment READY: Electron pid=21024 creation=2026-11-09T23:48:13.7082910+03:00 in kill-on-close Job Object
+[cli-unicode-main] [cli-unicode-smoke] resolved command=C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[cli-unicode-main] [cli-unicode-smoke] PROBE installed opencode TUI single-line Unicode via main-owned PTY + visible renderer xterm paste path (fixed single-line Arabic+Chinese+Japanese+Korean token ONLY via Terminal.paste(), bracketedPasteMode required, no Enter, no submit, no model/prompt request, no clipboard read/overwrite, no sendInputEvent, no term.write)
+[cli-unicode-main] [s1] spawning: C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[cli-unicode-main] [s1] member session s1-mw9qgtf7-1-pid25252 (spawn #1, pid 25252)
+[cli-unicode-main] [cli-unicode-smoke] ok: renderer READY + preload bridge alive (visible window for single-line Unicode Terminal.paste() observation; still the existing Electron renderer, not a native terminal)
+[cli-unicode-main] [s1] RESIZE ipc cols=118 rows=40 (xterm->IPC->node-pty applied)
+[cli-unicode-main] [cli-unicode-smoke] ok: real CLI PTY data observed (bytes=1968)
+[cli-unicode-main] [cli-unicode-smoke] ok: live tree 3 identit(ies): pid=25252 created=2026-11-09T23:48:15.0912090+03:00 name=cmd.exe; pid=8088 created=2026-11-09T23:48:15.1347910+03:00 name=opencode.exe; pid=18156 created=2026-11-09T23:48:15.8082740+03:00 name=opencode.exe
+[cli-unicode-main] [cli-unicode-smoke] IDENTITY pid=25252 created=2026-11-09T23:48:15.0912090+03:00 name=cmd.exe parentPid=21024
+[cli-unicode-main] [cli-unicode-smoke] IDENTITY pid=8088 created=2026-11-09T23:48:15.1347910+03:00 name=opencode.exe parentPid=25252
+[cli-unicode-main] [cli-unicode-smoke] IDENTITY pid=18156 created=2026-11-09T23:48:15.8082740+03:00 name=opencode.exe parentPid=8088
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-PLAN tokenLines=1 tokenJsLen=41 tokenUtf8Bytes=64 expectedUtf8Bytes=76 tokenSha16=9cdd131d25c76e90 method=Terminal.paste() bracketed-required no-Enter,no-submit,no-model,no-clipboard-read,no-term-write,no-sendInputEvent (fixed single-line Unicode only via xterm paste path; bytes via Buffer, not JS length)
+[cli-unicode-main] [cli-unicode-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-before.png (1084x685)
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-HOOK present=true (query-gated test hook only, never production UI)
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-HOOK tokenJsLenMatch=true tokenUtf8Bytes=64 (fixed payload length validation; token never logged verbatim)
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-BRACKETED enabled=true (real TUI must enable bracketed paste; fail closed)
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-RENDER-STATE which=before-paste renderCount=360 visibility=visible focused=false (read-only diagnostic; count alone never proves cause)
+[cli-unicode-main] [cli-unicode-smoke] ok: unicode delivered tokenJsLen=41 tokenUtf8Bytes=64 expectedUtf8Bytes=76 lines=1 via Terminal.paste() (single bracketed sequence, no Enter, no sendInputEvent, no term.write, no clipboard read/overwrite; renderer xterm paste path; bytes via Buffer)
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-PTY bytesBefore=58664 bytesAfter=69379 delta=10715 (read-only lengths, not content; NOT arrival or display proof)
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-RENDER-STATE which=after-settle renderCount=390 renderDelta=30 visibility=visible focused=true (read-only diagnostic; count alone never proves cause)
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-DISPLAY ar=false zh=false ja=false ko=false all=false bufLen=4759 domLen=4759 (semantic renderer gate: xterm buffer + DOM must hold all four scripts; Arabic accepts logical or visual RTL cell order, shaping not required; hash diff alone is NOT display proof; orchestrator must still visually inspect after-shot for intact glyphs)
+[cli-unicode-main] [cli-unicode-smoke] ok: screenshot after D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-after.png (1084x685)
+[cli-unicode-main] [cli-unicode-smoke] SHOTS before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-before.png bytes=4014 after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-after.png bytes=24825 changed=true
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-INPUT count=1 focusReports=6 utf8Bytes=76 expectedUtf8Bytes=76 tokenUtf8Bytes=64 match=true stray=false allUtf8Lens=3,3,3,3,76,3,3 (exact renderer->IPC->PTY bracketed evidence; ESC[200~ + fixed Unicode payload + ESC[201~; bytes via Buffer; focus reports are terminal protocol, not input)
+[cli-unicode-main] [cli-unicode-smoke] FAIL: semantic renderer display unproven (want ar+zh+ja+ko all=true, got ar=false zh=false ja=false ko=false; screenshot change alone is NOT intact-display proof; no pass) (no pass)
+[runner] FAIL: Electron exited before READY (code=1 signal=null; no pass)
+[runner] failure teardown: all 3 exact captured PID+creation identities gone (attempts=1; read-only verification)

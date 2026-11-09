@@ -1,0 +1,60 @@
+[runner] env: TIYE_S1_COMMAND=codex TIYE_S1_ARGS_JSON=[] TIYE_CLI_FAMILY=codex (fixed; no stdin, no prompt, no model request)
+[runner] env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)
+[runner] phase 1: spawn runner-owned Electron --cli-unicode-smoke visible-window (opt-in Terminal.paste() single-line Unicode observation) (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)
+[cli-unicode-main] [cli-unicode-smoke] WAITING containment before PTY spawn
+[runner] CLI containment READY: Electron pid=8540 creation=2026-11-09T23:51:37.7750900+03:00 in kill-on-close Job Object
+[cli-unicode-main] [cli-unicode-smoke] resolved command=C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[cli-unicode-main] [cli-unicode-smoke] PROBE installed Codex TUI single-line Unicode via main-owned PTY + visible renderer xterm paste path (fixed single-line Arabic+Chinese+Japanese+Korean token ONLY via Terminal.paste(), bracketedPasteMode required, no Enter, no submit, no model/prompt request, no clipboard read/overwrite, token never keyboard-typed (bounded first-run Escape dismissal precedes), no term.write)
+[cli-unicode-main] [s1] spawning: C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[cli-unicode-main] [s1] member session s1-mw9ql6ta-1-pid15484 (spawn #1, pid 15484)
+[cli-unicode-main] [cli-unicode-smoke] ok: renderer READY + preload bridge alive (visible window for single-line Unicode Terminal.paste() observation; still the existing Electron renderer, not a native terminal)
+[cli-unicode-main] [s1] RESIZE ipc cols=118 rows=40 (xterm->IPC->node-pty applied)
+[cli-unicode-main] [cli-unicode-smoke] ok: real CLI PTY data observed (bytes=1804)
+[cli-unicode-main] [cli-unicode-smoke] FIRST-RUN-DISMISS family=codex key=Escape attempts=2 (bounded dismissal of CLI first-run notice only; no text, no Enter, no submit, no model request)
+[cli-unicode-main] [cli-unicode-smoke] ok: live tree 8 identit(ies): pid=15484 created=2026-11-09T23:51:39.0684630+03:00 name=codex.exe; pid=13772 created=2026-11-09T23:51:43.4936240+03:00 name=node.exe; pid=5760 created=2026-11-09T23:51:43.4967160+03:00 name=node.exe; pid=22024 created=2026-11-09T23:51:43.4993760+03:00 name=node_repl.exe; pid=24448 created=2026-11-09T23:51:43.5417710+03:00 name=conhost.exe; pid=1316 created=2026-11-09T23:51:43.6125140+03:00 name=node_repl.exe; pid=8756 created=2026-11-09T23:51:43.5423410+03:00 name=conhost.exe; pid=5096 created=2026-11-09T23:51:43.5434650+03:00 name=conhost.exe
+[cli-unicode-main] [cli-unicode-smoke] IDENTITY pid=15484 created=2026-11-09T23:51:39.0684630+03:00 name=codex.exe parentPid=8540
+[cli-unicode-main] [cli-unicode-smoke] IDENTITY pid=13772 created=2026-11-09T23:51:43.4936240+03:00 name=node.exe parentPid=15484
+[cli-unicode-main] [cli-unicode-smoke] IDENTITY pid=5760 created=2026-11-09T23:51:43.4967160+03:00 name=node.exe parentPid=15484
+[cli-unicode-main] [cli-unicode-smoke] IDENTITY pid=22024 created=2026-11-09T23:51:43.4993760+03:00 name=node_repl.exe parentPid=15484
+[cli-unicode-main] [cli-unicode-smoke] IDENTITY pid=24448 created=2026-11-09T23:51:43.5417710+03:00 name=conhost.exe parentPid=13772
+[cli-unicode-main] [cli-unicode-smoke] IDENTITY pid=1316 created=2026-11-09T23:51:43.6125140+03:00 name=node_repl.exe parentPid=13772
+[cli-unicode-main] [cli-unicode-smoke] IDENTITY pid=8756 created=2026-11-09T23:51:43.5423410+03:00 name=conhost.exe parentPid=5760
+[cli-unicode-main] [cli-unicode-smoke] IDENTITY pid=5096 created=2026-11-09T23:51:43.5434650+03:00 name=conhost.exe parentPid=22024
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-PLAN tokenLines=1 tokenJsLen=41 tokenUtf8Bytes=64 expectedUtf8Bytes=76 tokenSha16=9cdd131d25c76e90 method=Terminal.paste() bracketed-required no-Enter,no-submit,no-model,no-clipboard-read,no-term-write,no-sendInputEvent (fixed single-line Unicode only via xterm paste path; bytes via Buffer, not JS length)
+[cli-unicode-main] [cli-unicode-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-before.png (1084x685)
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-HOOK present=true (query-gated test hook only, never production UI)
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-HOOK tokenJsLenMatch=true tokenUtf8Bytes=64 (fixed payload length validation; token never logged verbatim)
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-BRACKETED enabled=true (real TUI must enable bracketed paste; fail closed)
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-RENDER-STATE which=before-paste renderCount=32 visibility=visible focused=true (read-only diagnostic; count alone never proves cause)
+[cli-unicode-main] [cli-unicode-smoke] ok: unicode delivered tokenJsLen=41 tokenUtf8Bytes=64 expectedUtf8Bytes=76 lines=1 via Terminal.paste() (single bracketed sequence, no Enter, no sendInputEvent, no term.write, no clipboard read/overwrite; renderer xterm paste path; bytes via Buffer)
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-PTY bytesBefore=5535 bytesAfter=5674 delta=139 (read-only lengths, not content; NOT arrival or display proof)
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-RENDER-STATE which=after-settle renderCount=35 renderDelta=3 visibility=visible focused=true (read-only diagnostic; count alone never proves cause)
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-DISPLAY ar=true zh=true ja=true ko=true all=true bufLen=1362 domLen=1336 (semantic renderer gate: xterm buffer + DOM must hold all four scripts; Arabic accepts logical or visual RTL cell order, shaping not required; hash diff alone is NOT display proof; orchestrator must still visually inspect after-shot for intact glyphs)
+[cli-unicode-main] [cli-unicode-smoke] ok: screenshot after D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-after.png (1084x685)
+[cli-unicode-main] [cli-unicode-smoke] SHOTS before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-before.png bytes=25357 after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-after.png bytes=26822 changed=true
+[cli-unicode-main] [cli-unicode-smoke] UNICODE-INPUT count=1 focusReports=0 utf8Bytes=76 expectedUtf8Bytes=76 tokenUtf8Bytes=64 match=true stray=false allUtf8Lens=76 (exact renderer->IPC->PTY bracketed evidence; ESC[200~ + fixed Unicode payload + ESC[201~; bytes via Buffer; focus reports are terminal protocol, not input)
+[cli-unicode-main] [cli-unicode-smoke] MARKERS bytes=5133 stripped=2688 codex=true version=true prompt=false
+[cli-unicode-main] [cli-unicode-smoke] VERSION 0.164.0
+[cli-unicode-main] [cli-unicode-smoke] READY session=s1-mw9ql6ta-1-pid15484 member=cli-unicode-member rootPid=15484 treeSize=8 before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-before.png after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-after.png unicodeJsLen=41 unicodeUtf8Bytes=64 unicodeLines=1
+[cli-unicode-main] [cli-unicode-smoke] alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; Terminal.paste() bracketed UTF-8 evidence + semantic display gate + changed render, NOT intact-glyph proof alone, NOT S1 step 8, NOT parity)
+[runner] READY observed: session=s1-mw9ql6ta-1-pid15484 member=cli-unicode-member rootPid=15484 treeSize=8
+[runner] assert: spawning line: [s1] spawning: C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[runner] assert: resolved line: [cli-unicode-smoke] resolved command=C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[runner] assert: markers line: [cli-unicode-smoke] MARKERS bytes=5133 stripped=2688 codex=true version=true prompt=false
+[runner] assert: version line: [cli-unicode-smoke] VERSION 0.164.0
+[runner] assert: shot line: [cli-unicode-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-before.png (1084x685)
+[runner] assert: mode=unicode-probe family=codex resolvedFamily=true resolvedNativeLauncher=true rendererReady=true ptyData=true markersOk=true versionOk=true inputTypedOk=true editKeysOk=true editPlanOk=true shotsLogOk=true pastePlanOk=true pasteHookOk=true pasteBracketedOk=true pasteDeliveredOk=true pasteInputOk=true pasteNoKeyboardOk=true unicodePlanOk=true unicodeHookOk=true unicodeBracketedOk=true unicodeDeliveredOk=true unicodeInputOk=true unicodeDisplayOk=true unicodeNoKeyboardOk=true historyPlanOk=true historyTypedOk=true historyEchoOk=true historyEnterOk=true historyHelpObservedOk=true historyEscapeOk=true historyUpOk=true historyUpShotOk=true historyShotsLogOk=true
+[runner] screenshots ok: before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-before.png (25357 bytes sha256=606e47e112936af1…) after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-after.png (26822 bytes sha256=512574f65a37d743…) changed (visible opt-in single-line Unicode Terminal.paste() window, bracketed UTF-8 evidence + semantic UNICODE-DISPLAY gate + changed render; hash diff alone is NOT intact-display proof, orchestrator must visually inspect after-shot for intact glyphs; Terminal.paste() is not the OS clipboard shortcut)
+[runner] captured identity: pid=15484 created=2026-11-09T23:51:39.0684630+03:00 name=codex.exe parentPid=8540
+[runner] captured identity: pid=13772 created=2026-11-09T23:51:43.4936240+03:00 name=node.exe parentPid=15484
+[runner] captured identity: pid=5760 created=2026-11-09T23:51:43.4967160+03:00 name=node.exe parentPid=15484
+[runner] captured identity: pid=22024 created=2026-11-09T23:51:43.4993760+03:00 name=node_repl.exe parentPid=15484
+[runner] captured identity: pid=24448 created=2026-11-09T23:51:43.5417710+03:00 name=conhost.exe parentPid=13772
+[runner] captured identity: pid=1316 created=2026-11-09T23:51:43.6125140+03:00 name=node_repl.exe parentPid=13772
+[runner] captured identity: pid=8756 created=2026-11-09T23:51:43.5423410+03:00 name=conhost.exe parentPid=5760
+[runner] captured identity: pid=5096 created=2026-11-09T23:51:43.5434650+03:00 name=conhost.exe parentPid=22024
+[runner] pre-kill identity check: all 8 exact PID+creation identities still alive
+[runner] phase 2: terminating ONLY the runner-owned Electron ChildProcess via handle (child.kill(), no PID kill; no term.kill by design)
+[runner] runner-owned Electron exited (code=null signal=SIGTERM)
+[runner] phase 3: bounded read-only re-enumeration of the 8 exact captured identities (bound 15000ms, no PID kill)
+[runner] CLI-UNICODE PASS: family=codex resolved=C:\Users\Mohammad\AppData\Local\Programs\OpenAI\Codex\bin\codex.exe semverObserved=0.164.0 (best-effort; installed-version proof stays smoke:cli-launch) session=s1-mw9ql6ta-1-pid15484 rootPid=15484 tree=8 gone (attempts=1) unicodeLines=1 before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-before.png (25357 bytes sha256=606e47e112936af1…) after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-unicode-after.png (26822 bytes sha256=512574f65a37d743…) changed (fixed single-line Arabic+Chinese+Japanese+Korean via Terminal.paste() ONLY, bracketedPasteMode required, exactly one ESC[200~ + fixed Unicode payload + ESC[201~ INPUT count=1 match=true stray=false UTF-8 bytes via Buffer, semantic UNICODE-DISPLAY ar+zh+ja+ko all=true + changed render, no Enter, never submitted, no clipboard read/overwrite, token not delivered via sendInputEvent (two bounded Escape first-run dismissals preceded it), no term.write from harness, no global config mutation; hash diff alone is NOT intact-display proof, orchestrator must visually inspect after-shot for intact glyphs; NOT S1 step 8 complete, NOT Windows Terminal parity, NOT model behavior)

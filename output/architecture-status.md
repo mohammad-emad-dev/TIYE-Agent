@@ -1,19 +1,49 @@
 # TIYE Agent — Architecture Status
 
-**Date:** 2026-11-09
+**Date:** 2026-11-10
 **Scope:** pre-code architecture/feasibility phase (Phase 0) and approved bounded-construction exceptions
-**Overall:** ~70% complete (65–75% judgment); construction gate **HOLD**, with approved synthetic/offline exceptions through Phase 3H and an owner-approved S4 route exception (verbal-only).
+**Overall:** ~73% complete (68–78% judgment); construction gate **HOLD**, with approved synthetic/offline exceptions through Phase 3H, an owner-approved S4 route exception (verbal-only), and completed bounded real-CLI S1/S2/S6 cohorts.
 
 ## Gate status (S1–S6)
 
 | Gate | Status | Remaining to close |
 |---|---|---|
-| S1 — terminal/lifecycle | **Partial** | Real CLI terminal parity; input/approval/resize/paste/Ctrl+C; descendant races; abnormal recovery; platform matrix |
-| S2 — control channel | **Partial** | Supported CLI/version matrix; native error/auth/network/hang/resume signals |
-| S3 — worktrees | **Partial** | Representative project setup/cost; native commit attribution; authenticated push; watcher limits; rollback/merge recovery |
+| S1 — terminal/lifecycle | **Partial** | Real-CLI display/input/paste/Unicode/resize observed for Codex and Claude Code; OpenCode paste/Unicode fail and teardown is inconclusive; approval, Ctrl+C, lifecycle recovery and Windows Terminal parity still open |
+| S2 — control channel | **Partial** | Codex bounded round trip, approval fail-closed, auth/model/network errors, resume and cancellation observed; rate limit and crash not run; Claude Code/Gemini/OpenCode blocked by unqualified S4 routes; interactive approval UI not observed |
+| S3 — worktrees | **Partial** | Representative project setup/cost; native commit attribution; authenticated push; watcher limits; rollback/merge recovery; no real-CLI cohort yet |
 | S4 — provider access | **Approved by owner exception — VERBAL-ONLY; not evidence-qualified** | Written confirmation, ticket/reference, reversible-policy risk and the five verbal-only answers; native auth/model cohort |
 | S5 — performance | **Partial** | Five real terminals; flood/rich/long-run/views/search; memory settling; acceptance or remediation for historical spikes |
-| S6 — WSL | **Partial; all nine rows partial** | Eligible Linux CLI; real terminal/worktree/tool attachment; live-survivor recovery; cross-side limits |
+| S6 — WSL | **Partial; all nine rows partial** | Real-CLI inventory, paths, environment, ConPTY launch, TUI draw, PTY cleanup and stdio MCP attach observed for Codex 0.157.1; WSL login blocked the model turn; renderer parity, graceful lifecycle, real transport and cross-side worktrees still open |
+
+## Real-CLI cohorts (2026-11-09/10)
+
+Bounded cohorts were run under the owner exception. Results are recorded in
+[S1](s1-terminal/RESULT.md), [S2 Codex](s2-control/codex/RESULT.md) and
+[S6](s6-real-cli/RESULT.md); the filled summary is
+[real-cli-matrix.md](real-cli-matrix.md) and draft capability data is in
+[capability-data/](capability-data/README.md).
+
+| Cohort | Result | Establishes | Does not establish |
+|---|---|---|---|
+| S1 Codex 0.164.0 | Pass (bounded) | Installed launch, startup, input, edit, paste, Unicode and resize; exact PID+creation teardown | Approval, cancellation, lifecycle recovery, Windows Terminal parity, model behavior |
+| S1 Claude Code 2.1.321 | Pass (bounded) | Same seven display/input slices; exact teardown | S2–S6 behavior |
+| S1 OpenCode 2.2.5 | Partial/Fail | Launch, startup, input; visual edit and resize change | Multiline paste and Unicode display fail; edit/resize teardown inconclusive; TUI had updater + five failed plugins |
+| S1 Gemini CLI | Not tested | — | Command absent; installation refused |
+| S2 Codex 0.164.0 | Pass (bounded) / Partial | One real task→test→`report_result` round trip; fail-closed approval; 401 auth; 400 `model_not_found`; injected network failure; resume; SIGINT exit 130 | Interactive approval UI; rate limit; crash; non-Codex CLIs |
+| S6 WSL Codex 0.157.1 | Partial | Inventory, fixed-path discovery, `wslpath` cases, drvfs/ext4 Git, WSLENV, ConPTY `--version`, TUI draw, PTY cleanup, stdio MCP `initialize`/`tools/list` | Model turn (401 in WSL), tool call, renderer → `wsl.exe` parity, graceful quit/main crash, real network transport, cross-side worktrees |
+
+**Blockers.** WSL Codex is not logged in; no login or credential handling was
+attempted. The other three CLIs have no S2 cohort because their S4 routes remain
+unreviewed. Full renderer → WSL parity is unqualified because the S1 TUI harness
+refuses `wsl.exe`. `wslpath` accepts relative and empty inputs (validation must
+live above it). OpenCode's TUI was updating and five plugins failed, including a
+PTY plugin; its behavior is host-state-specific.
+
+**Effect on architecture.** Codex remains the only CLI with an end-to-end S2
+round trip. Approvals and cancellation must be app-owned: non-interactive exec
+mode cannot prompt, and a signalled run can still emit `turn.completed`. Resume
+requires a persisted thread id and working directory. WSL CLIs must be found by
+configured location, not fixed `PATH`, and WSL login stays user-controlled.
 
 ## S4 route decision
 
@@ -43,10 +73,11 @@ The evidence review and candidate ledger are in
 ## Freeze check (Phase 0 HOLD vs implementation)
 
 **Post-Phase-3H work:** the approved implementation (`df26d71`), its
-qualification repairs and sealed evidence (`05765a2`), and this close-out
-commit — all inside the approved Phase 3H exception. Qualifying defects were
-corrected within that scope, not waived. Single local branch, synced to
-`origin/master` after this commit.
+qualification repairs and sealed evidence (`05765a2`), the S4 owner-override
+record, the bounded real-CLI S1/S2/S6 cohorts and their result forms, and the
+close-out commits — all inside the approved Phase 3H / Phase 0 feasibility
+scope. Qualifying defects were corrected within that scope, not waived. Single
+local branch, synced to `origin/master` after each commit.
 
 | Work unit | Verdict |
 |---|---|
@@ -75,10 +106,10 @@ product code outside an approved phase was found in `packages/`.
 | Component | Estimate |
 |---|---|
 | Architecture/product documents | ~100% |
-| Feasibility execution S1–S6 | ~50% (S4 evidence ~20%, owner-approved by exception; others ~50–60%) |
-| Phase deliverables (result matrix, capability data, architecture updates) | ~40% |
+| Feasibility execution S1–S6 | ~60% (real-CLI S1/S2/S6 cohorts executed within the owner exception; S4 evidence ~20%; S3 real-CLI and S5 acceptance still open) |
+| Phase deliverables (result matrix, capability data, architecture updates) | ~60% (S1/S2/S6 forms, C2 matrix and draft capability data written; S3/S5 rows and promotion review open) |
 | Construction-gate decision | 0% (HOLD) |
-| **Overall architecture phase** | **~70% (65–75%)** |
+| **Overall architecture phase** | **~73% (68–78%)** |
 
 ## Top 3 next steps
 
@@ -86,10 +117,14 @@ product code outside an approved phase was found in `packages/`.
    paid-desktop/account applicability for the Codex official-CLI route and
    record any ticket/reference; this closes residual risks 1–4. If written
    eligibility is refused, revisit the route decision.
-2. **Run the now-unlocked real-CLI S1/S2/S6 cohorts** under the owner exception.
-   Capture terminal parity, one team-tool round trip, WSL paths/tool attachment,
-   and per-CLI result forms; keep all effects synthetic and owned.
-3. **Close the phase.** Fill the per-CLI matrix and capability data, apply the
-   resulting architecture changes, decide S5 acceptance/remediation and S3
-   representative-project scope, and take the gate recommendation to the owner.
-   Phase 3H is now closed; that exception grants no further construction.
+2. **Close the real-CLI gaps that need owner control.** Have the owner sign in
+   to Codex inside WSL (the app must not read or relay credentials), then re-run
+   the S6 model/tool turn, renderer → `wsl.exe` parity, graceful quit and crash
+   lifecycle. Re-run OpenCode 2.2.5 paste/Unicode/teardown after the updater and
+   failed-plugin state is controlled.
+3. **Finish the unfilled rows and take the gate recommendation to the owner.**
+   Run a real-CLI S3 cohort, decide S5 acceptance/remediation, close or defer the
+   S2 rate-limit/crash and interactive-approval rows, review capability data for
+   promotion (currently all `productionEligible: false`), and present the
+   construction-gate decision. Phase 3H is closed; that exception grants no
+   further construction.

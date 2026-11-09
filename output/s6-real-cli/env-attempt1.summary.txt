@@ -1,0 +1,7 @@
+sentinelArrived=false
+gitNameArrived=false
+gitEmailArrived=false
+pathTranslated=false
+unlistedAbsent=true
+gitResolvedAuthor=false
+exit=0

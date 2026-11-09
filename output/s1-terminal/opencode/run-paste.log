@@ -1,0 +1,34 @@
+[runner] env: TIYE_S1_COMMAND=opencode TIYE_S1_ARGS_JSON=[] TIYE_CLI_FAMILY=opencode (fixed; no stdin, no prompt, no model request)
+[runner] env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)
+[runner] phase 1: spawn runner-owned Electron --cli-paste-smoke visible-window (opt-in Terminal.paste() multiline observation) (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)
+[cli-paste-main] [cli-paste-smoke] WAITING containment before PTY spawn
+[runner] CLI containment READY: Electron pid=13532 creation=2026-11-09T23:54:48.3166120+03:00 in kill-on-close Job Object
+[cli-paste-main] [cli-paste-smoke] resolved command=C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[cli-paste-main] [cli-paste-smoke] PROBE installed opencode TUI multiline paste via main-owned PTY + visible renderer xterm paste path (fixed multiline ASCII token ONLY via Terminal.paste(), bracketedPasteMode required, no Enter, no submit, no model/prompt request, no clipboard read/overwrite, no sendInputEvent, no term.write)
+[cli-paste-main] [s1] spawning: C:\Users\Mohammad\AppData\Roaming\npm\opencode.cmd  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[cli-paste-main] [s1] member session s1-mw9qpa3s-1-pid14724 (spawn #1, pid 14724)
+[cli-paste-main] [cli-paste-smoke] ok: renderer READY + preload bridge alive (visible window for Terminal.paste() observation; still the existing Electron renderer, not a native terminal)
+[cli-paste-main] [s1] RESIZE ipc cols=118 rows=40 (xterm->IPC->node-pty applied)
+[cli-paste-main] [cli-paste-smoke] ok: real CLI PTY data observed (bytes=1240)
+[cli-paste-main] [cli-paste-smoke] ok: live tree 6 identit(ies): pid=14724 created=2026-11-09T23:54:49.9589250+03:00 name=cmd.exe; pid=7548 created=2026-11-09T23:54:50.0023320+03:00 name=opencode.exe; pid=14920 created=2026-11-09T23:54:51.8220260+03:00 name=opencode.exe; pid=16588 created=2026-11-09T23:54:52.3763530+03:00 name=cmd.exe; pid=24304 created=2026-11-09T23:54:52.3851340+03:00 name=conhost.exe; pid=15768 created=2026-11-09T23:54:52.6698950+03:00 name=node.exe
+[cli-paste-main] [cli-paste-smoke] IDENTITY pid=14724 created=2026-11-09T23:54:49.9589250+03:00 name=cmd.exe parentPid=13532
+[cli-paste-main] [cli-paste-smoke] IDENTITY pid=7548 created=2026-11-09T23:54:50.0023320+03:00 name=opencode.exe parentPid=14724
+[cli-paste-main] [cli-paste-smoke] IDENTITY pid=14920 created=2026-11-09T23:54:51.8220260+03:00 name=opencode.exe parentPid=7548
+[cli-paste-main] [cli-paste-smoke] IDENTITY pid=16588 created=2026-11-09T23:54:52.3763530+03:00 name=cmd.exe parentPid=7548
+[cli-paste-main] [cli-paste-smoke] IDENTITY pid=24304 created=2026-11-09T23:54:52.3851340+03:00 name=conhost.exe parentPid=16588
+[cli-paste-main] [cli-paste-smoke] IDENTITY pid=15768 created=2026-11-09T23:54:52.6698950+03:00 name=node.exe parentPid=16588
+[cli-paste-main] [cli-paste-smoke] PASTE-PLAN tokenLines=3 method=Terminal.paste() bracketed-required no-Enter,no-submit,no-model,no-clipboard-read,no-term-write,no-sendInputEvent (fixed multiline ASCII only via xterm paste path)
+[cli-paste-main] [cli-paste-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-before.png (1084x685)
+[cli-paste-main] [cli-paste-smoke] PASTE-HOOK present=true (query-gated test hook only, never production UI)
+[cli-paste-main] [cli-paste-smoke] PASTE-HOOK tokenMatch=true (fixed payload validation)
+[cli-paste-main] [cli-paste-smoke] PASTE-BRACKETED enabled=true (real TUI must enable bracketed paste; fail closed)
+[cli-paste-main] [cli-paste-smoke] ok: paste delivered len=38 lines=3 via Terminal.paste() (single bracketed sequence, no Enter, no sendInputEvent, no term.write, no clipboard read/overwrite; renderer xterm paste path)
+[cli-paste-main] [cli-paste-smoke] PASTE-PTY bytesBefore=60853 bytesAfter=90967 delta=30114 (read-only lengths, not content; NOT arrival proof)
+[cli-paste-main] [cli-paste-smoke] PASTE-ECHO observed=false (fixed-token presence in PTY output only; NOT semantic arrival proof, NOT display proof)
+[cli-paste-main] [cli-paste-smoke] PASTE-PLACEHOLDER observed=false (OpenCode's three-line paste indicator in PTY output; not exact-content proof)
+[cli-paste-main] [cli-paste-smoke] ok: screenshot after D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-after.png (1084x685)
+[cli-paste-main] [cli-paste-smoke] SHOTS before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-before.png bytes=7704 after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-paste-after.png bytes=12099 changed=true
+[cli-paste-main] [cli-paste-smoke] FAIL: OpenCode three-line paste indicator absent from PTY output (no pass)
+[cli-paste-main] [cli-paste-smoke] PASTE-INPUT count=1 focusReports=18 bytes=50 expectedBytes=50 innerLen=38 match=true stray=false allLens=3,3,3,50,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 kinds=focus-in,focus-in,focus-out,paste,focus-in,focus-in,focus-out,focus-in,focus-in,focus-out,focus-in,focus-in,focus-in,focus-out,focus-in,focus-in,focus-out,focus-in,focus-in (exact renderer->IPC->PTY bracketed evidence; ESC[200~ + normalized payload + ESC[201~; focus reports are terminal protocol, not input)
+[runner] FAIL: Electron exited before READY (code=1 signal=null; no pass)
+[runner] failure teardown: all 6 exact captured PID+creation identities gone (attempts=1; read-only verification)

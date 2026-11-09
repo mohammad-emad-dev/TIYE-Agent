@@ -68,6 +68,59 @@ const CRASH_JOB_REGISTRY_VERSION = 1;
 const STARTUP_RECOVERY_ALERT_SMOKE_FLAG = '--startup-recovery-alert-smoke';
 const MAX_PENDING_OUTPUT = 1_000_000;
 
+// Bounded real-CLI family switch for the S1 probes. The default stays the
+// historical OpenCode behavior; TIYE_CLI_FAMILY=codex or claude only changes
+// the installed-executable marker, version pattern, and first-run dismissal.
+// It never changes the no-submit/no-model guarantees.
+type CliFamily = 'opencode' | 'codex' | 'claude';
+const CLI_FAMILY_ENV = 'TIYE_CLI_FAMILY';
+function cliFamily(): CliFamily {
+  const raw = (process.env[CLI_FAMILY_ENV] || 'opencode').trim().toLowerCase();
+  if (raw === 'codex' || raw === 'claude') return raw;
+  return 'opencode';
+}
+function cliDisplayName(): string {
+  switch (cliFamily()) {
+    case 'codex':
+      return 'Codex';
+    case 'claude':
+      return 'Claude Code';
+    default:
+      return 'opencode';
+  }
+}
+function cliBaseMatches(base: string): boolean {
+  return base.startsWith(cliFamily());
+}
+function cliStartupPattern(): RegExp {
+  switch (cliFamily()) {
+    case 'codex':
+      return /OpenAI Codex/i;
+    case 'claude':
+      return /Claude Code/i;
+    // OpenCode 2.2.5's splash draws a block-art wordmark, so the literal
+    // product name is not always present in the stripped PTY text at the
+    // moment a probe reads markers (the updater/loading screen does include
+    // it). Its composer prompt is equally product-specific; Codex's prompt
+    // is "Ask Codex to do anything", so "ask anything" cannot come from the
+    // other supported families.
+    default:
+      return /opencode|ask anything/i;
+  }
+}
+function cliVersionPattern(): RegExp {
+  switch (cliFamily()) {
+    case 'codex':
+      return /codex[^\r\n]*\d+\.\d+\.\d+/i;
+    // `claude --version` prints the version BEFORE the product name:
+    // "2.1.321 (Claude Code)".
+    case 'claude':
+      return /(?:claude[^\r\n]*\d+\.\d+\.\d+|\d+\.\d+\.\d+[^\r\n]*claude[^\r\n]*)/i;
+    default:
+      return /opencode[^\r\n]*\d+\.\d+\.\d+/i;
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Bounded S1 9f prototype startup recovery gate (mock feasibility only,
 // READ-ONLY). On ORDINARY startup with TIYE_CRASH_PTY_SURVIVOR_REGISTRY_PATH
@@ -513,11 +566,11 @@ async function runCliLaunchSmoke(): Promise<number> {
     return 1;
   }
   const base = path.basename(spec.command).toLowerCase();
-  if (!base.startsWith('opencode')) {
-    console.error(`[cli-launch-smoke] FAIL: expected installed opencode executable, got ${spec.command} (no pass)`);
+  if (!cliBaseMatches(base)) {
+    console.error(`[cli-launch-smoke] FAIL: expected installed ${cliFamily()} executable, got ${spec.command} (no pass)`);
     return 1;
   }
-  console.log('[cli-launch-smoke] PROBE opencode --version via ConPTY (no stdin written, no model/prompt)');
+  console.log(`[cli-launch-smoke] PROBE ${cliDisplayName()} --version via ConPTY (no stdin written, no model/prompt)`);
   let cliTerm: pty.IPty;
   try {
     cliTerm = spawnMember();
@@ -555,8 +608,8 @@ async function runCliLaunchSmoke(): Promise<number> {
 
   try {
     // No stdin is ever written here by design (opencode --version exits alone).
-    await waitFor(/opencode[^\r\n]*\d+\.\d+\.\d+/i, 20000, 'version output');
-    const versionLine = buffer.match(/opencode[^\r\n]*\d+\.\d+\.\d+/i)?.[0] ?? '';
+    await waitFor(cliVersionPattern(), 20000, 'version output');
+    const versionLine = buffer.match(cliVersionPattern())?.[0] ?? '';
     console.log(`[cli-launch-smoke] VERSION ${versionLine.slice(0, 200)}`);
     const exitWait = new Promise<void>((resolve, reject) => {
       const start = Date.now();
@@ -820,17 +873,52 @@ function logProbeMarkers(tag: string, ptyBytes: string): boolean {
   // update-notice text (e.g. 2.0.26) instead of the installed version, so
   // installed-version proof stays with smoke:cli-launch, not this line.
   const stripped = stripAnsiForMarkers(ptyBytes);
-  const hasOpencode = /opencode/i.test(stripped);
+  const hasMarker = cliStartupPattern().test(stripped);
   const semver = stripped.match(/\b\d+\.\d+\.\d+\b/)?.[0] ?? '';
   const hasVersion = semver !== '';
   const hasPrompt = /ask anything/i.test(stripped);
-  console.log(`${tag} MARKERS bytes=${ptyBytes.length} stripped=${stripped.length} opencode=${hasOpencode} version=${hasVersion} prompt=${hasPrompt}`);
+  console.log(`${tag} MARKERS bytes=${ptyBytes.length} stripped=${stripped.length} ${cliFamily()}=${hasMarker} version=${hasVersion} prompt=${hasPrompt}`);
   if (semver !== '') console.log(`${tag} VERSION ${semver}`);
-  if (!hasOpencode) {
-    console.error(`${tag} FAIL: startup output lacks the installed-CLI marker (want /opencode/i; no pass)`);
+  if (!hasMarker) {
+    console.error(`${tag} FAIL: startup output lacks the installed-CLI marker (want ${cliStartupPattern()}; no pass)`);
     return false;
   }
   return true;
+}
+
+/**
+ * Bounded Codex first-run notice dismissal. The OpenCode and Claude Code
+ * paths are untouched (Claude's double-Escape opens Rewind). Two Escape
+ * keyDown/keyUp pairs go through
+ * the same visible renderer keyboard path; no text, no Enter, no submit.
+ * Used only by the input/edit/paste/unicode probes, never by startup/resize,
+ * so those modes keep their no-input guarantees.
+ */
+async function dismissCliFirstRunNotices(w: BrowserWindow, tag: string): Promise<void> {
+  // Only Codex is known to show a blocking update/hooks notice on this host.
+  // OpenCode and Claude Code go straight to the composer; a double Escape in
+  // Claude Code opens its Rewind panel, so it must never receive one.
+  if (cliFamily() !== 'codex') return;
+  try {
+    w.focus();
+  } catch {
+    /* focus best-effort */
+  }
+  try {
+    w.webContents.focus();
+  } catch {
+    /* already focused */
+  }
+  await new Promise((r) => setTimeout(r, 300));
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    w.webContents.sendInputEvent({ type: 'keyDown', keyCode: 'Escape' });
+    await new Promise((r) => setTimeout(r, 120));
+    w.webContents.sendInputEvent({ type: 'keyUp', keyCode: 'Escape' });
+    await new Promise((r) => setTimeout(r, 600));
+  }
+  console.log(
+    `${tag} FIRST-RUN-DISMISS family=${cliFamily()} key=Escape attempts=2 (bounded dismissal of CLI first-run notice only; no text, no Enter, no submit, no model request)`,
+  );
 }
 
 async function sendCliEditSequence(w: BrowserWindow, tag: string): Promise<void> {
@@ -1016,8 +1104,9 @@ async function runCliPasteInteraction(
   pasteInputs.length = 0;
   const before = await captureStoreProbeShot(tag, 'before', beforePath, 5);
   if (before === null) return { ...zero, ok: false, code: 1 };
-  if (pasteInputs.length !== 0) {
-    return fail(`stray renderer->IPC input before paste (count=${pasteInputs.length}; Terminal.paste() must be the only input action)`);
+  const prePaste = pasteInputs.filter((s) => s !== '\x1b[I' && s !== '\x1b[O');
+  if (prePaste.length !== 0) {
+    return fail(`stray renderer->IPC input before paste (count=${prePaste.length}; Terminal.paste() must be the only input action; focus reports are exempt terminal protocol)`);
   }
   if (w.isDestroyed()) return inconclusive('paste window destroyed before hook check');
   if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited before paste (code ${ptyExitCode})`);
@@ -1104,13 +1193,39 @@ async function runCliPasteInteraction(
   const changed = !beforeBytes.equals(afterBytes);
   console.log(`${tag} SHOTS before=${beforePath} bytes=${before.statSize} after=${afterPath} bytes=${after.statSize} changed=${changed}`);
   const count: number = pasteInputs.length;
-  const firstLen: number = count > 0 ? pasteInputs[0].length : 0;
-  const match: boolean = count === 1 && pasteInputs[0] === expectedInput;
-  const stray: boolean = count !== 1;
+  // xterm.js emits ESC[I / ESC[O focus reports when the real TUI has enabled
+  // focus reporting (DECSET 1004). OpenCode enables it, so focusing the
+  // probe window legitimately produces these 3-byte terminal-protocol
+  // replies. They are NOT user or harness input and must not fail the
+  // "paste is the only input action" gate; every other non-paste event
+  // still fails closed.
+  const isFocusReport = (s: string): boolean => s === '\x1b[I' || s === '\x1b[O';
+  const focusReports: number = pasteInputs.filter(isFocusReport).length;
+  const nonProtocol = pasteInputs.filter((s) => !isFocusReport(s));
+  const pasteCount: number = nonProtocol.filter((s) => s === expectedInput).length;
+  const foreignCount: number = nonProtocol.length - pasteCount;
+  const firstLen: number = nonProtocol.length > 0 ? nonProtocol[0].length : 0;
+  const match: boolean = pasteCount === 1 && foreignCount === 0;
+  const stray: boolean = foreignCount !== 0;
   const allLens = pasteInputs.map((s) => s.length).join(',');
+  // Bounded diagnostic only: classify protocol replies without printing
+  // their contents. xterm.js emits 3-byte focus reports (ESC[I / ESC[O)
+  // when the TUI enables focus reporting; those are terminal protocol, not
+  // user/harness input. Anything else is reported as an opaque length.
+  const kinds = pasteInputs
+    .map((s) =>
+      s === expectedInput
+        ? 'paste'
+        : s === '\x1b[I'
+          ? 'focus-in'
+          : s === '\x1b[O'
+            ? 'focus-out'
+            : `other(${s.length})`,
+    )
+    .join(',');
   // Evidence only: lengths + booleans, never arbitrary TUI/user data.
   console.log(
-    `${tag} PASTE-INPUT count=${count} bytes=${firstLen} expectedBytes=${expectedInput.length} innerLen=${CLI_PASTE_TOKEN.length} match=${match} stray=${stray} allLens=${allLens} (exact renderer->IPC->PTY bracketed evidence; ESC[200~ + normalized payload + ESC[201~)`,
+    `${tag} PASTE-INPUT count=${nonProtocol.length} focusReports=${focusReports} bytes=${firstLen} expectedBytes=${expectedInput.length} innerLen=${CLI_PASTE_TOKEN.length} match=${match} stray=${stray} allLens=${allLens} kinds=${kinds} (exact renderer->IPC->PTY bracketed evidence; ESC[200~ + normalized payload + ESC[201~; focus reports are terminal protocol, not input)`,
   );
   if (!changed) {
     return fail(`before/after screenshots identical (no paste/render change proven; no pass) count=${count} match=${match}`);
@@ -1120,7 +1235,15 @@ async function runCliPasteInteraction(
       `bracketed-paste evidence mismatch (want exactly one ESC[200~ + payload + ESC[201~ sequence count=1 bytes=${expectedInput.length}, got count=${count} bytes=${firstLen}; no stray input allowed)`,
     );
   }
-  if (!pastePlaceholder) return fail('OpenCode three-line paste indicator absent from PTY output');
+  // The OpenCode TUI collapses a multiline paste behind its "Pasted ~3
+  // lines" indicator. Codex and Claude Code render the pasted lines inline,
+  // so their equivalent automated gate is the fixed-token echo in PTY output
+  // (still not semantic arrival proof; the orchestrator inspects the shot).
+  if (cliFamily() === 'opencode') {
+    if (!pastePlaceholder) return fail('OpenCode three-line paste indicator absent from PTY output');
+  } else if (!pasteEcho) {
+    return fail(`fixed paste-token echo absent from PTY output (${cliFamily()})`);
+  }
   return { ok: true, code: 1, beforeBytes: before.statSize, afterBytes: after.statSize };
 }
 
@@ -1144,7 +1267,8 @@ async function runCliPasteInteraction(
  * required) and verifies the exact captured INPUT is exactly one ESC[200~ +
  * fixed Unicode payload + ESC[201~ sequence with no stray input. Semantic
  * renderer display is gated via the hook's checkDisplay() (xterm buffer +
- * DOM must contain all four script substrings); a screenshot hash
+ * DOM must contain all four script runs; the Arabic run may appear in
+ * logical or visual RTL cell order because shaping is not required); a screenshot hash
  * difference alone is NEVER cited as intact-display proof — the
  * orchestrator must still visually inspect the after-shot for intact
  * glyphs (no tofu/mojibake). Any mismatch fails closed (1) or
@@ -1181,8 +1305,9 @@ async function runCliUnicodeInteraction(
   unicodeInputs.length = 0;
   const before = await captureStoreProbeShot(tag, 'before', beforePath, 5);
   if (before === null) return { ...zero, ok: false, code: 1 };
-  if (unicodeInputs.length !== 0) {
-    return fail(`stray renderer->IPC input before unicode paste (count=${unicodeInputs.length}; Terminal.paste() must be the only input action)`);
+  const preUnicode = unicodeInputs.filter((s) => s !== '\x1b[I' && s !== '\x1b[O');
+  if (preUnicode.length !== 0) {
+    return fail(`stray renderer->IPC input before unicode paste (count=${preUnicode.length}; Terminal.paste() must be the only input action; focus reports are exempt terminal protocol)`);
   }
   if (w.isDestroyed()) return inconclusive('unicode window destroyed before hook check');
   if (ptyExitCode !== null) return inconclusive(`real CLI PTY exited before unicode paste (code ${ptyExitCode})`);
@@ -1304,7 +1429,7 @@ async function runCliUnicodeInteraction(
   } catch (err) {
     return inconclusive(`unicode display inspection failed: ${(err as Error).message}`);
   }
-  console.log(`${tag} UNICODE-DISPLAY ar=${dispAr} zh=${dispZh} ja=${dispJa} ko=${dispKo} all=${dispAll} bufLen=${dispBufLen} domLen=${dispDomLen} (semantic renderer gate: xterm buffer + DOM must hold all four scripts; hash diff alone is NOT display proof; orchestrator must still visually inspect after-shot for intact glyphs)`);
+  console.log(`${tag} UNICODE-DISPLAY ar=${dispAr} zh=${dispZh} ja=${dispJa} ko=${dispKo} all=${dispAll} bufLen=${dispBufLen} domLen=${dispDomLen} (semantic renderer gate: xterm buffer + DOM must hold all four scripts; Arabic accepts logical or visual RTL cell order, shaping not required; hash diff alone is NOT display proof; orchestrator must still visually inspect after-shot for intact glyphs)`);
   const after = await captureStoreProbeShot(tag, 'after', afterPath, 5);
   if (after === null) return { ...zero, ok: false, code: 1 };
   const beforeBytes = fs.readFileSync(beforePath);
@@ -1371,12 +1496,21 @@ async function runCliUnicodeInteraction(
     }
   }
   const count: number = unicodeInputs.length;
-  const firstUtf8: number = count > 0 ? Buffer.byteLength(unicodeInputs[0], 'utf8') : 0;
-  const match: boolean = count === 1 && unicodeInputs[0] === expectedInput;
-  const stray: boolean = count !== 1;
+  // Same terminal-protocol exemption as the multiline paste gate: OpenCode
+  // enables focus reporting, so xterm.js emits 3-byte ESC[I/ESC[O replies
+  // when the probe window gains or loses focus. They are not user/harness
+  // input; every other non-paste event still fails closed.
+  const isFocusReport = (s: string): boolean => s === '\x1b[I' || s === '\x1b[O';
+  const focusReports: number = unicodeInputs.filter(isFocusReport).length;
+  const nonProtocol = unicodeInputs.filter((s) => !isFocusReport(s));
+  const pasteCount: number = nonProtocol.filter((s) => s === expectedInput).length;
+  const foreignCount: number = nonProtocol.length - pasteCount;
+  const firstUtf8: number = nonProtocol.length > 0 ? Buffer.byteLength(nonProtocol[0], 'utf8') : 0;
+  const match: boolean = pasteCount === 1 && foreignCount === 0;
+  const stray: boolean = foreignCount !== 0;
   const allUtf8Lens = unicodeInputs.map((s) => Buffer.byteLength(s, 'utf8')).join(',');
   console.log(
-    `${tag} UNICODE-INPUT count=${count} utf8Bytes=${firstUtf8} expectedUtf8Bytes=${expectedUtf8Bytes} tokenUtf8Bytes=${tokenUtf8Bytes} match=${match} stray=${stray} allUtf8Lens=${allUtf8Lens} (exact renderer->IPC->PTY bracketed evidence; ESC[200~ + fixed Unicode payload + ESC[201~; bytes via Buffer)`,
+    `${tag} UNICODE-INPUT count=${nonProtocol.length} focusReports=${focusReports} utf8Bytes=${firstUtf8} expectedUtf8Bytes=${expectedUtf8Bytes} tokenUtf8Bytes=${tokenUtf8Bytes} match=${match} stray=${stray} allUtf8Lens=${allUtf8Lens} (exact renderer->IPC->PTY bracketed evidence; ESC[200~ + fixed Unicode payload + ESC[201~; bytes via Buffer; focus reports are terminal protocol, not input)`,
   );
   if (!changed) {
     return fail(`before/after screenshots identical (no unicode/render change proven; no pass) count=${count} match=${match}`);
@@ -1715,8 +1849,8 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     return 1;
   }
   const base = path.basename(spec.command).toLowerCase();
-  if (!base.startsWith('opencode')) {
-    console.error(`${tag} FAIL: expected installed opencode executable, got ${spec.command} (no pass)`);
+  if (!cliBaseMatches(base)) {
+    console.error(`${tag} FAIL: expected installed ${cliFamily()} executable, got ${spec.command} (no pass)`);
     return 1;
   }
   if (!isProcessTreeCheckSupported()) {
@@ -1725,18 +1859,18 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
   }
   console.log(
     isHistory
-      ? `${tag} PROBE installed opencode TUI history observation via main-owned PTY + visible renderer keyboard path (literal /help typed via sendInputEvent, Enter once for documented built-in help only, Escape, Up once for history_previous, never free-form prompt, no model/prompt request)`
+      ? `${tag} PROBE installed ${cliDisplayName()} TUI history observation via main-owned PTY + visible renderer keyboard path (literal /help typed via sendInputEvent, Enter once for documented built-in help only, Escape, Up once for history_previous, never free-form prompt, no model/prompt request)`
       : isEdit
-        ? `${tag} PROBE installed opencode TUI editing keys via main-owned PTY + visible renderer keyboard path (fixed ASCII token then Home,Right,Delete,End,Backspace plus ASCII replacement; no Enter, no submit, no model/prompt request)`
+        ? `${tag} PROBE installed ${cliDisplayName()} TUI editing keys via main-owned PTY + visible renderer keyboard path (fixed ASCII token then Home,Right,Delete,End,Backspace plus ASCII replacement; no Enter, no submit, no model/prompt request)`
         : isInput
-          ? `${tag} PROBE installed opencode TUI input via main-owned PTY + visible renderer keyboard path (no Enter, no submit, no model/prompt request)`
+          ? `${tag} PROBE installed ${cliDisplayName()} TUI input via main-owned PTY + visible renderer keyboard path (no Enter, no submit, no model/prompt request)`
           : isPaste
-            ? `${tag} PROBE installed opencode TUI multiline paste via main-owned PTY + visible renderer xterm paste path (fixed multiline ASCII token ONLY via Terminal.paste(), bracketedPasteMode required, no Enter, no submit, no model/prompt request, no clipboard read/overwrite, no sendInputEvent, no term.write)`
+            ? `${tag} PROBE installed ${cliDisplayName()} TUI multiline paste via main-owned PTY + visible renderer xterm paste path (fixed multiline ASCII token ONLY via Terminal.paste(), bracketedPasteMode required, no Enter, no submit, no model/prompt request, no clipboard read/overwrite, ${cliFamily() === 'codex' ? 'token never keyboard-typed (bounded first-run Escape dismissal precedes)' : 'no sendInputEvent'}, no term.write)`
             : isUnicode
-              ? `${tag} PROBE installed opencode TUI single-line Unicode via main-owned PTY + visible renderer xterm paste path (fixed single-line Arabic+Chinese+Japanese+Korean token ONLY via Terminal.paste(), bracketedPasteMode required, no Enter, no submit, no model/prompt request, no clipboard read/overwrite, no sendInputEvent, no term.write)`
+              ? `${tag} PROBE installed ${cliDisplayName()} TUI single-line Unicode via main-owned PTY + visible renderer xterm paste path (fixed single-line Arabic+Chinese+Japanese+Korean token ONLY via Terminal.paste(), bracketedPasteMode required, no Enter, no submit, no model/prompt request, no clipboard read/overwrite, ${cliFamily() === 'codex' ? 'token never keyboard-typed (bounded first-run Escape dismissal precedes)' : 'no sendInputEvent'}, no term.write)`
               : isResize
-              ? `${tag} PROBE installed opencode TUI resize via main-owned PTY + visible renderer (single BrowserWindow resize, no keyboard input, no PTY write, no Enter, no submit, no model/prompt request)`
-              : `${tag} PROBE installed opencode TUI startup via main-owned PTY + hidden renderer (no stdin written, no model/prompt)`,
+              ? `${tag} PROBE installed ${cliDisplayName()} TUI resize via main-owned PTY + visible renderer (single BrowserWindow resize, no keyboard input, no PTY write, no Enter, no submit, no model/prompt request)`
+              : `${tag} PROBE installed ${cliDisplayName()} TUI startup via main-owned PTY + hidden renderer (no stdin written, no model/prompt)`,
   );
   try {
     attachTerminal();
@@ -1803,7 +1937,7 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
     await new Promise<void>((resolve, reject) => {
       const start = Date.now();
       const timer = setInterval(() => {
-        if (/opencode/i.test(ptyBytes) && ptyBytes.length > 0) {
+        if (cliStartupPattern().test(ptyBytes) && ptyBytes.length > 0) {
           clearInterval(timer);
           resolve();
         } else if (ptyExitCode !== null) {
@@ -1836,6 +1970,13 @@ async function runRealCliTuiProbe(mode: CliTuiProbeMode): Promise<number> {
                   : `${tag} INCONCLUSIVE: real CLI PTY exited before screenshot (code ${ptyExitCode}; no pass)`,
       );
       return 2;
+    }
+    if (isInput || isEdit || isPaste || isUnicode) {
+      await dismissCliFirstRunNotices(win, tag);
+      if (ptyExitCode !== null) {
+        console.error(`${tag} INCONCLUSIVE: real CLI PTY exited during first-run dismissal (code ${ptyExitCode}; no pass)`);
+        return 2;
+      }
     }
     let tree: ProcessIdentity[];
     try {

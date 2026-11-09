@@ -1,0 +1,64 @@
+{
+  "schema": "tiye-s6-real-cli-inventory-v1",
+  "date": "2026-11-09T21:23:58.529Z",
+  "wslListExit": 0,
+  "wslListDecoded": "NAME              STATE           VERSION\r\n* Ubuntu            Running         2\r\n  docker-desktop    Running         2",
+  "distros": [
+    {
+      "current": true,
+      "name": "Ubuntu",
+      "state": "Running",
+      "version": "2"
+    },
+    {
+      "current": false,
+      "name": "docker-desktop",
+      "state": "Running",
+      "version": "2"
+    }
+  ],
+  "selectedDistro": "Ubuntu",
+  "fixedLinuxPath": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+  "linux": {
+    "uid": "1000",
+    "osId": "ubuntu",
+    "osVersion": "26.04",
+    "osName": "Ubuntu 26.04.1 LTS",
+    "kernel": null,
+    "networkingMode": "nat",
+    "tools": {
+      "git": "/usr/bin/git",
+      "python3": "/usr/bin/python3",
+      "node": null,
+      "npm": null,
+      "codex": null,
+      "claude": null,
+      "opencode": null,
+      "gemini": null
+    },
+    "gitVersion": "git version 2.53.0"
+  },
+  "retainedCandidate": {
+    "path": "/home/mohammad/.local/share/tiye-feasibility/codex-0.157.1-rx5vmnt1/package/bin/codex",
+    "version": "codex-cli 0.157.1",
+    "onFixedPath": false
+  },
+  "discoveryExit": 0,
+  "discoveryStderr": "",
+  "limits": {
+    "missingToolMeans": "not found on the fixed tested PATH, not absent from the whole distribution",
+    "noPackageInstall": true,
+    "noProviderModelRequest": true,
+    "noCredentialsRead": true
+  },
+  "checks": {
+    "ubuntuSelected": true,
+    "initializedUser": true,
+    "ubuntuReleaseRecorded": true,
+    "kernelRecorded": false,
+    "noLinuxProviderCliOnPath": true,
+    "linuxNodeAbsentOnPath": true,
+    "retainedCandidateVersionMatches": true
+  },
+  "ok": false
+}

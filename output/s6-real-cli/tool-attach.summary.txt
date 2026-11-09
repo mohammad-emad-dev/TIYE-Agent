@@ -1,0 +1,6 @@
+outcome=attached-auth-blocked
+exit=1
+elapsedMs=15779
+authBlocked=true
+methods=initialize,notifications/initialized,tools/list
+cleanupVerified=true

@@ -1,0 +1,37 @@
+[runner] env: TIYE_S1_COMMAND=claude TIYE_S1_ARGS_JSON=[] TIYE_CLI_FAMILY=claude (fixed; no stdin, no prompt, no model request)
+[runner] env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)
+[runner] phase 1: spawn runner-owned Electron --cli-input-smoke visible-window (opt-in keyboard delivery) (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)
+[cli-input-main] [cli-input-smoke] WAITING containment before PTY spawn
+[runner] CLI containment READY: Electron pid=9160 creation=2026-11-09T23:53:12.0125310+03:00 in kill-on-close Job Object
+[cli-input-main] [cli-input-smoke] resolved command=C:\Users\Mohammad\.local\bin\claude.exe args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[cli-input-main] [cli-input-smoke] PROBE installed Claude Code TUI input via main-owned PTY + visible renderer keyboard path (no Enter, no submit, no model/prompt request)
+[cli-input-main] [s1] spawning: C:\Users\Mohammad\.local\bin\claude.exe  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[cli-input-main] [s1] member session s1-mw9qn7j0-1-pid25396 (spawn #1, pid 25396)
+[cli-input-main] [cli-input-smoke] ok: renderer READY + preload bridge alive (visible window for keyboard focus; still the existing Electron renderer, not a native terminal)
+[cli-input-main] [s1] RESIZE ipc cols=118 rows=40 (xterm->IPC->node-pty applied)
+[cli-input-main] [cli-input-smoke] ok: real CLI PTY data observed (bytes=331)
+[cli-input-main] [cli-input-smoke] ok: live tree 1 identit(ies): pid=25396 created=2026-11-09T23:53:13.3087770+03:00 name=claude.exe
+[cli-input-main] [cli-input-smoke] IDENTITY pid=25396 created=2026-11-09T23:53:13.3087770+03:00 name=claude.exe parentPid=9160
+[cli-input-main] [cli-input-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png (1084x685)
+[cli-input-main] [cli-input-smoke] TOKEN len=16 token=tiyeinprobe7q3z9 (harmless ASCII alphanumerics only, never submitted, no model request)
+[cli-input-main] [cli-input-smoke] ok: input typed len=16 via sendInputEvent keyDown+char+keyUp per char (no Enter, no submit, no control sequence; renderer keyboard/xterm path)
+[cli-input-main] [cli-input-smoke] ok: screenshot after D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png (1084x685)
+[cli-input-main] [cli-input-smoke] SHOTS before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png bytes=23145 after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png bytes=22693 changed=true
+[cli-input-main] [cli-input-smoke] MARKERS bytes=2125 stripped=386 claude=true version=false prompt=false
+[cli-input-main] [cli-input-smoke] READY session=s1-mw9qn7j0-1-pid25396 member=cli-input-member rootPid=25396 treeSize=1 before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png inputLen=16
+[cli-input-main] [cli-input-smoke] alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; keyboard event + changed render, NOT semantic prompt acceptance)
+[runner] READY observed: session=s1-mw9qn7j0-1-pid25396 member=cli-input-member rootPid=25396 treeSize=1
+[runner] assert: spawning line: [s1] spawning: C:\Users\Mohammad\.local\bin\claude.exe  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[runner] assert: resolved line: [cli-input-smoke] resolved command=C:\Users\Mohammad\.local\bin\claude.exe args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[runner] assert: markers line: [cli-input-smoke] MARKERS bytes=2125 stripped=386 claude=true version=false prompt=false
+[runner] assert: version line: 
+[runner] assert: shot line: [cli-input-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png (1084x685)
+[runner] assert: mode=input-probe family=claude resolvedFamily=true resolvedNativeLauncher=true rendererReady=true ptyData=true markersOk=true versionOk=false inputTypedOk=true editKeysOk=true editPlanOk=true shotsLogOk=true pastePlanOk=true pasteHookOk=true pasteBracketedOk=true pasteDeliveredOk=true pasteInputOk=true pasteNoKeyboardOk=true unicodePlanOk=true unicodeHookOk=true unicodeBracketedOk=true unicodeDeliveredOk=true unicodeInputOk=true unicodeDisplayOk=true unicodeNoKeyboardOk=true historyPlanOk=true historyTypedOk=true historyEchoOk=true historyEnterOk=true historyHelpObservedOk=true historyEscapeOk=true historyUpOk=true historyUpShotOk=true historyShotsLogOk=true
+[runner] note: bare semver not present in this startup window (dynamic TUI; best-effort marker only — installed-command proof is the resolved .cmd path + opencode marker, not this line)
+[runner] screenshots ok: before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png (23145 bytes sha256=8badeed78575cb18…) after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png (22693 bytes sha256=13a6b4f19c09eea5…) changed (visible opt-in window, orchestrator visual inspection only)
+[runner] captured identity: pid=25396 created=2026-11-09T23:53:13.3087770+03:00 name=claude.exe parentPid=9160
+[runner] pre-kill identity check: all 1 exact PID+creation identities still alive
+[runner] phase 2: terminating ONLY the runner-owned Electron ChildProcess via handle (child.kill(), no PID kill; no term.kill by design)
+[runner] runner-owned Electron exited (code=null signal=SIGTERM)
+[runner] phase 3: bounded read-only re-enumeration of the 1 exact captured identities (bound 15000ms, no PID kill)
+[runner] CLI-INPUT PASS: family=claude resolved=C:\Users\Mohammad\.local\bin\claude.exe semverObserved=none (best-effort; installed-version proof stays smoke:cli-launch) session=s1-mw9qn7j0-1-pid25396 rootPid=25396 tree=1 gone (attempts=1) inputLen=16 before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-before.png (23145 bytes sha256=8badeed78575cb18…) after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-input-after.png (22693 bytes sha256=13a6b4f19c09eea5…) changed (keyboard event + changed render via sendInputEvent keyDown+char+keyUp, no Enter, never submitted; NOT semantic prompt acceptance; orchestrator visual inspection only; NOT S1 step 3, parity, Unicode, approvals, or model behavior)

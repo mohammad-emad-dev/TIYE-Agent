@@ -1,0 +1,39 @@
+[runner] env: TIYE_S1_COMMAND=claude TIYE_S1_ARGS_JSON=[] TIYE_CLI_FAMILY=claude (fixed; no stdin, no prompt, no model request)
+[runner] env: scrubbed TIYE_S1_CWD + TIYE_CRASH_* registry paths + TIYE_MOCK_CRASH_MODE (inherited values cannot change behavior or trigger the recovery gate)
+[runner] phase 1: spawn runner-owned Electron --cli-edit-smoke visible-window (opt-in keyboard editing) (real installed CLI via resolveLaunch/ensureMember, ConPTY + renderer)
+[cli-edit-main] [cli-edit-smoke] WAITING containment before PTY spawn
+[runner] CLI containment READY: Electron pid=8436 creation=2026-11-09T23:53:25.9482530+03:00 in kill-on-close Job Object
+[cli-edit-main] [cli-edit-smoke] resolved command=C:\Users\Mohammad\.local\bin\claude.exe args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[cli-edit-main] [cli-edit-smoke] PROBE installed Claude Code TUI editing keys via main-owned PTY + visible renderer keyboard path (fixed ASCII token then Home,Right,Delete,End,Backspace plus ASCII replacement; no Enter, no submit, no model/prompt request)
+[cli-edit-main] [s1] spawning: C:\Users\Mohammad\.local\bin\claude.exe  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[cli-edit-main] [s1] member session s1-mw9qnib7-1-pid9044 (spawn #1, pid 9044)
+[cli-edit-main] [cli-edit-smoke] ok: renderer READY + preload bridge alive (visible window for keyboard editing; still the existing Electron renderer, not a native terminal)
+[cli-edit-main] [s1] RESIZE ipc cols=118 rows=40 (xterm->IPC->node-pty applied)
+[cli-edit-main] [cli-edit-smoke] ok: real CLI PTY data observed (bytes=460)
+[cli-edit-main] [cli-edit-smoke] ok: live tree 1 identit(ies): pid=9044 created=2026-11-09T23:53:27.2842390+03:00 name=claude.exe
+[cli-edit-main] [cli-edit-smoke] IDENTITY pid=9044 created=2026-11-09T23:53:27.2842390+03:00 name=claude.exe parentPid=8436
+[cli-edit-main] [cli-edit-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-edit-before.png (1084x685)
+[cli-edit-main] [cli-edit-smoke] TOKEN initial=tiyeeditab12 len=12 replacement=z expected=tyeeditab1z (harmless ASCII alphanumerics only, no slash, no Enter, never submitted, no model request)
+[cli-edit-main] [cli-edit-smoke] EDIT-PLAN initial=tiyeeditab12 expected=tyeeditab1z steps=Home,Right,Delete,End,Backspace,type(z) (Home to line start, Right one cell, Delete removes second char i, End to line end, Backspace removes trailing 2, type z appends; typical line-editor expectation only, NOT proven semantically)
+[cli-edit-main] [cli-edit-smoke] ok: input typed len=12 via sendInputEvent keyDown+char+keyUp per char (no Enter, no submit, no control sequence; renderer keyboard/xterm path)
+[cli-edit-main] [cli-edit-smoke] ok: edit keys Home,Right,Delete,End,Backspace plus replacement len=1 via sendInputEvent (no Enter, no submit, no slash/control command; renderer keyboard/xterm path)
+[cli-edit-main] [cli-edit-smoke] ok: screenshot after D:\TIYE Agent\feasibility\s1-terminal\dist\cli-edit-after.png (1084x685)
+[cli-edit-main] [cli-edit-smoke] SHOTS before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-edit-before.png bytes=22810 after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-edit-after.png bytes=22248 changed=true initial=tiyeeditab12 expected=tyeeditab1z
+[cli-edit-main] [cli-edit-smoke] MARKERS bytes=3734 stripped=1505 claude=true version=false prompt=false
+[cli-edit-main] [cli-edit-smoke] READY session=s1-mw9qnib7-1-pid9044 member=cli-edit-member rootPid=9044 treeSize=1 before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-edit-before.png after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-edit-after.png initialLen=12 expected=tyeeditab1z
+[cli-edit-main] [cli-edit-smoke] alive until runner kills this Electron process (no term.kill by design: Windows teardown race; runner verifies the exact tree gone read-only; visible opt-in window, orchestrator visual inspection only; keyboard events delivered + changed render, NOT semantic editing correctness, NOT command history, NOT S1 step 3)
+[runner] READY observed: session=s1-mw9qnib7-1-pid9044 member=cli-edit-member rootPid=9044 treeSize=1
+[runner] assert: spawning line: [s1] spawning: C:\Users\Mohammad\.local\bin\claude.exe  (cwd=D:\TIYE Agent\feasibility\s1-terminal)
+[runner] assert: resolved line: [cli-edit-smoke] resolved command=C:\Users\Mohammad\.local\bin\claude.exe args=[] cwd=D:\TIYE Agent\feasibility\s1-terminal
+[runner] assert: markers line: [cli-edit-smoke] MARKERS bytes=3734 stripped=1505 claude=true version=false prompt=false
+[runner] assert: version line: 
+[runner] assert: shot line: [cli-edit-smoke] ok: screenshot before D:\TIYE Agent\feasibility\s1-terminal\dist\cli-edit-before.png (1084x685)
+[runner] assert: mode=edit-probe family=claude resolvedFamily=true resolvedNativeLauncher=true rendererReady=true ptyData=true markersOk=true versionOk=false inputTypedOk=true editKeysOk=true editPlanOk=true shotsLogOk=true pastePlanOk=true pasteHookOk=true pasteBracketedOk=true pasteDeliveredOk=true pasteInputOk=true pasteNoKeyboardOk=true unicodePlanOk=true unicodeHookOk=true unicodeBracketedOk=true unicodeDeliveredOk=true unicodeInputOk=true unicodeDisplayOk=true unicodeNoKeyboardOk=true historyPlanOk=true historyTypedOk=true historyEchoOk=true historyEnterOk=true historyHelpObservedOk=true historyEscapeOk=true historyUpOk=true historyUpShotOk=true historyShotsLogOk=true
+[runner] note: bare semver not present in this startup window (dynamic TUI; best-effort marker only — installed-command proof is the resolved .cmd path + opencode marker, not this line)
+[runner] screenshots ok: before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-edit-before.png (22810 bytes sha256=c27015276a835795…) after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-edit-after.png (22248 bytes sha256=008eab48f7dddba0…) changed (visible opt-in editing window, keyboard events delivered + changed render only, NOT semantic editing correctness; orchestrator visual inspection only)
+[runner] captured identity: pid=9044 created=2026-11-09T23:53:27.2842390+03:00 name=claude.exe parentPid=8436
+[runner] pre-kill identity check: all 1 exact PID+creation identities still alive
+[runner] phase 2: terminating ONLY the runner-owned Electron ChildProcess via handle (child.kill(), no PID kill; no term.kill by design)
+[runner] runner-owned Electron exited (code=null signal=SIGTERM)
+[runner] phase 3: bounded read-only re-enumeration of the 1 exact captured identities (bound 15000ms, no PID kill)
+[runner] CLI-EDIT PASS: family=claude resolved=C:\Users\Mohammad\.local\bin\claude.exe semverObserved=none (best-effort; installed-version proof stays smoke:cli-launch) session=s1-mw9qnib7-1-pid9044 rootPid=9044 tree=1 gone (attempts=1) initial=tiyeeditab12 expected=tyeeditab1z before=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-edit-before.png (22810 bytes sha256=c27015276a835795…) after=D:\TIYE Agent\feasibility\s1-terminal\dist\cli-edit-after.png (22248 bytes sha256=008eab48f7dddba0…) changed (keyboard events delivered + changed render via sendInputEvent Home,Right,Delete,End,Backspace plus ASCII replacement, no Enter, never submitted; NOT semantic editing correctness, orchestrator visual inspection only; NOT command history, NOT S1 step 3, parity, Unicode, approvals, or model behavior)
