@@ -4,11 +4,11 @@
 **Test:** S4 — login access per provider
 **Mode:** Repository-evidence review. No new native process, login, credential
 inspection, provider request or product implementation was started.
-**Evidence result:** **Fail — no provider/model/auth route evidence-qualified.**
-**Owner decision:** **S4 APPROVED-BY-OWNER-EXCEPTION (VERBAL-ONLY; not
-evidence-qualified)** for the OpenAI Codex official-CLI route. Real-CLI
-S1/S2/S6 cohorts are unlocked. Written provider evidence remains outstanding;
-provider integration and release remain **HOLD**.
+**Evidence result:** **Closed by owner — verbal-only accepted as final.**
+**Owner decision:** **S4 APPROVED-BY-OWNER-EXCEPTION (CLOSED)** for the
+OpenAI Codex official-CLI route. Real-CLI S1/S2/S6 cohorts are unlocked.
+Owner override 2026-11-09 (verbal-only exception); written-evidence pursuit
+closed 2026-11-11. Provider integration and release remain **HOLD**.
 
 ## Owner override — 2026-11-09
 
@@ -48,6 +48,29 @@ The owner accepts these risks for the purpose of unlocking real-CLI
 qualification. This override does not convert the verbal assurance into
 evidence, does not promote capability data, and does not admit a provider
 adapter, login member or API member.
+
+## Owner closure — 2026-11-11
+
+**Decision:** The project owner closes the written-evidence pursuit for the
+OpenAI Codex route. The owner states that verifying this point would put their
+information at risk, and considers the issue resolved.
+
+| Field | Record |
+|---|---|
+| Authority | Project owner; explicit closure recorded 2026-11-11 |
+| Reason | Information-risk concern; the owner declines to pursue written confirmation from OpenAI |
+| Previous status | APPROVED-BY-OWNER-EXCEPTION (VERBAL-ONLY) |
+| New status | **APPROVED-BY-OWNER-EXCEPTION (CLOSED)** |
+| Evidence gap | Unchanged — the five residual risks listed in "Owner override — 2026-11-09" still exist; no written evidence has been obtained |
+| Residual risks 1–5 | **Accepted as final by the owner.** The evidence gap is permanent; the owner accepts it rather than retiring the risks. |
+| FOLLOW-UP.md | **Withdrawn by owner decision.** The draft was never sent and will not be sent. |
+| Effect on unlocked cohorts | None — real-CLI S1/S2/S6 qualification cohorts remain unlocked per the 2026-11-09 override |
+| Effect on HOLD items | None — provider integration and release remain HOLD; capability-data restriction stands |
+
+This closure does not introduce new evidence, does not retire the residual
+risks, and does not change the evidence-review finding. It records the owner's
+permanent acceptance of the verbal-only basis and withdrawal of the
+written-evidence pursuit.
 
 ## C1 result fields
 
@@ -138,4 +161,10 @@ stand; the override is an owner risk acceptance, not provider evidence.
 time-box and fallback are retained as history. [FOLLOW-UP.md](FOLLOW-UP.md)
 remains unsent and optional; it is still the path to written confirmation and
 closure of residual risks 1–4.
+
+**Withdrawn on 2026-11-11 by owner closure.** The time-boxed follow-up,
+decision deadline, fallback pivot and [FOLLOW-UP.md](FOLLOW-UP.md) are
+withdrawn by the owner's decision to close the written-evidence pursuit. The
+draft is not merely unsent; it will not be sent. The residual risks are
+accepted as final under the owner closure above.
 

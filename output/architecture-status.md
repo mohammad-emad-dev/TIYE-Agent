@@ -1,8 +1,8 @@
 # TIYE Agent — Architecture Status
 
-**Date:** 2026-11-10
+**Date:** 2026-11-11
 **Scope:** pre-code architecture/feasibility phase (Phase 0) and approved bounded-construction exceptions
-**Overall:** ~73% complete (68–78% judgment); construction gate **HOLD**, with approved synthetic/offline exceptions through Phase 3H, an owner-approved S4 route exception (verbal-only), and completed bounded real-CLI S1/S2/S6 cohorts.
+**Overall:** ~78% complete (73–83% judgment); construction gate **HOLD**, with approved synthetic/offline exceptions through Phase 3H, an owner-approved S4 route exception (closed; verbal-only accepted as final), and completed bounded real-CLI S1/S2/S6 cohorts.
 
 ## Gate status (S1–S6)
 
@@ -11,7 +11,7 @@
 | S1 — terminal/lifecycle | **Partial** | Real-CLI display/input/paste/Unicode/resize observed for Codex and Claude Code; OpenCode paste/Unicode fail and teardown is inconclusive; approval, Ctrl+C, lifecycle recovery and Windows Terminal parity still open |
 | S2 — control channel | **Partial** | Codex bounded round trip, approval fail-closed, auth/model/network errors, resume and cancellation observed; rate limit and crash not run; Claude Code/Gemini/OpenCode blocked by unqualified S4 routes; interactive approval UI not observed |
 | S3 — worktrees | **Partial** | Representative project setup/cost; native commit attribution; authenticated push; watcher limits; rollback/merge recovery; no real-CLI cohort yet |
-| S4 — provider access | **Approved by owner exception — VERBAL-ONLY; not evidence-qualified** | Written confirmation, ticket/reference, reversible-policy risk and the five verbal-only answers; native auth/model cohort |
+| S4 — provider access | **Approved by owner exception — CLOSED; verbal-only accepted as final** | Native auth/model cohort |
 | S5 — performance | **Partial** | Five real terminals; flood/rich/long-run/views/search; memory settling; acceptance or remediation for historical spikes |
 | S6 — WSL | **Partial; all nine rows partial** | Real-CLI inventory, paths, environment, ConPTY launch, TUI draw, PTY cleanup and stdio MCP attach observed for Codex 0.157.1; WSL login blocked the model turn; renderer parity, graceful lifecycle, real transport and cross-side worktrees still open |
 
@@ -55,7 +55,13 @@ written policy/account eligibility or native authentication/model behavior.
 Real-CLI S1/S2/S6 cohorts are unlocked; capability data, provider integration
 and release remain HOLD.
 
-**Residual risks accepted by the owner:**
+**Owner closure (2026-11-11): written-evidence pursuit CLOSED.** The owner
+states that the point cannot be verified without putting information at risk and
+closes the issue as resolved. The S4 status changes from VERBAL-ONLY to CLOSED;
+verbal-only is accepted as final. [FOLLOW-UP.md](s4-route-qualification/FOLLOW-UP.md)
+is withdrawn by owner decision (not sent and will not be sent).
+
+**Residual risks accepted by the owner (final):**
 
 1. No written confirmation.
 2. No ticket reference.
@@ -64,10 +70,11 @@ and release remain HOLD.
 5. Call date/time, participant identity/authority and any recording were not
    supplied and are not independently recorded.
 
+Risks 1–5 are accepted permanently by the owner as of 2026-11-11. The evidence
+gap remains but will not be pursued further.
+
 The earlier time-boxed decision (follow-up by 2026-11-10; deadline 2026-11-23)
-is superseded for execution. [FOLLOW-UP.md](s4-route-qualification/FOLLOW-UP.md)
-remains unsent and optional; it is still the path to written confirmation.
-The evidence review and candidate ledger are in
+is superseded for execution. The evidence review and candidate ledger are in
 [the S4 result form](s4-route-qualification/RESULT.md).
 
 ## Freeze check (Phase 0 HOLD vs implementation)
@@ -106,25 +113,25 @@ product code outside an approved phase was found in `packages/`.
 | Component | Estimate |
 |---|---|
 | Architecture/product documents | ~100% |
-| Feasibility execution S1–S6 | ~60% (real-CLI S1/S2/S6 cohorts executed within the owner exception; S4 evidence ~20%; S3 real-CLI and S5 acceptance still open) |
+| Feasibility execution S1–S6 | ~68% (real-CLI S1/S2/S6 cohorts executed within the owner exception; S4 evidence ~80% — written-evidence pursuit closed, native auth/model cohort remains; S3 real-CLI and S5 acceptance still open) |
 | Phase deliverables (result matrix, capability data, architecture updates) | ~60% (S1/S2/S6 forms, C2 matrix and draft capability data written; S3/S5 rows and promotion review open) |
 | Construction-gate decision | 0% (HOLD) |
-| **Overall architecture phase** | **~73% (68–78%)** |
+| **Overall architecture phase** | **~78% (73–83%)** |
 
 ## Top 3 next steps
 
-1. **Convert the S4 owner exception into written evidence.** Pursue written
-   paid-desktop/account applicability for the Codex official-CLI route and
-   record any ticket/reference; this closes residual risks 1–4. If written
-   eligibility is refused, revisit the route decision.
-2. **Close the real-CLI gaps that need owner control.** Have the owner sign in
+1. **Close the real-CLI gaps that need owner control.** Have the owner sign in
    to Codex inside WSL (the app must not read or relay credentials), then re-run
    the S6 model/tool turn, renderer → `wsl.exe` parity, graceful quit and crash
    lifecycle. Re-run OpenCode 2.2.5 paste/Unicode/teardown after the updater and
    failed-plugin state is controlled.
-3. **Finish the unfilled rows and take the gate recommendation to the owner.**
+2. **Finish the unfilled rows and take the gate recommendation to the owner.**
    Run a real-CLI S3 cohort, decide S5 acceptance/remediation, close or defer the
    S2 rate-limit/crash and interactive-approval rows, review capability data for
    promotion (currently all `productionEligible: false`), and present the
    construction-gate decision. Phase 3H is closed; that exception grants no
    further construction.
+3. **Complete the S4 native auth/model cohort.** Run native authentication and
+   model-behavior observations for the Codex official-CLI route to close the
+   remaining S4 row; this is the only open item after the written-evidence
+   pursuit was closed.

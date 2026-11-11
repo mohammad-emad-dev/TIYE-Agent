@@ -1,8 +1,8 @@
 # S4 Codex follow-up / escalation draft
 
-**Status:** Draft only — **not sent**. Sending to any external party requires the
-project owner's explicit authorization. No recipient address, account identifier
-or credential is recorded here.
+**Status:** Withdrawn by owner decision 2026-11-11 — not sent and will not be
+sent. The owner closed the written-evidence pursuit citing information-risk
+concern.
 
 **Context:** The 2026-10-16 inquiry through OpenAI's Sign in with ChatGPT interest
 form was acknowledged in the browser but produced no receipt number. No response is
